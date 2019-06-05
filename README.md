@@ -13,6 +13,7 @@ This website is written with the help of the [flask](http://flask.pocoo.org/) fr
 ## Development
 
 Run `./run` inside the root of the repository and all dependencies will automatically be installed. Afterwards the website will be available at <http://localhost:803XXXX>.
+When you start changing files, the server should reload and make the changes available immediately.
 
 ### Adding dependencies
 This repository is using [poetry](https://poetry.eustace.io/) to manage dependencies.  Refer to its documentation for information on how to install it and user guides.

@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
+    "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
+    "build": "node-sass --include-path node_modules static/sass --output-style compressed --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css' && postcss 'static/css/**/*.css'",
+    "format-py":"poetry run black --line-length 79 **/*.py",
+    "lint-py": "poetry run flake8 --exclude '*env*,node_modules'",
+    "lint-scss": "sass-lint static/**/*.scss --verbose --no-exit",
+    "serve": "./entrypoint 0.0.0.0:${PORT}",
+    "test": "yarn run lint-scss && yarn run lint-py && yarn run test-py",
+    "test-py": "poetry run pytest",
+    "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'"
+  },
+  "dependencies": {
+    "autoprefixer": "9.5.1",
+    "node-sass": "4.11.0",
+    "postcss-cli": "6.1.2",
+    "sass-lint": "1.13.1",
+    "watch-cli": "0.2.3"
+  }
+}
