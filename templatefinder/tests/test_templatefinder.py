@@ -1,7 +1,7 @@
 import unittest
 
 from unittest.mock import patch
-from templatefinder import TemplateFinder
+from .. import TemplateFinder
 
 
 class TestTemplateFinder(unittest.TestCase):
