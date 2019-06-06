@@ -1,8 +1,26 @@
+import flask
 from canonicalwebteam.flask_base.app import FlaskBase
 
-app = FlaskBase(__name__, "canonical.com")
+from templatefinder import TemplateFinder
+from settings import TEMPLATE_FOLDER
+
+app = FlaskBase(
+    __name__,
+    "canonical.com",
+    template_folder=TEMPLATE_FOLDER,
+    static_folder="./static",
+)
+
+template_finder_view = TemplateFinder.as_view("template_finder")
+app.add_url_rule("/", view_func=template_finder_view)
+app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+@app.errorhandler(404)
+def not_found_error(error):
+    return flask.render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return flask.render_template("500.html"), 500
