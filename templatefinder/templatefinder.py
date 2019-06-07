@@ -6,8 +6,6 @@ from frontmatter import loads as load_frontmatter_from_markdown
 from jinja2.exceptions import TemplateNotFound
 from mistune import Markdown
 
-from settings import TEMPLATE_FOLDER
-
 
 class TemplateFinder(View):
     """
@@ -28,10 +26,21 @@ class TemplateFinder(View):
             abort(404, f"Can't find page for: {path}")
 
         if matching_template[-2:] == "md":
-            with open(f"{TEMPLATE_FOLDER}/{matching_template}") as f:
+            current_app_config = current_app.config
+            with open(
+                f"{current_app_config['TEMPLATE_FOLDER']}/{matching_template}"
+            ) as f:
                 file_content = f.read()
                 parsed_file = load_frontmatter_from_markdown(file_content)
                 wrapper_template = parsed_file.metadata.get("wrapper_template")
+
+                if not wrapper_template or not os.path.isfile(
+                    current_app_config["TEMPLATE_FOLDER"]
+                    + "/"
+                    + wrapper_template
+                ):
+                    abort(404, f"Can't find page for: {path}")
+
                 context = parsed_file.metadata.get("context", {})
                 return self._render_markdown(
                     parsed_file.content, wrapper_template, context
