@@ -26,18 +26,15 @@ class TemplateFinder(View):
             abort(404, f"Can't find page for: {path}")
 
         if matching_template[-2:] == "md":
-            current_app_config = current_app.config
             with open(
-                f"{current_app_config['TEMPLATE_FOLDER']}/{matching_template}"
+                f"{current_app.template_folder}/{matching_template}"
             ) as f:
                 file_content = f.read()
                 parsed_file = load_frontmatter_from_markdown(file_content)
                 wrapper_template = parsed_file.metadata.get("wrapper_template")
 
                 if not wrapper_template or not os.path.isfile(
-                    current_app_config["TEMPLATE_FOLDER"]
-                    + "/"
-                    + wrapper_template
+                    current_app.template_folder + "/" + wrapper_template
                 ):
                     abort(404, f"Can't find page for: {path}")
 

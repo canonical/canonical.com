@@ -2,18 +2,13 @@ import flask
 from canonicalwebteam.flask_base.app import FlaskBase
 
 from templatefinder import TemplateFinder
-from os import path, getcwd
-
-
-TEMPLATE_FOLDER = path.join(getcwd(), "templates")
 
 app = FlaskBase(
     __name__,
     "canonical.com",
-    template_folder=TEMPLATE_FOLDER,
+    template_folder="./templates",
     static_folder="./static",
 )
-app.config["TEMPLATE_FOLDER"] = TEMPLATE_FOLDER
 
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/", view_func=template_finder_view)
