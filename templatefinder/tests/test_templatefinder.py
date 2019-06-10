@@ -3,8 +3,6 @@ from .. import TemplateFinder
 from flask import Flask
 from flask_testing import TestCase
 
-import os
-
 
 class TestTemplateFinder(TestCase):
     def create_app(self):
