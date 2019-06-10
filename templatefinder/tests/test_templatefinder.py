@@ -3,12 +3,18 @@ from .. import TemplateFinder
 from flask import Flask
 from flask_testing import TestCase
 
+import os
+
 
 class TestTemplateFinder(TestCase):
     def create_app(self):
-        app = Flask(__name__, template_folder="./fixtures")
+        app = Flask(
+            __name__,
+            template_folder=os.path.dirname(os.path.abspath(__file__))
+            + "/fixtures",
+        )
+
         app.config["TESTING"] = True
-        app.config["TEMPLATE_FOLDER"] = "tests/fixtures"
 
         template_finder_view = TemplateFinder.as_view("template_finder")
         app.add_url_rule("/", view_func=template_finder_view)
