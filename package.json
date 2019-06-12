@@ -4,7 +4,7 @@
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
     "build": "node-sass --include-path node_modules static/sass --output-style compressed --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css' && postcss 'static/css/**/*.css'",
     "format-py":"poetry run black --line-length 79 **/*.py",
-    "lint-py": "poetry run flake8 --exclude '*env*,node_modules'",
+    "lint-py": "poetry run flake8 webapp templatefinder && black --check --line-length 79 webapp templatefinder",
     "lint-scss": "sass-lint static/**/*.scss --verbose --no-exit",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "test": "yarn run lint-scss && yarn run lint-py && yarn run test-py",

@@ -13,6 +13,11 @@ class TemplateFinder(View):
     url path
     """
 
+    def __init__(self):
+        self.markdown_parser = Markdown(
+            parse_block_html=True, parse_inline_html=True
+        )
+
     def dispatch_request(self, *args, **kwargs):
         """
         This is called when TemplateFinder is run as a view
@@ -74,8 +79,8 @@ class TemplateFinder(View):
         Check if a template exists
         without raising an exception
         """
+        loader = current_app.jinja_loader
         try:
-            loader = current_app.jinja_loader
             loader.get_source({}, template=path)
         except TemplateNotFound:
             return False
@@ -88,11 +93,8 @@ class TemplateFinder(View):
         :param wrapper_file: The wrapper for the Markdown content
         :param context: Optional preexisting context
         """
-        markdown_parser = Markdown(
-            parse_block_html=True, parse_inline_html=True
-        )
 
-        rendered_markdown = markdown_parser(markdown)
+        rendered_markdown = self.markdown_parser(markdown)
 
         context = {"content": rendered_markdown}
 

@@ -1,3 +1,5 @@
+import os
+
 import flask
 from canonicalwebteam.flask_base.app import FlaskBase
 
@@ -6,8 +8,10 @@ from templatefinder import TemplateFinder
 app = FlaskBase(
     __name__,
     "canonical.com",
-    template_folder="./templates",
-    static_folder="./static",
+    template_folder=(
+        f"{os.path.dirname(os.path.abspath(__file__))}" "/../templates"
+    ),
+    static_folder="../static",
 )
 
 template_finder_view = TemplateFinder.as_view("template_finder")
