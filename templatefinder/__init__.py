@@ -1,1 +1,1 @@
-from .templatefinder import TemplateFinder
+from .templatefinder import TemplateFinder  # noqa F401
