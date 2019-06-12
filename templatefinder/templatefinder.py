@@ -1,5 +1,7 @@
 import os
 
+import bleach
+
 from flask import abort, current_app, render_template, request
 from flask.views import View
 from frontmatter import loads as load_frontmatter_from_markdown
@@ -94,7 +96,8 @@ class TemplateFinder(View):
         :param context: Optional preexisting context
         """
 
-        rendered_markdown = self.markdown_parser(markdown)
+        clean_markdown = bleach.clean(markdown)
+        rendered_markdown = self.markdown_parser(clean_markdown)
 
         context = {"content": rendered_markdown}
 
