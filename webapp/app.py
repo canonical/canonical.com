@@ -6,7 +6,7 @@ from canonicalwebteam.templatefinder import TemplateFinder
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 app_dir = os.path.dirname(dir_path)
-templates_dir = os.path.join(app_dir, 'templates')
+templates_dir = os.path.join(app_dir, "templates")
 
 app = FlaskBase(
     __name__,
