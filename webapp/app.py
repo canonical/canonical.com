@@ -1,16 +1,17 @@
 import os
-
 import flask
 from canonicalwebteam.flask_base.app import FlaskBase
 
-from templatefinder import TemplateFinder
+from canonicalwebteam.templatefinder import TemplateFinder
+
+dir_path = os.path.dirname(os.path.abspath(__file__))
+app_dir = os.path.dirname(dir_path)
+templates_dir = os.path.join(app_dir, "templates")
 
 app = FlaskBase(
     __name__,
     "canonical.com",
-    template_folder=(
-        f"{os.path.dirname(os.path.abspath(__file__))}" "/../templates"
-    ),
+    template_folder=templates_dir,
     static_folder="../static",
 )
 

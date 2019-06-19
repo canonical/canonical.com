@@ -3,8 +3,8 @@
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
     "build": "node-sass --include-path node_modules static/sass --output-style compressed --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css' && postcss 'static/css/**/*.css'",
-    "format-python": "black --line-length 79 templatefinder/**/*.py webapp/*.py",
-    "lint-python": "flake8 webapp/ templatefinder/ && black --check --line-length 79 templatefinder/**/*.py webapp/*.py",
+    "format-python": "black --line-length 79 webapp",
+    "lint-python": "flake8 webapp && black --check --line-length 79 webapp",
     "lint-scss": "sass-lint static/**/*.scss --verbose --no-exit",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "test": "yarn run lint-scss && yarn run lint-python"
