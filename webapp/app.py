@@ -17,8 +17,6 @@ app = FlaskBase(
     favicon_url="https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
     template_404="404.html",
     template_500="500.html",
-    robots_url="/static/robots.txt",
-    humans_url="/static/humans.txt",
     template_folder=templates_dir,
     static_folder="../static",
 )
