@@ -2,7 +2,7 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
-    "build": "node-sass --include-path node_modules static/sass --output-style compressed --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css' && postcss 'static/css/**/*.css'",
+    "build": "node-sass --include-path node_modules static/sass --source-map true --output-style compressed --output static/css && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
     "format-python": "black --line-length 79 webapp",
     "lint-python": "flake8 webapp && black --check --line-length 79 webapp",
     "lint-scss": "sass-lint static/**/*.scss --verbose --no-exit",
@@ -14,6 +14,7 @@
     "node-sass": "4.11.0",
     "postcss-cli": "6.1.2",
     "sass-lint": "1.13.1",
+    "vanilla-framework": "^2.0.1",
     "watch-cli": "0.2.3"
   }
 }
