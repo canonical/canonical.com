@@ -1,28 +1,30 @@
 @mixin canonical-p-strip {
   @include canonical-p-strip-suru-large;
   @include canonical-p-strip-suru;
-  @include canonical-p-slanted;
+  @include canonical-p-strip-slanted;
+  @include canonical-p-strip-tag;
+
+  .p-strip {
+    background-color: $color-x-light;
+  }
 }
 
 @mixin canonical-p-strip-suru-large {
   .p-strip--suru-large {
     @extend %vf-strip;
     background-image:
-      linear-gradient(to top left, #fff 0%, #fff 49%, rgba(255,255,255,0) 50%, transparent 100%),
       linear-gradient(to bottom left, rgba(225,225,225,0.05) 0%, rgba(225,225,225,0.05) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(to bottom right, rgba(225,225,225,0.05) 0%, rgba(225,225,225,0.05) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(to top right, rgba(225,225,225,0.05) 0%, rgba(225,225,225,0.05) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(to top left, rgba(225,225,225,0.05) 0%, rgba(225,225,225,0.05) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(199deg, #8b3236 -20%, #5E2750 25%, #2C001E 50%);
     background-position:
-      bottom left,
       top right,
       top left,
       bottom left,
       bottom right, 100%;
     background-repeat: no-repeat;
     background-size:
-      100% 4rem,
       70% 25%,
       70% 45%,
       70% 25%,
@@ -39,12 +41,10 @@
     padding: 8rem 0;
     background-image:
       linear-gradient(to bottom left, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
-      linear-gradient(to bottom left, rgba(119,41,83,1) 0%, rgba(119,41,83,1) 49.9%, rgba(119,41,83,0) 50%, rgba(119,41,83,0) 100%),
       linear-gradient(to top left, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(to bottom right, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
       linear-gradient(135deg, #8b3236 -20%, #5E2750 25%, #2C001E 50%);
     background-position:
-      top right,
       top right,
       bottom right,
       top right,
@@ -52,7 +52,6 @@
     background-repeat: no-repeat;
     background-size:
       70% 65%,
-      30% 10%,
       40% 85%,
       100% 30%,
       100%;
@@ -66,40 +65,40 @@
   }
 }
 
-@mixin canonical-p-slanted {
-  %is-slated {
-    background-repeat: no-repeat;
-    background-size: 100% 4rem;
-    content: '';
-    display: block;
-    height: 4rem;
-    position: relative;
-    width: 100%;
+@mixin canonical-p-strip-slanted {
+  .is-slanted {
+    &--top-right {
+      clip-path: polygon(0% 0%, 100% calc(0% + 4rem), 100% 100%, 0% 100%);
+      margin-top: -4rem;
+      padding-top: 8rem;
+    }
+
+    &--top-left {
+      clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% calc(0% + 4rem));
+      margin-top: -4rem;
+      padding-top: 8rem;
+    }
   }
 
-  .is-slanted {
-    &--top-right::before {
-      @extend %is-slated;
-      background-image: linear-gradient(to bottom left, $color-x-light 0%, $color-x-light 49%, rgba(255,255,255,0) 50%, transparent 100%);
-      background-position: top left;
-    }
+  .u-extra-space {
+    margin-bottom: 4rem;
+  }
+}
 
-    &--top-left::before {
-      @extend %is-slated;
-      background-image: linear-gradient(to bottom right, $color-x-light 0%, $color-x-light 49%, rgba(255,255,255,0) 50%, transparent 100%);
-      background-position: top left;
-    }
-
-    &--bottom-right::after {
-      @extend %is-slated;
-      background-image: linear-gradient(to top left, $color-x-light 0%, $color-x-light 49%, rgba(255,255,255,0) 50%, transparent 100%);
-      background-position: bottom left;
-    }
-
-    &--bottom-left::after {
-      @extend %is-slated;
-      background-image: linear-gradient(to top right, $color-x-light 0%, $color-x-light 49%, rgba(255,255,255,0) 50%, transparent 100%);
-      background-position: bottom left;
+@mixin canonical-p-strip-tag {
+  .has-tag {
+    &::after {
+      background-image: linear-gradient(to bottom left, rgba(119,41,83,1) 0%, rgba(119,41,83,1) 49.9%, rgba(119,41,83,0) 50%, rgba(119,41,83,0) 100%);
+      background-position: top right;
+      background-repeat: no-repeat;
+      background-size: 30% 10%;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
     }
   }
 }
