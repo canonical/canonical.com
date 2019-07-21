@@ -211,22 +211,9 @@
     <div class="row p-divider u-extra-space">
       <div class="col-2 p-divider__block">
         <ul class="p-list">
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Cloud</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Server</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Desktop</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Silicon</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">OpenStack</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Apps</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Snapcraft</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Resellers</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Devices</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Charms</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Hosting</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">System Integrators</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Training</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Kubernetes</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">PAAS</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft" onmouseover="loadImages(this)">Serverless</a></li>
+          {% for partner in partners %}
+          <li class="p-list__item"><a href="{{ partner['url'] }}" class="p-link--soft js-link">{{ partner['name'] }}</a></li>
+          {% endfor %}
         </ul>
       </div>
       <div class="col-9 p-divider__block">
@@ -244,90 +231,32 @@
             <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
           </li>
         </ul>
-        <ul class="p-inline-images js-container" data-partner="cloud">
+        {% for partner in partners %}
+        <ul class="p-inline-images js-container" data-partner="{{ partner['name']|lower|replace(' ', '-') }}">
+          {% for image in partner["images"] %}
           <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
+            <img class="p-inline-images__logo" data-src="{{ image }}" alt="">
           </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/2244ec17-logo-intel.png" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
+          {% endfor %}
         </ul>
-        <ul class="p-inline-images js-container" data-partner="server">
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/2244ec17-logo-intel.png" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg" alt="Placeholder image">
-          </li>
-        </ul>
+        {% endfor %}
       </div>
     </div>
   </div>
 
-  <div class="p-strip--image is-dark is-slanted--top-right" style="background-image:url('https://assets.ubuntu.com/v1/ce95be94-careers-guy.jpg');">
-    <div class="row u-vertically-center" style="height: 100vh;">
-      <div class="col-12 col-start-large-2 p-heading-highlight--left">
-        <h2 class="p-heading-highlight--left__item p-heading--one">Local lifestyle. Global leadership.<br />Join Canonical to lead enterprise<br />open source.</h2>
-      </div>
-    </div>
-  </div>
+  <script async defer src="/static/js/dynamic-image-load.js"></script>
 
-  <div class="p-strip--suru is-dark is-slanted--top-left">
-    <div class="row">
-      <div class="col-4">
-        <div class="p-heading-highlight--bottom">
-          <h3 class="p-heading-highlight--bottom__item">Truly distributed</h3>
-        </div>
-        <p>Exceptional, self-motivated, organised and passionate people deserve the freedom to live where they want. Our teams travel regularly to meet colleaques and customers.</p>
-        <blockquote class="p-pull-quote">
-          <p class="p-pull-quote__quote">I have seen incredible places &ndash; an unexpected benefit of life at Canonical</p>
-        </blockquote>
-        <hr class="u-hide u-show--small"/>
-      </div>
-      <div class="col-4">
-        <div class="p-heading-highlight--bottom">
-          <h3 class="p-heading-highlight--bottom__item">Best in class</h3>
-        </div>
-        <p>We rate top for Linux security. We run more hosts and more workloads and more devices than anyone else, because we strive to do everything insightfully, properly, fairly, and openly.</p>
-        <blockquote class="p-pull-quote">
-          <p class="p-pull-quote__quote">These are exciting challenges and we measure ourselves againstthe world leaders. It's tough, but satisfying</p>
-        </blockquote>
-        <hr class="u-hide u-show--small"/>
-      </div>
-      <div class="col-4">
-        <div class="p-heading-highlight--bottom">
-          <h3 class="p-heading-highlight--bottom__item">Enterprise focused</h3>
-        </div>
-        <p>The world is moving to Ubuntu &ndash; open source that's faster, cheaper and bettter. Empower engineers, secure precious data, share knowledge and lead the change.</p>
-        <blockquote class="p-pull-quote">
-          <p class="p-pull-quote__quote">My customers are transforming their operations around cloud, and I get to show them that future</p>
-        </blockquote>
-      </div>
-    </div>
-    <div class="row u-hide--small">
-      <hr />
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p><a href="/careers" class="p-button--outline  u-no-margin--bottom">Explore a career at Canonical</a></p>
-      </div>
-    </div>
-  </div>
+  <style>
+    .js-container {
+      position: absolute;
+      opacity: 0;
+      /* transition: opacity 0.5s; */
+    }
+
+    .loaded {
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
 
   <footer class="p-footer is-dark">
     <div class="row">
