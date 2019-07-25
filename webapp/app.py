@@ -1,5 +1,7 @@
 import flask
+import datetime
 
+from canonicalwebteam.http import CachedSession
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
 
@@ -13,173 +15,13 @@ app = FlaskBase(
     template_500="500.html",
 )
 
-# List of partners
-partners = [
-    {
-        "name": "Cloud",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg",
-        ],
-    },
-    {
-        "name": "Desktop",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Silicon",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "OpenStack",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Apps",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Snapcraft",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Resellers",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Devices",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Charms",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Hosting",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "System Integrators",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Training",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Kubernetes",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "PAAS",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-    {
-        "name": "Serverless",
-        "url": "#",
-        "images": [
-            "https://assets.ubuntu.com/v1/e765a8ed-fujitsu.svg",
-            "https://assets.ubuntu.com/v1/73135672-ntt-logo.svg",
-            "https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144",
-            "https://assets.ubuntu.com/v1/e71bd588-logo-samsung.svg",
-            "https://assets.ubuntu.com/v1/2244ec17-logo-intel.png",
-        ],
-    },
-]
+
+cached_session = CachedSession()
 
 
 def index():
-    return flask.render_template("index.html", partners=partners)
+    response = cached_session.get('https://partners.ubuntu.com/partners.json?technology__name=Edge%20Gateway').json()
+    return flask.render_template("index.html", partners=response)
 
 
 template_finder_view = TemplateFinder.as_view("template_finder")

@@ -212,7 +212,7 @@
       <div class="col-2 p-divider__block">
         <ul class="p-list">
           {% for partner in partners %}
-          <li class="p-list__item"><a href="{{ partner['url'] }}" class="p-link--soft js-link">{{ partner['name'] }}</a></li>
+          <li class="p-list__item"><a href="{{ partner['partner_website'] }}" class="p-link--soft js-link">{{ partner['name'] }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -233,11 +233,11 @@
         </ul>
         {% for partner in partners %}
         <ul class="p-inline-images js-container" data-partner="{{ partner['name']|lower|replace(' ', '-') }}">
-          {% for image in partner["images"] %}
+          {# for image in partner["images"] #}
           <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="{{ image }}" alt="">
+            <img class="p-inline-images__logo" data-src="{{ partner['logo'] }}" alt="">
           </li>
-          {% endfor %}
+          {# endfor #}
         </ul>
         {% endfor %}
       </div>
