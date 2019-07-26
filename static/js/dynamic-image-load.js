@@ -1,6 +1,6 @@
 (function () {
-  var partners = document.querySelectorAll('.js-container');
-  var partnerLinks = document.querySelectorAll('.js-link');
+  var partners = document.querySelectorAll('.js-partner-logos');
+  var partnerLinks = document.querySelectorAll('.js-partner-link');
 
   partnerLinks.forEach(function(partnerLink) {
     partnerLink.addEventListener('mouseover', function(e) {

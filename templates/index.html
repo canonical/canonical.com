@@ -217,7 +217,7 @@
         </ul>
       </div>
       <div class="col-9 p-divider__block">
-        <ul class="p-inline-images js-container loaded" data-partner="default">
+        <ul class="p-inline-images js-partner-logos loaded" data-partner="default">
           <li class="p-inline-images__item">
             <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
           </li>
@@ -232,7 +232,7 @@
           </li>
         </ul>
         {% for partner in partners %}
-        <ul class="p-inline-images js-container" data-partner="{{ partner['name']|lower|replace(' ', '-') }}">
+        <ul class="p-inline-images js-partner-logos" data-partner="{{ partner['name']|lower|replace(' ', '-') }}">
           {# for image in partner["images"] #}
           <li class="p-inline-images__item">
             <img class="p-inline-images__logo" data-src="{{ partner['logo'] }}" alt="">
@@ -247,7 +247,7 @@
   <script async defer src="/static/js/dynamic-image-load.js"></script>
 
   <style>
-    .js-container {
+    .js-partner-logos {
       position: absolute;
       opacity: 0;
       /* transition: opacity 0.5s; */
