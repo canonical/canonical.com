@@ -1,10 +1,12 @@
 import flask
 import datetime
 
-from canonicalwebteam.http import CachedSession
+# from canonicalwebteam.http import CachedSession
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
-
+from webapp.api import (
+    get_partner_groups,
+)
 
 app = FlaskBase(
     __name__,
@@ -16,12 +18,12 @@ app = FlaskBase(
 )
 
 
-cached_session = CachedSession()
+# cached_session = CachedSession()
 
 
 def index():
-    response = cached_session.get('https://partners.ubuntu.com/partners.json?technology__name=Edge%20Gateway').json()
-    return flask.render_template("index.html", partners=response)
+    partner_groups = get_partner_groups()
+    return flask.render_template("index.html", partner_groups=partner_groups)
 
 
 template_finder_view = TemplateFinder.as_view("template_finder")
