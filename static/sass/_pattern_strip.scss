@@ -1,0 +1,105 @@
+@mixin canonical-p-strip {
+  @include canonical-p-strip-suru-large;
+  @include canonical-p-strip-suru;
+  @include canonical-p-strip-slanted;
+  @include canonical-p-strip-tag;
+
+  .p-strip {
+    background-color: $color-x-light;
+  }
+}
+
+@mixin canonical-p-strip-suru-large {
+  .p-strip--suru-large {
+    @extend %vf-strip;
+    background-blend-mode: multiply, multiply, multiply, multiply, normal;
+    background-image:
+      linear-gradient(to bottom left, rgba(225,225,225,0.3) 0%, rgba(225,225,225,0.3) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(to bottom right, rgba(225,225,225,0.3) 0%, rgba(225,225,225,0.3) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(to top right, rgba(225,225,225,0.3) 0%, rgba(225,225,225,0.3) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(to top left, rgba(225,225,225,0.3) 0%, rgba(225,225,225,0.3) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(199deg, #8b3236 -20%, #5E2750 25%, #2C001E 50%);
+    background-position:
+      top right,
+      top left,
+      bottom left,
+      bottom right, 100%;
+    background-repeat: no-repeat;
+    background-size:
+      70% 25%,
+      70% 45%,
+      70% 25%,
+      110% 85%,
+      100%;
+    color: $color-x-light;
+    position: relative;
+  }
+}
+
+@mixin canonical-p-strip-suru {
+  .p-strip--suru {
+    @extend %vf-strip;
+    background-image:
+      linear-gradient(to bottom left, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(to top left, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(to bottom right, rgba(225,225,225,0.03) 0%, rgba(225,225,225,0.03) 49.9%, rgba(225,225,225,0) 50%, rgba(225,225,225,0) 100%),
+      linear-gradient(135deg, #8b3236 -20%, #5E2750 25%, #2C001E 50%);
+    background-position:
+      top right,
+      bottom right,
+      top right,
+      100%;
+    background-repeat: no-repeat;
+    background-size:
+      70% 65%,
+      40% 85%,
+      100% 30%,
+      100%;
+    color: $color-x-light;
+    padding: 8rem 0;
+    position: relative;
+
+    hr {
+      background: rgba(255, 255, 255, .25);
+      margin: 2rem 0;
+    }
+  }
+}
+
+@mixin canonical-p-strip-slanted {
+  .is-slanted {
+    &--top-right {
+      clip-path: polygon(0% 0%, 100% calc(0% + 4rem), 100% 100%, 0% 100%);
+      margin-top: -4rem;
+      padding-top: 8rem;
+    }
+
+    &--top-left {
+      clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% calc(0% + 4rem));
+      margin-top: -4rem;
+      padding-top: 8rem;
+    }
+  }
+
+  .u-extra-space {
+    margin-bottom: 4rem;
+  }
+}
+
+@mixin canonical-p-strip-tag {
+  .has-tag {
+    &::after {
+      background-image: linear-gradient(to bottom left, rgba(119,41,83,1) 0%, rgba(119,41,83,1) 49.9%, rgba(119,41,83,0) 50%, rgba(119,41,83,0) 100%);
+      background-position: top right;
+      background-repeat: no-repeat;
+      background-size: 30% 10%;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+    }
+  }
+}
