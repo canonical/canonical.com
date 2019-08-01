@@ -1,6 +1,7 @@
 @mixin canonical-p-strip {
   @include canonical-p-strip-suru-large;
   @include canonical-p-strip-suru;
+  @include canonical-p-strip-suru-background;
   @include canonical-p-strip-slanted;
   @include canonical-p-strip-tag;
 
@@ -100,6 +101,32 @@
       right: 0;
       top: 0;
       width: 100%;
+    }
+  }
+}
+
+@mixin canonical-p-strip-suru-background {
+  .p-strip--suru-background {
+    @extend %vf-strip;
+    background-blend-mode: screen;
+    background-image:
+      linear-gradient(230deg, #E95420 0%, #772953 33%, #2C001E 72%);
+    // background-position: left center;
+    // background-repeat: no-repeat;
+    // background-size: 100% 100%, 100% 100%, 100% 100%;
+    padding-bottom: 174px;
+    padding-top: 6rem;
+
+    @media only screen and (max-width: $breakpoint-small) {
+      background-blend-mode: normal;
+      background-image:
+        linear-gradient(230deg, #E95420 0%, #772953 33%, #2C001E 72%);
+      background-position: left center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      color: $color-x-light;
+      padding-bottom: 3rem;
+      padding-top: 3rem;
     }
   }
 }
