@@ -1,6 +1,7 @@
 @mixin canonical-p-strip {
   @include canonical-p-strip-suru-large;
   @include canonical-p-strip-suru;
+  @include canonical-p-strip-suru-background;
   @include canonical-p-strip-slanted;
   @include canonical-p-strip-tag;
 
@@ -100,6 +101,36 @@
       right: 0;
       top: 0;
       width: 100%;
+    }
+  }
+}
+
+@mixin canonical-p-strip-suru-background {
+  .p-strip--suru-background {
+    @extend %vf-strip;
+    background-image:
+      url("https://assets.ubuntu.com/v1/0b093f40-dotted-map.svg"),
+      linear-gradient(to bottom right, rgba(210,180,202,0.05) 0%, rgba(210,180,202,0.05) 49.9%, rgba(210,180,202,0) 50%, rgba(210,180,202,0) 100%),
+      linear-gradient(to top right, rgba(74,24,60,0) 0%, rgba(74,24,60,0) 49.9%, rgba(74,24,60,0.34) 50%, rgba(74,24,60,0.34) 100%),
+      linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
+      linear-gradient(230deg, #E95420 0%, #772953 33%, #2C001E 72%);
+    background-position: right top, left top, right top, right bottom;
+    background-repeat: no-repeat;
+    background-size: auto, 70% 80%, 70% 100%, 100% 20%, 100% 100%;
+    padding-bottom: 8rem;
+    padding-top: 8rem;
+
+    @media only screen and (max-width: $breakpoint-small) {
+      background-image:
+      linear-gradient(to bottom right, rgba(210,180,202,0.05) 0%, rgba(210,180,202,0.05) 49.9%, rgba(210,180,202,0) 50%, rgba(210,180,202,0) 100%),
+      linear-gradient(to top right, rgba(74,24,60,0) 0%, rgba(74,24,60,0) 49.9%, rgba(74,24,60,0.34) 50%, rgba(74,24,60,0.34) 100%),
+      linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
+      linear-gradient(230deg, #E95420 0%, #772953 33%, #2C001E 72%);
+      background-position: left top, right top, right bottom;
+      background-repeat: no-repeat;
+      background-size: 70% 80%, 70% 100%, 100% 20%, 100% 100%;
+      padding-bottom: 6rem;
+      padding-top: 6rem;
     }
   }
 }
