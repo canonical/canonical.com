@@ -12,7 +12,6 @@ def get(endpoint):
     return api_session.get(f"{base_url}?{endpoint}")
 
 
-# Endpoints below need to be updated
 def get_cloud():
     return get("technology__name=Cloud/server&featured=true")
 

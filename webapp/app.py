@@ -1,12 +1,9 @@
 import flask
 import datetime
 
-# from canonicalwebteam.http import CachedSession
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
-from webapp.api import (
-    get_partner_groups,
-)
+from webapp.api import get_partner_groups
 
 app = FlaskBase(
     __name__,
@@ -16,9 +13,6 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
-
-
-# cached_session = CachedSession()
 
 
 def index():
