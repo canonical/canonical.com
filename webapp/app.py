@@ -4,9 +4,8 @@ import datetime
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
 
-from webapp.api import (
-    get_partner_groups,
-)
+from webapp.api import get_partner_groups
+
 
 app = FlaskBase(
     __name__,
