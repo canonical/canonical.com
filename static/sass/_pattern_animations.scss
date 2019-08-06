@@ -1,0 +1,55 @@
+@mixin canonical-u-animations {
+  .u-animation--slide-from-bottom {
+    opacity: 0;
+    animation: slide-from-bottom map-get($animation-duration, sleepy) linear
+      forwards;
+  }
+
+  .u-animation--slide-from-right {
+    opacity: 0;
+    animation: slide-from-right map-get($animation-duration, sleepy) linear
+      forwards;
+  }
+
+  .u-animation--slide-from-top {
+    opacity: 0;
+    animation: slide-from-top map-get($animation-duration, sleepy) linear
+      forwards;
+  }
+
+  @keyframes slide-from-bottom {
+    0% {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-from-right {
+    0% {
+      opacity: 0;
+      transform: translate(2rem, 0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes slide-from-top {
+    0% {
+      opacity: 0;
+      transform: translate(0, -2rem);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+}
