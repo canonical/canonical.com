@@ -211,26 +211,13 @@
     <div class="row p-divider u-extra-space">
       <div class="col-3 p-divider__block">
         <ul class="p-list">
-          <li class="p-list__item"><a href="#" class="p-link--soft">Cloud</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Server</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Desktop</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Silicon</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">OpenStack</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Apps</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Snapcraft</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Resellers</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Devices</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Charms</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Hosting</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">System Integrators</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Training</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Kubernetes</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">PAAS</a></li>
-          <li class="p-list__item"><a href="#" class="p-link--soft">Serverless</a></li>
+          {% for partner_group in partner_groups %}
+          <li class="p-list__item"><a href="#" onclick="event.preventDefault()" class="p-link--soft js-partner-link">{{ partner_group }}</a></li>
+          {% endfor %}
         </ul>
       </div>
       <div class="col-9 p-divider__block">
-        <ul class="p-inline-images">
+        <ul class="p-inline-images js-partner-logos loaded" data-partner="default">
           <li class="p-inline-images__item">
             <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
           </li>
@@ -242,41 +229,17 @@
           </li>
           <li class="p-inline-images__item">
             <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c26cade5-1024px-BNP_Paribas.svg1_.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c26cade5-1024px-BNP_Paribas.svg1_.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c26cade5-1024px-BNP_Paribas.svg1_.png?w=144" alt="Placeholder image">
           </li>
         </ul>
+        {% for partner_group in partner_groups %}
+        <ul class="p-inline-images js-partner-logos" data-partner="{{ partner_group|lower|replace(' ', '-') }}">
+          {% for partner in partner_groups[partner_group] %}
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" data-src="{{ partner['logo'] }}" alt="">
+          </li>
+          {% endfor %}
+        </ul>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -330,4 +293,18 @@
       </div>
     </div>
   </div>
+
+  <script async defer src="/static/js/dynamic-image-load.js"></script>
+
+  <style>
+    .js-partner-logos {
+      position: absolute;
+      opacity: 0;
+    }
+    .loaded {
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+  </style>
+
 {% endblock %}
