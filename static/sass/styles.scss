@@ -1,4 +1,6 @@
-@import 'vanilla-framework/scss/build';
+$color-tabs-active-bar: #E95420;
+
+@import "vanilla-framework/scss/build";
 
 $color-brand: #7c355d;
 
@@ -8,11 +10,13 @@ $color-brand: #7c355d;
 @import "pattern_footer";
 @import "pattern_headings";
 @import "pattern_icons";
+@import "pattern_lists";
 @import "pattern_strip";
 
 @include canonical-u-animations;
 @include canonical-p-buttons;
 @include canonical-p-card;
+@include canonical-p-content-list;
 @include canonical-p-footer;
 @include canonical-p-headings;
 @include canonical-p-icons;
@@ -36,4 +40,16 @@ $color-brand: #7c355d;
 .p-pull-quote .p-pull-quote__quote:last-of-type::after {
   bottom: 1rem;
   @include canonical-p-strip;
+}
+
+.required-legend {
+  font-size: small; margin-bottom: 0;
+  padding: 0;
+
+  &::before {
+    color: $color-negative;
+    content: '*';
+    right: .25rem;
+    position: relative;
+  }
 }

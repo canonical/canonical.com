@@ -1,0 +1,45 @@
+@mixin canonical-p-content-list {
+  .p-content-list {
+
+    &-section {
+      list-style: none;
+      padding: 0;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid $color-mid-light;
+      }
+
+      &:last-child {
+        padding-bottom: $sp-x-small;
+      }
+
+      &__item {
+        padding-bottom: $sp-x-small;
+        padding-top: $sp-x-small;
+        
+        &:last-child {
+          margin-bottom: 1.5rem;
+        }
+
+        &:visited {
+          color: $color-dark;
+        }
+    
+        &:hover {
+          color: $color-link;
+        }
+    
+        &.is-active {
+          font-weight: $font-weight-bold;
+          border-right: 3px solid $color-tabs-active-bar;
+        }
+      }
+    }
+
+    @media (min-width: $breakpoint-medium) {
+      border-right: 1px solid $color-mid-light;
+      border-top: 0;
+      padding: 0;
+    }
+  }
+}
