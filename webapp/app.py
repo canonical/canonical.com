@@ -1,5 +1,6 @@
 import flask
 import datetime
+import re
 
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
@@ -30,3 +31,11 @@ app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 @app.context_processor
 def inject_today_date():
     return {"current_year": datetime.date.today().year}
+
+
+@app.template_filter()
+def convert_to_kebab(kebab_input):
+    words = re.findall(
+        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
+    )
+    return "-".join(map(str.lower, words))
