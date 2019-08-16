@@ -228,15 +228,47 @@
   </div>
 
   <div class="p-strip is-slanted--top-right" style="margin-bottom: 9rem;">
-    <div class="row p-divider">
-      <div class="col-3 p-divider__block">
-        <ul class="p-list">
+    <div class="row">
+      <div class="col-3 u-hide--small">
+        <div class="p-content-list">
+          <ul class="p-content-list-section">
+            {% for partner_group in partner_groups %}
+            <li class="p-content-list-section__item"><a href="/partners/{{ partner_group|convert_to_kebab }}" class="p-link--soft js-partner-link">{{ partner_group }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-3 u-hide--medium u-hide--large">
+        <select name="menu" class="js-select-navigation" onchange="location.href=this.value">
+          <option disabled="disabled" value="" selected="">Select partner programme...</option>
           {% for partner_group in partner_groups %}
-          <li class="p-list__item"><a href="#" onclick="event.preventDefault()" class="p-link--soft js-partner-link">{{ partner_group }}</a></li>
+          <option value="/partners/{{ partner_group|convert_to_kebab }}">{{ partner_group }}</option>
           {% endfor %}
+        </select>
+      </div>
+      <div class="col-9 u-hide--medium u-hide--large">
+        <ul class="p-inline-images" style="margin-top: 1.5rem;">
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
+          </li>
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
+          </li>
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
+          </li>
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
+          </li>
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
+          </li>
+          <li class="p-inline-images__item">
+            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
+          </li>
         </ul>
       </div>
-      <div class="col-9 p-divider__block">
+      <div class="col-9 u-vertically-center u-hide--small" style="position: relative;">
         <ul class="p-inline-images js-partner-logos loaded" data-partner="default">
           <li class="p-inline-images__item">
             <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
@@ -350,10 +382,11 @@
     .js-partner-logos {
       position: absolute;
       opacity: 0;
+      width: 100%;
     }
     .loaded {
       opacity: 1;
-      transition: opacity 0.5s;
+      transition: opacity 0.25s;
     }
   </style>
 {% endblock %}

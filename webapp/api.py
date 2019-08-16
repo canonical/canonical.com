@@ -88,7 +88,7 @@ def get_partner_groups():
         "Desktop": first_ten(get_desktop().json()),
         "Silicon": first_ten(get_silicon().json()),
         "OpenStack": first_ten(get_openstack().json()),
-        "Apps": first_ten(get_apps().json()),
+        "Apps & snaps": first_ten(get_apps().json()),
         "Snapcraft": first_ten(get_snapcraft().json()),
         "Resellers": first_ten(get_resellers().json()),
         "Devices": first_ten(get_devices().json()),
