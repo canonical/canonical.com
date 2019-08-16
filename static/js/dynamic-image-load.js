@@ -1,7 +1,7 @@
 (function () {
   var partners = document.querySelectorAll('.js-partner-logos');
   var partnerLinks = document.querySelectorAll('.js-partner-link');
-  var activePartner;
+  var activePartner = null;
   
   partnerLinks.forEach(function(partnerLink) {
     partnerLink.addEventListener('mouseover', function(e) {
@@ -24,7 +24,7 @@
   }
 
   var loadImages = debounce(function (el) {
-    if (activePartner) {
+    if ((activePartner) && !(activePartner===el.parentElement)) {
       activePartner.classList.remove("is-active");
     }
     activePartner = el.parentElement;
@@ -45,5 +45,5 @@
         partner.classList.add('loaded');
       }
     })
-  }, 500);
+  }, 350);
 })();
