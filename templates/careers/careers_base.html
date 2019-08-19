@@ -76,28 +76,30 @@
       </div>
     </div>
     <div class="col-3 u-hide--medium u-hide--large">
-      <select name="menu">
-        <option value="engineering">Engineering</option>
-        <option value="tech-ops">Tech-ops</option>
-        <option value="commercial-ops">Commercial-ops</option>
-        <option value="sales">Sales</option>
-        <option value="marketing">Marketing</option>
-        <option value="design">Design</option>
-        <option value="project">Project</option>
-        <option value="management">Management</option>
-        <option value="finance">Finance</option>
-        <option value="legal">Legal</option>
-        <option value="admin">Admin</option>
-        <option value="hr">HR</option>
-        <option value="lifestyle">Lifestyle</option>
-        <option value="ethics">Ethics</option>
-        <option value="travel">Travel</option>
-        <option value="progression">Progression</option>
-        <option value="diversity">Diversity</option>
-        <option value="all">ALL</option>
+      <select name="menu" onchange="location.href=this.value">
+        <option disabled="disabled" value="" selected="">Select a career...</option>
+        <option value="/careers/engineering">Engineering</option>
+        <option value="/careers/tech-ops">Tech-ops</option>
+        <option value="/careers/commercial-ops">Commercial-ops</option>
+        <option value="/careers/sales">Sales</option>
+        <option value="/careers/marketing">Marketing</option>
+        <option value="/careers/design">Design</option>
+        <option value="/careers/project">Project</option>
+        <option value="/careers/management">Management</option>
+        <option value="/careers/finance">Finance</option>
+        <option value="/careers/legal">Legal</option>
+        <option value="/careers/admin">Admin</option>
+        <option value="/careers/hr">HR</option>
+        <option value="/careers/lifestyle">Lifestyle</option>
+        <option value="/careers/ethics">Ethics</option>
+        <option value="/careers/travel">Travel</option>
+        <option value="/careers/progression">Progression</option>
+        <option value="/careers/diversity">Diversity</option>
+        <option value="/careers/all">ALL</option>
       </select>
     </div>
     <div class="col-8 col-start-large-5">
+      {% if (request.path != "/careers/lifestyle" and request.path != "/careers/ethics" and request.path != "/careers/travel" and request.path != "/careers/progression" and request.path != "/careers/diversity") %}
       <div class="row">
         <div class="col-12">
           <nav class="p-tabs">
@@ -118,6 +120,7 @@
           </nav>
         </div>
       </div>
+      {% endif %}
       <div class="p-strip is-shallow u-extra-space">
         <div class="tab-content" id="overview" style="padding: 0;">
           {% block overview %}{% endblock %}
@@ -129,8 +132,7 @@
           <div class="row">
             <div class="col-12">
               <h2>Can't find the ideal role for you?</h2>
-              <p>Don't worry if you can't find the a role that fits you, send us your CV and we'll keep it on file to
-                match any future roles to your skills to see if we can get a great match.</p>
+              <p>Don't worry if you can't find the a role that fits you, send us your CV and we'll keep it on file to match any future roles to your skills to see if we can get a great match.</p>
               <form>
                 <fieldset style="border: none;">
                   <p class="required-legend u-align-text--right ">Required</p>
