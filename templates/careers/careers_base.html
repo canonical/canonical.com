@@ -1,13 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-<section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
-  <div class="p-strip--suru-background">
-    <div class="row">
-      <div class="col-6">
-        {% block title %}{% endblock %}
-      </div>
-    </div>
-  </div>
-</section>
+
+{% block hero %}{% endblock %}
 
 <section class="p-strip u-extra-space">
   <div class="row">
@@ -33,10 +26,7 @@
             <a href="/careers/design" class="p-link--soft">Design</a>
           </li>
           <li class="p-content-list-section__item js-navigation-link">
-            <a href="/careers/project" class="p-link--soft">Project</a>
-          </li>
-          <li class="p-content-list-section__item js-navigation-link">
-            <a href="/careers/management" class="p-link--soft">Management</a>
+            <a href="/careers/project-management" class="p-link--soft">Project Management</a>
           </li>
           <li class="p-content-list-section__item js-navigation-link">
             <a href="/careers/finance" class="p-link--soft">Finance</a>
@@ -84,8 +74,7 @@
         <option value="/careers/sales">Sales</option>
         <option value="/careers/marketing">Marketing</option>
         <option value="/careers/design">Design</option>
-        <option value="/careers/project">Project</option>
-        <option value="/careers/management">Management</option>
+        <option value="/careers/project-management">Project Management</option>
         <option value="/careers/finance">Finance</option>
         <option value="/careers/legal">Legal</option>
         <option value="/careers/admin">Admin</option>
@@ -121,45 +110,76 @@
         </div>
       </div>
       {% endif %}
-      <div class="p-strip is-shallow u-extra-space">
-        <div class="tab-content" id="overview" style="padding: 0;">
-          {% block overview %}{% endblock %}
+
+      {% block overview %}{% endblock %}
+
+      <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
+        <div class="row u-align--right">
+          <div class="col-12">
+            <form action="" method="get" class="p-form p-form--inline">
+              <div class="p-form__group">
+                <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter by</label>
+                <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+                  <option value="">All</option>
+                  <option value="">Home based</option>
+                  <option value="">Office based</option>
+                  <option value="">Management/option>
+                  <option value="">Senior roles</option>
+                  <option value="">Full-time</option>
+                  <option value="">Part-time</option>
+                </select>
+                <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Sort by</label>
+                <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+                  <option value="">Date</option>
+                  <option value="">Home based</option>
+                </select>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="tab-content u-hide" id="available-roles" style="padding: 0;">
-          {% block available_roles %}{% endblock %}
+        <div class="row">
+          <div class="col-12">
+            <hr />
+          </div>
         </div>
-        <div class="tab-content u-hide" id="send-cv" style="padding: 0;">
-          <div class="row">
-            <div class="col-12">
-              <h2>Can't find the ideal role for you?</h2>
-              <p>Don't worry if you can't find the a role that fits you, send us your CV and we'll keep it on file to match any future roles to your skills to see if we can get a great match.</p>
-              <form>
-                <fieldset style="border: none;">
-                  <p class="required-legend u-align-text--right ">Required</p>
-                  <label for="list-input-1" class="is-required u-no-padding--top">First name</label>
-                  <input placeholder="" id="list-input-1" type="text">
-                  <label for="list-input-2" class="is-required">Last name</label>
-                  <input placeholder="" id="list-input-2" type="text">
-                  <label for="list-input-3" class="is-required">Email address</label>
-                  <input placeholder="" id="list-input-3" type="text">
-                  <label for="list-input-4">Phone</label>
-                  <input placeholder="" id="list-input-3" type="text">
-                  <label for="exampleSelect">Country</label>
-                  <select name="countrySelect" id="countrySelect">
-                    <option value="" disabled="disabled" selected="">Select...</option>
-                    <option value="1">Cosmic Cuttlefish</option>
-                    <option value="2">Bionic Beaver</option>
-                    <option value="3">Xenial Xerus</option>
-                  </select>
-                  <label for="exampleInputFile">Upload CV</label>
-                  <input type="file" id="exampleInputFile">
-                  <textarea id="textarea" rows="3">Tell us what type of role you are looking for</textarea>
-                  <input type="checkbox" id="CheckMe">
-                  <label for="CheckMe">I agree to receive information about Canonical’s products and services.</label>
-                  <button type="submit">Send now</button>
-                </fieldset>
-              </form>
-            </div>
+        <div class="row">
+          <div class="col-12">
+          
+          </div>
+        </div>
+      </div>
+
+      <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="send-cv">
+        <div class="row">
+          <div class="col-12">
+            <h2>Can't find the ideal role for you?</h2>
+            <p>Don't worry if you can't find the a role that fits you, send us your CV and we'll keep it on file to match any future roles to your skills to see if we can get a great match.</p>
+            <form>
+              <fieldset style="border: none;">
+                <p class="required-legend u-align-text--right ">Required</p>
+                <label for="list-input-1" class="is-required u-no-padding--top">First name</label>
+                <input placeholder="" id="list-input-1" type="text">
+                <label for="list-input-2" class="is-required">Last name</label>
+                <input placeholder="" id="list-input-2" type="text">
+                <label for="list-input-3" class="is-required">Email address</label>
+                <input placeholder="" id="list-input-3" type="text">
+                <label for="list-input-4">Phone</label>
+                <input placeholder="" id="list-input-3" type="text">
+                <label for="exampleSelect">Country</label>
+                <select name="countrySelect" id="countrySelect">
+                  <option value="" disabled="disabled" selected="">Select...</option>
+                  <option value="1">Cosmic Cuttlefish</option>
+                  <option value="2">Bionic Beaver</option>
+                  <option value="3">Xenial Xerus</option>
+                </select>
+                <label for="exampleInputFile">Upload CV</label>
+                <input type="file" id="exampleInputFile">
+                <textarea id="textarea" rows="3">Tell us what type of role you are looking for</textarea>
+                <input type="checkbox" id="CheckMe">
+                <label for="CheckMe">I agree to receive information about Canonical’s products and services.</label>
+                <button type="submit">Send now</button>
+              </fieldset>
+            </form>
           </div>
         </div>
       </div>
