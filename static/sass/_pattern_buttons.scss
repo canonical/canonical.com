@@ -1,4 +1,35 @@
 @mixin canonical-p-buttons {
+  .p-button--accordion {
+    background: {
+      color: inherit;
+      position: top 50% left $sph-inner;
+      repeat: no-repeat;
+    }
+    border: none;
+    margin-bottom: 0;
+    padding-left: 2.75rem;
+    padding-right: $sph-inner;
+    text-align: left;
+    transition-duration: 0s;
+    width: 100%;
+    z-index: 2;
+    // aria-selected controls the open and closed state for the accordion tab
+    &[aria-expanded='true'] {
+      @include vf-icon-minus($color-mid-dark);
+      background-size: 0.75rem;
+    }
+
+    &[aria-expanded='false'] {
+      @include vf-icon-plus($color-mid-dark);
+      background-size: 0.75rem;
+    }
+
+    @media (max-width: $breakpoint-medium){
+      padding-left: 1.75rem;
+      background-position: top 50% left 0;
+    }
+  }
+
   .p-button--outline {
     @extend %vf-button-base;
     border-color: $color-x-light;

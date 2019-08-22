@@ -26,6 +26,22 @@ $color-brand: #7c355d;
   background-attachment: fixed;
 }
 
+.p-accordion-panel {
+  overflow: auto; // include child margins into its height
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+
+  // Hides panel content
+  &[aria-hidden='true'] {
+    display: none;
+  }
+
+  @media (max-width: $breakpoint-medium){
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+}
+
 .p-pull-quote .p-pull-quote__quote {
   &::before {
     color: $color-x-light;
