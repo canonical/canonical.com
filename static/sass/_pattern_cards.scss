@@ -13,7 +13,7 @@
       padding: calc(#{$spv-inner--large} - 1px);
     }
   }
-  .p-card {
+  .p-card--no-border {
     @extend %vf-card;
     border-style: none;
     padding: 0;
@@ -23,5 +23,35 @@
     @extend %vf-card;
     background-color: $color-light;
     border-top: 4px solid $color-brand;
+  }
+
+  .p-card--game {
+    @extend %vf-card;
+    
+    min-height: 8rem;
+
+    &:hover{
+      background-color: $color-mid-x-light;
+      cursor: pointer;
+    }
+
+    &__title::after {
+      border-bottom: 2px solid $color-mid-light;
+      content: '';
+      display: block;
+      width: 50%;
+    }
+
+    &__content {
+      font-style: italic;
+      font-size: small;
+    }
+
+    &-empty {
+      min-height: 8rem;
+      background-color: transparent;
+      border: 1px dashed $color-dark;
+      margin-bottom: $spv-outer--scaleable;
+    }
   }
 }
