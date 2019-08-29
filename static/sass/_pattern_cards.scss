@@ -48,10 +48,10 @@
     }
 
     &-empty {
-      min-height: 10rem;
       background-color: transparent;
       border: 1px dashed $color-dark;
       margin-bottom: $spv-outer--scaleable;
+      min-height: 10rem;
 
       & * {
         display: none;
@@ -61,11 +61,16 @@
 
   .p-card--game-selected {
     @extend %vf-card;
-    color: $color-x-light;
     
-    min-height: 10rem;
     background-color: $color-brand;
+    color: $color-x-light;
+    min-height: 10rem;
     margin-bottom: $spv-outer--scaleable;
+    position: relative;
+
+    &:hover {
+      background-color: $color-mid-dark;
+    }
 
     &__title::after {
       border-bottom: 2px solid $color-mid-light;

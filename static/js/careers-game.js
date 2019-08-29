@@ -29,7 +29,7 @@
       cardDiv.classList.add("p-card--game");
       cardDiv.setAttribute("data-skill", i);
       cardDiv.innerHTML = `
-        <button class="p-button--positive u-hide js-add-button">This is me</button>
+        <button class="has-icon u-hide js-add-button"><span>That's me</span><i class="p-icon--plus"></i></button>
         <h4 class="p-card--game__title">${el.name}</h4>
         <div class="p-card--game__content">
           <p>${el.description}</p>
@@ -139,7 +139,7 @@
       if (selectedSkills[i]) {
         const card = document.createElement("div");
         card.classList.add("col-2", "col-medium-3");
-        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="p-button has-icon u-float-right js-remove-button" style="border-radius: 50%;"><i class="p-icon--close"></i></button><h4 class="p-card--game__title">${selectedSkills[i].name}</h4><div class="p-card--game__content"><p>${selectedSkills[i].description}</p></div></div>`
+        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="js-remove-button"><i class="p-icon--close"></i></button><h4 class="p-card--game__title">${selectedSkills[i].name}</h4><div class="p-card--game__content"><p>${selectedSkills[i].description}</p></div></div>`
         cardTree.appendChild(card);
       } else {
         const card = document.createElement("div");
