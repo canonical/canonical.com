@@ -28,7 +28,7 @@
   .p-card--game {
     @extend %vf-card;
     
-    min-height: 8rem;
+    min-height: 10rem;
 
     &:hover{
       background-color: $color-mid-x-light;
@@ -48,10 +48,35 @@
     }
 
     &-empty {
-      min-height: 8rem;
+      min-height: 10rem;
       background-color: transparent;
       border: 1px dashed $color-dark;
       margin-bottom: $spv-outer--scaleable;
+
+      & * {
+        display: none;
+      }
+    }
+  }
+
+  .p-card--game-selected {
+    @extend %vf-card;
+    color: $color-x-light;
+    
+    min-height: 10rem;
+    background-color: $color-brand;
+    margin-bottom: $spv-outer--scaleable;
+
+    &__title::after {
+      border-bottom: 2px solid $color-mid-light;
+      content: '';
+      display: block;
+      width: 50%;
+    }
+
+    &__content {
+      font-style: italic;
+      font-size: small;
     }
   }
 }
