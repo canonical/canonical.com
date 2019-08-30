@@ -74,6 +74,28 @@ $color-brand: #7c355d;
   }
 }
 
-.js-partner-link:hover .p{
+.js-partner-link:hover .p {
   border-right: 3px solid $color-tabs-active-bar;
+}
+
+[type="checkbox"] + label.p-checkbox-label--h2 {
+  $offset-top--h2-large: 1.2rem;
+  $offset-top--h2-small: 0.8rem;
+  $tick-offset: 0.1875rem;
+
+  &::before {
+    top: $offset-top--h2-small;
+
+    @media (min-width: $breakpoint-heading-threshold) {
+      top: $offset-top--h2-large;
+    }
+  }
+
+  &::after {
+    top: $offset-top--h2-small + $tick-offset;
+
+    @media (min-width: $breakpoint-heading-threshold) {
+      top: $offset-top--h2-large + $tick-offset;
+    }
+  }
 }

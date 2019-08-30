@@ -87,7 +87,7 @@
         <option value="/careers/all">ALL</option>
       </select>
     </div>
-    <div class="col-8 col-start-large-5">
+    <div class="col-9 col-start-large-5">
       {% if (request.path != "/careers/lifestyle" and request.path != "/careers/ethics" and request.path != "/careers/travel" and request.path != "/careers/progression" and request.path != "/careers/diversity") %}
       <div class="row">
         <div class="col-12">
@@ -114,8 +114,11 @@
       {% block overview %}{% endblock %}
 
       <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
-        <div class="row u-align--right">
-          <div class="col-12">
+        <div class="row u-vertically-center">
+          <div class="col-3">
+            <small class="p-form-help-text u-sv2">Select the role(s) you are interested in and apply once to them all.</small>
+          </div>
+          <div class="col-6">
             <form action="" method="get" class="p-form p-form--inline">
               <div class="p-form__group">
                 <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter by</label>
@@ -123,11 +126,13 @@
                   <option value="">All</option>
                   <option value="">Home based</option>
                   <option value="">Office based</option>
-                  <option value="">Management/option>
+                  <option value="">Management</option>
                   <option value="">Senior roles</option>
                   <option value="">Full-time</option>
                   <option value="">Part-time</option>
                 </select>
+              </div>
+              <div class="p-form__group">
                 <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Sort by</label>
                 <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
                   <option value="">Date</option>
@@ -144,7 +149,28 @@
         </div>
         <div class="row">
           <div class="col-12">
-          
+            <form action="">
+              <ul class="p-list--divided">
+                <li class="p-list__item">
+                  <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">Anywhere - Home based</small></p>
+                  <input type="checkbox" name="roles" id="example1" value="1234" />
+                  <label class="p-checkbox-label--h2 u-no-padding--top" for="example1">
+                    <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="#">Robotics Developer Advocate&nbsp;&rsaquo;</a></h2>
+                    <p class="u-sv3">{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
+                  </label>
+                </li>
+                <li class="p-list__item">
+                  <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">Anywhere - Home based</small></p>
+                  <input type="checkbox" name="roles" id="example2" value="2345" />
+                  <label class="p-checkbox-label--h2 u-no-padding--top" for="example2">
+                    <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="#">Front End Developer&nbsp;&rsaquo;</a></h2>
+                    <p>{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
+                  </label>
+                </li>
+              </ul>
+              <hr />
+              <button type="submit">Apply now</button>
+            </form>
           </div>
         </div>
       </div>
