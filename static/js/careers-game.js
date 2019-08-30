@@ -65,15 +65,18 @@
         // Show card details on click
         if (selectedCard === null) {
           el.removeEventListener("click", cardClickHandler);
+          el.classList.add("is-grey");
           el.children[0].classList.remove("u-hide");
           el.children[2].children[1].classList.remove("u-hide");
           selectedCard = el.dataset.card;
         } else {
           // Handle data related to the previously selected card
+          selectableDomCards[selectedCard].classList.remove("is-grey");
           selectableDomCards[selectedCard].children[0].classList.add("u-hide");
           selectableDomCards[selectedCard].children[2].children[1].classList.add("u-hide");
           selectableDomCards[selectedCard].addEventListener("click", cardClickHandler);
           // Handle data related to the currently clicked card
+          selectableDomCards[lastClickedCard].classList.add("is-grey");
           selectableDomCards[lastClickedCard].children[0].classList.remove("u-hide");
           selectableDomCards[lastClickedCard].children[2].children[1].classList.remove("u-hide");
           selectableDomCards[lastClickedCard].removeEventListener("click", cardClickHandler);
@@ -118,11 +121,16 @@
   // Toggle visible/empty card
   function toggleCardVisibility(card) {
     if (selectableDomCards[card].classList.contains("p-card--game")) {
-      selectableDomCards[card].classList.remove("p-card--game");
+      selectableDomCards[card].classList.remove("p-card--game", "is-grey");
       selectableDomCards[card].classList.add("p-card--game-empty");
     } else {
-      selectableDomCards[card].classList.add("p-card--game");
-      selectableDomCards[card].classList.remove("p-card--game-empty");
+      if (selectableDomCards[card].children[2].children[1].classList.contains("u-hide")){
+        selectableDomCards[card].classList.remove("p-card--game-empty");
+        selectableDomCards[card].classList.add("p-card--game");
+      } else{
+        selectableDomCards[card].classList.remove("p-card--game-empty");
+        selectableDomCards[card].classList.add("p-card--game", "is-grey");
+      }
     }
   };
 
@@ -139,7 +147,7 @@
       if (selectedSkills[i]) {
         const card = document.createElement("div");
         card.classList.add("col-2", "col-medium-3");
-        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="js-remove-button"><i class="p-icon--close"></i></button><h4 class="p-card--game__title">${selectedSkills[i].name}</h4><div class="p-card--game__content"><p>${selectedSkills[i].description}</p></div></div>`
+        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="js-remove-button"><i class="p-icon--close"></i></button><h4 class="p-card--game-selected__title">${selectedSkills[i].name}</h4><div class="p-card--game-selected__content"><p>${selectedSkills[i].description}</p></div></div>`
         cardTree.appendChild(card);
       } else {
         const card = document.createElement("div");

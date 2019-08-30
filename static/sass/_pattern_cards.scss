@@ -43,17 +43,30 @@
     }
 
     &__content {
-      font-style: italic;
       font-size: small;
+
+      p:first-child {
+        font-style: italic;
+        margin-bottom: 0;
+      }
+      p:last-of-type {
+        padding-top: 1.1rem;
+      }
     }
 
     &-empty {
       background-color: transparent;
-      border: 1px dashed $color-dark;
+      border: 1px dashed $color-x-light;
       margin-bottom: $spv-outer--scaleable;
       min-height: 10rem;
 
       & * {
+        display: none;
+      }
+    }
+
+    @media (max-width: $breakpoint-small) {
+      &-empty {
         display: none;
       }
     }
@@ -80,8 +93,12 @@
     }
 
     &__content {
-      font-style: italic;
       font-size: small;
+
+      p:first-child {
+        font-style: italic;
+        margin-bottom: 0;
+      }
     }
   }
 }
