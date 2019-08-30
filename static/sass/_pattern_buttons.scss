@@ -44,4 +44,47 @@
       color: $color-x-light;
     }
   }
+
+  .js-add-button {
+    @extend %p-button--positive;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    text-align: left;
+    width: 100%;
+
+    i {
+      @include vf-icon-plus($color-x-light);
+      width: 0.7rem;
+      top: 0;
+    }
+  }
+
+  .js-remove-button {
+    @extend %vf-button-base;
+
+    border: none;
+    border-radius: 50%;
+    height: 1.5rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 1rem;
+
+    &:hover {
+      background-color: $color-negative;
+
+      i {
+      @include vf-icon-close($color-x-light);
+      }
+    }
+
+    i {
+      @include vf-icon-close($color-mid-dark);
+      width: 0.7rem;
+      top: -0.22rem;
+      margin-left: -0.31rem;
+    }
+  }
 }
