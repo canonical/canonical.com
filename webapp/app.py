@@ -6,7 +6,7 @@ from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
 
 from webapp.api import get_partner_groups
-
+from webapp.get_job_feed import get_vacancies
 
 app = FlaskBase(
     __name__,
@@ -18,13 +18,22 @@ app = FlaskBase(
 )
 
 
+@app.route("/")
 def index():
     partner_groups = get_partner_groups()
     return flask.render_template("index.html", partner_groups=partner_groups)
 
 
+@app.route("/careers/<department>")
+def careers(department):
+    vacancies = get_vacancies(department)
+    return flask.render_template(
+        "/careers/careers_base.html",
+        vacancies=vacancies
+    )
+
+
 template_finder_view = TemplateFinder.as_view("template_finder")
-app.add_url_rule("/", view_func=index)
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 
 
@@ -36,6 +45,6 @@ def inject_today_date():
 @app.template_filter()
 def convert_to_kebab(kebab_input):
     words = re.findall(
-        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
+        r'[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+', kebab_input
     )
     return "-".join(map(str.lower, words))

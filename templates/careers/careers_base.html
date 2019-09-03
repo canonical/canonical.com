@@ -151,22 +151,16 @@
           <div class="col-12">
             <form action="">
               <ul class="p-list--divided">
+              {% for job in vacancies %}
                 <li class="p-list__item">
-                  <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">Anywhere - Home based</small></p>
-                  <input type="checkbox" name="roles" id="example1" value="1234" />
-                  <label class="p-checkbox-label--h2 u-no-padding--top" for="example1">
-                    <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="#">Robotics Developer Advocate&nbsp;&rsaquo;</a></h2>
+                  <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
+                  <input type="checkbox" name="roles" id="{{ job.id }}"/>
+                  <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+                    <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="{{ job.url }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
                     <p class="u-sv3">{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
                   </label>
                 </li>
-                <li class="p-list__item">
-                  <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">Anywhere - Home based</small></p>
-                  <input type="checkbox" name="roles" id="example2" value="2345" />
-                  <label class="p-checkbox-label--h2 u-no-padding--top" for="example2">
-                    <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="#">Front End Developer&nbsp;&rsaquo;</a></h2>
-                    <p>{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
-                  </label>
-                </li>
+              {% endfor %}
               </ul>
               <hr />
               <button type="submit">Apply now</button>
