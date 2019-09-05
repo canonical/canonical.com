@@ -43,8 +43,10 @@ def department_group(department):
 def job_details(department, job_id):
     job = get_vacancy(job_id)
 
-    if remove_special_chars(job["department"]) != remove_special_chars(
-        department
+    if (
+        remove_special_chars(job["department"])
+        != remove_special_chars(department)
+        and "all" != department
     ):
         flask.abort(404)
 
