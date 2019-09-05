@@ -1,17 +1,17 @@
-$color-tabs-active-bar: #E95420;
+$color-tabs-active-bar: #e95420;
 
-@import "vanilla-framework/scss/build";
+@import 'vanilla-framework/scss/build';
 
 $color-brand: #7c355d;
 
-@import "pattern_animations";
-@import "pattern_buttons";
-@import "pattern_cards";
-@import "pattern_footer";
-@import "pattern_headings";
-@import "pattern_icons";
-@import "pattern_lists";
-@import "pattern_strip";
+@import 'pattern_animations';
+@import 'pattern_buttons';
+@import 'pattern_cards';
+@import 'pattern_footer';
+@import 'pattern_headings';
+@import 'pattern_icons';
+@import 'pattern_lists';
+@import 'pattern_strip';
 
 @include canonical-u-animations;
 @include canonical-p-buttons;
@@ -46,31 +46,35 @@ $color-brand: #7c355d;
   }
 }
 
-.p-pull-quote .p-pull-quote__quote {
-  &::before {
-    color: $color-x-light;
-    font-size: 4rem;
-  }
-  &::after {
-    color: $color-x-light;
-    font-size: 4rem;
+.p-pull-quote {
+  &__quote {
+    &::before {
+      color: $color-x-light;
+      font-size: 4rem;
+    }
+
+    &::after {
+      color: $color-x-light;
+      font-size: 4rem;
+    }
   }
 }
 
 .p-pull-quote .p-pull-quote__quote:last-of-type::after {
-  bottom: 1rem;
   @include canonical-p-strip;
+  bottom: 1rem;
 }
 
 .required-legend {
-  font-size: small; margin-bottom: 0;
+  font-size: small;
+  margin-bottom: 0;
   padding: 0;
 
   &::before {
     color: $color-negative;
     content: '*';
-    right: .25rem;
     position: relative;
+    right: .25rem;
   }
 }
 
@@ -78,10 +82,10 @@ $color-brand: #7c355d;
   border-right: 3px solid $color-tabs-active-bar;
 }
 
-[type="checkbox"] + label.p-checkbox-label--h2 {
+[type='checkbox'] + label.p-checkbox-label--h2 {
   $offset-top--h2-large: 1.2rem;
-  $offset-top--h2-small: 0.8rem;
-  $tick-offset: 0.1875rem;
+  $offset-top--h2-small: .8rem;
+  $tick-offset: .1875rem;
 
   &::before {
     top: $offset-top--h2-small;

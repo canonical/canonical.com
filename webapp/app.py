@@ -29,19 +29,24 @@ def index():
     return flask.render_template("index.html", partner_groups=partner_groups)
 
 
-# Careers
-@app.route(
-    "/careers/<regex('all|admin|commercia-ops|design|engineering|finance|hr|legal|marketing|project-management|sales|tech-ops'):department>"
-)
+# Career departments
+@app.route("/careers/<department>")
 def department_group(department):
     vacancies = get_vacancies(department)
 
-    return flask.render_template(f"careers/{department}.html", vacancies=vacancies)
+    return flask.render_template(
+        f"careers/{department}.html", vacancies=vacancies
+    )
 
 
-@app.route("/careers/jobs/<job_id>")
-def job_details(job_id):
+@app.route("/careers/<department>/<job_id>")
+def job_details(department, job_id):
     job = get_vacancy(job_id)
+
+    if remove_special_chars(job["department"]) != remove_special_chars(
+        department
+    ):
+        flask.abort(404)
 
     return flask.render_template("/careers/jobs/job-detail.html", job=job)
 
@@ -58,6 +63,13 @@ def inject_today_date():
 
 @app.template_filter()
 def convert_to_kebab(kebab_input):
-    words = re.findall(r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input)
+    words = re.findall(
+        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
+    )
 
     return "-".join(map(str.lower, words))
+
+
+def remove_special_chars(text):
+    new_text = re.sub("[^A-Za-z0-9]+", "", text.lower())
+    return new_text

@@ -18,38 +18,43 @@ def get_job_feed(endpoint):
 
 
 def get_vacancies(department):
-    feed = get_job_feed('?content=true').json()
+    feed = get_job_feed("?content=true").json()
     path_department = remove_special_chars(department)
     vacancies = []
-    for job in feed['jobs']:
-        feed_department = remove_special_chars(job['metadata'][0]['value'])
-        if path_department == 'all':
-            vacancies.append({
-                'title': job['title'],
-                'url': job['absolute_url'],
-                'location': job['location']['name'],
-                'id': job['id'],
-            })
+    for job in feed["jobs"]:
+        feed_department = remove_special_chars(job["metadata"][0]["value"])
+        if path_department == "all":
+            vacancies.append(
+                {
+                    "title": job["title"],
+                    "url": job["absolute_url"],
+                    "location": job["location"]["name"],
+                    "id": job["id"],
+                }
+            )
         elif path_department == feed_department:
-            vacancies.append({
-                'title': job['title'],
-                'url': job['absolute_url'],
-                'location': job['location']['name'],
-                'id': job['id'],
-            })
+            vacancies.append(
+                {
+                    "title": job["title"],
+                    "url": job["absolute_url"],
+                    "location": job["location"]["name"],
+                    "id": job["id"],
+                }
+            )
     return vacancies
 
 
 def get_vacancy(job_id):
-    feed = get_job_feed(f'/{job_id}').json()
+    feed = get_job_feed(f"/{job_id}").json()
     job = {
-        'title': feed['title'],
-        'content': unescape(feed['content']),
-        'location': feed['location']['name']
+        "title": feed["title"],
+        "content": unescape(feed["content"]),
+        "location": feed["location"]["name"],
+        "department": feed["metadata"][0]["value"],
     }
     return job
 
 
 def remove_special_chars(text):
-    new_text = re.sub('[^A-Za-z0-9]+', '', text.lower())
+    new_text = re.sub("[^A-Za-z0-9]+", "", text.lower())
     return new_text
