@@ -11,7 +11,11 @@ from canonicalwebteam.templatefinder import TemplateFinder
 
 # Local
 from webapp.api import get_partner_groups
-from webapp.get_job_feed import get_vacancies, get_vacancy
+from webapp.get_job_feed import (
+    get_vacancies,
+    get_vacancy,
+    remove_hyphens,
+)
 
 app = FlaskBase(
     __name__,
@@ -44,9 +48,9 @@ def job_details(department, job_id):
     job = get_vacancy(job_id)
 
     if (
-        remove_special_chars(job["department"])
-        != remove_special_chars(department)
-        and "all" != department
+        remove_hyphens(job["department"]).lower()
+        != remove_hyphens(department).lower()
+        and "all" != department.lower()
     ):
         flask.abort(404)
 
@@ -70,8 +74,3 @@ def convert_to_kebab(kebab_input):
     )
 
     return "-".join(map(str.lower, words))
-
-
-def remove_special_chars(text):
-    new_text = re.sub("[^A-Za-z0-9]+", "", text.lower())
-    return new_text

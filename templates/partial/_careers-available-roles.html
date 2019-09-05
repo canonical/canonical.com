@@ -1,0 +1,55 @@
+<div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
+  <div class="row u-vertically-center">
+    <div class="col-3">
+      <small class="p-form-help-text u-sv2">Select the role(s) you are interested in and apply once to them all.</small>
+    </div>
+    <div class="col-6">
+      <form action="" method="get" class="p-form p-form--inline">
+        <div class="p-form__group">
+          <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter by</label>
+          <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+            <option value="">All</option>
+            <option value="">Home based</option>
+            <option value="">Office based</option>
+            <option value="">Management</option>
+            <option value="">Senior roles</option>
+            <option value="">Full-time</option>
+            <option value="">Part-time</option>
+          </select>
+        </div>
+        <div class="p-form__group">
+          <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Sort by</label>
+          <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+            <option value="">Date</option>
+            <option value="">Home based</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <hr />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form action="">
+        <ul class="p-list--divided">
+        {% for job in vacancies %}
+          <li class="p-list__item">
+            <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
+            <input type="checkbox" name="roles" id="{{ job.id }}"/>
+            <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+              <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="{{request.path}}/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
+              <p class="u-sv3">{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
+            </label>
+          </li>
+        {% endfor %}
+        </ul>
+        <hr />
+        <button type="submit">Apply now</button>
+      </form>
+    </div>
+  </div>
+</div>

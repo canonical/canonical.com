@@ -13,17 +13,13 @@ api_session = CachedSession(
 base_url = "https://api.greenhouse.io/v1/boards/Canonical/jobs"
 
 
-def get_job_feed(endpoint):
-    return api_session.get(f"{base_url}{endpoint}")
-
-
 def get_vacancies(department):
-    feed = get_job_feed("?content=true").json()
-    path_department = remove_special_chars(department)
+    feed = api_session.get(f"{base_url}?content=true").json()
+    path_department = remove_hyphens(department)
     vacancies = []
     for job in feed["jobs"]:
-        feed_department = remove_special_chars(job["metadata"][0]["value"])
-        if path_department == "all":
+        feed_department = remove_hyphens(job["metadata"][2]["value"])
+        if path_department.lower() == "all":
             vacancies.append(
                 {
                     "title": job["title"],
@@ -32,7 +28,7 @@ def get_vacancies(department):
                     "id": job["id"],
                 }
             )
-        elif path_department == feed_department:
+        elif path_department.lower() == feed_department.lower():
             vacancies.append(
                 {
                     "title": job["title"],
@@ -45,16 +41,16 @@ def get_vacancies(department):
 
 
 def get_vacancy(job_id):
-    feed = get_job_feed(f"/{job_id}").json()
+    feed = api_session.get(f"{base_url}/{job_id}").json()
     job = {
         "title": feed["title"],
         "content": unescape(feed["content"]),
         "location": feed["location"]["name"],
-        "department": feed["metadata"][0]["value"],
+        "department": feed["metadata"][2]["value"],
     }
     return job
 
 
-def remove_special_chars(text):
-    new_text = re.sub("[^A-Za-z0-9]+", "", text.lower())
+def remove_hyphens(text):
+    new_text = re.sub("-", "", text)
     return new_text
