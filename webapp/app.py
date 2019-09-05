@@ -11,11 +11,7 @@ from canonicalwebteam.templatefinder import TemplateFinder
 
 # Local
 from webapp.api import get_partner_groups
-from webapp.get_job_feed import (
-    get_vacancies,
-    get_vacancy,
-    remove_hyphens,
-)
+from webapp.get_job_feed import get_vacancies, get_vacancy, remove_hyphens
 
 app = FlaskBase(
     __name__,
