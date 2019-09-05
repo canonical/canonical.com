@@ -1,11 +1,14 @@
 import re
 
+
 from canonicalwebteam.http import CachedSession
+from html import unescape
 
 
 api_session = CachedSession(
     fallback_cache_duration=300, file_cache_directory=".webcache"
 )
+
 
 base_url = "https://api.greenhouse.io/v1/boards/Canonical/jobs"
 
@@ -35,6 +38,16 @@ def get_vacancies(department):
                 'id': job['id'],
             })
     return vacancies
+
+
+def get_vacancy(job_id):
+    feed = get_job_feed(f'/{job_id}').json()
+    job = {
+        'title': feed['title'],
+        'content': unescape(feed['content']),
+        'location': feed['location']['name']
+    }
+    return job
 
 
 def remove_special_chars(text):

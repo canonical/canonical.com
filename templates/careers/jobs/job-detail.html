@@ -30,16 +30,21 @@
 {% block overview %}
   <div class="row u-sv3">
     <div class="col-12">
-      <a href="#">&lsaquo;&nbsp;Back to list</a>
+      <a href="{{ request.referrer }}">&lsaquo;&nbsp;Back to list</a>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-      <h2 class="u-no-margin--bottom u-sv1">Robotics Developer Advocate&nbsp;›</h2>
-      <p class="p-muted-heading">Anywhere - Home based</p>
+      <h2 class="u-no-margin--bottom u-sv1">{{ job.title }}</h2>
+      <p class="p-muted-heading">{{ job.location }}</p>
     </div>
   </div>
   <div class="row">
+    <div class="col-12">
+      {{ job.content | safe }}
+    </div>
+  </div>
+  <!-- <div class="row">
     <div class="col-7">
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo ratione nobis blanditiis amet quibusdam totam libero eos ut illo vero cum, voluptas nostrum, accusamus, quae voluptates perspiciatis? Omnis, sint excepturi.</p>
     </div>
@@ -116,7 +121,7 @@
       <p class="p-heading--four">Travel</p>
       <p>Must be able to travel internationally typically for 2-6 times a year, for a week at a time. Travel destinations typically include North America (US/Canada), Europe (Germany, France, Spain, Belgium, Romania, Hungary, etc) and South Africa occasionally.</p>
     </div>
-  </div>
+  </div> -->
   <div class="row">
     <div class="col-12">
       <hr />
