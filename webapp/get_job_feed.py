@@ -13,6 +13,7 @@ api_session = CachedSession(
 base_url = "https://api.greenhouse.io/v1/boards/Canonical/jobs"
 
 
+# don't forget to handle errors
 def get_vacancies(department):
     feed = api_session.get(f"{base_url}?content=true").json()
     path_department = remove_hyphens(department)
