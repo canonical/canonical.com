@@ -1,6 +1,6 @@
 # Standard library
-import flask
 import datetime
+import flask
 import re
 
 
@@ -10,8 +10,13 @@ from canonicalwebteam.templatefinder import TemplateFinder
 
 
 # Local
-from webapp.api import get_partner_groups
-from webapp.get_job_feed import get_vacancies, get_vacancy, remove_hyphens
+from webapp.greenhouse_api import (
+    get_vacancies,
+    get_vacancy,
+    remove_hyphens,
+    submit_to_greenhouse,
+)
+from webapp.partners_api import get_partner_groups
 
 app = FlaskBase(
     __name__,
@@ -30,9 +35,33 @@ def index():
 
 
 # Career departments
-@app.route("/careers/<department>")
+@app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
     vacancies = get_vacancies(department)
+
+    if flask.request.method == "POST":
+        response = submit_to_greenhouse(
+            flask.request.form, flask.request.files
+        )
+        if response.status_code == 200:
+            message = {
+                "type": "positive",
+                "title": "Success",
+                "text": (
+                    "Your application has been successfully submitted."
+                    " Thank you!"
+                ),
+            }
+        else:
+            message = {
+                "type": "negative",
+                "title": f"Error {response.status_code}",
+                "text": f"{response.reason}. Please try again!",
+            }
+
+        return flask.render_template(
+            f"careers/{department}.html", vacancies=vacancies, message=message
+        )
 
     return flask.render_template(
         f"careers/{department}.html", vacancies=vacancies
@@ -42,7 +71,6 @@ def department_group(department):
 @app.route("/careers/<department>/<job_id>")
 def job_details(department, job_id):
     job = get_vacancy(job_id)
-
     if (
         remove_hyphens(job["department"]).lower()
         != remove_hyphens(department).lower()
@@ -51,6 +79,12 @@ def job_details(department, job_id):
         flask.abort(404)
 
     return flask.render_template("/careers/jobs/job-detail.html", job=job)
+
+
+@app.route("/careers/<department>/<job_id>", methods=["POST"])
+def submit_job(department, job_id):
+    print("It works")
+    return flask.render_template("/careers/jobs/index.html")
 
 
 # Template finder
