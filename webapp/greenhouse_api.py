@@ -14,7 +14,7 @@ api_session = CachedSession(
 )
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
-API_KEY = os.getenv("GREENHOUSE_API_KEY")
+API_KEY = os.environ["GREENHOUSE_API_KEY"]
 
 
 def get_vacancies(department):
