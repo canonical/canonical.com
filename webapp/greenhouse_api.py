@@ -14,7 +14,6 @@ api_session = CachedSession(
 )
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
-API_KEY = os.environ["GREENHOUSE_API_KEY"]
 
 
 def get_vacancies(department):
@@ -57,6 +56,7 @@ def get_vacancy(job_id):
 
 def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
     # Encode the API_KEY to base64
+    API_KEY = os.environ["GREENHOUSE_API_KEY"]
     auth = (
         "Basic " + str(base64.b64encode(API_KEY.encode("utf-8")), "utf-8")[:-2]
     )
