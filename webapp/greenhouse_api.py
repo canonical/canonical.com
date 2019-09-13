@@ -1,4 +1,8 @@
+import base64
+import json
+import os
 import re
+import requests
 
 
 from canonicalwebteam.http import CachedSession
@@ -9,8 +13,7 @@ api_session = CachedSession(
     fallback_cache_duration=300, file_cache_directory=".webcache"
 )
 
-
-base_url = "https://api.greenhouse.io/v1/boards/Canonical/jobs"
+base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
 
 def get_vacancies(department):
@@ -49,6 +52,35 @@ def get_vacancy(job_id):
         "department": feed["metadata"][2]["value"],
     }
     return job
+
+
+def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
+    # Encode the API_KEY to base64
+    API_KEY = os.environ["GREENHOUSE_API_KEY"]
+    auth = (
+        "Basic " + str(base64.b64encode(API_KEY.encode("utf-8")), "utf-8")[:-2]
+    )
+    # Encode the resume file to base64
+    resume = base64.b64encode(form_cv["resume"].read()).decode("utf-8")
+    # Create headers for api sumbission
+    headers = {"Content-Type": "application/json", "Authorization": auth}
+    # Create payload for api submission
+    payload = json.dumps(
+        {
+            "first_name": form_data["fn"],
+            "last_name": form_data["ln"],
+            "email": form_data["email"],
+            "phone": form_data["phone"],
+            "resume_content": resume,
+            "resume_content_filename": form_cv["resume"].filename,
+        }
+    )
+
+    response = requests.post(
+        f"{base_url}/{job_id}", data=payload, headers=headers
+    )
+
+    return response
 
 
 def remove_hyphens(text):

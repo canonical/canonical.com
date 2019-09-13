@@ -3,19 +3,19 @@
     <div class="col-12">
       <h2>Can't find the ideal role for you?</h2>
       <p>Don't worry if you can't find the a role that fits you, send us your CV and we'll keep it on file to match any future roles to your skills to see if we can get a great match.</p>
-      <form>
+      <form action="{{request.path}}" method="POST" enctype="multipart/form-data">
         <fieldset style="border: none;">
           <p class="required-legend u-align-text--right ">Required</p>
-          <label for="list-input-1" class="is-required u-no-padding--top">First name</label>
-          <input placeholder="" id="list-input-1" type="text">
-          <label for="list-input-2" class="is-required">Last name</label>
-          <input placeholder="" id="list-input-2" type="text">
-          <label for="list-input-3" class="is-required">Email address</label>
-          <input placeholder="" id="list-input-3" type="text">
-          <label for="list-input-4">Phone</label>
-          <input placeholder="" id="list-input-3" type="text">
-          <label for="countrySelect">Country</label>
-          <select name="countrySelect" id="countrySelect">
+          <label for="fn" class="is-required u-no-padding--top">First name</label>
+          <input placeholder="" id="fn" name="fn" type="text">
+          <label for="ln" class="is-required">Last name</label>
+          <input placeholder="" id="ln" name="ln" type="text">
+          <label for="email" class="is-required">Email address</label>
+          <input placeholder="" id="email" name="email" type="text">
+          <label for="phone">Phone</label>
+          <input placeholder="" id="phone" name="phone" type="text">
+          <label for="country">Country</label>
+          <select name="country" id="country">
             <option value="" disabled="disabled" selected="">Select...</option>
             <option value="FR">France</option>
             <option value="DE">Germany</option>
@@ -273,9 +273,9 @@
             <option value="ZM">Zambia</option>
             <option value="ZW">Zimbabwe</option>
           </select>
-          <label for="exampleInputFile">Upload CV</label>
-          <input type="file" id="exampleInputFile">
-          <textarea id="textarea" rows="3" placeholder="Tell us what type of role you are looking for"></textarea>
+          <label for="resume">Upload CV</label>
+          <input type="file" id="resume" name="resume" accept=".pdf, .doc, .docx, .txt, .rtf" onchange="return fileValidation()">
+          <textarea id="cover-text" rows="3" name="cover-text" placeholder="Tell us what type of role you are looking for"></textarea>
           <input type="checkbox" id="CheckMe">
           <label for="CheckMe">I agree to receive information about Canonical’s products and services.</label>
           <button type="submit">Send now</button>
@@ -284,3 +284,16 @@
     </div>
   </div>
 </div>
+
+<script>
+function fileValidation() {
+  var fileInput = document.getElementById('resume');
+  var filePath = fileInput.value;
+  var allowedExtensions = /(\.pdf|\.doc|\.docx|\.txt|\.rtf)$/i;
+  if(!allowedExtensions.exec(filePath)){
+      alert('Invalid file format selected. Allowed formats are: pdf, doc, docx, txt, rtf');
+      fileInput.value = '';
+      return false;
+  }
+}
+</script>

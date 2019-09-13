@@ -7,6 +7,17 @@
     {% include 'partial/_careers-navigation.html' %}
     <div class="col-9 col-start-large-5">
       {% if request.path in ["/careers/engineering", "/careers/tech-ops", "/careers/commercial-ops", "/careers/sales", "/careers/marketing", "/careers/design", "/careers/project-management", "/careers/finance", "/careers/legal", "/careers/admin", "/careers/hr", "/careers/all"] %}
+      {% if message %}
+      <div class="row">
+        <div class="col-12">
+          <div class="p-notification--{{message.type}}">
+            <p class="p-notification__response">
+              <span class="p-notification__status">{{message.title}}:&nbsp;</span>{{message.text}}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
       <div class="row">
         <div class="col-12">
           <nav class="p-tabs">
