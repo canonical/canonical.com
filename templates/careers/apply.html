@@ -31,62 +31,84 @@
       <a href="{{ request.referrer }}">&lsaquo;&nbsp;Back to list</a>
     </div>
   </div>
-  <div class="row">
+  <div class="row u-extra-space">
     <div class="col-12">
-      <div class="p-card--strip">
+      <div class="p-card--strip" style="margin-bottom: 0;">
         <h3>Roles applying for:</h3>
+        <div class="row u-sv3">
+          <div class="col-6">
+            <input type="checkbox" id="CheckMe1">
+            <label for="CheckMe1">Robotics Developer Advocate</label>
+            <input type="checkbox" id="CheckMe2">
+            <label for="CheckMe2">QA Engineer</label>
+            <input type="checkbox" id="CheckMe3">
+            <label for="CheckMe3">Software Engineer - MAAS</label>
+          </div>
+          <div class="col-3 u-align--right">
+            <button class="p-button has-icon">
+              <i class="p-icon--plus"></i> <span>Add more roles</span>
+            </button>
+          </div>
+        </div>
         <hr/>
         <form>
-          <fieldset style="border: none;">
+          <fieldset style="border: none; margin-bottom: 0;">
             <p class="required-legend u-align-text--right ">Required</p>
-            <label for="list-input-1" class="is-required u-no-padding--top">First name</label>
-            <input placeholder="" id="list-input-1" type="text">
-
-            <label for="list-input-1" class="is-required">Last name</label>
-            <input placeholder="" id="list-input-2" type="text">
-
-            <label for="list-input-2" class="is-required">Email address</label>
-            <input placeholder="" id="list-input-3" type="text">
-
-            <label for="list-input-3" class="is-required">Phone</label>
-            <input placeholder="" id="list-input-4" type="text">
-
-            <label for="list-input-4" class="is-required">Location (City)</label>
-            <input placeholder="" id="location" type="text" class="js-location">
+            <label for="first_name" class="is-required u-no-padding--top">First name</label>
+            <input id="first_name" name="first_name" type="text">
+            <label for="last_name" class="is-required">Last name</label>
+            <input id="last_name" name="last_name" type="text">
+            <label for="email" class="is-required">Email address</label>
+            <input id="email" name="email" type="text">
+            <label for="phone" class="is-required">Phone</label>
+            <input id="phone" name="phone" type="text">
+            <label for="location" class="is-required">Location (City)</label>
+            <input id="location" name="location" type="text" class="js-location">
             <button type="button" class="js-locate-me">Locate me</button>
             <span class="js-locate-error u-hide" style="color: #c7162b">Location unavailable</span>
-            <label for="" class="is-required">Resume/CV</label>
-            <label class="has-comma"><a href="">Attach</a><a href="">Dropbox</a><a href="">Google Drive</a><a href="">Paste</a></label>
-            <label for="">Cover letter</label>
-            <label class="has-comma"><a href="">Attach</a><a href="">Dropbox</a><a href="">Google Drive</a><a href="">Paste</a></label>
+            <label for="resume" class="is-required">Upload CV</label>
+            <input type="file" id="resume" name="resume" accept=".pdf, .doc, .docx, .txt, .rtf" onchange="return fileValidation()">
+            <label for="cover_letter">Cover Letter</label>
+            <input type="file" id="cover_letter" name="cover_letter" accept=".pdf, .doc, .docx, .txt, .rtf" onchange="return fileValidation()">
             <hr/>
-            <label for="exampleSelect">School</label>
-            <select name="exampleSelect" id="exampleSelect">
-              <option value="" disabled="disabled" selected="">Select an option</option>
-              <option value="1">Cosmic Cuttlefish</option>
-              <option value="2">Bionic Beaver</option>
-              <option value="3">Xenial Xerus</option>
-            </select>
-            <label for="exampleSelect">Degree</label>
-            <select name="exampleSelect" id="exampleSelect">
-              <option value="" disabled="disabled" selected="">Select an option</option>
-              <option value="1">Cosmic Cuttlefish</option>
-              <option value="2">Bionic Beaver</option>
-              <option value="3">Xenial Xerus</option>
-            </select>
-            <label for="exampleSelect">Discipline</label>
-            <select name="exampleSelect" id="exampleSelect">
-              <option value="" disabled="disabled" selected="">Select an option</option>
-              <option value="1">Cosmic Cuttlefish</option>
-              <option value="2">Bionic Beaver</option>
-              <option value="3">Xenial Xerus</option>
-            </select>
-            <label for="">Start date</label>
-            <input placeholder="MM" type="text">
-            <input placeholder="YYYY" type="text">
-            <label for="">End date</label>
-            <input placeholder="MM"type="text">
-            <input placeholder="YYYY" type="text">
+            <div class="education-container">
+              <div data-education="0">
+                <label for="school-0">School</label>
+                <input list="school-0" name="school-0" type="text" class="js-school-0">
+                <datalist id="school-0">
+                </datalist>
+                <label for="degree-0">Degree</label>
+                <input list="degree-0" name="degree-0" type="text">
+                <datalist id="degree-0">
+                </datalist>
+                <label for="discipline-0">Discipline</label>
+                <input list="discipline-0" name="discipline-0" type="text">
+                <datalist id="discipline-0">
+                </datalist>
+                <div class="p-form--inline">
+                  <div class="p-form__group">
+                    <label class="p-form__label">Start date</label>
+                    <div class="p-form__control u-clearfix">
+                      <input placeholder="MM" id="start-month-0" name="start-month-0" type="text" class="p-form__control">
+                    </div>
+                    <div class="p-form__control u-clearfix">
+                      <input placeholder="YYYY" id="start-year-0" name="start-year-0" type="text" class="p-form__control">
+                    </div>
+                  </div>
+                </div>
+                <div class="p-form--inline">
+                  <div class="p-form__group">
+                    <label class="p-form__label">End date</label>
+                    <div class="p-form__control u-clearfix">
+                      <input placeholder="MM" id="end-month-0" name="end-month-0" type="text" class="p-form__control">
+                    </div>
+                    <div class="p-form__control u-clearfix">
+                      <input placeholder="YYYY" id="end-year-0" name="end-year-0" type="text" class="p-form__control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <button type="button" class="p-button has-icon js-add-education"><i class="p-icon--plus"></i> <span>Add another education</span></button>
             <hr/>
             <label for="">Github profile</label>
@@ -98,17 +120,20 @@
             <label for="" class="is-required">How did you hear about this job?</label>
             <input type="text">
             <hr style="margin: 1rem 0;"/>
-            <button type="submit">Submit Application</button>
+            <button type="submit" style="margin-bottom: 0;">Submit Application</button>
           </fieldset>
         </form>
       </div>
     </div>
   </div>
-  <style>
-  .has-comma a:not(:last-child)::after {
-    content: ",";
-    padding-right: 3px;
-  }
-  </style>
   <script async defer src="/static/js/apply-for-jobs.js"></script>
+  <style>
+    /* input {
+      width: 100%;
+    } */
+
+    label::before {
+      background-color: #fff;
+    }
+  </style>
 {% endblock %}

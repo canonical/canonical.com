@@ -67,8 +67,8 @@ def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
     # Create payload for api submission
     payload = json.dumps(
         {
-            "first_name": form_data["fn"],
-            "last_name": form_data["ln"],
+            "first_name": form_data["first_name"],
+            "last_name": form_data["last_name"],
             "email": form_data["email"],
             "phone": form_data["phone"],
             "resume_content": resume,
