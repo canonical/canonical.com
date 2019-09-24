@@ -111,27 +111,35 @@
             </div>
             <button type="button" class="p-button has-icon js-add-education"><i class="p-icon--plus"></i> <span>Add another education</span></button>
             <hr/>
-            <label for="">Github profile</label>
-            <input type="text">
-            <label for="">LinkedIn profile</label>
-            <input type="text">
-            <label for="">Website</label>
-            <input type="text"> 
-            <label for="" class="is-required">How did you hear about this job?</label>
-            <input type="text">
+            <label for="github">Github profile</label>
+            <input type="text" id="github" name="github">
+            <label for="linkedin">LinkedIn profile</label>
+            <input type="text" id="linkedin" name="linkedin">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website"> 
+            <label for="answer" class="is-required">How did you hear about this job?</label>
+            <input type="text" id="answer" name="answer">
             <hr style="margin: 1rem 0;"/>
-            <button type="submit" style="margin-bottom: 0;">Submit Application</button>
+            <button type="submit" class="u-no-margin-bottom">Submit Application</button>
           </fieldset>
         </form>
       </div>
     </div>
   </div>
+  <script>
+    function fileValidation() {
+      var fileInput = document.getElementById('resume');
+      var filePath = fileInput.value;
+      var allowedExtensions = /(\.pdf|\.doc|\.docx|\.txt|\.rtf)$/i;
+      if(!allowedExtensions.exec(filePath)){
+          alert('Invalid file format selected. Allowed formats are: pdf, doc, docx, txt, rtf');
+          fileInput.value = '';
+          return false;
+      }
+    }
+  </script>
   <script async defer src="/static/js/apply-for-jobs.js"></script>
   <style>
-    /* input {
-      width: 100%;
-    } */
-
     label::before {
       background-color: #fff;
     }

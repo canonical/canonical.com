@@ -12,34 +12,27 @@
   const educationContainer = document.querySelector(".education-container");
   const schoolsList = document.querySelector(".js-school-0");
 
-  var defaultSchoolList = [];
   var defaultDegreeList = [];
   var defaultDisciplineList = [];
 
   window.onload = async function () {
-    await getDefaultLists();
-    populateSchoolList("#school-0", defaultSchoolList);
+    defaultDegreeList = await getDataFromGreenhouseApi("degrees", "");
+    defaultDisciplineList = await getDataFromGreenhouseApi("disciplines", "");
     populateDegreeList("#degree-0", defaultDegreeList);
     populateDisciplineList("#discipline-0", defaultDisciplineList);
   };
 
-  async function getDefaultLists() {
-    defaultSchoolList = await getDataFromGreenhouseApi("schools", "");
-    defaultDegreeList = await getDataFromGreenhouseApi("degrees", "");
-    defaultDisciplineList = await getDataFromGreenhouseApi("disciplines", "");
-  };
-
-  async function populateSchoolList(schoolId, schools) {
-    const datalistSchoolElement = document.querySelector(schoolId);
-    if (!schools) {
-      schools = await getDataFromGreenhouseApi("schools", "");
-    }
-    var schoolList = "";
-    schools.forEach(school => {
-      schoolList += `<option value="${school.text}" />`
-    });
-    datalistSchoolElement.innerHTML = schoolList;
-  };
+  // async function populateSchoolList(schoolId, schools) {
+  //   const datalistSchoolElement = document.querySelector(schoolId);
+  //   if (!schools) {
+  //     schools = await getDataFromGreenhouseApi("schools", "");
+  //   }
+  //   var schoolList = "";
+  //   schools.forEach(school => {
+  //     schoolList += `<option value="${school.text}" />`
+  //   });
+  //   datalistSchoolElement.innerHTML = schoolList;
+  // };
 
   async function populateDegreeList(degreeId, degrees) {
     const datalistDegreeElement = document.querySelector(degreeId);
@@ -66,22 +59,18 @@
   };
 
   async function getDataFromGreenhouseApi(category, term) {
+    var url = "";
     if (term && (term != "")) {
-      const response = await fetch(`https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}?term=${term}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data.items;
-      } else {
-        console.log("HTTP-Error: " + response.status);
-      }
+      url = `https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}?term=${term}`;
     } else {
-      const response = await fetch(`https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data.items;
-      } else {
-        console.log("HTTP-Error: " + response.status);
-      }
+      url = `https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}`;
+    }
+    response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      return data.items;
+    } else {
+      console.log("HTTP-Error: " + response.status);
     }
   }
 
@@ -133,10 +122,8 @@
   schoolsList.addEventListener("input", debounce(async (e) => {
     const datalistElement = document.querySelector("#school-0");
     var schools = [];
-    if (schoolsList.value === "") {
-      schools = defaultSchoolList;
-    } else {
-      schools = await getDataFromGreenhouseApi("schools", schoolsList.value);
+    if (e.target.value !== "") {
+      schools = await getDataFromGreenhouseApi("schools", e.target.value);
     }
     var list = "";
     schools.forEach(school => {
@@ -156,7 +143,6 @@
       educationToBeRemoved.parentNode.removeChild(educationToBeRemoved);
     });
     // Populate new added input datalists
-    populateSchoolList(`#school-${numberOfEducations}`, defaultSchoolList);
     populateDegreeList(`#degree-${numberOfEducations}`, defaultDegreeList);
     populateDisciplineList(`#discipline-${numberOfEducations}`, defaultDisciplineList);
     // Add input event listener to the new school select
@@ -164,9 +150,7 @@
     newSchoolsList.addEventListener("input", debounce(async (e) => {
       const datalistElement = document.querySelector(`#school-${numberOfEducations}`);
       var schools = [];
-      if (newSchoolsList.value === "") {
-        schools = defaultSchoolList;
-      } else {
+      if (newSchoolsList.value !== "") {
         schools = await getDataFromGreenhouseApi("schools", newSchoolsList.value);
       }
       var list = "";
@@ -193,7 +177,7 @@
         }, 4000)
       });
     } else {
-      alert("Geolocation is not supported by this browser.");
+      console.log("Geolocation is not supported by this browser.");
     };
   });
 
