@@ -1,0 +1,47 @@
+@mixin canonical-p-forms{
+  .p-form--inline {
+    @media screen and (min-width: $breakpoint-medium) {
+      align-items: baseline;
+      display: inline-flex;
+      flex-direction: row;
+
+      > * {
+        margin: 0;
+      }
+    }
+
+    .p-form__group {
+      @media screen and (min-width: $breakpoint-medium) {
+        display: flex;
+        width: auto;
+
+        + .p-form__group,
+        + [class*='p-button'] {
+          margin-left: $sph-inner--large;
+        }
+
+        .p-form__label,
+        .p-form__control,
+        .p-form-validation__message {
+          align-self: baseline;
+          box-sizing: border-box;
+        }
+
+        .p-form__label {
+          flex-shrink: 0;
+          padding-right: $sph-inner;
+          width: 6rem;
+        }
+
+        .p-form__control {
+          display: inline-block;
+          padding-right: $sph-inner;
+
+          .p-form__control {
+            width: 10rem;
+          }
+        }
+      }
+    }
+  }
+}
