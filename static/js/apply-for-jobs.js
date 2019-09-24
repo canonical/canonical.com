@@ -22,18 +22,6 @@
     populateDisciplineList("#discipline-0", defaultDisciplineList);
   };
 
-  // async function populateSchoolList(schoolId, schools) {
-  //   const datalistSchoolElement = document.querySelector(schoolId);
-  //   if (!schools) {
-  //     schools = await getDataFromGreenhouseApi("schools", "");
-  //   }
-  //   var schoolList = "";
-  //   schools.forEach(school => {
-  //     schoolList += `<option value="${school.text}" />`
-  //   });
-  //   datalistSchoolElement.innerHTML = schoolList;
-  // };
-
   async function populateDegreeList(degreeId, degrees) {
     const datalistDegreeElement = document.querySelector(degreeId);
     if (!degrees) {
