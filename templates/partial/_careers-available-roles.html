@@ -6,15 +6,14 @@
     <div class="col-6">
       <form action="" method="get" class="p-form p-form--inline">
         <div class="p-form__group">
-          <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter by</label>
-          <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
-            <option value="">All</option>
-            <option value="">Home based</option>
-            <option value="">Office based</option>
-            <option value="">Management</option>
-            <option value="">Senior roles</option>
-            <option value="">Full-time</option>
-            <option value="">Part-time</option>
+          <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
+          <select class="js-submit-on-change p-form__control" id="filter" name="content" aria-label="Filter by job type">
+            <option {% if not category %}selected="selected"{% endif %} value="{{request.path}}#available-roles">All</option>
+           <option {% if category and category == 'home-based' %}selected="selected"{% endif %} value="{{request.path}}?category=home-based#available-roles">Home based</option>
+           <option {% if category and category == 'office-based' %}selected="selected"{% endif %} value="{{request.path}}?category=office-based#available-roles">Office based</option>
+           <option {% if category and category == 'management' %}selected="selected"{% endif %} value="{{request.path}}?category=management#available-roles">Management</option>
+           <option {% if category and category == 'full-time' %}selected="selected"{% endif %} value="{{request.path}}?category=full-time#available-roles">Full-time</option>
+           <option {% if category and category == 'part-time' %}selected="selected"{% endif %} value="{{request.path}}?category=part-time#available-roles">Part-time</option>
           </select>
         </div>
         <div class="p-form__group">
@@ -36,7 +35,7 @@
     <div class="col-12">
       <form action="">
         <ul class="p-list--divided">
-        {% for job in vacancies %}
+        {% for job in vacancies|sort(attribute='date', reverse = True) %}
           <li class="p-list__item">
             <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
             <input type="checkbox" name="roles" id="{{ job.id }}"/>
@@ -53,3 +52,13 @@
     </div>
   </div>
 </div>
+
+<script>
+  var select = document.querySelector('.js-submit-on-change');
+  select.addEventListener('change', function(e) {
+    var form = this.closest('form');
+    if (form) {
+      location.href=document.getElementById("filter").value;
+    }
+  });
+</script>

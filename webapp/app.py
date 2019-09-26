@@ -37,7 +37,15 @@ def index():
 # Career departments
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
-    vacancies = get_vacancies(department)
+    context = {}
+
+    if flask.request.args:
+        vacancies = get_vacancies(department, flask.request.args["category"])
+        context["category"] = flask.request.args["category"]
+    else:
+        vacancies = get_vacancies(department)
+
+    context["vacancies"] = vacancies
 
     if flask.request.method == "POST":
         response = submit_to_greenhouse(
@@ -58,14 +66,9 @@ def department_group(department):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
+        context["message"] = message
 
-        return flask.render_template(
-            f"careers/{department}.html", vacancies=vacancies, message=message
-        )
-
-    return flask.render_template(
-        f"careers/{department}.html", vacancies=vacancies
-    )
+    return flask.render_template(f"careers/{department}.html", **context)
 
 
 @app.route("/careers/<department>/<job_id>")

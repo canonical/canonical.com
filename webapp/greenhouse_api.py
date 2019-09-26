@@ -16,10 +16,11 @@ api_session = CachedSession(
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
 
-def get_vacancies(department):
+def get_vacancies(department, category=None):
     feed = api_session.get(f"{base_url}?content=true").json()
     path_department = remove_hyphens(department)
     vacancies = []
+
     for job in feed["jobs"]:
         feed_department = remove_hyphens(job["metadata"][2]["value"])
         if path_department.lower() == "all":
@@ -29,6 +30,10 @@ def get_vacancies(department):
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
+                    "employment": job["metadata"][0]["value"],
+                    "date": job["metadata"][1]["value"],
+                    "management": job["metadata"][3]["value"],
+                    "office": job["metadata"][4]["value"],
                 }
             )
         elif path_department.lower() == feed_department.lower():
@@ -38,8 +43,25 @@ def get_vacancies(department):
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
+                    "employment": job["metadata"][0]["value"],
+                    "date": job["metadata"][1]["value"],
+                    "management": job["metadata"][3]["value"],
+                    "office": job["metadata"][4]["value"],
                 }
             )
+
+    if category:
+        if category == "home-based":
+            return filter_jobs(vacancies, "office", "Home Based")
+        elif category == "office-based":
+            return filter_jobs(vacancies, "office", "Office Based")
+        elif category == "full-time":
+            return filter_jobs(vacancies, "employment", "Full-time")
+        elif category == "part-time":
+            return filter_jobs(vacancies, "employment", "Part-time")
+        elif category == "management":
+            return filter_jobs(vacancies, "management", True)
+
     return vacancies
 
 
@@ -81,6 +103,15 @@ def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
     )
 
     return response
+
+
+def filter_jobs(job_list, filter_type, filter_value):
+    filtered_vacancies = []
+    for job in job_list:
+        if job[filter_type] == filter_value:
+            filtered_vacancies.append(job)
+
+    return filtered_vacancies
 
 
 def remove_hyphens(text):
