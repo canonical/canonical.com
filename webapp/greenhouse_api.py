@@ -32,6 +32,7 @@ def get_vacancies(department, category=None):
                     "id": job["id"],
                     "employment": job["metadata"][0]["value"],
                     "date": job["metadata"][1]["value"],
+                    "department": job["metadata"][2]["value"],
                     "management": job["metadata"][3]["value"],
                     "office": job["metadata"][4]["value"],
                 }
@@ -45,6 +46,7 @@ def get_vacancies(department, category=None):
                     "id": job["id"],
                     "employment": job["metadata"][0]["value"],
                     "date": job["metadata"][1]["value"],
+                    "department": job["metadata"][2]["value"],
                     "management": job["metadata"][3]["value"],
                     "office": job["metadata"][4]["value"],
                 }
@@ -62,7 +64,7 @@ def get_vacancies(department, category=None):
         elif category == "management":
             return filter_jobs(vacancies, "management", True)
 
-    return vacancies
+    return sorted(vacancies, key=lambda item: item["date"], reverse=True)
 
 
 def get_vacancy(job_id):
