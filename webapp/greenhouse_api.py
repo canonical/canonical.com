@@ -29,6 +29,11 @@ def get_vacancies(department):
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
+                    "employment": job["metadata"][0]["value"],
+                    "date": job["metadata"][1]["value"],
+                    "department": job["metadata"][2]["value"],
+                    "management": job["metadata"][3]["value"],
+                    "office": job["metadata"][4]["value"],
                 }
             )
         elif path_department.lower() == feed_department.lower():
@@ -38,6 +43,11 @@ def get_vacancies(department):
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
+                    "employment": job["metadata"][0]["value"],
+                    "date": job["metadata"][1]["value"],
+                    "department": job["metadata"][2]["value"],
+                    "management": job["metadata"][3]["value"],
+                    "office": job["metadata"][4]["value"],
                 }
             )
     return vacancies
