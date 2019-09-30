@@ -96,4 +96,3 @@ def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
 def remove_hyphens(text):
     new_text = re.sub("-", "", text)
     return new_text
-    
