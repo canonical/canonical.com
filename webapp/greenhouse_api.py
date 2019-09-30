@@ -16,11 +16,10 @@ api_session = CachedSession(
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
 
-def get_vacancies(department, category=None):
+def get_vacancies(department):
     feed = api_session.get(f"{base_url}?content=true").json()
     path_department = remove_hyphens(department)
     vacancies = []
-
     for job in feed["jobs"]:
         feed_department = remove_hyphens(job["metadata"][2]["value"])
         if path_department.lower() == "all":
@@ -51,20 +50,7 @@ def get_vacancies(department, category=None):
                     "office": job["metadata"][4]["value"],
                 }
             )
-
-    if category:
-        if category == "home-based":
-            return filter_jobs(vacancies, "office", "Home Based")
-        elif category == "office-based":
-            return filter_jobs(vacancies, "office", "Office Based")
-        elif category == "full-time":
-            return filter_jobs(vacancies, "employment", "Full-time")
-        elif category == "part-time":
-            return filter_jobs(vacancies, "employment", "Part-time")
-        elif category == "management":
-            return filter_jobs(vacancies, "management", True)
-
-    return sorted(vacancies, key=lambda item: item["date"], reverse=True)
+    return vacancies
 
 
 def get_vacancy(job_id):
@@ -107,15 +93,7 @@ def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
     return response
 
 
-def filter_jobs(job_list, filter_type, filter_value):
-    filtered_vacancies = []
-    for job in job_list:
-        if job[filter_type] == filter_value:
-            filtered_vacancies.append(job)
-
-    return filtered_vacancies
-
-
 def remove_hyphens(text):
     new_text = re.sub("-", "", text)
     return new_text
+    
