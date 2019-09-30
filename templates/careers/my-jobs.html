@@ -1,0 +1,101 @@
+{% extends '/careers/careers_base.html' %}
+
+{% block meta_description %}Canonical offers a truly distributed workplace for exceptional colleagues who are
+self-motivated, organised. Maintain a home office and experience the top of global technology strategy and engineering.
+Travel regularly to interesting destinations for team, conference and customer engagements.{% endblock %}
+
+{% block hero %}
+<section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
+  <div class="p-strip--suru-background">
+    <div class="row">
+      <div class="col-6">
+        <h1>Careers</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .p-strip--suru-background {
+    background-image:
+      linear-gradient(to bottom right, rgba(74, 24, 60, 0.4) 0%, rgba(74, 24, 60, 0.4) 49.9%, rgba(74, 24, 60, 0) 50%, rgba(74, 24, 60, 0) 100%),
+      linear-gradient(to top right, rgba(210, 180, 202, 0) 0%, rgba(210, 180, 202, 0) 49.9%, rgba(210, 180, 202, 0.05) 50%, rgba(210, 180, 202, 0.05) 100%),
+      linear-gradient(to top right, #fff 0%, #fff 49%, transparent 50%),
+      linear-gradient(140deg, #E95420 0%, #772953 33%, #2C001E 72%);
+    background-position: left top, right top, left 101%;
+    background-size: 80% 100%, 70% 80%, 110% 20%, 100% 100%;
+    padding-bottom: 6rem;
+    padding-top: 6rem;
+  }
+</style>
+{% endblock %}
+
+{% block overview %}
+<div class="row u-sv3">
+  <div class="col-12">
+    <div class="p-card" style="border-style: none; background-color:#f7f7f7;">
+      <div class="p-card__content" style="display: flex;">
+        <div>
+          <i class="p-icon--success" style="height: 1.5rem; width: 1.5rem;"></i>
+        </div>
+        <div style="padding-left: 1rem;">
+          <p class="p-heading--three">Looks like you're interested in engineering and management</p>
+          <div class="row">
+            <div class="col-6">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium ad ducimus repellat ipsa exercitationem rem at vitae amet consectetur repudiandae possimus nulla, quasi facilis magnam iste recusandae libero accusantium?</p>
+            </div>
+            <div class="col-3 u-align--center u-vertically-center">
+              <button class="p-button--positive">Retake choises</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row u-vertically-center">
+      <div class="col-9 u-align--right">
+        <form action="" method="get" class="p-form p-form--inline">
+          <div class="p-form__group">
+            <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter by</label>
+            <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+              <option value="">All</option>
+              <option value="">Home based</option>
+              <option value="">Office based</option>
+              <option value="">Management</option>
+              <option value="">Senior roles</option>
+              <option value="">Full-time</option>
+              <option value="">Part-time</option>
+            </select>
+          </div>
+          <div class="p-form__group">
+            <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Sort by</label>
+            <select class="js-submit-on-change p-form__control" name="content" aria-label="Filter by content type">
+              <option value="">Date</option>
+              <option value="">Home based</option>
+            </select>
+          </div>
+        </form>
+        <hr />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form action="">
+        <ul class="p-list--divided">
+        {% for job in vacancies %}
+          <li class="p-list__item">
+            <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
+            <input type="checkbox" name="roles" id="{{ job.id }}"/>
+            <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+              <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft" href="{{request.path}}/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
+              <p class="u-sv3">{{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}</p>
+            </label>
+          </li>
+        {% endfor %}
+        </ul>
+        <hr />
+        <button type="submit">Apply now</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
