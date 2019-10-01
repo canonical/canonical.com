@@ -22,10 +22,7 @@ def get_vacancies(department):
     vacancies = []
     for job in feed["jobs"]:
         feed_department = remove_hyphens(job["metadata"][2]["value"])
-        if (
-            path_department.lower() == "all"
-            or path_department.lower() == "my-jobs"
-        ):
+        if path_department.lower() == "all":
             vacancies.append(
                 {
                     "title": job["title"],

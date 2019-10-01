@@ -37,6 +37,24 @@ def index():
 
 
 # Career departments
+@app.route("/careers/results")
+def results():
+    context = {}
+    vacancies = []
+    message = ""
+    if flask.request.args:
+        departments = flask.request.args["departments"].split(",")
+        context["departments"] = departments
+        for department in departments:
+            vacancies = vacancies + get_vacancies(department)
+    else:
+        message = "There are no roles matching your selection."
+    context["message"] = message
+    context["vacancies"] = vacancies
+
+    return flask.render_template("careers/results.html", **context)
+
+
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
     vacancies = get_vacancies(department)
