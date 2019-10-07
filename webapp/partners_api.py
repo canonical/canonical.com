@@ -2,7 +2,7 @@ from canonicalwebteam.http import CachedSession
 
 
 api_session = CachedSession(
-    fallback_cache_duration=300, file_cache_directory=".webcache"
+    fallback_cache_duration=300, file_cache_directory=".webcache", timeout=6
 )
 
 base_url = "https://partners.ubuntu.com/partners.json"
@@ -101,3 +101,7 @@ def get_partner_groups():
         "Serverless": first_ten(get_serverless().json()),
     }
     return partner_groups
+
+
+def get_partner_list():
+    return api_session.get(base_url).json()
