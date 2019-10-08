@@ -1,34 +1,79 @@
 <!doctype html>
 
 <html lang="en" dir="ltr">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="{% block meta_description %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% endblock %}" />
+    <meta name="description"
+      content="{% block meta_description %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% endblock %}" />
     <meta name="author" content="Canonical Ltd" />
 
     <link rel="shortcut icon" href="https://assets.ubuntu.com/v1/0843d517-favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://assets.ubuntu.com/v1/9864667f-apple-touch-icon-144x144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://assets.ubuntu.com/v1/f2ddbdc6-apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://assets.ubuntu.com/v1/f193fb82-apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="https://assets.ubuntu.com/v1/205d458b-apple-touch-icon-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+      href="https://assets.ubuntu.com/v1/9864667f-apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+      href="https://assets.ubuntu.com/v1/f2ddbdc6-apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+      href="https://assets.ubuntu.com/v1/f193fb82-apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+      href="https://assets.ubuntu.com/v1/205d458b-apple-touch-icon-precomposed.png">
 
     <title>Canonical | The company behind Ubuntu</title>
 
     <link rel="preconnect" href="https://assets.ubuntu.com">
 
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/e8c07df6-Ubuntu-L_W.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/7f100985-Ubuntu-Th_W.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/f8097dea-Ubuntu-LI_W.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/fff37993-Ubuntu-R_W.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/e8c07df6-Ubuntu-L_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/7f100985-Ubuntu-Th_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/f8097dea-Ubuntu-LI_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/fff37993-Ubuntu-R_W.woff2"
+      crossorigin>
 
     <link rel="stylesheet" type="text/css" media="screen" href="/static/css/styles.css" />
   </head>
 
   <body>
     <div id="main-content">
+      <header id="navigation" class="p-navigation">
+        <div class="p-navigation__row">
+          <div class="p-navigation__banner">
+            <div class="p-navigation__logo">
+              <a class="p-navigation__link" href="/">
+                <img class="p-navigation__image" src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt="" width="95">
+              </a>
+            </div>
+            <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
+            <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
+          </div>
+          <nav class="p-navigation__nav">
+            <span class="u-off-screen">
+              <a href="#main-content">Jump to main content</a>
+            </span>
+            <ul class="p-navigation__links" role="menu">
+              <li class="p-navigation__link {% if request.path|get_nav_path == '' %}is-selected{% endif %}" role="menuitem">
+                <a href="/">Products</a>
+              </li>
+              <li class="p-navigation__link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem">
+                <a href="/partners">Partners</a>
+              </li>
+              <li class="p-navigation__link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem">
+                <a href="/careers">Careers</a>
+              </li>
+            </ul>
+            <ul class="p-navigation__links" role="menu">
+              <li class="p-navigation__link" role="menuitem">
+                <a href="#">Login</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
       {% block content %}{% endblock content %}
     </div>
     {% include 'partial/_footer.html' %}
   </body>
+
 </html>
