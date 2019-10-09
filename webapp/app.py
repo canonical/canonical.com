@@ -104,3 +104,10 @@ def convert_to_kebab(kebab_input):
     )
 
     return "-".join(map(str.lower, words))
+
+
+@app.template_filter()
+def get_nav_path(path):
+    short_path = path.split("/")[1]
+
+    return short_path
