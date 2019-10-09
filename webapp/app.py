@@ -122,6 +122,9 @@ def get_nav_path(path):
     short_path = path.split("/")[1]
 
     return short_path
+
+
+@app.template_filter()
 def slug(text):
     return slugify(text)
 
