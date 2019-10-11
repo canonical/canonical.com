@@ -10,8 +10,15 @@
   function loadGame() {
     // Add click event listener to the submit button
     submitButton.addEventListener("click", function () {
-      console.log(selectedSkills);
-      // location.href = "results?departments=sales,engineering"
+      var skillsString = "";
+      selectedSkills.forEach((skill,i) => {
+        if (i === selectedSkills.length - 1 ) {
+          skillsString += skill.name.toLowerCase();
+        } else {
+          skillsString += `${skill.name.toLowerCase()},`;
+        }
+      });
+      location.href = `results?departments=${skillsString}`;
     });
 
     // Render empty selected skills cards
