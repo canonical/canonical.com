@@ -70,7 +70,7 @@
   }
 
   function filterDom() {
-    if ((filters.length === 0)&&(partners)) {
+    if ((filters.length === 0) && (partners)) {
       partners.forEach(partner => {
         partner.classList.add("js-filtered");
       });
@@ -104,24 +104,32 @@
     const currentUrl = window.location.href;
     const baseUrl = currentUrl.split("?")[0];
     var newUrl = baseUrl;
-   
-    if (!(searchBox.value==="")&&(filters.length>0)) {
+
+    if (!(searchBox.value === "") && (filters.length > 0)) {
       filtersString = "";
-      filters.forEach(filter => {
-        filtersString += filter;
+      filters.forEach((filter, i) => {
+        if (i === filters.length - 1) {
+          filtersString += filter;
+        } else {
+          filtersString += `${filter},`;
+        }
       });
       newUrl = `${baseUrl}?search=${searchBox.value}&filters=${filtersString}`;
 
-    } 
-    if (!(searchBox.value==="")&&(filters.length===0)) {
+    }
+    if (!(searchBox.value === "") && (filters.length === 0)) {
       newUrl = `${baseUrl}?search=${searchBox.value}`;
     }
-    if ((searchBox.value==="")&&(filters.length>0)) {
-        filtersString = "";
-        filters.forEach(filter => {
+    if ((searchBox.value === "") && (filters.length > 0)) {
+      filtersString = "";
+      filters.forEach((filter, i) => {
+        if (i === filters.length - 1) {
           filtersString += filter;
-        });
-        newUrl = `${baseUrl}?filters=${filtersString}`;
+        } else {
+          filtersString += `${filter},`;
+        }
+      });
+      newUrl = `${baseUrl}?filters=${filtersString}`;
     }
     window.history.pushState({ search: searchBox.value, filters: filters }, "", newUrl);
   }
@@ -130,7 +138,7 @@
   function filterCheck(filterText) {
     var match = false
     filters.forEach(filter => {
-      if (filterText.includes(filter)&&(!match)) {
+      if (filterText.includes(filter) && (!match)) {
         match = true;
       }
     });
