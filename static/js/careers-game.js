@@ -13,12 +13,12 @@
       var skillsString = "";
       selectedSkills.forEach((skill,i) => {
         if (i === selectedSkills.length - 1 ) {
-          skillsString += skill.name.toLowerCase();
+          skillsString += skill.name;
         } else {
-          skillsString += `${skill.name.toLowerCase()},`;
+          skillsString += `${skill.name},`;
         }
       });
-      location.href = `results?departments=${skillsString}`;
+      location.href = `results?coreSkills=${skillsString}`;
     });
 
     // Render empty selected skills cards

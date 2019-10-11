@@ -53,6 +53,32 @@ def get_vacancies(department):
     return vacancies
 
 
+def get_vacancies_by_skills(core_skills):
+    feed = api_session.get(f"{base_url}?content=true").json()
+    vacancies = []
+    for job in feed["jobs"]:
+        # print(type(job["metadata"][5]["value"]))
+        for skill in core_skills:
+            if job["metadata"][5]["value"]:
+                if skill in job["metadata"][5]["value"]:
+                    vacancies.append(
+                        {
+                            "title": job["title"],
+                            "url": job["absolute_url"],
+                            "location": job["location"]["name"],
+                            "id": job["id"],
+                            "employment": job["metadata"][0]["value"],
+                            "date": job["metadata"][1]["value"],
+                            "department": job["metadata"][2]["value"],
+                            "management": job["metadata"][3]["value"],
+                            "office": job["metadata"][4]["value"],
+                            "core_skills": job["metadata"][5]["value"],
+                        }
+                    )
+
+    return vacancies
+
+
 def get_vacancy(job_id):
     feed = api_session.get(f"{base_url}/{job_id}").json()
     job = {

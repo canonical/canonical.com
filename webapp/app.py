@@ -14,6 +14,7 @@ from slugify import slugify
 # Local
 from webapp.greenhouse_api import (
     get_vacancies,
+    get_vacancies_by_skills,
     get_vacancy,
     remove_hyphens,
     submit_to_greenhouse,
@@ -43,10 +44,9 @@ def results():
     vacancies = []
     message = ""
     if flask.request.args:
-        departments = flask.request.args["departments"].split(",")
-        context["departments"] = departments
-        for department in departments:
-            vacancies = vacancies + get_vacancies(department)
+        core_skills = flask.request.args["coreSkills"].split(",")
+        context["core_skills"] = core_skills
+        vacancies = get_vacancies_by_skills(core_skills)
     else:
         message = "There are no roles matching your selection."
     context["message"] = message
