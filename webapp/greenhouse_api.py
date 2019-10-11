@@ -57,7 +57,6 @@ def get_vacancies_by_skills(core_skills):
     feed = api_session.get(f"{base_url}?content=true").json()
     vacancies = []
     for job in feed["jobs"]:
-        # print(type(job["metadata"][5]["value"]))
         for skill in core_skills:
             if job["metadata"][5]["value"]:
                 if skill in job["metadata"][5]["value"]:

@@ -42,6 +42,7 @@ def index():
 def results():
     context = {}
     vacancies = []
+    departments = []
     message = ""
     if flask.request.args:
         core_skills = flask.request.args["coreSkills"].split(",")
@@ -49,8 +50,15 @@ def results():
         vacancies = get_vacancies_by_skills(core_skills)
     else:
         message = "There are no roles matching your selection."
+    if len(vacancies) == 0:
+        message = "There are no roles matching your selection."
+    else:
+        for job in vacancies:
+            if not(job["department"] in departments):
+                departments.append(job["department"])
     context["message"] = message
     context["vacancies"] = vacancies
+    context["departments"] = departments
 
     return flask.render_template("careers/results.html", **context)
 
