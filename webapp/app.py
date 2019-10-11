@@ -54,7 +54,7 @@ def results():
         message = "There are no roles matching your selection."
     else:
         for job in vacancies:
-            if not(job["department"] in departments):
+            if not (job["department"] in departments):
                 departments.append(job["department"])
     context["message"] = message
     context["vacancies"] = vacancies
