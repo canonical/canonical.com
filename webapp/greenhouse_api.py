@@ -74,6 +74,7 @@ def get_vacancies_by_skills(core_skills):
                             "core_skills": job["metadata"][5]["value"],
                         }
                     )
+                    break
 
     return vacancies
 
