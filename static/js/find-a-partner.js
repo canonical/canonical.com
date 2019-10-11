@@ -4,6 +4,7 @@
   const urlParams = new URLSearchParams(window.location.search);
   const partners = document.querySelectorAll(".js-find-a-partner__partner");
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
+  const searchResetButton = document.querySelector(".p-search-box__reset");
 
   var filters = [];
 
@@ -25,6 +26,10 @@
       checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener("change", filterHandler);
       });
+    }
+
+    if (searchResetButton) {
+      searchResetButton.addEventListener("click", searchHandler);
     }
 
     updateNumberOfPartners();
