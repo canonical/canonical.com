@@ -5,6 +5,7 @@
   const partners = document.querySelectorAll(".js-find-a-partner__partner");
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
+  const noResults = document.querySelector(".js-find-a-partner__no-results");
 
   var filters = [];
 
@@ -33,9 +34,22 @@
     }
 
     updateNumberOfPartners();
+    updateNoResultsMessage();
 
   }
 
+  // Display no reults message
+  function updateNoResultsMessage() {
+    if (noResults) {
+      if (numberOfPartnersLabel.innerHTML === "0") {
+        noResults.classList.remove("u-hide");
+      } else {
+        noResults.classList.add("u-hide");
+      }
+    }
+  }
+
+  // Show search and filter functionality if JS is available
   function revealSearch() {
     var searchForm = document.querySelector(".js-search-form");
     if (searchForm) {
@@ -47,6 +61,7 @@
   searchHandler = debounce(function (e) {
     searchDom();
     updateNumberOfPartners();
+    updateNoResultsMessage();
     updateUrl("search", searchBox.value);
   }, 350);
 
@@ -66,6 +81,7 @@
     updateFilterList();
     filterDom();
     updateNumberOfPartners();
+    updateNoResultsMessage();
     updateUrl("filters", filters);
   }
 
