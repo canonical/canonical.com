@@ -1,12 +1,14 @@
 # Standard library
 import datetime
 import flask
+import markdown
 import re
 
 
 # Packages
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
+from slugify import slugify
 
 
 # Local
@@ -16,7 +18,7 @@ from webapp.greenhouse_api import (
     remove_hyphens,
     submit_to_greenhouse,
 )
-from webapp.partners_api import get_partner_groups
+from webapp.partners_api import get_partner_groups, get_partner_list
 
 app = FlaskBase(
     __name__,
@@ -87,6 +89,15 @@ def submit_job(department, job_id):
     return flask.render_template("/careers/jobs/index.html")
 
 
+# Partners
+@app.route("/partners/find-a-partner")
+def find_a_partner():
+    partners = sorted(get_partner_list(), key=lambda item: item["name"])
+    return flask.render_template(
+        "/partners/find-a-partner.html", partners=partners
+    )
+
+
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
@@ -111,3 +122,13 @@ def get_nav_path(path):
     short_path = path.split("/")[1]
 
     return short_path
+
+
+@app.template_filter()
+def slug(text):
+    return slugify(text)
+
+
+@app.template_filter()
+def markup(text):
+    return markdown.markdown(text)
