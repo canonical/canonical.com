@@ -111,7 +111,6 @@ def job_details(department, job_id):
 
 @app.route("/careers/<department>/<job_id>", methods=["POST"])
 def submit_job(department, job_id):
-    print("It works")
     return flask.render_template("/careers/jobs/index.html")
 
 
