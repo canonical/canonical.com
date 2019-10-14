@@ -96,17 +96,11 @@ def department_group(department):
     )
 
 
-@app.route("/careers/<department>/<job_id>")
-def job_details(department, job_id):
+@app.route("/careers/job/<job_id>")
+def job_details(job_id):
     job = get_vacancy(job_id)
-    if (
-        remove_hyphens(job["department"]).lower()
-        != remove_hyphens(department).lower()
-        and "all" != department.lower()
-    ):
-        flask.abort(404)
 
-    return flask.render_template("/careers/jobs/job-detail.html", job=job)
+    return flask.render_template("/careers/job/job-detail.html", job=job)
 
 
 @app.route("/careers/<department>/<job_id>", methods=["POST"])
