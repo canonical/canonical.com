@@ -155,7 +155,7 @@
       if (selectedSkills[i]) {
         const card = document.createElement("div");
         card.classList.add("col-2", "col-medium-3");
-        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="p-button--close has-icon"><i class="p-icon--close"></i></button><h4 class="p-card--game-selected__title">${selectedSkills[i].name}</h4><div class="p-card--game-selected__content"><p>${selectedSkills[i].description}</p></div></div>`
+        card.innerHTML = `<div class="p-card--game-selected" data-skill=${selectedSkills[i].skill} data-card=${selectedSkills[i].card}><button class="js-button--remove has-icon"><i class="p-icon--close"></i></button><h4 class="p-card--game-selected__title">${selectedSkills[i].name}</h4><div class="p-card--game-selected__content"><p>${selectedSkills[i].description}</p></div></div>`
         cardTree.appendChild(card);
       } else {
         const card = document.createElement("div");
@@ -167,7 +167,7 @@
     }
     container.insertBefore(cardTree, container.firstChild);
     // Add click event listener to skill remove buttons
-    await document.querySelectorAll(".js-remove-button").forEach(button => {
+    await document.querySelectorAll(".js-button--remove").forEach(button => {
       button.addEventListener("click", function (event) {
         removeSelectedSkill(event);
       });
