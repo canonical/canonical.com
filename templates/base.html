@@ -40,6 +40,9 @@
   <body>
     <div id="main-content">
       {% include "partial/_navigation.html" %}
+      {% if request.path|get_nav_path %}
+        {% include request.path|get_nav_path + '/_secondary-navigation.html' %}
+      {% endif %}
 
       {% block content %}{% endblock content %}
     </div>

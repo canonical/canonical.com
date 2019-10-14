@@ -1,14 +1,8 @@
 $nav-bg-color: #2c001e;
-$ubuntu-logo-svg-width: 5rem; // width in rems
-$ubuntu-logo-width--desktop: $ubuntu-logo-svg-width + 2 * $grid-margin-width;
-$ubuntu-logo-width--mobile: $ubuntu-logo-svg-width + 2 * $sph-inner;
+$logo-width: 5rem;
 $nudge--small: .55rem;
 
 @mixin canonical-p-navigation {
-  html {
-    overflow-x: hidden !important; // prevent horizontal overflow full width breakout
-  }
-
   %row-no-margins-on-mobile {
     @media (max-width: $breakpoint-navigation-threshold) {
       padding-left: 0;
@@ -161,15 +155,15 @@ $nudge--small: .55rem;
 
     &--secondary {
       background-color: $color-light;
+      border-bottom: 1px dotted $color-mid-light;
       display: flex;
       margin-top: 0;
       position: relative;
       width: 100%;
       z-index: 38;
 
-      @media (max-width: $breakpoint-x-small - 1) {
-        padding-bottom: $sp-medium;
-        padding-top: $sp-small / 2;
+      @media (max-width: $breakpoint-navigation-threshold - 1) {
+        padding: $sp-small 1rem;
       }
 
       &__banner {
@@ -223,7 +217,7 @@ $nudge--small: .55rem;
         @media only screen and (min-width: $breakpoint-navigation-threshold) {
           padding-left: $sph-inner;
           padding-right: $sph-inner;
-          width: $ubuntu-logo-svg-width + 2 * $sph-inner;
+          width: $logo-width + 2 * $sph-inner;
         }
       }
 
@@ -241,6 +235,12 @@ $nudge--small: .55rem;
           display: inline-flex;
           list-style: none;
 
+          &:first-of-type {
+            .breadcrumbs__link {
+              padding-left: 0;
+            }
+          }
+
           @media (max-width: $breakpoint-x-small - 1) {
             width: 50%;
           }
@@ -253,23 +253,7 @@ $nudge--small: .55rem;
 
         &__link {
           font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
-          padding-left: $spv-inner--medium;
-          padding-right: $spv-inner--medium;
-          // padding-top: $nudge--small;
-
-          @media (max-width: $breakpoint-x-small - 1) {
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
-          }
-
-          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
-            // padding-bottom: map-get($sp-after, small) + $p-small-lh-diff - $nudge--small;
-          }
-
-          &:first-child {
-            padding-left: 1rem;
-          }
+          padding: $spv-inner--x-small $spv-inner--large $spv-inner--x-small 0;
 
           &.p-link--active {
             color: $color-brand;
