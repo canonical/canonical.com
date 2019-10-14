@@ -61,16 +61,19 @@
     }
   }
 
-  .js-remove-button {
+  .p-button--close {
     @extend %vf-button-base;
 
     border: none;
     border-radius: 50%;
-    height: 1.5rem;
+    height: 2rem;
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
-    width: 1rem;
+    
+    &.has-icon>.p-icon--close {
+      top: -1px;
+    }
 
     &:hover {
       background-color: $color-negative;
@@ -82,9 +85,6 @@
 
     i {
       @include vf-icon-close($color-mid-dark);
-      width: 0.7rem;
-      top: -0.22rem;
-      margin-left: -0.31rem;
     }
   }
 }
