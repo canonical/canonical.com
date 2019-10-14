@@ -1,7 +1,6 @@
 var navDropdowns = document.querySelectorAll('.p-navigation__dropdown-link');
 var dropdownWindow = document.querySelector('.dropdown-window');
 var dropdownWindowOverlay = document.querySelector('.dropdown-window-overlay');
-var navigationThresholdBreakpoint = 200;
 
 navDropdowns.forEach(function(dropdown) {
   dropdown.addEventListener('click', function(event) {
