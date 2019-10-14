@@ -94,17 +94,9 @@ function closeMainMenu() {
 
 var origin = window.location.href;
 
-addGANavEvents('#canonical-products', 'www.ubuntu.com-nav-0-products');
-addGANavEvents('#canonical-login', 'www.ubuntu.com-nav-0-login');
-addGANavEvents('#navigation', 'www.ubuntu.com-nav-1');
-addGANavEvents('#enterprise-content', 'www.ubuntu.com-nav-1-enterprise');
-addGANavEvents('#developer-content', 'www.ubuntu.com-nav-1-developer');
-addGANavEvents('#community-content', 'www.ubuntu.com-nav-1-community');
-addGANavEvents('#download-content', 'www.ubuntu.com-nav-1-download');
-addGANavEvents('.p-navigation--secondary', 'www.ubuntu.com-nav-2');
-addGANavEvents('.p-contextual-footer', 'www.ubuntu.com-footer-contextual');
-addGANavEvents('.p-footer__nav', 'www.ubuntu.com-nav-footer-0');
-addGANavEvents('.p-footer--secondary', 'www.ubuntu.com-nav-footer-1');
+addGANavEvents('#products', 'canonical.com-nav-products');
+addGANavEvents('#partners', 'canonical.com-nav-partners');
+addGANavEvents('#careers', 'canonical.com-nav-careers');
 
 function addGANavEvents(target, category){
   var t = document.querySelector(target);
