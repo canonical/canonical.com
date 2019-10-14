@@ -14,6 +14,7 @@ from slugify import slugify
 # Local
 from webapp.greenhouse_api import (
     get_vacancies,
+    get_vacancies_by_skills,
     get_vacancy,
     remove_hyphens,
     submit_to_greenhouse,
@@ -37,6 +38,31 @@ def index():
 
 
 # Career departments
+@app.route("/careers/results")
+def results():
+    context = {}
+    vacancies = []
+    departments = []
+    message = ""
+    if flask.request.args:
+        core_skills = flask.request.args["coreSkills"].split(",")
+        context["core_skills"] = core_skills
+        vacancies = get_vacancies_by_skills(core_skills)
+    else:
+        message = "There are no roles matching your selection."
+    if len(vacancies) == 0:
+        message = "There are no roles matching your selection."
+    else:
+        for job in vacancies:
+            if not (job["department"] in departments):
+                departments.append(job["department"])
+    context["message"] = message
+    context["vacancies"] = vacancies
+    context["departments"] = departments
+
+    return flask.render_template("careers/results.html", **context)
+
+
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
     vacancies = get_vacancies(department)
@@ -85,7 +111,6 @@ def job_details(department, job_id):
 
 @app.route("/careers/<department>/<job_id>", methods=["POST"])
 def submit_job(department, job_id):
-    print("It works")
     return flask.render_template("/careers/jobs/index.html")
 
 

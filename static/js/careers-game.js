@@ -5,11 +5,20 @@
   var lastClickedCard = null;
   var selectedSkills = [];
   const submitButton = document.querySelector(".js-submit-button");
+  const container = document.querySelector(".js-selected-skills");
 
   function loadGame() {
     // Add click event listener to the submit button
     submitButton.addEventListener("click", function () {
-      alert("You have selected your skills!");
+      var skillsString = "";
+      selectedSkills.forEach((skill,i) => {
+        if (i === selectedSkills.length - 1 ) {
+          skillsString += skill.name;
+        } else {
+          skillsString += `${skill.name},`;
+        }
+      });
+      location.href = `results?coreSkills=${skillsString}`;
     });
 
     // Render empty selected skills cards
@@ -95,7 +104,7 @@
             toggleCardVisibility(skillData.card); 
             renderSelectedSkills(selectedSkills);
           } else {
-            alert("You have already selected 5 skills! Please press the submit button.");
+            alert("You have already selected 5 skills! Please click the 'Submit choises' button to see the list of roles suitable fo you.");
           }
         } else {
           console.log("Error! We cannot find any card element with the specified class.");
@@ -136,7 +145,6 @@
 
   // Render selected skills 
   async function renderSelectedSkills(selectedSkills) {
-    const container = document.querySelector(".js-selected-skills");
     const cardTree = document.createDocumentFragment();
     // Empty the DOM
     while (container.children.length > 1) {
