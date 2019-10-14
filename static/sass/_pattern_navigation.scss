@@ -1,18 +1,423 @@
+$nav-bg-color: #2c001e;
+$ubuntu-logo-svg-width: 5rem; // width in rems
+$ubuntu-logo-width--desktop: $ubuntu-logo-svg-width + 2 * $grid-margin-width;
+$ubuntu-logo-width--mobile: $ubuntu-logo-svg-width + 2 * $sph-inner;
+$nudge--small: .55rem;
+
 @mixin canonical-p-navigation {
+  html {
+    overflow-x: hidden !important; // prevent horizontal overflow full width breakout
+  }
+
+  %row-no-margins-on-mobile {
+    @media (max-width: $breakpoint-navigation-threshold) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      padding-left: $grid-margin-width;
+      padding-right: $grid-margin-width;
+    }
+  }
+
   .p-navigation {
-    background-color: #2c001e;
+    background-color: $nav-bg-color;
+    flex-direction: column;
+    z-index: 40;
 
-    .p-navigation__links > .p-navigation__link > a {
-      color: $color-x-light;
+    &::after { // disable rule under nav
+      background-color: none;
+      height: 0;
+    }
 
-      &:hover {
-        color: $color-mid-dark;
+    .p-navigation__dropdown-link--noscript {
+      position: relative;
+
+      .p-navigation__link-anchor {
+        padding: .75rem 1rem;
       }
     }
 
-    .p-navigation__link.is-selected > a {
-      background-color: $color-x-light;
-      color: $color-x-dark;
+    &__dropdown-link {
+      position: relative;
+
+      &::after {
+        @include vf-icon-chevron(vf-url-friendly-color($color-mid-light));
+        background-position: top 52% right 50%;
+        background-repeat: no-repeat;
+        background-size: .75rem;
+        content: "";
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: transform .1s;
+        width: 2rem;
+      }
+
+      &.is-selected {
+        .p-navigation__link-anchor {
+          background-color: $color-x-light;
+          color: $color-dark;
+
+          &::after {
+            background-color: transparent;
+          }
+
+          &:focus,
+          &:visited {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+
+          &:hover {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+        }
+      }
+
+
+      &.is-open {
+        &::after {
+          @include vf-icon-chevron(vf-url-friendly-color($color-dark));
+          transform: rotate(-180deg);
+        }
+
+        .p-navigation__link-anchor {
+          background-color: $color-mid-x-light;
+          color: $color-dark;
+
+          &::after {
+            background-color: transparent;
+          }
+
+          &:focus,
+          &:visited {
+            background-color: $color-mid-x-light;
+            color: $color-dark;
+          }
+
+          &:hover {
+            background-color: $color-mid-x-light;
+            color: $color-dark;
+          }
+        }
+      }
     }
+
+    &__image {
+      max-height: 1.5rem;
+      max-width: $ubuntu-logo-svg-width;
+    }
+
+    & &__nav {
+      border-bottom: 0;
+      display: flex;
+      width: 100%;
+    }
+
+    & &__link-anchor {
+      @include vf-animation(all, brisk, in);
+      color: $color-light;
+      display: block;
+
+      @media (max-width: $breakpoint-navigation-threshold) {
+        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium $grid-margin-width;
+      }
+
+      @media (min-width: $breakpoint-navigation-threshold + 1) {
+        padding: $spv-inner--medium 2rem $spv-inner--medium $sph-inner;
+      }
+
+      &:focus,
+      &:visited {
+        background-color: $nav-bg-color;
+        color: $color-light;
+      }
+
+      &:hover {
+        background-color: darken($nav-bg-color, 3%);
+        color: $color-x-light;
+      }
+    }
+
+    & &__row {
+      @extend %row-no-margins-on-mobile;
+
+      &.row {
+        grid-gap: 0;
+
+        @media (max-width: $breakpoint-x-small) {
+          display: block;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+      }
+    }
+
+    &--secondary {
+      background-color: $color-light;
+      display: flex;
+      margin-top: 0;
+      position: relative;
+      width: 100%;
+      z-index: 38;
+
+      @media (max-width: $breakpoint-x-small - 1) {
+        padding-bottom: $sp-medium;
+        padding-top: $sp-small / 2;
+      }
+
+      &__banner {
+        background-color: $color-brand;
+        float: left;
+        font-weight: 300;
+
+        &:hover {
+          color: $color-x-light;
+        }
+      }
+
+      &__logo {
+        @extend %paragraph;
+        align-items: center;
+        color: $color-x-light;
+        display: flex;
+        margin-bottom: $sp-unit * 2 - map-get($nudges, nudge--p);
+        position: relative;
+
+        @media (max-width: $breakpoint-navigation-threshold - 1) {
+          padding-left: $sp-small !important;
+          padding-right: 0 !important;
+        }
+
+        a {
+          border-left: 1px solid rgba(247, 247, 247, .3); // sass-lint:disable-line no-color-literals
+          color: $color-light !important;
+          padding-left: $sp-small;
+
+          @media (max-width: $breakpoint-navigation-threshold - 1) {
+            position: relative;
+            top: 1px;
+          }
+        }
+
+        &::after {
+          // white separator inside lockup
+          @extend %vf-pseudo-border--top;
+          display: none;
+
+          @media only screen and (min-width: $breakpoint-navigation-threshold) {
+            background-color: $color-light;
+            display: block;
+            left: $sph-inner;
+            opacity: .3;
+            right: $sph-inner;
+          }
+        }
+
+        @media only screen and (min-width: $breakpoint-navigation-threshold) {
+          padding-left: $sph-inner;
+          padding-right: $sph-inner;
+          width: $ubuntu-logo-svg-width + 2 * $sph-inner;
+        }
+      }
+
+      .breadcrumbs {
+        &--secondary {
+          @extend .p-inline-list; // sass-lint:disable-line placeholder-in-extend
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 0;
+          width: auto;
+        }
+
+        &__item {
+          color: $color-dark;
+          display: inline-flex;
+          list-style: none;
+
+          @media (max-width: $breakpoint-x-small - 1) {
+            width: 50%;
+          }
+        }
+
+        &__chevron {
+          font-size: .875rem;
+          padding: .55rem 0 .2rem 0;
+        }
+
+        &__link {
+          font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
+          padding-left: $spv-inner--medium;
+          padding-right: $spv-inner--medium;
+          // padding-top: $nudge--small;
+
+          @media (max-width: $breakpoint-x-small - 1) {
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+          }
+
+          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
+            // padding-bottom: map-get($sp-after, small) + $p-small-lh-diff - $nudge--small;
+          }
+
+          &:first-child {
+            padding-left: 1rem;
+          }
+
+          &.p-link--active {
+            color: $color-brand;
+          }
+        }
+      }
+
+      .row {
+        @extend %row-no-margins-on-mobile;
+      }
+    }
+
+    &__toggle--open,
+    &__toggle--close {
+      color: $color-light !important;
+      font-size: .875rem;
+
+      @media (max-width: $breakpoint-x-small - 1) {
+        margin-right: $grid-margin-width / 1.5 !important;
+      }
+    }
+
+    &__links {
+      @media (max-width: $breakpoint-x-small - 1) {
+        font-size: .875rem;
+      }
+
+      @media (max-width: $breakpoint-navigation-threshold) {
+        align-items: stretch;
+        display: flex;
+        justify-content: center;
+        order: 2;
+
+        .p-navigation__dropdown-link {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    }
+
+    &__dropdown-link {
+      &::after {
+        @media (max-width: $breakpoint-navigation-threshold) {
+          display: none;
+        }
+      }
+    }
+
+    &__link-anchor {
+      @media (max-width: $breakpoint-x-small - 1) {
+        padding-left: $grid-margin-width / 4 !important;
+        padding-right: $grid-margin-width / 4 !important;
+      }
+    }
+  }
+
+  .dropdown-window-overlay {
+    background-color: rgba(17, 17, 17, .4); // sass-lint:disable-line no-color-literals
+    height: 100%;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    transition: opacity .5s ease-in-out;
+    width: 100%;
+    z-index: 38;
+  }
+
+  .dropdown-window {
+    @include vf-animation(all, brisk, in);
+    background-color: $color-x-light;
+    box-shadow: 0 1px 32px 1px transparentize($color-dark, .8);
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    z-index: 39;
+
+    &.slide-animation {
+      box-shadow: none;
+    }
+
+    .row {
+      padding-left: $grid-margin-width;
+      padding-right: $grid-margin-width;
+    }
+
+    &__content {
+      @extend %p-strip--very-shallow;
+      background-color: $color-mid-x-light;
+      color: $color-dark;
+
+      &:last-child {
+        padding-bottom: $spv-outer--shallow-scaleable / 1.5;
+      }
+
+      @media (max-width: $breakpoint-x-small - 1) {
+        .p-inline-list--middot.is-x-dense {
+          margin-bottom: .3rem;
+        }
+      }
+    }
+
+    & .p-inline-list__item {
+      @extend %small-text-fixed;
+      list-style-type: none;
+
+      &::after {
+        @media only screen and (max-width: $breakpoint-medium - 1) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .slide-animation {
+    transform: translateY(-101%);
+  }
+
+  .fade-animation {
+    opacity: 0;
+    visibility: hidden;
+
+    .u-visible-nav & {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+    }
+  }
+
+
+  %p-strip--very-shallow {
+    padding-top: $spv-outer--medium;
+
+    &:not(:last-child) {
+      padding-bottom: $spv-outer--medium;
+    }
+
+    &:last-child {
+      padding-bottom: $spv-outer--scaleable;
+    }
+  }
+
+  %small-text-base {
+    font-size: 1rem / pow($ms-ratio, 1);
+    line-height: map-get($line-heights, small);
+    padding-top: $nudge--small;
+
+  }
+
+  %small-text-fixed {
+    @extend %small-text-base;
   }
 }
