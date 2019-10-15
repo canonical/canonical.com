@@ -1,4 +1,4 @@
-var navDropdowns = document.querySelectorAll('.p-navigation__dropdown-link');
+var navDropdowns = document.querySelectorAll('.p-navigation__dropdown-link:not(.is-selected)');
 var dropdownWindow = document.querySelector('.dropdown-window');
 var dropdownWindowOverlay = document.querySelector('.dropdown-window-overlay');
 
@@ -77,7 +77,7 @@ if (window.location.hash) {
 }
 
 function closeMainMenu() {
-  var navigationLinks = document.querySelectorAll('.p-navigation__dropdown-link');
+  var navigationLinks = document.querySelectorAll('.p-navigation__dropdown-link:not(.is-selected)');
 
   navigationLinks.forEach(function(navLink) {
     navLink.classList.remove('is-open');

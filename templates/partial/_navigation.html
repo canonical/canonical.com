@@ -16,13 +16,25 @@
       </span>
       <ul class="p-navigation__links u-hide js-show-nav" >
         <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}" role="menuitem" id="products" onmouseover="fetchDropdown('/partial/_navigation-products', 'products-content'); this.onmouseover = null;">
+          {% if request.path|get_nav_path == 'products' %}
+          <a class="p-navigation__link-anchor" href="/products">Products</a>
+          {% else %}
           <a class="p-navigation__link-anchor" href="#products-content" onfocus="fetchDropdown('/partial/_navigation-products', 'products-content');">Products</a>
+          {% endif %}
         </li>
         <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem" id="partners" onmouseover="fetchDropdown('/partial/_navigation-partners', 'partners-content'); this.onmouseover = null;">
+          {% if request.path|get_nav_path == 'partners' %}
+          <a class="p-navigation__link-anchor" href="/partners">Partners</a>
+          {% else %}
           <a class="p-navigation__link-anchor" href="#partners-content" onfocus="fetchDropdown('/partial/_navigation-partners', 'partners-content');">Partners</a>
+          {% endif %}
         </li>
         <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem" id="careers" onmouseover="fetchDropdown('/partial/_navigation-careers', 'careers-content'); this.onmouseover = null;">
+          {% if request.path|get_nav_path == 'careers' %}
+          <a class="p-navigation__link-anchor" href="/careers">Careers</a>
+          {% else %}
           <a class="p-navigation__link-anchor" href="#careers-content" onfocus="fetchDropdown('/partial/_navigation-careers', 'careers-content');">Careers</a>
+          {% endif %}
         </li>
       </ul>
       <noscript>

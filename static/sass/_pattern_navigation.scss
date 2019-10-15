@@ -36,7 +36,7 @@ $nudge--small: .55rem;
     &__dropdown-link {
       position: relative;
 
-      &::after {
+      &:not(.is-selected)::after {
         @include vf-icon-chevron(vf-url-friendly-color($color-mid-light));
         background-position: top 52% right 50%;
         background-repeat: no-repeat;
@@ -55,6 +55,7 @@ $nudge--small: .55rem;
         .p-navigation__link-anchor {
           background-color: $color-x-light;
           color: $color-dark;
+          padding: .75rem 1rem;
 
           &::after {
             background-color: transparent;
@@ -155,8 +156,8 @@ $nudge--small: .55rem;
     }
 
     &--secondary {
-      background-color: $color-light;
-      border-bottom: 1px dotted $color-mid-light;
+      background-color: $color-x-light;
+      border-bottom: 1px solid $color-mid-light;
       display: flex;
       margin-top: 0;
       position: relative;
