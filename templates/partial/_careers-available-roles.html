@@ -35,6 +35,7 @@
       <hr />
     </div>
   </div>
+  {% if vacancies %}
   <div class="row">
     <div class="col-8">
       <form>
@@ -46,7 +47,7 @@
             <input type="checkbox" name="roles" id="{{ job.id }}" />
             <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
               <h2 class="u-no-margin--bottom u-sv1"><a class="p-link--soft"
-                  href="/careers/job/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
+                  href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
               <p class="u-sv3">
                 {{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lorem felis, elementum sit amet maximus quis, consequat elementum tortor. Sed molestie imperdiet pretium."|truncate(130)}}
               </p>
@@ -59,6 +60,13 @@
       </form>
     </div>
   </div>
+  {% else %}
+  <div class="u-fixed-width p-notification u-no-margin--bottom">
+    <p class="p-notification__response">
+      Sorry, there are no open positions at this time.
+    </p>
+  </div>
+  {% endif %}
 </div>
 
 <script defer src="/static/js/careers-filter&sort.js"></script>

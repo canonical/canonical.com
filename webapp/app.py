@@ -95,7 +95,7 @@ def careers_thank_you():
                         "style='padding-left: 2rem;'>"
                         "Please try to apply to this job again!</a>"
                     ),
-                    "response": response
+                    "response": response,
                 }
             )
         i = i + 1
@@ -108,10 +108,12 @@ def careers_thank_you():
         return flask.redirect("/careers")
 
 
-@app.route("/careers/<department>", methods=["GET", "POST"])
+@app.route(
+    "/careers/<regex('[a-z-]*[a-z][a-z-]*'):department>",
+    methods=["GET", "POST"],
+)
 def department_group(department):
     vacancies = get_vacancies(department)
-
     if flask.request.method == "POST":
         response = submit_to_greenhouse(
             flask.request.form, flask.request.files
@@ -141,7 +143,7 @@ def department_group(department):
     )
 
 
-@app.route("/careers/job/<job_id>")
+@app.route("/careers/<regex('[0-9]+'):job_id>")
 def job_details(job_id):
     job = get_vacancy(job_id)
 
