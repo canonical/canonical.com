@@ -31,7 +31,9 @@
     degrees.forEach(degree => {
       degreeList += `<option value="${degree.text}" />`
     });
-    datalistDegreeElement.innerHTML = degreeList;
+    if(datalistDegreeElement){
+      datalistDegreeElement.innerHTML = degreeList;
+    }
   };
 
   async function populateDisciplineList(disciplineId, disciplines) {
@@ -43,7 +45,9 @@
     disciplines.forEach(discipline => {
       disciplineList += `<option value="${discipline.text}" />`
     });
-    datalistDisciplineElement.innerHTML = disciplineList;
+    if (datalistDisciplineElement) {
+      datalistDisciplineElement.innerHTML = disciplineList;
+    }
   };
 
   async function getDataFromGreenhouseApi(category, term) {
@@ -107,67 +111,76 @@
     educationContainer.appendChild(educationInput);
   };
 
-  schoolsList.addEventListener("input", debounce(async (e) => {
-    const datalistElement = document.querySelector("#school-0");
-    var schools = [];
-    if (e.target.value !== "") {
-      schools = await getDataFromGreenhouseApi("schools", e.target.value);
-    }
-    var list = "";
-    schools.forEach(school => {
-      list += `<option value="${school.text}" />`
-    });
-    datalistElement.innerHTML = list;
-  }, 350));
-
-  addEducationButton.addEventListener("click", () => {
-    numberOfEducations++;
-    addEducationInput(numberOfEducations);
-    // Add click event listener to the "remove education" button
-    const removeEducationButtons = document.querySelectorAll(".js-remove-education");
-    removeEducationButtons[removeEducationButtons.length - 1].addEventListener("click", (e) => {
-      e.preventDefault();
-      const educationToBeRemoved = document.querySelector(`[data-education='${e.target.parentElement.parentElement.dataset.education}']`);
-      educationToBeRemoved.parentNode.removeChild(educationToBeRemoved);
-    });
-    // Populate new added input datalists
-    populateDegreeList(`#degree-${numberOfEducations}`, defaultDegreeList);
-    populateDisciplineList(`#discipline-${numberOfEducations}`, defaultDisciplineList);
-    // Add input event listener to the new school select
-    const newSchoolsList = document.querySelector(`.js-school-${numberOfEducations}`);
-    newSchoolsList.addEventListener("input", debounce(async (e) => {
-      const datalistElement = document.querySelector(`#school-${numberOfEducations}`);
+  if (schoolsList) {
+    schoolsList.addEventListener("input", debounce(async (e) => {
+      const datalistElement = document.querySelector("#school-0");
       var schools = [];
-      if (newSchoolsList.value !== "") {
-        schools = await getDataFromGreenhouseApi("schools", newSchoolsList.value);
+      if (e.target.value !== "") {
+        schools = await getDataFromGreenhouseApi("schools", e.target.value);
       }
       var list = "";
       schools.forEach(school => {
         list += `<option value="${school.text}" />`
       });
-      datalistElement.innerHTML = list
+      datalistElement.innerHTML = list;
     }, 350));
-  });
+  }
 
-  locateMeButton.addEventListener("click", () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        fetch(`${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`)
-          .then(res => { return res.json() })
-          .then(response => {
-            locationLabel.value = response.features[0].place_name
-          })
-          .catch(error => console.error('Error:', error));
-      }, () => {
-        locateMeError.classList.remove("u-hide");
-        setTimeout(() => {
-          locateMeError.classList.add("u-hide");
-        }, 4000)
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    };
-  });
+  if (addEducationButton) {
+    addEducationButton.addEventListener("click", () => {
+      numberOfEducations++;
+      addEducationInput(numberOfEducations);
+      // Add click event listener to the "remove education" button
+      const removeEducationButtons = document.querySelectorAll(".js-remove-education");
+      if (removeEducationButtons && removeEducationButtons.length > 0) {
+        removeEducationButtons[removeEducationButtons.length - 1].addEventListener("click", (e) => {
+          e.preventDefault();
+          const educationToBeRemoved = e.target.closest("div");
+          educationToBeRemoved.parentNode.removeChild(educationToBeRemoved);
+        });
+      }
+      // Populate new added input datalists
+      populateDegreeList(`#degree-${numberOfEducations}`, defaultDegreeList);
+      populateDisciplineList(`#discipline-${numberOfEducations}`, defaultDisciplineList);
+      // Add input event listener to the new school select
+      const newSchoolsList = document.querySelector(`.js-school-${numberOfEducations}`);
+      newSchoolsList.addEventListener("input", debounce(async (e) => {
+        const datalistElement = document.querySelector(`#school-${numberOfEducations}`);
+        var schools = [];
+        if (newSchoolsList.value !== "") {
+          schools = await getDataFromGreenhouseApi("schools", newSchoolsList.value);
+        }
+        var list = "";
+        schools.forEach(school => {
+          list += `<option value="${school.text}" />`
+        });
+        datalistElement.innerHTML = list
+      }, 350));
+    });
+  }
+
+  if (locateMeButton) {
+    locateMeButton.addEventListener("click", () => {
+      console.log("Click")
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          fetch(`${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`)
+            .then(res => { return res.json() })
+            .then(response => {
+              locationLabel.value = response.features[0].place_name
+            })
+            .catch(error => console.error('Error:', error));
+        }, () => {
+          locateMeError.classList.remove("u-hide");
+          setTimeout(() => {
+            locateMeError.classList.add("u-hide");
+          }, 4000)
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      };
+    });
+  }
 
   function debounce(func, wait, immediate) {
     var timeout;

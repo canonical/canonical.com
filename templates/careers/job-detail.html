@@ -1,0 +1,81 @@
+{% extends '/careers/careers_base.html' %}
+
+{% block meta_description %}Canonical offers a truly distributed workplace for exceptional colleagues who are self-motivated, organised. Maintain a home office and experience the top of global technology strategy and engineering. Travel regularly to interesting destinations for team, conference and customer engagements.{% endblock %}
+
+{% block hero %}
+  <section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
+    <div class="p-strip--suru-background">
+      <div class="row">
+        <div class="col-6">
+          <h1>Careers</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    .p-strip--suru-background {
+      background-image:
+      linear-gradient(to bottom right, rgba(74, 24, 60, 0.4) 0%, rgba(74, 24, 60, 0.4) 49.9%, rgba(74, 24, 60, 0) 50%, rgba(74, 24, 60, 0) 100%),
+      linear-gradient(to top right, rgba(210, 180, 202, 0) 0%, rgba(210, 180, 202, 0) 49.9%, rgba(210, 180, 202, 0.05) 50%, rgba(210, 180, 202, 0.05) 100%),
+      linear-gradient(to top right, #fff 0%, #fff 49%, transparent 50%),
+      linear-gradient(140deg, #E95420 0%, #772953 33%, #2C001E 72%);
+      background-position: left top, right top, left 101%;
+      background-size: 80% 100%, 70% 80%, 110% 20%, 100% 100%;
+      padding-bottom: 6rem;
+      padding-top: 6rem;
+    }
+  </style>
+{% endblock %}
+
+{% block overview %}
+  {% if message %}
+  <div class="row">
+    <div class="col-8">
+      <div class="p-notification--{{message.type}}">
+        <p class="p-notification__response">
+          <span class="p-notification__status">{{message.title}}:&nbsp;</span>{{message.text}}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="row">
+    <a href="{% if request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+    <h2 class="u-no-margin--bottom u-sv1">{{ job.title }}</h2>
+    <p class="p-muted-heading">{{ job.location }}</p>
+    {{ job.content | safe }}
+  </div>
+  <div class="row u-sv2">
+      <hr />
+  </div>
+  <div class="row u-extra-space js-roles-apply--container">
+    <div class="col-8">
+      <div class="p-card--strip u-no-margin--bottom">
+        <h3>Apply for this role</h3>
+        <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form">
+          <fieldset style="border: none; margin-bottom: 0;">
+            <p class="required-legend u-align-text--right ">Required</p>
+            <label for="first_name" class="is-required u-no-padding--top">First name</label>
+            <input id="first_name" name="first_name" type="text" required maxlength="255">
+            <label for="last_name" class="is-required">Last name</label>
+            <input id="last_name" name="last_name" type="text" required maxlength="255">
+            <label for="email" class="is-required">Email address</label>
+            <input id="email" name="email" type="text" required maxlength="255">
+            <label for="phone" class="is-required">Phone</label>
+            <input id="phone" name="phone" type="text" required maxlength="255">
+            <label for="location" class="is-required">Location (City)</label>
+            <input id="location" name="location" type="text" class="js-location" required maxlength="255">
+            <button type="button" class="js-locate-me">Locate me</button>
+            <span class="js-locate-error u-hide" style="color: #c7162b">Location unavailable</span>
+            <label for="resume" class="is-required">Upload CV</label>
+            <input type="file" id="resume" name="resume" accept=".pdf, .doc, .docx, .txt, .rtf">
+            <label for="cover_letter">Cover Letter</label>
+            <input type="file" id="cover_letter" name="cover_letter" accept=".pdf, .doc, .docx, .txt, .rtf">
+            <hr style="margin: 1rem 0;" />
+            <button type="submit" class="p-button--positive u-no-margin--bottom">Submit Application</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

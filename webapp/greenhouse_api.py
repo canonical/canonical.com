@@ -90,30 +90,44 @@ def get_vacancy(job_id):
     return job
 
 
-def submit_to_greenhouse(form_data, form_cv, job_id="1383152"):
+# Default Job ID (1383152) is used below to submit CV without applying for a
+# specific job.
+def submit_to_greenhouse(form_data, form_files, job_id="1383152"):
     # Encode the API_KEY to base64
     API_KEY = os.environ["GREENHOUSE_API_KEY"]
     auth = (
         "Basic " + str(base64.b64encode(API_KEY.encode("utf-8")), "utf-8")[:-2]
     )
     # Encode the resume file to base64
-    resume = base64.b64encode(form_cv["resume"].read()).decode("utf-8")
+    resume = base64.b64encode(form_files["resume"].read()).decode("utf-8")
     # Create headers for api sumbission
     headers = {"Content-Type": "application/json", "Authorization": auth}
     # Create payload for api submission
-    payload = json.dumps(
-        {
-            "first_name": form_data["first_name"],
-            "last_name": form_data["last_name"],
-            "email": form_data["email"],
-            "phone": form_data["phone"],
-            "resume_content": resume,
-            "resume_content_filename": form_cv["resume"].filename,
-        }
-    )
+    payload = {
+        "first_name": form_data["first_name"],
+        "last_name": form_data["last_name"],
+        "email": form_data["email"],
+        "phone": form_data["phone"],
+        "location": form_data["location"],
+        "resume_content": resume,
+        "resume_content_filename": form_files["resume"].filename,
+    }
+
+    # Add cover letter to the payload if exists
+    if form_files["cover_letter"]:
+        # Encode the cover_letter file to base64
+        cover_letter = base64.b64encode(
+            form_files["cover_letter"].read()
+        ).decode("utf-8")
+        payload["cover_letter_content"] = cover_letter
+        payload["cover_letter_content_filename"] = form_files[
+            "cover_letter"
+        ].filename
+
+    json_payload = json.dumps(payload)
 
     response = requests.post(
-        f"{base_url}/{job_id}", data=payload, headers=headers
+        f"{base_url}/{job_id}", data=json_payload, headers=headers
     )
 
     return response

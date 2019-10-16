@@ -16,7 +16,6 @@ from webapp.greenhouse_api import (
     get_vacancies,
     get_vacancies_by_skills,
     get_vacancy,
-    remove_hyphens,
     submit_to_greenhouse,
 )
 from webapp.partners_api import get_partner_groups, get_partner_list
@@ -63,7 +62,10 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route("/careers/<department>", methods=["GET", "POST"])
+@app.route(
+    "/careers/<regex('[a-z-]*[a-z][a-z-]*'):department>",
+    methods=["GET", "POST"],
+)
 def department_group(department):
     vacancies = get_vacancies(department)
 
@@ -96,17 +98,35 @@ def department_group(department):
     )
 
 
-@app.route("/careers/<department>/<job_id>")
-def job_details(department, job_id):
+@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
+def job_details(job_id):
     job = get_vacancy(job_id)
-    if (
-        remove_hyphens(job["department"]).lower()
-        != remove_hyphens(department).lower()
-        and "all" != department.lower()
-    ):
-        flask.abort(404)
 
-    return flask.render_template("/careers/jobs/job-detail.html", job=job)
+    if flask.request.method == "POST":
+        response = submit_to_greenhouse(
+            flask.request.form, flask.request.files, job_id
+        )
+        if response.status_code == 200:
+            message = {
+                "type": "positive",
+                "title": "Success",
+                "text": (
+                    "Your application has been successfully submitted."
+                    " Thank you!"
+                ),
+            }
+        else:
+            message = {
+                "type": "negative",
+                "title": f"Error {response.status_code}",
+                "text": f"{response.reason}. Please try again!",
+            }
+
+        return flask.render_template(
+            f"/careers/job-detail.html", job=job, message=message
+        )
+
+    return flask.render_template("/careers/job-detail.html", job=job)
 
 
 @app.route("/careers/<department>/<job_id>", methods=["POST"])
