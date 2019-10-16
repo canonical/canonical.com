@@ -3,6 +3,7 @@ import datetime
 import flask
 import markdown
 import re
+import time
 
 
 # Packages
@@ -16,7 +17,6 @@ from webapp.greenhouse_api import (
     get_vacancies,
     get_vacancies_by_skills,
     get_vacancy,
-    remove_hyphens,
     submit_to_greenhouse,
 )
 from webapp.partners_api import get_partner_groups, get_partner_list
@@ -63,6 +63,51 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
+@app.route("/careers/thank-you", methods=["POST"])
+def careers_thank_you():
+    messages = []
+    job_id_list = flask.request.form.get("applicationJobIdList").split(",")
+    job_title_list = flask.request.form.get("applicationJobTitleList").split(
+        ","
+    )
+    print(flask.request.form)
+    i = 0
+    while i < len(job_id_list):
+        response = submit_to_greenhouse(
+            flask.request.form, flask.request.files, job_id_list[i]
+        )
+        if response.status_code == 200:
+            messages.append(
+                {
+                    "type": "success",
+                    "title": f"{job_title_list[i]}",
+                    "text": ("Successfully submitted."),
+                }
+            )
+        else:
+            messages.append(
+                {
+                    "type": "error",
+                    "title": f"{job_title_list[i]}",
+                    "text": (
+                        f"Error {response.status_code}. {response.reason}."
+                        "<br /><a href='/careers/{job_id_list[i]}' "
+                        "style='padding-left: 2rem;'>"
+                        "Please try to apply to this job again!</a>"
+                    ),
+                    "response": response
+                }
+            )
+        i = i + 1
+        # time.sleep(60)
+    if len(messages) > 0:
+        return flask.render_template(
+            "careers/thank-you.html", messages=messages
+        )
+    else:
+        return flask.redirect("/careers")
+
+
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
     vacancies = get_vacancies(department)
@@ -101,11 +146,6 @@ def job_details(job_id):
     job = get_vacancy(job_id)
 
     return flask.render_template("/careers/job/job-detail.html", job=job)
-
-
-@app.route("/careers/<department>/<job_id>", methods=["POST"])
-def submit_job(department, job_id):
-    return flask.render_template("/careers/jobs/index.html")
 
 
 # Partners

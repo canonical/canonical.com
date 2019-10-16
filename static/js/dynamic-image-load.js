@@ -30,14 +30,14 @@
     activePartner = el.parentElement;
     activePartner.classList.add("is-active");
     partners.forEach(function (partner) {
-      if ((partner.classList.value.split(" ")[2] === "loaded") && (el.innerHTML.toLowerCase().replace(" ","-"))) {
+      if ((partner.classList.value.split(" ")[2] === "loaded") && (el.innerHTML.toLowerCase().replace(/ /g,"-"))) {
         Array.from(partner.children).forEach(function (image) {
           image.firstElementChild.dataset.src = image.firstElementChild.src;
           image.firstElementChild.removeAttribute("src");
         });
         partner.classList.remove('loaded');
       }
-      if (partner.dataset.partner === el.innerHTML.toLowerCase().replace(" ","-")) {
+      if (partner.dataset.partner === el.innerHTML.toLowerCase().replace(/ /g,"-")) {
         Array.from(partner.children).forEach(function (image) {
           image.firstElementChild.src = image.firstElementChild.dataset.src;
           image.firstElementChild.removeAttribute("data-src");

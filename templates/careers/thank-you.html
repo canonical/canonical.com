@@ -1,0 +1,48 @@
+{% extends '/careers/careers_base.html' %}
+
+{% block meta_description %}{% endblock %}
+
+{% block hero %}
+  <section class="p-strip--image is-dark is-deep u-no-padding--top">
+    <div class="p-strip--suru-background">
+      <div class="row">
+        <div class="col-6">
+          <h1>Careers</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    .p-strip--suru-background {
+      background-image:
+        linear-gradient(to bottom right, rgba(74, 24, 60, 0.4) 0%, rgba(74, 24, 60, 0.4) 49.9%, rgba(74, 24, 60, 0) 50%, rgba(74, 24, 60, 0) 100%),
+        linear-gradient(to top right, rgba(210, 180, 202, 0) 0%, rgba(210, 180, 202, 0) 49.9%, rgba(210, 180, 202, 0.05) 50%, rgba(210, 180, 202, 0.05) 100%),
+        linear-gradient(to top right, #fff 0%, #fff 49%, transparent 50%),
+        linear-gradient(140deg, #E95420 0%, #772953 33%, #2C001E 72%);
+      background-position: left top, right top, left 101%;
+      background-size: 80% 100%, 70% 80%, 110% 20%, 100% 100%;
+      padding-bottom: 6rem;
+      padding-top: 6rem;
+    }
+  </style>
+{% endblock %}
+
+{% block overview %}
+  <div class="p-card" style="border-style: none; background-color:#f7f7f7;">
+    <div class="p-card__content">
+      <div style="padding-left: 1rem;">
+        <p class="p-heading--three u-sv1">Thank you for your applictation!</p>
+        <ul class="p-list u-no-margin--bottom">
+          {% for message in messages %}
+            {% if message["type"] == "success" %}
+          <li class="p-list__item u-sv2"><i class="p-icon--success" style="margin-right: 1rem;"></i>{{ message["title"] }}&ensp;&ndash;&ensp;{{ message["text"] }}</li>
+            {% elif message["type"] == "error" %}
+          <li class="p-list__item u-sv2"><i class="p-icon--error" style="margin-right: 1rem;"></i>{{ message["title"] }}&ensp;&ndash;&ensp;{{ message["text"]|safe }}</li>
+            {% endif %}
+            {{ messages["response"]}}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
