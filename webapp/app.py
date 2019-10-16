@@ -144,9 +144,20 @@ def convert_to_kebab(kebab_input):
 
 @app.template_filter()
 def get_nav_path(path):
-    short_path = path.split("/")[1]
-
+    short_path = ""
+    split_path = path.split("/")
+    if len(split_path) > 1:
+        short_path = path.split("/")[1]
     return short_path
+
+
+@app.template_filter()
+def get_secondary_nav_path(path):
+    secondary_path = ""
+    split_path = path.split("/")
+    if len(split_path) > 2:
+        secondary_path = path.split("/")[2]
+    return secondary_path
 
 
 @app.template_filter()

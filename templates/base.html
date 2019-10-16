@@ -9,6 +9,8 @@
       content="{% block meta_description %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% endblock %}" />
     <meta name="author" content="Canonical Ltd" />
 
+    <script src="/static/js/navigation.js" defer></script>
+
     <link rel="shortcut icon" href="https://assets.ubuntu.com/v1/0843d517-favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
       href="https://assets.ubuntu.com/v1/9864667f-apple-touch-icon-144x144-precomposed.png">
@@ -36,41 +38,22 @@
   </head>
 
   <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K92JCQ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K92JCQ');</script>
+    <!-- End Google Tag Manager -->
+
     <div id="main-content">
-      <header id="navigation" class="p-navigation">
-        <div class="p-navigation__row">
-          <div class="p-navigation__banner">
-            <div class="p-navigation__logo">
-              <a class="p-navigation__link" href="/">
-                <img class="p-navigation__image" src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt="" width="95">
-              </a>
-            </div>
-            <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
-            <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
-          </div>
-          <nav class="p-navigation__nav">
-            <span class="u-off-screen">
-              <a href="#main-content">Jump to main content</a>
-            </span>
-            <ul class="p-navigation__links" role="menu">
-              <li class="p-navigation__link {% if request.path|get_nav_path == '' %}is-selected{% endif %}" role="menuitem">
-                <a href="/">Products</a>
-              </li>
-              <li class="p-navigation__link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem">
-                <a href="/partners">Partners</a>
-              </li>
-              <li class="p-navigation__link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem">
-                <a href="/careers">Careers</a>
-              </li>
-            </ul>
-            <ul class="p-navigation__links" role="menu">
-              <li class="p-navigation__link" role="menuitem">
-                <a href="#">Login</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      {% include "partial/_navigation.html" %}
+      {% if request.path|get_nav_path %}
+        {% include request.path|get_nav_path + '/_secondary-navigation.html' %}
+      {% endif %}
+
       {% block content %}{% endblock content %}
     </div>
     {% include 'partial/_footer.html' %}
