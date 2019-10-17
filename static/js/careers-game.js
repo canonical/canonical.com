@@ -104,7 +104,7 @@
             toggleCardVisibility(skillData.card); 
             renderSelectedSkills(selectedSkills);
           } else {
-            alert("You have already selected 5 skills! Please click the 'Submit choises' button to see the list of roles suitable fo you.");
+            alert("You have already selected 5 skills! Please click the 'Submit choises' button to see the list of roles suitable for you.");
           }
         } else {
           console.log("Error! We cannot find any card element with the specified class.");
