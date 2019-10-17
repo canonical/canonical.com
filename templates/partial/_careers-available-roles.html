@@ -1,4 +1,5 @@
 <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
+  {% if vacancies %}
   <div class="row u-vertically-center">
     <div class="col-2">
       <small class="p-form-help-text u-sv2">Select the role(s) you are interested in and apply once to them all.</small>
@@ -59,4 +60,11 @@
       </form>
     </div>
   </div>
+  {% else %}
+  <div class="u-fixed-width p-notification u-no-margin--bottom">
+    <p class="p-notification__response">
+      Sorry, there are no open positions at this time.
+    </p>
+  </div>
+  {% endif %}
 </div>
