@@ -26,6 +26,7 @@ def get_vacancies(department):
             vacancies.append(
                 {
                     "title": job["title"],
+                    "content": unescape(job["content"]),
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
@@ -40,6 +41,7 @@ def get_vacancies(department):
             vacancies.append(
                 {
                     "title": job["title"],
+                    "content": unescape(job["content"]),
                     "url": job["absolute_url"],
                     "location": job["location"]["name"],
                     "id": job["id"],
@@ -63,6 +65,7 @@ def get_vacancies_by_skills(core_skills):
                     vacancies.append(
                         {
                             "title": job["title"],
+                            "content": unescape(job["content"]),
                             "url": job["absolute_url"],
                             "location": job["location"]["name"],
                             "id": job["id"],
