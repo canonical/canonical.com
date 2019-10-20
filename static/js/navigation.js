@@ -94,9 +94,9 @@ function closeMainMenu() {
 
 var origin = window.location.href;
 
-addGANavEvents('#products', 'canonical.com-nav-products');
-addGANavEvents('#partners', 'canonical.com-nav-partners');
-addGANavEvents('#careers', 'canonical.com-nav-careers');
+addGANavEvents('#products-nav', 'canonical.com-nav-products');
+addGANavEvents('#partners-nav', 'canonical.com-nav-partners');
+addGANavEvents('#careers-nav', 'canonical.com-nav-careers');
 
 function addGANavEvents(target, category){
   var t = document.querySelector(target);

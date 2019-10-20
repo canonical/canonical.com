@@ -15,25 +15,25 @@
         <a href="#main-content">Jump to main content</a>
       </span>
       <ul class="p-navigation__links u-hide js-show-nav" >
-        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}" role="menuitem" id="products" onmouseover="fetchDropdown('/partial/_navigation-products', 'products-content'); this.onmouseover = null;">
+        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}" role="menuitem" id="products-nav" onmouseover="fetchDropdown('/partial/_navigation-products', 'products-nav-content'); this.onmouseover = null;">
           {% if request.path|get_nav_path == 'products' %}
           <a class="p-navigation__link-anchor" href="/products">Products</a>
           {% else %}
-          <a class="p-navigation__link-anchor" href="#products-content" onfocus="fetchDropdown('/partial/_navigation-products', 'products-content');">Products</a>
+          <a class="p-navigation__link-anchor" href="#products-nav-content" onfocus="fetchDropdown('/partial/_navigation-products', 'products-nav-content');">Products</a>
           {% endif %}
         </li>
-        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem" id="partners" onmouseover="fetchDropdown('/partial/_navigation-partners', 'partners-content'); this.onmouseover = null;">
+        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem" id="partners-nav" onmouseover="fetchDropdown('/partial/_navigation-partners', 'partners-nav-content'); this.onmouseover = null;">
           {% if request.path|get_nav_path == 'partners' %}
           <a class="p-navigation__link-anchor" href="/partners">Partners</a>
           {% else %}
-          <a class="p-navigation__link-anchor" href="#partners-content" onfocus="fetchDropdown('/partial/_navigation-partners', 'partners-content');">Partners</a>
+          <a class="p-navigation__link-anchor" href="#partners-nav-content" onfocus="fetchDropdown('/partial/_navigation-partners', 'partners-nav-content');">Partners</a>
           {% endif %}
         </li>
-        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem" id="careers" onmouseover="fetchDropdown('/partial/_navigation-careers', 'careers-content'); this.onmouseover = null;">
+        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem" id="careers-nav" onmouseover="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content'); this.onmouseover = null;">
           {% if request.path|get_nav_path == 'careers' %}
           <a class="p-navigation__link-anchor" href="/careers">Careers</a>
           {% else %}
-          <a class="p-navigation__link-anchor" href="#careers-content" onfocus="fetchDropdown('/partial/_navigation-careers', 'careers-content');">Careers</a>
+          <a class="p-navigation__link-anchor" href="#careers-nav-content" onfocus="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content');">Careers</a>
           {% endif %}
         </li>
       </ul>
@@ -56,9 +56,9 @@
 </header>
 <div class="dropdown-window-overlay fade-animation"></div>
 <div class="dropdown-window slide-animation">
-  <div class="u-hide" id="products-content"></div>
-  <div class="u-hide" id="partners-content">  </div>
-  <div class="u-hide" id="careers-content"></div>
+  <div class="u-hide" id="products-nav-content"></div>
+  <div class="u-hide" id="partners-nav-content">  </div>
+  <div class="u-hide" id="careers-nav-content"></div>
 </div>
 
 <script>
