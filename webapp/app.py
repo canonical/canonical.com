@@ -129,11 +129,6 @@ def job_details(job_id):
     return flask.render_template("/careers/job-detail.html", job=job)
 
 
-@app.route("/careers/<department>/<job_id>", methods=["POST"])
-def submit_job(department, job_id):
-    return flask.render_template("/careers/jobs/index.html")
-
-
 # Partners
 @app.route("/partners/find-a-partner")
 def find_a_partner():

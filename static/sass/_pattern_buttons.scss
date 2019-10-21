@@ -61,16 +61,30 @@
     }
   }
 
-  .js-remove-button {
+  .js-button--remove {
     @extend %vf-button-base;
 
     border: none;
     border-radius: 50%;
-    height: 1.5rem;
+    height: 2rem;
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
-    width: 1rem;
+    width: auto;
+    
+    &>.p-icon--close {
+      height: map-get($line-heights, default-text); // so height matches that of text inside buttons
+      margin-left: -#{$sph-inner--small};
+      top: -1px;
+
+      &:only-child {
+        margin-right: -#{$sph-inner--small};
+      }
+
+      + * {
+        margin-left: $sph-inner--small;
+      }
+    }
 
     &:hover {
       background-color: $color-negative;
@@ -82,9 +96,6 @@
 
     i {
       @include vf-icon-close($color-mid-dark);
-      width: 0.7rem;
-      top: -0.22rem;
-      margin-left: -0.31rem;
     }
   }
 }
