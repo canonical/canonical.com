@@ -1,6 +1,6 @@
 <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
   {% if vacancies %}
-  <div class="row u-vertically-center">
+  <div class="row u-vertically-center js-filter-form u-hide">
     <div class="col-2">
       <small class="p-form-help-text u-sv2">Select the role(s) you are interested in and apply once to them all.</small>
     </div>
@@ -10,12 +10,12 @@
           <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
           <select class="js-filter p-form__control" id="filter" name="filter"
             aria-label="Filter by job type">
-            <option>All</option>
-            <option>Home based</option>
-            <option>Office based</option>
-            <option>Management</option>
-            <option>Full-time</option>
-            <option>Part-time</option>
+            <option value="all">All</option>
+            <option value="home-based">Home based</option>
+            <option value="office-based">Office based</option>
+            <option value="management">Management</option>
+            <option value="full-time">Full-time</option>
+            <option value="part-time">Part-time</option>
           </select>
         </div>
         <div class="p-form__group">
@@ -30,31 +30,38 @@
         </div>
       </form>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-8">
-      <hr />
+    <div class="row">
+      <div class="col-8">
+        <hr />
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-8">
-      <form>
-        <ul class="p-list--divided js-job-list">
-          {% for job in vacancies %}
-          <li class="p-list__item" data-office="{{ job.office }}" data-employment="{{ job.employment }}" data-date="{{ job.date }}" data-location="{{ job.location }}" data-management="{{ job.management}}" data-sector="{{ job.department }}">
-            <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
-            <p class="u-hide">{{ job.date }}</p>
-            <input type="checkbox" name="roles" id="{{ job.id }}" />
-            <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
-              <h2 class="u-no-margin--bottom u-sv3"><a class="p-link--soft"
-                  href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
-            </label>
-          </li>
-          {% endfor %}
-        </ul>
-        <hr />
-        <button type="submit">Apply now</button>
-      </form>
+  <div class="u-fixed-width p-notification u-no-margin--bottom js-filter__no-results u-hide">
+    <p class="p-notification__response">
+      Sorry, there are no open positions matching your criteria.
+    </p>
+  </div>
+  <div class="js-filter-jobs-container">
+    <div class="row">
+      <div class="col-8">
+        <form>
+          <ul class="p-list--divided js-job-list">
+            {% for job in vacancies %}
+            <li class="p-list__item" data-office="{% if job.office == 'Home Based' %}Home based{% else %}Office based{% endif %}" data-employment="{{ job.employment }}" data-date="{{ job.date }}" data-location="{{ job.location }}" data-management="{% if job.management == True %}Management{% else %}{% endif %}" data-sector="{{ job.department }}">
+              <p class="u-no-margin--bottom u-sv1"><small style="padding-left: 2rem;">{{ job.location }}</small></p>
+              <p class="u-hide">{{ job.date }}</p>
+              <input type="checkbox" name="roles" id="{{ job.id }}" />
+              <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+                <h2 class="u-no-margin--bottom u-sv3"><a class="p-link--soft"
+                    href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+          <hr />
+          <button type="submit">Apply now</button>
+        </form>
+      </div>
     </div>
   </div>
   {% else %}
