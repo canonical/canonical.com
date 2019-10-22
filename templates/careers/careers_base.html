@@ -56,8 +56,22 @@
 <script defer src="/static/js/apply-for-jobs.js"></script>
 <script defer src="/static/js/file-validation.js"></script>
 <script>
+  var urlHash = window.location.hash;
   var tabLinks = document.querySelectorAll(".p-tabs__link");
+  if (urlHash) {
+    document.querySelectorAll(".tab-content").forEach(function (tab) {
+      tab.classList.add("u-hide");
+    });
+  }
   tabLinks.forEach(function (tabLink) {
+    if (urlHash) {
+      if (`#${tabLink.getAttribute("aria-controls")}` === urlHash) {
+        tabLink.setAttribute("aria-selected", true);
+        document.getElementById(tabLink.getAttribute("aria-controls")).classList.remove("u-hide");
+      } else {
+        tabLink.setAttribute("aria-selected", false);
+      }
+    }
     tabLink.addEventListener("click", function (e) {
       e.preventDefault();
       tabLinks.forEach(function (tab) {
@@ -69,8 +83,23 @@
         tab.classList.add("u-hide");
       });
       document.getElementById(control).classList.remove("u-hide");
+      window.location.hash = `#${control}`;
     });
   });
+
+  window.onhashchange = function() { 
+    urlHash = window.location.hash;
+    tabLinks.forEach(function (tabLink) {
+      if (`#${tabLink.getAttribute("aria-controls")}` === urlHash) {
+        tabLink.setAttribute("aria-selected", true);
+        document.getElementById(tabLink.getAttribute("aria-controls")).classList.remove("u-hide");
+      } else {
+        tabLink.setAttribute("aria-selected", false);
+        document.getElementById(tabLink.getAttribute("aria-controls")).classList.add("u-hide");
+      }
+    });
+  }
+
   var path = window.location.pathname.split("/").pop();
   navigationLinks = document.querySelectorAll(".js-navigation-link");
   navigationLinks.forEach(function (link) {
