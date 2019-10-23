@@ -1,3 +1,6 @@
+[![CircleCI build status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=svg)](https://circleci.com/gh/canonical-web-and-design/canonical.com) [![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
+
+
 # Repository for the rewrite of canonical.com
 
 This is the repository for the new canonical.com website.
