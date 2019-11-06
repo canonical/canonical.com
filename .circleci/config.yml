@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Lint Python files
           command: yarn run lint-python
-  python-tests:
+  test-python:
     <<: *defaults
     steps:
       - checkout
@@ -72,4 +72,4 @@ workflows:
       - test-site
       - lint-scss
       - lint-python
-      - python-tests
+      - test-python
