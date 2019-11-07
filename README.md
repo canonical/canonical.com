@@ -1,7 +1,10 @@
-[![CircleCI build status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=svg)](https://circleci.com/gh/canonical-web-and-design/canonical.com) [![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
+# canonical.com
 
+**The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/). Not yet live, as of 7th November 2019**
 
-# Repository for the rewrite of canonical.com
+[![CircleCI build status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=shield)](https://circleci.com/gh/canonical-web-and-design/canonical.com)
+[![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
+
 
 This is the repository for the new canonical.com website.
 
