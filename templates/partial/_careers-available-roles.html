@@ -1,56 +1,45 @@
 <div class="p-strip is-shallow u-extra-space tab-content u-hide" id="available-roles">
   {% if vacancies %}
-  <div class="row u-vertically-center js-filter-form u-hide">
-    <div class="col-2">
-      <small class="p-form-help-text u-sv2">Select the role(s) you are interested in and apply once to them all.</small>
-    </div>
-    <div class="col-6 u-align--right">
-      <form action="" method="get" class="p-form p-form--inline">
-        <div class="p-form__group">
-          <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
-          <select class="js-filter p-form__control" id="filter" name="filter"
-            aria-label="Filter by job type">
-            <option value="all">All</option>
-            <option value="home-based">Home based</option>
-            <option value="office-based">Office based</option>
-            <option value="management">Management</option>
-            <option value="full-time">Full-time</option>
-            <option value="part-time">Part-time</option>
-          </select>
-        </div>
-        <div class="p-form__group">
-          <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
-          <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
-            <option>Date</option>
-            <option>Location</option>
-            {% if request.path == "/careers/all"%}
-            <option>Job sector</option>
-            {% endif %}
-          </select>
-        </div>
-      </form>
-    </div>
-    <div class="row">
-      <div class="col-8">
-        <hr />
+  <div class="u-align--right js-filter-form u-hide">
+    <form action="" method="get" class="p-form p-form--inline">
+      <div class="p-form__group">
+        <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
+        <select class="js-filter p-form__control" id="filter" name="filter"
+          aria-label="Filter by job type">
+          <option value="all">All</option>
+          <option value="home-based">Home based</option>
+          <option value="office-based">Office based</option>
+          <option value="management">Management</option>
+          <option value="full-time">Full-time</option>
+          <option value="part-time">Part-time</option>
+        </select>
       </div>
-    </div>
+      <div class="p-form__group">
+        <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
+        <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
+          <option>Date</option>
+          <option>Location</option>
+          {% if request.path == "/careers/all"%}
+          <option>Job sector</option>
+          {% endif %}
+        </select>
+      </div>
+    </form>
+    <hr />
   </div>
   <h2 class="p-heading--four js-filter__no-results u-hide">
     Sorry, there are no open positions matching your criteria.
   </h2>
   <div class="js-filter-jobs-container">
-    <div class="row">
-      <div class="col-8 js-job-list">
-        {% for job in vacancies %}
-        <div data-office="{% if job.office == 'Home Based' %}Home based{% else %}Office based{% endif %}" data-employment="{{ job.employment }}" data-date="{{ job.date }}" data-location="{{ job.location }}" data-management="{% if job.management == True %}Management{% else %}{% endif %}" data-sector="{{ job.department }}">
-          <p class="u-no-margin--bottom"><small>{{ job.location }}</small></p>
-          <h2 class="u-no-padding--top u-sv1"><a class="p-link--soft"
-            href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
-          <hr />
-        </div>
-        {% endfor %}
+    <div class="js-job-list">
+      {% for job in vacancies %}
+      <div data-office="{% if job.office == 'Home Based' %}Home based{% else %}Office based{% endif %}" data-employment="{{ job.employment }}" data-date="{{ job.date }}" data-location="{{ job.location }}" data-management="{% if job.management == True %}Management{% else %}{% endif %}" data-sector="{{ job.department }}">
+        <p class="u-no-margin--bottom"><small>{{ job.location }}</small></p>
+        <h2 class="u-no-padding--top u-sv1"><a class="p-link--soft"
+          href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
+        <hr />
       </div>
+      {% endfor %}
     </div>
   </div>
   {% else %}
