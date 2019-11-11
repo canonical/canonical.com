@@ -233,71 +233,78 @@
   </div>
 
   <div id="partners" class="p-strip is-slanted--top-right" style="margin-bottom: 9rem;">
-    <div class="row">
-      <div class="col-3 u-hide--small">
-        <div class="p-content-list">
-          <ul class="p-content-list-section">
-            {% for partner_group in partner_groups %}
-            <li class="p-content-list-section__item"><a href="/partners/{{ partner_group|convert_to_kebab }}" class="p-link--soft js-partner-link">{{ partner_group }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="col-3 u-hide--medium u-hide--large">
-        <select name="menu" class="js-select-navigation" onchange="location.href=this.value">
-          <option disabled="disabled" value="" selected="">Select partner programme...</option>
-          {% for partner_group in partner_groups %}
-          <option value="/partners/{{ partner_group|convert_to_kebab }}">{{ partner_group }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="col-9 u-hide--medium u-hide--large">
-        <ul class="p-inline-images" style="margin-top: 1.5rem;">
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-        </ul>
-      </div>
-      <div class="col-9 u-vertically-center u-hide--small" style="position: relative;">
-        <ul class="p-inline-images js-partner-logos loaded" data-partner="default">
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/73135672-ntt-logo.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ee5d503f-rabobank-4.svg" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f9832168-AstraZeneca.png?w=144" alt="Placeholder image">
-          </li>
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d424d305-Tesco_Logo.svg" alt="Placeholder image">
-          </li>
-        </ul>
-        {% for partner_group in partner_groups %}
-        <ul class="p-inline-images js-partner-logos" data-partner="{{ partner_group|lower|replace(' ', '-') }}">
-          {% for partner in partner_groups[partner_group] %}
-          <li class="p-inline-images__item">
-            <img class="p-inline-images__logo" data-src="{{ partner['logo'] }}" alt="">
-          </li>
-          {% endfor %}
-        </ul>
-        {% endfor %}
-      </div>
+    <div class="u-fixed-width">
+      <ul class="p-inline-images">
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/e8810ea7-Intel.svg" width="91" height="60" alt="Intel logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/5bd692e3-partner-logo-fujitsu.svg" width="122" height="57" alt="Fujitsu logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/cf7153e1-Texas-instruments.svg" width="144" height="35" alt="Texas Instruments logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c873297d-hp-enterprise.svg" width="130" height="54" alt="HP Enterprise logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/75521214-Google-cloud-platform.svg" width="144" height="16" alt="Google Cloud logo" style="max-width: 275px;">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/e6e2deaf-oracle.svg" width="144" height="25" alt="Oracle logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/bd4452d1-microsoft.svg" width="144" height="30" alt="Microsoft logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/1008033a-arm.svg" width="112" height="34"alt="ARM logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/f627fbfb-hp.svg" width="61" height="61" alt="HP logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/1a0f2422-sandisk.svg" width="144" height="30" alt="Sandisk logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/ae6e3e91-AmazonWS.svg" width="132" height="51" alt="AWS logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/5ddba83a-logo-dell.svg" width="70" height="70" alt="Dell logo" style="max-width: 70px;">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/fa1643fb-amd.svg" width="144" height="34" alt="AMD logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/36fe2d08-ntt.svg" width="107" height="39" alt="NTT logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/fa0bbf09-cisco.svg" width="101" height="56" alt="Cisco logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/fb30ce34-IBM.svg" width="88" height="36" alt="IBM logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d9390ba6-deutsche-telekom.svg" width="135" height="32" alt="Deutche Telekom logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/cb3fcdfb-lenovo.svg" width="144" height="30" alt="Lenovo logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/a85dfc35-NEC.svg" width="100" height="28" alt="NEC logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/b32990e3-verizon.svg" width="121" height="38" alt="Verizon logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/e3914def-partner-logo-azure.svg" width="144" height="42" alt="Microsoft Azure logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/a78cad70-china-telecom.svg" width="135" height="38" alt="China Telecom logo">
+        </li>
+        <li class="p-inline-images__item">
+          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/5d403409-2018-logo-yahoo-japan.svg" width="144" height="37" alt="Yahoo Japan logo">
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -350,8 +357,6 @@
       </div>
     </div>
   </div>
-
-  <script async defer src="/static/js/dynamic-image-load.js"></script>
 
   <script>
     var animateHTML = function() {
