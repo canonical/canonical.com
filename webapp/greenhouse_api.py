@@ -93,9 +93,10 @@ def get_vacancy(job_id):
     return job
 
 
-# Default Job ID (1383152) is used below to submit CV without applying for a
-# specific job.
-def submit_to_greenhouse(form_data, form_files, job_id="1383152"):
+# Default Job ID (1658196) is used below to submit CV without applying for a
+# specific job
+# https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196.
+def submit_to_greenhouse(form_data, form_files, job_id="1658196"):
     # Encode the API_KEY to base64
     API_KEY = os.environ["GREENHOUSE_API_KEY"]
     auth = (
