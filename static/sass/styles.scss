@@ -148,3 +148,32 @@ $color-brand: #7c355d;
 .p-navigation__dropdown-link--no-chevron > .p-navigation__link-anchor {
   padding: .75rem 1rem;
 }
+
+.p-reveal-link {
+  position: relative;
+  padding-right: 2rem;
+
+  &:visited {
+    color: $color-link;
+  }
+  
+  &::after {
+    @include vf-icon-chevron(vf-url-friendly-color($color-link));
+    background-position: top 52% right 50%;
+    background-repeat: no-repeat;
+    background-size: .75rem;
+    content: "";
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: transform .1s;
+    width: 2rem;
+  }
+
+  &.is-open {
+    &::after {
+      transform: rotate(-180deg);
+    }
+  }
+}

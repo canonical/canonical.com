@@ -1,11 +1,14 @@
-
-<header id="navigation" class="p-navigation {% if request.path == '/' %}is-sticky{% endif %}" role="banner">
+<header id="navigation"
+  class="p-navigation {% if request.path == '/' %}is-sticky{% endif %}"
+  role="banner">
   {% block header_banner %}
   <div class="p-navigation__row u-fixed-width">
     <div class="p-navigation__banner">
       <div class="p-navigation__logo">
         <a class="p-navigation__link" href="/">
-          <img class="p-navigation__image" src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt="" width="95">
+          <img class="p-navigation__image"
+            src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt=""
+            width="95">
           <script>performance.mark("Logo rendered")</script>
         </a>
       </div>
@@ -24,31 +27,45 @@
         </li>
       </ul>
       {% else %}
-      <ul class="p-navigation__links u-hide js-show-nav" >
-        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}" role="menuitem" id="products-nav" onmouseover="fetchDropdown('/partial/_navigation-products', 'products-nav-content'); this.onmouseover = null;">
+      <ul class="p-navigation__links u-hide js-show-nav">
+        <li
+          class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}"
+          role="menuitem" id="products-nav"
+          onmouseover="fetchDropdown('/partial/_navigation-products', 'products-nav-content'); this.onmouseover = null;">
           {% if request.path|get_nav_path == 'products' %}
           <a class="p-navigation__link-anchor" href="/products">Products</a>
           {% else %}
-          <a class="p-navigation__link-anchor" href="#products-nav-content" onfocus="fetchDropdown('/partial/_navigation-products', 'products-nav-content');">Products</a>
+          <a class="p-navigation__link-anchor" href="#products-nav-content"
+            onfocus="fetchDropdown('/partial/_navigation-products', 'products-nav-content');">Products</a>
           {% endif %}
         </li>
-        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem" id="careers-nav" onmouseover="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content'); this.onmouseover = null;">
+        <li
+          class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}"
+          role="menuitem" id="careers-nav"
+          onmouseover="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content'); this.onmouseover = null;">
           {% if request.path|get_nav_path == 'careers' %}
           <a class="p-navigation__link-anchor" href="/careers">Careers</a>
           {% else %}
-          <a class="p-navigation__link-anchor" href="#careers-nav-content" onfocus="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content');">Careers</a>
+          <a class="p-navigation__link-anchor" href="#careers-nav-content"
+            onfocus="fetchDropdown('/partial/_navigation-careers', 'careers-nav-content');">Careers</a>
           {% endif %}
         </li>
       </ul>
       <noscript>
         <ul class="p-navigation__links">
-          <li class="p-navigation__link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}" role="menuitem">
+          <li
+            class="p-navigation__link {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}"
+            role="menuitem">
             <a href="/products">Products</a>
           </li>
-          <li class="p-navigation__link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem">
+          <li
+            class="p-navigation__link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}"
+            role="menuitem">
             <a href="/partners">Partners</a>
           </li>
-          <li class="p-navigation__link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}" role="menuitem">
+          <li
+            class="p-navigation__link {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}"
+            role="menuitem">
             <a href="/careers">Careers</a>
           </li>
         </ul>
@@ -71,27 +88,25 @@
   if (nav) {
     nav.classList.remove('u-hide');
   }
-
   // If the page loads with a preselected hash load and open the menu
-  if ((hash) && (!((hash==="#products") || (hash==="#careers")))) {
+  if ((hash) && (!((hash === "#products") || (hash === "#careers")))) {
     var selected = nav.querySelector(hash);
     if (selected) {
       selected.onmouseover();
     }
   }
-
   function fetchDropdown(url, id) {
     const div = document.getElementById(id);
     fetch(url)
-    .then(function(response) {
-      return response.text();
-    })
-    .then(function(text) {
-      div.innerHTML = text;
-    })
-    .catch(function(error) {
-      console.log('Request failed', error)
-    })
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (text) {
+        div.innerHTML = text;
+      })
+      .catch(function (error) {
+        console.log('Request failed', error)
+      })
   }
 </script>
 
@@ -100,51 +115,40 @@
     toggle.setAttribute('aria-expanded', show);
     dropdown.setAttribute('aria-hidden', !show);
   }
-
   function setupContextualMenuListeners(contextualMenuSelector) {
     var menus = document.querySelectorAll(contextualMenuSelector);
-
     for (var i = 0; i < menus.length; i++) {
       var toggle = menus[i].querySelector('.p-contextual-menu__toggle'),
-          dropdown = menus[i].querySelector('.p-contextual-menu__dropdown'),
-          timer = null;
-
-      toggle.addEventListener('click', function(e) {
+        dropdown = menus[i].querySelector('.p-contextual-menu__dropdown'),
+        timer = null;
+      toggle.addEventListener('click', function (e) {
         e.preventDefault();
       });
-
-      toggle.addEventListener('mouseover', function() {
+      toggle.addEventListener('mouseover', function () {
         clearTimeout(timer);
         toggleMenu(toggle, dropdown, true);
       });
-
-      toggle.addEventListener('mouseleave', function() {
+      toggle.addEventListener('mouseleave', function () {
         toggleMenu(toggle, dropdown, true);
-
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
           toggleMenu(toggle, dropdown, false);
         }, 50);
       });
-
-      dropdown.addEventListener('mouseover', function() {
+      dropdown.addEventListener('mouseover', function () {
         clearTimeout(timer);
       });
-
-      dropdown.addEventListener('mouseleave', function() {
-        timer = setTimeout(function() {
+      dropdown.addEventListener('mouseleave', function () {
+        timer = setTimeout(function () {
           toggleMenu(toggle, dropdown, false);
         }, 50);
       });
-
-      document.onkeydown = function(e) {
+      document.onkeydown = function (e) {
         e = e || window.event;
-
         if (e.keyCode === 27) {
           toggleMenu(toggle, dropdown, false);
         }
       };
     };
   }
-
   setupContextualMenuListeners('.p-contextual-menu');
 </script>
