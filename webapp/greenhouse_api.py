@@ -21,7 +21,9 @@ def get_vacancies(department):
     path_department = remove_hyphens(department)
     vacancies = []
     for job in feed["jobs"]:
-        feed_department = remove_hyphens(job["metadata"][2]["value"])
+        feed_department = parse_feed_department(
+            remove_hyphens(job["metadata"][2]["value"])
+        )
         if path_department.lower() == "all":
             vacancies.append(
                 {
@@ -135,6 +137,21 @@ def submit_to_greenhouse(form_data, form_files, job_id="1658196"):
     )
 
     return response
+
+
+def parse_feed_department(feed_department):
+    field = {
+        "cloud engineering": "engineering",
+        "device engineering": "engineering",
+        "web and design": "design",
+        "operations": "commercialops",
+        "human resources": "hr",
+    }
+
+    if feed_department.lower() in field:
+        return field[feed_department.lower()]
+
+    return feed_department
 
 
 def remove_hyphens(text):
