@@ -1,12 +1,19 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base_index.html' %} {% block content %}
 
-{% block hero %}{% endblock %}
+<section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
+  <div class="p-strip--suru-background">
+    <div class="row">
+      <div class="col-6">
+        <h1>{% block title %}{% endblock %}</h1>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="p-strip u-extra-space">
   <div class="row">
     {% include 'partial/_careers-navigation.html' %}
     <div class="col-8 col-start-large-5">
-      {% if request.path in ["/careers/engineering", "/careers/tech-ops", "/careers/commercial-ops", "/careers/sales", "/careers/marketing", "/careers/design", "/careers/project-management", "/careers/finance", "/careers/legal", "/careers/admin", "/careers/hr", "/careers/all"] %}
       {% if message %}
       <div class="row">
         <div class="col-8">
@@ -18,6 +25,7 @@
         </div>
       </div>
       {% endif %}
+
       <nav class="p-tabs">
         <ul class="p-tabs__list" role="tablist">
           <li class="p-tabs__item {% if request.path == '/careers/all' %}u-hide{% endif %}" role="presentation">
@@ -32,21 +40,17 @@
           </li>
         </ul>
       </nav>
-      
-        {% block overview_tab %}{% endblock %}
-        {% include 'partial/_careers-available-roles.html' %}
-        {% include 'partial/_careers-send-cv.html' %}
-
-      {% else %}
-
+    
+      <div class="p-strip is-shallow u-extra-space tab-content" id="overview">
         {% block overview %}{% endblock %}
-
-      {% endif %}
+      </div>
+      {% include 'partial/_careers-available-roles.html' %}
+      {% include 'partial/_careers-send-cv.html' %}
     </div>
   </div>
   {% include 'partial/_careers-modal.html' %}
 </section>
-
+<!-- 
 <script defer src="/static/js/careers-filter-and-sort.js"></script>
 <script defer src="/static/js/apply-for-jobs.js"></script>
 <script defer src="/static/js/file-validation.js"></script>
@@ -102,6 +106,6 @@
       link.classList.add("is-active");
     }
   })
-</script>
+</script> -->
 
 {% endblock %}
