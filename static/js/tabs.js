@@ -26,10 +26,12 @@ function initTabs() {
   function setActiveTab() {
     var urlHash = window.location.hash;
     [].forEach.call(tabLinks, function (link) {
-      if ("#" + link.getAttribute("aria-controls") === urlHash) {
-        link.setAttribute("aria-selected", true);
-      } else {
-        link.setAttribute("aria-selected", false);
+      if (urlHash) {
+        if ("#" + link.getAttribute("aria-controls") === urlHash) {
+          link.setAttribute("aria-selected", true);
+        } else {
+          link.setAttribute("aria-selected", false);
+        }
       }
     });
   };
