@@ -31,16 +31,7 @@
     Sorry, there are no open positions matching your criteria.
   </h2>
   <div class="js-filter-jobs-container">
-    <div class="js-job-list">
-      {% for job in vacancies %}
-      <div data-office="{% if job.office == 'Home Based' %}Home based{% else %}Office based{% endif %}" data-employment="{{ job.employment }}" data-date="{{ job.date }}" data-location="{{ job.location }}" data-management="{% if job.management == True %}Management{% else %}{% endif %}" data-sector="{{ job.department }}">
-        <p class="u-no-margin--bottom"><small>{{ job.location }}</small></p>
-        <h2 class="u-no-padding--top u-sv1"><a class="p-link--soft"
-          href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a></h2>
-        <hr />
-      </div>
-      {% endfor %}
-    </div>
+    {% include "partial/_careers-job-list.html" %}
   </div>
   {% else %}
     <h2 class="p-heading--three">We don&apos;t have any open positions right now.
