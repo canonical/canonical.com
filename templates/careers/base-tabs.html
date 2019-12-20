@@ -28,11 +28,11 @@
 
       <nav class="p-tabs">
         <ul class="p-tabs__list" role="tablist">
-          <li class="p-tabs__item {% if request.path == '/careers/all' %}u-hide{% endif %}" role="presentation">
-            <a href="#overview" class="p-tabs__link" tabindex="0" role="tab" aria-controls="overview" {% if not(request.path == '/careers/all') %}aria-selected="true"{% endif %}>Overview</a>
+          <li class="p-tabs__item" role="presentation">
+            <a href="#overview" class="p-tabs__link" tabindex="0" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="#available-roles" class="p-tabs__link" tabindex="{% if request.path == '/careers/all' %}0{% else %}-1{% endif %}"" role="tab" aria-controls="available-roles" {% if request.path == '/careers/all' %}aria-selected="true"{% endif %}>Available roles</a>
+            <a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles">Available roles</a>
           </li>
           <li class="p-tabs__item" role="presentation">
             <a href="#send-cv" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="send-cv">Send your
@@ -46,71 +46,40 @@
       </div>
 
       <div class="p-strip p-tabs__content is-shallow u-extra-space" id="available-roles">
-      {% include 'partial/_careers-available-roles.html' %}
+        {% include 'partial/_careers-available-roles.html' %}
       </div>
 
       <div class="p-strip p-tabs__content is-shallow u-extra-space" id="send-cv">
-      {% include 'partial/_careers-send-cv.html' %}
+        {% include 'partial/_careers-send-cv.html' %}
+      </div>
+
+      <script>
+        // prevent the page jumping around when switching tabs,
+        // whilst still using :target
+        // https://gist.github.com/pimterry/260841c2104f27cadc954a29b9873b96#file-disable-link-jump-with-workaround-js
+
+        var tabLinks = document.querySelectorAll("a[href^='#']");
+
+        [].forEach.call(tabLinks, function (link) {
+          link.addEventListener("click", function (event) {
+            var urlHash = window.location.hash;
+
+            event.preventDefault();
+            history.pushState({}, "", link.href);
+            
+            // Update the URL again with the same hash, then go back
+            history.pushState({}, "", link.href);
+            history.back();
+          });
+        });
+      </script>
     </div>
   </div>
   {% include 'partial/_careers-modal.html' %}
 </section>
-<!-- 
+
 <script defer src="/static/js/careers-filter-and-sort.js"></script>
 <script defer src="/static/js/apply-for-jobs.js"></script>
 <script defer src="/static/js/file-validation.js"></script>
-<script>
-  var urlHash = window.location.hash;
-  var tabLinks = document.querySelectorAll(".p-tabs__link");
-  if (urlHash) {
-    document.querySelectorAll(".tab-content").forEach(function (tab) {
-      tab.classList.add("u-hide");
-    });
-  }
-  tabLinks.forEach(function (tabLink) {
-    if (urlHash) {
-      if (`#${tabLink.getAttribute("aria-controls")}` === urlHash) {
-        tabLink.setAttribute("aria-selected", true);
-        document.getElementById(tabLink.getAttribute("aria-controls")).classList.remove("u-hide");
-      } else {
-        tabLink.setAttribute("aria-selected", false);
-      }
-    }
-    tabLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      tabLinks.forEach(function (tab) {
-        tab.setAttribute("aria-selected", false);
-      });
-      e.target.setAttribute("aria-selected", true);
-      var control = tabLink.getAttribute("aria-controls");
-      document.querySelectorAll(".tab-content").forEach(function (tab) {
-        tab.classList.add("u-hide");
-      });
-      document.getElementById(control).classList.remove("u-hide");
-      window.location.hash = `#${control}`;
-    });
-  });
-
-  window.onhashchange = function() { 
-    urlHash = window.location.hash;
-    tabLinks.forEach(function (tabLink) {
-      if (`#${tabLink.getAttribute("aria-controls")}` === urlHash) {
-        tabLink.setAttribute("aria-selected", true);
-        document.getElementById(tabLink.getAttribute("aria-controls")).classList.remove("u-hide");
-      } else {
-        tabLink.setAttribute("aria-selected", false);
-        document.getElementById(tabLink.getAttribute("aria-controls")).classList.add("u-hide");
-      }
-    });
-  }
-
-  var path = window.location.pathname.split("/").pop();
-  navigationLinks = document.querySelectorAll(".js-navigation-link");
-  navigationLinks.forEach(function (link) {
-    if (link.firstElementChild.href.split("/").pop() === path) {
-      link.classList.add("is-active");
-    }
-  })
-</script> -->
 
 {% endblock %}
