@@ -40,10 +40,6 @@
           </li>
         </ul>
       </nav>
-    
-      <div class="p-strip p-tabs__content is-shallow u-extra-space" id="overview">
-        {% block overview %}{% endblock %}
-      </div>
 
       <div class="p-strip p-tabs__content is-shallow u-extra-space" id="available-roles">
         {% include 'partial/_careers-available-roles.html' %}
@@ -53,26 +49,9 @@
         {% include 'partial/_careers-send-cv.html' %}
       </div>
 
-      <script>
-        // prevent the page jumping around when switching tabs,
-        // whilst still using :target
-        // https://gist.github.com/pimterry/260841c2104f27cadc954a29b9873b96#file-disable-link-jump-with-workaround-js
-
-        var tabLinks = document.querySelectorAll("a[href^='#']");
-
-        [].forEach.call(tabLinks, function (link) {
-          link.addEventListener("click", function (event) {
-            var urlHash = window.location.hash;
-
-            event.preventDefault();
-            history.pushState({}, "", link.href);
-            
-            // Update the URL again with the same hash, then go back
-            history.pushState({}, "", link.href);
-            history.back();
-          });
-        });
-      </script>
+      <div class="p-strip p-tabs__content is-shallow u-extra-space" id="overview">
+        {% block overview %}{% endblock %}
+      </div>
     </div>
   </div>
   {% include 'partial/_careers-modal.html' %}
@@ -81,5 +60,24 @@
 <script defer src="/static/js/careers-filter-and-sort.js"></script>
 <script defer src="/static/js/apply-for-jobs.js"></script>
 <script defer src="/static/js/file-validation.js"></script>
+<script>
+  // prevent the page jumping around when switching tabs,
+  // whilst still using :target
+  // https://gist.github.com/pimterry/260841c2104f27cadc954a29b9873b96#file-disable-link-jump-with-workaround-js
 
+  var tabLinks = document.querySelectorAll("a[href^='#']");
+
+  [].forEach.call(tabLinks, function (link) {
+    link.addEventListener("click", function (event) {
+      var urlHash = window.location.hash;
+
+      event.preventDefault();
+      history.pushState({}, "", link.href);
+      
+      // Update the URL again with the same hash, then go back
+      history.pushState({}, "", link.href);
+      history.back();
+    });
+  });
+</script>
 {% endblock %}
