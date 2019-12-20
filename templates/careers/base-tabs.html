@@ -60,24 +60,6 @@
 <script defer src="/static/js/careers-filter-and-sort.js"></script>
 <script defer src="/static/js/apply-for-jobs.js"></script>
 <script defer src="/static/js/file-validation.js"></script>
-<script>
-  // prevent the page jumping around when switching tabs,
-  // whilst still using :target
-  // https://gist.github.com/pimterry/260841c2104f27cadc954a29b9873b96#file-disable-link-jump-with-workaround-js
+<script defer src="/static/js/tabs.js"></script>
 
-  var tabLinks = document.querySelectorAll("a[href^='#']");
-
-  [].forEach.call(tabLinks, function (link) {
-    link.addEventListener("click", function (event) {
-      var urlHash = window.location.hash;
-
-      event.preventDefault();
-      history.pushState({}, "", link.href);
-      
-      // Update the URL again with the same hash, then go back
-      history.pushState({}, "", link.href);
-      history.back();
-    });
-  });
-</script>
 {% endblock %}
