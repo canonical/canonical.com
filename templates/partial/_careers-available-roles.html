@@ -1,41 +1,39 @@
-<div class="p-strip is-shallow u-extra-space tab-content {% if not(request.path == '/careers/all') %}u-hide{% endif %}" id="available-roles">
-  {% if vacancies %}
-  <div class="u-align--right js-filter-form u-hide">
-    <form action="" method="get" class="p-form p-form--inline">
-      <div class="p-form__group">
-        <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
-        <select class="js-filter p-form__control" id="filter" name="filter"
-          aria-label="Filter by job type">
-          <option value="all">All</option>
-          <option value="home-based">Home based</option>
-          <option value="office-based">Office based</option>
-          <option value="management">Management</option>
-          <option value="full-time">Full-time</option>
-          <option value="part-time">Part-time</option>
-        </select>
-      </div>
-      <div class="p-form__group">
-        <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
-        <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
-          <option>Date</option>
-          <option>Location</option>
-          {% if request.path == "/careers/all"%}
-          <option>Job sector</option>
-          {% endif %}
-        </select>
-      </div>
-    </form>
-    <hr />
-  </div>
-  <h2 class="p-heading--four js-filter__no-results u-hide">
-    Sorry, there are no open positions matching your criteria.
-  </h2>
-  <div class="js-filter-jobs-container">
-    {% include "partial/_careers-job-list.html" %}
-  </div>
-  {% else %}
-    <h2 class="p-heading--three">We don&apos;t have any open positions right now.
-    </h2>
-    <p>If you&apos;d like <a href="#send-cv">send us your CV</a> and we&apos;ll send you an email any time a position opens up.</p>
-  {% endif %}
+{% if vacancies %}
+<div class="u-align--right js-filter-form u-hide">
+  <form action="" method="get" class="p-form p-form--inline">
+    <div class="p-form__group">
+      <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
+      <select class="js-filter p-form__control" id="filter" name="filter"
+        aria-label="Filter by job type">
+        <option value="all">All</option>
+        <option value="home-based">Home based</option>
+        <option value="office-based">Office based</option>
+        <option value="management">Management</option>
+        <option value="full-time">Full-time</option>
+        <option value="part-time">Part-time</option>
+      </select>
+    </div>
+    <div class="p-form__group">
+      <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
+      <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
+        <option>Date</option>
+        <option>Location</option>
+        {% if request.path == "/careers/all"%}
+        <option>Job sector</option>
+        {% endif %}
+      </select>
+    </div>
+  </form>
+  <hr />
 </div>
+<h2 class="p-heading--four js-filter__no-results u-hide">
+  Sorry, there are no open positions matching your criteria.
+</h2>
+<div class="js-filter-jobs-container">
+  {% include "partial/_careers-job-list.html" %}
+</div>
+{% else %}
+  <h2 class="p-heading--three">We don&apos;t have any open positions right now.
+  </h2>
+  <p>If you&apos;d like <a href="#send-cv">send us your CV</a> and we&apos;ll send you an email any time a position opens up.</p>
+{% endif %}
