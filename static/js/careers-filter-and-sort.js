@@ -36,23 +36,15 @@
           }
           updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
           filterJobs(filterBy, jobList);
-          updateUlr(filterBy);
+          updateURL(filterBy);
           updateNoResultsMessage();
         });
       }
 
       if (sortSelect) {
         sortSelect.addEventListener("change", function (e) {
-          var sortBy = "date";
-          switch (sortSelect.options[sortSelect.options.selectedIndex].value) {
-            case "Date":
-              sortBy = "date";
-              break;
-            case "Location":
-              sortBy = "location";
-          }
-          jobList.sort((a, b) => a.dataset[sortBy] !== b.dataset[sortBy] ? a.dataset[sortBy] < b.dataset[sortBy] ? -1 : 1 : 0);
-          if (sortBy === "date") {
+          jobList.sort((a, b) => a.dataset[sortSelect.value] !== b.dataset[sortSelect.value] ? a.dataset[sortSelect.value] < b.dataset[sortSelect.value] ? -1 : 1 : 0);
+          if (sortSelect.value === "date") {
             jobList.reverse();
           }
           // Create new DOM list
@@ -107,12 +99,12 @@
     switch (filter) {
       case "home-based":
         filterBy.filterName = "office";
-        filterBy.filterText = "Home based";
+        filterBy.filterText = "Home Based";
         filterBy.filterValue = "home-based";
         break;
       case "office-based":
         filterBy.filterName = "office";
-        filterBy.filterText = "Office based";
+        filterBy.filterText = "Office Based";
         filterBy.filterValue = "office-based";
         break;
       case "management":
@@ -150,18 +142,15 @@
     }
   }
 
-  function updateUlr(filterBy) {
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.split("#")[0].split("?")[0];
-    var newUrl = `${baseUrl}#available-roles`;
-    if (filterBy.filterValue === "all") {
-      window.history.pushState({ filter: "all" }, "", newUrl);
-    } else {
-      newUrl = `${baseUrl}?filter=${filterBy.filterValue}#available-roles`;
-      window.history.pushState({ filter: filterBy.filterValue }, "", newUrl);
-    }
+  function updateURL(filterBy) {
+    var baseURL = window.location.origin + window.location.pathname;
+    
+    urlParams.set('filter', filterBy.filterValue);
+
+    var url = baseURL + '?' + urlParams.toString() + '#available-roles';
+
+    window.history.pushState({}, "", url);
   }
 
   init();
-
 })();
