@@ -68,30 +68,8 @@ Travel regularly to interesting destinations for team, conference and customer e
     </div>
     {% endif %}
     <div class="row u-vertically-center">
-      <div class="col-8 u-align--right">
-        <form action="" method="get" class="p-form p-form--inline">
-          <div class="p-form__group">
-            <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
-            <select class="js-filter p-form__control" id="filter" name="filter"
-              aria-label="Filter by job type">
-              <option>All</option>
-              <option>Home based</option>
-              <option>Office based</option>
-              <option>Management</option>
-              <option>Full-time</option>
-              <option>Part-time</option>
-            </select>
-          </div>
-          <div class="p-form__group">
-            <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
-            <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
-              <option>Date</option>
-              <option>Location</option>
-              <option>Job sector</option>
-            </select>
-          </div>
-        </form>
-        <hr />
+      <div class="col-8 u-align--right js-filter-form u-hide">
+        {% include "careers/_filters.html" %}
       </div>
     </div>
     <div class="row">
@@ -101,7 +79,7 @@ Travel regularly to interesting destinations for team, conference and customer e
           <p>{{ message }} <a href="/careers/start">Retake choices again?</a></p>
         </div>
         {% else %}
-        <form>
+        <form class="js-filter-jobs-container">
           {% with checkbox="true" %}
             {% include "partial/_careers-job-list.html" %}
           {% endwith %}
@@ -109,6 +87,10 @@ Travel regularly to interesting destinations for team, conference and customer e
           <button type="submit">Apply now</button>
         </form>
         {% endif %}
+
+        <h2 class="p-heading--four js-filter__no-results u-hide">
+          Sorry, there are no open positions matching your criteria.
+        </h2>
       </div>
     </div>
   </div>

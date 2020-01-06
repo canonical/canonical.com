@@ -1,30 +1,6 @@
 {% if vacancies %}
 <div class="u-align--right js-filter-form u-hide">
-  <form action="" method="get" class="p-form p-form--inline">
-    <div class="p-form__group">
-      <label for="filter" aria-label="Filter by job type" class="p-form__label">Filter by</label>
-      <select class="js-filter p-form__control" id="filter" name="filter"
-        aria-label="Filter by job type">
-        <option value="all">All</option>
-        <option value="home-based">Home based</option>
-        <option value="office-based">Office based</option>
-        <option value="management">Management</option>
-        <option value="full-time">Full-time</option>
-        <option value="part-time">Part-time</option>
-      </select>
-    </div>
-    <div class="p-form__group">
-      <label for="sort" aria-label="Sort resources" class="p-form__label">Sort by</label>
-      <select class="js-sort p-form__control" id="sort" name="sort" aria-label="Sort resources">
-        <option>Date</option>
-        <option>Location</option>
-        {% if request.path == "/careers/all"%}
-        <option>Job sector</option>
-        {% endif %}
-      </select>
-    </div>
-  </form>
-  <hr />
+  {% include "careers/_filters.html" %}
 </div>
 <h2 class="p-heading--four js-filter__no-results u-hide">
   Sorry, there are no open positions matching your criteria.
