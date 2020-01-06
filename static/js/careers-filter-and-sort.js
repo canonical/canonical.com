@@ -107,12 +107,12 @@
     switch (filter) {
       case "home-based":
         filterBy.filterName = "office";
-        filterBy.filterText = "Home based";
+        filterBy.filterText = "Home Based";
         filterBy.filterValue = "home-based";
         break;
       case "office-based":
         filterBy.filterName = "office";
-        filterBy.filterText = "Office based";
+        filterBy.filterText = "Office Based";
         filterBy.filterValue = "office-based";
         break;
       case "management":
