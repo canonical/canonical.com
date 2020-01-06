@@ -36,7 +36,7 @@
           }
           updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
           filterJobs(filterBy, jobList);
-          updateUlr(filterBy);
+          updateURL(filterBy);
           updateNoResultsMessage();
         });
       }
@@ -150,18 +150,15 @@
     }
   }
 
-  function updateUlr(filterBy) {
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.split("#")[0].split("?")[0];
-    var newUrl = `${baseUrl}#available-roles`;
-    if (filterBy.filterValue === "all") {
-      window.history.pushState({ filter: "all" }, "", newUrl);
-    } else {
-      newUrl = `${baseUrl}?filter=${filterBy.filterValue}#available-roles`;
-      window.history.pushState({ filter: filterBy.filterValue }, "", newUrl);
-    }
+  function updateURL(filterBy) {
+    var baseURL = window.location.origin + window.location.pathname;
+    
+    urlParams.set('filter', filterBy.filterValue);
+
+    var url = baseURL + '?' + urlParams.toString() + '#available-roles';
+
+    window.history.pushState({}, "", url);
   }
 
   init();
-
 })();
