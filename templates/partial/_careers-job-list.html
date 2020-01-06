@@ -1,0 +1,31 @@
+<ul class="p-list--divided js-job-list">
+  {% for job in vacancies %}
+  <li 
+    class="p-list__item" 
+    data-office="{{ job.office }}" 
+    data-employment="{{ job.employment }}" 
+    data-date="{{ job.date }}" 
+    data-location="{{ job.location }}" 
+    data-management="{{ job.management}}" 
+    data-sector="{{ job.departments }}"
+  >
+    <p class="u-no-margin--bottom u-sv1">
+      <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
+        {{ job.location }}
+      </small>
+    </p>
+
+    {% if checkbox %}
+    <p class="u-hide">{{ job.date }}</p>
+    <input type="checkbox" name="roles" id="{{ job.id }}" />
+    <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+    {% endif %}
+      <h2 class="{% if checkbox %}u-sv3{% else %}u-no-padding--top u-sv1{% endif %}">
+        <a class="p-link--soft" href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a>
+      </h2>
+    {% if checkbox %}
+    </label>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
