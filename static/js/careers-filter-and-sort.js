@@ -43,16 +43,8 @@
 
       if (sortSelect) {
         sortSelect.addEventListener("change", function (e) {
-          var sortBy = "date";
-          switch (sortSelect.options[sortSelect.options.selectedIndex].value) {
-            case "Date":
-              sortBy = "date";
-              break;
-            case "Location":
-              sortBy = "location";
-          }
-          jobList.sort((a, b) => a.dataset[sortBy] !== b.dataset[sortBy] ? a.dataset[sortBy] < b.dataset[sortBy] ? -1 : 1 : 0);
-          if (sortBy === "date") {
+          jobList.sort((a, b) => a.dataset[sortSelect.value] !== b.dataset[sortSelect.value] ? a.dataset[sortSelect.value] < b.dataset[sortSelect.value] ? -1 : 1 : 0);
+          if (sortSelect.value === "date") {
             jobList.reverse();
           }
           // Create new DOM list
