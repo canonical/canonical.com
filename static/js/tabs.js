@@ -18,10 +18,10 @@ function initTabs() {
   });
 
   document.addEventListener("DOMContentLoaded", setActiveTab());
-
-  window.onhashchange = function() { 
-    setActiveTab();
-  }
+  
+  window.addEventListener('hashchange', function () {
+    setActiveTab()
+  }, false);
 
   function setActiveTab() {
     var urlHash = window.location.hash;
