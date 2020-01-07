@@ -37,14 +37,12 @@
       <h3>Roles applying for:</h3>
       <div class="row u-sv3">
         <div class="col-6">
-          <input type="checkbox" id="CheckMe1">
-          <label for="CheckMe1">Robotics Developer Advocate</label>
-          <input type="checkbox" id="CheckMe2">
-          <label for="CheckMe2">QA Engineer</label>
-          <input type="checkbox" id="CheckMe3">
-          <label for="CheckMe3">Software Engineer - MAAS</label>
+          {% for role in roles %}
+            <input type="checkbox" name="roles" id="role{{role.id}}" checked>
+            <label for="role{{ role.id }}">{{ role.title }}</label>
+          {% endfor %}
         </div>
-        <div class="col-3 u-align--right">
+        <div class="col-3">
           <button class="p-button has-icon" onclick="showModal()"><i class="p-icon--plus"></i><span>Add more roles</span></button>
         </div>
       </div>
@@ -127,6 +125,9 @@
     </div>
   </div>
 </div>
+
+{% include 'partial/_careers-modal.html' %}
+
 <script>
   function fileValidation() {
     var fileInput = document.getElementById('resume');

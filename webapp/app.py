@@ -97,6 +97,15 @@ def department_group(department):
         f"careers/{department}.html", vacancies=vacancies
     )
 
+@app.route("/careers/apply")
+def apply():
+    roleIDs=flask.request.args.getlist('roles')
+    roles=[]
+
+    for roleID in roleIDs:
+        roles.append(get_vacancy(roleID))
+
+    return flask.render_template("/careers/apply.html", roles=roles)
 
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
 def job_details(job_id):
