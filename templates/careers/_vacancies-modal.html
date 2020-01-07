@@ -1,0 +1,25 @@
+<div class="p-modal js-vacancies-modal u-hide">
+  <div class="p-modal__dialog" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+    <header class="p-modal__header">
+      <button class="p-modal__close js-vacancies-modal__close" aria-label="Close active modal">Close</button>
+      <hr />
+    </header>
+
+    <form class="js-vacancies-modal__form">
+      <h3 class="p-heading--five">Add roles to apply for:</h3>
+      <div class="row u-no-padding u-sv3">
+        <div class="col-6">
+          {% for vacancy in vacancies %}
+            <input type="checkbox" name="roles" id="vacancy{{vacancy.id}}">
+            <label for="vacancy{{ vacancy.id }}">{{ vacancy.title }}</label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <hr style="margin-top: 1rem;" />
+      <a class="p-button--positive u-no-margin--bottom js-vacancies-modal__update-roles" href="#">Add roles</a>
+    </form>
+  </div>
+</div>
+
+<script async defer src="/static/js/modal.js"></script>
