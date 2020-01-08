@@ -26,11 +26,13 @@
 {% endblock %}
 
 {% block careers_content %}
-<div class="row u-sv3">
-  <div class="col-12">
-    <a href="{{ request.referrer }}">&lsaquo;&nbsp;Back to list</a>
+{% if request.referrer %}
+  <div class="row u-sv3">
+    <div class="col-12">
+      <a href="{{ request.referrer }}">&lsaquo;&nbsp;Back to list</a>
+    </div>
   </div>
-</div>
+{% endif %}
 <div class="row u-extra-space">
   <div class="col-12">
     <div class="p-card--strip" style="margin-bottom: 0;">
