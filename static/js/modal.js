@@ -2,7 +2,7 @@ function initVacanciesModal() {
   var modalClose = document.querySelector('.js-vacancies-modal__close');
   var modalElement = document.querySelector('.js-vacancies-modal');
   var modalOpen = document.querySelector('.js-vacancies-modal__open');
-  var updateRolesCTA = document.querySelector('.js-vacancies-modal__update-roles');
+  var modalForm = document.querySelector('.js-vacancies-modal__form');
   var selectedRolesList = document.querySelector('.js-vacancies-modal__active-roles');
   var vacanciesList = document.querySelector('.js-vacancies-modal__vacancies');
 
@@ -28,7 +28,7 @@ function initVacanciesModal() {
       }
     });
 
-    updateRolesCTA.addEventListener('click', function(e) {
+    modalForm.addEventListener('submit', function(e) {
       e.preventDefault();
       updateRoles();
       modalElement.classList.add('u-hide');
