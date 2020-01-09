@@ -31,6 +31,7 @@
     degrees.forEach(degree => {
       degreeList += `<option value="${degree.text}" />`
     });
+
     if(datalistDegreeElement){
       datalistDegreeElement.innerHTML = degreeList;
     }

@@ -33,6 +33,7 @@
     </div>
   </div>
 {% endif %}
+{{ message }}
 <div class="row u-extra-space">
   <div class="col-12">
     <div class="p-card--strip" style="margin-bottom: 0;">
@@ -49,7 +50,7 @@
         </div>
       </div>
       <hr />
-      <form>
+      <form method="post" action="{{ request.path }}" enctype="multipart/form-data">
         <fieldset style="border: none; margin-bottom: 0;">
           <p class="required-legend u-align-text--right ">Required</p>
           <label for="first_name" class="is-required u-no-padding--top">First name</label>
@@ -124,7 +125,7 @@
             </div>
           </div>
 
-          <button type="button" class="p-button has-icon js-add-education"><i class="p-icon--plus"></i> <span>Add another education</span></button>
+          <button type="button" class="p-button has-icon js-add-education"><i class="p-icon--plus"></i> <span>Add more education</span></button>
 
           <hr />
 

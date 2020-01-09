@@ -3,6 +3,7 @@ import datetime
 import flask
 import markdown
 import re
+import ipdb
 
 
 # Packages
@@ -98,18 +99,51 @@ def department_group(department):
     )
 
 
-@app.route("/careers/apply")
+@app.route("/careers/apply", methods=["GET", "POST"])
 def apply():
-    roleIDs = flask.request.args.getlist("roles")
-    selectedRoles = []
     vacancies = get_vacancies("all")
+    selectedRoles = []
 
-    for roleID in roleIDs:
-        selectedRoles.append(get_vacancy(roleID))
+    if flask.request.method == "GET":
+        roleIDs=flask.request.args.getlist("roles")
 
-    return flask.render_template(
-        "/careers/apply.html", vacancies=vacancies, selectedRoles=selectedRoles
-    )
+        for roleID in roleIDs:
+            selectedRoles.append(get_vacancy(roleID))
+
+        return flask.render_template(
+            "/careers/apply.html", 
+            vacancies=vacancies, 
+            selectedRoles=selectedRoles
+        )
+    elif flask.request.method == "POST":
+        job_ids = ['1504935', '1919866']
+        message = {
+            "type": "positive",
+            "title": "Success",
+            "text": (
+                "Your application has been successfully submitted."
+                " Thank you!"
+            ),
+        }
+
+        for job_id in job_ids:
+            response = submit_to_greenhouse(
+                flask.request.form, flask.request.files, job_id
+            )
+        
+            if response.status_code != 200:
+                message = {
+                    "type": "negative",
+                    "title": f"Error {response.status_code}",
+                    "text": f"{response.reason}. Please try again!",
+                }
+
+        return flask.render_template(
+            "/careers/apply.html", 
+            vacancies=vacancies, 
+            selectedRoles=selectedRoles,
+            message=message
+        )
 
 
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
@@ -120,6 +154,7 @@ def job_details(job_id):
         response = submit_to_greenhouse(
             flask.request.form, flask.request.files, job_id
         )
+        
         if response.status_code == 200:
             message = {
                 "type": "positive",

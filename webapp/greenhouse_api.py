@@ -87,7 +87,6 @@ def get_vacancies_by_skills(core_skills):
 def get_vacancy(job_id):
     feed = api_session.get(f"{base_url}/{job_id}").json()
     job = {
-        "id": job_id,
         "title": feed["title"],
         "content": unescape(feed["content"]),
         "location": feed["location"]["name"],
