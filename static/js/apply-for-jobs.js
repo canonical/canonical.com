@@ -161,7 +161,6 @@
 
   if (locateMeButton) {
     locateMeButton.addEventListener("click", () => {
-      console.log("Click")
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
           fetch(`${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`)
