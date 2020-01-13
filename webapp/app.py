@@ -29,6 +29,20 @@ app = FlaskBase(
     template_500="500.html",
 )
 
+departments = [
+    'admin',
+    'commercial-ops',
+    'design',
+    'engineering',
+    'finance',
+    'hr',
+    'legal',
+    'marketing',
+    'project-management',
+    'sales',
+    'tech-ops',
+]
+
 
 @app.route("/")
 def index():
@@ -63,7 +77,7 @@ def results():
 
 
 @app.route(
-    "/careers/<regex('[a-z-]*[a-z][a-z-]*'):department>",
+    "/careers/<any('({})'):department>".format(str(departments)[1:-1]),
     methods=["GET", "POST"],
 )
 def department_group(department):
