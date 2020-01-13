@@ -30,17 +30,17 @@ app = FlaskBase(
 )
 
 departments = [
-    'admin',
-    'commercial-ops',
-    'design',
-    'engineering',
-    'finance',
-    'hr',
-    'legal',
-    'marketing',
-    'project-management',
-    'sales',
-    'tech-ops',
+    "admin",
+    "commercial-ops",
+    "design",
+    "engineering",
+    "finance",
+    "hr",
+    "legal",
+    "marketing",
+    "project-management",
+    "sales",
+    "tech-ops",
 ]
 
 
