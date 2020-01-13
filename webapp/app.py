@@ -29,6 +29,20 @@ app = FlaskBase(
     template_500="500.html",
 )
 
+career_departments = [
+    "admin",
+    "commercial-ops",
+    "design",
+    "engineering",
+    "finance",
+    "hr",
+    "legal",
+    "marketing",
+    "project-management",
+    "sales",
+    "tech-ops",
+]
+
 
 @app.route("/")
 def index():
@@ -62,11 +76,11 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route(
-    "/careers/<regex('[a-z-]*[a-z][a-z-]*'):department>",
-    methods=["GET", "POST"],
-)
+@app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
+    if department not in career_departments:
+        flask.abort(404)
+
     vacancies = get_vacancies(department)
 
     if flask.request.method == "POST":
