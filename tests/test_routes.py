@@ -18,6 +18,24 @@ class TestRoutes(unittest.TestCase):
 
         self.assertEqual(self.client.get("/").status_code, 200)
 
+    def test_careers_department(self):
+        """
+        When given the URL of a valid careers department,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/careers/engineering").status_code, 200
+        )
+
+    def test_invalid_careers_department(self):
+        """
+        When given the URL of an invalid careers department,
+        we should return a 404 status code
+        """
+
+        self.assertEqual(self.client.get("/careers/foo").status_code, 404)
+
     def test_not_found(self):
         """
         When given a non-existent URL,
