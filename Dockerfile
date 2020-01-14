@@ -11,7 +11,7 @@ RUN --mount=type=cache,target=/root/.cache/pip pip3 install --user --requirement
 
 # Build stage: Build CSS
 # ===
-FROM node:10-slim AS build-css
+FROM node:12-slim AS build-css
 WORKDIR /srv
 ADD package.json .
 RUN --mount=type=cache,target=/usr/local/share/.cache/yarn yarn install
