@@ -76,11 +76,11 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route("/careers/<department>", methods=["GET", "POST"])
+@app.route(
+    "/careers/<any('({})'):department>".format(str(career_departments)[1:-1]),
+    methods=["GET", "POST"],
+)
 def department_group(department):
-    if department not in career_departments:
-        flask.abort(404)
-
     vacancies = get_vacancies(department)
 
     if flask.request.method == "POST":
