@@ -31,6 +31,7 @@ app = FlaskBase(
 
 career_departments = [
     "admin",
+    "all",
     "commercial-ops",
     "design",
     "engineering",
