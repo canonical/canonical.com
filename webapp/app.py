@@ -42,6 +42,7 @@ career_departments = [
     "project-management",
     "sales",
     "tech-ops",
+    "---",
 ]
 
 
