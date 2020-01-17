@@ -10,6 +10,33 @@
     <meta name="copydoc" content="{% block meta_copydoc %}https://drive.google.com/drive/folders/0B8feV0jqaac3TmExU3NDcHhFTGc{% endblock %}">
     <meta name="author" content="Canonical Ltd" />
 
+    <meta name="theme-color" content="#E95420">
+    <meta name="twitter:account_id" content="169015850">
+    <meta name="twitter:site" content="@canonical">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="Canonical">
+
+    <title>Canonical | {% block title %}The company behind Ubuntu{% endblock %}</title>
+    {% if self.title() %}
+    <meta name="twitter:title" content="{{ self.title() }} | Canonical">
+    <meta property="og:title" content="{{ self.title() }} | Canonical">
+    {% endif %}
+    {% if self.meta_description() %}
+    <meta name="twitter:description" content="{{ self.meta_description() }}">
+    <meta property="og:description" content="{{ self.meta_description() }}">
+    {% endif %}
+
+    {# Define the required meta_image block #}
+    <!-- Meta image: {% block meta_image %}{% endblock %} -->
+    {% if self.meta_image() %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
+    <meta property="og:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
+    {% endif %}
+
+
+
     <link rel="shortcut icon" href="https://assets.ubuntu.com/v1/0843d517-favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
       href="https://assets.ubuntu.com/v1/9864667f-apple-touch-icon-144x144-precomposed.png">
@@ -19,8 +46,6 @@
       href="https://assets.ubuntu.com/v1/f193fb82-apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon-precomposed"
       href="https://assets.ubuntu.com/v1/205d458b-apple-touch-icon-precomposed.png">
-
-    <title>Canonical | The company behind Ubuntu</title>
 
     <link rel="preconnect" href="https://assets.ubuntu.com">
 
@@ -34,7 +59,7 @@
       crossorigin>
 
     <script src="/static/js/navigation.js" defer></script>
-    
+
     <link rel="stylesheet" type="text/css" media="screen" href="/static/css/styles.css" />
   </head>
 
