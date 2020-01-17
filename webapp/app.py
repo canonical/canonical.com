@@ -29,22 +29,6 @@ app = FlaskBase(
     template_500="500.html",
 )
 
-career_departments = [
-    "admin",
-    "all",
-    "commercial-ops",
-    "design",
-    "engineering",
-    "finance",
-    "hr",
-    "legal",
-    "marketing",
-    "project-management",
-    "sales",
-    "tech-ops",
-    "---",
-]
-
 
 @app.route("/")
 def index():
@@ -78,11 +62,20 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route(
-    "/careers/<any('({})'):department>".format(str(career_departments)[1:-1]),
-    methods=["GET", "POST"],
-)
-def department_group(department):
+@app.route("/careers/admin", methods=["GET", "POST"])
+@app.route("/careers/all", methods=["GET", "POST"])
+@app.route("/careers/commercial-ops", methods=["GET", "POST"])
+@app.route("/careers/design", methods=["GET", "POST"])
+@app.route("/careers/engineering", methods=["GET", "POST"])
+@app.route("/careers/finance", methods=["GET", "POST"])
+@app.route("/careers/hr", methods=["GET", "POST"])
+@app.route("/careers/legal", methods=["GET", "POST"])
+@app.route("/careers/marketing", methods=["GET", "POST"])
+@app.route("/careers/project-management", methods=["GET", "POST"])
+@app.route("/careers/sales", methods=["GET", "POST"])
+@app.route("/careers/tech-ops", methods=["GET", "POST"])
+def department_group():
+    department = flask.request.path.split("/")[2]
     vacancies = get_vacancies(department)
 
     if flask.request.method == "POST":
