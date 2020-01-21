@@ -10,7 +10,7 @@ from html import unescape
 
 
 api_session = CachedSession(
-    fallback_cache_duration=300, file_cache_directory=".webcache", timeout=6
+    fallback_cache_duration=300, file_cache_directory=".webcache"
 )
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
