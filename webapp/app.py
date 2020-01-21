@@ -110,6 +110,8 @@ def department_group():
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
 def job_details(job_id):
     job = get_vacancy(job_id)
+    if not job:
+        flask.abort(404)
 
     if flask.request.method == "POST":
         response = submit_to_greenhouse(

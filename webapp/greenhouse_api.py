@@ -86,14 +86,17 @@ def get_vacancies_by_skills(core_skills):
 
 def get_vacancy(job_id):
     feed = api_session.get(f"{base_url}/{job_id}").json()
-    job = {
-        "id": job_id,
-        "title": feed["title"],
-        "content": unescape(feed["content"]),
-        "location": feed["location"]["name"],
-        "department": feed["metadata"][2]["value"],
-    }
-    return job
+    if feed.get("status") == 404:
+        return None
+    else:
+        job = {
+            "id": job_id,
+            "title": feed["title"],
+            "content": unescape(feed["content"]),
+            "location": feed["location"]["name"],
+            "department": feed["metadata"][2]["value"],
+        }
+        return job
 
 
 # Default Job ID (1658196) is used below to submit CV without applying for a
