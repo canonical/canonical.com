@@ -125,11 +125,11 @@ if (!(window.location.pathname==="/")) {
     if (t) {
       t.querySelectorAll('a').forEach(function (a) {
         if (a.className.includes('p-button--positive')) {
-          var category = 'www.ubuntu.com-content-cta-0';
+          var category = 'canonical.com-content-cta-0';
         } else if (a.className.includes('p-button')) {
-          var category = 'www.ubuntu.com-content-cta-1';
+          var category = 'canonical.com-content-cta-1';
         } else {
-          var category = 'www.ubuntu.com-content-link';
+          var category = 'canonical.com-content-link';
         }
         if (!a.href.startsWith("#")) {
           a.addEventListener('click', function () {
@@ -140,26 +140,6 @@ if (!(window.location.pathname==="/")) {
               'eventLabel': a.text,
               'eventValue': undefined
             });
-          });
-        }
-      });
-    }
-  }
-
-  addGAImpressionEvents('.js-takeover')
-
-  function addGAImpressionEvents(target) {
-    var t = document.querySelectorAll(target);
-    if (t) {
-      t.forEach(function (section) {
-        if (!section.className.includes('u-hide')) {
-          var a = section.querySelector("a");
-          dataLayer.push({
-            'event': 'NonInteractiveGAEvent',
-            'eventCategory': "www.ubuntu.com-impression",
-            'eventAction': `from:${origin} to:${a.href}`,
-            'eventLabel': a.text,
-            'eventValue': undefined,
           });
         }
       });
