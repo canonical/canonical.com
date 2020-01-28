@@ -34,11 +34,12 @@
     
     min-height: 10rem;
     margin-bottom: $spv-inner--large;
+    position: relative;
 
     &:hover{
       background-color: $color-mid-x-light;
       cursor: pointer;
-    }
+    }   
 
     &__title::after {
       border-bottom: 2px solid $color-mid-light;
@@ -49,60 +50,62 @@
 
     &__content {
       font-size: small;
+    }
 
-      p:first-child {
-        font-style: italic;
-        margin-bottom: 0;
+    &__tagline {
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    &__description {
+      display: none;
+      padding-top: 1.1rem;
+    }
+
+    .js-button--add {
+      display: none;
+    }
+
+    &.is-grey {
+      .js-button--add {
+        display: flex;
       }
-      p:last-of-type {
-        padding-top: 1.1rem;
+    
+      .p-card--game__description {
+        display: block;
+      }
+    } 
+
+    &.is-selected {
+      background-color: $color-brand;
+      color: $color-x-light;
+  
+      &:hover {
+        background-color: $color-mid-dark;
       }
     }
 
-    &-empty {
+    &.is-empty {
       background-color: transparent;
       border: 1px dashed $color-x-light;
-      margin-bottom: $spv-inner--large;
-      min-height: 10rem;
+      cursor: default;
+
+      &:hover {
+       background-color: transparent;
+      }
 
       & * {
+        display: none;
+      }
+
+      .js-button--remove {
         display: none;
       }
     }
 
     @media (max-width: $breakpoint-small) {
-      &-empty {
+      &.is-empty {
         display: none;
-      }
-    }
-  }
-
-  .p-card--game-selected {
-    @extend %vf-card;
-    
-    background-color: $color-brand;
-    color: $color-x-light;
-    min-height: 10rem;
-    margin-bottom: $spv-inner--large;
-    position: relative;
-
-    &:hover {
-      background-color: $color-mid-dark;
-    }
-
-    &__title::after {
-      border-bottom: 2px solid $color-mid-light;
-      content: '';
-      display: block;
-      width: 50%;
-    }
-
-    &__content {
-      font-size: small;
-
-      p:first-child {
-        font-style: italic;
-        margin-bottom: 0;
       }
     }
   }
