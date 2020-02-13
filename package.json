@@ -2,7 +2,8 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
-    "build": "yarn run build-css",
+    "build": "yarn run build-css && yarn run build-js",
+    "build-js": "webpack",
     "build-css": "node-sass --include-path node_modules static/sass --source-map true --output-style compressed --output static/css && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
     "format-python": "black --line-length 79 webapp",
     "lint-python": "flake8 webapp tests && black --check --line-length 79 webapp tests",
@@ -18,5 +19,14 @@
     "sass-lint": "1.13.1",
     "vanilla-framework": "2.6.0",
     "watch-cli": "0.2.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }
