@@ -1,6 +1,7 @@
 @mixin canonical-p-card {
   .p-card--strip {
     @extend %vf-card;
+
     background-color: $color-light;
 
     .p-card__content {
@@ -13,33 +14,36 @@
       padding: calc(#{$spv-inner--large} - 1px);
     }
   }
+
   .p-card--no-border {
     @extend %vf-card;
+
     border-style: none;
     padding: 0;
 
-    .p-card__thumbnail-large{
+    .p-card__thumbnail-large {
       max-height: 8rem;
     }
   }
 
   .p-card--strip-thin {
     @extend %vf-card;
+
     background-color: $color-light;
     border-top: 4px solid $color-brand;
   }
 
   .p-card--game {
     @extend %vf-card;
-    
-    min-height: 10rem;
+
     margin-bottom: $spv-inner--large;
+    min-height: 10rem;
     position: relative;
 
-    &:hover{
+    &:hover {
       background-color: $color-mid-x-light;
       cursor: pointer;
-    }   
+    }
 
     &__title::after {
       border-bottom: 2px solid $color-mid-light;
@@ -70,16 +74,16 @@
       .js-button--add {
         display: flex;
       }
-    
+
       .p-card--game__description {
         display: block;
       }
-    } 
+    }
 
     &.is-selected {
       background-color: $color-brand;
       color: $color-x-light;
-  
+
       &:hover {
         background-color: $color-mid-dark;
       }
@@ -91,7 +95,7 @@
       cursor: default;
 
       &:hover {
-       background-color: transparent;
+        background-color: transparent;
       }
 
       & * {

@@ -5,48 +5,53 @@
       position: top 50% left $sph-inner;
       repeat: no-repeat;
     }
+
     border: none;
+    justify-content: flex-start;
     margin-bottom: 0;
     padding-left: 2.75rem;
     padding-right: $sph-inner;
-    justify-content: flex-start;
     transition-duration: 0s;
     width: 100%;
     z-index: 2;
     // aria-selected controls the open and closed state for the accordion tab
     &[aria-expanded='true'] {
       @include vf-icon-minus($color-mid-dark);
+
       background-size: 0.75rem;
     }
 
     &[aria-expanded='false'] {
       @include vf-icon-plus($color-mid-dark);
+
       background-size: 0.75rem;
     }
 
-    @media (max-width: $breakpoint-medium){
-      padding-left: 1.75rem;
+    @media (max-width: $breakpoint-medium) {
       background-position: top 50% left 0;
+      padding-left: 1.75rem;
     }
   }
 
   .p-button--outline {
     @extend %vf-button-base;
+
     border-color: $color-x-light;
     color: $color-x-light;
+
+    &:visited {
+      color: $color-x-light;
+    }
 
     &:hover,
     &:active:hover {
       background-color: rgba($color-mid-x-light, 0.2);
     }
-
-    &:visited {
-      color: $color-x-light;
-    }
   }
 
   .js-button--add {
     @extend %p-button--positive;
+
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -56,8 +61,9 @@
 
     i {
       @include vf-icon-plus($color-x-light);
-      width: 0.7rem;
+
       top: 0;
+      width: 0.7rem;
     }
   }
 
@@ -71,8 +77,8 @@
     right: 0.5rem;
     top: 0.5rem;
     width: auto;
-    
-    &>.p-icon--close {
+
+    & > .p-icon--close {
       height: map-get($line-heights, default-text); // so height matches that of text inside buttons
       margin-left: -#{$sph-inner--small};
       top: -1px;
@@ -86,16 +92,16 @@
       }
     }
 
+    i {
+      @include vf-icon-close($color-mid-dark);
+    }
+
     &:hover {
       background-color: $color-negative;
 
       i {
-      @include vf-icon-close($color-x-light);
+        @include vf-icon-close($color-x-light);
       }
-    }
-
-    i {
-      @include vf-icon-close($color-mid-dark);
     }
   }
 }

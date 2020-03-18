@@ -1,6 +1,6 @@
 $nav-bg-color: #2c001e;
 $logo-width: 5rem;
-$nudge--small: .55rem;
+$nudge--small: 0.55rem;
 
 @mixin canonical-p-navigation {
   %row-no-margins-on-mobile {
@@ -25,11 +25,39 @@ $nudge--small: .55rem;
       height: 0;
     }
 
+    & &__link-anchor {
+      @include vf-animation(all, fast, in);
+
+      color: $color-light;
+      display: block;
+
+      @media (max-width: $breakpoint-navigation-threshold) {
+        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium $grid-margin-width;
+      }
+
+      @media (min-width: $breakpoint-navigation-threshold + 1) {
+        padding: $spv-inner--medium 2rem $spv-inner--medium $sph-inner;
+      }
+
+      &:focus,
+      &:visited {
+        background-color: $nav-bg-color;
+        color: $color-light;
+      }
+
+      &:hover,
+      &.active {
+        background-color: rgba(94, 39, 80, 0.5);
+        color: $color-x-light;
+        text-decoration: none;
+      }
+    }
+
     .p-navigation__dropdown-link--noscript {
       position: relative;
 
       .p-navigation__link-anchor {
-        padding: .75rem 1rem;
+        padding: 0.75rem 1rem;
       }
     }
 
@@ -38,46 +66,24 @@ $nudge--small: .55rem;
 
       &:not(.is-selected)::after {
         @include vf-icon-chevron(vf-url-friendly-color($color-mid-light));
+
         background-position: top 52% right 50%;
         background-repeat: no-repeat;
-        background-size: .75rem;
+        background-size: 0.75rem;
         content: "";
         height: 100%;
         pointer-events: none;
         position: absolute;
         right: 0;
         top: 0;
-        transition: transform .1s;
+        transition: transform 0.1s;
         width: 2rem;
       }
-
-      &.is-selected {
-        .p-navigation__link-anchor {
-          background-color: $color-x-light;
-          color: $color-dark;
-          padding: .75rem 1rem;
-
-          &::after {
-            background-color: transparent;
-          }
-
-          &:focus,
-          &:visited {
-            background-color: $color-x-light;
-            color: $color-dark;
-          }
-
-          &:hover {
-            background-color: $color-x-light;
-            color: $color-dark;
-          }
-        }
-      }
-
 
       &.is-open {
         &::after {
           @include vf-icon-chevron(vf-url-friendly-color($color-dark));
+
           transform: rotate(-180deg);
         }
 
@@ -101,6 +107,30 @@ $nudge--small: .55rem;
           }
         }
       }
+
+      &.is-selected {
+        /* stylelint-disable */
+        .p-navigation__link-anchor {
+          background-color: $color-x-light;
+          color: $color-dark;
+          padding: 0.75rem 1rem;
+
+          &::after {
+            background-color: transparent;
+          }
+
+          &:focus,
+          &:visited {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+
+          &:hover {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+        }
+      }
     }
 
     .p-navigation__logo {
@@ -113,33 +143,6 @@ $nudge--small: .55rem;
       border-bottom: 0;
       display: flex;
       width: 100%;
-    }
-
-    & &__link-anchor {
-      @include vf-animation(all, fast, in);
-      color: $color-light;
-      display: block;
-
-      @media (max-width: $breakpoint-navigation-threshold) {
-        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium $grid-margin-width;
-      }
-
-      @media (min-width: $breakpoint-navigation-threshold + 1) {
-        padding: $spv-inner--medium 2rem $spv-inner--medium $sph-inner;
-      }
-
-      &:focus,
-      &:visited {
-        background-color: $nav-bg-color;
-        color: $color-light;
-      }
-
-      &:hover,
-      &.active {
-        background-color: rgba(94, 39, 80, .5);
-        color: $color-x-light;
-        text-decoration: none;
-      }
     }
 
     & &__row {
@@ -181,6 +184,7 @@ $nudge--small: .55rem;
 
       &__logo {
         @extend %paragraph;
+
         align-items: center;
         color: $color-x-light;
         display: flex;
@@ -193,7 +197,7 @@ $nudge--small: .55rem;
         }
 
         a {
-          border-left: 1px solid rgba(247, 247, 247, .3); // sass-lint:disable-line no-color-literals
+          border-left: 1px solid rgba(247, 247, 247, 0.3); // sass-lint:disable-line no-color-literals
           color: $color-light !important;
           padding-left: $sp-small;
 
@@ -206,13 +210,14 @@ $nudge--small: .55rem;
         &::after {
           // white separator inside lockup
           @extend %vf-pseudo-border--top;
+
           display: none;
 
           @media only screen and (min-width: $breakpoint-navigation-threshold) {
             background-color: $color-light;
             display: block;
             left: $sph-inner;
-            opacity: .3;
+            opacity: 0.3;
             right: $sph-inner;
           }
         }
@@ -227,10 +232,20 @@ $nudge--small: .55rem;
       .breadcrumbs {
         &--secondary {
           @extend .p-inline-list; // sass-lint:disable-line placeholder-in-extend
+
           display: flex;
           flex-wrap: wrap;
           margin-bottom: 0;
           width: auto;
+        }
+
+        &__link {
+          font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
+          padding: $spv-inner--x-small $spv-inner--large $spv-inner--x-small 0;
+
+          &.p-link--active {
+            color: $color-tabs-active-bar;
+          }
         }
 
         &__item {
@@ -250,17 +265,8 @@ $nudge--small: .55rem;
         }
 
         &__chevron {
-          font-size: .875rem;
-          padding: .55rem 0 .2rem 0;
-        }
-
-        &__link {
-          font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
-          padding: $spv-inner--x-small $spv-inner--large $spv-inner--x-small 0;
-
-          &.p-link--active {
-            color: $color-tabs-active-bar;
-          }
+          font-size: 0.875rem;
+          padding: 0.55rem 0 0.2rem 0;
         }
       }
 
@@ -272,7 +278,7 @@ $nudge--small: .55rem;
     &__toggle--open,
     &__toggle--close {
       color: $color-light !important;
-      font-size: .875rem;
+      font-size: 0.875rem;
 
       @media (max-width: $breakpoint-x-small - 1) {
         margin-right: $grid-margin-width / 1.5 !important;
@@ -281,7 +287,7 @@ $nudge--small: .55rem;
 
     &__links {
       @media (max-width: $breakpoint-x-small - 1) {
-        font-size: .875rem;
+        font-size: 0.875rem;
       }
 
       @media (max-width: $breakpoint-navigation-threshold) {
@@ -299,20 +305,21 @@ $nudge--small: .55rem;
   }
 
   .dropdown-window-overlay {
-    background-color: rgba(17, 17, 17, .4); // sass-lint:disable-line no-color-literals
+    background-color: rgba(17, 17, 17, 0.4); // sass-lint:disable-line no-color-literals
     height: 100%;
     opacity: 1;
     position: fixed;
     top: 0;
-    transition: opacity .5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
     width: 100%;
     z-index: 38;
   }
 
   .dropdown-window {
     @include vf-animation(all, brisk, in);
+
     background-color: $color-x-light;
-    box-shadow: 0 1px 32px 1px transparentize($color-dark, .8);
+    box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     overflow-y: scroll;
     position: absolute;
@@ -330,6 +337,7 @@ $nudge--small: .55rem;
 
     &__content {
       @extend %p-strip--very-shallow;
+
       background-color: $color-mid-x-light;
       color: $color-dark;
 
@@ -339,13 +347,14 @@ $nudge--small: .55rem;
 
       @media (max-width: $breakpoint-x-small - 1) {
         .p-inline-list--middot.is-x-dense {
-          margin-bottom: .3rem;
+          margin-bottom: 0.3rem;
         }
       }
     }
 
     & .p-inline-list__item {
       @extend %small-text-fixed;
+
       list-style-type: none;
 
       &::after {
@@ -357,7 +366,7 @@ $nudge--small: .55rem;
 
     .p-media-object__content,
     p {
-      font-size: .875rem;
+      font-size: 0.875rem;
       line-height: 1.35rem;
     }
   }
@@ -387,7 +396,6 @@ $nudge--small: .55rem;
     }
   }
 
-
   %p-strip--very-shallow {
     padding-top: $spv-outer--medium;
 
@@ -404,7 +412,6 @@ $nudge--small: .55rem;
     font-size: 1rem / pow($ms-ratio, 1);
     line-height: map-get($line-heights, small);
     padding-top: $nudge--small;
-
   }
 
   %small-text-fixed {

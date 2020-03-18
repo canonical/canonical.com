@@ -6,7 +6,7 @@
     "build-css": "node-sass --include-path node_modules static/sass --source-map true --output-style compressed --output static/css && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
     "format-python": "black --line-length 79 webapp",
     "lint-python": "flake8 webapp tests && black --check --line-length 79 webapp tests",
-    "lint-scss": "sass-lint static/**/*.scss --verbose --no-exit",
+    "lint-scss": "stylelint static/**/*.scss",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
     "test-python": "python3 -m unittest discover tests"
@@ -15,8 +15,12 @@
     "autoprefixer": "9.7.4",
     "node-sass": "4.13.1",
     "postcss-cli": "7.1.0",
-    "sass-lint": "1.13.1",
     "vanilla-framework": "2.8.0",
     "watch-cli": "0.2.3"
+  },
+  "devDependencies": {
+    "stylelint": "^13.2.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.0.0"
   }
 }
