@@ -2,23 +2,19 @@
 import datetime
 import flask
 import markdown
+import os
 import re
-
 
 # Packages
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
 from slugify import slugify
-
+import talisker.requests
 
 # Local
-from webapp.greenhouse_api import (
-    get_vacancies,
-    get_vacancies_by_skills,
-    get_vacancy,
-    submit_to_greenhouse,
-)
-from webapp.partners_api import get_partner_groups, get_partner_list
+from webapp.greenhouse import Greenhouse
+from webapp.partners import Partners
+
 
 app = FlaskBase(
     __name__,
@@ -28,11 +24,14 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+session = talisker.requests.get_session()
+greenhouse_api = Greenhouse(session)
+partners_api = Partners(session)
 
 
 @app.route("/")
 def index():
-    partner_groups = get_partner_groups()
+    partner_groups = partners_api.get_partner_groups()
     return flask.render_template("index.html", partner_groups=partner_groups)
 
 
@@ -46,7 +45,7 @@ def results():
     if flask.request.args:
         core_skills = flask.request.args["coreSkills"].split(",")
         context["core_skills"] = core_skills
-        vacancies = get_vacancies_by_skills(core_skills)
+        vacancies = greenhouse_api.get_vacancies_by_skills(core_skills)
     else:
         message = "There are no roles matching your selection."
     if len(vacancies) == 0:
@@ -76,11 +75,13 @@ def results():
 @app.route("/careers/tech-ops", methods=["GET", "POST"])
 def department_group():
     department = flask.request.path.split("/")[2]
-    vacancies = get_vacancies(department)
+    vacancies = greenhouse_api.get_vacancies(department)
 
     if flask.request.method == "POST":
-        response = submit_to_greenhouse(
-            flask.request.form, flask.request.files
+        response = greenhouse_api.submit_application(
+            os.environ["GREENHOUSE_API_KEY"],
+            flask.request.form,
+            flask.request.files,
         )
         if response.status_code == 200:
             message = {
@@ -109,13 +110,16 @@ def department_group():
 
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
 def job_details(job_id):
-    job = get_vacancy(job_id)
+    job = greenhouse_api.get_vacancy(job_id)
     if not job:
         flask.abort(404)
 
     if flask.request.method == "POST":
-        response = submit_to_greenhouse(
-            flask.request.form, flask.request.files, job_id
+        response = greenhouse_api.submit_application(
+            os.environ["GREENHOUSE_API_KEY"],
+            flask.request.form,
+            flask.request.files,
+            job_id,
         )
         if response.status_code == 200:
             message = {
@@ -143,7 +147,9 @@ def job_details(job_id):
 # Partners
 @app.route("/partners/find-a-partner")
 def find_a_partner():
-    partners = sorted(get_partner_list(), key=lambda item: item["name"])
+    partners = sorted(
+        partners_api.get_partner_list(), key=lambda item: item["name"]
+    )
     return flask.render_template(
         "/partners/find-a-partner.html", partners=partners
     )
