@@ -18,11 +18,11 @@ base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
 def get_vacancies(department):
     feed = api_session.get(f"{base_url}?content=true").json()
-    path_department = remove_hyphens(department)
+    path_department = department.replace("-", "")
     vacancies = []
     for job in feed["jobs"]:
         feed_department = parse_feed_department(
-            remove_hyphens(job["metadata"][2]["value"])
+            job["metadata"][2]["value"].replace("-", "")
         )
         if path_department.lower() == "all":
             vacancies.append(
@@ -156,8 +156,3 @@ def parse_feed_department(feed_department):
         return field[feed_department.lower()]
 
     return feed_department
-
-
-def remove_hyphens(text):
-    new_text = re.sub("-", "", text)
-    return new_text
