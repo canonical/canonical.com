@@ -114,6 +114,9 @@ class Greenhouse:
     def submit_application(
         self, api_key, form_data, form_files, job_id="1658196"
     ):
+        if not api_key:
+            raise AttributeError("No Greenhouse API key provided")
+
         # Encode the api_key to base64
         auth = (
             "Basic "

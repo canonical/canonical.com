@@ -26,6 +26,7 @@ app = FlaskBase(
 )
 session = talisker.requests.get_session()
 greenhouse_api = Greenhouse(session)
+greenhouse_api_key = os.environ.get("GREENHOUSE_API_KEY")
 partners_api = Partners(session)
 
 
@@ -116,10 +117,7 @@ def job_details(job_id):
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
-            os.environ["GREENHOUSE_API_KEY"],
-            flask.request.form,
-            flask.request.files,
-            job_id,
+            greenhouse_api_key, flask.request.form, flask.request.files, job_id
         )
         if response.status_code == 200:
             message = {
