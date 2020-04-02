@@ -7,6 +7,7 @@ class TestRoutes(unittest.TestCase):
         """
         Set up Flask app for testing
         """
+
         app.testing = True
         self.client = app.test_client()
 

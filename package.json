@@ -8,11 +8,13 @@
     "lint-python": "flake8 webapp tests && black --check --line-length 79 webapp tests",
     "lint-scss": "stylelint static/**/*.scss",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
+    "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
     "test-python": "python3 -m unittest discover tests"
   },
   "dependencies": {
     "autoprefixer": "9.7.5",
+    "concurrently": "5.1.0",
     "node-sass": "4.13.1",
     "postcss-cli": "7.1.0",
     "vanilla-framework": "2.9.0",
