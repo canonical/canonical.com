@@ -95,7 +95,8 @@ class Greenhouse:
         return vacancies
 
     def get_vacancy(self, job_id):
-        feed = self.session.get(f"{base_url}/{job_id}").json()
+        feed = self.session.get(f"{base_url}/{job_id}?questions=true").json()
+
         if feed.get("status") == 404:
             return None
         else:
@@ -105,6 +106,7 @@ class Greenhouse:
                 "content": unescape(feed["content"]),
                 "location": feed["location"]["name"],
                 "department": feed["metadata"][2]["value"],
+                "questions": feed["questions"],
             }
             return job
 
