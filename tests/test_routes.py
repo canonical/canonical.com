@@ -37,6 +37,16 @@ class TestRoutes(unittest.TestCase):
 
         self.assertEqual(self.client.get("/careers/foo").status_code, 404)
 
+    def test_partners_detail_pages(self):
+        """
+        When given the URL of a valid parters detail page,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/partners/ihv-and-oem").status_code, 200
+        )
+
     def test_not_found(self):
         """
         When given a non-existent URL,
