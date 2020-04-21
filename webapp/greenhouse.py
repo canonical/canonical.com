@@ -33,39 +33,40 @@ class Greenhouse:
         path_department = department.replace("-", "")
         vacancies = []
         for job in feed["jobs"]:
-            feed_department = _parse_feed_department(
-                job["metadata"][2]["value"].replace("-", "")
-            )
-            if path_department.lower() == "all":
-                vacancies.append(
-                    {
-                        "title": job["title"],
-                        "content": unescape(job["content"]),
-                        "url": job["absolute_url"],
-                        "location": job["location"]["name"],
-                        "id": job["id"],
-                        "employment": job["metadata"][0]["value"],
-                        "date": job["metadata"][1]["value"],
-                        "department": job["metadata"][2]["value"],
-                        "management": job["metadata"][3]["value"],
-                        "office": job["metadata"][4]["value"],
-                    }
+            if job["metadata"][2]["value"]:
+                feed_department = _parse_feed_department(
+                    job["metadata"][2]["value"].replace("-", "")
                 )
-            elif path_department.lower() == feed_department.lower():
-                vacancies.append(
-                    {
-                        "title": job["title"],
-                        "content": unescape(job["content"]),
-                        "url": job["absolute_url"],
-                        "location": job["location"]["name"],
-                        "id": job["id"],
-                        "employment": job["metadata"][0]["value"],
-                        "date": job["metadata"][1]["value"],
-                        "department": job["metadata"][2]["value"],
-                        "management": job["metadata"][3]["value"],
-                        "office": job["metadata"][4]["value"],
-                    }
-                )
+                if path_department.lower() == "all":
+                    vacancies.append(
+                        {
+                            "title": job["title"],
+                            "content": unescape(job["content"]),
+                            "url": job["absolute_url"],
+                            "location": job["location"]["name"],
+                            "id": job["id"],
+                            "employment": job["metadata"][0]["value"],
+                            "date": job["metadata"][1]["value"],
+                            "department": job["metadata"][2]["value"],
+                            "management": job["metadata"][3]["value"],
+                            "office": job["metadata"][4]["value"],
+                        }
+                    )
+                elif path_department.lower() == feed_department.lower():
+                    vacancies.append(
+                        {
+                            "title": job["title"],
+                            "content": unescape(job["content"]),
+                            "url": job["absolute_url"],
+                            "location": job["location"]["name"],
+                            "id": job["id"],
+                            "employment": job["metadata"][0]["value"],
+                            "date": job["metadata"][1]["value"],
+                            "department": job["metadata"][2]["value"],
+                            "management": job["metadata"][3]["value"],
+                            "office": job["metadata"][4]["value"],
+                        }
+                    )
         return vacancies
 
     def get_vacancies_by_skills(self, core_skills):
