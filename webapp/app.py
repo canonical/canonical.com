@@ -153,6 +153,16 @@ def find_a_partner():
     )
 
 
+@app.route("/partners/ihv-and-oem")
+def partner_details():
+    partners = partners_api._get(
+        partners_api.partner_page_map[flask.request.path.split("/")[2]]
+    )
+    return flask.render_template(
+        "/partners/ihv-and-oem.html", partners=partners
+    )
+
+
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)

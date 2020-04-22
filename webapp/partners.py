@@ -1,6 +1,8 @@
 class Partners:
     base_url = "https://partners.ubuntu.com/partners.json"
 
+    partner_page_map = {"ihv-and-oem": "programme__name=IHV"}
+
     def __init__(self, session):
         self.session = session
 
