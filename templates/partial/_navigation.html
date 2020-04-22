@@ -21,6 +21,9 @@
           <a class="p-navigation__link-anchor" id="cta--products" href="#products">Products</a>
         </li>
         <li class="p-navigation__dropdown-link--no-chevron" role="menuitem">
+          <a class="p-navigation__link-anchor" id="cta--partners" href="#partners">Partners</a>
+        </li>
+        <li class="p-navigation__dropdown-link--no-chevron" role="menuitem">
           <a class="p-navigation__link-anchor" id="cta--careers" href="#careers">Careers</a>
         </li>
       </ul>
@@ -35,6 +38,13 @@
           {% else %}
           <a class="p-navigation__link-anchor" href="#products-nav-content"
             onfocus="fetchDropdown('/partial/navigation-products', 'products-nav-content');">Products</a>
+          {% endif %}
+        </li>
+        <li class="p-navigation__dropdown-link {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}" role="menuitem" id="partners-nav" onmouseover="fetchDropdown('/partial/_navigation-partners', 'partners-nav-content'); this.onmouseover = null;">
+          {% if request.path|get_nav_path == 'partners' %}
+          <a class="p-navigation__link-anchor" href="/partners">Partners</a>
+          {% else %}
+          <a class="p-navigation__link-anchor" href="#partners-nav-content" onfocus="fetchDropdown('/partial/_navigation-partners', 'partners-nav-content');">Partners</a>
           {% endif %}
         </li>
         <li
