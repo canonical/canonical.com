@@ -1,0 +1,77 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}https://docs.google.com/document/d/1PgdZCn16zMVA3LVcLihN03DYFLLqkHIqTqfsgx_LHFg{% endblock %}
+
+{% block title %}Global System Integrators Programme{% endblock %}
+
+{% block meta_description %}Together we&rsquo;ve successfully helped telecom providers, governmental agencies, financial services companies and other industries be relevant in market by having the most current open source technology available today.{% endblock %}
+
+{% block content %}
+<section class="p-strip--suru-bottomed is-deep" style="padding-bottom: 8rem; padding-top: 3rem;">
+  <div class="row">
+    <div class="col-6">
+      <h1>Global System Integrators Programme</h1>
+      <p>Canonical works with Global System Integrators around the world to build solutions that help our joint customers be successful in their business.</p>
+      <p>Together we&rsquo;ve successfully helped telecom providers, governmental agencies, financial services companies and other industries be relevant in market by having the most current open source technology available today. We help Global System Integrators build solutions and platforms using the world&rsquo;s most popular operating system.</p>
+      <a href="/partners/become-a-partner" class="p-button--positive">Get in touch</a>
+    </div>
+    <div class="col-6 u-align--center u-vertically-center u-hide--small">
+      <img src="https://assets.ubuntu.com/v1/c0244599-latest-ubuntu-download.svg" width="350" height="314" alt="">
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-deep">
+  <div class="u-fixed-width u-align--center">
+    <h4 class="p-muted-heading u-no-max-width">A selection of our System Integrators partners</h4>
+  </div>
+  <div class="u-fixed-width">
+    <ul class="p-inline-images u-no-margin--bottom">
+      {% for partner in partners %}
+      <li class="p-inline-images__item">
+        <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=system-integrator-consultant">See all System Integrators partners&nbsp;&rsaquo;</a></p>
+  </div>
+</section>
+
+<section class="p-strip--light is-deep">
+  <div class="u-fixed-width">
+    <h2>Grow with Canonical</h2>
+  </div>
+  <div class="row p-divider">
+    <div class="col-7 p-divider__block">
+      <p>We are proud to align with our Global System Integrators as they are at the forefront of technological transformation leading change in many of the world’s enterprises. In order to ensure our partners are successful, we created the Canonical partner programme to offer Global System Integrators with the help they need to develop new business opportunities from public cloud, datacenter, IoT, gateways, and traditional IT leveraging open source technologies powered by Ubuntu.</p>
+      <p><a href="/partners/become-a-partner">Apply to become a partner&nbsp;&rsaquo;</a></p>
+    </div>
+    <div class="col-5 p-divider__block">
+      <h4>Why partner with Canonical?</h4>
+      <ul class="p-list">
+        <li class="p-list__item is-ticked">Named partner leader</li>
+        <li class="p-list__item is-ticked">Discounts on Canonical&rsquo;s offerings</li>
+        <li class="p-list__item is-ticked">Access to enablement and training tools</li>
+        <li class="p-list__item is-ticked">Marketing engagement support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-deep">
+  <div class="row">
+    <div class="col-8">
+      <h2>Access our partner portal</h2>
+      <p>
+        Open source technology is growing in demand. We want you to benefit from this unique opportunity, and take advantage of the investment Canonical is making in its partner community. We are committed to giving you the tools and programs to succeed, from discounts and financial incentives, to sales and technical support teams.
+      </p>
+    </div>
+    <div class="col-4">
+      <img src="https://assets.ubuntu.com/v1/a8486b41-partner-programmes.png" alt="">
+    </div>
+  </div>
+</section>
+
+{% include 'partial/_partners-footer.html' %}
+
+{% endblock %}
