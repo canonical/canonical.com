@@ -2,8 +2,12 @@ class Partners:
     base_url = "https://partners.ubuntu.com/partners.json"
 
     partner_page_map = {
-        "ihv-and-oem": "programme__name=IHV",
-        "system-integrators": "programme__name=Channel",
+        "public-cloud": "programme__name=Certified%20Public%20Cloud&"
+        "featured=true",
+        "ihv-and-oem": "service__offered=Hardware%20manufacturer&"
+        "featured=true",
+        "desktop": "programme__name=Desktop&featured=true",
+        "gsi": "programme__name=Channel&featured=true",
     }
 
     def __init__(self, session):
