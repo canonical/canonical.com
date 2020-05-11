@@ -49,7 +49,7 @@ class Greenhouse:
                             "date": job["metadata"][1]["value"],
                             "department": job["metadata"][2]["value"],
                             "management": job["metadata"][3]["value"],
-                            "office": job["metadata"][4]["value"],
+                            "office": job["offices"][0]["name"],
                         }
                     )
                 elif path_department.lower() == feed_department.lower():
@@ -64,7 +64,7 @@ class Greenhouse:
                             "date": job["metadata"][1]["value"],
                             "department": job["metadata"][2]["value"],
                             "management": job["metadata"][3]["value"],
-                            "office": job["metadata"][4]["value"],
+                            "office": job["offices"][0]["name"],
                         }
                     )
         return vacancies
@@ -87,7 +87,7 @@ class Greenhouse:
                                 "date": job["metadata"][1]["value"],
                                 "department": job["metadata"][2]["value"],
                                 "management": job["metadata"][3]["value"],
-                                "office": job["metadata"][4]["value"],
+                                "office": job["offices"][0]["name"],
                                 "core_skills": job["metadata"][5]["value"],
                             }
                         )
