@@ -163,6 +163,7 @@ $nudge--small: 0.55rem;
       background-color: $color-x-light;
       border-bottom: 1px solid $color-mid-light;
       display: flex;
+      height: 40px;
       margin-top: 0;
       position: relative;
       width: 100%;
@@ -241,10 +242,26 @@ $nudge--small: 0.55rem;
 
         &__link {
           font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
-          padding: $spv-inner--x-small $spv-inner--large $spv-inner--x-small 0;
+          padding-left: $spv-inner--medium;
+          padding-right: $spv-inner--medium;
+          padding-top: $nudge--small;
+
+          @media (max-width: $breakpoint-x-small - 1) {
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+          }
+
+          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
+            padding-bottom: map-get($sp-after, small) + $p-small-lh-diff - $nudge--small;
+          }
+
+          &:first-child {
+            padding-left: 1rem;
+          }
 
           &.p-link--active {
-            color: $color-tabs-active-bar;
+            color: $color-brand;
           }
         }
 

@@ -9,14 +9,17 @@ class Partners:
         "ihv-and-oem": "programme__name=IHV%20%2F%20OEM&featured=true",
         "iot": "programme__name=Internet%20of%20Things&featured=true",
         "gsi": "programme__name=Global%20System%20Integrators&featured=true",
-        "public-cloud": "programme__name=Public%20Cloud&" "featured=true",
+        "public-cloud": "programme__name=Public%20Cloud&featured=true",
     }
 
     def __init__(self, session):
         self.session = session
 
     def _get(self, query=""):
-        return self.session.get(f"{self.base_url}?{query}").json()[:10]
+        if query:
+            return self.session.get(f"{self.base_url}?{query}").json()[:10]
+        else:
+            return self.session.get(self.base_url).json()
 
     def get_partner_groups(self):
         return {
