@@ -17,15 +17,11 @@
       </div>
       <div class="col-6 u-vertically-center">
         <ul class="p-inline-images">
+          {% for partner in partners %}
           <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/d258d23b-2018-logo-dell.svg" alt="Dell" width="75" height="75">
+            <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
           </li>
-          <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/f627fbfb-hp.svg" alt="HP" width="75" height="75">
-          </li>
-          <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/3180a6b5-partner-logo-lenovo.svg" alt="Lenovo" width="170" height="35">
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -96,7 +92,7 @@
         {% endfor %}
       </ul>
       <p class="u-align-text--center">
-        <a href="https://partners.ubuntu.com/find-a-partner" class="p-link--external">See all Desktop partners</a>
+        <a href="/partners/find-a-partner">See all Desktop partners</a>
       </p>
     </div>
   </section>
