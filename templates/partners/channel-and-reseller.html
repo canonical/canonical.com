@@ -66,15 +66,11 @@
   </div>
   <div class="u-fixed-width">
     <ul class="p-inline-images u-no-margin--bottom">
+      {% for partner in partners %}
       <li class="p-inline-images__item">
-        <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/cb3fcdfb-lenovo.svg" alt="Lenovo">
+        <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
       </li>
-      <li class="p-inline-images__item" style="display: inline; padding-top: 0.5rem;">
-        <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/d258d23b-2018-logo-dell.svg" alt="Dell">
-      </li>
-      <li class="p-inline-images__item">
-        <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/a82add58-profile-aws.svg" alt="Amazon Web Services">
-      </li>
+      {% endfor %}
     </ul>
   </div>
 </section>
