@@ -8,6 +8,13 @@ from html import unescape
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
+metadata_map = {
+    "management": 186225,
+    "employment": 149021,
+    "department": 155450,
+    "skills": 675557,
+}
+
 
 def _parse_feed_department(feed_department):
     field = {
@@ -33,11 +40,14 @@ class Greenhouse:
         path_department = department.replace("-", "")
         vacancies = []
         for job in feed["jobs"]:
-            if job["metadata"][2]["value"]:
+            if job["metadata"][2]["value"] and job["offices"]:
                 feed_department = _parse_feed_department(
                     job["metadata"][2]["value"].replace("-", "")
                 )
-                if path_department.lower() == "all":
+                if (
+                    path_department.lower() == "all"
+                    or path_department.lower() == feed_department.lower()
+                ):
                     vacancies.append(
                         {
                             "title": job["title"],
@@ -45,26 +55,17 @@ class Greenhouse:
                             "url": job["absolute_url"],
                             "location": job["location"]["name"],
                             "id": job["id"],
-                            "employment": job["metadata"][0]["value"],
-                            "date": job["metadata"][1]["value"],
-                            "department": job["metadata"][2]["value"],
-                            "management": job["metadata"][3]["value"],
-                            "office": job["metadata"][4]["value"],
-                        }
-                    )
-                elif path_department.lower() == feed_department.lower():
-                    vacancies.append(
-                        {
-                            "title": job["title"],
-                            "content": unescape(job["content"]),
-                            "url": job["absolute_url"],
-                            "location": job["location"]["name"],
-                            "id": job["id"],
-                            "employment": job["metadata"][0]["value"],
-                            "date": job["metadata"][1]["value"],
-                            "department": job["metadata"][2]["value"],
-                            "management": job["metadata"][3]["value"],
-                            "office": job["metadata"][4]["value"],
+                            "employment": self.get_metadata_value(
+                                job["metadata"], "employment"
+                            ),
+                            "date": job["updated_at"],
+                            "department": self.get_metadata_value(
+                                job["metadata"], "department"
+                            ),
+                            "management": self.get_metadata_value(
+                                job["metadata"], "management"
+                            ),
+                            "office": job["offices"][0]["name"],
                         }
                     )
         return vacancies
@@ -73,9 +74,15 @@ class Greenhouse:
         feed = self.session.get(f"{base_url}?content=true").json()
         vacancies = []
         for job in feed["jobs"]:
+            job_core_skills = self.get_metadata_value(
+                job["metadata"], "skills"
+            )
+            job_offices = ""
+            if job["offices"]:
+                job_offices = job["offices"][0]["name"]
             for skill in core_skills:
-                if job["metadata"][5]["value"]:
-                    if skill in job["metadata"][5]["value"]:
+                if job_core_skills:
+                    if skill in job_core_skills:
                         vacancies.append(
                             {
                                 "title": job["title"],
@@ -83,17 +90,29 @@ class Greenhouse:
                                 "url": job["absolute_url"],
                                 "location": job["location"]["name"],
                                 "id": job["id"],
-                                "employment": job["metadata"][0]["value"],
-                                "date": job["metadata"][1]["value"],
-                                "department": job["metadata"][2]["value"],
-                                "management": job["metadata"][3]["value"],
-                                "office": job["metadata"][4]["value"],
-                                "core_skills": job["metadata"][5]["value"],
+                                "employment": self.get_metadata_value(
+                                    job["metadata"], "employment"
+                                ),
+                                "date": job["updated_at"],
+                                "department": self.get_metadata_value(
+                                    job["metadata"], "department"
+                                ),
+                                "management": self.get_metadata_value(
+                                    job["metadata"], "management"
+                                ),
+                                "office": job_offices,
+                                "core_skills": job_core_skills,
                             }
                         )
                         break
 
         return vacancies
+
+    def get_metadata_value(self, job_metadata, metadata_key):
+        for data in job_metadata:
+            if data["id"] == metadata_map[metadata_key]:
+                return data["value"]
+        return None
 
     def get_vacancy(self, job_id):
         feed = self.session.get(f"{base_url}/{job_id}?questions=true").json()

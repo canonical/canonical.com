@@ -29,7 +29,7 @@
           filterJobs(filterBy, jobList);
           updateNoResultsMessage();
         }
-        
+
         filterSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
@@ -81,7 +81,7 @@
         }
         numberOfJobsDisplayed = domList.childElementCount;
       } else {
-        if (filterBy.filterText === node.dataset[filterBy.filterName]) {
+        if (node.dataset[filterBy.filterName].includes(filterBy.filterText)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -109,7 +109,7 @@
         break;
       case "management":
         filterBy.filterName = "management";
-        filterBy.filterText = "Management";
+        filterBy.filterText = "True";
         filterBy.filterValue = "management";
         break;
       case "full-time":
@@ -144,7 +144,7 @@
 
   function updateURL(filterBy) {
     var baseURL = window.location.origin + window.location.pathname;
-    
+
     urlParams.set('filter', filterBy.filterValue);
 
     var url = baseURL + '?' + urlParams.toString() + '#available-roles';
