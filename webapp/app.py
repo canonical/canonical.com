@@ -36,6 +36,13 @@ def index():
     return flask.render_template("index.html", partner_groups=partner_groups)
 
 
+@app.route("/secure-boot-master-ca.crl")
+def secure_boot():
+    return flask.send_from_directory(
+        "../static/files", "secure-boot-master-ca.crl"
+    )
+
+
 # Career departments
 @app.route("/careers/results")
 def results():
