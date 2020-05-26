@@ -37,4 +37,14 @@
       padding: 0;
     }
   }
+
+  // XXX - issue filed in Vanilla - https://github.com/canonical-web-and-design/vanilla-framework/issues/3086
+  .p-divider.has-min-height {
+    @media screen and(min-width: $breakpoint-medium) {
+      .p-divider__block:not(:nth-child(1))::before {
+        min-height: 1.5rem;
+        top: 0;
+      }
+    }
+  }
 }

@@ -1,25 +1,27 @@
 {% extends 'base_index.html' %}
 
+{% block meta_copydoc %}https://docs.google.com/document/d/1MBVH4kou0Q7yO_Lq6DPQpZL_rc0K1-nVfvg4aF3biSc{% endblock %}
+
+{% block title %}Desktop Programme{% endblock %}
+
+{% block meta_description %}Canonical collaborates with the world&rsquo;s leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.{% endblock %}
+
 {% block content %}
   <section class="p-strip--suru-topped">
     <div class="row">
       <div class="col-6">
         <h1>Desktop Programme</h1>
-        <p>Canonical collaborates with the world's leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.</p>
+        <p>Canonical collaborates with the world&rsquo;s leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.</p>
         <p>Whether built with the developer in mind or to power AI ambitions, these out-of the-box platforms give practitioners everything they need to transform their enterprise IT.</p>
-        <a href="https://certification.ubuntu.com/desktop" class="p-button--neutral"><span class="p-link--external">Find a certified PC</span></a><a href="https://partners.ubuntu.com/contact-us" class="p-button--positive"><span class="p-link--external">Get in touch</span></a>
+        <a href="https://certification.ubuntu.com/desktop" class="p-button--neutral"><span class="p-link--external">Find a certified PC</span></a><a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
       </div>
       <div class="col-6 u-vertically-center">
         <ul class="p-inline-images">
+          {% for partner in partners %}
           <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/d258d23b-2018-logo-dell.svg" alt="Dell" width="75" height="75">
+            <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
           </li>
-          <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/f627fbfb-hp.svg" alt="HP" width="75" height="75">
-          </li>
-          <li class="p-inline-images__item">
-            <img src="https://assets.ubuntu.com/v1/3180a6b5-partner-logo-lenovo.svg" alt="Lenovo" width="170" height="35">
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -38,8 +40,8 @@
       <div class="col-4 p-card--highlighted">
         <h3 class="p-matrix__title">Works out of the box</h3>
         <div class="p-matrix__desc">
-          <p>Canonical performs 100s of stringent tests to ensure all Ubuntu functionalities work out of the box</p>
-        </div>
+          <p>Canonical performs 100s of stringent tests to ensure all Ubuntu functionality works out-of-the-box</p>
+        Information about Canonical. Canonical produces Ubuntu, provides commercial services for enterprise users, and works with industry partners on delivery and certification. </div>
       </div>
       <div class="col-4 p-card--highlighted">
         <h3 class="p-matrix__title">5 years support</h3>
@@ -53,7 +55,7 @@
       </div>
       <div class="col-4 p-card--highlighted">
         <h3 class="p-matrix__title">Latest hardware</h3>
-        <p class="p-matrix__desc">Collaboration with Intel, NVIDIA and AMD guarantees Ubuntu runs flawlessly on the the latest CPUs and GPUs</p>
+        <p class="p-matrix__desc">Collaboration with Intel, Nvidia and AMD guarantees Ubuntu runs flawlessly on the latest CPUs and GPUs</p>
       </div>
       <div class="col-4 p-card--highlighted">
         <h3 class="p-matrix__title">Battery life</h3>
@@ -83,30 +85,14 @@
     <div class="u-fixed-width">
       <h2 class="p-muted-heading u-align-text--center">A selection of our Desktop partners</h2>
       <ul class="p-inline-images">
+        {% for partner in partners %}
         <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/04b32408-qct-logo.svg" alt="QCT" style="width: 160px;">
+          <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
         </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c6a0c93f-cplane-ai.png" width="142" alt="Cplane Ai">
-        </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/b09a24b3-SanDisk_Logo_2007.svg" alt="Sandisk">
-        </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/4bd4c042-mellanox-technologies.svg" alt="Mellanox" style="width: 125px;">
-        </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/5e92614c-amd-logo.svg" alt="AMD" style="width: 194px;">
-        </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/c3176652-logo-emulex.jpg" width="230" alt="Emulex">
-        </li>
-        <li class="p-inline-images__item">
-          <img class="p-inline-images__logo" src="https://assets.ubuntu.com/v1/df4150e2-NEC-logo.svg" alt="NEC">
-        </li>
+        {% endfor %}
       </ul>
       <p class="u-align-text--center">
-        <a href="/partners/find-a-partner?category=desktop">See all Desktop partners&nbsp;&rsaquo;</a>
+        <a href="/partners/find-a-partner?filters=desktop">See all Desktop partners&nbsp;&rsaquo;</a>
       </p>
     </div>
   </section>
@@ -120,8 +106,8 @@
       <div class="col-4 p-card--highlighted has-cta">
         <div class="p-card__content">
           <img src="https://assets.ubuntu.com/v1/d258d23b-2018-logo-dell.svg" alt="Dell" width="80" height="80">
-          <p>Canonical and Dell work together to deliver Ubuntu computers from entry-level laptops to high-end developer machines.</p>
-          <p><a href="https://www.delltechnologies.com/en-gb/ai-technologies/index.htm" class="p-link--external">See the Ubuntu certified AI ready workstations</a></p>
+          <p>Canonical and Dell work together to deliver Ubuntu on systems from entry-level laptops to high-end developer machines.</p>
+          <p><a href="https://www.delltechnologies.com/en-gb/ai-technologies/index.htm" class="p-link--external">See the Ubuntu certified AI-ready workstations</a></p>
         </div>
         <a href="http://www.dell.com/linux" class="p-button--positive p-card__cta"><span class="p-link--external">Shop for Dell with Ubuntu</span></a>
       </div>
