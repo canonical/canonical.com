@@ -2,7 +2,7 @@ class Partners:
     base_url = "https://partners.ubuntu.com/partners.json"
 
     partner_page_map = {
-        "channel-and-reseller": "programme__name=Channel%20/%20Reseller",
+        "channel-and-reseller": "programme__name=Channel%20/%20Reseller&featured=true",
         "desktop": "programme__name=Desktop&featured=true",
         "devices-and-iot": "programme__name=Internet%20of%20Things"
         "&featured=true",

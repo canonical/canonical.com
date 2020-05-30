@@ -21,6 +21,24 @@
   </div>
 </section>
 
+{% if not partners %}
+<section class="p-strip is-deep">
+  <div class="u-fixed-width u-align--center">
+    <h4 class="p-muted-heading u-no-max-width">Meet some of our global system integrator partners</h4>
+  </div>
+  <div class="u-fixed-width">
+    <ul class="p-inline-images u-no-margin--bottom">
+      {% for partner in partners %}
+      <li class="p-inline-images__item">
+        <img class="p-inline-images__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=gsi">See all of our gsi partners&nbsp;&rsaquo;</a></p>
+  </div>
+</section>
+{% endif %}
+
 <section class="p-strip--light is-deep">
   <div class="u-fixed-width">
     <h2>Grow with Canonical</h2>
