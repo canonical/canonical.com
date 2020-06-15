@@ -22,3 +22,6 @@ dotrun
 Afterwards the website will be available at <http://localhost:8002>.
 
 When you start changing files, the server should reload and make the changes available immediately.
+
+# Deploy
+You can find the deployment config in the deploy folder.
