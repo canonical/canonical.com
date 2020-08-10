@@ -98,7 +98,7 @@
 
     if (domList) {
       var jobList = Array.from(domList.children);
-
+/*
       if (filterSelect) {
 
         Array.from(filterSelect.options).forEach(function (el) {
@@ -149,6 +149,54 @@
       if(filterSelect || locationSelect)
       {
         filterJobs(filterBy, jobList);
+      }
+*/
+
+      if(filterSelect && locationSelect) {
+        getOptions(filters);
+        getOptions(locationFilters);
+        
+        if(queryFilter && locationFilter)
+        {
+          updateOptions(filterSelect, filters, "filter");
+          updateOptions(locationSelect, locationFilters, "location");
+          filterJobs(filterBy, jobList);
+          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+        }
+        else if(queryFilter && !locationFilter)
+        {
+          updateOptions(filterSelect, filters, "filter");
+          filterJobs(filterBy, jobList);
+          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+
+        }
+        else if(!queryFilter && locationFilter)
+        {
+          updateOptions(locationSelect, locationFilters, "location");
+          filterJobs(filterBy, jobList);
+          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+        }
+      }
+      else if(filterSelect && !locationSelect) {
+        getOptions(filters);
+
+        if(queryFilter)
+        {
+          updateOptions(filterSelect, filters, "filter");
+          filterJobs(filterBy, jobList);
+          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+        }
+      }
+      else if(!filterSelect && locationSelect) {
+        getOptions(locationFilters);
+
+        if(locationFilter)
+        {
+          updateOptions(locationSelect, locationFilters, "location");
+          filterJobs(filterBy, jobList);
+          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+        }
       }
 
       if (sortSelect) {
@@ -286,6 +334,48 @@
     var url = baseURL + '?' + urlParams.toString() + '#available-roles';
 
     window.history.pushState({}, "", url);
+  }
+
+  function getOptions(array)
+  {
+    Array.from(filterSelect.options).forEach(function (el) {
+      array.push(el.value);
+    });
+  }
+
+  function updateOptions(filterSelect, filters, type)
+  {
+    filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
+    if(type === "filter")
+    {
+      updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+    }
+    else if(type === "location")
+    {
+      updateLocationFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+    }
+    //filterJobs(filterBy, jobList);
+    updateNoResultsMessage();
+  }
+
+  function getEventListener(filterSelect, sortSelect, type, filterBy, jobList)
+  {
+    filterSelect.addEventListener("change", function () {
+    if (!(sortSelect.options.selectedIndex === 0)) {
+      sortSelect.options.selectedIndex = 0;
+    }
+    if(type === "filter")
+    {
+      updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+    }
+    else if(type === "location")
+    {
+      updateLocationFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+    }
+    filterJobs(filterBy, jobList);
+    updateURL(filterBy);
+    updateNoResultsMessage();
+    });
   }
 
   init();
