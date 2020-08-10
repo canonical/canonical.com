@@ -5,14 +5,14 @@
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
   const sortSelect = document.querySelector(".js-sort");
+  const locationSelect = document.querySelector(".js-filter--location");
 
   var numberOfJobsDisplayed = 0;
   var filters = [];
+  var locationFilters = [];
   var filterBy = {};
 
-
-  function parseLocations()
-  {
+  function parseLocations() {
     const europe = ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"];
     const americas = ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"];
     const asia = ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"];
@@ -76,10 +76,15 @@
         }
       }
 
-      locastionsList = locationsList.slice(0, locationsList.length-1);
-      jobsList[n].setAttribute("location-filter", locationsList);
-      console.log(location + ": " + jobsList[n].getAttribute("location-filter"));
-
+      if(locationsList.length === 0)
+      {
+        jobsList[n].setAttribute("location-filter", "europe americas asia middle-east africa oceania");
+      }
+      else
+      {
+        locationsList = locationsList.slice(0, locationsList.length-1);
+        jobsList[n].setAttribute("location-filter", locationsList);
+      }
     }
   }
 
@@ -87,6 +92,7 @@
 
   function init() {
     var queryFilter = urlParams.get('filter');
+    var locationFilter = urlParams.get('location');
 
     revealFilters();
 
@@ -94,26 +100,55 @@
       var jobList = Array.from(domList.children);
 
       if (filterSelect) {
+
         Array.from(filterSelect.options).forEach(function (el) {
           filters.push(el.value);
-        });
+      });
 
         if (queryFilter) {
           filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
           updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-          filterJobs(filterBy, jobList);
+          //filterJobs(filterBy, jobList);
           updateNoResultsMessage();
         }
-
+        
         filterSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
           }
           updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-          filterJobs(filterBy, jobList);
+          //filterJobs(filterBy, jobList);
           updateURL(filterBy);
           updateNoResultsMessage();
         });
+
+      }
+
+      if (locationSelect) {
+        Array.from(locationSelect.options).forEach(function (el) {
+          locationFilters.push(el.value);
+        });
+
+        if (locationFilter) {
+          locationSelect.options.selectedIndex = filters.indexOf(locationFilter);
+          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+          updateNoResultsMessage();
+        }
+
+        locationSelect.addEventListener("change", function () {
+          if (!(sortSelect.options.selectedIndex === 0)) {
+            sortSelect.options.selectedIndex = 0;
+          }
+          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+          ///filterJobs(filterBy, jobList);
+          updateURL(filterBy);
+          updateNoResultsMessage();
+        });
+      }
+
+      if(filterSelect || locationSelect)
+      {
+        filterJobs(filterBy, jobList);
       }
 
       if (sortSelect) {
@@ -150,13 +185,13 @@
   function filterJobs(filterBy, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     jobList.forEach(function (node) {
-      if (filterBy.filterText === "All") {
+      if (filterBy.filterText === "All" && filterBy.location === "all") {
         if (node.classList.contains("u-hide")) {
           node.classList.remove("u-hide");
         }
         numberOfJobsDisplayed = domList.childElementCount;
       } else {
-        if (node.dataset[filterBy.filterName].includes(filterBy.filterText)) {
+        if (node.dataset[filterBy.filterName].includes(filterBy.filterText) && node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -204,6 +239,31 @@
     }
   }
 
+  function updateLocationFilterBy(location) {
+    switch (filter) {
+      case "europe":
+        filterBy.location = "europe";
+        break;
+      case "americas":
+        filterBy.location = "americas";
+        break;
+      case "asia":
+        filterBy.location = "asia";
+        break;
+      case "middle-east":
+        filterBy.location = "middle-east";
+        break;
+      case "africa":
+        filterBy.location = "africa";
+        break;
+      case "oceania":
+        filterBy.location = "oceania";
+        break;
+      default:
+        filterBy.location = "all";
+    }
+  }
+
   // Display no reults message
   function updateNoResultsMessage() {
     if (noResults && jobContainer) {
@@ -221,6 +281,7 @@
     var baseURL = window.location.origin + window.location.pathname;
 
     urlParams.set('filter', filterBy.filterValue);
+    urlParams.set('location', filterBy.location);
 
     var url = baseURL + '?' + urlParams.toString() + '#available-roles';
 
