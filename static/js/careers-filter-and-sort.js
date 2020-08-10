@@ -10,6 +10,41 @@
   var filters = [];
   var filterBy = {};
 
+  function initialiseLocationList()
+  {
+    const jobsList = document.querySelector(".js-job-list").children;
+    var locationList = [];
+    for(let n = 0; n<jobsList.length; n++)
+    {
+      var duplicate = false;
+      //var location = jobsList[n].getAttribute("data-location");
+      for(let x = 0; x<locationList.length; x++)
+      {
+        if(locationList[x] === jobsList[n].getAttribute("data-location"))
+        {
+          duplicate = true;
+          break;
+        }
+      }
+      if(!duplicate)
+      {
+        locationList.push(jobsList[n].getAttribute("data-location"));
+      }
+    }
+    const target = document.querySelector(".js-filter--location");
+    for(var n=0; n<locationList.length; n++)
+    {
+      var fragment = document.createDocumentFragment();
+      var option = document.createElement("option");
+      //option.setAttribute(value; )
+      var text = document.createTextNode(locationList[n]);
+      option.appendChild(text);
+      target.appendChild(option);
+    }
+  }
+
+  initialiseLocationList();
+
   function init() {
     var queryFilter = urlParams.get('filter');
 
