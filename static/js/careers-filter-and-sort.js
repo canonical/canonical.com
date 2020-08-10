@@ -10,40 +10,80 @@
   var filters = [];
   var filterBy = {};
 
-  function initialiseLocationList()
+
+  function parseLocations()
   {
+    const europe = ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"];
+    const americas = ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"];
+    const asia = ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"];
+    const middleEast = ["emea", "worldwide"];
+    const africa = ["emea", "worldwide"];
+    const oceania = ["apac", "worldwide"];
+
     const jobsList = document.querySelector(".js-job-list").children;
-    var locationList = [];
-    for(let n = 0; n<jobsList.length; n++)
+
+    for(var n=0; n<jobsList.length; n++)
     {
-      var duplicate = false;
-      //var location = jobsList[n].getAttribute("data-location");
-      for(let x = 0; x<locationList.length; x++)
+      const location = jobsList[n].getAttribute("data-location");
+      var locationsList = "";
+
+      for(var x=0; x<europe.length; x++)
       {
-        if(locationList[x] === jobsList[n].getAttribute("data-location"))
+        if(location.toLowerCase().includes(europe[x]))
         {
-          duplicate = true;
+          locationsList += "europe ";
           break;
         }
       }
-      if(!duplicate)
+      for(var x=0; x<americas.length; x++)
       {
-        locationList.push(jobsList[n].getAttribute("data-location"));
+        if(location.toLowerCase().includes(americas[x]))
+        {
+          locationsList += "americas ";
+          break;
+        }
       }
-    }
-    const target = document.querySelector(".js-filter--location");
-    for(var n=0; n<locationList.length; n++)
-    {
-      var fragment = document.createDocumentFragment();
-      var option = document.createElement("option");
-      //option.setAttribute(value; )
-      var text = document.createTextNode(locationList[n]);
-      option.appendChild(text);
-      target.appendChild(option);
+      for(var x=0; x<asia.length; x++)
+      {
+        if(location.toLowerCase().includes(asia[x]))
+        {
+          locationsList += "asia ";
+          break;
+        }
+      }
+      for(var x=0; x<middleEast.length; x++)
+      {
+        if(location.toLowerCase().includes(middleEast[x]))
+        {
+          locationsList += "middle-east ";
+          break;
+        }
+      }
+      for(var x=0; x<africa.length; x++)
+      {
+        if(location.toLowerCase().includes(africa[x]))
+        {
+          locationsList += "africa ";
+          break;
+        }
+      }
+      for(var x=0; x<oceania.length; x++)
+      {
+        if(location.toLowerCase().includes(oceania[x]))
+        {
+          locationsList += "oceania ";
+          break;
+        }
+      }
+
+      locastionsList = locationsList.slice(0, locationsList.length-1);
+      jobsList[n].setAttribute("location-filter", locationsList);
+      console.log(location + ": " + jobsList[n].getAttribute("location-filter"));
+
     }
   }
 
-  initialiseLocationList();
+  parseLocations();
 
   function init() {
     var queryFilter = urlParams.get('filter');
