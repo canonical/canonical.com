@@ -1,11 +1,11 @@
 (function () {
   const urlParams = new URLSearchParams(window.location.search);
   const domList = document.querySelector(".js-job-list");
-  const filterSelect = document.querySelector(".js-filter");
+  var filterSelect = document.querySelector(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
   const sortSelect = document.querySelector(".js-sort");
-  const locationSelect = document.querySelector(".js-filter--location");
+  var locationSelect = document.querySelector(".js-filter--location");
 
   var numberOfJobsDisplayed = 0;
   var filters = [];
@@ -158,24 +158,24 @@
         
         if(queryFilter && locationFilter)
         {
-          updateOptions(filterSelect, filters, "filter");
-          updateOptions(locationSelect, locationFilters, "location");
+          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
+          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
           filterJobs(filterBy, jobList);
-          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
-          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
         }
         else if(queryFilter && !locationFilter)
         {
-          updateOptions(filterSelect, filters, "filter");
+          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
           filterJobs(filterBy, jobList);
-          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
 
         }
         else if(!queryFilter && locationFilter)
         {
-          updateOptions(locationSelect, locationFilters, "location");
+          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
           filterJobs(filterBy, jobList);
-          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
         }
       }
       else if(filterSelect && !locationSelect) {
@@ -183,9 +183,9 @@
 
         if(queryFilter)
         {
-          updateOptions(filterSelect, filters, "filter");
+          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
           filterJobs(filterBy, jobList);
-          getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
         }
       }
       else if(!filterSelect && locationSelect) {
@@ -193,9 +193,9 @@
 
         if(locationFilter)
         {
-          updateOptions(locationSelect, locationFilters, "location");
+          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
           filterJobs(filterBy, jobList);
-          getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
         }
       }
 
@@ -343,7 +343,7 @@
     });
   }
 
-  function updateOptions(filterSelect, filters, type)
+  function updateOptions(filterSelect, queryFilter, filters, type)
   {
     filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
     if(type === "filter")
@@ -356,6 +356,7 @@
     }
     //filterJobs(filterBy, jobList);
     updateNoResultsMessage();
+    return filterSelect;
   }
 
   function getEventListener(filterSelect, sortSelect, type, filterBy, jobList)
@@ -375,6 +376,7 @@
     filterJobs(filterBy, jobList);
     updateURL(filterBy);
     updateNoResultsMessage();
+    return filterSelect;
     });
   }
 
