@@ -91,8 +91,6 @@
   parseLocations();
 
   function init() {
-    var queryFilter = urlParams.get('filter');
-    var locationFilter = urlParams.get('location');
 
     revealFilters();
 
@@ -150,54 +148,56 @@
       {
         filterJobs(filterBy, jobList);
       }
-*/
+*/  
 
-      if(filterSelect && locationSelect) {
-        getOptions(filters);
-        getOptions(locationFilters);
-        
-        if(queryFilter && locationFilter)
-        {
-          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
-          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
-          filterJobs(filterBy, jobList);
-          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
-          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
-        }
-        else if(queryFilter && !locationFilter)
-        {
-          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
-          filterJobs(filterBy, jobList);
-          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+      
 
-        }
-        else if(!queryFilter && locationFilter)
+      if(filterSelect)
+      {
+        var filterOptions = [];
+        Array.from(filterSelect.options).forEach(function (el) {
+          filterOptions.push(el.value);
+        });
+
+        if(urlParams.has("filter"))
         {
-          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
-          filterJobs(filterBy, jobList);
-          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
+          var filterValue = urlParams.get("filter");
+          for(var n=0; n<filterOptions.length; n++)
+          {
+            if(filterOptions[n] === filterValue)
+            {
+              filterSelect.options.selectedIndex = n;
+              updateFilterBy(filterValue);
+              break;
+            }
+          }
         }
       }
-      else if(filterSelect && !locationSelect) {
-        getOptions(filters);
 
-        if(queryFilter)
+      if(locationSelect)
+      {
+        var locationOptions = [];
+        Array.from(locationSelect.options).forEach(function (el) {
+          locationOptions.push(el.value);
+        });
+
+        if(urlParams.has("location"))
         {
-          filterSelect = updateOptions(filterSelect, queryFilter, filters, "filter");
-          filterJobs(filterBy, jobList);
-          filterSelect = getEventListener(filterSelect, sortSelect, "filter", filterBy, jobList);
+          var locationValue = urlParams.get("location");
+          for(var n=0; n<locationOptions.length; n++)
+          {
+            if(locationOptions[n] === locationValue)
+            {
+              locationSelect.options.selectedIndex = n;
+              updateLocationFilterBy(locationValue);
+              break;
+            }
+          }
         }
       }
-      else if(!filterSelect && locationSelect) {
-        getOptions(locationFilters);
 
-        if(locationFilter)
-        {
-          locationSelect = updateOptions(locationSelect, locationFilter, locationFilters, "location");
-          filterJobs(filterBy, jobList);
-          locationSelect = getEventListener(locationSelect, sortSelect, "location", filterBy, jobList);
-        }
-      }
+      filterJobs(filterBy, jobList);
+      updateNoResultsMessage();
 
       if (sortSelect) {
         sortSelect.addEventListener("change", function (e) {
@@ -334,50 +334,6 @@
     var url = baseURL + '?' + urlParams.toString() + '#available-roles';
 
     window.history.pushState({}, "", url);
-  }
-
-  function getOptions(array)
-  {
-    Array.from(filterSelect.options).forEach(function (el) {
-      array.push(el.value);
-    });
-  }
-
-  function updateOptions(filterSelect, queryFilter, filters, type)
-  {
-    filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
-    if(type === "filter")
-    {
-      updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-    }
-    else if(type === "location")
-    {
-      updateLocationFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-    }
-    //filterJobs(filterBy, jobList);
-    updateNoResultsMessage();
-    return filterSelect;
-  }
-
-  function getEventListener(filterSelect, sortSelect, type, filterBy, jobList)
-  {
-    filterSelect.addEventListener("change", function () {
-    if (!(sortSelect.options.selectedIndex === 0)) {
-      sortSelect.options.selectedIndex = 0;
-    }
-    if(type === "filter")
-    {
-      updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-    }
-    else if(type === "location")
-    {
-      updateLocationFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-    }
-    filterJobs(filterBy, jobList);
-    updateURL(filterBy);
-    updateNoResultsMessage();
-    return filterSelect;
-    });
   }
 
   init();
