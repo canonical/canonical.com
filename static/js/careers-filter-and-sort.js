@@ -76,15 +76,11 @@
         }
       }
 
-      if(locationsList.length === 0)
-      {
-        jobsList[n].setAttribute("location-filter", "europe americas asia middle-east africa oceania");
-      }
-      else
+      if(locationsList.length > 0)
       {
         locationsList = locationsList.slice(0, locationsList.length-1);
-        jobsList[n].setAttribute("location-filter", locationsList);
       }
+      jobsList[n].setAttribute("location-filter", locationsList);
     }
   }
 
@@ -96,61 +92,6 @@
 
     if (domList) {
       var jobList = Array.from(domList.children);
-/*
-      if (filterSelect) {
-
-        Array.from(filterSelect.options).forEach(function (el) {
-          filters.push(el.value);
-      });
-
-        if (queryFilter) {
-          filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
-          updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-          //filterJobs(filterBy, jobList);
-          updateNoResultsMessage();
-        }
-        
-        filterSelect.addEventListener("change", function () {
-          if (!(sortSelect.options.selectedIndex === 0)) {
-            sortSelect.options.selectedIndex = 0;
-          }
-          updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-          //filterJobs(filterBy, jobList);
-          updateURL(filterBy);
-          updateNoResultsMessage();
-        });
-
-      }
-
-      if (locationSelect) {
-        Array.from(locationSelect.options).forEach(function (el) {
-          locationFilters.push(el.value);
-        });
-
-        if (locationFilter) {
-          locationSelect.options.selectedIndex = filters.indexOf(locationFilter);
-          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
-          updateNoResultsMessage();
-        }
-
-        locationSelect.addEventListener("change", function () {
-          if (!(sortSelect.options.selectedIndex === 0)) {
-            sortSelect.options.selectedIndex = 0;
-          }
-          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
-          ///filterJobs(filterBy, jobList);
-          updateURL(filterBy);
-          updateNoResultsMessage();
-        });
-      }
-
-      if(filterSelect || locationSelect)
-      {
-        filterJobs(filterBy, jobList);
-      }
-*/  
-
-      
 
       if(filterSelect)
       {
@@ -167,11 +108,22 @@
             if(filterOptions[n] === filterValue)
             {
               filterSelect.options.selectedIndex = n;
-              updateFilterBy(filterValue);
               break;
             }
           }
         }
+
+        updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+
+        filterSelect.addEventListener("change", function () {
+          if (!(sortSelect.options.selectedIndex === 0)) {
+            sortSelect.options.selectedIndex = 0;
+          }
+          updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+          filterJobs(filterBy, jobList);
+          updateURL(filterBy);
+          updateNoResultsMessage();
+        });
       }
 
       if(locationSelect)
@@ -189,11 +141,22 @@
             if(locationOptions[n] === locationValue)
             {
               locationSelect.options.selectedIndex = n;
-              updateLocationFilterBy(locationValue);
               break;
             }
           }
         }
+
+        updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+
+        locationSelect.addEventListener("change", function () {
+          if (!(sortSelect.options.selectedIndex === 0)) {
+            sortSelect.options.selectedIndex = 0;
+          }
+          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+          filterJobs(filterBy, jobList);
+          updateURL(filterBy);
+          updateNoResultsMessage();
+        });
       }
 
       filterJobs(filterBy, jobList);
@@ -238,7 +201,36 @@
           node.classList.remove("u-hide");
         }
         numberOfJobsDisplayed = domList.childElementCount;
-      } else {
+      }
+      else if(filterBy.filterValue !== "all" && filterBy.location === "all")
+      {
+        if(node.dataset[filterBy.filterName].includes(filterBy.filterText))
+        {
+          if (node.classList.contains("u-hide")) {
+            node.classList.remove("u-hide");
+          }
+          } else {
+            if (!node.classList.contains("u-hide")) {
+              node.classList.add("u-hide");
+          }
+          numberOfJobsDisplayed--;
+        }
+      }
+      else if(filterBy.filterValue === "all" && filterBy.location !== "all")
+      {
+        if(node.getAttribute("location-filter").includes(filterBy.location))
+        {
+          if (node.classList.contains("u-hide")) {
+            node.classList.remove("u-hide");
+          }
+          } else {
+            if (!node.classList.contains("u-hide")) {
+              node.classList.add("u-hide");
+          }
+          numberOfJobsDisplayed--;
+        }
+      }
+      else {
         if (node.dataset[filterBy.filterName].includes(filterBy.filterText) && node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
@@ -288,7 +280,7 @@
   }
 
   function updateLocationFilterBy(location) {
-    switch (filter) {
+    switch (location) {
       case "europe":
         filterBy.location = "europe";
         break;
