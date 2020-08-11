@@ -12,6 +12,7 @@
   var locationFilters = [];
   var filterBy = {};
 
+  // Read data-location property and parse locations into well-defined categories
   function parseLocations() {
     const europe = ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"];
     const americas = ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"];
@@ -95,6 +96,7 @@
 
       if(filterSelect)
       {
+        // Get list of options from the HTML form
         var filterOptions = [];
         Array.from(filterSelect.options).forEach(function (el) {
           filterOptions.push(el.value);
@@ -102,6 +104,7 @@
 
         if(urlParams.has("filter"))
         {
+          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var filterValue = urlParams.get("filter");
           for(var n=0; n<filterOptions.length; n++)
           {
@@ -115,6 +118,7 @@
 
         updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
 
+        // Add event listener that will update the URL and filter the results if the selected option is changed
         filterSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
@@ -128,6 +132,7 @@
 
       if(locationSelect)
       {
+        // Get list of options from the HTML form
         var locationOptions = [];
         Array.from(locationSelect.options).forEach(function (el) {
           locationOptions.push(el.value);
@@ -135,6 +140,7 @@
 
         if(urlParams.has("location"))
         {
+          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var locationValue = urlParams.get("location");
           for(var n=0; n<locationOptions.length; n++)
           {
@@ -148,6 +154,7 @@
 
         updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
 
+        // Add event listener that will update the URL and filter the results if the selected option is changed
         locationSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
