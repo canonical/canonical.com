@@ -1,15 +1,13 @@
 (function () {
   const urlParams = new URLSearchParams(window.location.search);
   const domList = document.querySelector(".js-job-list");
-  var filterSelect = document.querySelector(".js-filter");
+  const filterSelect = document.querySelector(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
   const sortSelect = document.querySelector(".js-sort");
-  var locationSelect = document.querySelector(".js-filter--location");
+  const locationSelect = document.querySelector(".js-filter--location");
 
   var numberOfJobsDisplayed = 0;
-  var filters = [];
-  var locationFilters = [];
   var filterBy = {};
 
   // Read data-location property and parse locations into well-defined categories
