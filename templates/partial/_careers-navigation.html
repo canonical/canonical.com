@@ -1,61 +1,22 @@
 <div class="col-3 u-hide--small">
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'engineering' %}is-active{% endif %}">
-        <a href="/careers/engineering" class="p-link--soft">Engineering</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'tech-ops' %}is-active{% endif %}">
-        <a href="/careers/tech-ops" class="p-link--soft">TechOps</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'commercial-ops' %}is-active{% endif %}">
-        <a href="/careers/commercial-ops" class="p-link--soft">Operations</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'sales' %}is-active{% endif %}">
-        <a href="/careers/sales" class="p-link--soft">Sales</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'marketing' %}is-active{% endif %}">
-        <a href="/careers/marketing" class="p-link--soft">Marketing</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'design' %}is-active{% endif %}">
-        <a href="/careers/design" class="p-link--soft">Web & design</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'project-management' %}is-active{% endif %}">
-        <a href="/careers/project-management" class="p-link--soft">Project Management</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'finance' %}is-active{% endif %}">
-        <a href="/careers/finance" class="p-link--soft">Finance</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'legal' %}is-active{% endif %}">
-        <a href="/careers/legal" class="p-link--soft">Legal</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'admin' %}is-active{% endif %}">
-        <a href="/careers/admin" class="p-link--soft">Admin</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'hr' %}is-active{% endif %}">
-        <a href="/careers/hr" class="p-link--soft">Human Resources</a>
-      </li>
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'lifestyle' %}is-active{% endif %}">
-        <a href="/careers/lifestyle" class="p-link--soft">Lifestyle</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'ethics' %}is-active{% endif %}">
-        <a href="/careers/ethics" class="p-link--soft">Ethics</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'travel' %}is-active{% endif %}">
-        <a href="/careers/travel" class="p-link--soft">Travel</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'progression' %}is-active{% endif %}">
-        <a href="/careers/progression" class="p-link--soft">Progression</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'diversity' %}is-active{% endif %}">
-        <a href="/careers/diversity" class="p-link--soft">Diversity</a>
-      </li>
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
-        <a href="/careers/all" class="p-link--soft">All roles</a>
-      </li>
+      {% set departments = [] %}
+      {% for job in vacancies %}
+        {% set departmentIsNew = True %}
+        {% for department in departments %}
+          {% if department == job.department %}
+            {% set departmentIsNew = False %}
+          {% endif %}
+        {% endfor %}
+        {% if departmentIsNew %}
+          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == job.department %}is-active{% endif %}">
+            <a href="/careers/{{ job.department }}" class="p-link--soft">{{ job.department.capitalize() }}</a>
+          </li>
+          {{ departments.append(job.department) }}
+        {% endif %}
+      {% endfor %}
+
     </ul>
   </div>
 </div>
