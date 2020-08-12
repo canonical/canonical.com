@@ -12,71 +12,33 @@
 
   // Read data-location property and parse locations into well-defined categories
   function parseLocations() {
-    const europe = ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"];
-    const americas = ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"];
-    const asia = ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"];
-    const middleEast = ["emea", "worldwide"];
-    const africa = ["emea", "worldwide"];
-    const oceania = ["apac", "worldwide"];
+    const regions = {
+      "europe": ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"],
+      "america": ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"],
+      "asia": ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
+      "middle-east": ["emea", "worldwide"],
+      "africa": ["emea", "worldwide"],
+      "oceania": ["apac", "worldwide"]
+  };
 
     const jobsList = document.querySelector(".js-job-list").children;
 
-    for(var n=0; n<jobsList.length; n++)
-    {
+    for (var n = 0; n < jobsList.length; n++) {
       const location = jobsList[n].getAttribute("data-location");
       var locationsList = "";
 
-      for(var x=0; x<europe.length; x++)
-      {
-        if(location.toLowerCase().includes(europe[x]))
-        {
-          locationsList += "europe ";
-          break;
-        }
-      }
-      for(var x=0; x<americas.length; x++)
-      {
-        if(location.toLowerCase().includes(americas[x]))
-        {
-          locationsList += "americas ";
-          break;
-        }
-      }
-      for(var x=0; x<asia.length; x++)
-      {
-        if(location.toLowerCase().includes(asia[x]))
-        {
-          locationsList += "asia ";
-          break;
-        }
-      }
-      for(var x=0; x<middleEast.length; x++)
-      {
-        if(location.toLowerCase().includes(middleEast[x]))
-        {
-          locationsList += "middle-east ";
-          break;
-        }
-      }
-      for(var x=0; x<africa.length; x++)
-      {
-        if(location.toLowerCase().includes(africa[x]))
-        {
-          locationsList += "africa ";
-          break;
-        }
-      }
-      for(var x=0; x<oceania.length; x++)
-      {
-        if(location.toLowerCase().includes(oceania[x]))
-        {
-          locationsList += "oceania ";
-          break;
+      for (var region in regions) {
+        const regionalLocations = regions[region];
+
+        for (var i = 0; i < regionalLocations.length; i++) {
+          if (location.toLowerCase().includes(regionalLocations[i])) {
+            locationsList += region + " ";
+            break;
+          }
         }
       }
 
-      if(locationsList.length > 0)
-      {
+      if (locationsList.length > 0) {
         locationsList = locationsList.slice(0, locationsList.length-1);
       }
       jobsList[n].setAttribute("location-filter", locationsList);
@@ -92,22 +54,18 @@
     if (domList) {
       var jobList = Array.from(domList.children);
 
-      if(filterSelect)
-      {
+      if (filterSelect) {
         // Get list of options from the HTML form
         var filterOptions = [];
         Array.from(filterSelect.options).forEach(function (el) {
           filterOptions.push(el.value);
         });
 
-        if(urlParams.has("filter"))
-        {
+        if (urlParams.has("filter")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var filterValue = urlParams.get("filter");
-          for(var n=0; n<filterOptions.length; n++)
-          {
-            if(filterOptions[n] === filterValue)
-            {
+          for (var n = 0; n < filterOptions.length; n++) {
+            if (filterOptions[n] === filterValue) {
               filterSelect.options.selectedIndex = n;
               break;
             }
@@ -128,22 +86,18 @@
         });
       }
 
-      if(locationSelect)
-      {
+      if (locationSelect) {
         // Get list of options from the HTML form
         var locationOptions = [];
         Array.from(locationSelect.options).forEach(function (el) {
           locationOptions.push(el.value);
         });
 
-        if(urlParams.has("location"))
-        {
+        if (urlParams.has("location")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var locationValue = urlParams.get("location");
-          for(var n=0; n<locationOptions.length; n++)
-          {
-            if(locationOptions[n] === locationValue)
-            {
+          for (var n = 0; n < locationOptions.length; n++) {
+            if (locationOptions[n] === locationValue) {
               locationSelect.options.selectedIndex = n;
               break;
             }
@@ -206,11 +160,8 @@
           node.classList.remove("u-hide");
         }
         numberOfJobsDisplayed = domList.childElementCount;
-      }
-      else if(filterBy.filterValue !== "all" && filterBy.location === "all")
-      {
-        if(node.dataset[filterBy.filterName].includes(filterBy.filterText))
-        {
+      } else if (filterBy.filterValue !== "all" && filterBy.location === "all") {
+        if (node.dataset[filterBy.filterName].includes(filterBy.filterText)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -220,11 +171,8 @@
           }
           numberOfJobsDisplayed--;
         }
-      }
-      else if(filterBy.filterValue === "all" && filterBy.location !== "all")
-      {
-        if(node.getAttribute("location-filter").includes(filterBy.location))
-        {
+      } else if (filterBy.filterValue === "all" && filterBy.location !== "all") {
+        if (node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -234,8 +182,7 @@
           }
           numberOfJobsDisplayed--;
         }
-      }
-      else {
+      } else {
         if (node.dataset[filterBy.filterName].includes(filterBy.filterText) && node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
