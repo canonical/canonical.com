@@ -14,7 +14,7 @@
   function parseLocations() {
     const regions = {
       "europe": ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"],
-      "america": ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"],
+      "americas": ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"],
       "asia": ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
       "middle-east": ["emea", "worldwide"],
       "africa": ["emea", "worldwide"],
@@ -23,14 +23,14 @@
 
     const jobsList = document.querySelector(".js-job-list").children;
 
-    for (var n = 0; n < jobsList.length; n++) {
+    for (let n = 0; n < jobsList.length; n++) {
       const location = jobsList[n].getAttribute("data-location");
       var locationsList = "";
 
-      for (var region in regions) {
+      for (let region in regions) {
         const regionalLocations = regions[region];
 
-        for (var i = 0; i < regionalLocations.length; i++) {
+        for (let i = 0; i < regionalLocations.length; i++) {
           if (location.toLowerCase().includes(regionalLocations[i])) {
             locationsList += region + " ";
             break;
@@ -64,7 +64,7 @@
         if (urlParams.has("filter")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var filterValue = urlParams.get("filter");
-          for (var n = 0; n < filterOptions.length; n++) {
+          for (let n = 0; n < filterOptions.length; n++) {
             if (filterOptions[n] === filterValue) {
               filterSelect.options.selectedIndex = n;
               break;
