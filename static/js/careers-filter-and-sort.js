@@ -5,13 +5,49 @@
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
   const sortSelect = document.querySelector(".js-sort");
+  const locationSelect = document.querySelector(".js-filter--location");
 
   var numberOfJobsDisplayed = 0;
-  var filters = [];
   var filterBy = {};
 
+  // Read data-location property and parse locations into well-defined categories
+  function parseLocations() {
+    const regions = {
+      "europe": ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"],
+      "americas": ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"],
+      "asia": ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
+      "middle-east": ["emea", "worldwide"],
+      "africa": ["emea", "worldwide"],
+      "oceania": ["apac", "worldwide"]
+  };
+
+    const jobsList = document.querySelector(".js-job-list").children;
+
+    for (let n = 0; n < jobsList.length; n++) {
+      const location = jobsList[n].getAttribute("data-location");
+      var locationsList = "";
+
+      for (let region in regions) {
+        const regionalLocations = regions[region];
+
+        for (let i = 0; i < regionalLocations.length; i++) {
+          if (location.toLowerCase().includes(regionalLocations[i])) {
+            locationsList += region + " ";
+            break;
+          }
+        }
+      }
+
+      if (locationsList.length > 0) {
+        locationsList = locationsList.slice(0, locationsList.length-1);
+      }
+      jobsList[n].setAttribute("location-filter", locationsList);
+    }
+  }
+
+  parseLocations();
+
   function init() {
-    var queryFilter = urlParams.get('filter');
 
     revealFilters();
 
@@ -19,17 +55,26 @@
       var jobList = Array.from(domList.children);
 
       if (filterSelect) {
+        // Get list of options from the HTML form
+        var filterOptions = [];
         Array.from(filterSelect.options).forEach(function (el) {
-          filters.push(el.value);
+          filterOptions.push(el.value);
         });
 
-        if (queryFilter) {
-          filterSelect.options.selectedIndex = filters.indexOf(queryFilter);
-          updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
-          filterJobs(filterBy, jobList);
-          updateNoResultsMessage();
+        if (urlParams.has("filter")) {
+          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
+          var filterValue = urlParams.get("filter");
+          for (let n = 0; n < filterOptions.length; n++) {
+            if (filterOptions[n] === filterValue) {
+              filterSelect.options.selectedIndex = n;
+              break;
+            }
+          }
         }
 
+        updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+
+        // Add event listener that will update the URL and filter the results if the selected option is changed
         filterSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
@@ -40,6 +85,41 @@
           updateNoResultsMessage();
         });
       }
+
+      if (locationSelect) {
+        // Get list of options from the HTML form
+        var locationOptions = [];
+        Array.from(locationSelect.options).forEach(function (el) {
+          locationOptions.push(el.value);
+        });
+
+        if (urlParams.has("location")) {
+          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
+          var locationValue = urlParams.get("location");
+          for (var n = 0; n < locationOptions.length; n++) {
+            if (locationOptions[n] === locationValue) {
+              locationSelect.options.selectedIndex = n;
+              break;
+            }
+          }
+        }
+
+        updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+
+        // Add event listener that will update the URL and filter the results if the selected option is changed
+        locationSelect.addEventListener("change", function () {
+          if (!(sortSelect.options.selectedIndex === 0)) {
+            sortSelect.options.selectedIndex = 0;
+          }
+          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+          filterJobs(filterBy, jobList);
+          updateURL(filterBy);
+          updateNoResultsMessage();
+        });
+      }
+
+      filterJobs(filterBy, jobList);
+      updateNoResultsMessage();
 
       if (sortSelect) {
         sortSelect.addEventListener("change", function (e) {
@@ -75,13 +155,35 @@
   function filterJobs(filterBy, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     jobList.forEach(function (node) {
-      if (filterBy.filterText === "All") {
+      if (filterBy.filterText === "All" && filterBy.location === "all") {
         if (node.classList.contains("u-hide")) {
           node.classList.remove("u-hide");
         }
         numberOfJobsDisplayed = domList.childElementCount;
-      } else {
+      } else if (filterBy.filterValue !== "all" && filterBy.location === "all") {
         if (node.dataset[filterBy.filterName].includes(filterBy.filterText)) {
+          if (node.classList.contains("u-hide")) {
+            node.classList.remove("u-hide");
+          }
+        } else {
+          if (!node.classList.contains("u-hide")) {
+            node.classList.add("u-hide");
+          }
+          numberOfJobsDisplayed--;
+        }
+      } else if (filterBy.filterValue === "all" && filterBy.location !== "all") {
+        if (node.getAttribute("location-filter").includes(filterBy.location)) {
+          if (node.classList.contains("u-hide")) {
+            node.classList.remove("u-hide");
+          }
+        } else {
+          if (!node.classList.contains("u-hide")) {
+            node.classList.add("u-hide");
+          }
+          numberOfJobsDisplayed--;
+        }
+      } else {
+        if (node.dataset[filterBy.filterName].includes(filterBy.filterText) && node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -129,6 +231,31 @@
     }
   }
 
+  function updateLocationFilterBy(location) {
+    switch (location) {
+      case "europe":
+        filterBy.location = "europe";
+        break;
+      case "americas":
+        filterBy.location = "americas";
+        break;
+      case "asia":
+        filterBy.location = "asia";
+        break;
+      case "middle-east":
+        filterBy.location = "middle-east";
+        break;
+      case "africa":
+        filterBy.location = "africa";
+        break;
+      case "oceania":
+        filterBy.location = "oceania";
+        break;
+      default:
+        filterBy.location = "all";
+    }
+  }
+
   // Display no reults message
   function updateNoResultsMessage() {
     if (noResults && jobContainer) {
@@ -146,6 +273,7 @@
     var baseURL = window.location.origin + window.location.pathname;
 
     urlParams.set('filter', filterBy.filterValue);
+    urlParams.set('location', filterBy.location);
 
     var url = baseURL + '?' + urlParams.toString() + '#available-roles';
 
