@@ -165,9 +165,9 @@
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
-          } else {
-            if (!node.classList.contains("u-hide")) {
-              node.classList.add("u-hide");
+        } else {
+          if (!node.classList.contains("u-hide")) {
+            node.classList.add("u-hide");
           }
           numberOfJobsDisplayed--;
         }
@@ -176,9 +176,9 @@
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
-          } else {
-            if (!node.classList.contains("u-hide")) {
-              node.classList.add("u-hide");
+        } else {
+          if (!node.classList.contains("u-hide")) {
+            node.classList.add("u-hide");
           }
           numberOfJobsDisplayed--;
         }
