@@ -84,6 +84,7 @@ def results():
 def department_group():
     department = flask.request.path.split("/")[2]
     vacancies = greenhouse_api.get_vacancies(department)
+    department_navigation = greenhouse_api.get_departments()
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
@@ -112,7 +113,7 @@ def department_group():
         )
 
     return flask.render_template(
-        f"careers/{department}.html", vacancies=vacancies
+        f"careers/{department}.html", vacancies=vacancies, department_navigation=department_navigation
     )
 
 

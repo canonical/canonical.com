@@ -2,18 +2,18 @@
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
       {% set departmentList = namespace(departments = []) %}
-      {% for job in vacancies %}
+      {% for nav_item in department_navigation %}
         {% set isNew = namespace(departmentIsNew = True) %}
         {% for department in departmentList.departments %}
-          {% if department == job.department %}
+          {% if department == nav_item %}
             {% set isNew.departmentIsNew = False %}
           {% endif %}
         {% endfor %}
         {% if isNew.departmentIsNew %}
-          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == job.department %}is-active{% endif %}">
-            <a href="/careers/{{ job.department }}" class="p-link--soft">{{ job.department }}</a>
+          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == nav_item %}is-active{% endif %}">
+            <a href="/careers/{{ nav_item }}" class="p-link--soft">{{ nav_item }}</a>
           </li>
-          {{ departmentList.departments.append(job.department) or "" }}
+          {{ departmentList.departments.append(nav_item) or "" }}
         {% endif %}
       {% endfor %}
 

@@ -177,3 +177,25 @@ class Greenhouse:
         )
 
         return response
+
+    def __department_category(sub_department):
+        categories = {
+            "engineering": [],
+            "techops": [],
+            "operations": [],
+            "sales": ["data center sales", "dc inside sales", "dc inside sales - amer", "dc inside sales - emea / apac", "dc outside sales", "dc outside sales - amer", "dc outside sales - emea / apac"],
+            "marketing": [],
+            "web-and-design" : [],
+            "project-management": ["dc project management"],
+            "finance": [],
+            "legal": ["advocacy"],
+            "admin": [],
+            "human-resources": []
+        }
+
+    def get_departments(self):
+        feed = self.session.get(f"https://boards-api.greenhouse.io/v1/boards/Canonical/departments?content=true").json()
+        departments = []
+        for department in feed["departments"]:
+            departments.append(department["name"])
+        return departments
