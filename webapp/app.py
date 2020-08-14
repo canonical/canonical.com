@@ -84,7 +84,27 @@ def results():
 def department_group():
     department = flask.request.path.split("/")[2]
     vacancies = greenhouse_api.get_vacancies(department)
-    department_navigation = greenhouse_api.get_departments()
+    all_departments = greenhouse_api.get_all_departments()
+    department_slugs = greenhouse_api.get_vacancy_department_slugs()
+    department_navigation = []
+
+    #careers_directory = os.listdir(os.path.join(app.template_folder, "careers"))
+    careers_directory = os.listdir("./templates/careers")
+
+    for slug in department_slugs:
+        if not (slug in department_navigation):
+            department_navigation.append(slug)
+
+    for template in careers_directory:
+        if template.endswith(".html"):
+            for name in all_departments:
+                department_slug = name.lower().replace(" ", ",")
+                template_slug = os.fsdecode(template)
+                template_slug = template_slug[:-5]
+                if department_slug == template_slug:
+                    if not (department_slug in department_navigation):
+                        department_navigation.append(department_slug)
+
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(

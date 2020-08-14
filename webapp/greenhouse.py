@@ -193,9 +193,18 @@ class Greenhouse:
             "human-resources": []
         }
 
-    def get_departments(self):
+    def get_all_departments(self):
         feed = self.session.get(f"https://boards-api.greenhouse.io/v1/boards/Canonical/departments?content=true").json()
         departments = []
         for department in feed["departments"]:
             departments.append(department["name"])
         return departments
+
+    def get_vacancy_department_slugs(self):
+        vacancy_departments = []
+        vacancies = self.get_vacancies("all")
+        for vacancy in vacancies:
+            vacancy_slug = _parse_feed_department(vacancy["department"]).lower().replace(" ", "-")
+            if not (vacancy_slug in vacancy_departments):
+                vacancy_departments.append(vacancy_slug)
+        return vacancy_departments
