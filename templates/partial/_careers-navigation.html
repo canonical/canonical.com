@@ -7,12 +7,33 @@
             <a href="/careers/{{ department.template_slug }}" class="p-link--soft">{{ department.title }}</a>
           </li>
         {% else %}
-        <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == nav_item %}is-active{% endif %}">
-          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.title }}</a>
-        </li>
+          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == nav_item %}is-active{% endif %}">
+            <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.title }}</a>
+          </li>
         {% endif %}
       {% endfor %}
-
+    </ul>
+    <ul class="p-content-list-section">
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'lifestyle' %}is-active{% endif %}">
+        <a href="/careers/lifestyle" class="p-link--soft">Lifestyle</a>
+      </li>
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'ethics' %}is-active{% endif %}">
+        <a href="/careers/ethics" class="p-link--soft">Ethics</a>
+      </li>
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'travel' %}is-active{% endif %}">
+        <a href="/careers/travel" class="p-link--soft">Travel</a>
+      </li>
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'progression' %}is-active{% endif %}">
+        <a href="/careers/progression" class="p-link--soft">Progression</a>
+      </li>
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'diversity' %}is-active{% endif %}">
+        <a href="/careers/diversity" class="p-link--soft">Diversity</a>
+      </li>
+    </ul>
+    <ul class="p-content-list-section">
+      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
+        <a href="/careers/all" class="p-link--soft">All roles</a>
+      </li>
     </ul>
   </div>
 </div>

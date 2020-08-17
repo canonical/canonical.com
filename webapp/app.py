@@ -156,7 +156,7 @@ class Department(object):
         careers_directory = os.listdir(Department.__careers_directory)
         for template in careers_directory:
             if template.endswith(".html"):
-                if template[:-5].replace("-", "") == Department.__parse_feed_department(self.name.replace("-", "")):
+                if template[:-5].replace("-", "") == Department.__parse_feed_department(self.name.replace("-", "")).lower():
                     return template[:-5]
         return None
     
@@ -171,22 +171,34 @@ class Department(object):
         
         return self.name.title()
 
+    def get_copydoc(self):
+        path = Department.__careers_directory + "/" + self.template_slug + ".html"
+        if os.path.exists(path):
+            with open(path) as reader:
+                for line in reader:
+                    if line.startswith("{% block meta_copydoc %}"):
+                        return line[line.index("}") + 1 : line.rindex("{")]
+
 
     def __init__(self, name):
         self.name = name
         self.slug = Department.__parse_feed_department(name).lower().replace(" ", "-")
         self.template_slug = self.get_template_name()
         self.title = self.get_title()
+        if self.template_slug:
+            self.copydoc = self.get_copydoc()
+            
 
-def generate_department_pages():
+
+def get_department_list():
     departments = []
     vacancies = greenhouse_api.get_vacancies("all")
     all_departments = greenhouse_api.get_all_departments()
     careers_directory = os.listdir("./templates/careers")
 
     departments.append(Department("admin"))
-    departments.append(Department("all"))
-    
+    #departments.append(Department("all"))
+
     # Get departments from vacancy list
     for vacancy in vacancies:
         new_dept = Department(vacancy["department"])
@@ -201,63 +213,54 @@ def generate_department_pages():
     # Get departments from department list that have templates
     for template in careers_directory:
         if template.endswith(".html"):
+            template_slug = template[:-5]
             for name in all_departments:
-                department_slug = name.lower().replace(" ", ",")
-                template_slug = os.fsdecode(template)
-                template_slug = template_slug[:-5]
+                department_slug = name.lower().replace(" ", "-")
                 if department_slug == template_slug:
                     new_dept = Department(name)
                     for department in departments:
+                        is_new = True
                         if department.title == new_dept.title:
                             is_new = False
                             break
                     if is_new:
                         departments.append(new_dept)
-    
-    # Make a page for each department
-    for department in departments:
-        path ="/careers/"
-        if department.template_slug:
-            slug = template_slug
+    return departments
+
+@app.route("/careers/<department>", methods=["GET", "POST"])
+def department_group(department):
+    vacancies = greenhouse_api.get_vacancies(department)
+    departments = get_department_list()
+
+    if flask.request.method == "POST":
+        response = greenhouse_api.submit_application(
+            os.environ["GREENHOUSE_API_KEY"],
+            flask.request.form,
+            flask.request.files,
+        )
+        if response.status_code == 200:
+            message = {
+                "type": "positive",
+                "title": "Success",
+                "text": (
+                    "Your application has been successfully submitted."
+                    " Thank you!"
+                ),
+            }
         else:
-            slug = department_slug
-        path += slug
-        # Does not work - each app.route needs to have a unique function name. Try rewriting this with dynamic path names.
-        @app.route(path, methods=["GET", "POST"])
-        def department_group():
-            vacancies = greenhouse_api.get_vacancies(slug)
+            message = {
+                "type": "negative",
+                "title": f"Error {response.status_code}",
+                "text": f"{response.reason}. Please try again!",
+            }
 
-            if flask.request.method == "POST":
-                response = greenhouse_api.submit_application(
-                    os.environ["GREENHOUSE_API_KEY"],
-                    flask.request.form,
-                    flask.request.files,
-                )
-                if response.status_code == 200:
-                    message = {
-                        "type": "positive",
-                        "title": "Success",
-                        "text": (
-                            "Your application has been successfully submitted."
-                            " Thank you!"
-                        ),
-                    }
-                else:
-                    message = {
-                        "type": "negative",
-                        "title": f"Error {response.status_code}",
-                        "text": f"{response.reason}. Please try again!",
-                    }
+        return flask.render_template(
+            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments
+        )
 
-                return flask.render_template(
-                    f"careers/{department}.html", vacancies=vacancies, message=message, departments=departments
-                )
-
-            return flask.render_template(
-                f"careers/{department}.html", vacancies=vacancies, department=deaprtments
-            )
-
-generate_department_pages()
+    return flask.render_template(
+        "careers/base-template.html", vacancies=vacancies, departments=departments
+    )
 
 
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
