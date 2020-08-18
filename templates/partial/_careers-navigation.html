@@ -2,7 +2,7 @@
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
       {% for department in departments %}
-          <li class="p-content-list-section__item {% if department.slug == departments[department_index].slug %}is-active{% endif %}">
+          <li class="p-content-list-section__item {% if departments[department_index] %}{% if department.slug == departments[department_index].slug %}is-active{% endif %}{% endif %}">
             <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">{% if vacancy_count[department.slug] %}{{ vacancy_count[department.slug] }}{% else %}{{ 0 }}{% endif %}</span>
           </li>
       {% endfor %}
@@ -27,6 +27,13 @@
     <ul class="p-content-list-section">
       <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
         <a href="/careers/all" class="p-link--soft">All roles</a>
+        <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
+          {% set jobs = namespace(counter = 0) %}
+          {% for key in vacancy_count %}
+            {% set jobs.counter = jobs.counter + vacancy_count[key] %}
+          {% endfor %}
+          {{ jobs.counter }}
+        </span>
       </li>
     </ul>
   </div>

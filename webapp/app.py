@@ -163,7 +163,7 @@ def get_department_list():
     departments = []
     all_departments = greenhouse_api.get_all_departments()
 
-    # Replace hardcoded departments with output from Harvest API once we get it working
+    # Replace hardcoded departments with Harvest API once we get it working
     departments.append(Department("Engineering"))
     departments.append(Department("TechOps"))
     departments.append(Department("Operations"))
@@ -195,22 +195,31 @@ def department_group(department):
     all_vacancies = greenhouse_api.get_vacancies("all")
     department_index = 0
     vacancy_count = {}
+    templates = []
 
+    # Get index of current department page
     for item in departments:
         if item.slug == department:
             break
         department_index += 1
 
+    # Populate vacancy_count dictionary with 0 values
     for item in departments:
         vacancy_count[item.slug] = 0
 
-    #FIX COUNTER
+    # Count number of vacancies in each department, and add relevant departments to the vacancies list that gets rendered
     for vacancy in all_vacancies:
         dept = Department(vacancy["department"])
         vacancy_count[dept.slug] += 1
         
-        if dept.slug == department:
+        if dept.slug == department or department == "all":
             vacancies.append(vacancy)
+    
+    # Remove the .html suffix from templates
+    for template in os.listdir("./templates/careers"):
+        if template.endswith(".html"):
+            template = template[:-5]
+        templates.append(template)
 
 
 
@@ -237,11 +246,11 @@ def department_group(department):
             }
 
         return flask.render_template(
-            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments, department_index=department_index, vacancy_count=vacancy_count
+            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments, department_index=department_index, vacancy_count=vacancy_count, templates=templates
         )
 
     return flask.render_template(
-        "careers/base-template.html", vacancies=vacancies, departments=departments, department_index=department_index, vacancy_count=vacancy_count
+        "careers/base-template.html", vacancies=vacancies, departments=departments, department_index=department_index, vacancy_count=vacancy_count, templates=templates
     )
 
 
