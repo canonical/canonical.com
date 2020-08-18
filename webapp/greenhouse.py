@@ -5,7 +5,6 @@ import json
 # Packages
 from html import unescape
 
-
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
 metadata_map = {
@@ -43,7 +42,7 @@ class Greenhouse:
             if job["metadata"][2]["value"] and job["offices"]:
                 feed_department = _parse_feed_department(
                     job["metadata"][2]["value"].replace("-", "")
-                )
+                ).replace(" ", "")
                 if (
                     path_department.lower() == "all"
                     or path_department.lower() == feed_department.lower()
@@ -182,14 +181,9 @@ class Greenhouse:
         feed = self.session.get(f"https://boards-api.greenhouse.io/v1/boards/Canonical/departments?content=true").json()
         departments = []
         for department in feed["departments"]:
-            departments.append(department["name"])
+            for job in department["jobs"]:
+                for item in job["metadata"]:
+                    if item["id"] == 155450:
+                        if item["value"]:
+                            departments.append(item["value"])
         return departments
-
-    def get_vacancy_department_slugs(self):
-        vacancy_departments = []
-        vacancies = self.get_vacancies("all")
-        for vacancy in vacancies:
-            vacancy_slug = _parse_feed_department(vacancy["department"]).lower().replace(" ", "-")
-            if not (vacancy_slug in vacancy_departments):
-                vacancy_departments.append(vacancy_slug)
-        return vacancy_departments

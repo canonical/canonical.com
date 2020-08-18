@@ -13,6 +13,7 @@ import talisker.requests
 
 # Local
 from webapp.greenhouse import Greenhouse
+from webapp.greenhouse import _parse_feed_department
 from webapp.partners import Partners
 
 app = FlaskBase(
@@ -27,8 +28,11 @@ session = talisker.requests.get_session()
 greenhouse_api = Greenhouse(session)
 greenhouse_api_key = os.environ.get("GREENHOUSE_API_KEY")
 partners_api = Partners(session)
-
-
+"""
+debugtst = greenhouse_api.get_all_departments()
+for item in debugtst:
+    print(item)
+"""
 @app.route("/")
 def index():
     partner_groups = partners_api.get_partner_groups()
@@ -67,75 +71,8 @@ def results():
 
     return flask.render_template("careers/results.html", **context)
 
-"""
-@app.route("/careers/admin", methods=["GET", "POST"])
-@app.route("/careers/all", methods=["GET", "POST"])
-@app.route("/careers/commercial-ops", methods=["GET", "POST"])
-@app.route("/careers/design", methods=["GET", "POST"])
-@app.route("/careers/engineering", methods=["GET", "POST"])
-@app.route("/careers/finance", methods=["GET", "POST"])
-@app.route("/careers/hr", methods=["GET", "POST"])
-@app.route("/careers/legal", methods=["GET", "POST"])
-@app.route("/careers/marketing", methods=["GET", "POST"])
-@app.route("/careers/project-management", methods=["GET", "POST"])
-@app.route("/careers/sales", methods=["GET", "POST"])
-@app.route("/careers/tech-ops", methods=["GET", "POST"])
-def department_group():
-    department = flask.request.path.split("/")[2]
-    vacancies = greenhouse_api.get_vacancies(department)
-    all_departments = greenhouse_api.get_all_departments()
-    department_slugs = greenhouse_api.get_vacancy_department_slugs()
-    department_navigation = []
 
-    #careers_directory = os.listdir(os.path.join(app.template_folder, "careers"))
-    careers_directory = os.listdir("./templates/careers")
-
-    for slug in department_slugs:
-        if not (slug in department_navigation):
-            department_navigation.append(slug)
-
-    for template in careers_directory:
-        if template.endswith(".html"):
-            for name in all_departments:
-                department_slug = name.lower().replace(" ", ",")
-                template_slug = os.fsdecode(template)
-                template_slug = template_slug[:-5]
-                if department_slug == template_slug:
-                    if not (department_slug in department_navigation):
-                        department_navigation.append(department_slug)
-
-
-    if flask.request.method == "POST":
-        response = greenhouse_api.submit_application(
-            os.environ["GREENHOUSE_API_KEY"],
-            flask.request.form,
-            flask.request.files,
-        )
-        if response.status_code == 200:
-            message = {
-                "type": "positive",
-                "title": "Success",
-                "text": (
-                    "Your application has been successfully submitted."
-                    " Thank you!"
-                ),
-            }
-        else:
-            message = {
-                "type": "negative",
-                "title": f"Error {response.status_code}",
-                "text": f"{response.reason}. Please try again!",
-            }
-
-        return flask.render_template(
-            f"careers/{department}.html", vacancies=vacancies, message=message
-        )
-
-    return flask.render_template(
-        f"careers/{department}.html", vacancies=vacancies, department_navigation=department_navigation
-    )
-"""
-
+# Class that collects department-specific content
 class Department(object):
     __careers_directory = "./templates/careers"
     def __parse_feed_department(feed_department):
@@ -143,8 +80,9 @@ class Department(object):
             "cloud engineering": "engineering",
             "device engineering": "engineering",
             "web and design": "design",
-            "operations": "commercialops",
+            "operations": "commercial-ops",
             "human resources": "hr",
+            "techops": "tech-ops",
         }
 
         if feed_department.lower() in field:
@@ -171,6 +109,7 @@ class Department(object):
         
         return self.name.title()
 
+    """
     def get_copydoc(self):
         path = Department.__careers_directory + "/" + self.template_slug + ".html"
         if os.path.exists(path):
@@ -179,58 +118,101 @@ class Department(object):
                     if line.startswith("{% block meta_copydoc %}"):
                         return line[line.index("}") + 1 : line.rindex("{")]
 
+    def get_meta_description(self):
+        path = Department.__careers_directory + "/" + self.template_slug + ".html"
+        if os.path.exists(path):
+            with open(path) as reader:
+                for line in reader:
+                    if line.startswith("{% block meta_description %}"):
+                        return line[line.index("}") + 1 : line.rindex("{")]
 
+    def get_content(self):
+        path = Department.__careers_directory + "/" + self.template_slug + ".html"
+        overview_content = ""
+        if os.path.exists(path):
+            with open(path) as reader:
+                is_overview = False
+                for line in reader:
+                    if line.find("{% block overview %}") != -1:
+                        line = line[line.find("{% block overview %}") + 20: len(line)] # 20 is the length of the block overview tag
+                        is_overview = True
+                    elif line.find("{% endblock %}") != -1:
+                        line = line[:line.rfind("{% endblock %}")]
+                        is_overview = False
+                    
+                    if is_overview:
+                        overview_content += line
+                return overview_content
+    """
     def __init__(self, name):
         self.name = name
-        self.slug = Department.__parse_feed_department(name).lower().replace(" ", "-")
-        self.template_slug = self.get_template_name()
-        self.title = self.get_title()
+        self.slug = Department.__parse_feed_department(name).replace(" ", "-").lower()
+        #self.template_slug = self.get_template_name()
+        #self.title = self.get_title()
+        """
         if self.template_slug:
+            self.slug = self.template_slug
             self.copydoc = self.get_copydoc()
+            self.overview_content = self.get_content()
+            self.meta_description = self.get_meta_description()
+        """
             
 
-
+# Generates a list of departments
 def get_department_list():
     departments = []
-    vacancies = greenhouse_api.get_vacancies("all")
     all_departments = greenhouse_api.get_all_departments()
-    careers_directory = os.listdir("./templates/careers")
 
-    departments.append(Department("admin"))
-    #departments.append(Department("all"))
+    # Replace hardcoded departments with output from Harvest API once we get it working
+    departments.append(Department("Engineering"))
+    departments.append(Department("TechOps"))
+    departments.append(Department("Operations"))
+    departments.append(Department("Sales"))
+    departments.append(Department("Marketing"))
+    departments.append(Department("Web and design"))
+    departments.append(Department("Project Management"))
+    departments.append(Department("Finance"))
+    departments.append(Department("Legal"))
+    departments.append(Department("Admin"))
+    departments.append(Department("Human resources"))
 
-    # Get departments from vacancy list
-    for vacancy in vacancies:
-        new_dept = Department(vacancy["department"])
+    # Get new departments from Greenhouse vacancy list
+    for item in all_departments:
+        new_department = Department(item)
         is_new = True
         for department in departments:
-            if department.title == new_dept.title:
+            if department.slug == new_department.slug:
                 is_new = False
                 break
         if is_new:
-            departments.append(new_dept)
-    
-    # Get departments from department list that have templates
-    for template in careers_directory:
-        if template.endswith(".html"):
-            template_slug = template[:-5]
-            for name in all_departments:
-                department_slug = name.lower().replace(" ", "-")
-                if department_slug == template_slug:
-                    new_dept = Department(name)
-                    for department in departments:
-                        is_new = True
-                        if department.title == new_dept.title:
-                            is_new = False
-                            break
-                    if is_new:
-                        departments.append(new_dept)
+            departments.append(new_department)
     return departments
 
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
-    vacancies = greenhouse_api.get_vacancies(department)
     departments = get_department_list()
+    vacancies = []
+    all_vacancies = greenhouse_api.get_vacancies("all")
+    department_index = 0
+    vacancy_count = {}
+
+    for item in departments:
+        if item.slug == department:
+            break
+        department_index += 1
+
+    for item in departments:
+        vacancy_count[item.slug] = 0
+
+    #FIX COUNTER
+    for vacancy in all_vacancies:
+        dept = Department(vacancy["department"])
+        vacancy_count[dept.slug] += 1
+        
+        if dept.slug == department:
+            vacancies.append(vacancy)
+
+
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
@@ -255,11 +237,11 @@ def department_group(department):
             }
 
         return flask.render_template(
-            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments
+            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments, department_index=department_index, vacancy_count=vacancy_count
         )
 
     return flask.render_template(
-        "careers/base-template.html", vacancies=vacancies, departments=departments
+        "careers/base-template.html", vacancies=vacancies, departments=departments, department_index=department_index, vacancy_count=vacancy_count
     )
 
 

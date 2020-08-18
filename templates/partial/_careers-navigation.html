@@ -2,15 +2,9 @@
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
       {% for department in departments %}
-        {% if department.template_slug %}
-          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == nav_item %}is-active{% endif %}">
-            <a href="/careers/{{ department.template_slug }}" class="p-link--soft">{{ department.title }}</a>
+          <li class="p-content-list-section__item {% if department.slug == departments[department_index].slug %}is-active{% endif %}">
+            <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">{% if vacancy_count[department.slug] %}{{ vacancy_count[department.slug] }}{% else %}{{ 0 }}{% endif %}</span>
           </li>
-        {% else %}
-          <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == nav_item %}is-active{% endif %}">
-            <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.title }}</a>
-          </li>
-        {% endif %}
       {% endfor %}
     </ul>
     <ul class="p-content-list-section">
