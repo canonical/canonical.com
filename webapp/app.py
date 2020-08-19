@@ -28,6 +28,7 @@ greenhouse_api = Greenhouse(session)
 greenhouse_api_key = os.environ.get("GREENHOUSE_API_KEY")
 partners_api = Partners(session)
 
+
 @app.route("/")
 def index():
     partner_groups = partners_api.get_partner_groups()
@@ -69,6 +70,7 @@ def results():
 # Class that collects department-specific content
 class Department(object):
     __careers_directory = "./templates/careers"
+
     def __parse_feed_department(feed_department):
         field = {
             "cloud engineering": "engineering",
@@ -88,14 +90,19 @@ class Department(object):
 
     def __init__(self, name):
         self.name = name
-        self.slug = Department.__parse_feed_department(name).replace(" ", "-").lower()
-            
+        self.slug = Department.__parse_feed_department(name)
+        self.slug = self.slug.replace(" ", "-").lower()
+
+
 # Generates a list of departments
 def get_department_list():
     departments = []
     all_departments = greenhouse_api.get_departments()
 
-    # Populate departments[] with Department objects, ensuring that there are no duplicates
+    """
+    Populate departments[] with Department objects,
+    ensuring that there are no duplicates
+    """
     for item in all_departments:
         new_department = Department(item)
         is_new = True
@@ -106,6 +113,7 @@ def get_department_list():
         if is_new:
             departments.append(new_department)
     return departments
+
 
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
@@ -126,21 +134,26 @@ def department_group(department):
     for item in departments:
         vacancy_count[item.slug] = 0
 
-    # Count number of vacancies in each department, and add relevant departments to the vacancies list that gets rendered
+    """
+    Count number of vacancies in each department,
+    and add relevant departments to the vacancies
+    list that gets rendered
+    """
     for vacancy in all_vacancies:
         dept = Department(vacancy["department"])
         vacancy_count[dept.slug] += 1
-        
+
         if dept.slug == department or department == "all":
             vacancies.append(vacancy)
-    
-    # Generate list of templates in the /templates/careers folder and remove the .html suffix
+
+    """
+    Generate list of templates in the /templates/careers folder,
+    and remove the .html suffix
+    """
     for template in os.listdir("./templates/careers"):
         if template.endswith(".html"):
             template = template[:-5]
         templates.append(template)
-
-
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
@@ -165,11 +178,22 @@ def department_group(department):
             }
 
         return flask.render_template(
-            "careers/base-template.html", vacancies=vacancies, message=message, departments=departments, department_index=department_index, vacancy_count=vacancy_count, templates=templates
+            "careers/base-template.html",
+            vacancies=vacancies,
+            message=message,
+            departments=departments,
+            department_index=department_index,
+            vacancy_count=vacancy_count,
+            templates=templates
         )
 
     return flask.render_template(
-        "careers/base-template.html", vacancies=vacancies, departments=departments, department_index=department_index, vacancy_count=vacancy_count, templates=templates
+        "careers/base-template.html",
+        vacancies=vacancies,
+        departments=departments,
+        department_index=department_index,
+        vacancy_count=vacancy_count,
+        templates=templates
     )
 
 
