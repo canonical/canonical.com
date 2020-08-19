@@ -69,9 +69,7 @@ def results():
 
 # Class that collects department-specific content
 class Department(object):
-    __careers_directory = "./templates/careers"
-
-    def __parse_feed_department(feed_department):
+    def field_mapping(feed_department):
         field = {
             "cloud engineering": "engineering",
             "device engineering": "engineering",
@@ -83,15 +81,18 @@ class Department(object):
             "product": "product management"
         }
 
-        if feed_department.lower() in field:
-            return field[feed_department.lower()]
+        output = feed_department
 
-        return feed_department
+        if feed_department.lower() in field:
+            output = field[feed_department.lower()]
+
+        output = output.replace(" ", "-")
+        output = output.lower()
+        return output
 
     def __init__(self, name):
         self.name = name
-        self.slug = Department.__parse_feed_department(name)
-        self.slug = self.slug.replace(" ", "-").lower()
+        self.slug = Department.field_mapping(name)
 
 
 # Generates a list of departments
