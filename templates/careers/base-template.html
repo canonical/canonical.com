@@ -31,17 +31,21 @@
 {% endblock %}
 
 {% block careers_content %}
-	<nav class="p-tabs">
-		<ul class="p-tabs__list" role="tablist">
-			<li class="p-tabs__item" role="presentation">
-				<a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
-			</li>
-		</ul>
-	</nav>
-  {% include 'partial/_careers-available-roles.html' %}
-  <script defer src="/static/js/careers-filter-and-sort.js"></script>
-  <script defer src="/static/js/apply-for-jobs.js"></script>
-  <script defer src="/static/js/file-validation.js"></script>
+	{% if departments[department_index] %}
+		<nav class="p-tabs">
+			<ul class="p-tabs__list" role="tablist">
+				<li class="p-tabs__item" role="presentation">
+					<a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
+				</li>
+			</ul>
+		</nav>
+		{% include 'partial/_careers-available-roles.html' %}
+		<script defer src="/static/js/careers-filter-and-sort.js"></script>
+		<script defer src="/static/js/apply-for-jobs.js"></script>
+		<script defer src="/static/js/file-validation.js"></script>
+	{% else %}
+		<p>Department not found</p>
+	{% endif %}
 {% endblock %}
 
 

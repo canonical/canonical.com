@@ -1,11 +1,14 @@
 # Standard library
 import base64
 import json
+import os
 
 # Packages
 from html import unescape
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
+
+harvest_api_key = os.environ.get("HARVEST_API_KEY")
 
 metadata_map = {
     "management": 186225,
@@ -177,13 +180,15 @@ class Greenhouse:
 
         return response
 
-    def get_all_departments(self):
-        feed = self.session.get(f"https://boards-api.greenhouse.io/v1/boards/Canonical/departments?content=true").json()
+    # Get list of external departments from the Harvest API
+    def get_departments(self):
+        content_url = "https://harvest.greenhouse.io/v1///custom_field/155450"
+        key = harvest_api_key + ":"
+        auth = ("Basic " + str(base64.b64encode(key.encode("utf-8")), "utf-8"))
+        headers = {"Authorization": auth}
+        response = self.session.get(content_url, headers=headers)
+        content = json.loads(response.text)
         departments = []
-        for department in feed["departments"]:
-            for job in department["jobs"]:
-                for item in job["metadata"]:
-                    if item["id"] == 155450:
-                        if item["value"]:
-                            departments.append(item["value"])
+        for field in content["custom_field_options"]:
+            departments.append(field["name"])
         return departments

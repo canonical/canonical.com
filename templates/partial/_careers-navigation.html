@@ -2,9 +2,9 @@
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
       {% for department in departments %}
-          <li class="p-content-list-section__item {% if departments[department_index] %}{% if department.slug == departments[department_index].slug %}is-active{% endif %}{% endif %}">
-            <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">{% if vacancy_count[department.slug] %}{{ vacancy_count[department.slug] }}{% else %}{{ 0 }}{% endif %}</span>
-          </li>
+        <li class="p-content-list-section__item {% if departments[department_index] %}{% if department.slug == departments[department_index].slug %}is-active{% endif %}{% endif %}">
+          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">{% if vacancy_count[department.slug] %}{{ vacancy_count[department.slug] }}{% else %}{{ 0 }}{% endif %}</span>
+        </li>
       {% endfor %}
     </ul>
     <ul class="p-content-list-section">
@@ -41,17 +41,9 @@
 <div class="col-3 u-hide--medium u-hide--large">
   <select name="menu" onchange="location.href=this.value">
     <option disabled="disabled" value="" selected="">Go to...</option>
-    <option value="/careers/engineering">Engineering</option>
-    <option value="/careers/tech-ops">TechOps</option>
-    <option value="/careers/commercial-ops">Operations</option>
-    <option value="/careers/sales">Sales</option>
-    <option value="/careers/marketing">Marketing</option>
-    <option value="/careers/design">Web & design</option>
-    <option value="/careers/project-management">Project Management</option>
-    <option value="/careers/finance">Finance</option>
-    <option value="/careers/legal">Legal</option>
-    <option value="/careers/admin">Admin</option>
-    <option value="/careers/hr">Human Resources</option>
+    {% for department in departments %}
+      <option value="/careers/{{ department.slug }}">{{ department.name }}</option>
+    {% endfor %}
     <option value="/careers/lifestyle">Lifestyle</option>
     <option value="/careers/ethics">Ethics</option>
     <option value="/careers/travel">Travel</option>

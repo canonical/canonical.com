@@ -28,11 +28,7 @@ session = talisker.requests.get_session()
 greenhouse_api = Greenhouse(session)
 greenhouse_api_key = os.environ.get("GREENHOUSE_API_KEY")
 partners_api = Partners(session)
-"""
-debugtst = greenhouse_api.get_all_departments()
-for item in debugtst:
-    print(item)
-"""
+
 @app.route("/")
 def index():
     partner_groups = partners_api.get_partner_groups()
@@ -44,7 +40,6 @@ def secure_boot():
     return flask.send_from_directory(
         "../static/files", "secure-boot-master-ca.crl"
     )
-
 
 # Career departments
 @app.route("/careers/results")
@@ -80,9 +75,11 @@ class Department(object):
             "cloud engineering": "engineering",
             "device engineering": "engineering",
             "web and design": "design",
+            "web & design": "design",
             "operations": "commercial-ops",
             "human resources": "hr",
             "techops": "tech-ops",
+            "product": "product management"
         }
 
         if feed_department.lower() in field:
@@ -90,93 +87,16 @@ class Department(object):
 
         return feed_department
 
-    def get_template_name(self):
-        careers_directory = os.listdir(Department.__careers_directory)
-        for template in careers_directory:
-            if template.endswith(".html"):
-                if template[:-5].replace("-", "") == Department.__parse_feed_department(self.name.replace("-", "")).lower():
-                    return template[:-5]
-        return None
-    
-    def get_title(self):
-        if self.template_slug:
-            path = Department.__careers_directory + "/" + self.template_slug + ".html"
-            if os.path.exists(path):
-                with open(path) as reader:
-                    for line in reader:
-                        if line.startswith("{% block title %}"):
-                            return line[line.index("}") + 1 : line.rindex("{")]
-        
-        return self.name.title()
-
-    """
-    def get_copydoc(self):
-        path = Department.__careers_directory + "/" + self.template_slug + ".html"
-        if os.path.exists(path):
-            with open(path) as reader:
-                for line in reader:
-                    if line.startswith("{% block meta_copydoc %}"):
-                        return line[line.index("}") + 1 : line.rindex("{")]
-
-    def get_meta_description(self):
-        path = Department.__careers_directory + "/" + self.template_slug + ".html"
-        if os.path.exists(path):
-            with open(path) as reader:
-                for line in reader:
-                    if line.startswith("{% block meta_description %}"):
-                        return line[line.index("}") + 1 : line.rindex("{")]
-
-    def get_content(self):
-        path = Department.__careers_directory + "/" + self.template_slug + ".html"
-        overview_content = ""
-        if os.path.exists(path):
-            with open(path) as reader:
-                is_overview = False
-                for line in reader:
-                    if line.find("{% block overview %}") != -1:
-                        line = line[line.find("{% block overview %}") + 20: len(line)] # 20 is the length of the block overview tag
-                        is_overview = True
-                    elif line.find("{% endblock %}") != -1:
-                        line = line[:line.rfind("{% endblock %}")]
-                        is_overview = False
-                    
-                    if is_overview:
-                        overview_content += line
-                return overview_content
-    """
     def __init__(self, name):
         self.name = name
         self.slug = Department.__parse_feed_department(name).replace(" ", "-").lower()
-        #self.template_slug = self.get_template_name()
-        #self.title = self.get_title()
-        """
-        if self.template_slug:
-            self.slug = self.template_slug
-            self.copydoc = self.get_copydoc()
-            self.overview_content = self.get_content()
-            self.meta_description = self.get_meta_description()
-        """
             
-
 # Generates a list of departments
 def get_department_list():
     departments = []
-    all_departments = greenhouse_api.get_all_departments()
+    all_departments = greenhouse_api.get_departments()
 
-    # Replace hardcoded departments with Harvest API once we get it working
-    departments.append(Department("Engineering"))
-    departments.append(Department("TechOps"))
-    departments.append(Department("Operations"))
-    departments.append(Department("Sales"))
-    departments.append(Department("Marketing"))
-    departments.append(Department("Web and design"))
-    departments.append(Department("Project Management"))
-    departments.append(Department("Finance"))
-    departments.append(Department("Legal"))
-    departments.append(Department("Admin"))
-    departments.append(Department("Human resources"))
-
-    # Get new departments from Greenhouse vacancy list
+    # Populate departments[] with Department objects, ensuring that there are no duplicates
     for item in all_departments:
         new_department = Department(item)
         is_new = True
@@ -215,7 +135,7 @@ def department_group(department):
         if dept.slug == department or department == "all":
             vacancies.append(vacancy)
     
-    # Remove the .html suffix from templates
+    # Generate list of templates in the /templates/careers folder and remove the .html suffix
     for template in os.listdir("./templates/careers"):
         if template.endswith(".html"):
             template = template[:-5]
