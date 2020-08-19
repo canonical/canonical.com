@@ -13,7 +13,6 @@ import talisker.requests
 
 # Local
 from webapp.greenhouse import Greenhouse
-from webapp.greenhouse import _parse_feed_department
 from webapp.partners import Partners
 
 app = FlaskBase(
