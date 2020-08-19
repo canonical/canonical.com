@@ -41,31 +41,6 @@ def secure_boot():
         "../static/files", "secure-boot-master-ca.crl"
     )
 
-# Career departments
-@app.route("/careers/results")
-def results():
-    context = {}
-    vacancies = []
-    departments = []
-    message = ""
-    if flask.request.args:
-        core_skills = flask.request.args["coreSkills"].split(",")
-        context["core_skills"] = core_skills
-        vacancies = greenhouse_api.get_vacancies_by_skills(core_skills)
-    else:
-        message = "There are no roles matching your selection."
-    if len(vacancies) == 0:
-        message = "There are no roles matching your selection."
-    else:
-        for job in vacancies:
-            if not (job["department"] in departments):
-                departments.append(job["department"])
-    context["message"] = message
-    context["vacancies"] = vacancies
-    context["departments"] = departments
-
-    return flask.render_template("careers/results.html", **context)
-
 
 # Class that collects department-specific content
 class Department(object):
@@ -100,10 +75,8 @@ def get_department_list():
     departments = []
     all_departments = greenhouse_api.get_departments()
 
-    """
-    Populate departments[] with Department objects,
-    ensuring that there are no duplicates
-    """
+    # Populate departments[] with Department objects,
+    # ensuring that there are no duplicates
     for item in all_departments:
         new_department = Department(item)
         is_new = True
@@ -116,45 +89,72 @@ def get_department_list():
     return departments
 
 
-@app.route("/careers/<department>", methods=["GET", "POST"])
-def department_group(department):
+def render_navigation():
+    context = {}
     departments = get_department_list()
-    vacancies = []
     all_vacancies = greenhouse_api.get_vacancies("all")
-    department_index = 0
     vacancy_count = {}
-    templates = []
-
-    # Get index of current department page
-    for item in departments:
-        if item.slug == department:
-            break
-        department_index += 1
 
     # Populate vacancy_count dictionary with 0 values
-    for item in departments:
-        vacancy_count[item.slug] = 0
+    for department in departments:
+        vacancy_count[department.slug] = 0
 
-    """
-    Count number of vacancies in each department,
-    and add relevant departments to the vacancies
-    list that gets rendered
-    """
+    #Count number of vacancies in each department,
+    #and add relevant departments to the vacancies
+    #list that gets rendered
     for vacancy in all_vacancies:
         dept = Department(vacancy["department"])
         vacancy_count[dept.slug] += 1
+    
+    context["nav_departments"] = departments
+    context["nav_vacancy_count"] = vacancy_count
 
-        if dept.slug == department or department == "all":
-            vacancies.append(vacancy)
+    return context
 
-    """
-    Generate list of templates in the /templates/careers folder,
-    and remove the .html suffix
-    """
+
+# Career departments
+@app.route("/careers/results")
+def results():
+    context = render_navigation()
+    vacancies = []
+    departments = []
+    message = ""
+    if flask.request.args:
+        core_skills = flask.request.args["coreSkills"].split(",")
+        context["core_skills"] = core_skills
+        vacancies = greenhouse_api.get_vacancies_by_skills(core_skills)
+    else:
+        message = "There are no roles matching your selection."
+    if len(vacancies) == 0:
+        message = "There are no roles matching your selection."
+    else:
+        for job in vacancies:
+            if not (job["department"] in departments):
+                departments.append(job["department"])
+    context["message"] = message
+    context["vacancies"] = vacancies
+    context["departments"] = departments
+
+    return flask.render_template("careers/results.html", **context)
+
+
+@app.route("/careers/<department>", methods=["GET", "POST"])
+def department_group(department):
+    context = render_navigation()
+    vacancies = greenhouse_api.get_vacancies(department)
+    templates = []
+    departments = get_department_list()
+
+    # Generate list of templates in the /templates/careers folder,
+    # and remove the .html suffix
     for template in os.listdir("./templates/careers"):
         if template.endswith(".html"):
             template = template[:-5]
         templates.append(template)
+
+    context["vacancies"] = vacancies
+    context["templates"] = templates
+    context["department"] = department
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
@@ -177,24 +177,17 @@ def department_group(department):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
+        
+        context["message"] = message
 
         return flask.render_template(
             "careers/base-template.html",
-            vacancies=vacancies,
-            message=message,
-            departments=departments,
-            department_index=department_index,
-            vacancy_count=vacancy_count,
-            templates=templates
+            **context
         )
 
     return flask.render_template(
         "careers/base-template.html",
-        vacancies=vacancies,
-        departments=departments,
-        department_index=department_index,
-        vacancy_count=vacancy_count,
-        templates=templates
+        **context
     )
 
 
