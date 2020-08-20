@@ -138,6 +138,38 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
+@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
+def job_details(job_id):
+    context = render_navigation()
+    context["job"] = greenhouse_api.get_vacancy(job_id)
+    if not context["job"]:
+        flask.abort(404)
+
+    if flask.request.method == "POST":
+        response = greenhouse_api.submit_application(
+            greenhouse_api_key, flask.request.form, flask.request.files, job_id
+        )
+        if response.status_code == 200:
+            context["message"] = {
+                "type": "positive",
+                "title": "Success",
+                "text": (
+                    "Your application has been successfully submitted."
+                    " Thank you!"
+                ),
+            }
+        else:
+            context["message"] = {
+                "type": "negative",
+                "title": f"Error {response.status_code}",
+                "text": f"{response.reason}. Please try again!",
+            }
+
+        return flask.render_template(f"/careers/job-detail.html", **context)
+
+    return flask.render_template("/careers/job-detail.html", **context)
+
+
 @app.route("/careers/<department>", methods=["GET", "POST"])
 def department_group(department):
     context = render_navigation()
@@ -189,39 +221,6 @@ def department_group(department):
         "careers/base-template.html",
         **context
     )
-
-
-@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
-def job_details(job_id):
-    job = greenhouse_api.get_vacancy(job_id)
-    if not job:
-        flask.abort(404)
-
-    if flask.request.method == "POST":
-        response = greenhouse_api.submit_application(
-            greenhouse_api_key, flask.request.form, flask.request.files, job_id
-        )
-        if response.status_code == 200:
-            message = {
-                "type": "positive",
-                "title": "Success",
-                "text": (
-                    "Your application has been successfully submitted."
-                    " Thank you!"
-                ),
-            }
-        else:
-            message = {
-                "type": "negative",
-                "title": f"Error {response.status_code}",
-                "text": f"{response.reason}. Please try again!",
-            }
-
-        return flask.render_template(
-            f"/careers/job-detail.html", job=job, message=message
-        )
-
-    return flask.render_template("/careers/job-detail.html", job=job)
 
 
 # Partners
