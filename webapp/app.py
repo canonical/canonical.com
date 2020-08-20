@@ -44,8 +44,8 @@ def secure_boot():
 
 # Class that collects department-specific content
 class Department(object):
-    def field_mapping(feed_department):
-        field = {
+    def __parse_feed_deparment(feed_department):
+        field_mapping = {
             "cloud engineering": "engineering",
             "device engineering": "engineering",
             "web and design": "design",
@@ -58,8 +58,8 @@ class Department(object):
 
         output = feed_department
 
-        if feed_department.lower() in field:
-            output = field[feed_department.lower()]
+        if feed_department.lower() in field_mapping:
+            output = field_mapping[feed_department.lower()]
 
         output = output.replace(" ", "-")
         output = output.lower()
@@ -67,13 +67,16 @@ class Department(object):
 
     def __init__(self, name):
         self.name = name
-        self.slug = Department.field_mapping(name)
+        self.slug = Department.__parse_feed_deparment(name)
 
 
 # Generates a list of departments
 def get_department_list():
     departments = []
-    all_departments = greenhouse_api.get_departments()
+    try:
+        all_departments = greenhouse_api.get_departments()
+    except:
+        flask.abort(502, description="The Harvest API key is missing or invalid")
 
     # Populate departments[] with Department objects,
     # ensuring that there are no duplicates
@@ -293,3 +296,17 @@ def slug(text):
 @app.template_filter()
 def markup(text):
     return markdown.markdown(text)
+
+@app.errorhandler(502)
+def bad_gateway(e):
+    prefix = "502 Bad Gateway: "
+    if str(e).find(prefix) != -1:
+        message = str(e)[len(prefix):]
+    return flask.render_template("/502.html", message=message), 502
+
+#app.register_error_handler(502, bad_gateway)
+
+
+@app.errorhandler(500)
+def bad_gateway(e):
+    return flask.render_template("/500.html", message=message), 500
