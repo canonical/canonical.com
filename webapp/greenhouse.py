@@ -8,6 +8,7 @@ from html import unescape
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
+#harvest_api_key = os.environ.get("DEBUG_KEY")
 harvest_api_key = os.environ.get("HARVEST_API_KEY")
 
 metadata_map = {
@@ -189,6 +190,8 @@ class Greenhouse:
         base64_encoded_key = ("Basic " + str(base64.b64encode(key.encode("utf-8")), "utf-8"))
         headers = {"Authorization": base64_encoded_key}
         response = self.session.get(department_api_url, headers=headers)
+        #if response.status_code == 401:
+        #    flask.abort(502)
         content = json.loads(response.text)
         departments = []
         for field in content["custom_field_options"]:
