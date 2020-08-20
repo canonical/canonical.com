@@ -22,10 +22,8 @@ def _parse_feed_department(feed_department):
     field = {
         "cloud engineering": "engineering",
         "device engineering": "engineering",
-        "web and design": "design",
-        "web & design": "design",
-        "operations": "commercialops",
-        "human resources": "hr",
+        "operations": "operations",
+        "product management": "product",
     }
 
     if feed_department.lower() in field:

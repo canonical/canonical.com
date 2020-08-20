@@ -13,6 +13,7 @@ import talisker.requests
 
 # Local
 from webapp.greenhouse import Greenhouse
+from webapp.greenhouse import _parse_feed_department
 from webapp.partners import Partners
 
 app = FlaskBase(
@@ -44,30 +45,9 @@ def secure_boot():
 
 # Class that collects department-specific content
 class Department(object):
-    def __parse_feed_deparment(feed_department):
-        field_mapping = {
-            "cloud engineering": "engineering",
-            "device engineering": "engineering",
-            "web and design": "design",
-            "web & design": "design",
-            "operations": "commercial-ops",
-            "human resources": "hr",
-            "techops": "tech-ops",
-            "product": "product management",
-        }
-
-        output = feed_department
-
-        if feed_department.lower() in field_mapping:
-            output = field_mapping[feed_department.lower()]
-
-        output = output.replace(" ", "-")
-        output = output.lower()
-        return output
-
     def __init__(self, name):
         self.name = name
-        self.slug = Department.__parse_feed_deparment(name)
+        self.slug = self.name.replace(" ", "-").replace("&", "and").lower()
 
     def __lt__(self, other):
         return self.name < other.name
@@ -104,9 +84,9 @@ def render_navigation():
     # and add relevant departments to the vacancies
     # list that gets rendered
     for vacancy in all_vacancies:
-        dept = Department(vacancy["department"])
-        vacancy_count[dept.slug] += 1
-
+        dept = _parse_feed_department(vacancy["department"])
+        dept = dept.replace(" ", "-").lower()
+        vacancy_count[dept] += 1
     context["nav_departments"] = departments
     context["nav_vacancy_count"] = vacancy_count
 
