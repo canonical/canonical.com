@@ -183,11 +183,19 @@ class Greenhouse:
 
     # Get list of external departments from the Harvest API
     def get_departments(self):
-        department_api_url = "https://harvest.greenhouse.io/v1/custom_field/155450"
+        department_api_url = (
+            "https://harvest.greenhouse.io/v1/custom_field/155450"
+        )
+
+        if not harvest_api_key:
+            raise AttributeError("No Harvest API key provided")
+
         # The key is passed as a username with a blank password,
         # hence the appended colon to delimit the two fields
         key = harvest_api_key + ":"
-        base64_encoded_key = ("Basic " + str(base64.b64encode(key.encode("utf-8")), "utf-8"))
+        base64_encoded_key = "Basic " + str(
+            base64.b64encode(key.encode("utf-8")), "utf-8"
+        )
         headers = {"Authorization": base64_encoded_key}
         response = self.session.get(department_api_url, headers=headers)
         #if response.status_code == 401:
