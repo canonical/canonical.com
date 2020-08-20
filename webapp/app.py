@@ -69,27 +69,25 @@ class Department(object):
         self.name = name
         self.slug = Department.__parse_feed_deparment(name)
 
+    def __lt__(self, other):
+        return self.name < other.name
+
 
 # Generates a list of departments
 def get_department_list():
-    departments = []
+    departments = set()
+
     try:
         all_departments = greenhouse_api.get_departments()
-    except:
-        flask.abort(502, description="The Harvest API key is missing or invalid")
+    except Exception as error:
+        flask.abort(502, str(error))
 
     # Populate departments[] with Department objects,
     # ensuring that there are no duplicates
     for item in all_departments:
-        new_department = Department(item)
-        is_new = True
-        for department in departments:
-            if department.slug == new_department.slug:
-                is_new = False
-                break
-        if is_new:
-            departments.append(new_department)
-    return departments
+        departments.add(Department(item))
+    
+    return sorted(departments)
 
 
 def render_navigation():
@@ -303,10 +301,3 @@ def bad_gateway(e):
     if str(e).find(prefix) != -1:
         message = str(e)[len(prefix):]
     return flask.render_template("/502.html", message=message), 502
-
-#app.register_error_handler(502, bad_gateway)
-
-
-@app.errorhandler(500)
-def bad_gateway(e):
-    return flask.render_template("/500.html", message=message), 500

@@ -8,7 +8,6 @@ from html import unescape
 
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
-#harvest_api_key = os.environ.get("DEBUG_KEY")
 harvest_api_key = os.environ.get("HARVEST_API_KEY")
 
 metadata_map = {
@@ -198,8 +197,8 @@ class Greenhouse:
         )
         headers = {"Authorization": base64_encoded_key}
         response = self.session.get(department_api_url, headers=headers)
-        #if response.status_code == 401:
-        #    flask.abort(502)
+        if response.status_code == 401:
+            raise ConnectionRefusedError("Harvest API key failed to authorize")
         content = json.loads(response.text)
         departments = []
         for field in content["custom_field_options"]:
