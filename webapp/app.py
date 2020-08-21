@@ -86,7 +86,7 @@ def get_department_list():
     # ensuring that there are no duplicates
     for item in all_departments:
         departments.add(Department(item))
-    
+
     return sorted(departments)
 
 
@@ -100,13 +100,13 @@ def render_navigation():
     for department in departments:
         vacancy_count[department.slug] = 0
 
-    #Count number of vacancies in each department,
-    #and add relevant departments to the vacancies
-    #list that gets rendered
+    # Count number of vacancies in each department,
+    # and add relevant departments to the vacancies
+    # list that gets rendered
     for vacancy in all_vacancies:
         dept = Department(vacancy["department"])
         vacancy_count[dept.slug] += 1
-    
+
     context["nav_departments"] = departments
     context["nav_vacancy_count"] = vacancy_count
 
@@ -148,7 +148,10 @@ def job_details(job_id):
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
-            greenhouse_api_key, flask.request.form, flask.request.files, job_id
+            greenhouse_api_key,
+            flask.request.form,
+            flask.request.files,
+            job_id
         )
         if response.status_code == 200:
             context["message"] = {
@@ -166,7 +169,7 @@ def job_details(job_id):
                 "text": f"{response.reason}. Please try again!",
             }
 
-        return flask.render_template(f"/careers/job-detail.html", **context)
+        return flask.render_template("/careers/job-detail.html", **context)
 
     return flask.render_template("/careers/job-detail.html", **context)
 
@@ -176,7 +179,6 @@ def department_group(department):
     context = render_navigation()
     vacancies = greenhouse_api.get_vacancies(department)
     templates = []
-    departments = get_department_list()
 
     # Generate list of templates in the /templates/careers folder,
     # and remove the .html suffix
@@ -210,7 +212,7 @@ def department_group(department):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
-        
+
         context["message"] = message
 
         return flask.render_template(
@@ -294,6 +296,7 @@ def slug(text):
 @app.template_filter()
 def markup(text):
     return markdown.markdown(text)
+
 
 @app.errorhandler(502)
 def bad_gateway(e):
