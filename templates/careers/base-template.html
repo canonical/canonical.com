@@ -5,16 +5,7 @@
 {% extends '/careers/base.html' %}
 
 {% block title %}
-	{% set check = namespace(is_department=False) %}
-	{% for dept in nav_departments %}
-		{% if dept.slug == department %}
-			{{ dept.name }}
-			{% set check.is_department = True %}
-		{% endif %}
-	{% endfor %}
-	{% if not check.is_department %}
-		Error
-	{% endif %}
+	{{ department.name }}
 {% endblock %}
 
 {% block hero %}
@@ -22,18 +13,7 @@
     <div class="p-strip--suru-background">
       <div class="row">
         <div class="col-6">
-          <h1>
-						{% set check = namespace(is_department=False) %}
-						{% for dept in nav_departments %}
-							{% if dept.slug == department %}
-								{{ dept.name }}
-								{% set check.is_department = True %}
-							{% endif %}
-						{% endfor %}
-						{% if not check.is_department %}
-							Error
-						{% endif %}
-					</h1>
+          <h1>{{ department.name }}</h1>
         </div>
       </div>
     </div>
@@ -41,27 +21,16 @@
 {% endblock %}
 
 {% block careers_content %}
-	{% set check = namespace(is_department=False) %}
-	{% for dept in nav_departments %}
-		{% if dept.slug == department %}
-			<nav class="p-tabs">
-				<ul class="p-tabs__list" role="tablist">
-					<li class="p-tabs__item" role="presentation">
-						<a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
-					</li>
-				</ul>
-			</nav>
-			{% include 'partial/_careers-available-roles.html' %}
-			<script defer src="/static/js/careers-filter-and-sort.js"></script>
-			<script defer src="/static/js/apply-for-jobs.js"></script>
-			<script defer src="/static/js/file-validation.js"></script>
-			{% set check.is_department = True %}
-		{% endif %}
-	{% endfor %}
-	{% if not check.is_department %}
-		<p>Department not found</p>
-	{% endif %}
+	<nav class="p-tabs">
+		<ul class="p-tabs__list" role="tablist">
+			<li class="p-tabs__item" role="presentation">
+				<a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
+			</li>
+		</ul>
+	</nav>
+	{% include 'partial/_careers-available-roles.html' %}
+	<script defer src="/static/js/careers-filter-and-sort.js"></script>
+	<script defer src="/static/js/apply-for-jobs.js"></script>
+	<script defer src="/static/js/file-validation.js"></script>
 {% endblock %}
-
-
 {% endif %}

@@ -177,6 +177,16 @@ def department_group(department):
     vacancies = greenhouse_api.get_vacancies(department)
     templates = []
 
+    # Check if deparment exist or return 404
+    current_dept = None
+
+    for dept in context["nav_departments"]:
+        if dept.slug == department:
+            current_dept = department
+
+    if not current_dept:
+        flask.abort(404)
+
     # Generate list of templates in the /templates/careers folder,
     # and remove the .html suffix
     for template in os.listdir("./templates/careers"):
@@ -186,7 +196,7 @@ def department_group(department):
 
     context["vacancies"] = vacancies
     context["templates"] = templates
-    context["department"] = department
+    context["department"] = current_dept
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
