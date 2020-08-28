@@ -53,7 +53,7 @@ class Department(object):
             "operations": "commercial-ops",
             "human resources": "hr",
             "techops": "tech-ops",
-            "product": "product management"
+            "product": "product management",
         }
 
         output = feed_department
@@ -148,10 +148,7 @@ def job_details(job_id):
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
-            greenhouse_api_key,
-            flask.request.form,
-            flask.request.files,
-            job_id
+            greenhouse_api_key, flask.request.form, flask.request.files, job_id
         )
         if response.status_code == 200:
             context["message"] = {
@@ -215,15 +212,9 @@ def department_group(department):
 
         context["message"] = message
 
-        return flask.render_template(
-            "careers/base-template.html",
-            **context
-        )
+        return flask.render_template("careers/base-template.html", **context)
 
-    return flask.render_template(
-        "careers/base-template.html",
-        **context
-    )
+    return flask.render_template("careers/base-template.html", **context)
 
 
 # Partners
@@ -302,5 +293,5 @@ def markup(text):
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix):]
+        message = str(e)[len(prefix) :]
     return flask.render_template("/502.html", message=message), 502
