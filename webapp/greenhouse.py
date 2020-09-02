@@ -23,6 +23,7 @@ def _parse_feed_department(feed_department):
         "cloud engineering": "engineering",
         "device engineering": "engineering",
         "web and design": "design",
+        "web & design": "design",
         "operations": "commercialops",
         "human resources": "hr",
     }
@@ -39,7 +40,7 @@ class Greenhouse:
 
     def get_vacancies(self, department):
         feed = self.session.get(f"{base_url}?content=true").json()
-        path_department = department.replace("-", "")
+        path_department = department.replace("-", "").replace(" ", "")
         vacancies = []
         for job in feed["jobs"]:
             if job["metadata"][2]["value"] and job["offices"]:
