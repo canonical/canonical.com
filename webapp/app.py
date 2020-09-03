@@ -47,7 +47,7 @@ def secure_boot():
 class Department(object):
     def __init__(self, name):
         self.name = name
-        self.slug = self.name.replace(" ", "-").replace("&", "and").lower()
+        self.slug = _parse_feed_department(self.name)
 
     def __lt__(self, other):
         return self.name < other.name
@@ -84,9 +84,9 @@ def render_navigation():
     # and add relevant departments to the vacancies
     # list that gets rendered
     for vacancy in all_vacancies:
-        dept = _parse_feed_department(vacancy["department"])
-        dept = dept.replace(" ", "-").lower()
-        vacancy_count[dept] += 1
+        dept = Department(vacancy["department"])
+        vacancy_count[dept.slug] += 1
+
     context["nav_departments"] = departments
     context["nav_vacancy_count"] = vacancy_count
 

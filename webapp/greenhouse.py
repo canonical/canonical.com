@@ -29,7 +29,7 @@ def _parse_feed_department(feed_department):
     if feed_department.lower() in field:
         return field[feed_department.lower()]
 
-    return feed_department
+    return feed_department.replace("&", "and").replace(" ", "-").lower()
 
 
 class Greenhouse:
@@ -38,16 +38,16 @@ class Greenhouse:
 
     def get_vacancies(self, department):
         feed = self.session.get(f"{base_url}?content=true").json()
-        path_department = department.replace("-", "").replace(" ", "")
+        path_department = _parse_feed_department(department)
         vacancies = []
         for job in feed["jobs"]:
             if job["metadata"][2]["value"] and job["offices"]:
                 feed_department = _parse_feed_department(
-                    job["metadata"][2]["value"].replace("-", "")
-                ).replace(" ", "")
+                    job["metadata"][2]["value"]
+                )
                 if (
-                    path_department.lower() == "all"
-                    or path_department.lower() == feed_department.lower()
+                    path_department == "all"
+                    or path_department == feed_department
                 ):
                     vacancies.append(
                         {
