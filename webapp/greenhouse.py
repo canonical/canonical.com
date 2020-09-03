@@ -1,12 +1,14 @@
 # Standard library
 import base64
 import json
+import os
 
 # Packages
 from html import unescape
 
-
 base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
+
+harvest_api_key = os.environ.get("HARVEST_API_KEY")
 
 metadata_map = {
     "management": 186225,
@@ -21,6 +23,7 @@ def _parse_feed_department(feed_department):
         "cloud engineering": "engineering",
         "device engineering": "engineering",
         "web and design": "design",
+        "web & design": "design",
         "operations": "commercialops",
         "human resources": "hr",
     }
@@ -37,13 +40,13 @@ class Greenhouse:
 
     def get_vacancies(self, department):
         feed = self.session.get(f"{base_url}?content=true").json()
-        path_department = department.replace("-", "")
+        path_department = department.replace("-", "").replace(" ", "")
         vacancies = []
         for job in feed["jobs"]:
             if job["metadata"][2]["value"] and job["offices"]:
                 feed_department = _parse_feed_department(
                     job["metadata"][2]["value"].replace("-", "")
-                )
+                ).replace(" ", "")
                 if (
                     path_department.lower() == "all"
                     or path_department.lower() == feed_department.lower()
@@ -177,3 +180,28 @@ class Greenhouse:
         )
 
         return response
+
+    # Get list of external departments from the Harvest API
+    def get_departments(self):
+        department_api_url = (
+            "https://harvest.greenhouse.io/v1/custom_field/155450"
+        )
+
+        if not harvest_api_key:
+            raise AttributeError("No Harvest API key provided")
+
+        # The key is passed as a username with a blank password,
+        # hence the appended colon to delimit the two fields
+        key = harvest_api_key + ":"
+        base64_encoded_key = "Basic " + str(
+            base64.b64encode(key.encode("utf-8")), "utf-8"
+        )
+        headers = {"Authorization": base64_encoded_key}
+        response = self.session.get(department_api_url, headers=headers)
+        if response.status_code == 401:
+            raise ConnectionRefusedError("Harvest API key failed to authorize")
+        content = json.loads(response.text)
+        departments = []
+        for field in content["custom_field_options"]:
+            departments.append(field["name"])
+        return departments

@@ -15,7 +15,6 @@ import talisker.requests
 from webapp.greenhouse import Greenhouse
 from webapp.partners import Partners
 
-
 app = FlaskBase(
     __name__,
     "canonical.com",
@@ -43,10 +42,81 @@ def secure_boot():
     )
 
 
+# Class that collects department-specific content
+class Department(object):
+    def __parse_feed_deparment(feed_department):
+        field_mapping = {
+            "cloud engineering": "engineering",
+            "device engineering": "engineering",
+            "web and design": "design",
+            "web & design": "design",
+            "operations": "commercial-ops",
+            "human resources": "hr",
+            "techops": "tech-ops",
+            "product": "product management",
+        }
+
+        output = feed_department
+
+        if feed_department.lower() in field_mapping:
+            output = field_mapping[feed_department.lower()]
+
+        output = output.replace(" ", "-")
+        output = output.lower()
+        return output
+
+    def __init__(self, name):
+        self.name = name
+        self.slug = Department.__parse_feed_deparment(name)
+
+    def __lt__(self, other):
+        return self.name < other.name
+
+
+# Generates a list of departments
+def get_department_list():
+    departments = set()
+
+    try:
+        all_departments = greenhouse_api.get_departments()
+    except Exception as error:
+        flask.abort(502, str(error))
+
+    # Populate departments[] with Department objects,
+    # ensuring that there are no duplicates
+    for item in all_departments:
+        departments.add(Department(item))
+
+    return sorted(departments)
+
+
+def render_navigation():
+    context = {}
+    departments = get_department_list()
+    all_vacancies = greenhouse_api.get_vacancies("all")
+    vacancy_count = {}
+
+    # Populate vacancy_count dictionary with 0 values
+    for department in departments:
+        vacancy_count[department.slug] = 0
+
+    # Count number of vacancies in each department,
+    # and add relevant departments to the vacancies
+    # list that gets rendered
+    for vacancy in all_vacancies:
+        dept = Department(vacancy["department"])
+        vacancy_count[dept.slug] += 1
+
+    context["nav_departments"] = departments
+    context["nav_vacancy_count"] = vacancy_count
+
+    return context
+
+
 # Career departments
 @app.route("/careers/results")
 def results():
-    context = {}
+    context = render_navigation()
     vacancies = []
     departments = []
     message = ""
@@ -69,21 +139,63 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route("/careers/admin", methods=["GET", "POST"])
-@app.route("/careers/all", methods=["GET", "POST"])
-@app.route("/careers/commercial-ops", methods=["GET", "POST"])
-@app.route("/careers/design", methods=["GET", "POST"])
-@app.route("/careers/engineering", methods=["GET", "POST"])
-@app.route("/careers/finance", methods=["GET", "POST"])
-@app.route("/careers/hr", methods=["GET", "POST"])
-@app.route("/careers/legal", methods=["GET", "POST"])
-@app.route("/careers/marketing", methods=["GET", "POST"])
-@app.route("/careers/project-management", methods=["GET", "POST"])
-@app.route("/careers/sales", methods=["GET", "POST"])
-@app.route("/careers/tech-ops", methods=["GET", "POST"])
-def department_group():
-    department = flask.request.path.split("/")[2]
-    vacancies = greenhouse_api.get_vacancies(department)
+@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
+def job_details(job_id):
+    context = render_navigation()
+    context["job"] = greenhouse_api.get_vacancy(job_id)
+    if not context["job"]:
+        flask.abort(404)
+
+    if flask.request.method == "POST":
+        response = greenhouse_api.submit_application(
+            greenhouse_api_key, flask.request.form, flask.request.files, job_id
+        )
+        if response.status_code == 200:
+            context["message"] = {
+                "type": "positive",
+                "title": "Success",
+                "text": (
+                    "Your application has been successfully submitted."
+                    " Thank you!"
+                ),
+            }
+        else:
+            context["message"] = {
+                "type": "negative",
+                "title": f"Error {response.status_code}",
+                "text": f"{response.reason}. Please try again!",
+            }
+
+        return flask.render_template("/careers/job-detail.html", **context)
+
+    return flask.render_template("/careers/job-detail.html", **context)
+
+
+@app.route("/careers/<department>", methods=["GET", "POST"])
+def department_group(department):
+    context = render_navigation()
+    context["department"] = None
+    templates = []
+
+    # Generate list of templates in the /templates/careers folder,
+    # and remove the .html suffix
+    for template in os.listdir("./templates/careers"):
+        if template.endswith(".html"):
+            template = template[:-5]
+        templates.append(template)
+
+    # Check if deparment exist or return 404
+    for dept in context["nav_departments"]:
+        if dept.slug == department:
+            context["department"] = dept
+            context["vacancies"] = greenhouse_api.get_vacancies(dept.slug)
+
+    if not context["department"] and department not in templates:
+        flask.abort(404)
+    elif department == "all":
+        context["vacancies"] = greenhouse_api.get_vacancies("all")
+
+    context["templates"] = templates
 
     if flask.request.method == "POST":
         response = greenhouse_api.submit_application(
@@ -107,46 +219,11 @@ def department_group():
                 "text": f"{response.reason}. Please try again!",
             }
 
-        return flask.render_template(
-            f"careers/{department}.html", vacancies=vacancies, message=message
-        )
+        context["message"] = message
 
-    return flask.render_template(
-        f"careers/{department}.html", vacancies=vacancies
-    )
+        return flask.render_template("careers/base-template.html", **context)
 
-
-@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
-def job_details(job_id):
-    job = greenhouse_api.get_vacancy(job_id)
-    if not job:
-        flask.abort(404)
-
-    if flask.request.method == "POST":
-        response = greenhouse_api.submit_application(
-            greenhouse_api_key, flask.request.form, flask.request.files, job_id
-        )
-        if response.status_code == 200:
-            message = {
-                "type": "positive",
-                "title": "Success",
-                "text": (
-                    "Your application has been successfully submitted."
-                    " Thank you!"
-                ),
-            }
-        else:
-            message = {
-                "type": "negative",
-                "title": f"Error {response.status_code}",
-                "text": f"{response.reason}. Please try again!",
-            }
-
-        return flask.render_template(
-            f"/careers/job-detail.html", job=job, message=message
-        )
-
-    return flask.render_template("/careers/job-detail.html", job=job)
+    return flask.render_template("careers/base-template.html", **context)
 
 
 # Partners
@@ -219,3 +296,11 @@ def slug(text):
 @app.template_filter()
 def markup(text):
     return markdown.markdown(text)
+
+
+@app.errorhandler(502)
+def bad_gateway(e):
+    prefix = "502 Bad Gateway: "
+    if str(e).find(prefix) != -1:
+        message = str(e)[len(prefix) :]
+    return flask.render_template("/502.html", message=message), 502

@@ -1,8 +1,15 @@
-import unittest
+from vcr_unittest import VCRTestCase
 from webapp.app import app
 
 
-class TestRoutes(unittest.TestCase):
+class TestRoutes(VCRTestCase):
+    def _get_vcr_kwargs(self):
+        """
+        This removes the authorization header
+        from VCR so we don't record auth parameters
+        """
+        return {"filter_headers": ["Authorization"]}
+
     def setUp(self):
         """
         Set up Flask app for testing
@@ -10,6 +17,7 @@ class TestRoutes(unittest.TestCase):
 
         app.testing = True
         self.client = app.test_client()
+        return super(TestRoutes, self).setUp()
 
     def test_homepage(self):
         """
@@ -54,7 +62,3 @@ class TestRoutes(unittest.TestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
-
-
-if __name__ == "__main__":
-    unittest.main()

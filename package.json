@@ -5,7 +5,7 @@
     "build": "yarn run build-css",
     "build-css": "node-sass --include-path node_modules static/sass --source-map true --output-style compressed --output static/css && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
     "format-python": "black --line-length 79 webapp",
-    "lint-python": "flake8 webapp tests && black --check --line-length 79 webapp tests",
+    "lint-python": "flake8 --extend-ignore=E203 webapp tests && black --check --line-length 79 webapp tests",
     "lint-scss": "stylelint static/**/*.scss",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",

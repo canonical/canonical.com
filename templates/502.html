@@ -1,0 +1,24 @@
+{% extends 'base_index.html' %}
+
+{% block title %}502: Bad gateway{% endblock %}
+
+{% block meta_description %}Sorry, we can't find the page you're looking for.{% endblock %}
+
+{% block content %}
+<div class="p-strip is-deep u-extra-space">
+  <div class="row">
+    <div class="col-6">
+      <img src="https://assets.ubuntu.com/v1/4de1c56c-404_v1.svg" alt="Error owl" width="400" height="400" />
+    </div>
+    <div class="col-6">
+      <h1>502: Bad gateway</h1>
+      {% if message %}
+				<p>{{ message }}</p>
+			{% else %}
+				<p>Sorry, The proxy server received an invalid response from an upstream server.</p>
+			{% endif %}
+      <p>If you think this is an error on our site, please <a href="https://github.com/canonical-web-and-design/canonical.com/issues/new" class="p-link--external">file a bug</a>.</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
