@@ -13,6 +13,7 @@ import talisker.requests
 
 # Local
 from webapp.greenhouse import Greenhouse
+from webapp.greenhouse import _parse_feed_department
 from webapp.partners import Partners
 
 app = FlaskBase(
@@ -44,30 +45,9 @@ def secure_boot():
 
 # Class that collects department-specific content
 class Department(object):
-    def __parse_feed_deparment(feed_department):
-        field_mapping = {
-            "cloud engineering": "engineering",
-            "device engineering": "engineering",
-            "web and design": "design",
-            "web & design": "design",
-            "operations": "commercial-ops",
-            "human resources": "hr",
-            "techops": "tech-ops",
-            "product": "product management",
-        }
-
-        output = feed_department
-
-        if feed_department.lower() in field_mapping:
-            output = field_mapping[feed_department.lower()]
-
-        output = output.replace(" ", "-")
-        output = output.lower()
-        return output
-
     def __init__(self, name):
         self.name = name
-        self.slug = Department.__parse_feed_deparment(name)
+        self.slug = _parse_feed_department(self.name)
 
     def __lt__(self, other):
         return self.name < other.name
