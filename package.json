@@ -2,8 +2,9 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
-    "build": "yarn run build-css",
+    "build": "yarn run build-css && yarn run build-js",
     "build-css": "node-sass --include-path node_modules static/sass --source-map true --output-style compressed --output static/css && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
+    "build-js": "mkdir -p static/js/modules/cookie-policy && cp node_modules/@canonical/cookie-policy/build/js/cookie-policy.js static/js/modules/cookie-policy",
     "format-python": "black --line-length 79 webapp",
     "lint-python": "flake8 --extend-ignore=E203 webapp tests && black --check --line-length 79 webapp tests",
     "lint-scss": "stylelint static/**/*.scss",
@@ -13,6 +14,7 @@
     "test-python": "python3 -m unittest discover tests"
   },
   "dependencies": {
+    "@canonical/cookie-policy": "3.0.2",
     "autoprefixer": "9.8.6",
     "concurrently": "5.3.0",
     "node-sass": "4.14.1",
