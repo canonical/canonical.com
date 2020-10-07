@@ -9,7 +9,7 @@ ADD requirements.txt /tmp/requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip pip3 install --user --requirement /tmp/requirements.txt
 
 
-# Build stage: Build CSS
+# Build stage: Build CSS nad JS
 # ===
 FROM node:12-slim AS build-css
 WORKDIR /srv
@@ -17,7 +17,8 @@ ADD package.json .
 RUN --mount=type=cache,target=/usr/local/share/.cache/yarn yarn install
 ADD static/sass static/sass
 RUN yarn run build-css
-
+FROM node:12-slim  AS build-js
+RUN yarn run build-js
 
 # Build the production image
 # ===
@@ -37,7 +38,6 @@ WORKDIR /srv
 ADD . .
 RUN rm -rf package.json yarn.lock .babelrc webpack.config.js
 COPY --from=build-css /srv/static/css static/css
-RUN yarn run build-js
 COPY --from=build-js /srv/static/js static/js
 
 # Set revision ID
