@@ -37,7 +37,8 @@ WORKDIR /srv
 ADD . .
 RUN rm -rf package.json yarn.lock .babelrc webpack.config.js
 COPY --from=build-css /srv/static/css static/css
-COPY --from=build-js /srv/static/css static/js
+RUN yarn run build-js
+COPY --from=build-js /srv/static/js static/js
 
 # Set revision ID
 ARG BUILD_ID
