@@ -150,15 +150,9 @@ class Greenhouse:
         # Create headers for api sumbission
         headers = {"Content-Type": "application/json", "Authorization": auth}
         # Create payload for api submission
-        payload = {
-            "first_name": form_data["first_name"],
-            "last_name": form_data["last_name"],
-            "email": form_data["email"],
-            "phone": form_data["phone"],
-            "location": form_data["location"],
-            "resume_content": resume,
-            "resume_content_filename": form_files["resume"].filename,
-        }
+        payload = form_data.to_dict()
+        payload["resume_content"] = resume
+        payload["resume_content_filename"] = form_files["resume"].filename
 
         # Add cover letter to the payload if exists
         if form_files["cover_letter"]:
