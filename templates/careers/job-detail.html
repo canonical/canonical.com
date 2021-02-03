@@ -89,7 +89,12 @@
           <button type="button" class="js-locate-me">Locate me</button>
           <span class="js-locate-error u-hide" style="color: #c7162b">Location unavailable</span>
           <hr style="margin: 1rem 0;" />
-          <button type="submit" class="p-button--positive u-no-margin--bottom">Submit Application</button>
+          <button type="submit" class="p-button--positive u-no-margin--bottom" onsubmit="dataLayer.push({
+            'event': 'GAEvent',
+            'eventCategory': 'Form',
+            'eventAction': 'job application: {{ job.id }}',
+            'eventLabel': 'Submit Application',
+            'eventValue': undefined });">Submit Application</button>
         </fieldset>
       </form>
     </div>
