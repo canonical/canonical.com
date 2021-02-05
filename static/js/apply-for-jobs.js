@@ -1,6 +1,7 @@
 (function () {
-  // Mapbox api 
-  const API_KEY = "pk.eyJ1IjoiY2Fub25pY2FsLXdlYnRlYW0iLCJhIjoiY2swZ3M0Y2tpMDNvMzNubGo1NG9pajZqMiJ9.v8qNlzrS4_gI5pJZQTAFaQ";
+  // Mapbox api
+  const API_KEY =
+    "pk.eyJ1IjoiY2Fub25pY2FsLXdlYnRlYW0iLCJhIjoiY2swZ3M0Y2tpMDNvMzNubGo1NG9pajZqMiJ9.v8qNlzrS4_gI5pJZQTAFaQ";
   const url = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
   var numberOfEducations = 0;
@@ -28,13 +29,13 @@
       degrees = await getDataFromGreenhouseApi("degrees", "");
     }
     var degreeList = "";
-    degrees.forEach(degree => {
-      degreeList += `<option value="${degree.text}" />`
+    degrees.forEach((degree) => {
+      degreeList += `<option value="${degree.text}" />`;
     });
-    if(datalistDegreeElement){
+    if (datalistDegreeElement) {
       datalistDegreeElement.innerHTML = degreeList;
     }
-  };
+  }
 
   async function populateDisciplineList(disciplineId, disciplines) {
     const datalistDisciplineElement = document.querySelector(disciplineId);
@@ -42,17 +43,17 @@
       disciplines = await getDataFromGreenhouseApi("disciplines", "");
     }
     var disciplineList = "";
-    disciplines.forEach(discipline => {
-      disciplineList += `<option value="${discipline.text}" />`
+    disciplines.forEach((discipline) => {
+      disciplineList += `<option value="${discipline.text}" />`;
     });
     if (datalistDisciplineElement) {
       datalistDisciplineElement.innerHTML = disciplineList;
     }
-  };
+  }
 
   async function getDataFromGreenhouseApi(category, term) {
     var url = "";
-    if (term && (term != "")) {
+    if (term && term != "") {
       url = `https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}?term=${term}`;
     } else {
       url = `https://boards-api.greenhouse.io/v1/boards/Canonical/education/${category}`;
@@ -107,23 +108,26 @@
             <input placeholder="YYYY" id="end-year-${n}" name="end-year-${n}" type="text" class="p-form__control">
           </div>
         </div>
-      </div>`
+      </div>`;
     educationContainer.appendChild(educationInput);
-  };
+  }
 
   if (schoolsList) {
-    schoolsList.addEventListener("input", debounce(async (e) => {
-      const datalistElement = document.querySelector("#school-0");
-      var schools = [];
-      if (e.target.value !== "") {
-        schools = await getDataFromGreenhouseApi("schools", e.target.value);
-      }
-      var list = "";
-      schools.forEach(school => {
-        list += `<option value="${school.text}" />`
-      });
-      datalistElement.innerHTML = list;
-    }, 350));
+    schoolsList.addEventListener(
+      "input",
+      debounce(async (e) => {
+        const datalistElement = document.querySelector("#school-0");
+        var schools = [];
+        if (e.target.value !== "") {
+          schools = await getDataFromGreenhouseApi("schools", e.target.value);
+        }
+        var list = "";
+        schools.forEach((school) => {
+          list += `<option value="${school.text}" />`;
+        });
+        datalistElement.innerHTML = list;
+      }, 350)
+    );
   }
 
   if (addEducationButton) {
@@ -131,9 +135,13 @@
       numberOfEducations++;
       addEducationInput(numberOfEducations);
       // Add click event listener to the "remove education" button
-      const removeEducationButtons = document.querySelectorAll(".js-remove-education");
+      const removeEducationButtons = document.querySelectorAll(
+        ".js-remove-education"
+      );
       if (removeEducationButtons && removeEducationButtons.length > 0) {
-        removeEducationButtons[removeEducationButtons.length - 1].addEventListener("click", (e) => {
+        removeEducationButtons[
+          removeEducationButtons.length - 1
+        ].addEventListener("click", (e) => {
           e.preventDefault();
           const educationToBeRemoved = e.target.closest("div");
           educationToBeRemoved.parentNode.removeChild(educationToBeRemoved);
@@ -141,43 +149,63 @@
       }
       // Populate new added input datalists
       populateDegreeList(`#degree-${numberOfEducations}`, defaultDegreeList);
-      populateDisciplineList(`#discipline-${numberOfEducations}`, defaultDisciplineList);
+      populateDisciplineList(
+        `#discipline-${numberOfEducations}`,
+        defaultDisciplineList
+      );
       // Add input event listener to the new school select
-      const newSchoolsList = document.querySelector(`.js-school-${numberOfEducations}`);
-      newSchoolsList.addEventListener("input", debounce(async (e) => {
-        const datalistElement = document.querySelector(`#school-${numberOfEducations}`);
-        var schools = [];
-        if (newSchoolsList.value !== "") {
-          schools = await getDataFromGreenhouseApi("schools", newSchoolsList.value);
-        }
-        var list = "";
-        schools.forEach(school => {
-          list += `<option value="${school.text}" />`
-        });
-        datalistElement.innerHTML = list
-      }, 350));
+      const newSchoolsList = document.querySelector(
+        `.js-school-${numberOfEducations}`
+      );
+      newSchoolsList.addEventListener(
+        "input",
+        debounce(async (e) => {
+          const datalistElement = document.querySelector(
+            `#school-${numberOfEducations}`
+          );
+          var schools = [];
+          if (newSchoolsList.value !== "") {
+            schools = await getDataFromGreenhouseApi(
+              "schools",
+              newSchoolsList.value
+            );
+          }
+          var list = "";
+          schools.forEach((school) => {
+            list += `<option value="${school.text}" />`;
+          });
+          datalistElement.innerHTML = list;
+        }, 350)
+      );
     });
   }
 
   if (locateMeButton) {
     locateMeButton.addEventListener("click", () => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-          fetch(`${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`)
-            .then(res => { return res.json() })
-            .then(response => {
-              locationLabel.value = response.features[0].place_name
-            })
-            .catch(error => console.error('Error:', error));
-        }, () => {
-          locateMeError.classList.remove("u-hide");
-          setTimeout(() => {
-            locateMeError.classList.add("u-hide");
-          }, 4000)
-        });
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            fetch(
+              `${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`
+            )
+              .then((res) => {
+                return res.json();
+              })
+              .then((response) => {
+                locationLabel.value = response.features[0].place_name;
+              })
+              .catch((error) => console.error("Error:", error));
+          },
+          () => {
+            locateMeError.classList.remove("u-hide");
+            setTimeout(() => {
+              locateMeError.classList.add("u-hide");
+            }, 4000);
+          }
+        );
       } else {
         console.log("Geolocation is not supported by this browser.");
-      };
+      }
     });
   }
 
@@ -193,5 +221,5 @@
       }, wait);
       if (immediate && !timeout) func.apply(context, args);
     };
-  };
+  }
 })();

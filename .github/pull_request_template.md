@@ -10,7 +10,6 @@
 - Run through the following [QA steps](https://canonical-web-and-design.github.io/practices/workflow/qa-steps.html)
 - [List additional steps to QA the new features or prove the bug has been resolved]
 
-
 ## Issue / Card
 
 Fixes #

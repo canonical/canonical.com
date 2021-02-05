@@ -13,13 +13,35 @@
   // Read data-location property and parse locations into well-defined categories
   function parseLocations() {
     const regions = {
-      "europe": ["emea", "slovakia", "bratislava", "europe", "uk", "germany", "berlin", "london", "worldwide"],
-      "americas": ["americas", "southwest", "san francisco", "usa", "austin", "texas", "tx", "brazil", "seattle", "america", "worldwide"],
-      "asia": ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
+      europe: [
+        "emea",
+        "slovakia",
+        "bratislava",
+        "europe",
+        "uk",
+        "germany",
+        "berlin",
+        "london",
+        "worldwide",
+      ],
+      americas: [
+        "americas",
+        "southwest",
+        "san francisco",
+        "usa",
+        "austin",
+        "texas",
+        "tx",
+        "brazil",
+        "seattle",
+        "america",
+        "worldwide",
+      ],
+      asia: ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
       "middle-east": ["emea", "worldwide"],
-      "africa": ["emea", "worldwide"],
-      "oceania": ["apac", "worldwide"]
-  };
+      africa: ["emea", "worldwide"],
+      oceania: ["apac", "worldwide"],
+    };
 
     const jobsList = document.querySelector(".js-job-list").children;
 
@@ -39,7 +61,7 @@
       }
 
       if (locationsList.length > 0) {
-        locationsList = locationsList.slice(0, locationsList.length-1);
+        locationsList = locationsList.slice(0, locationsList.length - 1);
       }
       jobsList[n].setAttribute("location-filter", locationsList);
     }
@@ -48,7 +70,6 @@
   parseLocations();
 
   function init() {
-
     revealFilters();
 
     if (domList) {
@@ -72,14 +93,18 @@
           }
         }
 
-        updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+        updateFilterBy(
+          filterSelect.options[filterSelect.options.selectedIndex].value
+        );
 
         // Add event listener that will update the URL and filter the results if the selected option is changed
         filterSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
           }
-          updateFilterBy(filterSelect.options[filterSelect.options.selectedIndex].value);
+          updateFilterBy(
+            filterSelect.options[filterSelect.options.selectedIndex].value
+          );
           filterJobs(filterBy, jobList);
           updateURL(filterBy);
           updateNoResultsMessage();
@@ -104,14 +129,18 @@
           }
         }
 
-        updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+        updateLocationFilterBy(
+          locationSelect.options[locationSelect.options.selectedIndex].value
+        );
 
         // Add event listener that will update the URL and filter the results if the selected option is changed
         locationSelect.addEventListener("change", function () {
           if (!(sortSelect.options.selectedIndex === 0)) {
             sortSelect.options.selectedIndex = 0;
           }
-          updateLocationFilterBy(locationSelect.options[locationSelect.options.selectedIndex].value);
+          updateLocationFilterBy(
+            locationSelect.options[locationSelect.options.selectedIndex].value
+          );
           filterJobs(filterBy, jobList);
           updateURL(filterBy);
           updateNoResultsMessage();
@@ -123,13 +152,19 @@
 
       if (sortSelect) {
         sortSelect.addEventListener("change", function (e) {
-          jobList.sort((a, b) => a.dataset[sortSelect.value] !== b.dataset[sortSelect.value] ? a.dataset[sortSelect.value] < b.dataset[sortSelect.value] ? -1 : 1 : 0);
+          jobList.sort((a, b) =>
+            a.dataset[sortSelect.value] !== b.dataset[sortSelect.value]
+              ? a.dataset[sortSelect.value] < b.dataset[sortSelect.value]
+                ? -1
+                : 1
+              : 0
+          );
           if (sortSelect.value === "date") {
             jobList.reverse();
           }
           // Create new DOM list
           const sortedDomList = document.createDocumentFragment();
-          jobList.forEach(el => {
+          jobList.forEach((el) => {
             sortedDomList.appendChild(el);
           });
           // Empty the DOM
@@ -140,8 +175,6 @@
         });
       }
     }
-
-
   }
 
   // Show filters if JS is available
@@ -160,7 +193,10 @@
           node.classList.remove("u-hide");
         }
         numberOfJobsDisplayed = domList.childElementCount;
-      } else if (filterBy.filterValue !== "all" && filterBy.location === "all") {
+      } else if (
+        filterBy.filterValue !== "all" &&
+        filterBy.location === "all"
+      ) {
         if (node.dataset[filterBy.filterName].includes(filterBy.filterText)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
@@ -171,7 +207,10 @@
           }
           numberOfJobsDisplayed--;
         }
-      } else if (filterBy.filterValue === "all" && filterBy.location !== "all") {
+      } else if (
+        filterBy.filterValue === "all" &&
+        filterBy.location !== "all"
+      ) {
         if (node.getAttribute("location-filter").includes(filterBy.location)) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
@@ -183,7 +222,10 @@
           numberOfJobsDisplayed--;
         }
       } else {
-        if (node.dataset[filterBy.filterName].includes(filterBy.filterText) && node.getAttribute("location-filter").includes(filterBy.location)) {
+        if (
+          node.dataset[filterBy.filterName].includes(filterBy.filterText) &&
+          node.getAttribute("location-filter").includes(filterBy.location)
+        ) {
           if (node.classList.contains("u-hide")) {
             node.classList.remove("u-hide");
           }
@@ -272,10 +314,10 @@
   function updateURL(filterBy) {
     var baseURL = window.location.origin + window.location.pathname;
 
-    urlParams.set('filter', filterBy.filterValue);
-    urlParams.set('location', filterBy.location);
+    urlParams.set("filter", filterBy.filterValue);
+    urlParams.set("location", filterBy.location);
 
-    var url = baseURL + '?' + urlParams.toString() + '#available-roles';
+    var url = baseURL + "?" + urlParams.toString() + "#available-roles";
 
     window.history.pushState({}, "", url);
   }

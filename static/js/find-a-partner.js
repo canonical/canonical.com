@@ -1,5 +1,7 @@
 (function () {
-  const numberOfPartnersLabel = document.querySelector(".js-find-a-partner__number");
+  const numberOfPartnersLabel = document.querySelector(
+    ".js-find-a-partner__number"
+  );
   const searchBox = document.querySelector(".js-find-a-partner__search-input");
   const urlParams = new URLSearchParams(window.location.search);
   const partners = document.querySelectorAll(".js-find-a-partner__partner");
@@ -35,7 +37,6 @@
 
     updateNumberOfPartners();
     updateNoResultsMessage();
-
   }
 
   // Display no reults message
@@ -86,12 +87,12 @@
   }
 
   function filterDom() {
-    if ((filters.length === 0) && (partners)) {
-      partners.forEach(partner => {
+    if (filters.length === 0 && partners) {
+      partners.forEach((partner) => {
         partner.classList.add("js-filtered");
       });
     } else if (partners) {
-      partners.forEach(partner => {
+      partners.forEach((partner) => {
         partner.classList.remove("js-filtered");
         var filterText = partner.getAttribute("data-filter").toLowerCase();
         if (filterCheck(filterText)) {
@@ -121,7 +122,7 @@
     const baseUrl = currentUrl.split("?")[0];
     var newUrl = baseUrl;
 
-    if (!(searchBox.value === "") && (filters.length > 0)) {
+    if (!(searchBox.value === "") && filters.length > 0) {
       filtersString = "";
       filters.forEach((filter, i) => {
         if (i === filters.length - 1) {
@@ -131,12 +132,11 @@
         }
       });
       newUrl = `${baseUrl}?search=${searchBox.value}&filters=${filtersString}`;
-
     }
-    if (!(searchBox.value === "") && (filters.length === 0)) {
+    if (!(searchBox.value === "") && filters.length === 0) {
       newUrl = `${baseUrl}?search=${searchBox.value}`;
     }
-    if ((searchBox.value === "") && (filters.length > 0)) {
+    if (searchBox.value === "" && filters.length > 0) {
       filtersString = "";
       filters.forEach((filter, i) => {
         if (i === filters.length - 1) {
@@ -147,14 +147,18 @@
       });
       newUrl = `${baseUrl}?filters=${filtersString}`;
     }
-    window.history.pushState({ search: searchBox.value, filters: filters }, "", newUrl);
+    window.history.pushState(
+      { search: searchBox.value, filters: filters },
+      "",
+      newUrl
+    );
   }
 
   // Check if element shold be filtered
   function filterCheck(filterText) {
-    var match = false
-    filters.forEach(filter => {
-      if (filterText.includes(filter) && (!match)) {
+    var match = false;
+    filters.forEach((filter) => {
+      if (filterText.includes(filter) && !match) {
         match = true;
       }
     });
@@ -165,7 +169,7 @@
   function updateFilterList() {
     if (checkboxes) {
       filters = [];
-      checkboxes.forEach(checkbox => {
+      checkboxes.forEach((checkbox) => {
         if (checkbox.checked) {
           filters.push(checkbox.name);
         }
@@ -175,11 +179,10 @@
 
   // Check any checkboxes that match URL filters query
   function populateCheckboxes() {
-    const queryFilters = urlParams.get('filters');
+    const queryFilters = urlParams.get("filters");
     if (queryFilters) {
-      queryFilters.split(",").forEach(filter => {
-        var checkboxObject = document.querySelector(
-          "#" + filter);
+      queryFilters.split(",").forEach((filter) => {
+        var checkboxObject = document.querySelector("#" + filter);
         if (checkboxObject) {
           checkboxObject.checked = true;
         }
@@ -189,7 +192,7 @@
 
   // Update search box text with data from query params
   function populateTextbox() {
-    const querySearchText = urlParams.get('search');
+    const querySearchText = urlParams.get("search");
     if (searchBox && querySearchText) {
       searchBox.focus();
       searchBox.value = querySearchText;
@@ -199,10 +202,11 @@
   // Update number of partners mtachig search and/or filter criteria
   function updateNumberOfPartners() {
     if (numberOfPartnersLabel) {
-      numberOfPartnersLabel.innerHTML = document.querySelectorAll(".js-find-a-partner__partner.js-searched.js-filtered").length;
+      numberOfPartnersLabel.innerHTML = document.querySelectorAll(
+        ".js-find-a-partner__partner.js-searched.js-filtered"
+      ).length;
     }
   }
 
   init();
-
 })();
