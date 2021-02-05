@@ -43,7 +43,7 @@
       oceania: ["apac", "worldwide"],
     };
 
-    const jobsList = document.querySelector(".js-job-list").children;
+    const jobsList = document.querySelector(".js-job-list")?.children || [];
 
     for (let n = 0; n < jobsList.length; n++) {
       const location = jobsList[n].getAttribute("data-location");
