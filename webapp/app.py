@@ -123,7 +123,7 @@ def results():
 @app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
 def job_details(job_id):
     context = render_navigation()
-    context['bleach'] = bleach
+    context["bleach"] = bleach
     context["job"] = greenhouse_api.get_vacancy(job_id)
     if not context["job"]:
         flask.abort(404)

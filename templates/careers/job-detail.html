@@ -45,7 +45,12 @@
   <a href="{% if request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
   <h2 class="u-no-margin--bottom u-sv1">{{ job.title }}</h2>
   <p class="p-muted-heading">{{ job.location }}</p>
-  {{ job.content | safe }}
+  <div class="job-desc">
+    {% set job_content = job.content.replace("<p>&nbsp;</p>", "") %}
+    {% set allowed_tags = ['h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'strong', 'ul', 'ol', 'li', 'i', 'em', 'br'] %}
+
+    {{ bleach.clean(job_content, tags=allowed_tags, strip=True) | safe }}
+  </div>
 </div>
 <div class="row u-sv2">
   <hr />
