@@ -15,13 +15,13 @@
     width: 100%;
     z-index: 2;
     // aria-selected controls the open and closed state for the accordion tab
-    &[aria-expanded='true'] {
+    &[aria-expanded="true"] {
       @include vf-icon-minus($color-mid-dark);
 
       background-size: 0.75rem;
     }
 
-    &[aria-expanded='false'] {
+    &[aria-expanded="false"] {
       @include vf-icon-plus($color-mid-dark);
 
       background-size: 0.75rem;
@@ -79,7 +79,11 @@
     width: auto;
 
     & > .p-icon--close {
-      height: map-get($line-heights, default-text); // so height matches that of text inside buttons
+      height: map-get(
+        $line-heights,
+        default-text
+      ); // so height matches that of text inside buttons
+
       margin-left: -#{$sph-inner--small};
       top: -1px;
 

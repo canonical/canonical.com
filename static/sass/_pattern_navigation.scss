@@ -20,7 +20,8 @@ $nudge--small: 0.55rem;
     flex-direction: column;
     z-index: 40;
 
-    &::after { // disable rule under nav
+    &::after {
+      // disable rule under nav
       background-color: none;
       height: 0;
     }
@@ -32,7 +33,8 @@ $nudge--small: 0.55rem;
       display: block;
 
       @media (max-width: $breakpoint-navigation-threshold) {
-        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium $grid-margin-width;
+        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium
+          $grid-margin-width;
       }
 
       @media (min-width: $breakpoint-navigation-threshold + 1) {
@@ -253,7 +255,8 @@ $nudge--small: 0.55rem;
           }
 
           @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
-            padding-bottom: map-get($sp-after, small) + $p-small-lh-diff - $nudge--small;
+            padding-bottom: map-get($sp-after, small) + $p-small-lh-diff -
+              $nudge--small;
           }
 
           &:first-child {
@@ -322,7 +325,12 @@ $nudge--small: 0.55rem;
   }
 
   .dropdown-window-overlay {
-    background-color: rgba(17, 17, 17, 0.4); // sass-lint:disable-line no-color-literals
+    background-color: rgba(
+      17,
+      17,
+      17,
+      0.4
+    ); // sass-lint:disable-line no-color-literals
     height: 100%;
     opacity: 1;
     position: fixed;

@@ -8,7 +8,7 @@ function initTabs() {
     link.addEventListener("click", function (event) {
       event.preventDefault();
       history.pushState({}, "", link.href);
-      
+
       // Update the URL again with the same hash, then go back
       history.pushState({}, "", link.href);
       history.back();
@@ -18,10 +18,14 @@ function initTabs() {
   });
 
   document.addEventListener("DOMContentLoaded", setActiveTab());
-  
-  window.addEventListener('hashchange', function () {
-    setActiveTab()
-  }, false);
+
+  window.addEventListener(
+    "hashchange",
+    function () {
+      setActiveTab();
+    },
+    false
+  );
 
   function setActiveTab() {
     var urlHash = window.location.hash;
@@ -34,7 +38,7 @@ function initTabs() {
         }
       }
     });
-  };
+  }
 }
 
 initTabs();
