@@ -187,3 +187,28 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     }
   }
 }
+
+// Override h2 in job descriptions to look like h3
+.job-desc {
+  h1 {
+    @extend %vf-heading-2;
+  }
+
+  h2 {
+    @extend %vf-heading-3;
+  }
+
+  h3 {
+    @extend %vf-heading-4;
+  }
+
+  strong {
+    font-weight: 100 !important;
+  }
+
+  // Hide any empty p tags or consecutive breaks
+  p:empty,
+  br + br {
+    display: none;
+  }
+}
