@@ -59,7 +59,12 @@
   <div class="col-8">
     <div class="p-card--strip u-no-margin--bottom">
       <h3>Apply for this role</h3>
-      <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form">
+      <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
+            'event': 'GAEvent',
+            'eventCategory': 'Form',
+            'eventAction': 'job application: {{ job.id }}',
+            'eventLabel': 'Submit Application',
+            'eventValue': undefined });" >
         <fieldset style="border: none; margin-bottom: 0;">
           <p class="required-legend u-align-text--right ">Required</p>
           <input type="hidden" name="id" value="{{ job.id }}" />
@@ -94,12 +99,7 @@
           <button type="button" class="js-locate-me">Locate me</button>
           <span class="js-locate-error u-hide" style="color: #c7162b">Location unavailable</span>
           <hr style="margin: 1rem 0;" />
-          <input type="submit" class="p-button--positive u-no-margin--bottom" onsubmit="dataLayer.push({
-            'event': 'GAEvent',
-            'eventCategory': 'Form',
-            'eventAction': 'job application: {{ job.id }}',
-            'eventLabel': 'Submit Application',
-            'eventValue': undefined });" name="submit" value="Submit application">
+          <input type="submit" class="p-button--positive u-no-margin--bottom" name="submit" value="Submit application">
         </fieldset>
       </form>
     </div>
