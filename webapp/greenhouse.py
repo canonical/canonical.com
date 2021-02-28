@@ -14,7 +14,9 @@ metadata_map = {
     "management": 186225,
     "employment": 149021,
     "department": 155450,
+    "departments": 2739136,
     "skills": 675557,
+    "description": 2739137,
 }
 
 
@@ -67,6 +69,9 @@ class Greenhouse:
                                 job["metadata"], "management"
                             ),
                             "office": job["offices"][0]["name"],
+                            "description": self.get_metadata_value(
+                                job["metadata"], "description"
+                            ),
                         }
                     )
         return vacancies
@@ -103,6 +108,9 @@ class Greenhouse:
                                 ),
                                 "office": job_offices,
                                 "core_skills": job_core_skills,
+                                "description": self.get_metadata_value(
+                                    job["metadata"], "description"
+                                ),
                             }
                         )
                         break
@@ -127,7 +135,9 @@ class Greenhouse:
                 "content": unescape(feed["content"]),
                 "location": feed["location"]["name"],
                 "department": feed["metadata"][2]["value"],
+                "departments": feed["metadata"][4]["value"],
                 "questions": feed["questions"],
+                "description": feed["metadata"][5]["value"],
             }
             return job
 

@@ -1,12 +1,12 @@
 <ul class="p-list--divided js-job-list">
   {% for job in vacancies %}
-  <li 
-    class="p-list__item" 
-    data-office="{{ job.office }}" 
-    data-employment="{{ job.employment }}" 
-    data-date="{{ job.date }}" 
-    data-location="{{ job.location }}" 
-    data-management="{{ job.management}}" 
+  <li
+    class="p-list__item"
+    data-office="{{ job.office }}"
+    data-employment="{{ job.employment }}"
+    data-date="{{ job.date }}"
+    data-location="{{ job.location }}"
+    data-management="{{ job.management}}"
     data-sector="{{ job.department }}"
   >
     <p class="u-no-margin--bottom u-sv1">
@@ -20,9 +20,12 @@
     <input type="checkbox" name="roles" id="{{ job.id }}" value="{{ job.id }}" />
     <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
     {% endif %}
-      <h2 class="p-heading--three {% if checkbox %}u-sv3{% else %}u-no-padding--top u-sv1{% endif %}">
-        <a class="p-link--soft" href="/careers/{{ job.id }}">{{ job.title }}&nbsp;&rsaquo;</a>
+      <h2 class="p-heading--three {% if checkbox %}u-sv3{% else %}u-no-padding--top{% endif %}{% if job.description %} u-no-margin--bottom{% else %} u-sv1{% endif %}">
+        <a class="p-link--soft" href="/careers/{{ job.id }}/{{ job.title | replace(" ","-") | replace("---", "-") | replace("&", "and") | lower | urlencode }}-{% if "Home" in job.location %}remote{% else %}{{ job.location | lower | replace(" ", "-") | replace("---", "-") | replace("&", "and") | urlencode }}{% endif %}">{{ job.title }}&nbsp;&rsaquo;</a>
       </h2>
+      {% if job.description %}
+      <p clss="u-sv1">{{ job.description }}</p>
+      {% endif %}
     {% if checkbox %}
     </label>
     {% endif %}

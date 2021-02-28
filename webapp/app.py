@@ -120,8 +120,15 @@ def results():
     return flask.render_template("careers/results.html", **context)
 
 
-@app.route("/careers/<regex('[0-9]+'):job_id>", methods=["GET", "POST"])
-def job_details(job_id):
+@app.route(
+    "/careers/<regex('[0-9]+'):job_id>",
+    methods=["GET", "POST"],
+    defaults={"job_title": None},
+)
+@app.route(
+    "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
+)
+def job_details(job_id, job_title):
     context = render_navigation()
     context["bleach"] = bleach
     context["job"] = greenhouse_api.get_vacancy(job_id)
