@@ -124,11 +124,11 @@ class Greenhouse:
         return vacancies
 
     def get_job_url(self, job_title, job_location):
-        job_url = job_title
+        job_url = job_title.strip()
         if "Home" in job_location:
             job_url += "_remote"
         else:
-            job_url += "_" + job_location
+            job_url += "_" + job_location.replace("Office Based - ", "")
         job_url = job_url.encode("ascii", "ignore").decode()
         job_url = (
             job_url.replace(" ", "-")
@@ -143,6 +143,14 @@ class Greenhouse:
             .lower()
         )
         return job_url
+
+    def get_job_title(self, job_title, job_location):
+        metatitle = job_title.strip()
+        if "Home" in job_location:
+            metatitle += " - remote"
+        else:
+            metatitle += " in " + job_location
+        return metatitle.replace("Office Based - ", "")
 
     def get_metadata_value(self, job_metadata, metadata_key):
         for data in job_metadata:
@@ -165,6 +173,9 @@ class Greenhouse:
                 "departments": feed["metadata"][4]["value"],
                 "questions": feed["questions"],
                 "description": feed["metadata"][5]["value"],
+                "metatitle": self.get_job_title(
+                    feed["title"], feed["location"]["name"]
+                ),
             }
             return job
 
