@@ -72,6 +72,9 @@ class Greenhouse:
                             "description": self.get_metadata_value(
                                 job["metadata"], "description"
                             ),
+                            "joburl": self.get_job_url(
+                                job["title"], job["location"]["name"]
+                            ),
                         }
                     )
         return vacancies
@@ -111,11 +114,35 @@ class Greenhouse:
                                 "description": self.get_metadata_value(
                                     job["metadata"], "description"
                                 ),
+                                "joburl": self.get_job_url(
+                                    job["title"], job["location"]["name"]
+                                ),
                             }
                         )
                         break
 
         return vacancies
+
+    def get_job_url(self, job_title, job_location):
+        job_url = job_title
+        if "Home" in job_location:
+            job_url += "_remote"
+        else:
+            job_url += "_" + job_location
+        job_url = job_url.encode("ascii", "ignore").decode()
+        job_url = (
+            job_url.replace(" ", "-")
+            .replace("/", "-")
+            .replace("---", "-")
+            .replace("--", "-")
+            .replace(",", "")
+            .replace("&", "and")
+            .replace("(", "")
+            .replace(")", "")
+            .replace("-Remote", "")
+            .lower()
+        )
+        return job_url
 
     def get_metadata_value(self, job_metadata, metadata_key):
         for data in job_metadata:
