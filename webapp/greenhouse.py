@@ -72,7 +72,7 @@ class Greenhouse:
                             "description": self.get_metadata_value(
                                 job["metadata"], "description"
                             ),
-                            "joburl": self.get_job_url(
+                            "url_suffix": self.get_job_url_suffix(
                                 job["title"], job["location"]["name"]
                             ),
                         }
@@ -114,7 +114,7 @@ class Greenhouse:
                                 "description": self.get_metadata_value(
                                     job["metadata"], "description"
                                 ),
-                                "joburl": self.get_job_url(
+                                "url_suffix": self.get_job_url_suffix(
                                     job["title"], job["location"]["name"]
                                 ),
                             }
@@ -123,15 +123,15 @@ class Greenhouse:
 
         return vacancies
 
-    def get_job_url(self, job_title, job_location):
-        job_url = job_title.strip()
+    def get_job_url_suffix(self, job_title, job_location):
+        url_suffix = job_title.strip()
         if "Home" in job_location:
-            job_url += "_remote"
+            url_suffix += "_remote"
         else:
-            job_url += "_" + job_location.replace("Office Based - ", "")
-        job_url = job_url.encode("ascii", "ignore").decode()
-        job_url = (
-            job_url.replace(" ", "-")
+            url_suffix += "_" + job_location.replace("Office Based - ", "")
+        url_suffix = url_suffix.encode("ascii", "ignore").decode()
+        url_suffix = (
+            url_suffix.replace(" ", "-")
             .replace("/", "-")
             .replace("---", "-")
             .replace("--", "-")
@@ -142,7 +142,7 @@ class Greenhouse:
             .replace("-Remote", "")
             .lower()
         )
-        return job_url
+        return url_suffix
 
     def get_job_title(self, job_title, job_location):
         metatitle = job_title.strip()
