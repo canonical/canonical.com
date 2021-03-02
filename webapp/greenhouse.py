@@ -126,7 +126,7 @@ class Greenhouse:
     def get_job_url_suffix(self, job_title, job_location):
         url_suffix = job_title.strip()
         if "Home" in job_location:
-            url_suffix += "_remote"
+            url_suffix += "-remote"
         else:
             url_suffix += "_" + job_location.replace("Office Based - ", "")
         url_suffix = url_suffix.encode("ascii", "ignore").decode()
