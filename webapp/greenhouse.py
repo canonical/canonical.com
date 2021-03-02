@@ -126,7 +126,7 @@ class Greenhouse:
     def get_job_url(self, job_title, job_location):
         job_url = job_title
         if "Home" in job_location:
-            job_url += "_remote"
+            job_url += "-remote"
         else:
             job_url += "_" + job_location
         job_url = job_url.encode("ascii", "ignore").decode()
