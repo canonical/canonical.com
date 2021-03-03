@@ -14,7 +14,9 @@ metadata_map = {
     "management": 186225,
     "employment": 149021,
     "department": 155450,
+    "departments": 2739136,
     "skills": 675557,
+    "description": 2739137,
 }
 
 
@@ -67,6 +69,12 @@ class Greenhouse:
                                 job["metadata"], "management"
                             ),
                             "office": job["offices"][0]["name"],
+                            "description": self.get_metadata_value(
+                                job["metadata"], "description"
+                            ),
+                            "url_suffix": self.get_job_url_suffix(
+                                job["title"], job["location"]["name"]
+                            ),
                         }
                     )
         return vacancies
@@ -103,11 +111,46 @@ class Greenhouse:
                                 ),
                                 "office": job_offices,
                                 "core_skills": job_core_skills,
+                                "description": self.get_metadata_value(
+                                    job["metadata"], "description"
+                                ),
+                                "url_suffix": self.get_job_url_suffix(
+                                    job["title"], job["location"]["name"]
+                                ),
                             }
                         )
                         break
 
         return vacancies
+
+    def get_job_url_suffix(self, job_title, job_location):
+        url_suffix = job_title.strip()
+        if "Home" in job_location:
+            url_suffix += "-remote"
+        else:
+            url_suffix += "_" + job_location.replace("Office Based - ", "")
+        url_suffix = url_suffix.encode("ascii", "ignore").decode()
+        url_suffix = (
+            url_suffix.replace(" ", "-")
+            .replace("/", "-")
+            .replace("---", "-")
+            .replace("--", "-")
+            .replace(",", "")
+            .replace("&", "and")
+            .replace("(", "")
+            .replace(")", "")
+            .replace("-Remote", "")
+            .lower()
+        )
+        return url_suffix
+
+    def get_job_title(self, job_title, job_location):
+        metatitle = job_title.strip()
+        if "Home" in job_location:
+            metatitle += " - remote"
+        else:
+            metatitle += " in " + job_location
+        return metatitle.replace("Office Based - ", "")
 
     def get_metadata_value(self, job_metadata, metadata_key):
         for data in job_metadata:
@@ -127,7 +170,12 @@ class Greenhouse:
                 "content": unescape(feed["content"]),
                 "location": feed["location"]["name"],
                 "department": feed["metadata"][2]["value"],
+                "departments": feed["metadata"][4]["value"],
                 "questions": feed["questions"],
+                "description": feed["metadata"][5]["value"],
+                "metatitle": self.get_job_title(
+                    feed["title"], feed["location"]["name"]
+                ),
             }
             return job
 
