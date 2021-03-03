@@ -35,93 +35,99 @@ def _parse_feed_department(feed_department):
 
 
 class Greenhouse:
-    def __init__(self, session):
+    def __init__(
+        self,
+        session,
+        base_url="https://boards-api.greenhouse.io/v1/boards/Canonical/jobs",
+    ):
         self.session = session
+        self.base_url = base_url
 
-    def get_vacancies(self, department):
-        feed = self.session.get(f"{base_url}?content=true").json()
-        path_department = _parse_feed_department(department)
-        vacancies = []
-        for job in feed["jobs"]:
-            if job["metadata"][2]["value"] and job["offices"]:
-                feed_department = _parse_feed_department(
-                    job["metadata"][2]["value"]
-                )
-                if (
-                    path_department == "all"
-                    or path_department == feed_department
-                ):
-                    vacancies.append(
-                        {
-                            "title": job["title"],
-                            "content": unescape(job["content"]),
-                            "url": job["absolute_url"],
-                            "location": job["location"]["name"],
-                            "id": job["id"],
-                            "employment": self.get_metadata_value(
-                                job["metadata"], "employment"
-                            ),
-                            "date": job["updated_at"],
-                            "department": self.get_metadata_value(
-                                job["metadata"], "department"
-                            ),
-                            "management": self.get_metadata_value(
-                                job["metadata"], "management"
-                            ),
-                            "office": job["offices"][0]["name"],
-                            "description": self.get_metadata_value(
-                                job["metadata"], "description"
-                            ),
-                            "joburl": self.get_job_url(
-                                job["title"], job["location"]["name"]
-                            ),
-                        }
-                    )
-        return vacancies
-
-    def get_vacancies_by_skills(self, core_skills):
+    def _all_vacancies(self):
         feed = self.session.get(f"{base_url}?content=true").json()
         vacancies = []
         for job in feed["jobs"]:
-            job_core_skills = self.get_metadata_value(
-                job["metadata"], "skills"
-            )
             job_offices = ""
             if job["offices"]:
                 job_offices = job["offices"][0]["name"]
-            for skill in core_skills:
-                if job_core_skills:
-                    if skill in job_core_skills:
-                        vacancies.append(
-                            {
-                                "title": job["title"],
-                                "content": unescape(job["content"]),
-                                "url": job["absolute_url"],
-                                "location": job["location"]["name"],
-                                "id": job["id"],
-                                "employment": self.get_metadata_value(
-                                    job["metadata"], "employment"
-                                ),
-                                "date": job["updated_at"],
-                                "department": self.get_metadata_value(
-                                    job["metadata"], "department"
-                                ),
-                                "management": self.get_metadata_value(
-                                    job["metadata"], "management"
-                                ),
-                                "office": job_offices,
-                                "core_skills": job_core_skills,
-                                "description": self.get_metadata_value(
-                                    job["metadata"], "description"
-                                ),
-                                "joburl": self.get_job_url(
-                                    job["title"], job["location"]["name"]
-                                ),
-                            }
-                        )
-                        break
-
+            vacancies.append(
+                {
+                    "title": job["title"],
+                    "content": unescape(job["content"]),
+                    "url": job["absolute_url"],
+                    "location": job["location"]["name"],
+                    "id": job["id"],
+                    "employment": self.get_metadata_value(
+                        job["metadata"], "employment"
+                    ),
+                    "date": job["updated_at"],
+                    "department": self.get_metadata_value(
+                        job["metadata"], "department"
+                    ),
+                    "management": self.get_metadata_value(
+                        job["metadata"], "management"
+                    ),
+                    "office": job_offices,
+                    "description": self.get_metadata_value(
+                        job["metadata"], "description"
+                    ),
+                    "joburl": self.get_job_url(
+                        job["title"], job["location"]["name"]
+                    ),
+                    "skills": self.get_metadata_value(
+                        job["metadata"], "skills",
+                    )
+                    or [],
+                }
+            )
         return vacancies
+
+    def get_vacancies_by_department(self, department):
+        path_department = _parse_feed_department(department)
+
+        vacancies = self._all_vacancies()
+
+        if path_department == "all":
+            return vacancies
+        else:
+            matching_vacancies = filter(
+                vacancies,
+                lambda vacancy: path_department.intersection(
+                    vacancy["department"].split()
+                ),
+            )
+
+            return matching_vacancies
+
+    def get_vacancies_by_skills(self, skills: set):
+        skills = set(skills)
+
+        vacancies = self._all_vacancies()
+
+        # Remove non-matching jobs
+        matching_vacancies = list(
+            filter(
+                lambda vacancy: skills.intersection(vacancy["skills"]),
+                vacancies,
+            )
+        )
+        matching_vacancies.sort(
+            key=lambda vacancy: len(skills.intersection(vacancy["skills"])),
+        )
+        # Sort by how many skills each job matches
+        # try:
+        #     sorted_vacancies = sorted(
+        #         matching_vacancies,
+        #         key=lambda vacancy: len(
+        #             skills.intersection(vacancy["skills"])
+        #         ),
+        #     )
+        # except TypeError as error:
+        #     import pdb
+        #
+        #     pdb.set_trace()
+        #     pass
+        return matching_vacancies
 
     def get_job_url(self, job_title, job_location):
         job_url = job_title

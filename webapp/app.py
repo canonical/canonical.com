@@ -74,7 +74,7 @@ def get_department_list():
 def render_navigation():
     context = {}
     departments = get_department_list()
-    all_vacancies = greenhouse_api.get_vacancies("all")
+    all_vacancies = greenhouse_api.get_vacancies_by_department("all")
     vacancy_count = {}
 
     # Populate vacancy_count dictionary with 0 values
@@ -97,7 +97,8 @@ def render_navigation():
 # Career departments
 @app.route("/careers/results")
 def results():
-    context = render_navigation()
+    # context = render_navigation()
+    context = {}
     vacancies = []
     departments = []
     message = ""
@@ -116,7 +117,6 @@ def results():
     context["message"] = message
     context["vacancies"] = vacancies
     context["departments"] = departments
-
     return flask.render_template("careers/results.html", **context)
 
 
@@ -177,12 +177,16 @@ def department_group(department):
     for dept in context["nav_departments"]:
         if dept.slug == department:
             context["department"] = dept
-            context["vacancies"] = greenhouse_api.get_vacancies(dept.slug)
+            context["vacancies"] = greenhouse_api.get_vacancies_by_department(
+                dept.slug
+            )
 
     if not context["department"] and department not in templates:
         flask.abort(404)
     elif department == "all":
-        context["vacancies"] = greenhouse_api.get_vacancies("all")
+        context["vacancies"] = greenhouse_api.get_vacancies_by_department(
+            "all"
+        )
 
     context["templates"] = templates
 
