@@ -26,7 +26,8 @@ def _get_job_slug(job):
     # Sanitise title
     suffix = (
         job["title"]
-        .encode("ascii", errors="ignore").decode()
+        .encode("ascii", errors="ignore")
+        .decode()
         .lower()
         .replace("/", "-")
         .replace(" ", "-")
@@ -96,6 +97,7 @@ class Greenhouse:
     Get all jobs from the API and parse them into vacancies
     Filter out vacancies without an office and a department
     """
+
     def get_vacancies(self):
         feed = self.session.get(f"{self.base_url}?content=true").json()
 
@@ -111,6 +113,7 @@ class Greenhouse:
     """
     Get vacancies where the department matches a given department slug
     """
+
     def get_vacancies_by_department_slug(self, department_slug):
         vacancies = self.get_vacancies()
 
@@ -123,6 +126,7 @@ class Greenhouse:
     Get vacancies containing any of a given list of skills
     Order by the number of matching skills, most first
     """
+
     def get_vacancies_by_skills(self, skills: list):
         vacancies = self.get_vacancies()
 
@@ -135,7 +139,7 @@ class Greenhouse:
         sorted_vacancies = sorted(
             matching_vacancies,
             key=lambda vacancy: len(set(skills).intersection(vacancy.skills)),
-            reverse=True
+            reverse=True,
         )
 
         return sorted_vacancies
@@ -144,10 +148,9 @@ class Greenhouse:
     Retrieve a single job from Greenhouse by ID
     convert it to a Vacancy and return it
     """
+
     def get_vacancy(self, job_id):
-        response = self.session.get(
-            f"{self.base_url}/{job_id}?questions=true"
-        )
+        response = self.session.get(f"{self.base_url}/{job_id}?questions=true")
 
         response.raise_for_status()
 
@@ -158,9 +161,8 @@ class Greenhouse:
     for a specific job
     https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196
     """
-    def submit_application(
-        self, form_data, form_files, job_id="1658196"
-    ):
+
+    def submit_application(self, form_data, form_files, job_id="1658196"):
         # Encode the resume file to base64
         resume = b64encode(form_files["resume"].read()).decode("utf-8")
 
@@ -184,17 +186,14 @@ class Greenhouse:
             data=json.dumps(payload),
             headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Basic {self.base64_key}"
-            }
+                "Authorization": f"Basic {self.base64_key}",
+            },
         )
 
 
 class Harvest:
     def __init__(
-        self,
-        session,
-        api_key,
-        base_url="https://harvest.greenhouse.io/v1/"
+        self, session, api_key, base_url="https://harvest.greenhouse.io/v1/"
     ):
         self.session = session
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
@@ -203,12 +202,12 @@ class Harvest:
     def get_departments(self):
         response = self.session.get(
             f"{self.base_url}custom_field/155450",
-            headers={"Authorization": f"Basic {self.base64_key}"}
+            headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
         departments = json.loads(response.text)["custom_field_options"]
 
         return sorted(
             [Department(department["name"]) for department in departments],
-            key=lambda dept: dept.name
+            key=lambda dept: dept.name,
         )

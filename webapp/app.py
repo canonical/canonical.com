@@ -27,13 +27,9 @@ app = FlaskBase(
 )
 session = talisker.requests.get_session()
 greenhouse = Greenhouse(
-    session=session,
-    api_key=os.environ.get("GREENHOUSE_API_KEY")
+    session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
 )
-harvest = Harvest(
-    session=session,
-    api_key=os.environ.get("HARVEST_API_KEY")
-)
+harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
 
 
@@ -179,7 +175,6 @@ def department_group(department):
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
-            os.environ["greenhouse_KEY"],
             flask.request.form,
             flask.request.files,
         )
@@ -282,5 +277,5 @@ def markup(text):
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix):]
+        message = str(e)[len(prefix) :]
     return flask.render_template("/502.html", message=message), 502
