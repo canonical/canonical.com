@@ -22,6 +22,16 @@ def _get_metadata(job, name):
     return None
 
 
+def _get_meta_title(job):
+    meta_title = job["title"].strip()
+    if "Home" in job["location"]["name"]:
+        meta_title += " - remote"
+    else:
+        meta_title += " in " + job["location"]["name"]
+
+    return meta_title.replace("Office Based - ", "")
+
+
 def _get_job_slug(job):
     # Sanitise title
     suffix = (
@@ -69,11 +79,13 @@ class Vacancy:
     def __init__(self, job: dict):
         self.id: str = job["id"]
         self.title: str = job["title"]
+        self.meta_title: str = _get_meta_title(job)
         self.content: str = unescape(job["content"])
         self.url: str = job["absolute_url"]
         self.location: str = job["location"]["name"]
         self.employment: str = _get_metadata(job, "employment")
         self.date: str = job["updated_at"]
+        self.questions: dict = job.get("questions", {})
         self.department: str = Department(_get_metadata(job, "department"))
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
