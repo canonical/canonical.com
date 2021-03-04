@@ -9,12 +9,12 @@ import re
 # Packages
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
+from requests.exceptions import HTTPError
 from slugify import slugify
 import talisker.requests
 
 # Local
-from webapp.greenhouse import Greenhouse
-from webapp.greenhouse import _parse_feed_department
+from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
 
 app = FlaskBase(
@@ -26,8 +26,14 @@ app = FlaskBase(
     template_500="500.html",
 )
 session = talisker.requests.get_session()
-greenhouse_api = Greenhouse(session)
-greenhouse_api_key = os.environ.get("GREENHOUSE_API_KEY")
+greenhouse = Greenhouse(
+    session=session,
+    api_key=os.environ.get("GREENHOUSE_API_KEY")
+)
+harvest = Harvest(
+    session=session,
+    api_key=os.environ.get("HARVEST_API_KEY")
+)
 partners_api = Partners(session)
 
 
@@ -44,38 +50,11 @@ def secure_boot():
     )
 
 
-# Class that collects department-specific content
-class Department(object):
-    def __init__(self, name):
-        self.name = name
-        self.slug = _parse_feed_department(self.name)
-
-    def __lt__(self, other):
-        return self.name < other.name
-
-
-# Generates a list of departments
-def get_department_list():
-    departments = set()
-
-    try:
-        all_departments = greenhouse_api.get_departments()
-    except Exception as error:
-        flask.abort(502, str(error))
-
-    # Populate departments[] with Department objects,
-    # ensuring that there are no duplicates
-    for item in all_departments:
-        departments.add(Department(item))
-
-    return sorted(departments)
-
-
 def render_navigation():
     context = {}
-    departments = get_department_list()
-    all_vacancies = greenhouse_api.get_vacancies("all")
     vacancy_count = {}
+    departments = harvest.get_departments()
+    all_vacancies = greenhouse.get_vacancies()
 
     # Populate vacancy_count dictionary with 0 values
     for department in departments:
@@ -85,8 +64,7 @@ def render_navigation():
     # and add relevant departments to the vacancies
     # list that gets rendered
     for vacancy in all_vacancies:
-        dept = Department(vacancy["department"])
-        vacancy_count[dept.slug] += 1
+        vacancy_count[vacancy.department.slug] += 1
 
     context["nav_departments"] = departments
     context["nav_vacancy_count"] = vacancy_count
@@ -101,18 +79,21 @@ def results():
     vacancies = []
     departments = []
     message = ""
+
     if flask.request.args:
-        core_skills = flask.request.args["coreSkills"].split(",")
+        core_skills = flask.request.args["core-skills"].split(",")
         context["core_skills"] = core_skills
-        vacancies = greenhouse_api.get_vacancies_by_skills(core_skills)
+        vacancies = greenhouse.get_vacancies_by_skills(core_skills)
     else:
         message = "There are no roles matching your selection."
+
     if len(vacancies) == 0:
         message = "There are no roles matching your selection."
     else:
-        for job in vacancies:
-            if not (job["department"] in departments):
-                departments.append(job["department"])
+        for vacancy in vacancies:
+            if not (vacancy.department.name in departments):
+                departments.append(vacancy.department.name)
+
     context["message"] = message
     context["vacancies"] = vacancies
     context["departments"] = departments
@@ -131,13 +112,21 @@ def results():
 def job_details(job_id, job_title):
     context = render_navigation()
     context["bleach"] = bleach
-    context["job"] = greenhouse_api.get_vacancy(job_id)
+
+    try:
+        context["job"] = greenhouse.get_vacancy(job_id)
+    except HTTPError as error:
+        if error.response.status_code == 404:
+            flask.abort(404)
+        else:
+            raise error
+
     if not context["job"]:
         flask.abort(404)
 
     if flask.request.method == "POST":
-        response = greenhouse_api.submit_application(
-            greenhouse_api_key, flask.request.form, flask.request.files, job_id
+        response = greenhouse.submit_application(
+            flask.request.form, flask.request.files, job_id
         )
         if response.status_code == 200:
             context["message"] = {
@@ -177,18 +166,20 @@ def department_group(department):
     for dept in context["nav_departments"]:
         if dept.slug == department:
             context["department"] = dept
-            context["vacancies"] = greenhouse_api.get_vacancies(dept.slug)
+            context["vacancies"] = greenhouse.get_vacancies_by_department_slug(
+                dept.slug
+            )
 
     if not context["department"] and department not in templates:
         flask.abort(404)
     elif department == "all":
-        context["vacancies"] = greenhouse_api.get_vacancies("all")
+        context["vacancies"] = greenhouse.get_vacancies()
 
     context["templates"] = templates
 
     if flask.request.method == "POST":
-        response = greenhouse_api.submit_application(
-            os.environ["GREENHOUSE_API_KEY"],
+        response = greenhouse.submit_application(
+            os.environ["greenhouse_KEY"],
             flask.request.form,
             flask.request.files,
         )
@@ -291,5 +282,5 @@ def markup(text):
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("/502.html", message=message), 502
