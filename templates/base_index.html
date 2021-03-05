@@ -36,6 +36,9 @@
     <meta name="twitter:description" content="{{ self.meta_description() }}">
     <meta property="og:description" content="{{ self.meta_description() }}">
     {% endif %}
+    {% if meta_keywords %}
+    <meta property="keywords" content="{% block meta_keywords %}{% endblock %}">
+    {% endif %}
 
     {# Define the required meta_image block #}
     <!-- Meta image: {% block meta_image %}{% endblock %} -->
