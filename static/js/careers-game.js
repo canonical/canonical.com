@@ -95,7 +95,7 @@ function initCareersGame() {
         }
       });
 
-      location.href = "results?coreSkills=" + skillsString;
+      location.href = "results?core-skills=" + skillsString;
     });
   }
 

@@ -1,202 +1,183 @@
 # Standard library
-import base64
 import json
-import os
+from base64 import b64encode
 
 # Packages
 from html import unescape
 
-base_url = "https://boards-api.greenhouse.io/v1/boards/Canonical/jobs"
 
-harvest_api_key = os.environ.get("HARVEST_API_KEY")
-
-metadata_map = {
-    "management": 186225,
-    "employment": 149021,
-    "department": 155450,
-    "departments": 2739136,
-    "skills": 675557,
-    "description": 2739137,
-}
-
-
-def _parse_feed_department(feed_department):
-    field = {
-        "cloud engineering": "engineering",
-        "device engineering": "engineering",
-        "operations": "operations",
-        "product management": "product",
+def _get_metadata(job, name):
+    metadata_map = {
+        "management": 186225,
+        "employment": 149021,
+        "department": 155450,
+        "departments": 2739136,
+        "skills": 675557,
+        "description": 2739137,
     }
 
-    if feed_department.lower() in field:
-        return field[feed_department.lower()]
+    for data in job["metadata"]:
+        if data["id"] == metadata_map[name]:
+            return data["value"]
+    return None
 
-    return feed_department.replace("&", "and").replace(" ", "-").lower()
+
+def _get_meta_title(job):
+    meta_title = job["title"].strip()
+    if "Home" in job["location"]["name"]:
+        meta_title += " - remote"
+    else:
+        meta_title += " in " + job["location"]["name"]
+
+    return meta_title.replace("Office Based - ", "")
+
+
+def _get_job_slug(job):
+    # Sanitise title
+    suffix = (
+        job["title"]
+        .encode("ascii", errors="ignore")
+        .decode()
+        .lower()
+        .replace("/", "-")
+        .replace(" ", "-")
+        .replace("---", "-")
+        .replace("--", "-")
+        .replace(",", "")
+        .replace("&", "and")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("-remote", "")
+    )
+
+    location = job["location"]["name"]
+
+    if "home" in location.lower():
+        location = "remote"
+
+    return f"{suffix}-{location}"
+
+
+class Department(object):
+    def __init__(self, name):
+        field = {
+            "cloud engineering": "engineering",
+            "device engineering": "engineering",
+            "operations": "operations",
+            "product management": "product",
+        }
+
+        self.name = name
+
+        if name.lower() in field:
+            self.slug = field[name.lower()]
+        else:
+            self.slug = name.replace("&", "and").replace(" ", "-").lower()
+
+
+class Vacancy:
+    def __init__(self, job: dict):
+        self.id: str = job["id"]
+        self.title: str = job["title"]
+        self.meta_title: str = _get_meta_title(job)
+        self.content: str = unescape(job["content"])
+        self.url: str = job["absolute_url"]
+        self.location: str = job["location"]["name"]
+        self.employment: str = _get_metadata(job, "employment")
+        self.date: str = job["updated_at"]
+        self.questions: dict = job.get("questions", {})
+        self.department: str = Department(_get_metadata(job, "department"))
+        self.management: str = _get_metadata(job, "management")
+        self.office: str = job["offices"][0]["name"]
+        self.description: str = _get_metadata(job, "description")
+        self.slug: str = _get_job_slug(job)
+        self.skills: list = _get_metadata(job, "skills") or []
 
 
 class Greenhouse:
-    def __init__(self, session):
+    def __init__(
+        self,
+        session,
+        api_key,
+        base_url="https://boards-api.greenhouse.io/v1/boards/Canonical/jobs",
+    ):
         self.session = session
+        self.base64_key = b64encode(f"{api_key}:".encode()).decode()
+        self.base_url = base_url
 
-    def get_vacancies(self, department):
-        feed = self.session.get(f"{base_url}?content=true").json()
-        path_department = _parse_feed_department(department)
-        vacancies = []
-        for job in feed["jobs"]:
-            if job["metadata"][2]["value"] and job["offices"]:
-                feed_department = _parse_feed_department(
-                    job["metadata"][2]["value"]
-                )
-                if (
-                    path_department == "all"
-                    or path_department == feed_department
-                ):
-                    vacancies.append(
-                        {
-                            "title": job["title"],
-                            "content": unescape(job["content"]),
-                            "url": job["absolute_url"],
-                            "location": job["location"]["name"],
-                            "id": job["id"],
-                            "employment": self.get_metadata_value(
-                                job["metadata"], "employment"
-                            ),
-                            "date": job["updated_at"],
-                            "department": self.get_metadata_value(
-                                job["metadata"], "department"
-                            ),
-                            "management": self.get_metadata_value(
-                                job["metadata"], "management"
-                            ),
-                            "office": job["offices"][0]["name"],
-                            "description": self.get_metadata_value(
-                                job["metadata"], "description"
-                            ),
-                            "url_suffix": self.get_job_url_suffix(
-                                job["title"], job["location"]["name"]
-                            ),
-                        }
-                    )
-        return vacancies
+    """
+    Get all jobs from the API and parse them into vacancies
+    Filter out vacancies without an office and a department
+    """
 
-    def get_vacancies_by_skills(self, core_skills):
-        feed = self.session.get(f"{base_url}?content=true").json()
+    def get_vacancies(self):
+        feed = self.session.get(f"{self.base_url}?content=true").json()
+
         vacancies = []
+
         for job in feed["jobs"]:
-            job_core_skills = self.get_metadata_value(
-                job["metadata"], "skills"
-            )
-            job_offices = ""
-            if job["offices"]:
-                job_offices = job["offices"][0]["name"]
-            for skill in core_skills:
-                if job_core_skills:
-                    if skill in job_core_skills:
-                        vacancies.append(
-                            {
-                                "title": job["title"],
-                                "content": unescape(job["content"]),
-                                "url": job["absolute_url"],
-                                "location": job["location"]["name"],
-                                "id": job["id"],
-                                "employment": self.get_metadata_value(
-                                    job["metadata"], "employment"
-                                ),
-                                "date": job["updated_at"],
-                                "department": self.get_metadata_value(
-                                    job["metadata"], "department"
-                                ),
-                                "management": self.get_metadata_value(
-                                    job["metadata"], "management"
-                                ),
-                                "office": job_offices,
-                                "core_skills": job_core_skills,
-                                "description": self.get_metadata_value(
-                                    job["metadata"], "description"
-                                ),
-                                "url_suffix": self.get_job_url_suffix(
-                                    job["title"], job["location"]["name"]
-                                ),
-                            }
-                        )
-                        break
+            # Filter out those without departments or offices
+            if _get_metadata(job, "department") and job["offices"]:
+                vacancies.append(Vacancy(job))
 
         return vacancies
 
-    def get_job_url_suffix(self, job_title, job_location):
-        url_suffix = job_title.strip()
-        if "Home" in job_location:
-            url_suffix += "-remote"
-        else:
-            url_suffix += "_" + job_location.replace("Office Based - ", "")
-        url_suffix = url_suffix.encode("ascii", "ignore").decode()
-        url_suffix = (
-            url_suffix.replace(" ", "-")
-            .replace("/", "-")
-            .replace("---", "-")
-            .replace("--", "-")
-            .replace(",", "")
-            .replace("&", "and")
-            .replace("(", "")
-            .replace(")", "")
-            .replace("-Remote", "")
-            .lower()
+    """
+    Get vacancies where the department matches a given department slug
+    """
+
+    def get_vacancies_by_department_slug(self, department_slug):
+        vacancies = self.get_vacancies()
+
+        def department_filter(vacancy):
+            return vacancy.department.slug == department_slug
+
+        return list(filter(department_filter, vacancies))
+
+    """
+    Get vacancies containing any of a given list of skills
+    Order by the number of matching skills, most first
+    """
+
+    def get_vacancies_by_skills(self, skills: list):
+        vacancies = self.get_vacancies()
+
+        # Remove non-matching jobs
+        matching_vacancies = filter(
+            lambda vacancy: bool(set(skills).intersection(vacancy.skills)),
+            vacancies,
         )
-        return url_suffix
 
-    def get_job_title(self, job_title, job_location):
-        metatitle = job_title.strip()
-        if "Home" in job_location:
-            metatitle += " - remote"
-        else:
-            metatitle += " in " + job_location
-        return metatitle.replace("Office Based - ", "")
+        sorted_vacancies = sorted(
+            matching_vacancies,
+            key=lambda vacancy: len(set(skills).intersection(vacancy.skills)),
+            reverse=True,
+        )
 
-    def get_metadata_value(self, job_metadata, metadata_key):
-        for data in job_metadata:
-            if data["id"] == metadata_map[metadata_key]:
-                return data["value"]
-        return None
+        return sorted_vacancies
+
+    """
+    Retrieve a single job from Greenhouse by ID
+    convert it to a Vacancy and return it
+    """
 
     def get_vacancy(self, job_id):
-        feed = self.session.get(f"{base_url}/{job_id}?questions=true").json()
+        response = self.session.get(f"{self.base_url}/{job_id}?questions=true")
 
-        if feed.get("status") == 404:
-            return None
-        else:
-            job = {
-                "id": job_id,
-                "title": feed["title"],
-                "content": unescape(feed["content"]),
-                "location": feed["location"]["name"],
-                "department": feed["metadata"][2]["value"],
-                "departments": feed["metadata"][4]["value"],
-                "questions": feed["questions"],
-                "description": feed["metadata"][5]["value"],
-                "metatitle": self.get_job_title(
-                    feed["title"], feed["location"]["name"]
-                ),
-            }
-            return job
+        response.raise_for_status()
 
-    # Default Job ID (1658196) is used below to submit CV without applying
-    # for a specific job
-    # https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196.
-    def submit_application(
-        self, api_key, form_data, form_files, job_id="1658196"
-    ):
-        if not api_key:
-            raise AttributeError("No Greenhouse API key provided")
+        return Vacancy(response.json())
 
-        # Encode the api_key to base64
-        auth = (
-            "Basic "
-            + str(base64.b64encode(api_key.encode("utf-8")), "utf-8")[:-2]
-        )
+    """
+    Default Job ID (1658196) is used below to submit CV without applying
+    for a specific job
+    https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196
+    """
+
+    def submit_application(self, form_data, form_files, job_id="1658196"):
         # Encode the resume file to base64
-        resume = base64.b64encode(form_files["resume"].read()).decode("utf-8")
-        # Create headers for api sumbission
-        headers = {"Content-Type": "application/json", "Authorization": auth}
+        resume = b64encode(form_files["resume"].read()).decode("utf-8")
+
         # Create payload for api submission
         payload = form_data.to_dict()
         payload["resume_content"] = resume
@@ -205,43 +186,40 @@ class Greenhouse:
         # Add cover letter to the payload if exists
         if form_files["cover_letter"]:
             # Encode the cover_letter file to base64
-            cover_letter = base64.b64encode(
+            payload["cover_letter_content"] = b64encode(
                 form_files["cover_letter"].read()
-            ).decode("utf-8")
-            payload["cover_letter_content"] = cover_letter
+            ).decode()
             payload["cover_letter_content_filename"] = form_files[
                 "cover_letter"
             ].filename
 
-        json_payload = json.dumps(payload)
-
-        response = self.session.post(
-            f"{base_url}/{job_id}", data=json_payload, headers=headers
+        return self.session.post(
+            f"{self.base_url}/{job_id}",
+            data=json.dumps(payload),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Basic {self.base64_key}",
+            },
         )
 
-        return response
 
-    # Get list of external departments from the Harvest API
+class Harvest:
+    def __init__(
+        self, session, api_key, base_url="https://harvest.greenhouse.io/v1/"
+    ):
+        self.session = session
+        self.base64_key = b64encode(f"{api_key}:".encode()).decode()
+        self.base_url = base_url
+
     def get_departments(self):
-        department_api_url = (
-            "https://harvest.greenhouse.io/v1/custom_field/155450"
+        response = self.session.get(
+            f"{self.base_url}custom_field/155450",
+            headers={"Authorization": f"Basic {self.base64_key}"},
         )
+        response.raise_for_status()
+        departments = json.loads(response.text)["custom_field_options"]
 
-        if not harvest_api_key:
-            raise AttributeError("No Harvest API key provided")
-
-        # The key is passed as a username with a blank password,
-        # hence the appended colon to delimit the two fields
-        key = harvest_api_key + ":"
-        base64_encoded_key = "Basic " + str(
-            base64.b64encode(key.encode("utf-8")), "utf-8"
+        return sorted(
+            [Department(department["name"]) for department in departments],
+            key=lambda dept: dept.name,
         )
-        headers = {"Authorization": base64_encoded_key}
-        response = self.session.get(department_api_url, headers=headers)
-        if response.status_code == 401:
-            raise ConnectionRefusedError("Harvest API key failed to authorize")
-        content = json.loads(response.text)
-        departments = []
-        for field in content["custom_field_options"]:
-            departments.append(field["name"])
-        return departments
