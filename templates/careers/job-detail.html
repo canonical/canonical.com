@@ -44,7 +44,13 @@
 </div>
 {% endif %}
 <div class="row">
-  <a href="{% if request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+  <div class="col-6">
+    <a href="{% if request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+  </div>
+  <div class="col-6 u-align--right">
+    <a class="p-button--positive" href="#apply">Apply</a>
+  </div>
+
   <h2 class="u-no-margin--bottom u-sv1">{{ job.title }}</h2>
   <p class="p-muted-heading">{{ job.location }}</p>
   <div class="job-desc">
@@ -57,7 +63,7 @@
 <div class="row u-sv2">
   <hr />
 </div>
-<div class="row u-extra-space js-roles-apply--container">
+<div class="row u-extra-space js-roles-apply--container" id="apply">
   <div class="col-8">
     <div class="p-card--strip u-no-margin--bottom">
       <h3>Apply for this role</h3>
