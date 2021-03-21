@@ -1,0 +1,13 @@
+<h2>
+  More matches for you to consider
+</h2>
+{% for department in departments %}
+<h3>
+  <a class="p-link--soft" href="/careers/{{ department|lower }}">
+    {{ department }}&nbsp;&rsaquo;
+  </a>
+</h3>
+{% with department=department|lower %}
+{% include "partial/_career_link_list.html" %}
+{% endwith %}
+{% endfor %}

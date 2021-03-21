@@ -32,48 +32,8 @@ Travel regularly to interesting destinations for team, conference and customer e
 {% endblock %}
 
 {% block careers_content %}
-<div class="row u-sv3">
+{% include "partial/_careers-job-list-featured.html" %}
   <div class="col-8">
-    {% if not(message) %}
-    <div class="p-card" style="border-style: none; background-color:#f7f7f7;">
-      <div class="p-card__content" style="display: flex;">
-        <div>
-          <i class="p-icon--success" style="height: 1.5rem; width: 1.5rem;"></i>
-        </div>
-        <div style="padding-left: 1rem;">
-          <p class="p-heading--three">Looks like you're interested in
-            {% if departments|length == 1 %}
-              {{ departments[0]|lower }}
-            {% else %}
-              {% for department in departments %}
-                {% if loop.index < departments|length-1 %}
-                  {{ department|lower }},
-                {% elif loop.index < departments|length %}
-                  {{ department|lower }}
-                {% else %}
-                  and {{ department|lower }}.
-                {% endif %}
-              {% endfor %}
-            {% endif %}</p>
-          <div class="row">
-            <div class="col-6">
-              <p>We have tailored the roles below based on your choices. Apply to any which you feel are suitable or retake your choices.</p>
-            </div>
-            <div class="col-2 u-align--center u-vertically-center">
-              <p>
-                <a href="/careers/start" class="p-button--positive">Retake choices</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endif %}
-    <div class="row u-vertically-center">
-      <div class="col-8 u-align--right js-filter-form u-hide">
-        {% include "careers/_filters.html" %}
-      </div>
-    </div>
     <div class="row">
       <div class="col-8">
         {% if message %}
@@ -82,10 +42,9 @@ Travel regularly to interesting destinations for team, conference and customer e
         </div>
         {% else %}
         <div class="js-filter-jobs-container">
-          {% include "partial/_careers-job-list.html" %}
+          {% include "partial/_careers-job-list-small.html" %}
         </div>
         {% endif %}
-
         <h2 class="p-heading--four js-filter__no-results u-hide">
           Sorry, there are no open positions matching your criteria.
         </h2>
