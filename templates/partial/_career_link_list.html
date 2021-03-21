@@ -1,5 +1,6 @@
-<ul class="p-list is-split">
+<ul class="p-list is-split u-no-margin--bottom">
   {% for job in vacancies if job.department.slug in department %}
+  {% if loop.index < 10 %}
   <li
     class="p-list u-sv1"
     data-office="{{ job.office }}"
@@ -9,11 +10,10 @@
     data-management="{{ job.management}}"
     data-sector="{{ job.department.slug }}"
   >
-    <a class="" href="/careers/{{ job.id }}/{{ job.slug }}">
-      {{ job.title }}&nbsp;&rsaquo;
-      <!--<br />
-      <small>{{ job.location }} {{ job.department.name}}</small>-->
+    <a href="/careers/{{ job.id }}/{{ job.slug }}">
+      {{ job.title }}
     </a>
   </li>
+  {% endif %}
   {% endfor %}
 </ul>
