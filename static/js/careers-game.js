@@ -14,17 +14,19 @@ function initCareersGame() {
 
   function handleCardClick() {
     selectableCards = document.querySelectorAll(".p-card--game");
-
+    
     [].forEach.call(selectableCards, function (selectableCard) {
       selectableCard.addEventListener("click", function (e) {
         var expandedCard = document.querySelector(".p-card--game.is-grey");
         var targetCard = e.currentTarget;
-
+        
         if (expandedCard) {
           expandedCard.classList.remove("is-grey");
         }
 
-        targetCard.classList.add("is-grey");
+        if (!targetCard.classList.contains("is-empty")) {
+          targetCard.classList.add("is-grey");
+        }
       });
     });
   }
