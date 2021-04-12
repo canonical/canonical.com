@@ -154,7 +154,7 @@
     );
   }
 
-  // Check if element shold be filtered
+  // Check if element should be filtered
   function filterCheck(filterText) {
     var match = false;
     filters.forEach((filter) => {

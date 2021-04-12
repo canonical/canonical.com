@@ -1,0 +1,81 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}https://docs.google.com/document/d/1rnp14t9u065_1bGRSXWyvKTHMUIMjpLjQAKe-zbPCDI/edit#heading=h.1kcf4pjl5zqw{% endblock %}
+
+{% block title %}Software Partner Programme | Partners{% endblock %}
+
+{% block meta_description %}Canonical’s Software Partner Programme helps ISV and Open Source Partners detail how their software works with Canonical’s products, to ensure that the products are deployed in a precise manner for optimal performance and a great user experience.{% endblock %}
+
+{% block content %}
+<section class="p-strip--suru-bottomed is-deep" style="padding-bottom: 8rem; padding-top: 3rem;">
+  <div class="row">
+    <div class="col-6">
+      <h1>Software Partner Programme</h1>
+      <p>Canonical’s Software Partner Programme helps ISV and Open Source Partners detail how their software works with Canonical’s products, to ensure that the products are deployed in a precise manner for optimal performance and a great user experience. </p>
+      <a href="/contact-us" class="p-button--positive">Become a Partner</a>
+    </div>
+    <div class="col-6 u-align--center u-vertically-center u-hide--small">
+      <img src="https://assets.ubuntu.com/v1/c0244599-latest-ubuntu-download.svg" width="350" height="314" alt="">
+    </div>
+  </div>
+</section>
+
+{% if partners %}
+<section class="p-strip is-deep">
+  <div class="u-fixed-width u-align--center">
+    <h4 class="p-muted-heading u-no-max-width">Meet some of our software partners</h4>
+  </div>
+  <div class="u-fixed-width">
+    <ul class="p-inline-images u-no-margin--bottom">
+      {% for partner in partners %}
+      <li class="p-inline-images__item">
+        <img class="p-inline-images__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=software">See all of our software partners&nbsp;&rsaquo;</a></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="p-strip--light is-deep">
+  <div class="row">
+    <div class="col-8">
+      <h2>What's included</h2>
+      <p>Canonical’s Software Partner Programme helps ISV and Open Source Partners detail how their software works with Canonical’s products, to ensure that the products are deployed in a precise manner for optimal performance and a great user experience.</p>
+      <p>
+        <a href="/partners/become-a-partner" class="p-button--positive">
+          Become a partner
+        </a>
+      </p>
+    </div>
+  </div>
+  <div class="row p-divider">
+    <div class="u-no-fixed-width">
+      <h4>Why partner with Canonical?</h4>
+    </div>
+    <div class="col-6">
+      <h5>Benefits</h5>
+      <ul class="p-list">
+        <li class="p-list__item is-ticked">Be featured as a Software Partner on the Canonical website</li>
+        <li class="p-list__item is-ticked">Showcase your software products and platforms as <strong>Validated with Ubuntu</strong> and have them listed on Canonical&#39;s website</li>
+        <li class="p-list__item is-ticked">Use our trademarks and logos on your own website</li>
+        <li class="p-list__item is-ticked">Promote your software as Validated with Ubuntu</li>
+        <li class="p-list__item is-ticked">Enjoy co-marketing opportunities including joint events, videos, blogs, PR and demos to potential customers</li>
+        <li class="p-list__item is-ticked">Validate unlimited product combinations</li>
+        <li class="p-list__item is-ticked"><a href="/partners/become-a-partner">Join free</a></li>
+      </ul>
+    </div>
+    <div class="col-6 p-divider__block">
+      <h5>Premium benefits</h5>
+      <ul class="p-list">
+        <li class="p-list__item is-ticked">Work with Canonical for Custom Image Builds (cloud-specific, FIPS, CIS-hardened, Minimal, PCI-ready), and enjoy ongoing maintenance across your software lifecycle</li>
+        <li class="p-list__item is-ticked">Test your product using Canonical's OpenStack and Kubernetes Partner Cloud, with Field Engineering expertise on hand to assist</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% include 'partial/_partners-footer.html' %}
+
+{% endblock %}

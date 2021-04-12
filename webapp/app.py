@@ -175,8 +175,7 @@ def department_group(department):
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
-            flask.request.form,
-            flask.request.files,
+            flask.request.form, flask.request.files,
         )
         if response.status_code == 200:
             message = {
@@ -217,6 +216,7 @@ def find_a_partner():
 @app.route("/partners/gsi")
 @app.route("/partners/ihv-and-oem")
 @app.route("/partners/public-cloud")
+@app.route("/partners/software")
 def partner_details():
     partners = partners_api._get(
         partners_api.partner_page_map[flask.request.path.split("/")[2]]
