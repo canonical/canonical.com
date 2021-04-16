@@ -35,8 +35,7 @@ partners_api = Partners(session)
 
 @app.route("/")
 def index():
-    partner_groups = partners_api.get_partner_groups()
-    return flask.render_template("index.html", partner_groups=partner_groups)
+    return flask.render_template("index.html")
 
 
 @app.route("/secure-boot-master-ca.crl")
@@ -175,7 +174,8 @@ def department_group(department):
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
-            flask.request.form, flask.request.files,
+            flask.request.form,
+            flask.request.files,
         )
         if response.status_code == 200:
             message = {
