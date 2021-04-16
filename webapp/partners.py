@@ -57,9 +57,6 @@ class Partners:
                 "programme__name=Internet%20of%20Things&featured=true"
             ),
             "Software": self._get("programme__name=ISV"),
-            "Snapcraft": self._get(
-                "programme__name=Internet%20of%20Things&featured=true"
-            ),
             "Training": self._get("programme__name=Desktop&featured=true"),
         }
 
