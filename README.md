@@ -30,3 +30,7 @@ To work locally on the `/careers` section of the site, you will need to add a `H
 # Deploy
 
 You can find the deployment config in the deploy folder.
+
+# License
+
+The content of this project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/), and the underlying code used to format and display that content is licensed under the [LGPLv3](http://opensource.org/licenses/lgpl-3.0.html) by [Canonical Ltd](http://www.canonical.com/).
