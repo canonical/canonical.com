@@ -116,11 +116,12 @@ def results():
 
     return flask.render_template("careers/results.html", **context)
 
+
 @app.route("/careers/sitemap.xml")
 def careers_sitemap():
     context = {
         "vacancies": greenhouse.get_vacancies(),
-        "departments": harvest.get_departments()
+        "departments": harvest.get_departments(),
     }
 
     xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
@@ -129,6 +130,7 @@ def careers_sitemap():
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
+
 
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
@@ -258,6 +260,7 @@ def partner_details():
         f"{flask.request.path}.html", partners=partners
     )
 
+
 @app.route("/partners/sitemap.xml")
 def partners_sitemap():
     xml_sitemap = flask.render_template("partners/sitemap.xml")
@@ -266,6 +269,7 @@ def partners_sitemap():
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
+
 
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
