@@ -14,6 +14,7 @@ def _get_metadata(job, name):
         "departments": 2739136,
         "skills": 675557,
         "description": 2739137,
+        "employment_type": 149021,
     }
 
     for data in job["metadata"]:
@@ -90,8 +91,10 @@ class Vacancy:
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
         self.description: str = _get_metadata(job, "description")
+        self.employment_type: str = _get_metadata(job, "employment_type")
         self.slug: str = _get_job_slug(job)
         self.skills: list = _get_metadata(job, "skills") or []
+        self.is_remote: bool = False if job["offices"][0]["location"] else True
 
 
 class Greenhouse:

@@ -8,6 +8,43 @@
 
 {% block meta_image %}ceed7655-Canonical-Careers-image.jpg{% endblock %}
 
+{% block extra_metatags %}
+<script type="application/ld+json">
+  {
+    "@context" : "https://schema.org/",
+    "@type" : "JobPosting",
+    "title" : "{{ job.title }}",
+    "description" : "{% if job.description %}{{ job.description }}{% else %}Canonical offers a truly distributed workplace for exceptional colleagues who are self-motivated, organised. Maintain a home office and experience the top of global technology strategy and engineering. Travel regularly to interesting destinations for team, conference and customer engagements.{% endif %}",
+    "identifier": {
+      "@type": "PropertyValue",
+      "name": "Canonical",
+      "value": "{{ job.id }}"
+    },
+    "datePosted" : "{{ job.date }}",
+    {% if job.employment_type == "Full-time" %}
+    "employmentType" : "FULL_TIME",
+    {% endif %}
+    {% if job.is_remote %}
+    "jobLocationType": "TELECOMMUTE",
+    {% else %}
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "{{ job.location }}"
+      }
+    },
+    {% endif %}
+    "hiringOrganization" : {
+      "@type" : "Organization",
+      "name" : "Canonical",
+      "sameAs" : "https://canonical.com",
+      "logo" : "https://assets.ubuntu.com/v1/b3b72cb2-canonical-logo-166.png"
+    }
+  }
+</script>
+{% endblock %}
+
 {% block hero %}
 <section class="p-strip--suru-topped u-no-padding--bottom">
   <div class="row">
