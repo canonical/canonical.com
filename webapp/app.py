@@ -39,6 +39,26 @@ def index():
     return flask.render_template("index.html", partner_groups=partner_groups)
 
 
+@app.route("/sitemap.xml")
+def index_sitemap():
+    xml_sitemap = flask.render_template("sitemap-index.xml")
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
+@app.route("/sitemap-links.xml")
+def home_sitemap():
+    xml_sitemap = flask.render_template("sitemap-links.xml")
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
 @app.route("/secure-boot-master-ca.crl")
 def secure_boot():
     return flask.send_from_directory(
@@ -96,6 +116,19 @@ def results():
 
     return flask.render_template("careers/results.html", **context)
 
+@app.route("/careers/sitemap.xml")
+def careers_sitemap():
+    context = {
+        "vacancies": greenhouse.get_vacancies(),
+        "departments": harvest.get_departments()
+    }
+
+    xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
 
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
@@ -225,6 +258,14 @@ def partner_details():
         f"{flask.request.path}.html", partners=partners
     )
 
+@app.route("/partners/sitemap.xml")
+def partners_sitemap():
+    xml_sitemap = flask.render_template("partners/sitemap.xml")
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
 
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")

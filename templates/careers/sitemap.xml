@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://canonical.com/careers</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/start</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/all</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/lifestyle</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+    <url>
+    <loc>https://canonical.com/careers/ethics</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/travel</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/progression</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://canonical.com/careers/diversity</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  {% for department in departments %}
+  <url>
+    <loc>https://canonical.com/careers/{{ department.slug }}</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  {% endfor %}
+
+  {% for vacancy in vacancies %}
+  <url>
+    <loc>https://canonical.com/careers/{{ vacancy.id }}/{{ vacancy.slug }}</loc>
+    <lastmod>{{ vacancy.date }}</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  {% endfor %}
+</urlset>
