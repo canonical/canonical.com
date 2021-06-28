@@ -46,28 +46,6 @@ def secure_boot():
     )
 
 
-def render_navigation():
-    context = {}
-    vacancy_count = {}
-    departments = harvest.get_departments()
-    all_vacancies = greenhouse.get_vacancies()
-
-    # Populate vacancy_count dictionary with 0 values
-    for department in departments:
-        vacancy_count[department.slug] = 0
-
-    # Count number of vacancies in each department,
-    # and add relevant departments to the vacancies
-    # list that gets rendered
-    for vacancy in all_vacancies:
-        vacancy_count[vacancy.department.slug] += 1
-
-    context["nav_departments"] = departments
-    context["nav_vacancy_count"] = vacancy_count
-
-    return context
-
-
 def _group_by_department(vacancies):
     """
     Return a dictionary of departments by slug,
@@ -99,15 +77,17 @@ def _group_by_department(vacancies):
 # Career departments
 @app.route("/careers/results")
 def results():
-    context = render_navigation()
     vacancies = []
 
     core_skills = flask.request.args.get("core-skills", []).split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
     vacancies_by_department = _group_by_department(vacancies)
 
-    context["vacancies"] = vacancies
-    context["vacancies_by_department"] = vacancies_by_department
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies()),
+        "vacancies": vacancies,
+        "vacancies_by_department": vacancies_by_department,
+    }
 
     return flask.render_template("careers/results.html", **context)
 
@@ -121,7 +101,9 @@ def results():
     "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
 )
 def job_details(job_id, job_title):
-    context = render_navigation()
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
     context["bleach"] = bleach
 
     try:
@@ -160,9 +142,11 @@ def job_details(job_id, job_title):
     return flask.render_template("/careers/job-detail.html", **context)
 
 
-@app.route("/careers/<department>", methods=["GET", "POST"])
-def department_group(department):
-    context = render_navigation()
+@app.route("/careers/<department_slug>", methods=["GET", "POST"])
+def department_group(department_slug):
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
     context["department"] = None
     templates = []
 
@@ -174,16 +158,16 @@ def department_group(department):
         templates.append(template)
 
     # Check if deparment exist or return 404
-    for dept in context["nav_departments"]:
-        if dept.slug == department:
-            context["department"] = dept
+    for slug, department in context["all_departments"].items():
+        if department.slug == department_slug:
+            context["department"] = department
             context["vacancies"] = greenhouse.get_vacancies_by_department_slug(
-                dept.slug
+                department.slug
             )
 
-    if not context["department"] and department not in templates:
+    if not context["department"] and department_slug not in templates:
         flask.abort(404)
-    elif department == "all":
+    elif department_slug == "all":
         context["vacancies"] = greenhouse.get_vacancies()
 
     context["templates"] = templates
