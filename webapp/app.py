@@ -68,31 +68,46 @@ def render_navigation():
     return context
 
 
+def _group_by_department(vacancies):
+    """
+    Return a dictionary of departments by slug,
+    where each department will have a new
+    "vacancies" property of all the vacancies in
+    that department
+    """
+
+    all_departments = harvest.get_departments()
+    vacancies_by_department = {}
+
+    departments_by_slug = {}
+
+    for department in all_departments:
+        departments_by_slug[department.slug] = department
+
+    for vacancy in vacancies:
+        slug = vacancy.department.slug
+
+        if slug not in vacancies_by_department:
+            vacancies_by_department[slug] = departments_by_slug[slug]
+            vacancies_by_department[slug].vacancies = [vacancy]
+        else:
+            vacancies_by_department[slug].vacancies.append(vacancy)
+
+    return vacancies_by_department
+
+
 # Career departments
 @app.route("/careers/results")
 def results():
     context = render_navigation()
     vacancies = []
-    departments = []
-    message = ""
 
-    if flask.request.args:
-        core_skills = flask.request.args["core-skills"].split(",")
-        context["core_skills"] = core_skills
-        vacancies = greenhouse.get_vacancies_by_skills(core_skills)
-    else:
-        message = "There are no roles matching your selection."
+    core_skills = flask.request.args.get("core-skills", []).split(",")
+    vacancies = greenhouse.get_vacancies_by_skills(core_skills)
+    vacancies_by_department = _group_by_department(vacancies)
 
-    if len(vacancies) == 0:
-        message = "There are no roles matching your selection."
-    else:
-        for vacancy in vacancies:
-            if not (vacancy.department.name in departments):
-                departments.append(vacancy.department.name)
-
-    context["message"] = message
     context["vacancies"] = vacancies
-    context["departments"] = departments
+    context["vacancies_by_department"] = vacancies_by_department
 
     return flask.render_template("careers/results.html", **context)
 
