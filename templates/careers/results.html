@@ -36,28 +36,28 @@ Travel regularly to interesting destinations for team, conference and customer e
     <h2 class="p-muted-heading">Top roles for you</h2>
   </div>
   <div class="row u-sv3">
-    {% for job in vacancies %}
+    {% for vacancy in vacancies %}
       {% if loop.index < 5 %}
         {% if loop.index == 3 %}
         <div class="row">
           {% endif %}
           <div class="p-card--highlighted col-4"
-            data-office="{{ job.office }}"
-            data-employment="{{ job.employment }}"
-            data-date="{{ job.date }}"
-            data-location="{{ job.location }}"
-            data-management="{{ job.management}}"
-            data-sector="{{ job.department }}"
+            data-office="{{ vacancy.office }}"
+            data-employment="{{ vacancy.employment }}"
+            data-date="{{ vacancy.date }}"
+            data-location="{{ vacancy.location }}"
+            data-management="{{ vacancy.management}}"
+            data-sector="{{ vacancy.department }}"
           >
           <h3 class="p-card__title u-no-padding--top">
-            <a class="p-link--soft" href="/careers/{{ job.id }}/{{ job.slug }}">{{ job.title }}&nbsp;&rsaquo;</a>
+            <a class="p-link--soft" href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">{{ vacancy.title }}&nbsp;&rsaquo;</a>
           </h3>
-          {% if job.description %}
-          <p clss="p-cart__content">{{ job.description }}</p>
+          {% if vacancy.description %}
+          <p clss="p-cart__content">{{ vacancy.description }}</p>
           {% endif %}
           <p class="u-no-margin--bottom">
             <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
-              {{ job.location }}
+              {{ vacancy.location }}
             </small>
           </p>
         </div>
@@ -80,7 +80,7 @@ Travel regularly to interesting destinations for team, conference and customer e
             <div class="js-filter-jobs-container"><h2>
               More matches for you to consider
             </h2>
-            {% for slug, department in vacancies_by_department.items() %}
+            {% for department in vacancies_by_department.values() %}
               <div class="u-sv3">
                 <h3>
                   <a class="p-link--soft" href="/careers/{{ department.slug }}">
