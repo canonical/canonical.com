@@ -6,7 +6,40 @@
   Sorry, there are no open positions matching your criteria.
 </h2>
 <div class="js-filter-jobs-container">
-  {% include "partial/_careers-job-list.html" %}
+  <ul class="p-list--divided js-job-list">
+    {% for job in vacancies %}
+    <li
+      class="p-list__item"
+      data-office="{{ job.office }}"
+      data-employment="{{ job.employment }}"
+      data-date="{{ job.date }}"
+      data-location="{{ job.location }}"
+      data-management="{{ job.management}}"
+      data-sector="{{ job.department }}"
+    >
+      <p class="u-no-margin--bottom u-sv1">
+        <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
+          {{ job.location }}
+        </small>
+      </p>
+  
+      {% if checkbox %}
+      <p class="u-hide">{{ job.date }}</p>
+      <input type="checkbox" name="roles" id="{{ job.id }}" value="{{ job.id }}" />
+      <label class="p-checkbox-label--h2 u-no-padding--top" for="{{ job.id }}">
+      {% endif %}
+        <h2 class="p-heading--three {% if checkbox %}u-sv3{% else %}u-no-padding--top{% endif %}{% if job.description %} u-no-margin--bottom{% else %} u-sv1{% endif %}">
+          <a class="p-link--soft" href="/careers/{{ job.id }}/{{ job.slug }}">{{ job.title }}&nbsp;&rsaquo;</a>
+        </h2>
+        {% if job.description %}
+        <p clss="u-sv1">{{ job.description }}</p>
+        {% endif %}
+      {% if checkbox %}
+      </label>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>  
 </div>
 {% else %}
   <h2 class="p-heading--three">We don&apos;t have any open positions right now.

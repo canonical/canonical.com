@@ -32,65 +32,92 @@ Travel regularly to interesting destinations for team, conference and customer e
 {% endblock %}
 
 {% block careers_content %}
-<div class="row u-sv3">
-  <div class="col-8">
-    {% if not(message) %}
-    <div class="p-card" style="border-style: none; background-color:#f7f7f7;">
-      <div class="p-card__content" style="display: flex;">
-        <div>
-          <i class="p-icon--success" style="height: 1.5rem; width: 1.5rem;"></i>
+  <div class="row">
+    <h2 class="p-muted-heading">Top roles for you</h2>
+  </div>
+  <div class="row u-sv3">
+    {% for vacancy in vacancies %}
+      {% if loop.index < 5 %}
+        {% if loop.index == 3 %}
+        <div class="row">
+          {% endif %}
+          <div class="p-card--highlighted col-4"
+            data-office="{{ vacancy.office }}"
+            data-employment="{{ vacancy.employment }}"
+            data-date="{{ vacancy.date }}"
+            data-location="{{ vacancy.location }}"
+            data-management="{{ vacancy.management}}"
+            data-sector="{{ vacancy.department }}"
+          >
+          <h3 class="p-card__title u-no-padding--top">
+            <a class="p-link--soft" href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">{{ vacancy.title }}&nbsp;&rsaquo;</a>
+          </h3>
+          {% if vacancy.description %}
+          <p clss="p-cart__content">{{ vacancy.description }}</p>
+          {% endif %}
+          <p class="u-no-margin--bottom">
+            <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
+              {{ vacancy.location }}
+            </small>
+          </p>
         </div>
-        <div style="padding-left: 1rem;">
-          <p class="p-heading--three">Looks like you're interested in
-            {% if departments|length == 1 %}
-              {{ departments[0]|lower }}
-            {% else %}
-              {% for department in departments %}
-                {% if loop.index < departments|length-1 %}
-                  {{ department|lower }},
-                {% elif loop.index < departments|length %}
-                  {{ department|lower }}
-                {% else %}
-                  and {{ department|lower }}.
-                {% endif %}
-              {% endfor %}
-            {% endif %}</p>
-          <div class="row">
-            <div class="col-6">
-              <p>We have tailored the roles below based on your choices. Apply to any which you feel are suitable or retake your choices.</p>
-            </div>
-            <div class="col-2 u-align--center u-vertically-center">
-              <p>
-                <a href="/careers/start" class="p-button--positive">Retake choices</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endif %}
-    <div class="row u-vertically-center">
-      <div class="col-8 u-align--right js-filter-form u-hide">
-        {% include "careers/_filters.html" %}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-8">
-        {% if message %}
-        <div class="u-align--center">
-          <p>{{ message }} <a href="/careers/start">Retake choices again?</a></p>
-        </div>
-        {% else %}
-        <div class="js-filter-jobs-container">
-          {% include "partial/_careers-job-list.html" %}
+        {% if loop.index == 2 %}
         </div>
         {% endif %}
-
-        <h2 class="p-heading--four js-filter__no-results u-hide">
-          Sorry, there are no open positions matching your criteria.
-        </h2>
+      {% endif %}
+    {% endfor %}
+    <div class="col-8">
+      <div class="row">
+        <div class="col-8">
+          {% if not vacancies %}
+            <div class="u-align--center">
+              <p>
+                There are no roles matching your selection.
+                <a href="/careers/start">Retake choices again?</a>
+              </p>
+            </div>
+          {% else %}
+            <div class="js-filter-jobs-container"><h2>
+              More matches for you to consider
+            </h2>
+            {% for department in vacancies_by_department.values() %}
+              <div class="u-sv3">
+                <h3>
+                  <a class="p-link--soft" href="/careers/{{ department.slug }}">
+                    {{ department.name }}
+                  </a>
+                </h3>
+                <ul class="p-list is-split u-no-margin--bottom">
+                  {% for vacancy in department.vacancies %}
+                    {% if loop.index < 10 %}
+                      <li
+                        class="p-list u-sv1"
+                        data-office="{{ vacancy.office }}"
+                        data-employment="{{ vacancy.employment }}"
+                        data-date="{{ vacancy.date }}"
+                        data-location="{{ vacancy.location }}"
+                        data-management="{{ vacancy.management}}"
+                        data-sector="{{ vacancy.department.slug }}"
+                      >
+                        <a href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">
+                          {{ vacancy.title }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>        
+                <p>
+                  <a href="/careers/{{ department.slug }}">
+                    See all roles in {{ department.name }}&nbsp;&rsaquo;
+                  </a>
+                </p>
+                <hr />
+              </div>
+            {% endfor %}          
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
