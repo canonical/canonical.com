@@ -10,8 +10,8 @@ $nudge--small: 0.55rem;
     }
 
     @media (min-width: $breakpoint-navigation-threshold + 1) {
-      padding-left: $grid-margin-width;
-      padding-right: $grid-margin-width;
+      padding-left: map-get($grid-margin-widths, large);
+      padding-right: map-get($grid-margin-widths, large);
     }
   }
 
@@ -33,8 +33,8 @@ $nudge--small: 0.55rem;
       display: block;
 
       @media (max-width: $breakpoint-navigation-threshold) {
-        padding: $spv-inner--medium $grid-margin-width $spv-inner--medium
-          $grid-margin-width;
+        padding: $spv-inner--medium map-get($grid-margin-widths, large) $spv-inner--medium
+          map-get($grid-margin-widths, large);
       }
 
       @media (min-width: $breakpoint-navigation-threshold + 1) {
@@ -259,10 +259,6 @@ $nudge--small: 0.55rem;
               $nudge--small;
           }
 
-          &:first-child {
-            //padding-left: 1rem;
-          }
-
           &.p-link--active {
             color: $color-brand;
           }
@@ -301,7 +297,7 @@ $nudge--small: 0.55rem;
       font-size: 0.875rem;
 
       @media (max-width: $breakpoint-x-small - 1) {
-        margin-right: $grid-margin-width / 1.5 !important;
+        margin-right: map-get($grid-margin-widths, large) / 1.5 !important;
       }
     }
 
@@ -356,8 +352,8 @@ $nudge--small: 0.55rem;
     }
 
     .row {
-      padding-left: $grid-margin-width;
-      padding-right: $grid-margin-width;
+      padding-left: map-get($grid-margin-widths, large);
+      padding-right: map-get($grid-margin-widths, large);
     }
 
     &__content {
