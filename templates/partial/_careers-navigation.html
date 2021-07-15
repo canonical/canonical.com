@@ -29,8 +29,8 @@
         <a href="/careers/all" class="p-link--soft">All roles</a>
         <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
           {% set vacancies = namespace(counter = 0) %}
-          {% for key in nav_vacancy_count %}
-            {% set vacancies.counter = vacancies.counter + nav_vacancy_count[key] %}
+          {% for department in all_departments.values() %}
+            {% set vacancies.counter = vacancies.counter + (department.vacancies | length) %}
           {% endfor %}
           {{ vacancies.counter }}
         </span>
