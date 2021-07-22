@@ -57,7 +57,7 @@ function initCareersGame() {
             renderSelectedSkills();
           } else {
             alert(
-              "You have already selected 5 skills! Please click the 'Submit choises' button to see the list of roles suitable for you."
+              "You have already selected 5 skills! Please click the 'Submit choices' button to see the list of roles suitable for you."
             );
           }
         }
