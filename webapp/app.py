@@ -134,7 +134,6 @@ def careers_rss():
     xml_sitemap = flask.render_template("careers/rss.xml", **context)
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
 
