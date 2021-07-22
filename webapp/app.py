@@ -127,6 +127,18 @@ def careers_sitemap():
     return response
 
 
+@app.route("/careers/feed")
+def careers_rss():
+    context = {"vacancies": greenhouse.get_vacancies()}
+
+    xml_sitemap = flask.render_template("careers/rss.xml", **context)
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
     methods=["GET", "POST"],
