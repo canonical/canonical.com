@@ -27,19 +27,12 @@ $nudge--small: 0.55rem;
     }
 
     & &__link-anchor {
+      @extend %navigation-link;
+
       @include vf-animation(all, fast, in);
 
       color: $color-light;
       display: block;
-
-      @media (max-width: $breakpoint-navigation-threshold) {
-        padding: $spv-inner--medium map-get($grid-margin-widths, large) $spv-inner--medium
-          map-get($grid-margin-widths, large);
-      }
-
-      @media (min-width: $breakpoint-navigation-threshold + 1) {
-        padding: $spv-inner--medium 2rem $spv-inner--medium $sph-inner;
-      }
 
       &:focus,
       &:visited {
@@ -51,16 +44,11 @@ $nudge--small: 0.55rem;
       &.active {
         background-color: rgba(94, 39, 80, 0.5);
         color: $color-x-light;
-        text-decoration: none;
       }
     }
 
     .p-navigation__dropdown-link--noscript {
       position: relative;
-
-      .p-navigation__link-anchor {
-        padding: 0.75rem 1rem;
-      }
     }
 
     &__dropdown-link {
@@ -115,7 +103,6 @@ $nudge--small: 0.55rem;
         .p-navigation__link-anchor {
           background-color: $color-x-light;
           color: $color-dark;
-          padding: 0.75rem 1rem;
 
           &::after {
             background-color: transparent;
