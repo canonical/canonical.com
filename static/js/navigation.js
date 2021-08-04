@@ -1,7 +1,7 @@
 if (!(window.location.pathname === "/")) {
   var nav = document.getElementById("navigation");
   var navDropdowns = document.querySelectorAll(
-    ".p-navigation__dropdown-link:not(.is-selected)"
+    ".p-navigation__item--dropdown-toggle:not(.is-selected)"
   );
   var dropdownWindow = document.querySelector(".dropdown-window");
   var dropdownWindowOverlay = document.querySelector(
@@ -24,16 +24,16 @@ if (!(window.location.pathname === "/")) {
         var dropdownContent = document.getElementById(dropdown.id + "-content");
 
         if (dropdown === clickedDropdown) {
-          if (dropdown.classList.contains("is-open")) {
+          if (dropdown.classList.contains("is-active")) {
             document.body.classList.remove("u-dropdown-active");
             closeMenu(dropdown);
           } else {
             document.body.classList.add("u-dropdown-active");
-            dropdown.classList.add("is-open");
+            dropdown.classList.add("is-active");
             dropdownContent.classList.remove("u-hide");
           }
         } else {
-          dropdown.classList.remove("is-open");
+          dropdown.classList.remove("is-active");
           dropdownContent.classList.add("u-hide");
         }
       });
@@ -43,7 +43,7 @@ if (!(window.location.pathname === "/")) {
   // Close the menu if browser back button is clicked
   window.addEventListener("hashchange", function (event) {
     navDropdowns.forEach(function (dropdown) {
-      if (dropdown.classList.contains("is-open")) {
+      if (dropdown.classList.contains("is-actuive")) {
         closeMenu(dropdown);
       }
     });
@@ -51,14 +51,14 @@ if (!(window.location.pathname === "/")) {
 
   dropdownWindowOverlay.addEventListener("click", function (event) {
     navDropdowns.forEach(function (dropdown) {
-      if (dropdown.classList.contains("is-open")) {
+      if (dropdown.classList.contains("is-active")) {
         closeMenu(dropdown);
       }
     });
   });
 
   function closeMenu(dropdown) {
-    dropdown.classList.remove("is-open");
+    dropdown.classList.remove("is-active");
     dropdownWindow.classList.add("slide-animation");
     dropdownWindowOverlay.classList.add("fade-animation");
 
@@ -86,11 +86,11 @@ if (!(window.location.pathname === "/")) {
 
   function closeMainMenu() {
     var navigationLinks = document.querySelectorAll(
-      ".p-navigation__dropdown-link:not(.is-selected)"
+      ".p-navigation__item--dropdown-toggle:not(.is-selected)"
     );
 
     navigationLinks.forEach(function (navLink) {
-      navLink.classList.remove("is-open");
+      navLink.classList.remove("is-active");
     });
 
     if (!dropdownWindowOverlay.classList.contains("fade-animation")) {
