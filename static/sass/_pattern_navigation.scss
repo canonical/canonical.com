@@ -26,58 +26,68 @@ $nudge--small: 0.55rem;
       height: 0;
     }
 
-    & &__link-anchor {
-      @extend %navigation-link;
+    [class*="p-navigation__item"] {
+      &.is-selected {
+        /* stylelint-disable */
+        &::after {
+          background: none;
+        }
 
-      @include vf-animation(all, fast, in);
+        .p-navigation__link {
+          background-color: $color-x-light;
+          color: $color-dark;
+          padding-right: $sph-inner;
 
-      color: $color-light;
-      display: block;
+          &:focus,
+          &:visited {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
 
-      &:focus,
-      &:visited {
-        background-color: $nav-bg-color;
+          &:hover {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+        }
+      }
+
+      .p-navigation__link {
         color: $color-light;
-      }
+        display: block;
 
-      &:hover,
-      &.active {
-        background-color: rgba(94, 39, 80, 0.5);
-        color: $color-x-light;
+        &:before {
+          display: none;
+        }
+
+        &:focus,
+        &:visited {
+          background-color: $nav-bg-color;
+          color: $color-light;
+        }
+
+        &:hover,
+        &.active {
+          background-color: rgba(94, 39, 80, 0.5);
+          color: $color-x-light;
+        }
       }
     }
 
-    .p-navigation__dropdown-link--noscript {
-      position: relative;
-    }
-
-    &__dropdown-link {
+    .p-navigation__item--dropdown-toggle {
       position: relative;
 
       &:not(.is-selected)::after {
-        @include vf-icon-chevron(vf-url-friendly-color($color-mid-light));
-
-        background-position: top 52% right 50%;
-        background-repeat: no-repeat;
-        background-size: 0.75rem;
-        content: "";
-        height: 100%;
-        pointer-events: none;
-        position: absolute;
-        right: 0;
-        top: 0;
-        transition: transform 0.1s;
-        width: 2rem;
+        @include vf-icon-chevron($color-x-light);
       }
 
-      &.is-open {
+      &.is-active {
         &::after {
           @include vf-icon-chevron(vf-url-friendly-color($color-dark));
 
           transform: rotate(-180deg);
         }
 
-        .p-navigation__link-anchor {
+        .p-navigation__link {
           background-color: $color-mid-x-light;
           color: $color-dark;
 
@@ -93,29 +103,6 @@ $nudge--small: 0.55rem;
 
           &:hover {
             background-color: $color-mid-x-light;
-            color: $color-dark;
-          }
-        }
-      }
-
-      &.is-selected {
-        /* stylelint-disable */
-        .p-navigation__link-anchor {
-          background-color: $color-x-light;
-          color: $color-dark;
-
-          &::after {
-            background-color: transparent;
-          }
-
-          &:focus,
-          &:visited {
-            background-color: $color-x-light;
-            color: $color-dark;
-          }
-
-          &:hover {
-            background-color: $color-x-light;
             color: $color-dark;
           }
         }
