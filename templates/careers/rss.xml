@@ -10,9 +10,13 @@
   <item>
     <title>{{ vacancy.title }}</title>
     <link>https://canonical.com/careers/{{ vacancy.id }}</link>
+    {% if vacancy.description %}
     <description>{{ vacancy.description }}</description>
+    {% else %}
+    <description>Canonical offers a truly distributed workplace for exceptional colleagues who are self-motivated and organised. Maintain a home office and experience the top of global technology strategy and engineering. Travel regularly to interesting destinations for team, conference and customer engagements.</description>
+    {% endif %}
   </item>
   {% endfor %}
 </channel>
 
-</rss> 
+</rss>
