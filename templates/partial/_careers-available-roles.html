@@ -15,7 +15,7 @@
       data-date="{{ job.date }}"
       data-location="{{ job.location }}"
       data-management="{{ job.management}}"
-      data-sector="{{ job.department }}"
+      data-sector="{{ job.departments | map(attribute='name') | join(', ') }}"
     >
       <p class="u-no-margin--bottom u-sv1">
         <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>

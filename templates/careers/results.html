@@ -47,7 +47,7 @@ Travel regularly to interesting destinations for team, conference and customer e
             data-date="{{ vacancy.date }}"
             data-location="{{ vacancy.location }}"
             data-management="{{ vacancy.management}}"
-            data-sector="{{ vacancy.department }}"
+            data-sector="{{ vacancy.departments | map(attribute='name') | join(', ') }}"
           >
           <h3 class="p-card__title u-no-padding--top">
             <a class="p-link--soft" href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">{{ vacancy.title }}&nbsp;&rsaquo;</a>
@@ -97,7 +97,7 @@ Travel regularly to interesting destinations for team, conference and customer e
                         data-date="{{ vacancy.date }}"
                         data-location="{{ vacancy.location }}"
                         data-management="{{ vacancy.management}}"
-                        data-sector="{{ vacancy.department.slug }}"
+                        data-sector="{{ department.slug }}"
                       >
                         <a href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">
                           {{ vacancy.title }}

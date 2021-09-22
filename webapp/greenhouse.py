@@ -87,7 +87,7 @@ class Vacancy:
         self.employment: str = _get_metadata(job, "employment")
         self.date: str = job["updated_at"]
         self.questions: dict = job.get("questions", {})
-        self.department: str = Department(_get_metadata(job, "department"))
+        self.departments : list = list(map(lambda d: Department(d), _get_metadata(job, "departments") or []))
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
         self.description: str = _get_metadata(job, "description")
@@ -133,7 +133,10 @@ class Greenhouse:
         vacancies = self.get_vacancies()
 
         def department_filter(vacancy):
-            return vacancy.department.slug == department_slug
+            for department in vacancy.departments:
+                if department.slug == department_slug:
+                    return True
+            return False
 
         return list(filter(department_filter, vacancies))
 
