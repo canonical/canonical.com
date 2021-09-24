@@ -87,7 +87,12 @@ class Vacancy:
         self.employment: str = _get_metadata(job, "employment")
         self.date: str = job["updated_at"]
         self.questions: dict = job.get("questions", {})
-        self.departments : list = list(map(lambda d: Department(d), _get_metadata(job, "departments") or []))
+        self.departments: list = list(
+            map(
+                lambda d: Department(d),
+                _get_metadata(job, "departments") or [],
+            )
+        )
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
         self.description: str = _get_metadata(job, "description")
