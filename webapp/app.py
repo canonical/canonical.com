@@ -83,13 +83,14 @@ def _group_by_department(vacancies):
         departments_by_slug[department.slug] = department
 
     for vacancy in vacancies:
-        slug = vacancy.department.slug
+        for department in vacancy.departments:
+            slug = department.slug
 
-        if slug not in vacancies_by_department:
-            vacancies_by_department[slug] = departments_by_slug[slug]
-            vacancies_by_department[slug].vacancies = [vacancy]
-        else:
-            vacancies_by_department[slug].vacancies.append(vacancy)
+            if slug not in vacancies_by_department:
+                vacancies_by_department[slug] = departments_by_slug[slug]
+                vacancies_by_department[slug].vacancies = [vacancy]
+            else:
+                vacancies_by_department[slug].vacancies.append(vacancy)
 
     return vacancies_by_department
 
