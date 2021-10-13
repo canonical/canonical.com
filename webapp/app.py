@@ -96,6 +96,24 @@ def _group_by_department(vacancies):
 
 
 # Career departments
+@app.route("/careers/diversity")
+def diversity():
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+    context["department"] = None
+    return flask.render_template("careers/diversity/index.html", **context)
+
+
+@app.route("/careers/diversity/identity")
+def identity():
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+    context["department"] = None
+    return flask.render_template("careers/diversity/identity.html", **context)
+
+
 @app.route("/careers/results")
 def results():
     vacancies = []
