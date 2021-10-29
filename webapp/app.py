@@ -183,6 +183,11 @@ def job_details(job_id, job_title):
         flask.abort(404)
 
     if flask.request.method == "POST":
+        # Temporary fix to exlude a spammy domain
+        # https://github.com/canonical-web-and-design/canonical.com/issues/437
+        if flask.request.form["email"].endswith("qq.com"):
+            flask.abort(406)
+
         response = greenhouse.submit_application(
             flask.request.form, flask.request.files, job_id
         )
