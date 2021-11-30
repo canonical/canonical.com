@@ -286,6 +286,7 @@ def find_a_partner():
 @app.route("/partners/gsi")
 @app.route("/partners/ihv-and-oem")
 @app.route("/partners/public-cloud")
+@app.route("/partners/iot-device")
 def partner_details():
     partners = partners_api._get(
         partners_api.partner_page_map[flask.request.path.split("/")[2]]
