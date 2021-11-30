@@ -6,7 +6,7 @@ labels: ''
 assignees: ''
 ---
 
-*Note - filling in this form will file an issue against the www.canonical.com website*
+*Note - filling in this form will file an issue against the canonical.com website*
 
 ## Summary
 
