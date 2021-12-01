@@ -7,6 +7,8 @@ class Partners:
         "desktop": "programme__name=Desktop&featured=true",
         "devices-and-iot": "programme__name=Internet%20of%20Things"
         "&featured=true",
+        "iot-device": "programme__name=Internet%20of%20Things"
+        "&featured=true",
         "ihv-and-oem": "programme__name=IHV%20%2F%20OEM&featured=true",
         "iot": "programme__name=Internet%20of%20Things&featured=true",
         "gsi": "programme__name=Global%20System%20Integrators&featured=true",
