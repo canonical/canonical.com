@@ -26,7 +26,7 @@
             {% endfor %}
             </ul>
             <h3>Past interviews</h3>
-            {% for interview in application["scheduled_interviews"] %}
+            {% for interview in application["scheduled_interviews"]|reverse %}
                 {% if now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                     {% include 'applications/_interview-card.html' %}
                 {% endif %}
