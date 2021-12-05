@@ -9,7 +9,11 @@
 <section class="p-strip--suru-topped u-no-padding--bottom">
     <div class="row">
         <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
-        <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
+        {% if application['source']['id'] == 2 %}
+            <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
+        {% else %}
+            <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
+        {% endif %}
     </div>
 
     <div class="row">
