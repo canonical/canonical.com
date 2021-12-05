@@ -234,3 +234,33 @@ class Harvest:
             [Department(department["name"]) for department in departments],
             key=lambda dept: dept.name,
         )
+
+    def get_interviews_scheduled(self, application_id):
+        response = self.session.get(
+            (
+                f"{self.base_url}/applications"
+                f"/{application_id}/scheduled_interviews"
+            ),
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()
+
+    def get_application(self, application_id):
+        response = self.session.get(
+            f"{self.base_url}/applications/{application_id}",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()
+
+    def get_candidate(self, candidate_id):
+        response = self.session.get(
+            f"{self.base_url}/candidates/{candidate_id}",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()

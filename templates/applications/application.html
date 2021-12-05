@@ -1,0 +1,138 @@
+{% extends '/careers/base_job-details.html' %}
+
+{% block extra_metatags %}
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block careers_content %}
+{% if application["status"] == "active" %}
+<section class="p-strip--suru-topped u-no-padding--bottom">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
+        <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
+    </div>
+
+    <div class="row">
+        <h2>You application progression</h2>
+
+        <h3>Incoming interviews</h3>
+        {% if not application["scheduled_interviews"] %}
+            <p>No interview scheduled</p>
+        {% else %}
+            {% for interview in application["scheduled_interviews"] %}
+                {% if now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+                    {% include 'applications/_interview-card.html' %}
+                {% endif %}
+            {% endfor %}
+            </ul>
+            <h3>Past interviews</h3>
+            {% for interview in application["scheduled_interviews"] %}
+                {% if now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                    {% include 'applications/_interview-card.html' %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </ul>
+        <h3>Recruiting at Canonical</h3>
+        <ul>
+            <li>
+                {% if application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
+                {% else %}<i class="p-icon--information"></i> 
+                {% endif %}
+                Application review
+            </li>
+            <li>
+                {% if application["stage_progress"]["assessment"] %}<i class="p-icon--success"></i> 
+                {% else %}<i class="p-icon--information"></i> 
+                {% endif %}
+                Assessment
+            </li>
+            <li>
+                {% if application["stage_progress"]["early_stage"] %}<i class="p-icon--success"></i> 
+                {% else %}<i class="p-icon--information"></i> 
+                {% endif %}
+                Early stage
+            </li>
+            <li>
+                {% if application["stage_progress"]["late_stage"] %}<i class="p-icon--success"></i> 
+                {% else %}<i class="p-icon--information"></i> 
+                {% endif %}
+                Late stage
+            </li>
+            <li>
+                {% if application["stage_progress"]["offer"] %}<i class="p-icon--success"></i> 
+                {% else %}<i class="p-icon--information"></i> 
+                {% endif %}
+                Offer
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Learn more about Canonical</h2>
+    </div>
+    <div class="row">
+        <h3>Life at Canonical</h3>
+    </div>
+    <div class="row">
+        <ul>
+            <li><a href="/careers/lifestyle">Lifestyle</a></li>
+            <li><a href="/careers/ethics">Ethics</a></li>
+            <li><a href="/careers/travel">Travel</a></li>
+            <li><a href="/careers/progression">Progression</a></li>
+            <li><a href="/careers/diversity">Diversity</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <h3>Our 4 pillars</h3>
+    </div>
+    <div class="row">
+        <div class="col-4 p-card--highlighted">
+            <h3 class="p-card__title">ACCESSIBLE</h3>
+            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="col-4 p-card--highlighted">
+            <h3 class="p-card__title">ADROIT</h3>
+            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 p-card--highlighted">
+            <h3 class="p-card__title">PRECISE</h3>
+            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="col-4 p-card--highlighted">
+            <h3 class="p-card__title">RELIABLE</h3>
+            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Not interested in this role anymore? Let us know!</h2>
+        <div class="col-4">
+            <textarea></textarea>
+            <button class="p-button--negative">Remove my application</button>
+        </div>
+    </div>
+</section>
+{% elif application["status"] == "hired" %}
+<section class="p-strip">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
+        <p>
+            <i class="p-icon--success"></i> You are hired! Welcome to Canonical.
+        </p>
+    </div>
+</section>
+{% else %}
+<section class="p-strip">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
+        <p>
+            <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
+            Check out <a href="/careers">our career page</a> to see if there 
+            is another role that would match your skills!
+        </p>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
