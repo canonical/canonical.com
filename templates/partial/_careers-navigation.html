@@ -3,7 +3,7 @@
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
       {% for department in all_departments.values() %}
         <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
-          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">{{ department.vacancies | length }}</span>
+          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted" style="padding-right: 0.5rem;">{{ department.vacancies | length }}</span>
         </li>
       {% endfor %}
     </ul>
