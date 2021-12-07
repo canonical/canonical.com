@@ -14,6 +14,9 @@
         {% else %}
             <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
         {% endif %}
+        {% if hiring_lead %}
+            <p><i class="p-icon--user"></i> {{ hiring_lead["name"] }} <a href="mailto:{{ hiring_lead['primary_email_address'] }}">{{ hiring_lead["primary_email_address"] }}</a></p>
+        {% endif %}
     </div>
 
     <div class="row">

@@ -238,7 +238,7 @@ class Harvest:
     def get_interviews_scheduled(self, application_id):
         response = self.session.get(
             (
-                f"{self.base_url}/applications"
+                f"{self.base_url}applications"
                 f"/{application_id}/scheduled_interviews"
             ),
             headers={"Authorization": f"Basic {self.base64_key}"},
@@ -249,7 +249,7 @@ class Harvest:
 
     def get_application(self, application_id):
         response = self.session.get(
-            f"{self.base_url}/applications/{application_id}",
+            f"{self.base_url}applications/{application_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
@@ -258,7 +258,25 @@ class Harvest:
 
     def get_candidate(self, candidate_id):
         response = self.session.get(
-            f"{self.base_url}/candidates/{candidate_id}",
+            f"{self.base_url}candidates/{candidate_id}",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()
+
+    def get_job(self, job_id):
+        response = self.session.get(
+            f"{self.base_url}jobs/{job_id}",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()
+
+    def get_user(self, user_id):
+        response = self.session.get(
+            f"{self.base_url}users/{user_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()

@@ -65,13 +65,17 @@ def stage_progress(current_stage):
     }
 
 
-@application.route("/<int:candidate_id>-<int:application_id>")
-def application_page(candidate_id, application_id):
+@application.route("/<string:name>-<int:candidate_id>-<int:application_id>")
+def application_page(name, candidate_id, application_id):
     application = harvest.get_application(application_id)
     if (
         "candidate_id" not in application
         or application["candidate_id"] != candidate_id
     ):
+        flask.abort(404)
+
+    candidate = harvest.get_candidate(application["candidate_id"])
+    if not candidate["first_name"].lower() == name:
         flask.abort(404)
 
     if application["current_stage"]:
@@ -92,13 +96,21 @@ def application_page(candidate_id, application_id):
             )
             interview["duration"] = int(difference.total_seconds() / 60)
 
-    candidate = harvest.get_candidate(application["candidate_id"])
+    job = harvest.get_job(application["jobs"][0]["id"])
+
+    hiring_lead = None
+    for recruiter in job["hiring_team"]["recruiters"]:
+        if recruiter["responsible"]:
+            hiring_lead = harvest.get_user(recruiter["id"])
+            break
 
     return flask.render_template(
         "applications/application.html",
         title="You application",
         candidate=candidate,
         application=application,
+        job=job,
+        hiring_lead=hiring_lead,
     )
 
 
