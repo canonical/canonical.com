@@ -7,6 +7,7 @@ import os
 import re
 
 # Packages
+from canonicalwebteam import image_template
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
 from requests.exceptions import HTTPError
@@ -314,6 +315,11 @@ app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 @app.context_processor
 def inject_today_date():
     return {"current_year": datetime.date.today().year}
+
+
+@app.context_processor
+def utility_processor():
+    return {"image": image_template}
 
 
 @app.template_filter()
