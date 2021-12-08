@@ -2,9 +2,10 @@
   .p-form--inline {
     @media screen and (min-width: $breakpoint-medium) {
       align-items: baseline;
-      display: inline-flex;
+      display: flex;
       flex-direction: row;
-
+      flex-wrap: nowrap;
+      justify-content: space-between;
       > * {
         margin: 0;
       }
@@ -13,13 +14,12 @@
     .p-form__group {
       @media screen and (min-width: $breakpoint-medium) {
         display: flex;
-        width: auto;
+        width: 100%;
 
         + .p-form__group,
         + [class*="p-button"] {
           margin-left: $sph-inner--large;
         }
-
         .p-form__label,
         .p-form__control,
         .p-form-validation__message {
@@ -29,18 +29,18 @@
 
         .p-form__label {
           flex-shrink: 0;
-          padding-right: $sph-inner/4;
-          width: 4rem;
+          min-width: 4rem;
+          white-space : nowrap; 
         }
 
         .p-form__control {
-          display: inline-block;
+          display: block;
+          min-width: unset;
           padding-right: $sph-inner;
-
-          .p-form__control {
-            width: 10rem;
-          }
         }
+      }
+      @media screen and (max-width: 1080px) {
+        flex-wrap: wrap;
       }
     }
   }
