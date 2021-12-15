@@ -5,9 +5,8 @@ from dateutil.parser import parse
 import flask
 import talisker.requests
 
-
 from webapp.greenhouse import Harvest
-
+from webapp.utils.cipher import Cipher
 
 application = flask.Blueprint(
     "application",
@@ -18,6 +17,7 @@ application = flask.Blueprint(
 
 session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
+cipher = Cipher(os.environ.get("SECRET_KEY"))
 
 
 @application.after_request
@@ -65,8 +65,23 @@ def stage_progress(current_stage):
     }
 
 
-@application.route("/<string:name>-<int:candidate_id>-<int:application_id>")
-def application_page(name, candidate_id, application_id):
+# TODO: temproray endpoint to test the endpoint "application_page(token)"
+@application.route(
+    "/<string:name>-<string:candidate_id>-<string:application_id>"
+)
+def encrypt(name, candidate_id, application_id):
+    return flask.jsonify(
+        {"token": cipher.encrypt(f"{name}-{candidate_id}-{application_id}")}
+    )
+
+
+@application.route("/<string:token>")
+def application_page(token):
+    decrypted = cipher.decrypt(token)
+    if not decrypted:
+        flask.abort(404)
+    name, candidate_id, application_id = tuple(decrypted.split("-"))
+    candidate_id, application_id = int(candidate_id), int(application_id)
     application = harvest.get_application(application_id)
     if (
         "candidate_id" not in application
