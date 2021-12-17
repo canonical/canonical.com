@@ -67,7 +67,7 @@ def stage_progress(current_stage):
 
 # TODO: temproray endpoint to test the endpoint "application_page(token)"
 @application.route(
-    "/<string:name>-<string:candidate_id>-<string:application_id>"
+    "/d/<string:name>-<string:candidate_id>-<string:application_id>"
 )
 def encrypt(name, candidate_id, application_id):
     return flask.jsonify(
