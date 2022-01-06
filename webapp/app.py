@@ -17,6 +17,12 @@ import talisker.requests
 # Local
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
+from webapp.views import (
+    leadership_team,
+    customer_references,
+    opensource,
+    press,
+)
 
 app = FlaskBase(
     __name__,
@@ -305,6 +311,27 @@ def partners_sitemap():
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
+
+
+# Canonical v3
+# ===
+app.add_url_rule(
+    "/leadership-team/<bios>",
+    view_func=leadership_team,
+)
+app.add_url_rule(
+    "/customer-references",
+    view_func=customer_references,
+)
+
+app.add_url_rule(
+    "/opensource/<bios>",
+    view_func=opensource,
+)
+app.add_url_rule(
+    "/press",
+    view_func=press,
+)
 
 
 # Template finder
