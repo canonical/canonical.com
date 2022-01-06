@@ -102,4 +102,3 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/press").status_code, 200)
-       
