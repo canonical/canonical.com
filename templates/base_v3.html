@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+      content="{% block meta_description %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% endblock %}" />
+    <meta name="copydoc" content="{% block meta_copydoc %}https://drive.google.com/drive/folders/0B8feV0jqaac3TmExU3NDcHhFTGc{% endblock %}">
+    <meta name="author" content="Canonical Ltd" />
+
+    <meta name="theme-color" content="#E95420">
+    <meta name="twitter:account_id" content="169015850">
+    <meta name="twitter:site" content="@canonical">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="Canonical">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M5BPGQ6');</script>
+
+    <!-- Google optomise -->
+    <script async src="https://www.googleoptimize.com/optimize.js?id=OPT-KMJNW6P"></script>
+
+    <title>{% block title %}Publisher of Ubuntu{% endblock %} | Canonical</title>
+    {% if self.title() %}
+    <meta name="twitter:title" content="{{ self.title() }} | Canonical">
+    <meta property="og:title" content="{{ self.title() }} | Canonical">
+    {% endif %}
+    {% if self.meta_description() %}
+    <meta name="twitter:description" content="{{ self.meta_description() }}">
+    <meta property="og:description" content="{{ self.meta_description() }}">
+    {% endif %}
+
+    {# Define the required meta_keywords block #}
+    <!-- Meta keywords: {% block meta_keywords %}{% endblock %} -->
+    {% if self.meta_keywords() %}
+    <!-- added for internal helps -->
+    <meta name="keywords" content="{{ self.meta_keywords() }}">
+    {% endif %}
+
+    {# Define the required meta_image block #}
+    <!-- Meta image: {% block meta_image %}{% endblock %} -->
+    {% if self.meta_image() %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
+    <meta property="og:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
+    {% endif %}
+
+
+    {% block extra_metatags %}{% endblock %}
+
+    <link rel="shortcut icon" href="https://assets.ubuntu.com/v1/0843d517-favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+      href="https://assets.ubuntu.com/v1/9864667f-apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+      href="https://assets.ubuntu.com/v1/f2ddbdc6-apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+      href="https://assets.ubuntu.com/v1/f193fb82-apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+      href="https://assets.ubuntu.com/v1/205d458b-apple-touch-icon-precomposed.png">
+
+    <link rel="preconnect" href="https://assets.ubuntu.com">
+
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/e8c07df6-Ubuntu-L_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/7f100985-Ubuntu-Th_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/f8097dea-Ubuntu-LI_W.woff2"
+      crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.ubuntu.com/v1/fff37993-Ubuntu-R_W.woff2"
+      crossorigin>
+
+    <script src="{{ versioned_static('js/navigation.js') }}" defer></script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static('css/styles.css') }}" />
+  </head>
+
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5BPGQ6"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div id="main-content">
+      {% include "partial/_navigation.html" %}
+      {% if request.path|get_nav_path and request.path|get_nav_path == 'partners' %}
+        {% include request.path|get_nav_path + '/_secondary-navigation.html' %}
+      {% endif %}
+
+      {% block content %}{% endblock content %}
+    </div>
+    {% include 'partial/_footer.html' %}
+
+    <script src="{{ versioned_static('js/modules/cookie-policy/cookie-policy.js') }}"></script>
+    <script>
+      cpNs.cookiePolicy();
+    </script>
+  </body>
+
+</html>
