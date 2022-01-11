@@ -11,10 +11,13 @@
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
-    "test-python": "python3 -m unittest discover tests"
+    "test-python": "python3 -m unittest discover tests",
+    "cypress:run": "cypress run --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/",
+    "cypress:open": "cypress open --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/"
   },
   "dependencies": {
     "@canonical/cookie-policy": "3.3.0",
+    "@testing-library/cypress": "8.0.0",
     "autoprefixer": "10.4.1",
     "concurrently": "5.3.0",
     "postcss": "8.4.5",
@@ -23,6 +26,7 @@
     "vanilla-framework": "2.37.1"
   },
   "devDependencies": {
+    "cypress": "9.2.0",
     "prettier": "2.5.1",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",
