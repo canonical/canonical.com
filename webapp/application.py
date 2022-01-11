@@ -17,7 +17,7 @@ application = flask.Blueprint(
 
 session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
-cipher = Cipher(os.environ.get("SECRET_KEY"))
+cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 
 
 @application.after_request
@@ -63,16 +63,6 @@ def stage_progress(current_stage):
         "late_stage": False,
         "offer": False,
     }
-
-
-# TODO: temproray endpoint to test the endpoint "application_page(token)"
-@application.route(
-    "/d/<string:name>-<string:candidate_id>-<string:application_id>"
-)
-def encrypt(name, candidate_id, application_id):
-    return flask.jsonify(
-        {"token": cipher.encrypt(f"{name}-{candidate_id}-{application_id}")}
-    )
 
 
 @application.route("/<string:token>")
