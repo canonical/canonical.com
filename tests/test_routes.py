@@ -70,15 +70,7 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/contact-us").status_code, 200)
-    
-    def test_contact_us(self):
-        """
-        When given the contact-us page,
-        we should return a 200 status code
-        """
 
-        self.assertEqual(self.client.get("/contact-us").status_code, 200)
-    
     def leadership_team(self):
         """
         When given the leadership-team page,
@@ -86,7 +78,7 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/leadership-team").status_code, 200)
-    
+
     def opensource(self):
         """
         When given the opensource page,
@@ -94,7 +86,7 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/opensource").status_code, 200)
-    
+
     def press(self):
         """
         When given the press page,
@@ -102,4 +94,3 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/press").status_code, 200)
-       
