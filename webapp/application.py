@@ -117,19 +117,3 @@ def application_page(token):
         job=job,
         hiring_lead=hiring_lead,
     )
-
-
-@application.route(
-    "/<int:candidate_id>-<int:application_id>/delete", methods=["DELETE"]
-)
-def delete_application(candidate_id, application_id):
-    application = harvest.get_application(application_id)
-    if (
-        "candidate_id" not in application
-        or application["candidate_id"] != candidate_id
-    ):
-        flask.abort(404)
-
-    # CODE TO DELETE APPLICATION
-
-    return flask.render_template("application.html", application=application)

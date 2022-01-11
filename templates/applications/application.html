@@ -43,31 +43,31 @@
         <h3>Recruiting at Canonical</h3>
         <ul>
             <li>
-                {% if application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
+                {% if "stage_progress" in application and application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
                 {% else %}<i class="p-icon--information"></i> 
                 {% endif %}
                 Application review
             </li>
             <li>
-                {% if application["stage_progress"]["assessment"] %}<i class="p-icon--success"></i> 
+                {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<i class="p-icon--success"></i> 
                 {% else %}<i class="p-icon--information"></i> 
                 {% endif %}
                 Assessment
             </li>
             <li>
-                {% if application["stage_progress"]["early_stage"] %}<i class="p-icon--success"></i> 
+                {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}<i class="p-icon--success"></i> 
                 {% else %}<i class="p-icon--information"></i> 
                 {% endif %}
                 Early stage
             </li>
             <li>
-                {% if application["stage_progress"]["late_stage"] %}<i class="p-icon--success"></i> 
+                {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}<i class="p-icon--success"></i> 
                 {% else %}<i class="p-icon--information"></i> 
                 {% endif %}
                 Late stage
             </li>
             <li>
-                {% if application["stage_progress"]["offer"] %}<i class="p-icon--success"></i> 
+                {% if "stage_progress" in application and application["stage_progress"]["offer"] %}<i class="p-icon--success"></i> 
                 {% else %}<i class="p-icon--information"></i> 
                 {% endif %}
                 Offer
@@ -76,10 +76,7 @@
     </div>
 
     <div class="row">
-        <h2>Learn more about Canonical</h2>
-    </div>
-    <div class="row">
-        <h3>Life at Canonical</h3>
+        <h2>Life at Canonical</h2>
     </div>
     <div class="row">
         <ul>
@@ -89,36 +86,6 @@
             <li><a href="/careers/progression">Progression</a></li>
             <li><a href="/careers/diversity">Diversity</a></li>
         </ul>
-    </div>
-    <div class="row">
-        <h3>Our 4 pillars</h3>
-    </div>
-    <div class="row">
-        <div class="col-4 p-card--highlighted">
-            <h3 class="p-card__title">ACCESSIBLE</h3>
-            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <div class="col-4 p-card--highlighted">
-            <h3 class="p-card__title">ADROIT</h3>
-            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4 p-card--highlighted">
-            <h3 class="p-card__title">PRECISE</h3>
-            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <div class="col-4 p-card--highlighted">
-            <h3 class="p-card__title">RELIABLE</h3>
-            <p class="p-card__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-    </div>
-    <div class="row">
-        <h2>Not interested in this role anymore? Let us know!</h2>
-        <div class="col-4">
-            <textarea></textarea>
-            <button class="p-button--negative">Remove my application</button>
-        </div>
     </div>
 </section>
 {% elif application["status"] == "hired" %}
