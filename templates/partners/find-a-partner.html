@@ -6,11 +6,11 @@
   <section class="p-strip--image is-dark">
     <div class="p-strip--suru-top">
       <div class="row">
-        <div class="col-8">
+        <div class="col-8 col-medium-4">
           <h1>Find a Canonical partner</h1>
-          <p>Canonical’s network of Ubuntu partners spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
+          <p>Canonical's network of Ubuntu partners spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
         </div>
-        <div class="col-4 u-hide--small u-align--center u-vertically-center">
+        <div class="col-4 col-medium-2 u-hide--small u-align--center u-vertically-center">
           <img src="https://assets.ubuntu.com/v1/18dc67e0-lrg-magnifier-icon.svg" alt="">
         </div>
       </div>
@@ -21,22 +21,22 @@
       <div class="col-3">
         <form class="p-search-box u-no-margin--bottom">
           <input class="p-search-box__input js-find-a-partner__search-input" name="search" id="search" placeholder="Search" required="" type="search">
-          <button type="reset" class="p-search-box__reset u-no-margin--right" alt="reset"><i class="p-icon--close"></i></button>
+          <button type="reset" class="p-search-box__reset u-no-margin--right" alt="reset"><i class="p-notification__close"></i></button>
           <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
         </form>
       </div>
       <div class="col-1 u-vertically-center">
         <p>
-          <span class="p-label--updated p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;">All</span>
+          <span class="p-label--information p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;">All</span>
         </p>
       </div>
       <div class="col-3">
-        <button type="button" class="p-button--accordion p-heading--four u-align--left" id="tab1" role="tab" aria-controls="#tab-section" aria-expanded="false">Filters</button>
+        <button type="button" class="p-button--accordion p-heading--4 u-align--left" id="tab1" role="tab" aria-controls="#tab-section" aria-expanded="false">Filters</button>
       </div>
     </div>
     <div class="row p-accordion-panel" id="tab-section" role="tabpanel" aria-hidden="true" aria-labelledby="tab-section">
       <div class="col-4">
-        <p class="p-heading--four">Technology</p>
+        <p class="p-heading--4">Technology</p>
         <hr/>
         <p>
           <input type="checkbox" class="js-find-a-partner__filter" name="ai-ml" id="ai-ml">
@@ -64,7 +64,7 @@
         </p>
       </div>
       <div class="col-4">
-        <p class="p-heading--four">Programme</p>
+        <p class="p-heading--4">Programme</p>
         <hr/>
         <p>
           <input type="checkbox" class="js-find-a-partner__filter" name="channel-reseller" id="channel-reseller">
@@ -88,7 +88,7 @@
         </p>
       </div>
       <div class="col-4">
-        <p class="p-heading--four">Services offered</p>
+        <p class="p-heading--4">Services offered</p>
         <hr/>
         <p>
           <input type="checkbox" class="js-find-a-partner__filter" name="big-data" id="big-data">
@@ -129,7 +129,7 @@
     <div id="results" class="p-find-a-partner">
       <div class="u-fixed-width">
         <div class="p-notification js-find-a-partner__no-results u-hide">
-          <p class="p-notification__response">
+          <p class="p-notification__content">
             Sorry, no partners matches found.<br />
             Perhaps <a href="/partners/find-a-partner">start your search again?</a>
           </p>
@@ -153,7 +153,7 @@
             </a>
             <p>
             {% if partner['partner_website'] %}
-              <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}" class="p-link--external">{{ partner['name'] }}</a>
+              <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a>
             {% else %}
               <a href="/{{ partner['slug'] }}">{{ partner['name'] }}</a>
             {% endif %}

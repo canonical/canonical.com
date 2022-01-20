@@ -73,7 +73,7 @@
     educationInput.innerHTML = `  
       <hr/>
       <a href="#" class="js-remove-education">
-        <i class="p-icon--close" style="float: right;"></i>
+        <i class="p-notification__close" style="float: right;"></i>
       </a>
       <label for="school-${n}">School</label>
       <input list="school-${n}" name="school-${n}" type="text" class="js-school-${n}">

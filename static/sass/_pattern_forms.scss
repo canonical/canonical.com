@@ -1,6 +1,6 @@
 @mixin canonical-p-forms {
   .p-form--inline {
-    @media screen and (min-width: $breakpoint-medium) {
+    @media screen and (min-width: $breakpoint-small) {
       align-items: baseline;
       display: flex;
       flex-direction: row;
@@ -12,13 +12,13 @@
     }
 
     .p-form__group {
-      @media screen and (min-width: $breakpoint-medium) {
+      @media screen and (min-width: $breakpoint-small) {
         display: flex;
         width: 100%;
 
         + .p-form__group,
         + [class*="p-button"] {
-          margin-left: $sph-inner--large;
+          margin-left: ($sph--large + $sph--small);
         }
         .p-form__label,
         .p-form__control,
@@ -36,7 +36,7 @@
         .p-form__control {
           display: block;
           min-width: unset;
-          padding-right: $sph-inner;
+          padding-right: $sph--large;
         }
       }
       @media screen and (max-width: 1080px) {
