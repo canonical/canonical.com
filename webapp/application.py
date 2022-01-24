@@ -38,31 +38,39 @@ def add_headers(response):
 
 
 def stage_progress(current_stage):
-    # TODO FINISH THIS CODE (currently just for demo)
-    if current_stage == "Application Review":
-        return {
-            "application": True,
-            "assessment": False,
-            "early_stage": False,
-            "late_stage": False,
-            "offer": False,
-        }
-    if current_stage == "Written Interview":
-        return {
-            "application": True,
-            "assessment": True,
-            "early_stage": False,
-            "late_stage": False,
-            "offer": False,
-        }
-
-    return {
-        "application": True,
-        "assessment": True,
-        "early_stage": True,
-        "late_stage": False,
-        "offer": False,
+    milestone_stages = {
+        "application": ("Application Review"),
+        "assessment": (
+            "Written Interview",
+            "Psychometric Assessment",
+            "Meet & Greet",
+            "Hold",
+        ),
+        "early_stage": (
+            "Early Stage Interviews",
+            "Technical Exercise",
+            "HR interview",
+        ),
+        "late_stage": (
+            "Late Stage Interviews",
+            "Shortlist",
+            "Executive Review",
+        ),
+        "offer": ("Offer"),
     }
+
+    progress = {}
+    found = False
+    for milestone, stages in milestone_stages.items():
+        if current_stage in stages:
+            progress[milestone] = True
+            found = True
+        elif not found:
+            progress[milestone] = True
+        else:
+            progress[milestone] = False
+
+    return progress
 
 
 @application.route("/<string:token>")
