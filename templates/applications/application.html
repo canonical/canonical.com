@@ -1,0 +1,139 @@
+{% extends '/careers/base_job-details.html' %}
+
+{% block extra_metatags %}
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block careers_content %}
+{% if application["status"] == "active" %}
+<section class="p-strip--suru-topped u-no-padding--bottom">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
+        {% if application['source']['id'] == 2 %}
+            <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
+        {% else %}
+            <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
+        {% endif %}
+        {% if hiring_lead %}
+            <p>Your hiring lead is {{ hiring_lead["name"] }} (<a href="mailto:{{ hiring_lead['primary_email_address'] }}">{{ hiring_lead["primary_email_address"] }}</a>)</p>
+        {% endif %}
+    </div>
+    <div class="row">
+        <h2>Your application</h2>
+        <h3>Upcoming interviews</h3>
+        {% if not application["scheduled_interviews"] %}
+            <p><i class="p-icon--information"></i> No scheduled interviews. We do our best to keep you updated about the state of your application. Please check your spam folder.</p>
+        {% else %}
+            {% for interview in application["scheduled_interviews"] %}
+                {% if now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+                    {% include 'applications/_interview-card.html' %}
+                {% endif %}
+            {% endfor %}
+            </ul>
+            <h3>Past interviews</h3>
+            {% for interview in application["scheduled_interviews"]|reverse %}
+                {% if now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                    {% include 'applications/_interview-card.html' %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </ul>
+        <h3>Our recruitment process</h3>
+        <ol class="p-list">
+            <li class="p-list_item">
+                <h4 class='u-no-margin--bottom'>
+                    {% if "stage_progress" in application and application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
+                    {% else %}<i class="p-icon--information"></i> 
+                    {% endif %}
+                    Application review
+                </h4>
+                <p>Initial resume screening. A fully trained hiring lead will review your application against the job criteria set for this role.</p>
+            </li>
+            <li class="p-list_item">
+                <h4 class='u-no-margin--bottom'>
+                    {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<i class="p-icon--success"></i> 
+                    {% else %}<i class="p-icon--information"></i> 
+                    {% endif %}
+                    Assessment
+                </h4>
+                <div>
+                    There are three parts to this stage:
+                    <ol>
+                        <li>
+                            <p class='u-no-margin--bottom'>A written interview, submitted and reviewed anonymously to reduce bias. This is your opportunity to highlight your key strengths for this position and once reviewed will be referred back at later stage interviews.</p>
+                        </li>
+                        <li>
+                            <p class='u-no-margin--bottom'>A psychometric assessment measuring fluid intelligence and behavioural traits.</p>
+                        </li>
+                        <li>
+                            <p class='u-no-margin--bottom'>Initial Meet & Greet Interview with a member of Canonical to share more about life at Canonical and to answer some of your initial basic questions.</p>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li class="p-list_item">
+                <h4 class='u-no-margin--bottom'>
+                    {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+                    <i class="p-icon--success"></i> 
+                    {% else %}<i class="p-icon--information"></i> 
+                    {% endif %}
+                    Early stage
+                </h4>
+                <p>This is a mixture of: technical assessments, competency based interviews and an interview with HR to talk about the benefits of working at Canonical, logistics and compensation.</p>
+            </li>
+            <li class="p-list_item">
+                <h4 class='u-no-margin--bottom'>
+                    {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
+                    <i class="p-icon--success"></i> 
+                    {% else %}<i class="p-icon--information"></i> 
+                    {% endif %}
+                    Late stage                    
+                </h4>
+                <p>Once you have successfully completed your early stage interviews you’ll be invited to meet with senior leads within your management chain</p>
+            </li>
+            <li class="p-list_item">
+                <h4 class='u-no-margin--bottom'>
+                    {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
+                    <i class="p-icon--success"></i> 
+                    {% else %}<i class="p-icon--information"></i> 
+                    {% endif %}
+                    Offer
+                </h4>                
+            </li>
+        </ol>
+    </div>
+    <div class="row">
+        <h2>Life at Canonical</h2>
+    </div>
+    <div class="row">
+        <ul>
+            <li><a href="/careers/lifestyle">Lifestyle</a></li>
+            <li><a href="/careers/ethics">Ethics</a></li>
+            <li><a href="/careers/travel">Travel</a></li>
+            <li><a href="/careers/progression">Progression</a></li>
+            <li><a href="/careers/diversity">Diversity</a></li>
+        </ul>
+    </div>
+</section>
+{% elif application["status"] == "hired" %}
+<section class="p-strip">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
+        <p>
+            <i class="p-icon--success"></i> You are hired! Welcome to Canonical.
+        </p>
+    </div>
+</section>
+{% else %}
+<section class="p-strip">
+    <div class="row">
+        <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
+        <p>
+            <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
+            Check out <a href="/careers">our career page</a> to see if there 
+            is another role that would match your skills!
+        </p>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

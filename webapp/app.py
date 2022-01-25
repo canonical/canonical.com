@@ -17,6 +17,7 @@ import talisker.requests
 # Local
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
+from webapp.application import application
 
 app = FlaskBase(
     __name__,
@@ -32,6 +33,8 @@ greenhouse = Greenhouse(
 )
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
+
+app.register_blueprint(application, url_prefix="/careers/application")
 
 
 @app.route("/")

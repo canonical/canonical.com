@@ -1,0 +1,12 @@
+<div class="col-5 p-card--highlighted">
+    <h3 class="p-card__title">{{ interview["interview"]["name"] }}</h3>
+    <p class="p-card__content"><strong>When:</strong> {{ interview["start"]["datetime"].strftime('%d %B at %H:%M UTC') }} ({{ interview["duration"] }} minutes) - <a href="https://www.timeanddate.com/worldclock/converter.html?iso={{ interview['start']['datetime'].strftime('%Y%m%dT%H%M%S') }}&p1=1440">See in your timezone</a></p>
+    <p class="p-card__content"><strong>Interviewer(s):</strong> {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
+    {% if now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+    {% if interview['video_conferencing_url'] %}
+        <p class="p-card__content"><strong>Meet link:</strong> <a href="{{ interview['video_conferencing_url'] }}">{{ interview["video_conferencing_url"] }}</a></p>
+    {% elif interview['location'] %}
+        <p class="p-card__content"><strong>Meet link:</strong> <a href="{{ interview['location'] }}">{{ interview["location"] }}</a></p>
+    {% endif %}
+    {% endif %}
+</div>
