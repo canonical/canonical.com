@@ -92,7 +92,6 @@ def application_page(token):
     if not candidate["first_name"].lower() == name:
         flask.abort(404)
 
-    print(application["current_stage"])
     if application["current_stage"]:
         application["stage_progress"] = stage_progress(
             application["current_stage"]["name"]
