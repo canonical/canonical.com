@@ -170,10 +170,7 @@ def careers_rss():
     "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
 )
 def job_details(job_id, job_title):
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["bleach"] = bleach
+    context = {"bleach": bleach}
 
     try:
         context["job"] = greenhouse.get_vacancy(job_id)
