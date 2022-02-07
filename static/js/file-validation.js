@@ -22,8 +22,13 @@
   if (coverLetterFileInput) {
     coverLetterFileInput.addEventListener("change", function () {
       const filePath = coverLetterFileInput.value;
+      const fileSize = coverLetterFileInput.files[0].size;
       if (!allowedExtensions.exec(filePath)) {
         alert("Invalid file format selected. Allowed formats are: pdf, doc, docx, txt, rtf");
+        coverLetterFileInput.value = "";
+      }
+      if (fileSize >= maxAllowedSize) {
+        alert("Invalid file size. Maximum file size 1MB.");
         coverLetterFileInput.value = "";
       }
     });
