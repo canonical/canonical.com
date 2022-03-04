@@ -10,7 +10,6 @@ def _get_metadata(job, name):
     metadata_map = {
         "management": 186225,
         "employment": 149021,
-        "department": 155450,
         "departments": 2739136,
         "skills": 675557,
         "description": 2739137,
@@ -125,7 +124,7 @@ class Greenhouse:
 
         for job in feed["jobs"]:
             # Filter out those without departments or offices
-            if _get_metadata(job, "department") and job["offices"]:
+            if _get_metadata(job, "departments") and job["offices"]:
                 vacancies.append(Vacancy(job))
 
         return vacancies
