@@ -1,4 +1,3 @@
-if (!(window.location.pathname === "/")) {
   var nav = document.getElementById("navigation");
   var navDropdowns = document.querySelectorAll(
     ".p-navigation__item--dropdown-toggle:not(.is-selected)"
@@ -15,7 +14,7 @@ if (!(window.location.pathname === "/")) {
       var clickedDropdown = this;
 
       dropdownWindow.style.top = window.scrollY + nav.offsetHeight + "px";
-      dropdownWindow.style.height =
+      dropdownWindow.style.height = 
         window.innerHeight - nav.offsetHeight + "px";
       dropdownWindow.classList.remove("slide-animation");
       dropdownWindowOverlay.classList.remove("fade-animation");
@@ -58,6 +57,7 @@ if (!(window.location.pathname === "/")) {
   });
 
   function closeMenu(dropdown) {
+      console.log(dropdown)
     dropdown.classList.remove("is-active");
     dropdownWindow.classList.add("slide-animation");
     dropdownWindowOverlay.classList.add("fade-animation");
@@ -152,4 +152,4 @@ if (!(window.location.pathname === "/")) {
       });
     }
   }
-}
+
