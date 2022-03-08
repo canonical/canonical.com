@@ -22,6 +22,7 @@ from webapp.views import (
     customer_references,
     opensource,
     press,
+    navigation_products
 )
 
 app = FlaskBase(
@@ -315,6 +316,10 @@ def partners_sitemap():
 
 # Canonical v3
 # ===
+app.add_url_rule(
+    "/navigation-products",
+    view_func=navigation_products,
+)
 app.add_url_rule(
     "/leadership-team/<bios>",
     view_func=leadership_team,
