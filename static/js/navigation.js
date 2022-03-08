@@ -13,7 +13,6 @@
 
       var clickedDropdown = this;
 
-      dropdownWindow.style.top = window.scrollY + nav.offsetHeight + "px";
       dropdownWindow.style.height = 
         window.innerHeight - nav.offsetHeight + "px";
       dropdownWindow.classList.remove("slide-animation");
@@ -24,10 +23,8 @@
 
         if (dropdown === clickedDropdown) {
           if (dropdown.classList.contains("is-active")) {
-            document.body.classList.remove("u-dropdown-active");
             closeMenu(dropdown);
           } else {
-            document.body.classList.add("u-dropdown-active");
             dropdown.classList.add("is-active");
             dropdownContent.classList.remove("u-hide");
           }
@@ -42,7 +39,7 @@
   // Close the menu if browser back button is clicked
   window.addEventListener("hashchange", function (event) {
     navDropdowns.forEach(function (dropdown) {
-      if (dropdown.classList.contains("is-actuive")) {
+      if (dropdown.classList.contains("is-active")) {
         closeMenu(dropdown);
       }
     });
