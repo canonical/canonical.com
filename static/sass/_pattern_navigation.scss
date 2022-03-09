@@ -1,7 +1,8 @@
 @use "sass:math";
-$nav-bg-color: #2c001e;
+$nav-bg-color: #262626;
 $logo-width: 5rem;
 $nudge--small: 0.55rem;
+$nav-hr-color: #666;
 
 @mixin canonical-p-navigation {
   %row-no-margins-on-mobile {
@@ -78,30 +79,30 @@ $nudge--small: 0.55rem;
       position: relative;
 
       &:not(.is-selected)::after {
-        @include vf-icon-chevron($color-x-light);
+        @include vf-icon-chevron($color-light);
       }
 
       &.is-active {
-        background-color: $color-x-light;
-        color: $color-dark;
+        background-color: $nav-bg-color;
+        color: $color-light;
         &::after {
-          @include vf-icon-chevron(vf-url-friendly-color($color-dark));
+          @include vf-icon-chevron($color-x-light);
 
           transform: rotate(-180deg);
         }
 
         .p-navigation__link {
-          background-color: $color-x-light;
+          background-color: $color-mid-x-light;
           color: $color-dark;
 
           &:focus,
           &:visited {
-            background-color: $color-x-light;
+            background-color: $color-mid-x-light;
             color: $color-dark;
           }
 
           &:hover {
-            background-color: $color-x-light;
+            background-color: $color-mid-x-light;
             color: $color-dark;
           }
         }
@@ -175,7 +176,7 @@ $nudge--small: 0.55rem;
   .dropdown-window {
     @include vf-animation(all, brisk, in);
 
-    background-color: $color-x-light;
+    background-color: $nav-bg-color;
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     position: absolute;
@@ -186,16 +187,30 @@ $nudge--small: 0.55rem;
       box-shadow: none;
     }
 
+    hr {
+      border-top: 1px solid $nav-hr-color;
+    }
+
     .row {
       padding-left: map-get($grid-margin-widths, default);
       padding-right: map-get($grid-margin-widths, default);
     }
 
+    .p-strip {
+      background-color: $nav-bg-color !important;
+    }
+
+    a {
+      color: $color-light;
+      &:visited {
+        color: $color-light;
+      }
+    }
+
     &__content {
       @extend %p-strip--very-shallow;
-
-      background-color: $color-x-light;
-      color: $color-dark;
+      background-color: $nav-bg-color;
+      color: $color-light;
 
       &:last-child {
         padding-bottom: math.div($spv--x-large, 1.5);
