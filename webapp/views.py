@@ -5,6 +5,7 @@ def navigation_products():
 
     return flask.render_template("/partial/navigation-products.html")
 
+
 def leadership_team():
 
     return flask.render_template("leadership-team.html")
