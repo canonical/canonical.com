@@ -94,3 +94,13 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/press").status_code, 200)
+
+    def navigation_products(self):
+        """
+        When given the navigation-products page,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/navigation-products").status_code, 200
+        )
