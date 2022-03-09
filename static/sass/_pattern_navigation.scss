@@ -1,4 +1,6 @@
-$nav-bg-color: #2c001e;
+$nav-bg-color: #262626;
+$nav-font-color: #f7f7f7;
+$nav-hr-color: #666;
 $logo-width: 5rem;
 $nudge--small: 0.55rem;
 
@@ -34,25 +36,24 @@ $nudge--small: 0.55rem;
         }
 
         .p-navigation__link {
-          background-color: $color-x-light;
-          color: $color-dark;
+          background-color: none;
+          color: $nav-font-color;
           padding-right: $sph-inner;
 
           &:focus,
           &:visited {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: none;
+            color: $nav-font-color;
           }
 
           &:hover {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: $nav-bg-color;
+            color: $nav-font-color;
           }
         }
       }
-
       .p-navigation__link {
-        color: $color-light;
+        color: $nav-font-color;
         display: block;
 
         &:before {
@@ -61,14 +62,14 @@ $nudge--small: 0.55rem;
 
         &:focus,
         &:visited {
-          background-color: $nav-bg-color;
-          color: $color-light;
+          background-color: none;
+          color: $nav-font-color
         }
 
         &:hover,
         &.active {
-          background-color: rgba(94, 39, 80, 0.5);
-          color: $color-x-light;
+          background-color: $nav-bg-color;
+          color: $nav-font-color
         }
       }
     }
@@ -77,31 +78,32 @@ $nudge--small: 0.55rem;
       position: relative;
 
       &:not(.is-selected)::after {
-        @include vf-icon-chevron($color-x-light);
+        @include vf-icon-chevron($nav-font-color);
       }
 
       &.is-active {
-        background-color: $color-x-light;
-        color: $color-dark;
+        background-color: $nav-bg-color;
+        color: $nav-font-color;
         &::after {
-          @include vf-icon-chevron(vf-url-friendly-color($color-dark));
+          @include vf-icon-chevron(vf-url-friendly-color($nav-font-color));
 
           transform: rotate(-180deg);
         }
 
         .p-navigation__link {
-          background-color: $color-x-light;
-          color: $color-dark;
+          background-color: $nav-bg-color;
+          color: $nav-font-color;
+
 
           &:focus,
           &:visited {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: $nav-bg-color;
+            color: $nav-font-color
           }
 
           &:hover {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: none;
+            color: $nav-font-color
           }
         }
       }
@@ -128,11 +130,11 @@ $nudge--small: 0.55rem;
 
     &__toggle--open,
     &__toggle--close {
-      color: $color-light !important;
+      color: $nav-font-color !important;
       
       &:hover {
-        background-color: rgba(94, 39, 80, 0.5) !important;
-        color: $color-x-light !important;
+        background-color: $nav-bg-color !important;
+        color: $nav-font-color !important;
       }
     }
 
@@ -174,7 +176,7 @@ $nudge--small: 0.55rem;
   .dropdown-window {
     @include vf-animation(all, brisk, in);
 
-    background-color: $color-x-light;
+    background-color: $nav-bg-color;
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     position: absolute;
@@ -185,16 +187,30 @@ $nudge--small: 0.55rem;
       box-shadow: none;
     }
 
+    hr {
+      border-top: 1px solid $nav-hr-color;
+    }
+
     .row {
       padding-left: map-get($grid-margin-widths, large);
       padding-right: map-get($grid-margin-widths, large);
     }
 
+    .p-strip {
+      background-color: $nav-bg-color !important;
+    }
+
+    a {
+      color: $nav-font-color;
+      &:visited {
+        color: $nav-font-color;
+      }
+    }
+    
     &__content {
       @extend %p-strip--very-shallow;
-
-      background-color: $color-x-light;
-      color: $color-dark;
+      background-color: $nav-bg-color;
+      color: $nav-font-color;
 
       &:last-child {
         padding-bottom: $spv-outer--shallow-scaleable / 1.5;
