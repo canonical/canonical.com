@@ -10,9 +10,11 @@ import re
 from canonicalwebteam import image_template
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.blog import build_blueprint, BlogViews, BlogAPI
 from requests.exceptions import HTTPError
 from slugify import slugify
 import talisker.requests
+
 
 # Local
 from webapp.greenhouse import Greenhouse, Harvest
@@ -305,6 +307,16 @@ def partners_sitemap():
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
+
+
+# Blog
+blog_views = BlogViews(
+    api=BlogAPI(session=session),
+    excluded_tags=[3184, 3265, 3408, 3960],
+    per_page=11,
+)
+
+app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 
 # Template finder
