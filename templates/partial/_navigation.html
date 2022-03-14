@@ -1,4 +1,3 @@
-<a href="#main-content" class="p-link--skip">Jump to main content</a>
 <header id="navigation" class="p-navigation is-dark">
   <div class="p-navigation__row">
     <div class="p-navigation__banner">
@@ -21,14 +20,14 @@
       </ul>
       <ul class="p-navigation__items u-hide js-show-nav" role="menu">
         <li
-          class="p-navigation__item--dropdown-toggle {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}"
-          role="menuitem" id="products-nav"
-          onmouseover="fetchDropdown('/partial/navigation-products', 'products-nav-content'); this.onmouseover = null;">
-          {% if request.path|get_nav_path == 'products' %}
-          <a class="p-navigation__link" href="/products">Products</a>
+          class="p-navigation__item--dropdown-toggle {% if request.path|get_nav_path == 'canonical' %}is-selected{% endif %}"
+          role="menuitem" id="canonical-nav"
+          onmouseover="fetchDropdown('/partial/navigation-canonical', 'canonical-nav-content'); this.onmouseover = null;">
+          {% if request.path|get_nav_path == 'canonical' %}
+          <a class="p-navigation__link" href="/canonical">Canonical</a>
           {% else %}
-          <a class="p-navigation__link" href="#products-nav-content"
-            onfocus="fetchDropdown('/partial/navigation-products', 'products-nav-content');">Products</a>
+          <a class="p-navigation__link" href="#canonical-nav-content"
+            onfocus="fetchDropdown('/partial/navigation-canonical', 'canonical-nav-content');">Canonical</a>
           {% endif %}
         </li>
     </nav>
@@ -36,7 +35,7 @@
 </header>
 <div class="dropdown-window-overlay fade-animation"></div>
 <div class="dropdown-window slide-animation">
-  <div class="u-hide" id="products-nav-content"></div>
+  <div class="u-hide" id="canonical-nav-content"></div>
 </div>
 
 <script>

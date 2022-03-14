@@ -1,9 +1,9 @@
 import flask
 
 
-def navigation_products():
+def navigation_canonical():
 
-    return flask.render_template("/partial/navigation-products.html")
+    return flask.render_template("/partial/navigation-canonical.html")
 
 
 def leadership_team():
