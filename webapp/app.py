@@ -1,4 +1,5 @@
 # Standard library
+from urllib.parse import parse_qs, urlencode
 import bleach
 import datetime
 import flask
@@ -308,7 +309,6 @@ def partners_sitemap():
 
     return response
 
-
 # Blog
 blog_views = BlogViews(
     api=BlogAPI(session=session),
@@ -332,6 +332,7 @@ def inject_today_date():
 @app.context_processor
 def utility_processor():
     return {"image": image_template}
+
 
 
 @app.template_filter()
