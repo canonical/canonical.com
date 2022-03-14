@@ -101,7 +101,7 @@
 
   var origin = window.location.href;
 
-  addGANavEvents("#products-nav", "canonical.com-nav-products");
+  addGANavEvents("#canonical-nav", "canonical.com-nav-canonical");
   addGANavEvents("#partners-nav", "canonical.com-nav-partners");
   addGANavEvents("#careers-nav", "canonical.com-nav-careers");
 
