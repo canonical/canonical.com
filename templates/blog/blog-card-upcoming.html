@@ -7,16 +7,7 @@
       {% if article.image %}
         <div class="u-crop--16-9">
           <a href="/blog/{{ article.slug }}">
-            {{
-              image(
-                url=article.image.source_url,
-                alt="",
-                height="165",
-                width="293",
-                hi_def=True,
-                loading="lazy"
-              ) | safe
-            }}
+            <img src="{{ article.image.source_url }}" />
           </a>
         </div>
       {% endif %}

@@ -2,10 +2,10 @@
     {% include 'blog/blog-card-header.html' %}
   
     <div class="blog-p-card__content">
-      {% if article.image and article.image.source_url %}
+      {% if article.image and article.image.rendered %}
       <div class="u-crop--16-9">
         <a href="/blog/{{ article.slug }}" aria-hidden="true" tabindex="-1">
-          {{ article.image.rendered|safe }}
+          <img src="{{ article.image.source_url }}" />
         </a>
       </div>
       {% endif %}
