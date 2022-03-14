@@ -1,22 +1,8 @@
 $nav-bg-color: #262626;
 $nav-font-color: #f7f7f7;
 $nav-hr-color: #666;
-$logo-width: 5rem;
-$nudge--small: 0.55rem;
 
 @mixin canonical-p-navigation {
-  %row-no-margins-on-mobile {
-    @media (max-width: $breakpoint-navigation-threshold) {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    @media (min-width: $breakpoint-navigation-threshold + 1) {
-      padding-left: map-get($grid-margin-widths, large);
-      padding-right: map-get($grid-margin-widths, large);
-    }
-  }
-
   .p-navigation {
     background-color: $nav-bg-color;
     flex-direction: column;
@@ -115,7 +101,6 @@ $nudge--small: 0.55rem;
     }
 
     & &__row {
-      @extend %row-no-margins-on-mobile;
 
       &.row {
         grid-gap: 0;
@@ -208,7 +193,6 @@ $nudge--small: 0.55rem;
     }
     
     &__content {
-      @extend %p-strip--very-shallow;
       background-color: $nav-bg-color;
       color: $nav-font-color;
 
@@ -224,8 +208,6 @@ $nudge--small: 0.55rem;
     }
 
     & .p-inline-list__item {
-      @extend %small-text-fixed;
-
       list-style-type: none;
 
       &::after {
@@ -255,27 +237,5 @@ $nudge--small: 0.55rem;
       transform: none;
       visibility: visible;
     }
-  }
-
-  %p-strip--very-shallow {
-    padding-top: $spv-outer--medium;
-
-    &:not(:last-child) {
-      padding-bottom: $spv-outer--medium;
-    }
-
-    &:last-child {
-      padding-bottom: $spv-outer--scaleable;
-    }
-  }
-
-  %small-text-base {
-    font-size: 1rem / pow($ms-ratio, 1);
-    line-height: map-get($line-heights, small);
-    padding-top: $nudge--small;
-  }
-
-  %small-text-fixed {
-    @extend %small-text-base;
   }
 }
