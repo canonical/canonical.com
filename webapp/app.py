@@ -309,10 +309,11 @@ def partners_sitemap():
 
     return response
 
+
 # Blog
 blog_views = BlogViews(
     api=BlogAPI(session=session),
-    excluded_tags=[3184, 3265, 3408, 3960],
+    excluded_tags=[3184, 3265],
     per_page=11,
 )
 
@@ -333,6 +334,23 @@ def inject_today_date():
 def utility_processor():
     return {"image": image_template}
 
+
+# Blog pagination
+def modify_query(params):
+    query_params = parse_qs(
+        flask.request.query_string.decode("utf-8"), keep_blank_values=True
+    )
+    query_params.update(params)
+
+    return urlencode(query_params, doseq=True)
+
+
+# Template context
+@app.context_processor
+def context():
+    return {
+        "modify_query": modify_query,
+    }
 
 
 @app.template_filter()
