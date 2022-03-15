@@ -252,7 +252,8 @@ def department_group(department_slug):
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
-            flask.request.form, flask.request.files,
+            flask.request.form,
+            flask.request.files,
         )
         if response.status_code == 200:
             message = {
@@ -316,20 +317,25 @@ def partners_sitemap():
 # Canonical v3
 # ===
 app.add_url_rule(
-    "/navigation-canonical", view_func=navigation_canonical,
+    "/navigation-canonical",
+    view_func=navigation_canonical,
 )
 app.add_url_rule(
-    "/leadership-team/<bios>", view_func=leadership_team,
+    "/leadership-team/<bios>",
+    view_func=leadership_team,
 )
 app.add_url_rule(
-    "/customer-references", view_func=customer_references,
+    "/customer-references",
+    view_func=customer_references,
 )
 
 app.add_url_rule(
-    "/opensource/<bios>", view_func=opensource,
+    "/opensource/<bios>",
+    view_func=opensource,
 )
 app.add_url_rule(
-    "/press", view_func=press,
+    "/press",
+    view_func=press,
 )
 
 
