@@ -1,0 +1,33 @@
+{% extends "base_index.html" %}
+
+{% block title %}{{ tag.name }}{% endblock %}
+
+{% block content %}
+  <div class="p-strip--suru is-dark is-shallow">
+    <div class="row u-equal-height u-vertically-center">
+      <div class="col-10">
+        <h1 class="u-no-margin--bottom">Blog posts tagged "{{ tag.name }}"</h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="p-strip is-deep" id="posts-list">
+    <div class="row u-equal-height u-clearfix">
+      {% for article in articles %}
+        {% if (loop.index - 1) % 3 == 0 and loop.index > 1 %}
+          </div>
+          <div class="row u-equal-height u-clearfix">
+        {% endif %}
+        {% include 'blog/blog-card.html' %}
+      {% endfor %}
+      </div>
+  </section>
+
+  <section class="p-strip is-deep">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
+{% endblock %}

@@ -11,7 +11,6 @@
   @include canonical-p-strip-suru-topped;
   @include canonical-p-strip-suru-partners;
   @include canonical-p-strip-suru-top;
-  @include canonical-p-strip-blog-header;
 
   .p-strip {
     background-color: $color-x-light;
@@ -119,6 +118,10 @@
       background-position: left top, right top, right bottom -1px;
       background-repeat: no-repeat;
       background-size: 70% 80%, 70% 100%, 100% 20%, 100% 100%;
+    }
+
+    &.is-dark {
+      color: #fff;
     }
   }
 }
@@ -499,47 +502,6 @@
         center right;
       background-repeat: no-repeat;
       background-size: 100% 100%, 105% 25%, 70% 80%, 100% 100%;
-    }
-  }
-}
-
-
-@mixin canonical-p-strip-blog-header {
-  .p-strip--suru-blog-header {
-    @extend %vf-strip;
-
-    background-image: linear-gradient(
-        to bottom left,
-        rgba(225, 225, 225, 0.03) 0%,
-        rgba(225, 225, 225, 0.03) 49.9%,
-        rgba(225, 225, 225, 0) 50%,
-        rgba(225, 225, 225, 0) 100%
-      ),
-      linear-gradient(
-        to top left,
-        rgba(225, 225, 225, 0.03) 0%,
-        rgba(225, 225, 225, 0.03) 49.9%,
-        rgba(225, 225, 225, 0) 50%,
-        rgba(225, 225, 225, 0) 100%
-      ),
-      linear-gradient(
-        to bottom right,
-        rgba(225, 225, 225, 0.03) 0%,
-        rgba(225, 225, 225, 0.03) 49.9%,
-        rgba(225, 225, 225, 0) 50%,
-        rgba(225, 225, 225, 0) 100%
-      ),
-      linear-gradient(135deg, #8b3236 -20%, #5e2750 25%, #2c001e 50%);
-    background-position: top right, bottom right, top right, 100%;
-    background-repeat: no-repeat;
-    background-size: 70% 65%, 40% 85%, 100% 30%, 100%;
-    color: $color-x-light;
-    padding-top: 4rem 0;
-    position: relative;
-
-    hr {
-      background: rgba(255, 255, 255, 0.25);
-      margin: 2rem 0;
     }
   }
 }

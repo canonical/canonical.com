@@ -1,26 +1,25 @@
 # Standard library
-from urllib.parse import parse_qs, urlencode
-import bleach
 import datetime
-import flask
-import markdown
 import os
 import re
+from urllib.parse import parse_qs, urlencode
 
+import bleach
+import flask
+import markdown
+import talisker.requests
 # Packages
 from canonicalwebteam import image_template
+from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.blog import build_blueprint, BlogViews, BlogAPI
 from requests.exceptions import HTTPError
 from slugify import slugify
-import talisker.requests
 
-
+from webapp.application import application
 # Local
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
-from webapp.application import application
 
 app = FlaskBase(
     __name__,
@@ -344,12 +343,27 @@ def modify_query(params):
 
     return urlencode(query_params, doseq=True)
 
+def descending_years(end_year):
+    now = datetime.datetime.now()
+    return range(now.year, end_year, -1)
+
+def months_list(year):
+    months = []
+    now = datetime.datetime.now()
+    for i in range(1, 13):
+        date = datetime.date(year, i, 1)
+        if date < now.date():
+            months.append({"name": date.strftime("%b"), "number": i})
+    return months
+
 
 # Template context
 @app.context_processor
 def context():
     return {
         "modify_query": modify_query,
+        "descending_years": descending_years,
+        "months_list": months_list
     }
 
 

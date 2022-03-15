@@ -1,21 +1,11 @@
-<div class="col-4 blog-p-card--post">
+<div class="col-4 p-card--post">
     {% include 'blog/blog-card-header.html' %}
   
-    <div class="blog-p-card__content">
+    <div class="p-card__content">
       {% if article.image and article.image.rendered %}
-      <div class="u-crop--16-9">
-        
+      <div class="u-embedded-media">
         <a href="/blog/{{ article.slug }}" aria-hidden="true" tabindex="-1">
-          {{
-            image(
-              url=article.image.source_url,
-              alt="",
-              height="185",
-              width="330",
-              hi_def=True,
-              loading="auto | lazy"
-            ) | safe
-          }}
+          <img class="p-card__image" src="{{ article.image.source_url }}" />
         </a>
       </div>
       {% endif %}
@@ -34,9 +24,12 @@
       <p class="u-no-padding--bottom{% if summary_visible %} u-hide--small{% endif %}">{{ article.excerpt.raw.replace("[…]", "")|truncate(162) }}</p>
       {% endif %}
     </div>
-  
-    <p class="blog-p-card__footer">
-      {% include 'blog/singular-category.html' %}
-    </p>
+    
+    <div class="p-card__footer">
+      <hr class="u-no-margin--bottom">
+      <p>
+        {% include 'blog/singular-category.html' %}
+      </p>
+    </div>
   </div>
   
