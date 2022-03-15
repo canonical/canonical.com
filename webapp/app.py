@@ -242,7 +242,8 @@ def department_group(department_slug):
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
-            flask.request.form, flask.request.files,
+            flask.request.form,
+            flask.request.files,
         )
         if response.status_code == 200:
             return flask.render_template("/careers/thank-you.html", **context)
