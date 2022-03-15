@@ -4,8 +4,18 @@
     <div class="blog-p-card__content">
       {% if article.image and article.image.rendered %}
       <div class="u-crop--16-9">
+        
         <a href="/blog/{{ article.slug }}" aria-hidden="true" tabindex="-1">
-          <img src="{{ article.image.source_url }}" />
+          {{
+            image(
+              url=article.image.source_url,
+              alt="",
+              height="185",
+              width="330",
+              hi_def=True,
+              loading="auto | lazy"
+            ) | safe
+          }}
         </a>
       </div>
       {% endif %}
