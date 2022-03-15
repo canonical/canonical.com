@@ -21,20 +21,17 @@ $nav-hr-color: #666;
     background-color: $nav-bg-color;
     flex-direction: column;
     z-index: 40;
-
     &::after {
       // disable rule under nav
       background-color: none;
       height: 0;
     }
-
     [class*="p-navigation__item"] {
       &.is-selected {
         /* stylelint-disable */
         &::after {
           background: none;
         }
-
         .p-navigation__link {
           background-color: $color-x-light;
           color: $color-dark;
@@ -45,7 +42,6 @@ $nav-hr-color: #666;
             background-color: $color-x-light;
             color: $color-dark;
           }
-
           &:hover {
             background-color: $color-x-light;
             color: $color-dark;
@@ -56,17 +52,14 @@ $nav-hr-color: #666;
       .p-navigation__link {
         color: $color-light;
         display: block;
-
         &:before {
           display: none;
         }
-
         &:focus,
         &:visited {
           background-color: $nav-bg-color;
           color: $color-light;
         }
-
         &:hover,
         &.active {
           background-color: rgba(94, 39, 80, 0.5);
@@ -74,14 +67,11 @@ $nav-hr-color: #666;
         }
       }
     }
-
     .p-navigation__item--dropdown-toggle {
       position: relative;
-
       &:not(.is-selected)::after {
         @include vf-icon-chevron($color-light);
       }
-
       &.is-active {
         background-color: $nav-bg-color;
         color: $color-light;
@@ -90,7 +80,6 @@ $nav-hr-color: #666;
 
           transform: rotate(-180deg);
         }
-
         .p-navigation__link {
           background-color: $color-mid-x-light;
           color: $color-dark;
@@ -100,7 +89,6 @@ $nav-hr-color: #666;
             background-color: $color-mid-x-light;
             color: $color-dark;
           }
-
           &:hover {
             background-color: $color-mid-x-light;
             color: $color-dark;
@@ -108,16 +96,13 @@ $nav-hr-color: #666;
         }
       }
     }
-
     & &__nav {
       border-bottom: 0;
       width: 100%;
     }
-
     & &__row {
       &.row {
         grid-gap: 0;
-
         @media (max-width: $breakpoint-x-small) {
           display: block;
           padding-left: 0 !important;
@@ -135,18 +120,15 @@ $nav-hr-color: #666;
         color: $color-x-light !important;
       }
     }
-
     &__links {
       @media (max-width: $breakpoint-x-small - 1) {
         font-size: 0.875rem;
       }
-
       @media (max-width: $breakpoint-navigation-threshold) {
         align-items: stretch;
         display: flex;
         justify-content: left;
         order: 2;
-
         .p-navigation__dropdown-link {
           flex: 1;
           text-align: center;
@@ -154,7 +136,6 @@ $nav-hr-color: #666;
       }
     }
   }
-
   .dropdown-window-overlay {
     background-color: rgba(
       17,
@@ -170,17 +151,13 @@ $nav-hr-color: #666;
     width: 100%;
     z-index: 38;
   }
-
   .dropdown-window {
     @include vf-animation(all, brisk, in);
-
-    background-color: $nav-bg-color;
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     position: absolute;
     width: 100%;
     z-index: 39;
-
     &.slide-animation {
       box-shadow: none;
     }
@@ -193,18 +170,15 @@ $nav-hr-color: #666;
       padding-left: map-get($grid-margin-widths, default);
       padding-right: map-get($grid-margin-widths, default);
     }
-
     .p-strip {
       background-color: $nav-bg-color !important;
     }
-
     a {
       color: $color-light;
       &:visited {
         color: $color-light;
       }
     }
-
     &__content {
       background-color: $nav-bg-color;
       color: $color-light;
@@ -219,7 +193,6 @@ $nav-hr-color: #666;
         }
       }
     }
-
     & .p-inline-list__item {
       list-style-type: none;
 
@@ -229,7 +202,6 @@ $nav-hr-color: #666;
         }
       }
     }
-
     .p-media-object__content,
     p {
       font-size: 0.875rem;
@@ -240,11 +212,9 @@ $nav-hr-color: #666;
   .slide-animation {
     transform: translateY(-101%);
   }
-
   .fade-animation {
     opacity: 0;
     visibility: hidden;
-
     .u-visible-nav & {
       opacity: 1;
       transform: none;
