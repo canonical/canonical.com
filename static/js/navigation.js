@@ -1,4 +1,3 @@
-if (!(window.location.pathname === "/")) {
   var nav = document.getElementById("navigation");
   var navDropdowns = document.querySelectorAll(
     ".p-navigation__item--dropdown-toggle:not(.is-selected)"
@@ -14,8 +13,7 @@ if (!(window.location.pathname === "/")) {
 
       var clickedDropdown = this;
 
-      dropdownWindow.style.top = window.scrollY + nav.offsetHeight + "px";
-      dropdownWindow.style.height =
+      dropdownWindow.style.height = 
         window.innerHeight - nav.offsetHeight + "px";
       dropdownWindow.classList.remove("slide-animation");
       dropdownWindowOverlay.classList.remove("fade-animation");
@@ -25,10 +23,8 @@ if (!(window.location.pathname === "/")) {
 
         if (dropdown === clickedDropdown) {
           if (dropdown.classList.contains("is-active")) {
-            document.body.classList.remove("u-dropdown-active");
             closeMenu(dropdown);
           } else {
-            document.body.classList.add("u-dropdown-active");
             dropdown.classList.add("is-active");
             dropdownContent.classList.remove("u-hide");
           }
@@ -43,7 +39,7 @@ if (!(window.location.pathname === "/")) {
   // Close the menu if browser back button is clicked
   window.addEventListener("hashchange", function (event) {
     navDropdowns.forEach(function (dropdown) {
-      if (dropdown.classList.contains("is-actuive")) {
+      if (dropdown.classList.contains("is-active")) {
         closeMenu(dropdown);
       }
     });
@@ -101,55 +97,3 @@ if (!(window.location.pathname === "/")) {
       dropdownWindow.classList.add("slide-animation");
     }
   }
-
-  var origin = window.location.href;
-
-  addGANavEvents("#products-nav", "canonical.com-nav-products");
-  addGANavEvents("#partners-nav", "canonical.com-nav-partners");
-  addGANavEvents("#careers-nav", "canonical.com-nav-careers");
-
-  function addGANavEvents(target, category) {
-    var t = document.querySelector(target);
-    if (t) {
-      t.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () {
-          dataLayer.push({
-            event: "GAEvent",
-            eventCategory: category,
-            eventAction: `from:${origin} to:${a.href}`,
-            eventLabel: a.text,
-            eventValue: undefined,
-          });
-        });
-      });
-    }
-  }
-
-  addGAContentEvents("#main-content");
-
-  function addGAContentEvents(target) {
-    var t = document.querySelector(target);
-    if (t) {
-      t.querySelectorAll("a").forEach(function (a) {
-        if (a.className.includes("p-button--positive")) {
-          var category = "canonical.com-content-cta-0";
-        } else if (a.className.includes("p-button")) {
-          var category = "canonical.com-content-cta-1";
-        } else {
-          var category = "canonical.com-content-link";
-        }
-        if (!a.href.startsWith("#")) {
-          a.addEventListener("click", function () {
-            dataLayer.push({
-              event: "GAEvent",
-              eventCategory: category,
-              eventAction: `from:${origin} to:${a.href}`,
-              eventLabel: a.text,
-              eventValue: undefined,
-            });
-          });
-        }
-      });
-    }
-  }
-}

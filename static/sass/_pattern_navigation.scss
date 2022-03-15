@@ -1,20 +1,8 @@
-$nav-bg-color: #2c001e;
-$logo-width: 5rem;
-$nudge--small: 0.55rem;
+$nav-bg-color: #262626;
+$nav-font-color: #f7f7f7;
+$nav-hr-color: #666;
 
 @mixin canonical-p-navigation {
-  %row-no-margins-on-mobile {
-    @media (max-width: $breakpoint-navigation-threshold) {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    @media (min-width: $breakpoint-navigation-threshold + 1) {
-      padding-left: map-get($grid-margin-widths, large);
-      padding-right: map-get($grid-margin-widths, large);
-    }
-  }
-
   .p-navigation {
     background-color: $nav-bg-color;
     flex-direction: column;
@@ -34,25 +22,24 @@ $nudge--small: 0.55rem;
         }
 
         .p-navigation__link {
-          background-color: $color-x-light;
-          color: $color-dark;
+          background-color: none;
+          color: $nav-font-color;
           padding-right: $sph-inner;
 
           &:focus,
           &:visited {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: none;
+            color: $nav-font-color;
           }
 
           &:hover {
-            background-color: $color-x-light;
-            color: $color-dark;
+            background-color: $nav-bg-color;
+            color: $nav-font-color;
           }
         }
       }
-
       .p-navigation__link {
-        color: $color-light;
+        color: $nav-font-color;
         display: block;
 
         &:before {
@@ -61,14 +48,14 @@ $nudge--small: 0.55rem;
 
         &:focus,
         &:visited {
-          background-color: $nav-bg-color;
-          color: $color-light;
+          background-color: none;
+          color: $nav-font-color
         }
 
         &:hover,
         &.active {
-          background-color: rgba(94, 39, 80, 0.5);
-          color: $color-x-light;
+          background-color: $nav-bg-color;
+          color: $nav-font-color
         }
       }
     }
@@ -77,33 +64,32 @@ $nudge--small: 0.55rem;
       position: relative;
 
       &:not(.is-selected)::after {
-        @include vf-icon-chevron($color-x-light);
+        @include vf-icon-chevron($nav-font-color);
       }
 
       &.is-active {
+        background-color: $nav-bg-color;
+        color: $nav-font-color;
         &::after {
-          @include vf-icon-chevron(vf-url-friendly-color($color-dark));
+          @include vf-icon-chevron(vf-url-friendly-color($nav-font-color));
 
           transform: rotate(-180deg);
         }
 
         .p-navigation__link {
-          background-color: $color-mid-x-light;
-          color: $color-dark;
+          background-color: $nav-bg-color;
+          color: $nav-font-color;
 
-          &::after {
-            background-color: transparent;
-          }
 
           &:focus,
           &:visited {
-            background-color: $color-mid-x-light;
-            color: $color-dark;
+            background-color: $nav-bg-color;
+            color: $nav-font-color
           }
 
           &:hover {
-            background-color: $color-mid-x-light;
-            color: $color-dark;
+            background-color: none;
+            color: $nav-font-color
           }
         }
       }
@@ -115,7 +101,6 @@ $nudge--small: 0.55rem;
     }
 
     & &__row {
-      @extend %row-no-margins-on-mobile;
 
       &.row {
         grid-gap: 0;
@@ -128,143 +113,13 @@ $nudge--small: 0.55rem;
       }
     }
 
-    &--secondary {
-      background-color: $color-x-light;
-      border-bottom: 1px solid $color-mid-light;
-      display: flex;
-      min-height: 40px;
-      margin-top: 0;
-      position: relative;
-      width: 100%;
-      z-index: 38;
-
-      @media (max-width: $breakpoint-navigation-threshold - 1) {
-        padding: $sp-small 1rem;
-      }
-
-      &__banner {
-        background-color: $color-brand;
-        float: left;
-        font-weight: 300;
-
-        &:hover {
-          color: $color-x-light;
-        }
-      }
-
-      &__logo {
-        @extend %paragraph;
-
-        align-items: center;
-        color: $color-x-light;
-        display: flex;
-        margin-bottom: $sp-unit * 2 - map-get($nudges, nudge--p);
-        position: relative;
-
-        @media (max-width: $breakpoint-navigation-threshold - 1) {
-          padding-left: $sp-small !important;
-          padding-right: 0 !important;
-        }
-
-        a {
-          border-left: 1px solid rgba(247, 247, 247, 0.3); // sass-lint:disable-line no-color-literals
-          color: $color-light !important;
-          padding-left: $sp-small;
-
-          @media (max-width: $breakpoint-navigation-threshold - 1) {
-            position: relative;
-            top: 1px;
-          }
-        }
-
-        &::after {
-          // white separator inside lockup
-          @extend %vf-pseudo-border--top;
-
-          display: none;
-
-          @media only screen and (min-width: $breakpoint-navigation-threshold) {
-            background-color: $color-light;
-            display: block;
-            left: $sph-inner;
-            opacity: 0.3;
-            right: $sph-inner;
-          }
-        }
-
-        @media only screen and (min-width: $breakpoint-navigation-threshold) {
-          padding-left: $sph-inner;
-          padding-right: $sph-inner;
-          width: $logo-width + 2 * $sph-inner;
-        }
-      }
-
-      .breadcrumbs {
-        &--secondary {
-          @extend .p-inline-list; // sass-lint:disable-line placeholder-in-extend
-
-          display: flex;
-          flex-wrap: wrap;
-          margin-bottom: 0;
-          width: auto;
-        }
-
-        &__link {
-          font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
-          padding-left: 0;
-          padding-right: $spv-inner--medium * 2;
-          padding-top: $nudge--small;
-
-          @media (max-width: $breakpoint-x-small - 1) {
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
-          }
-
-          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
-            padding-bottom: map-get($sp-after, small) + $p-small-lh-diff -
-              $nudge--small;
-          }
-
-          &.p-link--active {
-            color: $color-brand;
-          }
-        }
-
-        &__item {
-          color: $color-dark;
-          display: inline-flex;
-          list-style: none;
-
-          &:first-of-type {
-            .breadcrumbs__link {
-              padding-left: 0;
-            }
-          }
-
-          @media (max-width: $breakpoint-x-small - 1) {
-            width: 50%;
-          }
-        }
-
-        &__chevron {
-          font-size: 0.875rem;
-          padding: 0.55rem 0 0.2rem 0;
-        }
-      }
-
-      .row {
-        @extend %row-no-margins-on-mobile;
-      }
-    }
-
     &__toggle--open,
     &__toggle--close {
-      color: $color-light !important;
+      color: $nav-font-color !important;
       
       &:hover {
-        background-color: rgba(94, 39, 80, 0.5) !important;
-        color: $color-x-light !important;
+        background-color: $nav-bg-color !important;
+        color: $nav-font-color !important;
       }
     }
 
@@ -306,10 +161,9 @@ $nudge--small: 0.55rem;
   .dropdown-window {
     @include vf-animation(all, brisk, in);
 
-    background-color: $color-x-light;
+    background-color: $nav-bg-color;
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
-    overflow-y: scroll;
     position: absolute;
     width: 100%;
     z-index: 39;
@@ -318,16 +172,29 @@ $nudge--small: 0.55rem;
       box-shadow: none;
     }
 
+    hr {
+      border-top: 1px solid $nav-hr-color;
+    }
+
     .row {
       padding-left: map-get($grid-margin-widths, large);
       padding-right: map-get($grid-margin-widths, large);
     }
 
-    &__content {
-      @extend %p-strip--very-shallow;
+    .p-strip {
+      background-color: $nav-bg-color !important;
+    }
 
-      background-color: $color-mid-x-light;
-      color: $color-dark;
+    a {
+      color: $nav-font-color;
+      &:visited {
+        color: $nav-font-color;
+      }
+    }
+    
+    &__content {
+      background-color: $nav-bg-color;
+      color: $nav-font-color;
 
       &:last-child {
         padding-bottom: $spv-outer--shallow-scaleable / 1.5;
@@ -341,8 +208,6 @@ $nudge--small: 0.55rem;
     }
 
     & .p-inline-list__item {
-      @extend %small-text-fixed;
-
       list-style-type: none;
 
       &::after {
@@ -359,16 +224,6 @@ $nudge--small: 0.55rem;
     }
   }
 
-  .u-dropdown-active {
-    bottom: 0;
-    height: 100%;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   .slide-animation {
     transform: translateY(-101%);
   }
@@ -382,27 +237,5 @@ $nudge--small: 0.55rem;
       transform: none;
       visibility: visible;
     }
-  }
-
-  %p-strip--very-shallow {
-    padding-top: $spv-outer--medium;
-
-    &:not(:last-child) {
-      padding-bottom: $spv-outer--medium;
-    }
-
-    &:last-child {
-      padding-bottom: $spv-outer--scaleable;
-    }
-  }
-
-  %small-text-base {
-    font-size: 1rem / pow($ms-ratio, 1);
-    line-height: map-get($line-heights, small);
-    padding-top: $nudge--small;
-  }
-
-  %small-text-fixed {
-    @extend %small-text-base;
   }
 }

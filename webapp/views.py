@@ -1,6 +1,11 @@
 import flask
 
 
+def navigation_canonical():
+
+    return flask.render_template("/partial/navigation-canonical.html")
+
+
 def leadership_team():
 
     return flask.render_template("leadership-team.html")
