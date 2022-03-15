@@ -11,7 +11,7 @@
     </div>
     <nav class="p-navigation__nav">
       <ul class="p-navigation__items">
-        <li class="p-navigation__item">
+        <li class="p-navigation__item is-selected">
           <a class="p-navigation__link" href="/partners">Partners</a>
         </li>
         <li class="p-navigation__item">
@@ -30,8 +30,22 @@
             onfocus="fetchDropdown('/partial/navigation-canonical', 'canonical-nav-content');">Canonical</a>
           {% endif %}
         </li>
+        <li class="p-navigation__item">
+          <a href="#" class="js-search-button p-navigation__link--search-toggle">
+            <span class="p-navigation__search-label">Search</span>
+          </a>
+        </li>
+      </ul>
+      <div class="p-navigation__search">
+        <form class="p-search-box">
+          <input type="search" class="p-search-box__input" name="q" placeholder="Search our sites" required="" aria-label="Search our sites">
+          <button type="reset" class="p-search-box__reset"><i class="p-icon--close"></i></button>
+          <button type="submit" class="p-search-box__button"><i class="p-icon--search"></i></button>
+        </form>
+      </div>
     </nav>
   </div>
+  <div class="p-navigation__search-overlay"></div>
 </header>
 <div class="dropdown-window-overlay fade-animation"></div>
 <div class="dropdown-window slide-animation">
@@ -44,7 +58,7 @@
   if (nav) {
     nav.classList.remove('u-hide');
   }
-  
+
   function fetchDropdown(url, id) {
     const div = document.getElementById(id);
     fetch(url)
@@ -58,4 +72,37 @@
         console.log('Request failed', error)
       })
   }
+
+  //search bar
+  function initNavigationSearch(element) {
+    const searchButton = element.querySelector('.js-search-button');
+    if (searchButton) {
+      searchButton.addEventListener('click', openSearch);
+    }
+
+    const overlay = element.querySelector('.p-navigation__search-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', closeSearch);
+    }
+
+    function openSearch(e) {
+      e.preventDefault();
+      var navigation = e.target.closest('.p-navigation');
+      var searchInput = navigation.querySelector('.p-search-box__dinput');
+      navigation.classList.add('has-search-open');
+      searchInput.focus();
+      document.addEventListener('keyup', keyPressHandler);
+    }
+
+    function closeSearch() {
+      var navigation = document.querySelector('.p-navigation.has-search-open');
+      var banner = document.querySelector('.p-navigation__banner');
+      navigation.classList.remove('has-search-open');
+      document.removeEventListener('keyup', keyPressHandler);
+    }
+  }
+
+  var navigation = document.querySelector('#navigation');
+  initNavigationSearch(navigation);
+
 </script>
