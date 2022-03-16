@@ -10,6 +10,7 @@ import re
 from canonicalwebteam import image_template
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.search import build_search_view
 from requests.exceptions import HTTPError
 from slugify import slugify
 import talisker.requests
@@ -342,6 +343,12 @@ app.add_url_rule(
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
+
+app.add_url_rule(
+    "/search",
+    "search",
+    build_search_view(session=session, template_path="search.html"),
+)
 
 
 @app.context_processor
