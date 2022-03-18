@@ -300,12 +300,34 @@ def partners_sitemap():
 
 
 # Blog
+class BlogView(flask.views.View):
+    def __init__(self, blog_views):
+        self.blog_views = blog_views
+
+
+class PressCentre(BlogView):
+    def dispatch_request(self):
+        page_param = flask.request.args.get("page", default=1, type=int)
+        category_param = flask.request.args.get(
+            "category", default="", type=str
+        )
+        context = self.blog_views.get_group(
+            "canonical-announcements", page_param, category_param
+        )
+
+        return flask.render_template("press-centre/index.html", **context)
+
+
 blog_views = BlogViews(
     api=BlogAPI(session=session),
     excluded_tags=[3184, 3265],
     per_page=11,
 )
 
+app.add_url_rule(
+    "/press-centre",
+    view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
+)
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 
