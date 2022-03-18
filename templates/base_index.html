@@ -89,7 +89,7 @@
     <div id="success" class="u-hide">
       <div class="p-notification--positive u-no-margin--bottom">
           <div class="p-notification__content">
-            <p class="p-notification__message">Your submission was sent successfully! <a href="#" onclick="closeNotification()"><i class="p-notification__close">Close</i></a></p>
+            <p class="p-notification__message">Your submission was sent successfully! <a href="#" onclick="document.querySelector('#success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a></p>
           </div>
       </div>
   </div>
@@ -112,14 +112,10 @@
       (function() {
         // Newsletter submission notification
         var successElement = "#success";
-        const closeNotification = function() {
-          document.querySelector(successElement).classList.add("u-hide");
-        }
-        
         if (location.hash === successElement) {
           document.querySelector(successElement).classList.remove("u-hide");
         } else {
-          closeNotification();
+          document.querySelector(successElement).classList.add("u-hide");
         }
       })()
     </script>

@@ -17,9 +17,8 @@ from canonicalwebteam.templatefinder import TemplateFinder
 from requests.exceptions import HTTPError
 from slugify import slugify
 
-from webapp.application import application
-
 # Local
+from webapp.application import application
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
 
