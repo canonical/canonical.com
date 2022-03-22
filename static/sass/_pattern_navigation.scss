@@ -8,47 +8,57 @@ $nav-hr-color: #666;
     background-color: $nav-bg-color;
     flex-direction: column;
     z-index: 40;
+
     &::after {
       // disable rule under nav
       background-color: none;
       height: 0;
     }
-    
+
     .p-navigation__item--dropdown-toggle {
       position: relative;
+
       &:not(.is-selected)::after {
         @include vf-icon-chevron($nav-font-color);
       }
+
       &.is-active {
         background-color: $nav-bg-color;
         color: $nav-font-color;
+
         &::after {
           @include vf-icon-chevron(vf-url-friendly-color($nav-font-color));
 
           transform: rotate(-180deg);
         }
+
         .p-navigation__link {
           background-color: $nav-bg-color;
           color: $nav-font-color;
+
           &:focus,
           &:visited {
             background-color: $nav-bg-color;
-            color: $nav-font-color
+            color: $nav-font-color;
           }
+
           &:hover {
             background-color: none;
-            color: $nav-font-color
+            color: $nav-font-color;
           }
         }
       }
     }
+
     & &__nav {
       border-bottom: 0;
       width: 100%;
     }
+
     & &__row {
       &.row {
         grid-gap: 0;
+
         @media (max-width: $breakpoint-x-small) {
           display: block;
           padding-left: 0 !important;
@@ -56,25 +66,28 @@ $nav-hr-color: #666;
         }
       }
     }
-    
+
     &__toggle--open,
     &__toggle--close {
       color: $nav-font-color !important;
-      
+
       &:hover {
         background-color: $nav-bg-color !important;
         color: $nav-font-color !important;
       }
     }
+
     &__links {
       @media (max-width: $breakpoint-x-small - 1) {
         font-size: 0.875rem;
       }
+
       @media (max-width: $breakpoint-navigation-threshold) {
         align-items: stretch;
         display: flex;
         justify-content: left;
         order: 2;
+
         .p-navigation__dropdown-link {
           flex: 1;
           text-align: center;
@@ -82,6 +95,7 @@ $nav-hr-color: #666;
       }
     }
   }
+
   .dropdown-window-overlay {
     background-color: rgba(
       17,
@@ -101,12 +115,13 @@ $nav-hr-color: #666;
 
   .dropdown-window {
     @include vf-animation(all, brisk, in);
-    
+
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     position: absolute;
     width: 100%;
     z-index: 39;
+
     &.slide-animation {
       box-shadow: none;
     }
@@ -119,15 +134,18 @@ $nav-hr-color: #666;
       padding-left: map-get($grid-margin-widths, default);
       padding-right: map-get($grid-margin-widths, default);
     }
+
     .p-strip {
       background-color: $nav-bg-color !important;
     }
+
     a {
       color: $nav-font-color;
       &:visited {
         color: $nav-font-color;
       }
     }
+
     &__content {
       background-color: $nav-bg-color;
       color: $nav-font-color;
@@ -142,6 +160,7 @@ $nav-hr-color: #666;
         }
       }
     }
+
     & .p-inline-list__item {
       list-style-type: none;
 
@@ -151,19 +170,22 @@ $nav-hr-color: #666;
         }
       }
     }
+
     .p-media-object__content,
     p {
       font-size: 0.875rem;
       line-height: 1.35rem;
     }
   }
-  
+
   .slide-animation {
     transform: translateY(-101%);
   }
+
   .fade-animation {
     opacity: 0;
     visibility: hidden;
+
     .u-visible-nav & {
       opacity: 1;
       transform: none;
@@ -172,30 +194,33 @@ $nav-hr-color: #666;
   }
 
   .p-navigation__logo--tag {
-    width: 22px; 
-    height: 38px; 
-    background-color: #E95420; 
+    background-color: #e95420;
+    height: 38px;
     position: relative;
+    width: 22px;
+
     img {
-      width: 18px;
-      height: 17px; 
-      position: absolute;
       bottom: 3px;
+      height: 17px;
       left: 50%;
+      position: absolute;
       transform: translate(-50%, 0);
+      width: 18px;
     }
   }
+
   .p-navigation__logo--text {
-    position: relative;
     color: #fff;
-    width: 72px;
     height: 38px;
+    position: relative;
+    width: 72px;
+
     span {
+      bottom: -2px;
       font-weight: 400;
+      left: 3px;
       line-height: 1.5rem;
       position: absolute;
-      bottom: -2px;
-      left: 3px;
     }
   }
 }
