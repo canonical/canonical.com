@@ -1,3 +1,4 @@
+@use 'sass:math';
 $nav-bg-color: #262626;
 $nav-font-color: #f7f7f7;
 $nav-hr-color: #666;
@@ -7,66 +8,17 @@ $nav-hr-color: #666;
     background-color: $nav-bg-color;
     flex-direction: column;
     z-index: 40;
-
     &::after {
       // disable rule under nav
       background-color: none;
       height: 0;
     }
-
-    [class*="p-navigation__item"] {
-      &.is-selected {
-        /* stylelint-disable */
-        &::after {
-          background: none;
-        }
-
-        .p-navigation__link {
-          background-color: none;
-          color: $nav-font-color;
-          padding-right: $sph-inner;
-
-          &:focus,
-          &:visited {
-            background-color: none;
-            color: $nav-font-color;
-          }
-
-          &:hover {
-            background-color: $nav-bg-color;
-            color: $nav-font-color;
-          }
-        }
-      }
-      .p-navigation__link {
-        color: $nav-font-color;
-        display: block;
-
-        &:before {
-          display: none;
-        }
-
-        &:focus,
-        &:visited {
-          background-color: none;
-          color: $nav-font-color
-        }
-
-        &:hover,
-        &.active {
-          background-color: $nav-bg-color;
-          color: $nav-font-color
-        }
-      }
-    }
-
+    
     .p-navigation__item--dropdown-toggle {
       position: relative;
-
       &:not(.is-selected)::after {
         @include vf-icon-chevron($nav-font-color);
       }
-
       &.is-active {
         background-color: $nav-bg-color;
         color: $nav-font-color;
@@ -75,18 +27,14 @@ $nav-hr-color: #666;
 
           transform: rotate(-180deg);
         }
-
         .p-navigation__link {
           background-color: $nav-bg-color;
           color: $nav-font-color;
-
-
           &:focus,
           &:visited {
             background-color: $nav-bg-color;
             color: $nav-font-color
           }
-
           &:hover {
             background-color: none;
             color: $nav-font-color
@@ -94,17 +42,13 @@ $nav-hr-color: #666;
         }
       }
     }
-
     & &__nav {
       border-bottom: 0;
       width: 100%;
     }
-
     & &__row {
-
       &.row {
         grid-gap: 0;
-
         @media (max-width: $breakpoint-x-small) {
           display: block;
           padding-left: 0 !important;
@@ -112,7 +56,7 @@ $nav-hr-color: #666;
         }
       }
     }
-
+    
     &__toggle--open,
     &__toggle--close {
       color: $nav-font-color !important;
@@ -122,18 +66,15 @@ $nav-hr-color: #666;
         color: $nav-font-color !important;
       }
     }
-
     &__links {
       @media (max-width: $breakpoint-x-small - 1) {
         font-size: 0.875rem;
       }
-
       @media (max-width: $breakpoint-navigation-threshold) {
         align-items: stretch;
         display: flex;
         justify-content: left;
         order: 2;
-
         .p-navigation__dropdown-link {
           flex: 1;
           text-align: center;
@@ -141,7 +82,6 @@ $nav-hr-color: #666;
       }
     }
   }
-
   .dropdown-window-overlay {
     background-color: rgba(
       17,
@@ -149,6 +89,7 @@ $nav-hr-color: #666;
       17,
       0.4
     ); // sass-lint:disable-line no-color-literals
+
     height: 100%;
     opacity: 1;
     position: fixed;
@@ -160,14 +101,12 @@ $nav-hr-color: #666;
 
   .dropdown-window {
     @include vf-animation(all, brisk, in);
-
-    background-color: $nav-bg-color;
+    
     box-shadow: 0 1px 32px 1px transparentize($color-dark, 0.8);
     flex-direction: column;
     position: absolute;
     width: 100%;
     z-index: 39;
-
     &.slide-animation {
       box-shadow: none;
     }
@@ -177,27 +116,24 @@ $nav-hr-color: #666;
     }
 
     .row {
-      padding-left: map-get($grid-margin-widths, large);
-      padding-right: map-get($grid-margin-widths, large);
+      padding-left: map-get($grid-margin-widths, default);
+      padding-right: map-get($grid-margin-widths, default);
     }
-
     .p-strip {
       background-color: $nav-bg-color !important;
     }
-
     a {
       color: $nav-font-color;
       &:visited {
         color: $nav-font-color;
       }
     }
-    
     &__content {
       background-color: $nav-bg-color;
       color: $nav-font-color;
 
       &:last-child {
-        padding-bottom: $spv-outer--shallow-scaleable / 1.5;
+        padding-bottom: math.div($spv--x-large, 1.5);
       }
 
       @media (max-width: $breakpoint-x-small - 1) {
@@ -206,32 +142,28 @@ $nav-hr-color: #666;
         }
       }
     }
-
     & .p-inline-list__item {
       list-style-type: none;
 
       &::after {
-        @media only screen and (max-width: $breakpoint-medium - 1) {
+        @media only screen and (max-width: $breakpoint-large - 1) {
           display: none;
         }
       }
     }
-
     .p-media-object__content,
     p {
       font-size: 0.875rem;
       line-height: 1.35rem;
     }
   }
-
+  
   .slide-animation {
     transform: translateY(-101%);
   }
-
   .fade-animation {
     opacity: 0;
     visibility: hidden;
-
     .u-visible-nav & {
       opacity: 1;
       transform: none;
