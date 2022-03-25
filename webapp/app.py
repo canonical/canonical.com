@@ -193,14 +193,8 @@ def job_details(job_id, job_title):
             flask.request.form, flask.request.files, job_id
         )
         if response.status_code == 200:
-            context["message"] = {
-                "type": "positive",
-                "title": "Success",
-                "text": (
-                    "Your application has been successfully submitted."
-                    " Thank you!"
-                ),
-            }
+            return flask.redirect("/careers/thank-you")
+
         else:
             context["message"] = {
                 "type": "negative",
@@ -249,14 +243,8 @@ def department_group(department_slug):
             flask.request.files,
         )
         if response.status_code == 200:
-            message = {
-                "type": "positive",
-                "title": "Success",
-                "text": (
-                    "Your application has been successfully submitted."
-                    " Thank you!"
-                ),
-            }
+            return flask.redirect("/careers/thank-you")
+
         else:
             message = {
                 "type": "negative",
