@@ -1,24 +1,23 @@
-{% if request.path == "/topic/blog/cloud-and-server" %}
-  <header>
-    <h3 class="p-muted-heading--blog">Cloud and Server</h3>
+{% if request.path == "topic/blog/cloud-and-server" %}
+  <header class="p-card__header--cloud-and-server">
+    <h5 class="p-muted-heading u-no-margin--bottom">Cloud and Server</h5>
   </header>
-{% elif request.path == "/topic/blog/desktop" %}
-  <header>
-    <h3 class="p-muted-heading--blog">Desktop</h3>
+{% elif request.path == "topic/blog/desktop" %}
+  <header class="p-card__header--desktop">
+    <h5 class="p-muted-heading u-no-margin--bottom">Desktop</h5>
   </header>
-{% elif request.path == "/topic/blog/internet-of-things" %}
-  <header>
-    <h3 class="p-muted-heading--blog">Internet of Things</h3>
+{% elif request.path == "topic/blog/internet-of-things" %}
+  <header class="p-card__header--internet-of-things">
+    <h5 class="p-muted-heading u-no-margin--bottom">Internet of Things</h5>
   </header>
 {% else %}
-  <header>
-    <h3 class="p-muted-heading--blog">
+  <header class="p-card__header{% if article.group %}--{{ article.group.slug }}{% endif %}">
+    <h5 class="p-muted-heading u-no-margin--bottom">
       {% if article.group %}
         {{ article.group.name }}
       {% else %}
         Ubuntu
       {% endif %}
-    </h3>
+    </h5>
   </header>
-  <hr class="u-no-margin--bottom">
 {% endif %}
