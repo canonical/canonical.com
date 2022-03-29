@@ -1,0 +1,46 @@
+{% extends "base_index.html" %}
+{% block title %}Canonical Blog{% endblock %}
+
+{% block extra_metatags %}
+  <link rel="alternate" type="application/rss+xml"  href="/blog/feed" title="Canonical.com's Blog RSS feed">
+{% endblock %}
+
+{% block content%}
+
+  {% if current_page and current_page == 1 and featured_articles %}
+    {% include "blog/featured-articles.html" %}
+  {% endif %}
+
+  <section class="p-strip is-shallow" id="posts-list">
+    {% with topic="" %}{% include "blog/filters.html" %}{% endwith %}
+    <div class="row u-equal-height u-clearfix">
+    {% for article in articles %}
+      {% if loop.index in [1,2] %}
+        {% with summary_visible=True %}{% include "blog/blog-card.html" %}{% endwith %}
+      {% elif loop.index == 3 %}
+        <div class="col-4">
+          {% include 'blog/newsletter-form.html' %}
+        </div>
+      </div>
+      <div class="row u-equal-height u-clearfix">
+        {% include 'blog/blog-card.html' %}
+      {% elif (loop.index +1) % 3 == 0 and loop.index > 3 %}
+        {% include 'blog/blog-card.html' %}
+        </div>
+        <div class="row u-equal-height u-clearfix">
+      {% else %}
+        {% include 'blog/blog-card.html' %}
+      {% endif %}
+    {% endfor %}
+    </div>
+  </section>
+
+  <section class="p-strip is-deep">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
+
+{% endblock content %}

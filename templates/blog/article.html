@@ -1,0 +1,145 @@
+{% extends "base_index.html" %}
+
+{% block title %}{{ article.title.rendered|safe }}{% endblock %}
+{% block meta_description %}{{ article.excerpt.raw }}{% endblock %}
+{% block meta_image %}{{ article.image.source_url }}{% endblock %}
+
+{% block body_class %}blog-article{% endblock %}
+{% block canonical_url %}
+  {% if 2996 in article.tags %}https://snapcraft.io/blog/{{ article.slug }}{% elif 4059 in article.tags %}https://juju.is/blog/{{ article.slug }}{% else %}{{ super() }}{% endif %}
+{% endblock canonical_url %}
+
+{% block extra_metatags %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@id": "https://canonical.com/#article",
+    "@type": "Article",
+    "name": "{{ article.title.renderered|safe }}",
+    "headline": "{{ article.excerpt.raw }}",
+    "author": {
+       "@type": "Person",
+       "name": "{{ article.author.name }}"
+    },
+    "datePublished": "{{ article.date_gmt }}",
+    {% if article.image and article.image.source_url %}
+      "image": "{{ article.image.source_url }}",
+    {% endif %}
+    "url": "{{ request.url }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ubuntu"
+    }
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<article>
+  <header class="p-strip--image is-light is-deep u-extra-space" style="background-image: url(https://assets.ubuntu.com/v1/f8a323a7-image-background-paper.png);">
+    <div class="row">
+      <div class="col-8">
+        <h1>{{ article.title.rendered|safe }}</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <div class="p-media-object">
+          {% if article.author %}
+            <img src="{% if article.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ article.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image is-round" alt="">
+          {% endif %}
+
+          <div class="p-media-object__details">
+            {% if article.author %}
+              <h3 class="p-media-object__title">
+                <a href="/blog/author/{{ article.author.slug }}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>
+              </h3>
+            {% endif %}
+            <p class="p-media-object__content">on {{ article.date }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <ul class="p-inline-list-icons u-no-padding--left u-no-margin--left">
+          <li class="p-inline-list__item">
+            Share on:
+          </li>
+
+          <li class="p-inline-list__item">
+            <a  class="p-link--inverted p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+              Facebook
+            </a>
+          </li>
+
+          <li class="p-inline-list__item">
+            <a class="p-link--inverted p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
+              Twitter
+            </a>
+          </li>
+
+          <li class="p-inline-list__item">
+            <a class="p-link--inverted p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
+            LinkedIn
+          </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    {% if tags %}
+      <div class="row">
+        <div class="col-10">
+          <p>
+            <strong>Tags:</strong>
+            {%- for tag in tags -%}
+              <a href="/blog/tag/{{ tag.slug }}">
+                {{ tag.name }}
+              </a>{%- if not loop.last %},{% endif -%}
+            {%- endfor -%}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </header>
+
+  <section class="p-strip">
+    <div class="row u-equal-height">
+      <div class="col-8">
+        <div class="p-post__content">
+          {{ article.content.rendered|safe }}
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div>
+          {% include 'blog/newsletter-form.html' %}
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+
+{% if related_articles %}
+<section class="p-strip--light is-shallow">
+  <div class="row">
+    <div class="col-8">
+      <h3>Related posts</h3>
+    </div>
+  </div>
+
+  <div class="row p-divider">
+    {% for related_article in related_articles %}
+    <div class="col-4 p-divider__block">
+      <h4>
+        <a href="/blog/{{ related_article.slug }}">
+          {{ related_article.title.rendered|safe }}
+        </a>
+      </h4>
+      <p>{{ related_article.excerpt.raw.replace("[…]", "")|truncate(162) }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}
