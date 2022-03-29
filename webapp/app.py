@@ -193,7 +193,7 @@ def job_details(job_id, job_title):
             flask.request.form, flask.request.files, job_id
         )
         if response.status_code == 200:
-            return flask.redirect("/careers/thank-you")
+            return flask.render_template("/careers/thank-you.html", **context)
 
         else:
             context["message"] = {
@@ -243,7 +243,7 @@ def department_group(department_slug):
             flask.request.files,
         )
         if response.status_code == 200:
-            return flask.redirect("/careers/thank-you")
+            return flask.render_template("/careers/thank-you.html", **context)
 
         else:
             message = {
