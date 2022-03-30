@@ -44,8 +44,10 @@
       <div class="row u-sv3">
         <div class="col-6 js-vacancies-modal__active-roles">
           {% for role in selectedRoles %}
-            <input type="checkbox" name="roles" id="role{{role.id}}" checked>
-            <label for="role{{ role.id }}">{{ role.title }}</label>
+            <label class="p-checkbox">
+              <input class="p-checkbox__input" type="checkbox" name="roles" aria-labelledby="role{{role.id}}" checked>
+              <label class="p-checkbox__label" id="role{{ role.id }}">{{ role.title }}</label>
+            </label>
           {% endfor %}
         </div>
         <div class="col-3">
