@@ -4,7 +4,7 @@
 
 {% block title %}Global System Integrator Programme | Partners{% endblock %}
 
-{% block meta_description %}Together we’ve successfully helped telecom providers, governmental agencies, financial services companies and other industries be relevant in the market by having the most current open source technology available today.{% endblock %}
+{% block meta_description %}Together we've successfully helped telecom providers, governmental agencies, financial services companies and other industries be relevant in the market by having the most current open source technology available today.{% endblock %}
 
 {% block content %}
 <section class="p-strip--suru-bottomed is-deep" style="padding-bottom: 8rem; padding-top: 3rem;">
@@ -12,10 +12,10 @@
     <div class="col-6">
       <h1>Global System Integrator Programme</h1>
       <p>Canonical works with Global System Integrators around the world to build solutions that help our joint customers be successful in their business.</p>
-      <p>Together we’ve successfully helped telecom providers, governmental agencies, financial services companies and other industry leaders overcome their toughest technological challenges. We help Global System Integrators build solutions and platforms on top of open, secure, reliable and professionally-supported foundations. </p>
+      <p>Together we've successfully helped telecom providers, governmental agencies, financial services companies and other industry leaders overcome their toughest technological challenges. We help Global System Integrators build solutions and platforms on top of open, secure, reliable and professionally-supported foundations. </p>
       <a href="/contact-us" class="p-button--positive">Get in touch</a>
     </div>
-    <div class="col-6 u-align--center u-vertically-center u-hide--small">
+    <div class="col-6 u-align--center u-vertically-center u-hide--small u-hide--medium">
       <img src="https://assets.ubuntu.com/v1/c0244599-latest-ubuntu-download.svg" width="350" height="314" alt="">
     </div>
   </div>
@@ -23,18 +23,18 @@
 
 {% if partners %}
 <section class="p-strip is-deep">
-  <div class="u-fixed-width u-align--center">
-    <h4 class="p-muted-heading u-no-max-width">Meet some of our global system integrator partners</h4>
-  </div>
   <div class="u-fixed-width">
-    <ul class="p-inline-images u-no-margin--bottom">
-      {% for partner in partners %}
-      <li class="p-inline-images__item">
-        <img class="p-inline-images__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-      </li>
-      {% endfor %}
-    </ul>
-    <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=global-system-integrators">See all of our gsi partners&nbsp;&rsaquo;</a></p>
+    <div class="p-logo-section u-align--center">
+      <h4 class="p-logo-section__title p-muted-heading u-no-max-width">Meet some of our global system integrator partners</h4>
+      <div class="p-logo-section__items u-no-margin--bottom">
+        {% for partner in partners %}
+        <div class="p-logo-section__item">
+          <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
+        </div>
+        {% endfor %}
+      </div>
+      <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=global-system-integrators">See all of our gsi partners&nbsp;&rsaquo;</a></p>
+    </div>
   </div>
 </section>
 {% endif %}
@@ -44,12 +44,12 @@
     <h2>Building powerful customer solutions together</h2>
   </div>
   <div class="row">
-    <div class="col-7">
+    <div class="col-7 col-medium-4">
       <p>
         Join our webinars created specifically for Global System Integrators who are overcoming difficult technological challenges to build solutions and platforms for their customers. We will talk about scaleable, automated and repeatable deployments that will help your customers meet their digital transformation needs.
       </p>
     </div>
-    <div class="col-5 u-hide--small u-align--center u-vertically-center">
+    <div class="col-5 col-medium-2 u-hide--small u-align--center u-vertically-center">
       <img src="https://assets.ubuntu.com/v1/58442bcb-business-promo-webinar.png" width="200" height="125" alt="">
     </div>
   </div>
@@ -60,14 +60,14 @@
     <div class="p-divider">
       <div class="col-5 p-divider__block">
         <p>
-          <a class="p-link--external" href="https://www.google.com/url?q=https://www.brighttalk.com/webcast/6793/427943?utm_source%3DCanonical%26utm_medium%3Dbrighttalk%26utm_campaign%3D427943&sa=D&ust=1595580692587000&usg=AFQjCNHorVYPYanRnfGnfyPfjCqRANubcg">
+          <a href="https://www.google.com/url?q=https://www.brighttalk.com/webcast/6793/427943?utm_source%3DCanonical%26utm_medium%3Dbrighttalk%26utm_campaign%3D427943&sa=D&ust=1595580692587000&usg=AFQjCNHorVYPYanRnfGnfyPfjCqRANubcg">
             How to create a private cloud with your data centre: provisioning servers in minutes
           </a>
         </p>
       </div>
       <div class="col-5 p-divider__block">
         <p>
-          <a class="p-link--external" href="https://www.google.com/url?q=https://www.brighttalk.com/webcast/6793/427958?utm_source%3DCanonical%26utm_medium%3Dbrighttalk%26utm_campaign%3D427958&sa=D&ust=1595580692588000&usg=AFQjCNFqlfVSgFJNuycNeE6Ehb3XB-WkYw">
+          <a href="https://www.google.com/url?q=https://www.brighttalk.com/webcast/6793/427958?utm_source%3DCanonical%26utm_medium%3Dbrighttalk%26utm_campaign%3D427958&sa=D&ust=1595580692588000&usg=AFQjCNFqlfVSgFJNuycNeE6Ehb3XB-WkYw">
             Streamlined Kubernetes from cloud to edge: open source, cloud-native container orchestration for innovation and scaling
           </a>
         </p>
@@ -83,14 +83,14 @@
   </div>
   <div class="row p-divider">
     <div class="col-7 p-divider__block">
-      <p>We are proud to align with our Global System Integrators as they are at the forefront of technological transformation leading change in many of the world’s enterprises. In order to ensure our partners are successful, we created the Canonical partner programme to offer Global System Integrators with the help they need to develop new business opportunities from the public cloud, data centre, IoT, gateways and traditional IT leveraging open source technologies powered by Ubuntu. </p>
+      <p>We are proud to align with our Global System Integrators as they are at the forefront of technological transformation leading change in many of the world's enterprises. In order to ensure our partners are successful, we created the Canonical partner programme to offer Global System Integrators with the help they need to develop new business opportunities from the public cloud, data centre, IoT, gateways and traditional IT leveraging open source technologies powered by Ubuntu. </p>
       <p>
         <a href="/partners/become-a-partner" class="p-button--positive">
           Become a partner
         </a>
       </p>
     </div>
-    <div class="col-5 p-divider__block">
+    <div class="col-5 p-divider__block u-vertically-center">
       <h4>Why partner with Canonical?</h4>
       <ul class="p-list">
         <li class="p-list__item is-ticked">Named partner leader</li>
@@ -101,23 +101,25 @@
     </div>
   </div>
 </section>
+
 <div class="u-fixed-width">
-  <hr class="p-separator">
+  <hr class="p-separator u-no-margin--top">
 </div>
+
 <section class="p-strip is-deep">
   <div class="row">
-    <div class="col-8">
+    <div class="col-8 col-medium-4">
       <h2>Access our partner portal</h2>
       <p>
         Open source technology is growing in demand. We want you to benefit from this unique opportunity, and take advantage of the investment Canonical is making in its partner community. We are committed to giving you the tools and programs to succeed, from discounts and financial incentives, to sales and technical support teams.
       </p>
       <p>
-        <a href="https://partner-portal.canonical.com" class="p-link--external">
-          Login to the partner portal
+        <a href="https://partner-portal.canonical.com">
+          Login to the partner portal&nbsp;&rsaquo;
         </a>
       </p>
     </div>
-    <div class="col-4">
+    <div class="col-4 col-medium-2 u-vertically-center u-hide--small">
       <img src="https://assets.ubuntu.com/v1/a544a3b0-partner_portal_sml.png" alt="">
     </div>
   </div>
@@ -131,43 +133,43 @@
       </h2>
       <ul class="p-list">
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/engage/private-cloud-build-webinar">
+          <a href="https://ubuntu.com/engage/private-cloud-build-webinar">
             Lessons learned from 100+ private cloud builds
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/engage/moving-to-opensource-whitepaper?utm_source=personal">
+          <a href="https://ubuntu.com/engage/moving-to-opensource-whitepaper?utm_source=personal">
             Embracing the open source mandate
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/tco-calculator">
+          <a href="https://ubuntu.com/tco-calculator">
             Private cloud TCO calculator
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/engage/k8s-allan-gray">
+          <a href="https://ubuntu.com/engage/k8s-allan-gray">
             How Allan Gray uses Charmed Kubernetes to boost efficiency and availability
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/engage/enterprise-snap-management">
+          <a href="https://ubuntu.com/engage/enterprise-snap-management">
             Managing snaps in the enterprise environment
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://ubuntu.com/engage/evolving-software">
+          <a href="https://ubuntu.com/engage/evolving-software">
             How Juju can help solve software management complexity
           </a>
         </li>
         <li class="p-list__item is-ticked">
-          <a class="p-link--external" href="https://www.brighttalk.com/webcast/6793/385799">
+          <a href="https://www.brighttalk.com/webcast/6793/385799">
             Accelerating IoT device time to market
           </a>
         </li>
       </ul>
     </div>
-    <div class="col-5 u-hide--small u-align--center u-vertically-center">
+    <div class="col-5 u-hide--small u-hide--medium u-align--center u-vertically-center">
       <img src="https://assets.ubuntu.com/v1/5d8aa78b-1+Discovery.svg" width="335" height="200" alt="">
     </div>
   </div>

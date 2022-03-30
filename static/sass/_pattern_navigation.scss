@@ -1,3 +1,4 @@
+@use 'sass:math';
 $nav-bg-color: #2c001e;
 $logo-width: 5rem;
 $nudge--small: 0.55rem;
@@ -10,8 +11,8 @@ $nudge--small: 0.55rem;
     }
 
     @media (min-width: $breakpoint-navigation-threshold + 1) {
-      padding-left: map-get($grid-margin-widths, large);
-      padding-right: map-get($grid-margin-widths, large);
+      padding-left: map-get($grid-margin-widths, default);
+      padding-right: map-get($grid-margin-widths, default);
     }
   }
 
@@ -36,7 +37,7 @@ $nudge--small: 0.55rem;
         .p-navigation__link {
           background-color: $color-x-light;
           color: $color-dark;
-          padding-right: $sph-inner;
+          padding-right: $sph--large;
 
           &:focus,
           &:visited {
@@ -158,7 +159,7 @@ $nudge--small: 0.55rem;
         align-items: center;
         color: $color-x-light;
         display: flex;
-        margin-bottom: $sp-unit * 2 - map-get($nudges, nudge--p);
+        margin-bottom: $sp-unit * 2 - map-get($nudges, p);
         position: relative;
 
         @media (max-width: $breakpoint-navigation-threshold - 1) {
@@ -186,16 +187,16 @@ $nudge--small: 0.55rem;
           @media only screen and (min-width: $breakpoint-navigation-threshold) {
             background-color: $color-light;
             display: block;
-            left: $sph-inner;
+            left: $sph--large;
             opacity: 0.3;
-            right: $sph-inner;
+            right: $sph--large;
           }
         }
 
         @media only screen and (min-width: $breakpoint-navigation-threshold) {
-          padding-left: $sph-inner;
-          padding-right: $sph-inner;
-          width: $logo-width + 2 * $sph-inner;
+          padding-left: $sph--large;
+          padding-right: $sph--large;
+          width: $logo-width + 2 * $sph--large;
         }
       }
 
@@ -210,9 +211,9 @@ $nudge--small: 0.55rem;
         }
 
         &__link {
-          font-size: 1rem / pow($ms-ratio, 1); //XXX: move font-sizes to map in vanilla so it can be changed globally
+          font-size: math.div(1rem, pow($ms-ratio, 1)); //XXX: move font-sizes to map in vanilla so it can be changed globally
           padding-left: 0;
-          padding-right: $spv-inner--medium * 2;
+          padding-right: $spv--medium * 2;
           padding-top: $nudge--small;
 
           @media (max-width: $breakpoint-x-small - 1) {
@@ -221,7 +222,7 @@ $nudge--small: 0.55rem;
             padding-right: 0;
           }
 
-          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-medium - 1) {
+          @media (min-width: $breakpoint-x-small) and (max-width: $breakpoint-large - 1) {
             padding-bottom: map-get($sp-after, small) + $p-small-lh-diff -
               $nudge--small;
           }
@@ -319,8 +320,8 @@ $nudge--small: 0.55rem;
     }
 
     .row {
-      padding-left: map-get($grid-margin-widths, large);
-      padding-right: map-get($grid-margin-widths, large);
+      padding-left: map-get($grid-margin-widths, default);
+      padding-right: map-get($grid-margin-widths, default);
     }
 
     &__content {
@@ -330,7 +331,7 @@ $nudge--small: 0.55rem;
       color: $color-dark;
 
       &:last-child {
-        padding-bottom: $spv-outer--shallow-scaleable / 1.5;
+        padding-bottom: math.div($spv--x-large, 1.5);
       }
 
       @media (max-width: $breakpoint-x-small - 1) {
@@ -346,7 +347,7 @@ $nudge--small: 0.55rem;
       list-style-type: none;
 
       &::after {
-        @media only screen and (max-width: $breakpoint-medium - 1) {
+        @media only screen and (max-width: $breakpoint-large - 1) {
           display: none;
         }
       }
@@ -385,19 +386,19 @@ $nudge--small: 0.55rem;
   }
 
   %p-strip--very-shallow {
-    padding-top: $spv-outer--medium;
+    padding-top: $spv--large;
 
     &:not(:last-child) {
-      padding-bottom: $spv-outer--medium;
+      padding-bottom: $spv--large;
     }
 
     &:last-child {
-      padding-bottom: $spv-outer--scaleable;
+      padding-bottom: $spv--x-large;
     }
   }
 
   %small-text-base {
-    font-size: 1rem / pow($ms-ratio, 1);
+    font-size: math.div(1rem, pow($ms-ratio, 1));
     line-height: map-get($line-heights, small);
     padding-top: $nudge--small;
   }
