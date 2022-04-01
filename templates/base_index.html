@@ -9,6 +9,7 @@
       content="{% block meta_description %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% endblock %}" />
     <meta name="copydoc" content="{% block meta_copydoc %}https://drive.google.com/drive/folders/0B8feV0jqaac3TmExU3NDcHhFTGc{% endblock %}">
     <meta name="author" content="Canonical Ltd" />
+    <link rel="canonical" href="{% block canonical_url %}{{ request.url }}{% endblock %}">
 
     <meta name="theme-color" content="#E95420">
     <meta name="twitter:account_id" content="169015850">
@@ -51,7 +52,6 @@
     <meta name="twitter:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
     <meta property="og:image" content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}">
     {% endif %}
-
 
     {% block extra_metatags %}{% endblock %}
 
