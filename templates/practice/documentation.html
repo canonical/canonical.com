@@ -45,7 +45,7 @@
           </div>
           <ul class="p-side-navigation__list">
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#documentation-introduction" aria-current="page">Introduction</a>
+              <a class="p-side-navigation__link" href="#documentation-introduction">Introduction</a>
             </li>
             <li class="p-side-navigation__item">
               <a class="p-side-navigation__link" href="#documentation-pillars">Four pillars</a>
@@ -63,38 +63,38 @@
         </nav>
       </div>
     </aside>
-    <div class="col-9">
+    <main class="col-9">
       <div id="documentation-introduction" style="scroll-margin-top: 4.5rem;">
         <h2>Introduction</h2>
         <p>For too long in our industry, documentation has been allowed to be a secondary aspect of software development. Our approach will make documentation a core engineering concern, governed by systematic principles and requiring conscious practice, whose values inform the work not just of technical authors, but of all our engineering and product teams.</p>
       </div>
-      <div class="p-top u-hide--large"><a href="#" class="p-top__link">Back to top</a></div>
+      <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
       <div id="documentation-pillars" style="scroll-margin-top: 4.5rem;">
         <h2>Four pillars</h2>
-        <p class="p-heading--3">Our work identifies four pillars that support documentation success</p>
+        <h3>Our work identifies four pillars that support documentation success</h3>
         <div class="row">
-          <div class="col-4">
-            <h2 class="p-heading--4">Direction</h2>
+          <div class="col-4 p-card">
+            <h4 class="p-heading--3">Direction</h4>
             <p>Where we want to go &mdash; the standards and quality we seek, so that documentation meets its users’ needs.</p>
           </div>
-          <div class="col-4">
-            <h2 class="p-heading--4">Care</h2>
+          <div class="col-4 p-card">
+            <h4 class="p-heading--3">Care</h4>
             <p>Our attitude towards documentation, and a culture of documentation discipline that makes it a living concern.</p>
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
-            <h2 class="p-heading--4">Equipment</h2>
-            <p>The tools and machinery we adopt to write, maintain and publish documentation, that serve our work best.</p>
-          </div>
-          <div class="col-4">
-            <h2 class="p-heading--4">Execution</h2>
+          <div class="col-4 p-card">
+            <h4 class="p-heading--3">Execution</h4>
             <p>How we do our work, so that we consistently produce better output with less effort and more satisfaction.</p>
+          </div>
+          <div class="col-4 p-card">
+            <h4 class="p-heading--3">Equipment</h4>
+            <p>The tools and machinery we adopt to write, maintain and publish documentation, that serve our work best.</p>
           </div>
         </div>
         <p><a href="https://ubuntu.com/blog/the-future-of-documentation-at-canonical">Read about our plan to put these pillars into place at Canonical&nbsp;&rsaquo;</a></p>
       </div>
-      <div class="p-top u-hide--large"><a href="#" class="p-top__link">Back to top</a></div>
+      <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
       <div id="documentation-careers" style="scroll-margin-top: 4.5rem;">
         <h2>Careers and opportunities</h2>
         <p>There is a dedicated career progression in documentation at Canonical, including roles for Technical Author, Senior Technical Author and Documentation Manager.</p>
@@ -112,7 +112,7 @@
           <p class="p-card__content"><a>Find out more at Canonical careers&nbsp;&rsaquo;</a></p>
         </div>
       </div>
-      <div class="p-top u-hide--large"><a href="#" class="p-top__link">Back to top</a></div>
+      <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
       <div id="documentation-milestones" style="scroll-margin-top: 4.5rem;">
         <h2>Recent milestones in our work</h2>
         <p>By its nature, documentation work is always in progress and never finished. Delivery is incremental and continuous, which means it’s not always so easy to see how far we have travelled.</p>
@@ -148,8 +148,9 @@
           </tbody>
         </table>
       </div>
-      <div class="p-top u-hide--large"><a href="#" class="p-top__link">Back to top</a></div>
+      <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
       <div id="documentation-readmore">
+        <h2>Read More</h2>
         <div class="row p-divider">
           <div class="col-4 p-divider__block">
             <h4>Diátaxis Framework</h4>
@@ -161,16 +162,16 @@
             <p>Read our documentation articles on the Ubuntu blog</p>
             <p><a href="https://ubuntu.com/blog/tag/documentation">View blog&nbsp;&rsaquo;</a></p>
           </div>
-          <div class="p-top u-hide--large"><a href="#" class="p-top__link">Back to top</a></div>
+          <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </section>
 <script>
   var links = [].slice.call(document.querySelectorAll('.p-side-navigation li > a'));
-  var currentPath = window.location.pathname;
-
+  var currentPath = window.location.hash;
+  var sideNav = document.querySelector('.p-side-navigation');
   links.forEach(function (link) {
     link.addEventListener('click', function () {
       links.forEach(function (link) {
@@ -178,10 +179,16 @@
       });
       this.setAttribute('aria-current', 'page');
       this.blur();
+      if(sideNav.classList.contains('is-expanded')){
+        sideNav.classList.remove('is-expanded')
+        sideNav.classList.add('is-collapsed');
+      }
     });
 
     if (link.getAttribute('href') === currentPath) {
       link.setAttribute('aria-current', 'page');
+    } else if(currentPath === ""){
+      links[0].setAttribute('aria-current', 'page');
     }
   });
 
@@ -214,13 +221,13 @@
       toggle.addEventListener('click', function (event) {
         event.preventDefault();
         var sideNav = document.getElementById(toggle.getAttribute('aria-controls'));
-
         if (sideNav) {
           toggleDrawer(sideNav, !sideNav.classList.contains('is-expanded'));
         }
       });
     });
   }
+  
 
   /**
     Attaches event listeners for all the side navigations in the document.
@@ -234,5 +241,6 @@
   }
 
   setupSideNavigations('.p-side-navigation, [class*="p-side-navigation--"]');
+
 </script>
 {% endblock %}
