@@ -32,44 +32,44 @@
 <section class="p-strip is-deep">
   <div class="row" id="documentation">
     <aside class="col-3">
-      <div class="p-side-navigation is-sticky" id="drawer" style="top: 4.5rem; z-index: 39;">
-        <a href="#drawer" class="p-side-navigation__toggle js-drawer-toggle" aria-controls="drawer">
-          Toggle table of contents
-        </a>
+      <div class="p-side-navigation--raw-html is-sticky" id="drawer" style="top: 4.5rem; z-index: 39;">
+        <button class="p-side-navigation__toggle js-drawer-toggle" aria-controls="drawer">
+          Toggle side navigation
+        </button>
         <div class="p-side-navigation__overlay js-drawer-toggle" aria-controls="drawer"></div>
-        <nav class="p-side-navigation__drawer" aria-label="Table of content" style="top: 56px;">
+        <nav class="p-side-navigation__drawer" aria-label="documentation side navigation" style="top: 56px;">
           <div class="p-side-navigation__drawer-header">
             <button class="p-side-navigation__toggle--in-drawer js-drawer-toggle" aria-controls="drawer">
               Toggle table of contents
             </button>
           </div>
-          <ul class="p-side-navigation__list">
+          <ul>
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#introduction">Introduction</a>
+              <a class="highlight-link is-active" href="#introduction">Introduction</a>
             </li>
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#pillars">Four pillars</a>
+              <a class="highlight-link" href="#pillars">Four pillars</a>
             </li>
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#careers">Careers</a>
+              <a class="highlight-link" href="#careers">Careers</a>
             </li>
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#milestones">Milestones</a>
+              <a class="highlight-link" href="#milestones">Milestones</a>
             </li>
             <li class="p-side-navigation__item">
-              <a class="p-side-navigation__link" href="#readmore">Read more</a>
+              <a class="highlight-link" href="#readmore">Read more</a>
             </li>
           </ul>
         </nav>
       </div>
     </aside>
     <main class="col-9">
-      <div id="introduction" style="scroll-margin-top: 4.5rem;">
+      <div class="question-heading" id="introduction" style="scroll-margin-top: 4.5rem;">
         <h2>Introduction</h2>
         <p>For too long in our industry, documentation has been allowed to be a secondary aspect of software development. Our approach will make documentation a core engineering concern, governed by systematic principles and requiring conscious practice, whose values inform the work not just of technical authors, but of all our engineering and product teams.</p>
       </div>
       <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
-      <div id="pillars" style="scroll-margin-top: 4.5rem;">
+      <div class="question-heading" id="pillars" style="scroll-margin-top: 4.5rem;">
         <h2>Four pillars</h2>
         <h3>Our work identifies four pillars that support documentation success</h3>
         <div class="row">
@@ -95,7 +95,7 @@
         <p><a href="https://ubuntu.com/blog/the-future-of-documentation-at-canonical">Read about our plan to put these pillars into place at Canonical&nbsp;&rsaquo;</a></p>
       </div>
       <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
-      <div id="careers" style="scroll-margin-top: 4.5rem;">
+      <div class="question-heading" id="careers" style="scroll-margin-top: 4.5rem;">
         <h2>Careers and opportunities</h2>
         <p>There is a dedicated career progression in documentation at Canonical, including roles for Technical Author, Senior Technical Author and Documentation Manager.</p>
         <p>Our plans include recruiting a cohort of technical authors to join several engineering teams, working on products across Canonical's portfolio.</p>
@@ -113,7 +113,7 @@
         </div>
       </div>
       <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
-      <div id="milestones" style="scroll-margin-top: 4.5rem;">
+      <div class="question-heading" id="milestones" style="scroll-margin-top: 4.5rem;">
         <h2>Recent milestones in our work</h2>
         <p>By its nature, documentation work is always in progress and never finished. Delivery is incremental and continuous, which means it’s not always so easy to see how far we have travelled.</p>
         <table aria-label="Documentation recent milestones table">
@@ -149,7 +149,7 @@
         </table>
       </div>
       <div class="p-top"><a href="#" class="p-top__link">Back to top</a></div>
-      <div id="readmore">
+      <div class="question-heading" id="readmore" style="scroll-margin-top: 4.5rem;">
         <h2>Read more</h2>
         <div class="row p-divider">
           <div class="col-4 p-divider__block">
@@ -169,78 +169,58 @@
   </div>
 </section>
 <script>
-  var links = [].slice.call(document.querySelectorAll('.p-side-navigation li > a'));
-  var currentPath = window.location.hash;
-  var sideNav = document.querySelector('.p-side-navigation');
-  links.forEach(function (link) {
-    link.addEventListener('click', function () {
-      links.forEach(function (link) {
-        link.removeAttribute('aria-current');
+  (function() {
+    var navigationDrawer = document.querySelector("#drawer");
+    var navigationDrawerToggles = Array.prototype.slice.call(
+      document.querySelectorAll(".js-drawer-toggle"
+    ));
+
+    var navigationLinks = Array.prototype.slice.call(
+      navigationDrawer.querySelectorAll("a")
+    );
+
+    navigationDrawerToggles.forEach(function(toggle) {
+      toggle.addEventListener("click", function() {
+        navigationDrawer.classList.toggle("is-expanded");
       });
-      this.setAttribute('aria-current', 'page');
-      this.blur();
-      if(sideNav.classList.contains('is-expanded')){
-        sideNav.classList.remove('is-expanded')
-        sideNav.classList.add('is-collapsed');
-      }
     });
 
-    if (link.getAttribute('href') === currentPath) {
-      link.setAttribute('aria-current', 'page');
-    } else if(currentPath === ""){
-      links[0].setAttribute('aria-current', 'page');
-    }
-  });
+    navigationLinks.forEach(function(link) {
+      link.addEventListener("click", function() {
+        navigationDrawer.classList.remove("is-expanded");
+      });
+    });
+  })();
+</script>
+<script>
+(function() {
+    const questions = Array.prototype.slice.call(
+      document.querySelectorAll(".question-heading")
+    );
 
-  /**
-    Toggles the expanded/collapsed classed on side navigation element.
+    const navigationLinks = Array.prototype.slice.call(
+      document.querySelectorAll(".highlight-link")
+    );
 
-    @param {HTMLElement} sideNavigation The side navigation element.
-    @param {Boolean} show Whether to show or hide the drawer.
-  */
-  function toggleDrawer(sideNavigation, show) {
-    if (sideNavigation) {
-      if (show) {
-        sideNavigation.classList.remove('is-collapsed');
-        sideNavigation.classList.add('is-expanded');
-      } else {
-        sideNavigation.classList.remove('is-expanded');
-        sideNavigation.classList.add('is-collapsed');
-      }
-    }
-  }
-
-  /**
-    Attaches event listeners for the side navigation toggles
-    @param {HTMLElement} sideNavigation The side navigation element.
-  */
-  function setupSideNavigation(sideNavigation) {
-    var toggles = [].slice.call(sideNavigation.querySelectorAll('.js-drawer-toggle'));
-
-    toggles.forEach(function (toggle) {
-      toggle.addEventListener('click', function (event) {
-        event.preventDefault();
-        var sideNav = document.getElementById(toggle.getAttribute('aria-controls'));
-        if (sideNav) {
-          toggleDrawer(sideNav, !sideNav.classList.contains('is-expanded'));
+    questions.forEach(function(question) {
+      const observer = new IntersectionObserver(function(entry) {
+        if (entry[0].isIntersecting) {
+          const questionId = entry[0].target.id;
+          navigationLinks.forEach(function(link) {
+            if (link.getAttribute("href") === `#${questionId}`) {
+              link.classList.add("is-active");
+            } else {
+              link.classList.remove("is-active");
+            }
+          });
         }
+      }, {
+        rootMargin: "-100px 0px",
+        threshold: 0.75,
       });
+
+      observer.observe(question);
     });
-  }
-  
-
-  /**
-    Attaches event listeners for all the side navigations in the document.
-    @param {String} sideNavigationSelector The CSS selector matching side navigation elements.
-  */
-  function setupSideNavigations(sideNavigationSelector) {
-    // Setup all side navigations on the page.
-    var sideNavigations = [].slice.call(document.querySelectorAll(sideNavigationSelector));
-
-    sideNavigations.forEach(setupSideNavigation);
-  }
-
-  setupSideNavigations('.p-side-navigation, [class*="p-side-navigation--"]');
-
+  })();
 </script>
 {% endblock %}
