@@ -1,0 +1,42 @@
+@mixin canonical-p-strips {
+  $page-gutter-width: calc(100% - $grid-max-width) / 2;
+  $grid-plus-one-gutter-width: calc(100% - $page-gutter-width);
+
+  %accent-border-base {
+    overflow: hidden;
+
+    &::before {
+      background-color: $color-accent;
+      content: "";
+      height: 3px;
+      max-width: $grid-plus-one-gutter-width;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+
+  .has-accent-border--top-left {
+    @extend %accent-border-base;
+
+    &::before {
+      left: -1rem;
+
+      @media (min-width: $breakpoint-small) {
+        left: -1.5rem;
+      }
+    }
+  }
+
+  .has-accent-border--top-right {
+    @extend %accent-border-base;
+
+    &::before {
+      right: -1rem;
+
+      @media (min-width: $breakpoint-small) {
+        right: -1.5rem;
+      }
+    }
+  }
+}
