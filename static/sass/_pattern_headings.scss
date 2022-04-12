@@ -1,49 +1,23 @@
 @mixin canonical-p-headings {
-  .p-heading-highlight--left {
-    & * {
-      padding-left: 3rem;
-    }
+  .p-heading--tag {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: $font-weight-bold;
+    line-height: 0.7rem;
+    margin-bottom: 1rem;
+    padding-left: 0.75rem;
+    padding-top: 1rem;
+    position: relative;
+    text-transform: uppercase;
 
-    &__item {
-      border-left: 1px solid $color-x-light;
-      margin-top: 0;
-      padding-top: 0;
-    }
-  }
-
-  .p-heading-highlight--bottom {
-    &__item {
-      margin-bottom: 1rem;
-    }
-
-    &::after {
-      background-color: $color-x-light;
+    &::before {
+      background: $color-accent;
+      bottom: 0;
       content: "";
-      display: block;
-      height: 1px;
-      margin-bottom: 1rem;
-      width: 75px;
-    }
-  }
-
-  .p-heading-icon--h1 {
-    h1 {
-      display: inline-block;
-      margin-right: $sph--large;
-    }
-
-    img {
-      height: 3rem;
-      position: relative;
-      top: -0.5rem;
-      vertical-align: middle;
-    }
-
-    @media (max-width: $breakpoint-large - 1) {
-      img {
-        height: 2rem;
-        top: -0.35rem;
-      }
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 3px;
     }
   }
 }
