@@ -1,13 +1,24 @@
 <header id="navigation" class="p-navigation is-dark">
   <div class="p-navigation__row">
     <div class="p-navigation__banner">
-      <div class="p-navigation__logo">
+      <div class="p-navigation__tagged-logo">
         <a class="p-navigation__link" href="/">
-          <img class="p-navigation__image" src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt="Canonical" width="115">
+          <div class="p-navigation__logo-tag">
+            <img class="p-navigation__logo-icon" src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg" alt="">
+          </div>
+          <span class="p-navigation__logo-title">Canonical</span>
         </a>
       </div>
-      <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
-      <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item">
+          <button class="js-search-button p-navigation__link--search-toggle">
+            <span class="p-navigation__search-label">Search</span>
+          </button>
+        </li>
+        <li class="p-navigation__item">
+          <button class="js-menu-button p-navigation__link">Menu</button>
+        </li>
+      </ul>
     </div>
     <nav class="p-navigation__nav">
       <ul class="p-navigation__items">
@@ -19,11 +30,11 @@
           <a class="p-navigation__link" href="/careers">Careers</a>
         </li>
       </ul>
-      <ul class="p-navigation__items u-hide js-show-nav" role="menu">
+      <ul class="p-navigation__items" role="menu">
         <li class="p-navigation__item">
-          <a href="/search" class="js-search-button p-navigation__link--search-toggle">
+          <button href="#" class="js-search-button p-navigation__link--search-toggle">
             <span class="p-navigation__search-label">Search</span>
-          </a>
+          </button>
         </li>
       </ul>
       <div class="p-navigation__search">
@@ -37,62 +48,3 @@
   </div>
   <div class="p-navigation__search-overlay"></div>
 </header>
-<div class="dropdown-window-overlay fade-animation"></div>
-<div class="dropdown-window slide-animation">
-  <div class="u-hide" id="canonical-nav-content"></div>
-</div>
-
-<script>
-  var nav = document.querySelector('.js-show-nav');
-  var hash = window.location.hash;
-  if (nav) {
-    nav.classList.remove('u-hide');
-  }
-
-  function fetchDropdown(url, id) {
-    const div = document.getElementById(id);
-    fetch(url)
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (text) {
-        div.innerHTML = text;
-      })
-      .catch(function (error) {
-        console.log('Request failed', error)
-      })
-  }
-
-  //search bar
-  function initNavigationSearch(element) {
-    const searchButton = element.querySelector('.js-search-button');
-    if (searchButton) {
-      searchButton.addEventListener('click', openSearch);
-    }
-
-    const overlay = element.querySelector('.p-navigation__search-overlay');
-    if (overlay) {
-      overlay.addEventListener('click', closeSearch);
-    }
-
-    function openSearch(e) {
-      e.preventDefault();
-      var navigation = e.target.closest('.p-navigation');
-      var searchInput = navigation.querySelector('.p-search-box__dinput');
-      navigation.classList.add('has-search-open');
-      searchInput.focus();
-      document.addEventListener('keyup', keyPressHandler);
-    }
-
-    function closeSearch() {
-      var navigation = document.querySelector('.p-navigation.has-search-open');
-      var banner = document.querySelector('.p-navigation__banner');
-      navigation.classList.remove('has-search-open');
-      document.removeEventListener('keyup', keyPressHandler);
-    }
-  }
-
-  var navigation = document.querySelector('#navigation');
-  initNavigationSearch(navigation);
-
-</script>

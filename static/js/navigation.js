@@ -1,99 +1,163 @@
-  var nav = document.getElementById("navigation");
-  var navDropdowns = document.querySelectorAll(
-    ".p-navigation__item--dropdown-toggle:not(.is-selected)"
-  );
-  // var dropdownWindow = document.querySelector(".dropdown-window");
-  // var dropdownWindowOverlay = document.querySelector(
-  //   ".dropdown-window-overlay"
-  // );
+function initNavigationSearch(element) {
+  const searchButtons = element.querySelectorAll('.js-search-button');
 
-  navDropdowns.forEach(function (dropdown) {
-    dropdown.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      var clickedDropdown = this;
-
-      // dropdownWindow.style.height = 
-      //   window.innerHeight - nav.offsetHeight + "px";
-      // dropdownWindow.classList.remove("slide-animation");
-      // dropdownWindowOverlay.classList.remove("fade-animation");
-
-      navDropdowns.forEach(function (dropdown) {
-        var dropdownContent = document.getElementById(dropdown.id + "-content");
-
-        if (dropdown === clickedDropdown) {
-          if (dropdown.classList.contains("is-active")) {
-            closeMenu(dropdown);
-          } else {
-            dropdown.classList.add("is-active");
-            dropdownContent.classList.remove("u-hide");
-          }
-        } else {
-          dropdown.classList.remove("is-active");
-          dropdownContent.classList.add("u-hide");
-        }
-      });
-    });
+  searchButtons.forEach((searchButton) => {
+    searchButton.addEventListener('click', toggleSearch);
   });
 
-  // Close the menu if browser back button is clicked
-  window.addEventListener("hashchange", function (event) {
-    navDropdowns.forEach(function (dropdown) {
-      if (dropdown.classList.contains("is-active")) {
-        closeMenu(dropdown);
-      }
-    });
-  });
-
-  // dropdownWindowOverlay.addEventListener("click", function (event) {
-  //   navDropdowns.forEach(function (dropdown) {
-  //     if (dropdown.classList.contains("is-active")) {
-  //       closeMenu(dropdown);
-  //     }
-  //   });
-  // });
-
-  function closeMenu(dropdown) {
-    dropdown.classList.remove("is-active");
-    // dropdownWindow.classList.add("slide-animation");
-    // dropdownWindowOverlay.classList.add("fade-animation");
-
-    // setTimeout(function () {
-    //   dropdownWindow.style.top = null;
-    //   dropdownWindow.style.height = null;
-    // }, 500);
-
-    // if (window.history.pushState) {
-    //   window.history.pushState(null, null, window.location.href.split("#")[0]);
-    // }
+  const menuButton = element.querySelector('.js-menu-button');
+  if (menuButton) {
+    menuButton.addEventListener('click', toggleMenu);
   }
 
-  if (window.location.hash) {
-    var tabId = window.location.hash.split("#")[1];
-    var tab = document.getElementById(tabId);
-    var tabContent = document.getElementById(tabId + "-content");
+  const overlay = element.querySelector('.p-navigation__search-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', closeAll);
+  }
 
-    if (tab) {
-      setTimeout(function () {
-        document.getElementById(tabId).click();
-      }, 0);
+  function toggleMenu(e) {
+    e.preventDefault();
+
+    var navigation = e.target.closest('.p-navigation');
+    if (navigation.classList.contains('has-menu-open')) {
+      closeAll();
+    } else {
+      closeAll();
+      openMenu(e);
     }
   }
 
-  function closeMainMenu() {
-    var navigationLinks = document.querySelectorAll(
-      ".p-navigation__item--dropdown-toggle:not(.is-selected)"
-    );
+  function toggleSearch(e) {
+    e.preventDefault();
 
-    navigationLinks.forEach(function (navLink) {
-      navLink.classList.remove("is-active");
+    var navigation = e.target.closest('.p-navigation');
+    if (navigation.classList.contains('has-search-open')) {
+      closeAll();
+    } else {
+      closeAll();
+      openSearch(e);
+    }
+  }
+
+  function openSearch(e) {
+    e.preventDefault();
+    var navigation = e.target.closest('.p-navigation');
+    var nav = navigation.querySelector('.p-navigation__nav');
+
+    var searchInput = navigation.querySelector('.p-search-box__input');
+    var buttons = document.querySelectorAll('.js-search-button');
+
+    buttons.forEach((searchButton) => {
+      searchButton.setAttribute('aria-pressed', true);
     });
 
-    // if (!dropdownWindowOverlay.classList.contains("fade-animation")) {
-    //   dropdownWindowOverlay.classList.add("fade-animation");
-    // }
-
-    // if (!dropdownWindow.classList.contains("slide-animation")) {
-    //   dropdownWindow.classList.add("slide-animation");
-    // }
+    navigation.classList.add('has-search-open');
+    searchInput.focus();
+    document.addEventListener('keyup', keyPressHandler);
   }
+
+  function openMenu(e) {
+    e.preventDefault();
+    var navigation = e.target.closest('.p-navigation');
+    var nav = navigation.querySelector('.p-navigation__nav');
+
+    var buttons = document.querySelectorAll('.js-menu-button');
+
+    buttons.forEach((searchButton) => {
+      searchButton.setAttribute('aria-pressed', true);
+    });
+
+    navigation.classList.add('has-menu-open');
+    document.addEventListener('keyup', keyPressHandler);
+  }
+
+  function closeSearch() {
+    var navigation = document.querySelector('.p-navigation');
+    var nav = navigation.querySelector('.p-navigation__nav');
+
+    var banner = document.querySelector('.p-navigation__banner');
+    var buttons = document.querySelectorAll('.js-search-button');
+
+    buttons.forEach((searchButton) => {
+      searchButton.removeAttribute('aria-pressed');
+    });
+
+    navigation.classList.remove('has-search-open');
+    document.removeEventListener('keyup', keyPressHandler);
+  }
+
+  function closeMenu() {
+    var navigation = document.querySelector('.p-navigation');
+    var nav = navigation.querySelector('.p-navigation__nav');
+
+    var banner = document.querySelector('.p-navigation__banner');
+    var buttons = document.querySelectorAll('.js-menu-button');
+
+    buttons.forEach((searchButton) => {
+      searchButton.removeAttribute('aria-pressed');
+    });
+
+    navigation.classList.remove('has-menu-open');
+    document.removeEventListener('keyup', keyPressHandler);
+  }
+
+  function closeAll() {
+    closeSearch();
+    closeMenu();
+  }
+
+  function keyPressHandler(e) {
+    if (e.key === 'Escape') {
+      closeAll();
+    }
+  }
+}
+
+function toggleDropdown(toggle, open) {
+  var parentElement = toggle.parentNode;
+  var dropdown = document.getElementById(toggle.getAttribute('aria-controls'));
+  dropdown.setAttribute('aria-hidden', !open);
+
+  if (open) {
+    parentElement.classList.add('is-active');
+  } else {
+    parentElement.classList.remove('is-active');
+  }
+}
+
+function closeAllDropdowns(toggles) {
+  toggles.forEach(function (toggle) {
+    toggleDropdown(toggle, false);
+  });
+}
+
+function handleClickOutside(toggles, containerClass) {
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+
+    if (target.closest) {
+      if (!target.closest(containerClass)) {
+        closeAllDropdowns(toggles);
+      }
+    }
+  });
+}
+
+function initNavDropdowns(containerClass) {
+  var toggles = [].slice.call(document.querySelectorAll(containerClass + ' [aria-controls]'));
+
+  handleClickOutside(toggles, containerClass);
+
+  toggles.forEach(function (toggle) {
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      closeAllDropdowns(toggles);
+      toggleDropdown(toggle, true);
+    });
+  });
+}
+
+var navigation = document.querySelector('#navigation');
+initNavigationSearch(navigation);
+initNavDropdowns('.p-navigation__item--dropdown-toggle')
