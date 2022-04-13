@@ -5,20 +5,33 @@ $nudge--small: 0.55rem;
 $nav-hr-color: #666;
 
 @mixin canonical-p-navigation {
-  %row-no-margins-on-mobile {
-    @media (max-width: $breakpoint-navigation-threshold) {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    @media (min-width: $breakpoint-navigation-threshold + 1) {
-      padding-left: map-get($grid-margin-widths, default);
-      padding-right: map-get($grid-margin-widths, default);
-    }
-  }
-
   .p-navigation {
     z-index: 40;
+  }
+
+  .p-navigation--secondary {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+
+    &.is-dark {
+      background-color: #313131;
+    }
+
+    .p-inline-list {
+      @extend %small-text;
+
+      &__item {
+        display: inline-block;
+      }
+
+      a {
+        font-weight: $font-weight-regular-text;
+
+        &.is-active {
+          font-weight: $font-weight-bold;
+        }
+      }
+    }
   }
 
   .dropdown-window-overlay {
