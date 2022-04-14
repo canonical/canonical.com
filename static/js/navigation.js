@@ -88,9 +88,6 @@ function initNavigationSearch(element) {
 
   function closeMenu() {
     var navigation = document.querySelector('.p-navigation');
-    var nav = navigation.querySelector('.p-navigation__nav');
-
-    var banner = document.querySelector('.p-navigation__banner');
     var buttons = document.querySelectorAll('.js-menu-button');
 
     buttons.forEach((searchButton) => {
@@ -150,10 +147,13 @@ function initNavDropdowns(containerClass) {
 
   toggles.forEach(function (toggle) {
     toggle.addEventListener('click', function (e) {
+      var parentElement = toggle.parentNode;
+      var isOpen = parentElement.classList.contains('is-active');
+
       e.preventDefault();
 
       closeAllDropdowns(toggles);
-      toggleDropdown(toggle, true);
+      toggleDropdown(toggle, !isOpen);
     });
   });
 }
