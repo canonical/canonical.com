@@ -1,4 +1,4 @@
-{% extends 'base_index.html' %}
+{% extends "base_index.html" %}
 
 {% block meta_description %}For nearly two decades, Canonical and our enterprise partners have provided market-leading solutions for customers seeking alternatives to complex and costly proprietary operating environments.{% endblock %}
 
@@ -9,7 +9,8 @@
 {% block meta_image %}https://assets.ubuntu.com/v1/a491f87c-Ubuntu+Certified+Hardware.svg{% endblock %}
 
 {% block content %}
-<section class="p-strip--suru-bottomed is-deep">
+
+<section class="p-strip is-deep">
   <div class="row">
     <div class="col-6">
       <h1>IoT Device Programme</h1>
@@ -18,14 +19,23 @@
       <p><a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a></p>
     </div>
     <div class="col-6 u-align--center u-hide--small u-hide--medium">
-      <img src="https://assets.ubuntu.com/v1/a491f87c-Ubuntu+Certified+Hardware.svg" style="max-width:364px;" alt="">
+      {{ image (
+        url="https://assets.ubuntu.com/v1/a491f87c-Ubuntu+Certified+Hardware.svg",
+        alt="",
+        width="394",
+        height="350",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
     </div>
   </div>
 </section>
-<section class="p-strip is-deep">
-  <div class="u-fixed-width u-align--center">
-    <p class="p-logo-section__title" style="max-width: none;">A selection of our IoT partners </p>
-    <div class="p-logo-section">
+
+<section class="p-strip has-accent-border--top-left is-deep">
+  <div class="u-fixed-width">
+    <div class="p-logo-section u-align--center">
+      <p class="p-logo-section__title" style="max-width: none;">A selection of our IoT partners </p>
       <div class="p-logo-section__items">
         {% for partner in partners %}
         <div class="p-logo-section__item">
@@ -37,32 +47,32 @@
     </div>
   </div>
 </section>
-<section class="p-strip--light is-deep">
+
+<section class="p-strip has-accent-border--top-right is-deep">
   <div class="row">
     <div class="col-8">
       <h2>Benefits of the IoT Partner Programme</h2>
     </div>
   </div>
   <div class="row">
-    <div class="col-4">
+    <div class="col-4 p-card--strip-thin">
       <h3>Ubuntu certified hardware</h3>
       <ul class="p-list">
-        <li class="p-list__item is-ticked">All Ubuntu functionality works out-of-the-box </li>
+        <li class="p-list__item is-ticked">All Ubuntu functionality works out-of-the-box</li>
         <li class="p-list__item is-ticked">Assistance to test, review, and configure machines to be Ubuntu Certified</li>
         <li class="p-list__item is-ticked">Reduce time to market by deployment-ready hardware</li>
       </ul>
     </div>
-    <div class="col-4">
-      <h3>Long term support </h3>
+    <div class="col-4 p-card--strip-thin">
+      <h3>Long term support</h3>
       <ul class="p-list">
         <li class="p-list__item is-ticked">Dedicated partner team and sales enablement access</li>
         <li class="p-list__item is-ticked">Access technical guides to enhance team's knowledge</li>
         <li class="p-list__item is-ticked">Support and security updates for up to 10 years</li>
       </ul>
     </div>
-    <div class="col-4">
+    <div class="col-4 p-card--strip-thin">
       <h3>Joint marketing</h3>
-      <p>Logos and joint branding</p>
       <ul class="p-list">
         <li class="p-list__item is-ticked">Logos and joint branding</li>
         <li class="p-list__item is-ticked">Public postings on Ubuntu page</li>
@@ -71,29 +81,43 @@
     </div>
   </div>
 </section>
-<section class="p-strip is-deep">
+
+<section class="p-strip has-accent-border--top-left is-deep">
   <div class="row">
-    <div class="col-8">
+    <div class="col-6">
       <h2>Accelerate your business with Ubuntu certified hardware</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6 col-medium-3">
       <p>Our users have a high level of expectation in their experience with Ubuntu. Whether at home, in development, or production, an easy and predictable user experience is important to us. To ensure this success, we partner closely with vendors worldwide to test, validate, and certify their portfolios to ensure this success.</p>
       <p>Our partners gain access to a worldwide audience looking to purchase devices built to run on Ubuntu by participating in the partner program. The top manufacturers in the world are all engaged with Canonical on promoting their platforms as Ubuntu Certified.</p>
       <p><a href="https://ubuntu.com/certified">Learn more about Ubuntu certified hardware&nbsp;&rsaquo;</a></p>
     </div>
-    <div class="col-6 col-medium-3 u-align--center u-hide--small" style="padding:3rem;" >
-      <img src="https://assets.ubuntu.com/v1/706b259a-ubuntu_certified_hex.svg"  style="max-width:10rem;" alt="">
+    <div class="col-6 u-align--center u-vertically-center u-hide--small u-hide--medium">
+      {{ image (
+        url="https://assets.ubuntu.com/v1/706b259a-ubuntu_certified_hex.svg",
+        alt="",
+        width="180",
+        height="225",
+        hi_def=True,
+        loading="lazy"
+        ) | safe
+      }}
     </div>
   </div>
 </section>
-<section class="p-strip--mid-light is-deep">
-  <div class="row p-divider">
-    <div class="col-6 p-divider__block">
+
+<section class="p-strip has-accent-border--top-right is-deep">
+  <div class="row">
+    <div class="col-6">
       <div class="p-media-object">
-        <img src="https://assets.ubuntu.com/v1/2cdff5cc-magnifier-find-a-partner-footer.svg" alt=""
-          class="p-media-object__image">
+        {{ image (
+          url="https://assets.ubuntu.com/v1/f6f97edf-search-magnifying-glass.svg",
+          alt="",
+          width="43",
+          height="42",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-media-object__image"}
+          ) | safe
+        }}
         <div class="p-media-object__details">
           <h2 class="p-media-object__title">Find a partner</h2>
           <p class="p-media-object__content u-sv3">Our partner network spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
@@ -101,9 +125,18 @@
         </div>
       </div>
     </div>
-    <div class="col-6 p-divider__block">
+    <div class="col-6">
       <div class="p-media-object">
-        <img src="https://assets.ubuntu.com/v1/292d1694-become-a-partner-footer.svg" alt="" class="p-media-object__image">
+        {{ image (
+          url="https://assets.ubuntu.com/v1/93b98b15-partner-handshake.svg",
+          alt="",
+          width="43",
+          height="31",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-media-object__image"}
+          ) | safe
+        }}
         <div class="p-media-object__details">
           <h2 class="p-media-object__title">Become a partner</h2>
           <p class="p-media-object__content u-sv3">We operate a range of partner programmes, from essential product certification to strategic collaboration, help with QA and long-term strategic alliances.</p>
@@ -113,4 +146,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}
