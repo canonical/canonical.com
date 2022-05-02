@@ -1,12 +1,8 @@
 {% extends 'base_index.html' %} {% block content %}
 
-<section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
-  <div class="p-strip--suru-background">
-    <div class="row">
-      <div class="col-6">
-        <h1 class="u-no-margin--bottom">{% block title %}{% endblock %}</h1>
-      </div>
-    </div>
+<section class="p-strip--suru-light-grey">
+  <div class="u-fixed-width">
+    <h1 class="u-no-margin--bottom">Careers | {{ department.name }}</h1>
   </div>
 </section>
 
@@ -26,23 +22,24 @@
       </div>
       {% endif %}
 
-      <nav class="p-tabs">
-        <ul class="p-tabs__list" role="tablist">
-          <li class="p-tabs__item" role="presentation">
-            <a href="#available-roles" class="p-tabs__link" tabindex="0" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="#overview" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="overview">Department overview</a>
-          </li>
-        </ul>
-      </nav>
+      <div class="p-tabs">
+        <div class="p-tabs__list" role="tablist">
+          <div class="p-tabs__item">
+            <button href="#available-roles" class="p-tabs__link"  role="tab" aria-controls="available-roles" id="available-role-tab" aria-selected="true">Available roles</button>
+          </div>
+          <div class="p-tabs__item">
+            <button href="#overview" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="overview" id="overview-tab" aria-selected="false">Department overview</button>
+          </div>
+        </div>
 
-      <div class="p-strip p-tabs__content is-shallow u-extra-space" id="overview">
-        {% block overview %}{% endblock %}
-      </div>
+        <div class="p-strip p-tabs__content is-shallow u-extra-space u-no-padding--top" id="available-roles" tabindex="0" role="tabpanel" aria-labelledby="available-roles">
+          {% include 'partial/_careers-available-roles.html' %}
+        </div>
 
-      <div class="p-strip p-tabs__content is-shallow u-extra-space" id="available-roles">
-        {% include 'partial/_careers-available-roles.html' %}
+        <div class="p-strip p-tabs__content is-shallow u-extra-space" id="overview" tabindex="0" role="tabpanel" aria-labelledby="overview" hidden="true">
+          {% block overview %}{% endblock %}
+        </div>
+
       </div>
 
     </div>
