@@ -1,4 +1,11 @@
 @mixin canonical-p-card {
+  %p-card-accent {
+    @extend %vf-card;
+
+    border-style: solid;
+    border-width: 3px 1px 1px 1px;
+  }
+
   .p-card--strip {
     @extend %vf-card;
 
@@ -58,30 +65,16 @@
     }
   }
 
-  .p-card--blue-strip {
-    @extend %vf-card;
+  .p-card--accent-alt-strip {
+    @extend %p-card-accent;
 
     border-color: $color-border-accent-alt $color-mid-light $color-mid-light $color-mid-light;
-    border-style: solid;
-    border-width: 3px 1px 1px 1px;
-
-    &.no-border {
-      border-width: 3px 0 0 0;
-      padding: 0.5rem 0 2rem 0;
-    }
   }
 
-  .p-card--orange-strip {
-    @extend %vf-card;
+  .p-card--accent-strip {
+    @extend %p-card-accent;
 
     border-color: $color-border-accent $color-mid-light $color-mid-light $color-mid-light;
-    border-style: solid;
-    border-width: 3px 1px 1px 1px;
-
-    &.no-border {
-      border-width: 3px 0 0 0;
-      padding: 0.5rem 0 2rem 0;
-    }
   }
 
   .p-card--game {
