@@ -1,0 +1,41 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}https://docs.google.com/document/d/1KcrmlY1eH5gSBZEaNExtBJLOScMJfvEnpqezB1NqnEg/edit#heading=h.ov7lrxgwh2dv{% endblock %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+
+<section class="p-strip--suru-light-grey">
+  <div class="row">
+    <div class="col-4">
+      <p class="p-heading--tag">Products</p>
+      <h1>All Canonical products</h1>
+      <p>The best of open source: secure, portable and fully automated.</p>
+    </div>
+  </div>
+</section>
+
+<section class="p-strip u-no-padding--bottom u-sv3">
+  <div class="row">
+    <div class="col-4">
+      {% include "products/_products-search.html" %}
+    </div>
+  </div>
+  <div class="u-fixed-width">
+    <hr>
+  </div>
+</section>
+
+<section class="p-strip u-no-padding--top">
+  <div class="row">
+    <div class="col-3">
+      {% include "products/_product-navigation.html" %}
+    </div>
+    <div class="col-9" id="product-container">
+      {% include "products/_products-available.html" %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
