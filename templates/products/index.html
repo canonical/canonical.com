@@ -32,8 +32,16 @@
     <div class="col-3">
       {% include "products/_product-navigation.html" %}
     </div>
-    <div class="col-9" id="product-container">
-      {% include "products/_products-available.html" %}
+    <div class="col-9">
+      <div class="row" id="product-container">
+        {% for product in products %}
+          <div class="col-3 p-card has-accent-border" data-categories="{{ " ".join(product.categories) }}" style="display:none;">
+            <h2 class="p-heading--4">{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p><a href="{{ product.link }}">Visit site</a></p>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>

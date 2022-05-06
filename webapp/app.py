@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlencode
 
 import bleach
 import flask
+import json
 import markdown
 import talisker.requests
 
@@ -330,6 +331,19 @@ app.add_url_rule(
     view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
+
+# Products
+@app.route("/products")
+def product_list():
+    products = []
+    
+    f = open("products.json")
+
+    products = json.loads(f.read())
+
+    return flask.render_template(
+        "products/index.html", products=products
+    )
 
 
 # Template finder
