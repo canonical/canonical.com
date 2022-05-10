@@ -332,17 +332,25 @@ app.add_url_rule(
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
+
 # Products
-@app.route("/products")
-def product_list():
-    products = []
-    
+@app.route("/products/<category_slug>")
+def product_list(category_slug):
+    product_groups = []
+    target_product_list = {}
+
     f = open("products.json")
+    product_groups = json.loads(f.read())
+    
+    for product in product_groups:
+        if product == category_slug:
+            target_product_list = product_groups[product]
 
-    products = json.loads(f.read())
-
+    print(target_product_list)
     return flask.render_template(
-        "products/index.html", products=products
+        "products/index.html",
+        product_groups=product_groups,
+        target_product_list=target_product_list
     )
 
 
@@ -427,6 +435,13 @@ def get_secondary_nav_path(path):
     if len(split_path) > 2:
         secondary_path = path.split("/")[2]
     return secondary_path
+
+
+@app.template_filter()
+def get_url_fragment(path):
+    print(path)
+    fragment = re.search("\#(.*)", path)
+    return fragment
 
 
 @app.template_filter()

@@ -34,13 +34,9 @@
     </div>
     <div class="col-9">
       <div class="row" id="product-container">
-        {% for product in products %}
-          <div class="col-3 p-card has-accent-border" data-categories="{{ " ".join(product.categories) }}" style="display:none;">
-            <h2 class="p-heading--4">{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <p><a href="{{ product.link }}">Visit site</a></p>
-          </div>
-        {% endfor %}
+        {% with product_list=target_product_list %}
+          {% include "products/_template-product-card.html" %}
+        {% endwith %}
       </div>
     </div>
   </div>

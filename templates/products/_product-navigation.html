@@ -2,36 +2,11 @@
   <div class="p-side-navigation">
     <p><strong>Categories</strong></p>
     <ul class="p-side-navigation__list" role="tablist">
-      <li class="p-side-navigation__item is-active">
-        <a href="#" aria-current="page" aria-controls="highlights" class="p-side-navigation__link">Highlights</a>
-      </li>
+      {% for product_group in product_groups %}
       <li class="p-side-navigation__item">
-        <a href="#" aria-controls="security" class="p-side-navigation__link">Security</a>
+        <a href="/products/{{ product_group }}" {% if target_product_list.category == product_groups[product_group].category %}aria-current="page"{% endif %} aria-controls="{{ product_groups[product_group] }}" class="p-side-navigation__link">{{ product_groups[product_group].category }}<span class="p-side-navigation__status">{{ product_groups[product_group].products | length }}</span></a>
       </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="multicloud" class="p-side-navigation__link">Multicloud</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="infrastructure" class="p-side-navigation__link">Infrastructure</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="edge" class="p-side-navigation__link">Edge</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="iot" class="p-side-navigation__link">Devices and Internet of Things (IoT)</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="applications" class="p-side-navigation__link">Applications</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="develop" class="p-side-navigation__link">Develop</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="telco" class="p-side-navigation__link">Telco</a>
-      </li>
-      <li class="p-side-navigation__item">
-        <a href="#" aria-controls="automation/management" class="p-side-navigation__link">Auomation/management</a>
-      </li>                                                
+      {% endfor %}                                
     </ul>
   </div>
 </div>
