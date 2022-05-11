@@ -125,9 +125,7 @@ def identity():
 def results():
     vacancies = []
 
-    core_skills = flask.request.args.get("core-skills", [])
-    if core_skills:
-        core_skills = core_skills.split(",")
+    core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
     vacancies_by_department = _group_by_department(vacancies)
 
