@@ -55,14 +55,6 @@ class TestRoutes(VCRTestCase):
             self.client.get("/partners/ihv-and-oem").status_code, 200
         )
 
-    def test_careers_results_pages(self):
-        """
-        When given the URL for careers results with empty core_skills,
-        we should return a 200 status code
-        """
-
-        self.assertEqual(self.client.get("/careers/results").status_code, 200)
-
     def test_not_found(self):
         """
         When given a non-existent URL,
