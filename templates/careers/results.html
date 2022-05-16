@@ -32,9 +32,11 @@ Travel regularly to interesting destinations for team, conference and customer e
 {% endblock %}
 
 {% block careers_content %}
+  {% if vacancies %}
   <div class="row">
     <h2 class="p-muted-heading">Top roles for you</h2>
   </div>
+  {% endif %}
   <div class="row u-sv3">
     {% for vacancy in vacancies %}
       {% if loop.index < 5 %}
@@ -70,12 +72,20 @@ Travel regularly to interesting destinations for team, conference and customer e
       <div class="row">
         <div class="col-8">
           {% if not vacancies %}
-            <div class="u-align--center">
-              <p>
-                There are no roles matching your selection.
-                <a href="/careers/start">Retake choices again?</a>
-              </p>
+          <caption>
+            <div class="p-strip">
+              <div class="row">
+                <div class="u-align--right col-2 col-medium-1 col-small-1">
+                  <img src="https://assets.ubuntu.com/v1/263e7c5d-iot_orange.svg" alt="">
+                </div>
+                <div class="u-align--left col-6 col-medium-3 col-small-3">
+                  <p class="p-heading--4 u-no-margin--bottom">We couldn't find matching results</p>
+                  <p>There are no roles matching your selection.</p>
+                  <a class="p-button--positive" href="/careers/start">Retake choices again?</a>
+                </div>
+              </div>
             </div>
+          </caption>
           {% else %}
             <div class="js-filter-jobs-container"><h2>
               More matches for you to consider
@@ -105,7 +115,7 @@ Travel regularly to interesting destinations for team, conference and customer e
                       </li>
                     {% endif %}
                   {% endfor %}
-                </ul>        
+                </ul>
                 <p>
                   <a href="/careers/{{ department.slug }}">
                     See all roles in {{ department.name }}&nbsp;&rsaquo;
@@ -113,7 +123,7 @@ Travel regularly to interesting destinations for team, conference and customer e
                 </p>
                 <hr />
               </div>
-            {% endfor %}          
+            {% endfor %}
             </div>
           {% endif %}
         </div>
