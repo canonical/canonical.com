@@ -3,7 +3,7 @@
 {% block title %}Find a Canonical partner | Partners{% endblock %}
 
 {% block content %}
-<section class="p-strip--suru-light-grey">
+<section class="p-strip--image is-light is-deep" style="background-image: url(https://assets.ubuntu.com/v1/703aa208-suru-2.0-light-2.jpg);background-position:10% 100%;background-size:130%;">
   <div class="row">
     <div class="col-8 col-medium-4">
       <h1>Find a Canonical partner</h1>
@@ -23,7 +23,7 @@
   </div>
 </section>
 
-<section class="p-strip js-search-form  u-hide" style="margin-top: -1px;">
+<section class="p-strip js-search-form u-no-padding--bottom" style="margin-top: -1px;">
   <div class="row">
     <div class="col-3">
       <form class="p-search-box u-no-margin--bottom">
@@ -181,15 +181,15 @@
     {% if partners %}
     <div class="row js-find-a-partner__partner-list">
       {% for partner in partners %}
-      <div id="{{ partner['slug'] }}" class="p-card col-4 col-small-4 col-medium-3   js-find-a-partner__partner" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
+      <div id="{{ partner['slug'] }}" class="p-card--highlighted col-4 col-small-4 col-medium-3 js-find-a-partner__partner" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
         {% if partner['partner_website'] %}
         <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">
         {% else %}
         <a href="/{{ partner['slug'] }}">
         {% endif %}
         {% if partner['logo'] %}
-          <div style="height: 5rem; display: flex; align-items: flex-end;">
-            <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-height: 5rem; max-width: 10rem;" loading="lazy">
+          <div style="display: flex; align-items: flex-end;">
+            <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-height: 7rem; max-width: 14em; " loading="lazy">
           </div>
         {% endif %}
         </a>
