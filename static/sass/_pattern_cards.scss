@@ -15,11 +15,25 @@
     }
   }
 
-  .p-card--highlighted.has-cta {
-    background-color: $color-light;
+  .p-card.has-cta {
+    @extend %vf-card;
+
     display: flex;
     flex-direction: column;
-    padding: calc(#{$spv--large} * 2 - 1px);
+
+    .p-card__content {
+      flex-grow: 1;
+      padding-bottom: $spv--medium;
+    }
+
+    .p-card__cta {
+      margin-bottom: 0;
+    }
+  }
+
+  .p-card--highlighted.has-cta {
+    display: flex;
+    flex-direction: column;
 
     .p-card__content {
       flex-grow: 1;
@@ -40,14 +54,6 @@
     .p-card__thumbnail-large {
       max-height: 8rem;
     }
-  }
-
-  .p-card--strip-thin {
-    @extend %vf-card;
-
-    border-width: 3px 1px 1px 1px;
-    border-style: solid;
-    border-color: $color-border-accent-alt $color-mid-light $color-mid-light $color-mid-light;
   }
 
   .p-card--game {

@@ -3,253 +3,227 @@
 {% block title %}Find a Canonical partner | Partners{% endblock %}
 
 {% block content %}
-  <section class="p-strip--image is-dark">
-    <div class="p-strip--suru-top">
-      <div class="row">
-        <div class="col-8 col-medium-4">
-          <h1>Find a Canonical partner</h1>
-          <p>Canonical's network of Ubuntu partners spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
-        </div>
-        <div class="col-4 col-medium-2 u-hide--small u-align--center u-vertically-center">
-          <img src="https://assets.ubuntu.com/v1/18dc67e0-lrg-magnifier-icon.svg" alt="">
-        </div>
+<section class="p-strip--image is-light is-deep" style="background-image: url(https://assets.ubuntu.com/v1/703aa208-suru-2.0-light-2.jpg);background-position:10% 100%;background-size:130%;">
+  <div class="row">
+    <div class="col-8 col-medium-4">
+      <h1>Find a Canonical partner</h1>
+      <p>Canonical's network of Ubuntu partners spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
+    </div>
+    <div class="col-4 col-medium-2 u-hide--small u-align--center u-vertically-center">
+      {{ image (
+        url="https://assets.ubuntu.com/v1/18dc67e0-lrg-magnifier-icon.svg",
+        alt="",
+        width="130",
+        height="127",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip js-search-form u-no-padding--bottom" style="margin-top: -1px;">
+  <div class="row">
+    <div class="col-3">
+      <form class="p-search-box u-no-margin--bottom">
+        <input class="p-search-box__input js-find-a-partner__search-input" name="search" id="search" placeholder="Search" required="" type="search">
+        <button type="reset" class="p-search-box__reset u-no-margin--right" alt="reset"><i class="p-icon--close"></i></button>
+        <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
+      </form>
+    </div>
+    <div class="col-1">
+      <button class="p-chip--positive p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;"><span class="p-chip__lead">All</span></button>
+    </div>
+    <div class="col-3">
+      <button type="button" class="p-button accordian-button has-icon" id="tab1" role="tab" aria-controls="#tab-section" aria-expanded="false"><i class="p-icon--plus" style="pointer-events:none;"></i><span style="pointer-events:none;">Filters</span></button>
+    </div>
+  </div>
+  <div class="row p-accordion-panel" id="tab-section" role="tabpanel" aria-hidden="true" aria-labelledby="tab-section">
+    <div class="col-4">
+      <p class="p-heading--4">Technology</p>
+      <hr/>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="ai-ml" aria-labelledby="ai-ml">
+          <span class="p-checkbox__label" id="ai-ml">AI/ML</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="cloud-server" aria-labelledby="cloud-server">
+          <span class="p-checkbox__label" id="cloud-server">Cloud/server</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="containers" aria-labelledby="containers">
+          <span class="p-checkbox__label" id="containers">Containers</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="edge-gateway" aria-labelledby="edge-gateway">
+          <span class="p-checkbox__label" id="edge-gateway">Edge Gateway</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="personal-computing-devices" aria-labelledby="personal-computing-devices">
+          <span class="p-checkbox__label" id="personal-computing-devices">Personal computing/devices</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="robotics" aria-labelledby="robotics">
+          <span class="p-checkbox__label" id="robotics">Robotics</span>
+        </label>
+      </p>
+    </div>
+    <div class="col-4">
+      <p class="p-heading--4">Programme</p>
+      <hr/>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="channel-reseller" aria-labelledby="channel-reseller">
+          <span class="p-checkbox__label" id="channel-reseller">Channel / Reseller</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="desktop" aria-labelledby="desktop">
+          <span class="p-checkbox__label" id="desktop">Desktop</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="global-system-integrators" aria-labelledby="global-system-integrators">
+          <span class="p-checkbox__label" id="global-system-integrators">Global System Integrators</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="ihv-oem" aria-labelledby="ihv-oem">
+          <span class="p-checkbox__label" id="ihv-oem">IHV / OEM</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="public-cloud" aria-labelledby="public-cloud">
+          <span class="p-checkbox__label" id="public-cloud">Public Cloud</span>
+        </label>
+      </p>
+    </div>
+    <div class="col-4">
+      <p class="p-heading--4">Services offered</p>
+      <hr/>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="big-data" aria-labelledby="big-data">
+          <span class="p-checkbox__label" id="big-data">Big data</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="channel" aria-labelledby="channel">
+          <span class="p-checkbox__label" id="channel">Channel</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="hardware-manufacturer" aria-labelledby="hardware-manufacturer">
+          <span class="p-checkbox__label" id="hardware-manufacturer">Hardware manufacturer</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="hosting-provider" aria-labelledby="hosting-provider">
+          <span class="p-checkbox__label" id="hosting-provider">Hosting provider</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="infrastructure-provider" aria-labelledby="infrastructure-provider">
+          <span class="p-checkbox__label" id="infrastructure-provider">Infrastructure provider</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="network-operator" aria-labelledby="network-operator">
+          <span class="p-checkbox__label" id="network-operator">Network operator</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="software-content-publisher" aria-labelledby="software-content-publisher">
+          <span class="p-checkbox__label" id="software-content-publisher">Software/content publisher</span>
+        </label>
+      </p>
+      <p>
+        <label class="p-checkbox">
+          <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="system-integrator-consultant" aria-labelledby="system-integrator-consultant">
+          <span class="p-checkbox__label" id="system-integrator-consultant">System integrator/consultant</span>
+        </label>
+      </p>
+    </div>
+  </div>
+</section>
+<section class="p-strip is-shallow u-extra-space">
+  <div id="results" class="p-find-a-partner">
+    <div class="u-fixed-width">
+      <div class="p-notification js-find-a-partner__no-results u-hide">
+        <p class="p-notification__content">
+          Sorry, no partners matches found.<br />
+          Perhaps <a href="/partners/find-a-partner">start your search again?</a>
+        </p>
       </div>
     </div>
-  </section>
-  <section class="p-strip--light is-shallow js-search-form  u-hide" style="margin-top: -1px;">
-    <div class="row">
-      <div class="col-3">
-        <form class="p-search-box u-no-margin--bottom">
-          <input class="p-search-box__input js-find-a-partner__search-input" name="search" id="search" placeholder="Search" required="" type="search">
-          <button type="reset" class="p-search-box__reset u-no-margin--right" alt="reset"><i class="p-icon--close"></i></button>
-          <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
-        </form>
-      </div>
-      <div class="col-1 u-vertically-center">
-        <p>
-          <span class="p-label--information p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;">All</span>
-        </p>
-      </div>
-      <div class="col-3">
-        <button type="button" class="p-button--accordion p-heading--4 u-align--left" id="tab1" role="tab" aria-controls="#tab-section" aria-expanded="false">Filters</button>
-      </div>
-    </div>
-    <div class="row p-accordion-panel" id="tab-section" role="tabpanel" aria-hidden="true" aria-labelledby="tab-section">
-      <div class="col-4">
-        <p class="p-heading--4">Technology</p>
-        <hr/>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="ai-ml" aria-labelledby="ai-ml">
-            <span class="p-checkbox__label" id="ai-ml">AI/ML</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="cloud-server" aria-labelledby="cloud-server">
-            <span class="p-checkbox__label" id="cloud-server">Cloud/server</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="containers" aria-labelledby="containers">
-            <span class="p-checkbox__label" id="containers">Containers</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="edge-gateway" aria-labelledby="edge-gateway">
-            <span class="p-checkbox__label" id="edge-gateway">Edge Gateway</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="personal-computing-devices" aria-labelledby="personal-computing-devices">
-            <span class="p-checkbox__label" id="personal-computing-devices">Personal computing/devices</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="robotics" aria-labelledby="robotics">
-            <span class="p-checkbox__label" id="robotics">Robotics</span>
-          </label>
-        </p>
-      </div>
-      <div class="col-4">
-        <p class="p-heading--4">Programme</p>
-        <hr/>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="channel-reseller" aria-labelledby="channel-reseller">
-            <span class="p-checkbox__label" id="channel-reseller">Channel / Reseller</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="desktop" aria-labelledby="desktop">
-            <span class="p-checkbox__label" id="desktop">Desktop</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="global-system-integrators" aria-labelledby="global-system-integrators">
-            <span class="p-checkbox__label" id="global-system-integrators">Global System Integrators</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="ihv-oem" aria-labelledby="ihv-oem">
-            <span class="p-checkbox__label" id="ihv-oem">IHV / OEM</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="public-cloud" aria-labelledby="public-cloud">
-            <span class="p-checkbox__label" id="public-cloud">Public Cloud</span>
-          </label>
-        </p>
-      </div>
-      <div class="col-4">
-        <p class="p-heading--4">Services offered</p>
-        <hr/>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="big-data" aria-labelledby="big-data">
-            <span class="p-checkbox__label" id="big-data">Big data</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="channel" aria-labelledby="channel">
-            <span class="p-checkbox__label" id="channel">Channel</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="hardware-manufacturer" aria-labelledby="hardware-manufacturer">
-            <span class="p-checkbox__label" id="hardware-manufacturer">Hardware manufacturer</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="hosting-provider" aria-labelledby="hosting-provider">
-            <span class="p-checkbox__label" id="hosting-provider">Hosting provider</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="infrastructure-provider" aria-labelledby="infrastructure-provider">
-            <span class="p-checkbox__label" id="infrastructure-provider">Infrastructure provider</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="network-operator" aria-labelledby="network-operator">
-            <span class="p-checkbox__label" id="network-operator">Network operator</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="software-content-publisher" aria-labelledby="software-content-publisher">
-            <span class="p-checkbox__label" id="software-content-publisher">Software/content publisher</span>
-          </label>
-        </p>
-        <p>
-          <label class="p-checkbox">
-            <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="system-integrator-consultant" aria-labelledby="system-integrator-consultant">
-            <span class="p-checkbox__label" id="system-integrator-consultant">System integrator/consultant</span>
-          </label>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="p-strip is-shallow u-extra-space">
-    <div id="results" class="p-find-a-partner">
-      <div class="u-fixed-width">
-        <div class="p-notification js-find-a-partner__no-results u-hide">
-          <p class="p-notification__content">
-            Sorry, no partners matches found.<br />
-            Perhaps <a href="/partners/find-a-partner">start your search again?</a>
-          </p>
-        </div>
-      </div>
-      {% if partners %}
-      <div class="row js-find-a-partner__partner-list">
-        {% for partner in partners %}
-        <div id="{{ partner['slug'] }}" class="col-4 col-small-4 col-medium-3 js-find-a-partner__partner" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
-          <div class="p-card--no-border">
-            {% if partner['partner_website'] %}
-            <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">
-            {% else %}
-            <a href="/{{ partner['slug'] }}">
-            {% endif %}
-            {% if partner['logo'] %}
-              <div style="height: 5rem; display: flex; align-items: flex-end;">
-                <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-height: 5rem; max-width: 10rem;" loading="lazy">
-              </div>
-            {% endif %}
-            </a>
-            <p>
-            {% if partner['partner_website'] %}
-              <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a>
-            {% else %}
-              <a href="/{{ partner['slug'] }}">{{ partner['name'] }}</a>
-            {% endif %}
-            </p>
-            <p class="p-card__content">{{ partner['short_description']|markup|safe }}</p>
+    {% if partners %}
+    <div class="row js-find-a-partner__partner-list">
+      {% for partner in partners %}
+      <div id="{{ partner['slug'] }}" class="p-card--highlighted col-4 col-small-4 col-medium-3 js-find-a-partner__partner" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
+        {% if partner['partner_website'] %}
+        <a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">
+        {% else %}
+        <a href="/{{ partner['slug'] }}">
+        {% endif %}
+        {% if partner['logo'] %}
+          <div style="display: flex; align-items: flex-end;">
+            <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-height: 7rem; max-width: 14em; " loading="lazy">
           </div>
-        </div>
-        {% endfor %}
+        {% endif %}
+        </a>
+        {% if partner['partner_website'] %}
+          <h4 class="u-no-padding--top"><a title="Vist the {{ partner['name'] }} website" href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a></h4>
+        {% else %}
+          <h4 class="u-no-padding--top"><a href="/{{ partner['slug'] }}">{{ partner['name'] }}</a></h4>
+        {% endif %}
+        <p class="p-card__content">{{ partner['short_description']|markup|safe }}</p>
       </div>
-      {% endif %}
+      {% endfor %}
     </div>
-  </section>
+    {% endif %}
+  </div>
+</section>
 
-  <style>
-    .p-strip--suru-top {
-      background-image:
-      linear-gradient(to bottom right, rgba(210,180,202,0.05) 0%, rgba(210,180,202,0.05) 49.9%, rgba(210,180,202,0) 50%, rgba(210,180,202,0) 100%),
-      linear-gradient(to top right, rgba(74,24,60,0) 0%, rgba(74,24,60,0) 49.9%, rgba(74,24,60,0.34) 50%, rgba(74,24,60,0.34) 100%),
-      linear-gradient(to top left, #f7f7f7 0%, #f7f7f7 49%, transparent 50%),
-      linear-gradient(230deg, #E95420 0%, #772953 33%, #2C001E 72%);
-      background-position: left top, right top, right bottom;
-      background-repeat: no-repeat;
-      background-size: 70% 80%, 70% 100%, 110% 20%, 100% 100%;
-      padding-bottom: 6rem;
-      padding-top: 6rem;
-    }
-
-    @media (max-width: 620px) {
-      .p-strip--suru-top {
-        background-image:
-          linear-gradient(to top right, rgba(74,24,60,0) 0%, rgba(74,24,60,0) 49.9%, rgba(74, 24, 60, 0.4) 50%, rgba(74, 24, 60, 0.4) 100%),
-          linear-gradient(to top left, #f7f7f7 0%, #f7f7f7 49%, transparent 50%),
-          linear-gradient(to bottom right, rgba(210,180,202,0.05) 0%, rgba(210,180,202,0.05) 49.9%, rgba(210,180,202,0) 50%, rgba(210,180,202,0) 100%),
-          linear-gradient(120deg, #2C001E  4%,  #4C193E 100%);
-        background-position: right top, bottom right, top left, top left, center right;
-        background-repeat: no-repeat;
-        background-size: 100% 100%, 105% 25%, 70% 80%, 100% 100%;
-      }
-    }
-  </style>
-
-  <script defer src="/static/js/find-a-partner.js"></script>
-  <script>
-    function displayFilters () {
-      const toggle = (element, show) => {
-        element.setAttribute('aria-expanded', show);
-        document
-          .querySelector(element.getAttribute('aria-controls'))
-          .setAttribute('aria-hidden', !show);
-      }
+<script defer src="/static/js/find-a-partner.js"></script>
+<script>
+  function displayFilters () {
+    const toggle = (element, show) => {
+      element.setAttribute('aria-expanded', show);
       document
-        .querySelector(".p-button--accordion")
-        .addEventListener('click', e => {
-          const target = e.target;
-          const isTargetOpen = target.getAttribute('aria-expanded') === 'true';
-          toggle(target, !isTargetOpen);
-      });
+        .querySelector(element.getAttribute('aria-controls'))
+        .setAttribute('aria-hidden', !show);
     }
-    displayFilters ();
-  </script>
+    document
+      .querySelector("#tab1")
+      .addEventListener('click', e => {
+        const target = e.target;
+        const isTargetOpen = target.getAttribute('aria-expanded') === 'true';
+        toggle(target, !isTargetOpen);
+    });
+  }
+  displayFilters ();
+</script>
+
 {% endblock %}

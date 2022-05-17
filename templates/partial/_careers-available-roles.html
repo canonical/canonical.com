@@ -6,10 +6,10 @@
   Sorry, there are no open positions matching your criteria.
 </h2>
 <div class="js-filter-jobs-container">
-  <ul class="p-list--divided js-job-list">
+  <ul class="p-list js-job-list">
     {% for job in vacancies %}
     <li
-      class="p-list__item"
+      class="p-list__item has-accent-alt-border"
       data-office="{{ job.office }}"
       data-employment="{{ job.employment }}"
       data-date="{{ job.date }}"
@@ -18,9 +18,9 @@
       data-sector="{{ job.departments | map(attribute='name') | join(', ') }}"
     >
       <p class="u-no-margin--bottom u-sv1">
-        <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
+        <i {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
           {{ job.location }}
-        </small>
+        </i>
       </p>
   
       {% if checkbox %}
@@ -29,7 +29,7 @@
         <input class="p-checkbox__input" type="checkbox" name="roles" aria-labelledby="{{ job.id }}" value="{{ job.id }}" />
         <span class="p-checkbox__label p-checkbox-label--h2 u-no-padding--top" id="{{ job.id }}">
       {% endif %}
-        <h2 class="p-heading--3 {% if checkbox %}u-sv3{% else %}u-no-padding--top{% endif %}{% if job.description %} u-no-margin--bottom{% else %} u-sv1{% endif %}">
+        <h2 class="p-heading--3 {% if checkbox %}u-sv3{% else %}u-sv1 u-no-padding--top{% endif %}{% if job.description %} u-no-margin--bottom{% else %} u-sv1{% endif %}">
           <a class="p-link--soft" href="/careers/{{ job.id }}/{{ job.slug }}">{{ job.title }}&nbsp;&rsaquo;</a>
         </h2>
         {% if job.description %}
