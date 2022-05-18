@@ -2,9 +2,9 @@
   <div class="p-side-navigation">
     <p><strong>Categories</strong></p>
     <ul class="p-side-navigation__list" role="tablist">
-      {% for product_group in product_groups %}
+      {% for product_group in products %}
       <li class="p-side-navigation__item">
-        <a href="/products/{{ product_group }}" {% if target_product_list.category == product_groups[product_group].category %}aria-current="page"{% endif %} aria-controls="{{ product_groups[product_group] }}" class="p-side-navigation__link">{{ product_groups[product_group].category }}<span class="p-side-navigation__status">{{ product_groups[product_group].products | length }}</span></a>
+        <a href="#" aria-controls="{{ product_group }}" {% if product_group == "highlights" %} aria-current="page" {% endif %}class="p-side-navigation__link">{{ products[product_group].category }}<span class="p-side-navigation__status">{{ products[product_group].products | length }}</span></a>
       </li>
       {% endfor %}                                
     </ul>
