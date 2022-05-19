@@ -1,14 +1,23 @@
 @mixin canonical-p-tabs {
-  .p-tabs__content {
-    display: none;
-
-    &:last-child,
-    &:target {
+  .p-icon-tabs {
+    &__tab {
+      border: 0;
       display: block;
-    }
 
-    &:target ~ &:last-child {
-      display: none;
+      img { 
+        display: block; 
+        filter: grayscale(100%);
+      }
+      
+      &[aria-selected="true"],
+      &:hover {
+        background: transparent;
+
+        img {
+          filter: none;
+        }
+      }
+
     }
   }
 }
