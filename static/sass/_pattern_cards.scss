@@ -15,27 +15,31 @@
     }
   }
 
-  .p-card.has-cta {
-    @extend %vf-card;
-
-    display: flex;
-    flex-direction: column;
-
-    .p-card__content {
-      flex-grow: 1;
-      padding-bottom: $spv--medium;
+  .p-card {
+    &__tag {
+      @extend %table-header-label;
     }
 
-    .p-card__cta {
-      margin-bottom: 0;
+    &.has-cta {
+      @extend %vf-card;
+
+      display: flex;
+      flex-direction: column;
+
+      .p-card__content {
+        flex-grow: 1;
+        padding-bottom: $spv--medium;
+      }
+
+      .p-card__cta {
+        margin-bottom: 0;
+      }
     }
   }
 
   .p-card--highlighted.has-cta {
-    background-color: $color-light;
     display: flex;
     flex-direction: column;
-    padding: calc(#{$spv--large} * 2 - 1px);
 
     .p-card__content {
       flex-grow: 1;
