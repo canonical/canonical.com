@@ -1,0 +1,18 @@
+{% for product_group in products %}
+<div class="p-strip u-no-padding--top" id="{{ product_group }}" hidden="true">
+  <div class="u-fixed-width">
+    <h2 class="P-heading--3">{{ products[product_group].category }}</h2>
+  </div>
+  <div class="row">
+    {% for product in products[product_group].products %}
+    <div class="col-3 p-card has-accent-border">
+      <h3 class="p-heading--4" id="product-heading">{{ product.name }}</h3>
+      <p id="product-description">{{ product.description }}</p>
+      <p id="product-link"><a href="{{ product.url }}">Visit site</a></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endfor %}
+
