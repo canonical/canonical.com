@@ -341,10 +341,7 @@ def product_list():
     f = open("products.json")
     products = json.loads(f.read())
 
-    return flask.render_template(
-        "products/index.html",
-        products=products
-    )
+    return flask.render_template("products/index.html", products=products)
 
 
 # Template finder
