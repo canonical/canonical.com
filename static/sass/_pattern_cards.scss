@@ -65,8 +65,11 @@
   .p-card--game {
     @extend %vf-card;
 
+    border-color: $color-border-accent $color-mid $color-mid $color-mid;
+    border-style: solid;
+    border-width: 3px 1px 1px 1px;
     margin-bottom: $spv--large;
-    min-height: 8rem;
+    overflow: hidden;
     position: relative;
 
     &:hover {
@@ -75,7 +78,6 @@
     }
 
     &__title::after {
-      border-bottom: 2px solid $color-mid-light;
       content: "";
       display: block;
       width: 50%;
@@ -109,19 +111,11 @@
       }
     }
 
-    &.is-selected {
-      background-color: $color-brand;
-      color: $color-x-light;
-
-      &:hover {
-        background-color: $color-mid-dark;
-      }
-    }
-
     &.is-empty {
       background-color: transparent;
-      border: 1px dashed $color-x-light;
+      border: 1px dashed $color-careers-game-card-border;
       cursor: default;
+      min-height: 10rem;
 
       &:hover {
         background-color: transparent;
@@ -136,15 +130,25 @@
       }
     }
 
+    &.is-selected {
+      background-color: $color-light;
+      min-height: 10rem;
+    }
+
     @media (max-width: $breakpoint-small) {
       &.is-empty {
         display: none;
       }
     }
-  }
-  @media (min-width: $breakpoint-small) {
-    .p-card--game {
-      min-height: 10rem;
+
+    @media (min-width: $breakpoint-small) and (max-width: $breakpoint-large) {
+      &.is-empty {
+        margin-bottom: 20px;
+        min-height: 6rem;
+      }
+      &.is-selected {
+        min-height: 6rem;
+      }
     }
   }
 }
