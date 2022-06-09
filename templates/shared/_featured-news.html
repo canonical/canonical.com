@@ -1,0 +1,26 @@
+<section data-js="latest-news">
+  <div class="row p-divider">
+    <div class="col-12">
+      <div id="horizontal-featured-articles" class="row"></div>
+    </div>
+  </div>
+  <template style="display:none" id="horizontal-articles-template">
+    <div class="col-4 p-card--highlighted has-accent-alt-border">
+      <p class="p-card__tag">{{ tag_name }}</p>
+      <h2 class="article-title p-heading--4 u-no-padding--top"></h2>
+      <a class="article-link ">Read more&nbsp;&rsaquo;</a>
+    </div>
+  </template>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script>
+    canonicalLatestNews.fetchLatestNews(
+      {
+        articlesContainerSelector: "#horizontal-featured-articles",
+        articleTemplateSelector: "#horizontal-articles-template",
+        gtmEventLabel: "canonical.com{% if tag_name %}/{{ tag_name }}{% else %} homepage{% endif %}",
+        {% if tag_name %}tagId: "{{ tag_id }}", {% endif %}
+        {% if limit %} limit: "{{ limit }}", {% endif %}
+      }
+    )
+  </script>
+</section>
