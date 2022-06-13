@@ -27,40 +27,25 @@
   }
 
   .p-card--post {
-    @extend %p-card--highlighted;
+    @extend .p-card;
 
-    display: flex !important;
-    flex-direction: column;
-    padding: 0;
+    > .p-card__image {
+      @extend .p-card__inner;
 
-    .p-strip--featured & {
-      background-color: rgba(255, 255, 255, 0.9);
-      position: relative;
-      z-index: 1;
+      margin-bottom: 0;
+      padding: 0.5rem 1rem;
     }
 
-    > .p-card__content {
-      border-top: 1px dotted $color-mid-light;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      margin: 0 $sp-small;
-      padding: $sp-medium $sp-small $sp-small;
 
-      > a,
-      h3,
-      p {
-        display: block;
-        margin: $sp-small 0;
+    > .p-card__footer {
+      margin-top: auto;
+
+      > p {
+        @extend .p-card__inner;
+        
+        margin-bottom: 0;
+        padding: 0.5rem 1rem;
       }
-    }
-
-    .p-card__footer {
-      border-top: 1px dotted $color-mid-light;
-      font-size: 0.875rem;
-      margin: auto $sp-small 0;
-      max-width: inherit;
-      padding: $sp-medium $sp-small;
     }
   }
 
