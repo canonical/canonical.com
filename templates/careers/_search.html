@@ -1,0 +1,25 @@
+<div class="js-search-jobs-form u-hide">
+  <form class="p-search-box">
+    <label class="u-off-screen" for="search">Search</label>
+    <input type="search" id="search" class="p-search-box__input js-careers__search-input" name="search" placeholder="Search" required="" autocomplete="on">
+    <button type="reset" class="p-search-box__reset"><i class="p-icon--close">Close</i></button>
+    <button type="submit" class="p-search-box__button"><i class="p-icon--search">Search</i></button>
+  </form>
+</div>
+<script>
+  function initSearchResetButtons(selector) {
+  var resetButtons = [].slice.call(document.querySelectorAll(selector));
+
+  resetButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var input = button.parentNode.querySelector('input');
+
+      input.focus();
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  initSearchResetButtons('.p-search-box__reset');
+});
+</script>
