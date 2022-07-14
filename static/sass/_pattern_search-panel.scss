@@ -1,19 +1,33 @@
 @mixin canonical-p-search-panel {
+  @include vf-u-truncate;
+  @include vf-u-text-muted;
 
   .p-search-panel {
     margin-top: -1.2rem;
-    border:  1px solid #000;
-    border-top: none;
     position : relative;
 
     .p-search-panel__container{
-      position: absolute;
-      z-index: 10000;
-      max-height: 10rem;
+      background: #fff;
+      border:  1px solid #000;
+      border-top : none;
+      max-height: 15rem;
       overflow-y: scroll;
-      background: #eee;
-      background: $color-light;
+      position: absolute;
+      width: 100%;
+      z-index: 10000;
+      .p-list__item {
+        padding: 0.5rem 1rem;
+
+        &:hover {
+          background: $color-light;
+          cursor: pointer;
+        }
+        > a:link,
+        > a:visited {
+          color: $color-mid-dark;
+          text-decoration: none;
+        }
+      }
     }
   }
-  
 }
