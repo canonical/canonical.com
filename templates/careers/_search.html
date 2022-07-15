@@ -10,9 +10,11 @@
  
   let search_term = '';
   const options = {
-    keys: ['title', 'location']
+    threshold: 0.3,
+    keys: ['title', 'description']
   }
   const vacancies = {{ vacancies_json | tojson }};
+
   const fuse = new Fuse(vacancies, options);
 
   function hideSearchResult() {
@@ -26,6 +28,7 @@
   const displayJobs = (search_term) => {
     hideSearchResult()
     const ul = document.querySelector(".p-search-panel-list");
+    console.log("fuse", fuse.search(search_term))
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     ul.innerHTML = ''
