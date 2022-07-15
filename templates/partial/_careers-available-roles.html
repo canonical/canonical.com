@@ -1,66 +1,52 @@
-{% if vacancies_json %}
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    const jobContainer = document.querySelector('.js-filter-jobs-container');
-    const search_input = document.querySelector(".js-careers__search-input");
-    search_input.addEventListener('input', e => {
-      search_term = e.target.value;
-      displayJobs(search_term);
-    });   
-    displayJobs("");
-  });
- 
-  let search_term = '';
-  const options = {
-    keys: ['title', 'location']
-  }
-  const vacancies = {{ vacancies_json | tojson }};
-  const fuse = new Fuse(vacancies, options);
-  
-  const displayJobs = (search_term) => {
-    const ul = document.querySelector(".js-job-list");
-    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) :vacancies
-    let jobs = vacancies.filter( a => searchResult.includes(a) )
-    ul.innerHTML = ''
-    jobs.forEach( job => { 
-      const li= document.createElement('li')
-      li.setAttribute('class', 'p-list__item');
-      li.dataset.dataOffice = job.office
-      li.dataset.dataEmployment =  job.employment
-      li.dataset.dataLocation = job.location
-      li.dataset.dataManagement = job.management
-      
-      const location = document.createElement('p')
-      location.setAttribute('class', 'u-no-margin--bottom');
-      const small= document.createElement('small')
-      small.textContent = job.location
-  
-      const title = document.createElement('h2')
-      title.setAttribute('class', 'p-heading--3');
-      const anchor = document.createElement('a')
-      anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
-      anchor.setAttribute('href', `/careers/${job.id}`)
-      anchor.textContent = `${job.title}`
-      const description = document.createElement('p')
-      description.setAttribute('class', 'u-sv1');
-      description.textContent = job.description
-      
-      location.appendChild(small);
-      title.appendChild(anchor);
-      li.append(location, title, description);
-
-      ul.appendChild(li);
-    })
-  }
-</script>
-{% endif %}
-
+{% if vacancies %}
 <div>
   {% include "careers/_search.html" %}
 </div>
-<div class="u-align--right js-filter-form">
+<div class="u-align--right js-filter-form u-hide">
   {% include "careers/_filters.html" %}
 </div>
+<h2 class="p-heading--4 js-filter__no-results u-hide">
+  Sorry, there are no open positions matching your criteria.
+</h2>
 <div class="js-filter-jobs-container">
-  <ul class="p-list--divided js-job-list"></ul>
+  <ul class="p-list--divided js-job-list">
+    {% for job in vacancies %}
+    <li
+      class="p-list__item"
+      data-office="{{ job.office }}"
+      data-employment="{{ job.employment }}"
+      data-date="{{ job.date }}"
+      data-location="{{ job.location }}"
+      data-management="{{ job.management}}"
+      data-sector="{{ job.departments | map(attribute='name') | join(', ') }}"
+    >
+      <p class="u-no-margin--bottom u-sv1">
+        <small {% if checkbox %}style="padding-left: 2rem;"{% endif %}>
+          {{ job.location }}
+        </small>
+      </p>
+
+      {% if checkbox %}
+      <p class="u-hide">{{ job.date }}</p>
+      <label class="p-checkbox">
+        <input class="p-checkbox__input" type="checkbox" name="roles" aria-labelledby="{{ job.id }}" value="{{ job.id }}" />
+        <span class="p-checkbox__label p-checkbox-label--h2 u-no-padding--top" id="{{ job.id }}">
+      {% endif %}
+        <h2 class="p-heading--3 {% if checkbox %}u-sv3{% else %}u-no-padding--top{% endif %}{% if job.description %} u-no-margin--bottom{% else %} u-sv1{% endif %}">
+          <a class="p-link--soft" href="/careers/{{ job.id }}/{{ job.slug }}">{{ job.title }}&nbsp;&rsaquo;</a>
+        </h2>
+        {% if job.description %}
+        <p clss="u-sv1">{{ job.description }}</p>
+        {% endif %}
+      {% if checkbox %}
+        </span>
+      </label>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>  
 </div>
+{% else %}
+  <h2 class="p-heading--3">We don&apos;t have any open positions right now.
+  </h2>
+{% endif %}

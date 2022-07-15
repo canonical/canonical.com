@@ -1,19 +1,74 @@
-<div class="js-search-jobs-form u-hide">
-  <form class="p-search-box">
-    <label class="u-off-screen" for="search">Search</label>
-    <input type="search" id="search" class="p-search-box__input js-careers__search-input" name="search" placeholder="Search" required="" autocomplete="on">
-    <button type="reset" class="p-search-box__reset"><i class="p-icon--close">Close</i></button>
-    <button type="submit" class="p-search-box__button"><i class="p-icon--search">Search</i></button>
-  </form>
-</div>
 <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const search_input = document.querySelector(".js-careers__search-input");
+    search_input.addEventListener('input', e => {
+      search_term = e.target.value;
+      displayJobs(search_term);
+    });   
+    displayJobs("");
+  });
+ 
+  let search_term = '';
+  const options = {
+    keys: ['title', 'location']
+  }
+  const vacancies = {{ vacancies_json | tojson }};
+  const fuse = new Fuse(vacancies, options);
+
+  function hideSearchResult() {
+    const jobContainer = document.querySelector(".p-search-panel");
+    if (search_term) {
+      jobContainer.classList.remove("u-hide");
+    } else {
+      jobContainer.classList.add("u-hide");
+    }
+  }
+  const displayJobs = (search_term) => {
+    hideSearchResult()
+    const ul = document.querySelector(".p-search-panel-list");
+    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
+    let jobs = vacancies.filter( a => searchResult.includes(a) )
+    ul.innerHTML = ''
+    jobs.forEach( job => { 
+      const li= document.createElement('li')
+      li.setAttribute('class', 'p-list__item');
+      li.dataset.dataOffice = job.office
+      li.dataset.dataEmployment =  job.employment
+      li.dataset.dataLocation = job.location
+      li.dataset.dataManagement = job.management
+      
+      const location = document.createElement('p')
+      location.setAttribute('class', 'u-no-margin--bottom');
+      const small= document.createElement('small')
+      small.textContent = job.location
+  
+      const title = document.createElement('h2')
+      title.setAttribute('class', 'p-heading--3');
+      const anchor = document.createElement('a')
+      anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
+      anchor.setAttribute('href', `/careers/${job.id}`)
+      anchor.textContent = `${job.title}`
+      // const description = document.createElement('p')
+      // description.setAttribute('class', 'u-sv1');
+      // description.textContent = job.description
+      location.appendChild(small);
+      title.appendChild(anchor);
+      li.append(location, title);
+
+      ul.appendChild(li);
+    })
+  }
+
+
   function initSearchResetButtons(selector) {
   var resetButtons = [].slice.call(document.querySelectorAll(selector));
+  const ul = document.querySelector(".p-search-panel-list");
 
   resetButtons.forEach(function (button) {
     button.addEventListener('click', function () {
       var input = button.parentNode.querySelector('input');
 
+      ul.innerHTML = ''
       input.focus();
     });
   });
@@ -23,3 +78,18 @@ document.addEventListener('DOMContentLoaded', function () {
   initSearchResetButtons('.p-search-box__reset');
 });
 </script>
+
+<div class="js-search-jobs-form u-hide">
+  <form class="p-search-box">
+    <label class="u-off-screen" for="search">Search</label>
+    <input type="search" id="search" class="p-search-box__input js-careers__search-input" name="search" placeholder="Search" required="" autocomplete="on">
+    <button type="reset" class="p-search-box__reset"><i class="p-icon--close">Close</i></button>
+    <button type="submit" class="p-search-box__button"><i class="p-icon--search">Search</i></button>
+  </form>
+</div>
+<div class="p-search-panel u-hide">
+  <div class="p-search-panel__container">
+    <ul class="p-list--divided p-search-panel-list">
+    </ul>
+  </div>
+</div>
