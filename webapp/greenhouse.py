@@ -100,6 +100,21 @@ class Vacancy:
         self.skills: list = _get_metadata(job, "skills") or []
         self.is_remote: bool = False if job["offices"][0]["location"] else True
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "location": self.location,
+            "skills": self.skills,
+            "url": self.url,
+            "slug": self.slug,
+            "management": self.management,
+            "office": self.office,
+            "description": self.description,
+            "employment": self.employment,
+            "date": self.date,
+        }
+
 
 class Greenhouse:
     def __init__(

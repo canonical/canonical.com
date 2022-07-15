@@ -237,7 +237,9 @@ def department_group(department_slug):
         flask.abort(404)
     elif department_slug == "all":
         context["vacancies"] = greenhouse.get_vacancies()
-
+        context["vacancies_json"] = [
+            vacancy.to_dict() for vacancy in context["vacancies"]
+        ]
     context["templates"] = templates
 
     if flask.request.method == "POST":
