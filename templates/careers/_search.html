@@ -7,8 +7,50 @@
       displayJobs(search_term);
     });   
     displayJobs("");
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const querySearchText = urlParams.get("search");
+    
+    if(querySearchText){
+      ShowJobList(querySearchText)
+    }
   });
- 
+  
+  const ShowJobList = (search_term) => {
+    const ul = document.querySelector(".js-job-list");
+    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) :vacancies
+    let jobs = vacancies.filter( a => searchResult.includes(a) )
+    ul.innerHTML = ''
+    jobs.forEach( job => { 
+      const li= document.createElement('li')
+      li.setAttribute('class', 'p-list__item');
+      li.dataset.dataOffice = job.office
+      li.dataset.dataEmployment =  job.employment
+      li.dataset.dataLocation = job.location
+      li.dataset.dataManagement = job.management
+
+      const location = document.createElement('p')
+      location.setAttribute('class', 'u-no-margin--bottom');
+      const small= document.createElement('small')
+      small.textContent = job.location
+
+      const title = document.createElement('h2')
+      title.setAttribute('class', 'p-heading--3');
+      const anchor = document.createElement('a')
+      anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
+      anchor.setAttribute('href', `/careers/${job.id}`)
+      anchor.textContent = `${job.title}`
+      const description = document.createElement('p')
+      description.setAttribute('class', 'u-sv1');
+      description.textContent = job.description
+
+      location.appendChild(small);
+      title.appendChild(anchor);
+      li.append(location, title, description);
+
+      ul.appendChild(li);
+    })
+  }
   let search_term = '';
   const options = {
     threshold: 0.3,

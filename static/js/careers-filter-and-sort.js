@@ -7,7 +7,6 @@
   const sortSelect = document.querySelector(".js-sort");
   const locationSelect = document.querySelector(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
-
   // Show search and filter functionality if JS is available
   function revealSearch() {
     const searchForm = document.querySelector(".js-search-jobs-form");
@@ -84,7 +83,7 @@
       searchBox.value = querySearchText;
     }
   }
-
+  
   function init() {
     revealSearch();
     revealFilters();
@@ -92,8 +91,9 @@
       populateTextbox();
     }
     if (domList) {
+      console.log(domList);
       var jobList = Array.from(domList.children);
-
+      console.log(jobList)
       if (filterSelect) {
         // Get list of options from the HTML form
         var filterOptions = [];
@@ -207,6 +207,7 @@
   function filterJobs(filterBy, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     jobList.forEach(function (node) {
+
       if (filterBy.filterText === "All" && filterBy.location === "all") {
         if (node.classList.contains("u-hide")) {
           node.classList.remove("u-hide");
