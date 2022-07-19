@@ -11,9 +11,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const querySearchText = urlParams.get("search");
     
-    if(querySearchText){
-      ShowJobList(querySearchText)
-    }
+    ShowJobList(querySearchText)
   });
   
   const ShowJobList = (search_term) => {
@@ -30,16 +28,16 @@
       li.dataset.dataManagement = job.management
 
       const location = document.createElement('p')
-      location.setAttribute('class', 'u-no-margin--bottom');
+      location.setAttribute('class', 'u-no-margin--bottom u-sv1');
       const small= document.createElement('small')
       small.textContent = job.location
 
       const title = document.createElement('h2')
-      title.setAttribute('class', 'p-heading--3');
+      title.setAttribute('class', 'p-heading--3 u-no-padding--top u-no-margin--bottom');
       const anchor = document.createElement('a')
-      anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
+      anchor.setAttribute('class', 'p-link--soft');
       anchor.setAttribute('href', `/careers/${job.id}`)
-      anchor.textContent = `${job.title}`
+      anchor.innerHTML= `${job.title}&nbsp;&rsaquo;`
       const description = document.createElement('p')
       description.setAttribute('class', 'u-sv1');
       description.textContent = job.description
@@ -106,12 +104,14 @@
   function initSearchResetButtons(selector) {
   var resetButtons = [].slice.call(document.querySelectorAll(selector));
   const ul = document.querySelector(".p-search-panel-list");
-
+  const url = window.location.href
+  const newUrl = url.split("?")[0];
   resetButtons.forEach(function (button) {
     button.addEventListener('click', function () {
       var input = button.parentNode.querySelector('input');
 
       ul.innerHTML = ''
+      window.location.href = newUrl
       input.focus();
     });
   });
