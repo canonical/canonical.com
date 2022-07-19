@@ -91,9 +91,7 @@
       populateTextbox();
     }
     if (domList) {
-      console.log(domList);
       var jobList = Array.from(domList.children);
-      console.log(jobList)
       if (filterSelect) {
         // Get list of options from the HTML form
         var filterOptions = [];
@@ -341,6 +339,7 @@
 
     window.history.pushState({}, "", url);
   }
-
-  init();
-})();
+    window.addEventListener('DOMContentLoaded', (event) => {
+      init();
+    })
+  })();
