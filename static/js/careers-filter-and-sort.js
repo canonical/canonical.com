@@ -73,7 +73,6 @@
     }
   }
 
-  parseLocations();
 
    // Update search box text with data from query params
    function populateTextbox() {
@@ -83,7 +82,7 @@
       searchBox.value = querySearchText;
     }
   }
-  
+
   function init() {
     revealSearch();
     revealFilters();
@@ -91,6 +90,7 @@
       populateTextbox();
     }
     if (domList) {
+      parseLocations();
       var jobList = Array.from(domList.children);
       if (filterSelect) {
         // Get list of options from the HTML form
