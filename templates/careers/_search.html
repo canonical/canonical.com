@@ -4,9 +4,9 @@
     const search_input = document.querySelector(".js-careers__search-input");
     search_input.addEventListener('input', e => {
       search_term = e.target.value;
-      displayJobs(search_term);
+      showAutoComplete(search_term);
     });   
-    displayJobs("");
+    showAutoComplete("");
     
     const urlParams = new URLSearchParams(window.location.search);
     const querySearchText = urlParams.get("search");
@@ -67,7 +67,8 @@
       jobContainer.classList.add("u-hide");
     }
   }
-  const displayJobs = (search_term) => {
+
+  const showAutoComplete = (search_term) => {
     hideSearchResult()
     const ul = document.querySelector(".p-search-panel-list");
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
@@ -76,20 +77,17 @@
     jobs.forEach( job => { 
       const li= document.createElement('li')
       li.setAttribute('class', 'p-list__item');
-      li.dataset.office = job.office
-      li.dataset.employment =  job.employment
-      li.dataset.location = job.location
-      li.dataset.management = job.management
-      li.dataset.sector = job.departments
 
       const location = document.createElement('p')
       location.setAttribute('class', 'u-no-margin--bottom');
+
       const small= document.createElement('small')
       small.setAttribute('class', 'u-text-muted');
       small.textContent = job.location
-  
+
       const title = document.createElement('div')
       title.setAttribute('class', 'u-truncate');
+
       const anchor = document.createElement('a')
       anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
       anchor.setAttribute('href', `/careers/${job.id}`)
@@ -104,13 +102,13 @@
 
 
   function initSearchResetButtons(selector) {
-  var resetButtons = [].slice.call(document.querySelectorAll(selector));
+  const resetButtons = [].slice.call(document.querySelectorAll(selector));
   const ul = document.querySelector(".p-search-panel-list");
   const url = window.location.href
   const newUrl = url.split("?")[0];
   resetButtons.forEach(function (button) {
     button.addEventListener('click', function () {
-      var input = button.parentNode.querySelector('input');
+      const input = button.parentNode.querySelector('input');
 
       ul.innerHTML = ''
       window.location.href = newUrl
