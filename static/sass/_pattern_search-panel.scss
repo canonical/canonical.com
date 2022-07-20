@@ -1,0 +1,54 @@
+@mixin canonical-p-search-panel {
+  @include vf-u-truncate;
+  @include vf-u-text-muted;
+
+  .p-search-panel {
+    margin-top: -1.2rem;
+    position : relative;
+
+    .p-search-panel__container{
+      background: #fff;
+      border:  1px solid #000;
+      border-top : none;
+      max-height: 15rem;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar-track {
+        background-color: #fafafa;
+      }
+
+      &::-webkit-scrollbar {
+        width: 1rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-clip: padding-box;
+        background-color: #c1c1c1;
+        border: 3px #fafafa solid;
+        border-radius: 100px;
+        box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+        min-height: 100px;
+        width: 0.8rem;
+      }
+      
+      position: absolute;
+      width: 100%;
+      z-index: 34;
+
+      .p-list__item {
+        padding: 0.5rem 1rem;
+
+        &:hover {
+          background: $color-light;
+          cursor: pointer;
+        }
+        
+        > a:link,
+        > a:visited {
+          color: $color-mid-dark;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
