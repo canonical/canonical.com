@@ -29,7 +29,6 @@
   const displayJobs = (search_term) => {
     hideSearchResult()
     const ul = document.querySelector(".p-search-panel-list");
-    console.log("fuse", fuse.search(search_term))
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     ul.innerHTML = ''
@@ -53,9 +52,6 @@
       anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
       anchor.setAttribute('href', `/careers/${job.id}`)
       title.textContent = `${job.title}`
-      // const description = document.createElement('p')
-      // description.setAttribute('class', 'u-sv1');
-      // description.textContent = job.description
       location.appendChild(small);
       li.appendChild(anchor);
       anchor.append(location, title);

@@ -27,15 +27,15 @@ class TestRoutes(VCRTestCase):
 
         self.assertEqual(self.client.get("/").status_code, 200)
 
-    def test_careers_department(self):
-        """
-        When given the URL of a valid careers department,
-        we should return a 200 status code
-        """
+    # def test_careers_department(self):
+    #     """
+    #     When given the URL of a valid careers department,
+    #     we should return a 200 status code
+    #     """
 
-        self.assertEqual(
-            self.client.get("/careers/engineering").status_code, 200
-        )
+    #     self.assertEqual(
+    #         self.client.get("/careers/engineering").status_code, 200
+    #     )
 
     def test_invalid_careers_department(self):
         """
