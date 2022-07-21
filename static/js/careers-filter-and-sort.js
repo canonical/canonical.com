@@ -7,7 +7,6 @@
   const sortSelect = document.querySelector(".js-sort");
   const locationSelect = document.querySelector(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
-
   // Show search and filter functionality if JS is available
   function revealSearch() {
     const searchForm = document.querySelector(".js-search-jobs-form");
@@ -74,7 +73,6 @@
     }
   }
 
-  parseLocations();
 
    // Update search box text with data from query params
    function populateTextbox() {
@@ -91,9 +89,12 @@
     if (searchBox) {
       populateTextbox();
     }
+    if (domList.length === 0) {
+      updateNoResultsMessage();
+    }
     if (domList) {
+      parseLocations();
       var jobList = Array.from(domList.children);
-
       if (filterSelect) {
         // Get list of options from the HTML form
         var filterOptions = [];
@@ -207,6 +208,7 @@
   function filterJobs(filterBy, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     jobList.forEach(function (node) {
+
       if (filterBy.filterText === "All" && filterBy.location === "all") {
         if (node.classList.contains("u-hide")) {
           node.classList.remove("u-hide");
@@ -340,6 +342,7 @@
 
     window.history.pushState({}, "", url);
   }
-
-  init();
-})();
+    window.addEventListener('DOMContentLoaded', (event) => {
+      init();
+    })
+  })();

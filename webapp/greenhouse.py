@@ -101,6 +101,9 @@ class Vacancy:
         self.is_remote: bool = False if job["offices"][0]["location"] else True
 
     def to_dict(self):
+        sector = ""
+        for department in self.departments:
+            sector = department.name
         return {
             "id": self.id,
             "title": self.title,
@@ -113,6 +116,7 @@ class Vacancy:
             "description": self.description,
             "employment": self.employment,
             "date": self.date,
+            "departments": sector,
         }
 
 
