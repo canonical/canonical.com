@@ -1,5 +1,9 @@
 {% extends 'base_index.html' %} {% block content %}
 
+{% block extra_metatags %}
+  <script src="{{ versioned_static('js/modules/fuse/fuse.js') }}"></script>
+{% endblock %}
+
 <section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
   <div class="p-strip--suru-background">
     <div class="row">
@@ -49,9 +53,10 @@
   </div>
 </section>
 
-<script defer src="/static/js/careers-filter-and-sort.js"></script>
-<script defer src="/static/js/apply-for-jobs.js"></script>
-<script defer src="/static/js/file-validation.js"></script>
-<script defer src="/static/js/tabs.js"></script>
+<script src="{{ versioned_static('js/modules/fuse/fuse.js') }}"></script>
+<script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}"></script>
+<script defer src="{{ versioned_static('js/apply-for-jobs.js') }}"></script>
+<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
+<script defer src="{{ versioned_static('js/tabs.js') }}"></script>
 
 {% endblock %}
