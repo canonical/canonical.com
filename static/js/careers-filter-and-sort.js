@@ -89,6 +89,9 @@
     if (searchBox) {
       populateTextbox();
     }
+    if (domList.length === 0) {
+      updateNoResultsMessage();
+    }
     if (domList) {
       parseLocations();
       var jobList = Array.from(domList.children);
