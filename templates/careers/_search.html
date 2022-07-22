@@ -16,7 +16,7 @@
   
   const ShowJobList = (search_term) => {
     const ul = document.querySelector(".js-job-list");
-    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) :vacancies
+    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : vacancies
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     ul.innerHTML = ''
     jobs.forEach( job => { 
@@ -71,33 +71,44 @@
   const showAutoComplete = (search_term) => {
     hideSearchResult()
     const ul = document.querySelector(".p-search-panel-list");
+    const jobContainer = document.querySelector(".p-search-panel");
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     ul.innerHTML = ''
-    jobs.forEach( job => { 
-      const li= document.createElement('li')
-      li.setAttribute('class', 'p-list__item');
+    
+    if (jobs.length === 0 && !jobContainer.classList.contains("u-hide")){
+      jobContainer.classList.add("u-hide");
+    } else {
 
-      const location = document.createElement('p')
-      location.setAttribute('class', 'u-no-margin--bottom');
+      if(jobContainer.classList.contains("u-hide")){
+        jobContainer.classList.add("u-hide");
+      }
 
-      const small= document.createElement('small')
-      small.setAttribute('class', 'u-text-muted');
-      small.textContent = job.location
+      jobs.forEach( job => { 
+        const li= document.createElement('li')
+        li.setAttribute('class', 'p-list__item');
 
-      const title = document.createElement('div')
-      title.setAttribute('class', 'u-truncate');
+        const location = document.createElement('p')
+        location.setAttribute('class', 'u-no-margin--bottom');
 
-      const anchor = document.createElement('a')
-      anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
-      anchor.setAttribute('href', `/careers/${job.id}`)
-      title.textContent = `${job.title}`
-      location.appendChild(small);
-      li.appendChild(anchor);
-      anchor.append(location, title);
+        const small= document.createElement('small')
+        small.setAttribute('class', 'u-text-muted');
+        small.textContent = job.location
 
-      ul.appendChild(li);
-    })
+        const title = document.createElement('div')
+        title.setAttribute('class', 'u-truncate');
+
+        const anchor = document.createElement('a')
+        anchor.setAttribute('class', 'p-link--soft u-no-padding--top u-no-margin--bottom');
+        anchor.setAttribute('href', `/careers/${job.id}`)
+        title.textContent = `${job.title}`
+        location.appendChild(small);
+        li.appendChild(anchor);
+        anchor.append(location, title);
+
+        ul.appendChild(li);
+      })
+    }
   }
 
 
