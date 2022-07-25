@@ -5,8 +5,17 @@
 {% endblock %}
 
 {% block content %}
-{% if application["status"] == "active" %}
-  <section class="p-strip--suru-light-grey">
+<section class="p-strip--suru-light-grey">
+  <div id="withdrawal-requested" class="p-strip u-no-padding--top">
+    <div class="u-fixed-width">
+      <div class="p-notification--caution u-no-margin--bottom">
+        <div class="p-notification__content">
+          <p class="p-notification__message"><strong>You have requested to withdraw this application: </strong>your application will remain active until you click on the link we have sent you via email.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if application["status"] == "active" %}
     <div class="row">
       <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
       {% if application['source']['id'] == 2 %}
