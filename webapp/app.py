@@ -210,6 +210,11 @@ def job_details(job_id, job_title):
     return flask.render_template("/careers/job-detail.html", **context)
 
 
+@app.route("/careers/start")
+def start_career():
+    return flask.render_template("/careers/start.html")
+
+
 @app.route("/careers/<department_slug>", methods=["GET", "POST"])
 def department_group(department_slug):
     context = {
