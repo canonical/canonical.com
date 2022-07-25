@@ -126,3 +126,10 @@ def application_page(token):
         job=job,
         hiring_lead=hiring_lead,
     )
+
+
+@application.route("/withdrawal")
+def application_withdrawal():
+    return flask.render_template(
+        "applications/withdrawal.html"
+    )
