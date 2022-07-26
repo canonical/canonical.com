@@ -18,6 +18,7 @@ application = flask.Blueprint(
 session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
+verification_token_cipher = Cipher(os.environ.get("SECRET_KEY"))
 
 
 @application.after_request
@@ -125,41 +126,56 @@ def application_page(token):
         application=application,
         job=job,
         hiring_lead=hiring_lead,
+        token=token
     )
 
 
-@application.route("/withdrawal")
-def application_withdrawal():
+@application.route("/withdraw/<string:token>")
+def application_withdrawal(token):
+    payload = verification_token_cipher.decrypt(token)
+    if not payload:
+      return "Not allowed"
+    payload = json.loads(payload)
+    email = payload.get("email")
+    withdrawal_reason = payload.get("withdrawal_reason")
+    print("email=",email,"withrdraw=", withdrawal_reason)
+    return flask.render_template(
+        "applications/withdrawal.html"
+    )
+
+import json
+
+@application.route("/withdraw/<string:token>", methods = ['POST'])
+
+def sendForm(token):
+    email = flask.request.form['email']
+    textarea = flask.request.form['textarea']
+
+    send_mail(to_email=['min.kim@canonical.com'],
+          subject='hello', message=flask.render_template(
+        "applications/_activate-email.html", application_name="min", verification_link= confirmation_token(email, textarea)
+    ) )
+    print( email, textarea)
     return flask.render_template(
         "applications/withdrawal.html"
     )
 
 
-import hashlib
-secret_key = os.getenv("SECRET_KEY")
-
-@application.route("/withdraw", methods = ['POST'])
-def sendForm():
-    email = flask.request.form['email']
-    textarea = flask.request.form['textarea']
-
-    print( email, textarea)
-    return 
+# verify the same person
+# email , reason -> letter -> token
 
 
-def confirmation_token(application_token):
+# token -> letter (payload) -> email, reason
+def confirmation_token(email, withdrawal_reason=""):
     """Generate a unique secure token to be used as a way to
     confirm the candidate identity.
 
     Args:
         application_token (str): the application token (provided in `application_page(token)`)
     """
-    print(secret_key + application_token)
-    return (
-        hashlib.sha256(
-            (secret_key + application_token).encode("utf-8")
-        ).hexdigest()
-    )
+    payload ={"email":email,"withdrawal_reason": withdrawal_reason}
+    token = json.dumps(payload)
+    return verification_token_cipher.encrypt(token)
 
 
 import smtplib
@@ -167,8 +183,7 @@ from email.message import EmailMessage
 
 # s = smtplib.SMTP('smtp.gmail.com', 587)
 # s.starttls()
-def send_mail(to_email, subject, message, server='smtp.gmail.com',
-              from_email='xx@example.com'):
+def send_mail(to_email, subject, message, server='smtp.gmail.com',from_email='min.kim@canonical.com'):
     # import smtplib
     try: 
         msg = EmailMessage()
@@ -176,16 +191,14 @@ def send_mail(to_email, subject, message, server='smtp.gmail.com',
         msg['From'] = from_email
         msg['To'] = ', '.join(to_email)
         msg.set_content(message)
-        print(msg)
-        server = smtplib.SMTP(server)
-        server.set_debuglevel(1)
-        server.login(from_email, 'password')  # user & password
+        print(message)
+
+        server = smtplib.SMTP(server, 587)
+        server.starttls()
+        server.login(from_email, '')  # user & password
         server.send_message(msg)
         server.quit()
         print('successfully sent the mail.')
     except Exception:
         print('Error: unable to send email')
 
-# # link = canonical.com/careers/withdraw/abcd-1234-db23-adfe
-# send_mail(to_email=['min.kim@qq.com'],
-#           subject='hello', message='Your analysis has done!')
