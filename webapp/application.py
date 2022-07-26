@@ -133,3 +133,59 @@ def application_withdrawal():
     return flask.render_template(
         "applications/withdrawal.html"
     )
+
+
+import hashlib
+secret_key = os.getenv("SECRET_KEY")
+
+@application.route("/withdraw", methods = ['POST'])
+def sendForm():
+    email = flask.request.form['email']
+    textarea = flask.request.form['textarea']
+
+    print( email, textarea)
+    return 
+
+
+def confirmation_token(application_token):
+    """Generate a unique secure token to be used as a way to
+    confirm the candidate identity.
+
+    Args:
+        application_token (str): the application token (provided in `application_page(token)`)
+    """
+    print(secret_key + application_token)
+    return (
+        hashlib.sha256(
+            (secret_key + application_token).encode("utf-8")
+        ).hexdigest()
+    )
+
+
+import smtplib
+from email.message import EmailMessage
+
+# s = smtplib.SMTP('smtp.gmail.com', 587)
+# s.starttls()
+def send_mail(to_email, subject, message, server='smtp.gmail.com',
+              from_email='xx@example.com'):
+    # import smtplib
+    try: 
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = from_email
+        msg['To'] = ', '.join(to_email)
+        msg.set_content(message)
+        print(msg)
+        server = smtplib.SMTP(server)
+        server.set_debuglevel(1)
+        server.login(from_email, 'password')  # user & password
+        server.send_message(msg)
+        server.quit()
+        print('successfully sent the mail.')
+    except Exception:
+        print('Error: unable to send email')
+
+# # link = canonical.com/careers/withdraw/abcd-1234-db23-adfe
+# send_mail(to_email=['min.kim@qq.com'],
+#           subject='hello', message='Your analysis has done!')
