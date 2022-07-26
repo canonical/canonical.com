@@ -131,7 +131,7 @@ def application_page(token):
 
 
 @application.route("/withdraw/<string:token>")
-def application_withdrawal(token):
+def application_withdrawal(token, candidate, application):
     payload = verification_token_cipher.decrypt(token)
     if not payload:
       return "Not allowed"
@@ -147,15 +147,18 @@ import json
 
 @application.route("/withdraw/<string:token>", methods = ['POST'])
 
-def sendForm(token):
+def sendForm(token, candidate, application):
     email = flask.request.form['email']
     textarea = flask.request.form['textarea']
+    candidate_name = candidate["first_name"]
+    position = application["jobs"][0]["name"]
+    candidate_email = candidate["email_addresses"][0]["value"]
 
-    send_mail(to_email=['min.kim@canonical.com'],
-          subject='hello', message=flask.render_template(
-        "applications/_activate-email.html", application_name="min", verification_link= confirmation_token(email, textarea)
+    send_mail(to_email=[candidate_email],
+          subject='Withdraw Application Confirmation', message=flask.render_template(
+        "applications/_activate-email.html", applicant_name=candidate_name, position=position, verification_link= confirmation_token(email, textarea)
     ) )
-    print( email, textarea)
+    print(email, textarea)
     return flask.render_template(
         "applications/withdrawal.html"
     )
@@ -173,7 +176,7 @@ def confirmation_token(email, withdrawal_reason=""):
     Args:
         application_token (str): the application token (provided in `application_page(token)`)
     """
-    payload ={"email":email,"withdrawal_reason": withdrawal_reason}
+    payload ={"email": email,"withdrawal_reason": withdrawal_reason}
     token = json.dumps(payload)
     return verification_token_cipher.encrypt(token)
 
@@ -181,8 +184,6 @@ def confirmation_token(email, withdrawal_reason=""):
 import smtplib
 from email.message import EmailMessage
 
-# s = smtplib.SMTP('smtp.gmail.com', 587)
-# s.starttls()
 def send_mail(to_email, subject, message, server='smtp.gmail.com',from_email='min.kim@canonical.com'):
     # import smtplib
     try: 
@@ -190,7 +191,7 @@ def send_mail(to_email, subject, message, server='smtp.gmail.com',from_email='mi
         msg['Subject'] = subject
         msg['From'] = from_email
         msg['To'] = ', '.join(to_email)
-        msg.set_content(message)
+        msg.set_content(message, "text/html; charset=utf-8")
         print(message)
 
         server = smtplib.SMTP(server, 587)
@@ -198,7 +199,7 @@ def send_mail(to_email, subject, message, server='smtp.gmail.com',from_email='mi
         server.login(from_email, '')  # user & password
         server.send_message(msg)
         server.quit()
-        print('successfully sent the mail.')
+        print('successfully sent the mail ' + 'to '+ to_email)
     except Exception:
         print('Error: unable to send email')
 
