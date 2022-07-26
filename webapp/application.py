@@ -5,7 +5,7 @@ import smtplib
 import socket
 from email.message import EmailMessage
 from email.utils import parseaddr
-
+from flask import redirect
 import flask
 import talisker.requests
 from dateutil.parser import parse
@@ -159,6 +159,7 @@ def application_withdrawal(token):
         flask.abort(404)
 
     print(candidate["first_name"], withdrawal_reason)
+
     # TODO: call the Greenhouse API to reject the application here
     # ...
     return flask.render_template("applications/withdrawal.html")
@@ -204,15 +205,7 @@ def sendForm(token):
             ),
         ),
     )
-    print(email, textarea)
-    return flask.render_template("applications/withdrawal.html")
-
-
-# verify the same person
-# email , reason -> letter -> token
-
-
-# token -> letter (payload) -> email, reason
+    return redirect(flask.request.referrer + "#withdrawal-requested")
 
 
 def confirmation_token(email, withdrawal_reason, candidate_id, application_id):
@@ -239,15 +232,13 @@ def send_mail(
         msg["Subject"] = subject
         msg["From"] = from_email
         msg["To"] = ", ".join(to_email)
-        msg.set_content(message, "text/html; charset=utf-8")
-        # TODO: remove this line later
-        print("body:", message)
+        msg.set_content(message)
 
         server = smtplib.SMTP(server, 587)
         server.starttls()
         server.login(from_email, "")  # user & password
         server.send_message(msg)
         server.quit()
-        print("successfully sent the mail " + "to " + to_email)
+        print("successfully sent the email")
     except Exception:
         print("Error: unable to send email")
