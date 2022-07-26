@@ -1,9 +1,14 @@
+import html
+import json
 import os
+import smtplib
 import socket
-from dateutil.parser import parse
+from email.message import EmailMessage
+from email.utils import parseaddr
 
 import flask
 import talisker.requests
+from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
 from webapp.utils.cipher import Cipher
@@ -126,42 +131,81 @@ def application_page(token):
         application=application,
         job=job,
         hiring_lead=hiring_lead,
-        token=token
+        token=token,
     )
 
 
 @application.route("/withdraw/<string:token>")
-def application_withdrawal(token, candidate, application):
+def application_withdrawal(token):
     payload = verification_token_cipher.decrypt(token)
-    if not payload:
-      return "Not allowed"
-    payload = json.loads(payload)
-    email = payload.get("email")
-    withdrawal_reason = payload.get("withdrawal_reason")
-    print("email=",email,"withrdraw=", withdrawal_reason)
-    return flask.render_template(
-        "applications/withdrawal.html"
-    )
+    try:
+        payload = json.loads(payload)
+        email = payload.get("email")
+        withdrawal_reason = payload.get("withdrawal_reason", "")
+        candidate_id = payload.get("candidate_id")
+        application_id = payload.get("application_id")
+    except (ValueError, TypeError):
+        flask.abort(404)
 
-import json
+    if not (email and candidate_id and application_id):
+        flask.abort(404)
 
-@application.route("/withdraw/<string:token>", methods = ['POST'])
+    application = harvest.get_application(application_id)
+    candidate = harvest.get_candidate(application["candidate_id"])
+    if (
+        "candidate_id" not in application
+        or application["candidate_id"] != candidate_id
+    ):
+        flask.abort(404)
 
-def sendForm(token, candidate, application):
-    email = flask.request.form['email']
-    textarea = flask.request.form['textarea']
+    print(candidate["first_name"], withdrawal_reason)
+    # TODO: call the Greenhouse API to reject the application here
+    # ...
+    return flask.render_template("applications/withdrawal.html")
+
+
+@application.route("/withdraw/<string:token>", methods=["POST"])
+def sendForm(token):
+    decrypted = cipher.decrypt(token)
+    if not decrypted:
+        flask.abort(404)
+    name, candidate_id, application_id = tuple(decrypted.split("-"))
+    candidate_id, application_id = int(candidate_id), int(application_id)
+    application = harvest.get_application(application_id)
+    candidate = harvest.get_candidate(application["candidate_id"])
+    if (
+        "candidate_id" not in application
+        or application["candidate_id"] != candidate_id
+        or not candidate["first_name"].lower() == name
+    ):
+        flask.abort(404)
+
     candidate_name = candidate["first_name"]
     position = application["jobs"][0]["name"]
-    candidate_email = candidate["email_addresses"][0]["value"]
 
-    send_mail(to_email=[candidate_email],
-          subject='Withdraw Application Confirmation', message=flask.render_template(
-        "applications/_activate-email.html", applicant_name=candidate_name, position=position, verification_link= confirmation_token(email, textarea)
-    ) )
-    print(email, textarea)
-    return flask.render_template(
-        "applications/withdrawal.html"
+    # Sanitize and parse user input
+    email = parseaddr(flask.request.form["email"])[1]
+    candidate_email = parseaddr(candidate["email_addresses"][0]["value"])[1]
+    textarea = html.escape(flask.request.form["textarea"])
+
+    # Reject if user typed the wrong email
+    if not candidate_email == email:
+        flask.abort(404)
+
+    send_mail(
+        to_email=[candidate_email],
+        subject="Withdraw Application Confirmation",
+        message=flask.render_template(
+            "applications/_activate-email.html",
+            applicant_name=candidate_name,
+            position=position,
+            verification_link=confirmation_token(
+                candidate_email, textarea, candidate_id, application_id
+            ),
+        ),
     )
+    print(email, textarea)
+    return flask.render_template("applications/withdrawal.html")
 
 
 # verify the same person
@@ -169,37 +213,41 @@ def sendForm(token, candidate, application):
 
 
 # token -> letter (payload) -> email, reason
-def confirmation_token(email, withdrawal_reason=""):
-    """Generate a unique secure token to be used as a way to
-    confirm the candidate identity.
 
-    Args:
-        application_token (str): the application token (provided in `application_page(token)`)
-    """
-    payload ={"email": email,"withdrawal_reason": withdrawal_reason}
+
+def confirmation_token(email, withdrawal_reason, candidate_id, application_id):
+    payload = {
+        "email": email,
+        "withdrawal_reason": withdrawal_reason,
+        "candidate_id": candidate_id,
+        "application_id": application_id,
+    }
     token = json.dumps(payload)
     return verification_token_cipher.encrypt(token)
 
 
-import smtplib
-from email.message import EmailMessage
-
-def send_mail(to_email, subject, message, server='smtp.gmail.com',from_email='min.kim@canonical.com'):
+def send_mail(
+    to_email,
+    subject,
+    message,
+    server="smtp.gmail.com",
+    from_email="min.kim@canonical.com",
+):
     # import smtplib
-    try: 
+    try:
         msg = EmailMessage()
-        msg['Subject'] = subject
-        msg['From'] = from_email
-        msg['To'] = ', '.join(to_email)
+        msg["Subject"] = subject
+        msg["From"] = from_email
+        msg["To"] = ", ".join(to_email)
         msg.set_content(message, "text/html; charset=utf-8")
-        print(message)
+        # TODO: remove this line later
+        print("body:", message)
 
         server = smtplib.SMTP(server, 587)
         server.starttls()
-        server.login(from_email, '')  # user & password
+        server.login(from_email, "")  # user & password
         server.send_message(msg)
         server.quit()
-        print('successfully sent the mail ' + 'to '+ to_email)
+        print("successfully sent the mail " + "to " + to_email)
     except Exception:
-        print('Error: unable to send email')
-
+        print("Error: unable to send email")
