@@ -125,11 +125,17 @@ def application_page(token):
         application=application,
         job=job,
         hiring_lead=hiring_lead,
+        token=token
     )
 
 
-@application.route("/withdrawal")
-def application_withdrawal():
-    return flask.render_template(
-        "applications/withdrawal.html"
-    )
+@application.route("/withdraw/<string:token>")
+def application_withdrawal(token):
+    return flask.render_template("applications/withdrawal.html")
+
+@application.route("/withdraw/<string:token>", methods=["POST"])
+def sendForm(token):
+    email = flask.request.form['email']
+    textarea = flask.request.form['textarea']
+    print(email, textarea)
+    return flask.render_template("applications/withdrawal.html")
