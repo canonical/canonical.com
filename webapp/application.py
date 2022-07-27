@@ -136,6 +136,6 @@ def application_withdrawal(token):
 @application.route("/withdraw/<string:token>", methods=["POST"])
 def sendForm(token):
     email = flask.request.form['email']
-    textarea = flask.request.form['textarea']
-    print(email, textarea)
+    reason = flask.request.form['withdrawal-reason']
+    print(email, reason)
     return flask.render_template("applications/withdrawal.html")
