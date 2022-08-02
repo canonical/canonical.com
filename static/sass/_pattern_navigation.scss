@@ -19,25 +19,22 @@ $nudge--small: 0.55rem;
   .p-navigation {
     background-color: $nav-bg-color;
 
-    .p-navigation__item {
-      &.is-selected {
-        .p-navigation__link {
-          color: $color-dark;
+    &__toggle--open,
+    &__toggle--close {
+      color: $color-light !important;
 
-          &:focus,
-          &:visited,
-          &:hover {
-            background-color: $color-x-light;
-            color: $color-dark;
-          }
-        }
+      &:hover {
+        background-color: rgba(94, 39, 80, 0.5) !important;
+        color: $color-x-light !important;
       }
+    }
 
+    .p-navigation__item {
       .p-navigation__link {
         color: $color-light;
         display: block;
 
-        &:before {
+        &::before {
           display: none;
         }
 
@@ -53,6 +50,20 @@ $nudge--small: 0.55rem;
           color: $color-x-light;
         }
       }
+
+      &.is-selected {
+        .p-navigation__link {
+          color: $color-dark;
+
+          &:focus,
+          &:visited,
+          &:hover {
+            background-color: $color-x-light;
+            color: $color-dark;
+          }
+        }
+      }
+
     }
 
     &--secondary {
