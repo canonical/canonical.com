@@ -1,13 +1,26 @@
-
 @mixin canonical-p-stepped-list {
-  .p-stepped-list--detailed{
+  .p-stepped-list--detailed {
     counter-reset: process-list;
+    @supports (display: grid) {
+      .p-stepped-list__title {
+        grid-column-end: span 12;
+      }
+      .p-process-stepped-list__title {
+        grid-column-end: span 6;
+      };
+    }
   }
-  h3.p-stepped-list__title {
+  
+  .p-process-stepped-list__title {
+    @extend .p-stepped-list__title;
+    
+    &::before {
+      display: none;
+    }
+  }
+
+  h3.p-process-stepped-list__title{
     padding-left: 0;
-  }
-  .p-stepped-list__title::before {
-    display: none;
   }
 
   h3 [class*="p-icon"]{
@@ -16,6 +29,7 @@
     margin-right: 1rem;
     width: 2.7rem;
   }
+
   .p-on-pass {
     &::before {
       content: counter(process-list);
@@ -66,7 +80,17 @@
   }
   .show-more-assessment, .show-more-early-stage, .show-more-late-stage{
     color: blue; 
-    cursor:pointer;
-    text-decoration:underline; 
+    cursor: pointer;
+  }
+  .interview-card-done {
+    position: relative;
+    [class*="p-icon"] {
+      background-size: cover;
+      height: 1.5rem;
+      position: absolute; 
+      right: 0;
+      top: 0;
+      width: 1.5rem;
+    }
   }
 }

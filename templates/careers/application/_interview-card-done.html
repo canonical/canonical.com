@@ -1,3 +1,5 @@
-<p style="padding-left: 20px;">
-  <i class="p-icon--success"></i> {{ interview["interview"]["name"] }} with {% for interviewer in interview["interviewers"] %} {% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}, {{ interview["start"]["datetime"].strftime('%d %B at %H:%M UTC') }} ({{ interview["duration"] }} minutes) 
-</p>
+<div class="col-5 interview-card-done">
+  <h4 class="p-card__title u-no-margin--bottom">{{ interview["interview"]["name"] }}</h4>
+  <p class="p-card__content">{{ interview["start"]["datetime"].strftime('%d %B') }}, with {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
+  <i class="p-icon--success"></i>
+</div>

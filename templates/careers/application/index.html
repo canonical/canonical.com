@@ -81,7 +81,7 @@
       <div class="u-fixed-width">  
         <ol class="p-stepped-list--detailed p-list--divided">
           <li class="p-stepped-list__item">
-            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+            <h3 class='p-process-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
               {% elif "stage_progress" in application and not application["stage_progress"]["assessment"] and application["stage_progress"]["application"] %}
               <span class="p-on-stage"></span> 
@@ -92,7 +92,7 @@
             <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+            <h3 class='p-process-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
               {% elif "stage_progress" in application and not application["stage_progress"]["early_stage"] and application["stage_progress"]["assessment"] %}
               <span class="p-on-stage"></span> 
@@ -101,36 +101,38 @@
               Assessment
             </h3>
             <div class="p-stepped-list__content">
-              There are three parts to this stage:
               {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+              <p>There are three parts to this stage:</p>
               <p onclick="showProgressDetail('assessment')" class="show-more-assessment" >Show more</p>
               <div class="progress-detail-assessment u-hide">
               {% else %} <div class="progress-detail-assessment">
               {% endif %}
-                <ol>
-                  <li>
-                    <p class='u-no-margin--bottom'>A written interview, submitted and reviewed anonymously to reduce bias. This is your opportunity to highlight your key strengths for this position and once reviewed will be referred back at later stage interviews.</p>
-                  </li>
-                  <li>
-                    <p class='u-no-margin--bottom'>A psychometric assessment measuring fluid intelligence and behavioural traits.</p>
-                  </li>
-                  <li>
-                    <p class='u-no-margin--bottom'>Initial Meet & Greet Interview with a member of Canonical to share more about life at Canonical and to answer some of your initial basic questions.</p>
-                  </li>
-                </ol>
-                {% if not application["scheduled_interviews"] %}
-                <p><i class="p-icon--information"></i> No scheduled interviews. We do our best to keep you updated about the state of your application. Please check your spam folder.</p>
-                {% else %}
+              {% if not application["scheduled_interviews"] %}
+                  <p>There are three parts to this stage: a written interview, a psychometric assessment and a Meet and Greet interview.</p>
+                  {% else %}
+                    <ol class="p-stepped-list">
+                      <li class="p-stepped-list__item">
+                        <p class='p-stepped-list__title u-no-margin--bottom'>A written interview, submitted and reviewed anonymously to reduce bias. This is your opportunity to highlight your key strengths for this position and once reviewed will be referred back at later stage interviews.</p>
+                      </li>
+                      <li class="p-stepped-list__item">
+                        <p class='p-stepped-list__title u-no-margin--bottom'>A psychometric assessment measuring fluid intelligence and behavioural traits.</p>
+                      </li>
+                      <li class="p-stepped-list__item">
+                        <p class='p-stepped-list__title u-no-margin--bottom'>Initial Meet & Greet Interview with a member of Canonical to share more about life at Canonical and to answer some of your initial basic questions.</p>
+                      </li>
+                    </ol>
                     {% for interview in application["scheduled_interviews"]|reverse %}
                         {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                            <h4>Past interviews</h4>
+                            <hr />
+                            <h5>Past interviews</h5>
                             {% include 'careers/application/_interview-card-done.html' %}
                         {% endif %}
                     {% endfor %}
                     </ul>
                     {% for interview in application["scheduled_interviews"] %}
                         {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
-                            <h4>Next interview</h4>
+                            <hr />
+                            <h5>Next interview</h5>
                             {% include 'careers/application/_interview-card.html' %}
                         {% endif %}
                     {% endfor %}
@@ -140,7 +142,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+            <h3 class='p-process-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
               {% elif "stage_progress" in application and not application["stage_progress"]["late_stage"] and application["stage_progress"]["early_stage"] %}
               <span class="p-on-stage"></span> 
@@ -158,15 +160,17 @@
               {% endif %}
                 {% for interview in application["scheduled_interviews"]|reverse %}
                     {% if (interview["interview"]["name"]  == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        <h3>Past interviews</h3>
+                        <hr />
+                        <h5>Past interviews</h5>
                         {% include 'careers/application/_interview-card-done.html' %}
                     {% endif %}
                     </ul>
                 {% endfor %}
   
                 {% for interview in application["scheduled_interviews"] %}
-                {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        <h4>Next interview</h4>
+                    {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+                        <hr />
+                        <h5>Next interview</h5>
                         {% include 'careers/application/_interview-card.html' %}
                     {% endif %}
                 {% endfor %}
@@ -175,7 +179,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+            <h3 class='p-process-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
               {% elif "stage_progress" in application and not application["stage_progress"]["offer"] and application["stage_progress"]["late_stage"] %}
               <span class="p-on-stage"></span> 
@@ -193,15 +197,16 @@
               {% endif %}
                 {% for interview in application["scheduled_interviews"]|reverse %}
                     {% if interview["interview"]["name"]  == "Late Stage Interviews" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        <h3>Past interviews</h3>
+                        <hr />
+                        <h5>Past interviews</h5>
                         {% include 'careers/application/_interview-card.html' %}
                     {% endif %}
                     </ul>
                 {% endfor %}
-  
                 {% for interview in application["scheduled_interviews"] %}
                 {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        <h4>Next interview</h4>
+                        <hr />
+                        <h5>Next interview</h5>
                         {% include 'careers/application/_interview-card.html' %}
                     {% endif %}
                 {% endfor %}
@@ -210,7 +215,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+            <h3 class='p-process-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
               <i class="p-icon--success"></i> 
               {% else %}<span class="p-not-on-stage"></span> 
