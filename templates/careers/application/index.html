@@ -77,6 +77,7 @@
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
         <h2 class="p-heading--4">Your application process</h2>
+        <p class="u-sv2">Once your application is accepted, you will see more details about its status. <a>See what our CEO says about our hiring process</a>.</p>
       </div>
       <div class="u-fixed-width">  
         <ol class="p-stepped-list--detailed p-list--divided">
@@ -103,22 +104,22 @@
             <div class="p-stepped-list__content">
               {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
               <p>There are three parts to this stage:</p>
-              <p onclick="showProgressDetail('assessment')" class="show-more-assessment" >Show more</p>
+              <p onclick="showProgressDetail('assessment')" class="show-more-assessment">Show more</p>
               <div class="progress-detail-assessment u-hide">
               {% else %} <div class="progress-detail-assessment">
               {% endif %}
               {% if not application["scheduled_interviews"] %}
-                  <p>There are three parts to this stage: a written interview, a psychometric assessment and a Meet and Greet interview.</p>
+                  <p>There are several parts to this stage: a written interview, a psychometric assessment and some roles will require a technical assignment to be completed.</p>
                   {% else %}
                     <ol class="p-stepped-list">
                       <li class="p-stepped-list__item">
-                        <p class='p-stepped-list__title u-no-margin--bottom'>A written interview, submitted and reviewed anonymously to reduce bias. This is your opportunity to highlight your key strengths for this position and once reviewed will be referred back at later stage interviews.</p>
+                        <p class='p-stepped-list__title u-no-margin--bottom'>The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. We ask that you submit this anonymously to ensure our hiring process is bias free. This is your opportunity to highlight your key strengths for this position.</p>
                       </li>
                       <li class="p-stepped-list__item">
-                        <p class='p-stepped-list__title u-no-margin--bottom'>A psychometric assessment measuring fluid intelligence and behavioural traits.</p>
+                        <p class='p-stepped-list__title u-no-margin--bottom'>Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence and behavioural traits.</p>
                       </li>
                       <li class="p-stepped-list__item">
-                        <p class='p-stepped-list__title u-no-margin--bottom'>Initial Meet & Greet Interview with a member of Canonical to share more about life at Canonical and to answer some of your initial basic questions.</p>
+                        <p class='p-stepped-list__title u-no-margin--bottom'>Technical tests: Some roles will require a technical assignment to be completed.</p>
                       </li>
                     </ol>
                     {% for interview in application["scheduled_interviews"]|reverse %}
@@ -151,7 +152,7 @@
               Early stage
             </h3>
             <div class="p-stepped-list__content">
-              <p>This is a mixture of: technical assessments, competency based interviews and an interview with HR to talk about the benefits of working at Canonical, logistics and compensation.</p>
+              <p>Our interviews are a blend of technical and competency based interviews. If successful you will pass through to an interview with our HR team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
               <p onclick="showProgressDetail('early-stage')" class=" show-more-early-stage">Show more</p>
               <div class="progress-detail-early-stage u-hide">
@@ -188,7 +189,7 @@
               Late stage                    
             </h3>
             <div class="p-stepped-list__content">
-              <p>Once you have successfully completed your early stage interviews you’ll be invited to meet with senior leads within your management chain</p>
+              <p>During this stage you will meet with some of our more senior leads and executives who will form part of your management team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
               <p onclick="showProgressDetail('late-stage')" class="show-more-late-stage" >Show more</p>
               <div class="progress-detail-late-stage u-hide">
