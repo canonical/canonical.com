@@ -1,0 +1,72 @@
+
+@mixin canonical-p-stepped-list {
+  .p-stepped-list--detailed{
+    counter-reset: process-list;
+  }
+  h3.p-stepped-list__title {
+    padding-left: 0;
+  }
+  .p-stepped-list__title::before {
+    display: none;
+  }
+
+  h3 [class*="p-icon"]{
+    background-size: cover;
+    height: 2.7rem;
+    margin-right: 1rem;
+    width: 2.7rem;
+  }
+  .p-on-pass {
+    &::before {
+      content: counter(process-list);
+      counter-increment: process-list;
+      direction: rtl;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      visibility: hidden;
+    }
+  }
+
+  .p-on-stage {
+    padding-left: 4rem;
+    &::before {
+      align-self: start;
+      background-color: #000;
+      border-radius: 100%;
+      color: #fff;
+      content: counter(process-list);
+      counter-increment: process-list;
+      direction: rtl;
+      display: block;
+      height: 2.7rem;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      width: 2.7rem;
+    }
+  }
+  .p-not-on-stage {
+    padding-left: 4rem;
+    &::before {
+      align-self: start;
+      background-color: #fff;
+      border: 1px solid #000;
+      border-radius: 100%;
+      content: counter(process-list);
+      counter-increment:  process-list;
+      direction: rtl;
+      display: block;
+      height: 2.7rem;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      width: 2.7rem;
+    }
+  }
+  .show-more-assessment, .show-more-early-stage, .show-more-late-stage{
+    color: blue; 
+    cursor:pointer;
+    text-decoration:underline; 
+  }
+}

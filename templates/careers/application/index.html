@@ -78,29 +78,32 @@
       <div class="u-fixed-width">
         <h2 class="p-heading--4">Your application process</h2>
       </div>
-      <div class="row">  
-        <h3>Our recruitment process</h3>
-        <ol class="p-list">
-          <li class="p-list_item">
-            <h3 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information" ></i> 
+      <div class="u-fixed-width">  
+        <ol class="p-stepped-list--detailed p-list--divided">
+          <li class="p-stepped-list__item">
+            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+              {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
+              {% elif "stage_progress" in application and not application["stage_progress"]["assessment"] and application["stage_progress"]["application"] %}
+              <span class="p-on-stage"></span> 
+              {% else %}<span class="p-not-on-stage"></span> 
               {% endif %}
               Application review
             </h3>
-            <p>An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
+            <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
           </li>
-          <li class="p-list_item">
-            <h3 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}<i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+          <li class="p-stepped-list__item">
+            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+              {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
+              {% elif "stage_progress" in application and not application["stage_progress"]["early_stage"] and application["stage_progress"]["assessment"] %}
+              <span class="p-on-stage"></span> 
+              {% else %}<span class="p-not-on-stage"></span> 
               {% endif %}
               Assessment
             </h3>
-            <div>
+            <div class="p-stepped-list__content">
               There are three parts to this stage:
               {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-              <p onclick="showProgressDetail('assessment')" class="show-more-assessment" style="color: blue; text-decoration:underline; cursor:pointer;">Show more</p>
+              <p onclick="showProgressDetail('assessment')" class="show-more-assessment" >Show more</p>
               <div class="progress-detail-assessment u-hide">
               {% else %} <div class="progress-detail-assessment">
               {% endif %}
@@ -136,18 +139,19 @@
               </div>
             </div>
           </li>
-          <li class="p-list_item">
-            <h3 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
-              <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+          <li class="p-stepped-list__item">
+            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+              {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
+              {% elif "stage_progress" in application and not application["stage_progress"]["late_stage"] and application["stage_progress"]["early_stage"] %}
+              <span class="p-on-stage"></span> 
+              {% else %}<span class="p-not-on-stage"></span> 
               {% endif %}
               Early stage
             </h3>
-            <div>
+            <div class="p-stepped-list__content">
               <p>This is a mixture of: technical assessments, competency based interviews and an interview with HR to talk about the benefits of working at Canonical, logistics and compensation.</p>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
-              <p onclick="showProgressDetail('early-stage')" class=" show-more-early-stage" style="color: blue; text-decoration:underline; cursor:pointer;">Show more</p>
+              <p onclick="showProgressDetail('early-stage')" class=" show-more-early-stage">Show more</p>
               <div class="progress-detail-early-stage u-hide">
               {% else %}
               <div class="progress-detail-early-stage">
@@ -170,18 +174,19 @@
               </div>
             </div>
           </li>
-          <li class="p-list_item">
-            <h3 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
-              <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+          <li class="p-stepped-list__item">
+            <h3 class='p-stepped-list__title u-no-margin--bottom'>
+              {% if "stage_progress" in application and application["stage_progress"]["offer"] %}<span class="p-on-pass"><i class="p-icon--success"></i> </span>
+              {% elif "stage_progress" in application and not application["stage_progress"]["offer"] and application["stage_progress"]["late_stage"] %}
+              <span class="p-on-stage"></span> 
+              {% else %}<span class="p-not-on-stage"></span> 
               {% endif %}
               Late stage                    
             </h3>
-            <div>
+            <div class="p-stepped-list__content">
               <p>Once you have successfully completed your early stage interviews you’ll be invited to meet with senior leads within your management chain</p>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
-              <p onclick="showProgressDetail('late-stage')" class="show-more-late-stage" style="color: blue; text-decoration:underline; cursor:pointer;">Show more</p>
+              <p onclick="showProgressDetail('late-stage')" class="show-more-late-stage" >Show more</p>
               <div class="progress-detail-late-stage u-hide">
               {% else %}
               <div class="progress-detail-late-stage">
@@ -204,11 +209,11 @@
               </div>
             </div>
           </li>
-          <li class="p-list_item">
-            <h3 class='u-no-margin--bottom'>
+          <li class="p-stepped-list__item">
+            <h3 class='p-stepped-list__title u-no-margin--bottom'>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
               <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+              {% else %}<span class="p-not-on-stage"></span> 
               {% endif %}
               Offer
             </h3>                
