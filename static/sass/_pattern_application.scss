@@ -43,7 +43,9 @@
   }
 
   .p-on-stage {
-    padding-left: 4rem;
+    line-height: 2.7rem;
+    padding-left: 4rem;  
+
     &::before {
       align-self: start;
       background-color: #000;
@@ -52,15 +54,17 @@
       content: counter(process-list);
       counter-increment: process-list;
       direction: rtl;
-      display: block;
+      display: inline-block;
       height: 2.7rem;
       left: 0;
       position: absolute;
       text-align: center;
+      vertical-align: middle;
       width: 2.7rem;
     }
   }
   .p-not-on-stage {
+    line-height: 2.7rem;
     padding-left: 4rem;
     &::before {
       align-self: start;
@@ -70,11 +74,12 @@
       content: counter(process-list);
       counter-increment:  process-list;
       direction: rtl;
-      display: block;
+      display: inline-block;
       height: 2.7rem;
       left: 0;
       position: absolute;
       text-align: center;
+      vertical-align: middle;
       width: 2.7rem;
     }
   }
@@ -91,6 +96,17 @@
       right: 0;
       top: 0;
       width: 1.5rem;
+    }
+  }
+  .divide-list {
+    @media (min-width: $breakpoint-heading-threshold + 100px) {
+      display : flex;
+      h3 {
+        flex-grow: 1;
+      }
+      p {
+        flex-grow: 3;
+      }
     }
   }
 }
