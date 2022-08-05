@@ -214,6 +214,25 @@ def job_details(job_id, job_title):
 def start_career():
     return flask.render_template("/careers/start.html")
 
+@app.route("/careers", methods=["GET"])
+def all_careers():
+    
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+   
+    context["vacancies"] = greenhouse.get_vacancies()
+
+    context["vacancies_json"] = [
+        vacancy.to_dict() for vacancy in context["vacancies"]
+    ]
+
+    # import ipdb
+    # ipdb.set_trace()
+    print(context["vacancies_json"])
+    vacancies_json = context["vacancies_json"]
+    return flask.render_template("/careers/index.html", vacancies_json=vacancies_json)
+
 
 @app.route("/careers/<department_slug>", methods=["GET", "POST"])
 def department_group(department_slug):
