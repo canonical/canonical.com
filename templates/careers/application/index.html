@@ -67,18 +67,19 @@
               {% else %}
                 <p class="u-no-margin--bottom">We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
               {% endif %}
-              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}</p>
+              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
           {% endif %}
         </div>
         <div class="col-6" style="margin-left: 2rem">
           {% if "stage_progress" in application and application["stage_progress"]["assessment"]  %}
-              <!-- Need to update other applications section. currently hardcoded -->
-              <div>
+            {% if application["candidate"]["application_ids"]|length >= 2 %}
+              <div class="u-sv2">
                 <p>STATUS OF YOUR OTHER APPLICATIONS:</p>
-                <p class="u-no-margin--bottom"><a>Web developer</a></p>
-                <p><a>Workplace Engineering Senior Web engineer</a></p>
+                {% for application in application["candidate"]["applications"] %}
+                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
+                {% endfor %}
               </div>
-              <!--  -->
+              {% endif %}
               <div>
                 <p>ABOUT THIS ROLE</p>
                 <div class="col-6 u-embedded-media">
