@@ -1,6 +1,9 @@
 @mixin canonical-p-stepped-list {
-  .p-stepped-list--detailed {
+  .p-process-stepped-list--detailed {
+    @extend .p-stepped-list--detailed;
+
     counter-reset: process-list;
+
     @supports (display: grid) {
       .p-stepped-list__title {
         grid-column-end: span 12;
@@ -9,27 +12,27 @@
         grid-column-end: span 6;
       };
     }
-  }
+   
+    .p-process-stepped-list__title {
+      @extend .p-stepped-list__title;
+      
+      &::before {
+        display: none;
+      }
+    }
   
-  .p-process-stepped-list__title {
-    @extend .p-stepped-list__title;
-    
-    &::before {
-      display: none;
+    h3.p-process-stepped-list__title {
+      padding-left: 0;
+    }
+  
+    h3 [class*="p-icon"]{
+      background-size: cover;
+      height: 2.3rem;
+      margin-right: 1rem;
+      width: 2.3rem;
     }
   }
-
-  h3.p-process-stepped-list__title{
-    padding-left: 0;
-  }
-
-  h3 [class*="p-icon"]{
-    background-size: cover;
-    height: 2.7rem;
-    margin-right: 1rem;
-    width: 2.7rem;
-  }
-
+  
   .p-on-pass {
     &::before {
       content: counter(process-list);
@@ -43,69 +46,57 @@
   }
 
   .p-on-stage {
-    line-height: 2.7rem;
-    padding-left: 4rem;  
+    line-height: 2.3rem;
+    padding-left: 3.3rem;  
 
     &::before {
       align-self: start;
-      background-color: #000;
+      background-color: #111;
       border-radius: 100%;
       color: #fff;
       content: counter(process-list);
       counter-increment: process-list;
       direction: rtl;
       display: inline-block;
-      height: 2.7rem;
+      font-size: 1.3rem;
+      height: 2.3rem;
       left: 0;
       position: absolute;
       text-align: center;
       vertical-align: middle;
-      width: 2.7rem;
+      width: 2.3rem;
     }
   }
   .p-not-on-stage {
-    line-height: 2.7rem;
-    padding-left: 4rem;
+    line-height: 2.3rem;
+    padding-left: 3.3rem;
     &::before {
       align-self: start;
       background-color: #fff;
-      border: 1px solid #000;
+      border: 1px solid #111;
       border-radius: 100%;
       content: counter(process-list);
-      counter-increment:  process-list;
+      counter-increment: process-list;
       direction: rtl;
       display: inline-block;
-      height: 2.7rem;
+      font-size: 1.3rem;
+      height: 2.3rem;
       left: 0;
       position: absolute;
       text-align: center;
       vertical-align: middle;
-      width: 2.7rem;
+      width: 2.3rem;
     }
   }
-  .show-more-assessment, .show-more-early-stage, .show-more-late-stage{
-    color: blue; 
-    cursor: pointer;
-  }
-  .interview-card-done {
-    position: relative;
-    [class*="p-icon"] {
-      background-size: cover;
-      height: 1.5rem;
-      position: absolute; 
-      right: 0;
-      top: 0;
-      width: 1.5rem;
-    }
-  }
-  .divide-list {
+
+  .split-list {
     @media (min-width: $breakpoint-heading-threshold + 100px) {
       display : flex;
       h3 {
-        flex-grow: 1;
+        width: 40%;
       }
       p {
-        flex-grow: 3;
+        width: 60%;
       }
     }
   }
