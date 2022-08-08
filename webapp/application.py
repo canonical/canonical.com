@@ -1,4 +1,3 @@
-import html
 import json
 import os
 import smtplib
@@ -174,6 +173,13 @@ def sendForm(token):
     candidate_id, application_id = int(candidate_id), int(application_id)
     application = harvest.get_application(application_id)
     candidate = harvest.get_candidate(application["candidate_id"])
+    job = harvest.get_job(application["jobs"][0]["id"])
+
+    for recruiter in job["hiring_team"]["recruiters"]:
+        if recruiter["responsible"]:
+            hiring_lead = harvest.get_user(recruiter["id"])
+            break
+
     if (
         "candidate_id" not in application
         or application["candidate_id"] != candidate_id
@@ -183,11 +189,16 @@ def sendForm(token):
 
     candidate_name = candidate["first_name"]
     position = application["jobs"][0]["name"]
+    hiring_lead = hiring_lead["name"]
 
     # Sanitize and parse user input
     email = parseaddr(flask.request.form["email"])[1]
     candidate_email = parseaddr(candidate["email_addresses"][0]["value"])[1]
-    textarea = html.escape(flask.request.form["textarea"])
+
+    if flask.request.form["withdrawal-reason-other"]:
+        withdrawal_reason = flask.request.form["withdrawal-reason-other"]
+    else:
+        withdrawal_reason = flask.request.form["withdrawal-reason"]
 
     # Reject if user typed the wrong email
     if not candidate_email == email:
@@ -201,19 +212,26 @@ def sendForm(token):
             applicant_name=candidate_name,
             position=position,
             verification_link=confirmation_token(
-                candidate_email, textarea, candidate_id, application_id
+                candidate_email,
+                withdrawal_reason,
+                candidate_id,
+                application_id,
+                hiring_lead,
             ),
         ),
     )
     return redirect(flask.request.referrer + "#withdrawal-requested")
 
 
-def confirmation_token(email, withdrawal_reason, candidate_id, application_id):
+def confirmation_token(
+    email, withdrawal_reason, candidate_id, application_id, hiring_lead
+):
     payload = {
         "email": email,
         "withdrawal_reason": withdrawal_reason,
         "candidate_id": candidate_id,
         "application_id": application_id,
+        "hiring_lead": hiring_lead,
     }
     token = json.dumps(payload)
     return verification_token_cipher.encrypt(token)
@@ -232,7 +250,7 @@ def send_mail(
         msg["Subject"] = subject
         msg["From"] = from_email
         msg["To"] = ", ".join(to_email)
-        msg.set_content(message)
+        msg.set_content(message, subtype="html")
 
         server = smtplib.SMTP(server, 587)
         server.starttls()

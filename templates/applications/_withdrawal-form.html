@@ -9,16 +9,36 @@
       <label for="email">Email address</label>
       <input required type="email" id="email" name="email" placeholder="example@canonical.com" autocomplete="email">
       <label for="textarea">Reason you wish to withdraw your application:</label>
-      <textarea id="textarea" name="textarea" rows="2" required></textarea>
+      <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()">
+        <option value="" disabled="disabled" selected="">Select an option</option>
+        <option value="Accepted another position outside Canonical">I've accepted another position</option>
+        <option value="Decided to stay with current company">I've decided to stay with my current employer</option>
+        <option value="Withdrew application">The position isn't a good fit</option>
+        <option value="Unwilling to complete assignment/test/exercise">I cannot complete the assessment</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="other-input" style="display:none;">
+        <input type="text" id="withdrawal-reason-other" name="withdrawal-reason-other" placeholder="Please write your reason here">
+      </div>
       <footer class="p-modal__footer">
-      <button class="u-no-margin--bottom" aria-controls="modal">Cancel</button>
-      <button type="submit" name="submit" class="p-button--negative u-no-margin--bottom">Send email</button>
+        <button class="u-no-margin--bottom" aria-controls="modal">Cancel</button>
+        <button type="submit" name="submit" class="p-button--negative u-no-margin--bottom">Send email</button>
       </form>
     </footer>
   </section>
 </div>
 
 <script>
+function showInput() {
+  const selectValue = document.getElementById('withdrawal-reason').value;
+  const otherInput = document.querySelector('.other-input')
+  if( selectValue === "Other"){
+    otherInput.style.display = "block";
+  } else{
+    otherInput.style.display = "none";
+  }
+}
+
 (function () {
 
   var currentDialog = null;
