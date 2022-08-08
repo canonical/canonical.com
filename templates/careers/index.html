@@ -8,25 +8,16 @@
 
 {% block content %}
   <section class="p-strip--darksuru is-dark is-deep u-extra-space">
-
-      <div class="row">
-        <div class="col-8">
-          <h1 class="p-heading--2">Be part of a company making a difference <br> in every area of open source</h1>
-          
-          {% if vacancies %}
-           {% include "careers/_search.html" %}
-          {% endif %}
-        </div>
+    <div class="row">
+      <div class="col-8">
+        <h1 class="p-heading--2">Be part of a company making a difference <br> in every area of open source</h1>
       </div>
-      <div class="row">
-        <div class="col-5">
-            
-        </div>
-        <div class="col-3">
-          <p class="p-button--positive u-no-margin--left">Search roles</p>
-        </div>
-      </div>
- 
+    </div>
+    <div class="row" style="grid-gap: inherit;">
+      {% if vacancies %}
+        {% include "careers/_search.html" %}
+      {% endif %}
+    </div>
   </section>
 
   <section class="p-strip is-shallow">
@@ -105,7 +96,7 @@
 
         <hr class="p-separator u-no-margin">
 
-        <p class="p-button" style="margin-top: 1rem;">All departments</p>
+        <p class="p-button" style="margin-top: 1rem;" href="/careers/all">All departments</p>
       </div>
     </div>
   </section>
@@ -182,4 +173,9 @@
 
   }
   </style>
+  <script defer src="/static/js/careers-filter-and-sort.js"></script>
+  
+  <script>
+
+  </script>
 {% endblock %}

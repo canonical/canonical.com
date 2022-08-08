@@ -231,7 +231,7 @@ def all_careers():
     # ipdb.set_trace()
     print(context["vacancies_json"])
     vacancies_json = context["vacancies_json"]
-    return flask.render_template("/careers/index.html", vacancies_json=vacancies_json)
+    return flask.render_template("/careers/index.html",  **context)
 
 
 @app.route("/careers/<department_slug>", methods=["GET", "POST"])
