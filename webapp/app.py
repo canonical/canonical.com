@@ -244,9 +244,11 @@ def department_group(department_slug):
         context["vacancies"] = greenhouse.get_vacancies()
 
     context["templates"] = templates
-    context["vacancies_json"] = [
-        vacancy.to_dict() for vacancy in context["vacancies"]
-    ]
+
+    if "vacancies" in context:
+        context["vacancies_json"] = [
+            vacancy.to_dict() for vacancy in context["vacancies"]
+        ]
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
             flask.request.form,
