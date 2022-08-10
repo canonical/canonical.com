@@ -2,7 +2,7 @@
 import datetime
 import os
 import re
-from urllib.parse import parse_qs, urlencode
+from urllib.parse import parse_qs, urlencode, urlparse
 
 import bleach
 import flask
@@ -425,6 +425,46 @@ def slug(text):
 @app.template_filter()
 def markup(text):
     return markdown.markdown(text)
+
+
+@app.template_filter()
+def filtered_html_tags(content):
+    content = content.replace("<p>&nbsp;</p>", "")
+    allowed_tags = [
+        "iframe",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "p",
+        "a",
+        "strong",
+        "ul",
+        "ol",
+        "li",
+        "i",
+        "em",
+        "br",
+    ]
+    allowed_attributes = {"iframe": allow_src}
+
+    return bleach.clean(
+        content,
+        tags=allowed_tags,
+        attributes=allowed_attributes,
+        strip=True,
+    )
+
+
+def allow_src(tag, name, value):
+    allowed_sources = ["www.youtube.com", "www.vimeo.com"]
+    if name in ("alt", "height", "width"):
+        return True
+    if name == "src":
+        p = urlparse(value)
+        return (not p.netloc) or p.netloc in allowed_sources
+    return False
 
 
 @app.errorhandler(502)
