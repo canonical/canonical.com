@@ -100,7 +100,7 @@
 
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
-        <h2 class="p-heading--4">Your application process</h2>
+        <h2 class="p-heading--4">YOUR APPLICATION PROCESS</h2>
         <p class="u-sv2">Once your application is accepted, you will see more details about its status. <a>See what our CEO says about our hiring process</a>.</p>
       </div>
       <div class="u-fixed-width">  
@@ -149,14 +149,14 @@
                     {% for interview in application["scheduled_interviews"]|reverse %}
                         {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                             <hr />
-                            <h5>Past interviews</h5>
+                            <h5>PAST INTERVIEW</h5>
                             {% include 'careers/application/_interview-card-done.html' %}
                         {% endif %}
                     {% endfor %}
                     {% for interview in application["scheduled_interviews"] %}
                         {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
                             <hr />
-                            <h5>Next interview</h5>
+                            <h5>NEXT INTERVIEW</h5>
                             {% include 'careers/application/_interview-card.html' %}
                         {% endif %}
                     {% endfor %}
@@ -184,14 +184,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if (interview["interview"]["name"]  == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr/>
-                      <h5>Past interviews</h5>
+                      <h5>PAST INTERVIEW</h5>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
                   {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h5>Next interview</h5>
+                      <h5>NEXT INTERVIEW</h5>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
@@ -218,14 +218,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if interview["interview"]["name"]  == "Late Stage Interviews" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h5>Past interviews</h5>
+                      <h5>PAST INTERVIEW</h5>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
               {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h5>Next interview</h5>
+                      <h5>NEXT INTERVIEW</h5>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
