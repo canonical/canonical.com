@@ -81,10 +81,7 @@
 <div class="row">
   <div class="col-6">
     <div class="job-desc">
-      {% set job_content = job.content.replace("<p>&nbsp;</p>", "") %}
-      {% set allowed_tags = ['h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'strong', 'ul', 'ol', 'li', 'i', 'em', 'br'] %}
-
-      {{ bleach.clean(job_content, tags=allowed_tags, strip=True) | safe }}
+      {{ job.content | filtered_html_tags | safe }}
     </div>
   </div>
 
