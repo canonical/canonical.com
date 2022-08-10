@@ -1,8 +1,8 @@
 <div class="col-5">
   <h4 class="p-card__title u-no-margin--bottom">{{ interview["interview"]["name"] }}</h4>
-  <p class="p-card__content">{{ interview["start"]["datetime"].strftime('%d %B at %H:%M UTC') }} - <a href="https://www.timeanddate.com/worldclock/converter.html?iso={{ interview['start']['datetime'].strftime('%Y%m%dT%H%M%S') }}&p1=1440">See in your timezone</a></p>
+  <p class="p-card__content">{{ interview["start"]["datetime"].strftime('%d %B at %H:%M UTC') }}<span class="user-local-time" ></span></p>
   <p class="p-card__content">{{ interview["duration"] }} minutes</p>
-  <p class="p-card__content">Interviewer(s): {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
+  <p class="p-card__content">Interviewer: {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
   {% if now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
       {% if interview['video_conferencing_url'] %}
           <p class="p-card__content"><a href="{{ interview['video_conferencing_url'] }}">Google Meet link</a></p>
@@ -11,3 +11,11 @@
       {% endif %}
   {% endif %}
 </div>
+<script>
+  const interview = {{ interview | tojson }};
+  const interviewTime = new Date(interview["start"]["datetime"])
+  const userTime = interviewTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  const offset = -(interviewTime.getTimezoneOffset() / 60)
+  const userLocalTime = document.querySelector(".user-local-time");
+  userLocalTime.innerHTML= ` (${userTime} UTC+${offset})`
+</script>
