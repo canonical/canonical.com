@@ -24,6 +24,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_strip";
 @import "pattern_tabs";
 @import "pattern_search-panel";
+@import "pattern_search-form";
 
 @include blog-p-card;
 @include canonical-u-animations;
@@ -39,6 +40,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-strip;
 @include canonical-p-tabs;
 @include canonical-p-search-panel;
+@include canonical-search-form;
 
 .is-grey {
   background-color: $color-mid-x-light;
@@ -208,5 +210,23 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   p:empty,
   br + br {
     display: none;
+  }
+}
+
+.desktop-hero {
+  background-image: url("#{$assets-path}ce95be94-careers-guy.jpg");
+  background-position: right bottom;
+  background-size: 1000px auto;
+
+  @media only screen and (min-width: 2000px) {
+    background-size: 75%;
+  }
+
+  &--subtext {
+    max-width: 28em;
+
+    @media only screen and (max-width: 874px) and (min-width: 620px) {
+      width: 50%;
+    }
   }
 }

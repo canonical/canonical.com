@@ -1,9 +1,14 @@
 <div class="col-3 col-medium-2 u-hide--small">
   <div class="p-content-list">
     <ul class="p-content-list-section" style="font-size: 1.1rem;">
+      <small class=" u-sv2">FILTERS</small>
+      <p class="p-heading--5 u-no-margin--bottom">Department</p>
       {% for department in all_departments.values() %}
         <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
-          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted" style="padding-right: 0.5rem;">{{ department.vacancies | length }}</span>
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="{{department.name}}" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="{{department.name}}">{{ department.name }}</span>
+          </label>
         </li>
       {% endfor %}
     </ul>
