@@ -68,8 +68,8 @@
                 <p class="u-no-margin--bottom">We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
               {% endif %}
               <p>Your hiring lead is {{ hiring_lead["name"] }}.</p>
-          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-            {% if application['source']['id'] == 2 %}
+              {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+              {% if application['source']['id'] == 2 %}
               <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
             {% else %}
               <p>We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
@@ -127,7 +127,9 @@
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
         <h2 class="p-heading--4">YOUR APPLICATION PROCESS</h2>
-        <p class="u-sv2">Once your application is accepted, you will see more details about its status. <a>See what our CEO says about our hiring process</a>.</p>
+        {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
+          <p class="u-sv1"><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
+        {% endif %}
       </div>
       <div class="u-fixed-width">  
         <ol class="p-process-stepped-list--detailed">
@@ -272,7 +274,7 @@
     </section>
 
     {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-    <section class="p-strip--light is-deep">
+    <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
           <h2 class="p-heading--4">Hiring at Canonical</h2>
