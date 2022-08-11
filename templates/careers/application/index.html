@@ -58,27 +58,39 @@
         </div>
       {% endif %}
 
-      <div class="row">
-        <div class="col-6">
+      <div class="row p-divider">
+        <div class="col-6 p-divider__block">
           <h1 class="u-sv2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  %}
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
                 <p class="u-no-margin--bottom">We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
                 <p class="u-no-margin--bottom">We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
               {% endif %}
-              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
+              <p>Your hiring lead is {{ hiring_lead["name"] }}.</p>
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+            {% if application['source']['id'] == 2 %}
+              <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+            {% else %}
+              <p>We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
+            {% endif %}
+            {% if application["candidate"]["application_ids"]|length >= 2 %}
+              <p class="u-no-margin--bottom">STATUS OF YOUR OTHER APPLICATIONS:</p>
+              {% for application in application["candidate"]["applications"] %}
+                  <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
+              {% endfor %}
+            {% endif %}
           {% endif %}
         </div>
-        <div class="col-6" style="margin-left: 2rem">
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  %}
-            {% if application["candidate"]["application_ids"]|length >= 2 %}
-              <div class="u-sv2">
-                <p>STATUS OF YOUR OTHER APPLICATIONS:</p>
-                {% for application in application["candidate"]["applications"] %}
-                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
-                {% endfor %}
-              </div>
+        <div class="col-6 p-divider__block" style="margin-left: 2rem">
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
+              {% if application["candidate"]["application_ids"]|length >= 2 %}
+                <div class="u-sv2">
+                  <p>STATUS OF YOUR OTHER APPLICATIONS:</p>
+                  {% for application in application["candidate"]["applications"] %}
+                      <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
+                  {% endfor %}
+                </div>
               {% endif %}
               <div>
                 <p>ABOUT THIS ROLE</p>
@@ -86,6 +98,20 @@
                   <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
                 </div>
               </div>
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+          <div>
+            {% for lead in application["hiring_leads_list"]["list"] %}
+                {% if lead["name"] == application["hiring_lead"]["name"]  %}
+                  <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
+                  <p>Your hiring Lead is {{ lead["name"] }}</p>
+                  <p class="u-no-margin--bottom">{{ lead["name"] }} is VP Engineering, Enterprise Solutions at Canonical, leading the teams that deliver Juju and a suite of enterprise-ready operators for data platforms, machine learning operations, observability and more.</p>
+                  <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
+                  <p class="progress-detail-hiring-lead u-hide">
+                  Following a degree in Computer Science, Jon’s career started at the Royal Military Academy Sandhurst. He joined the Royal Corps of Signals where he played a key role in helping the UK define high-level doctrine for cyber operations and electronic warfare. He created a small start-up style programme with a culture of disruptive innovation, which helped to demonstrate the opportunities that investment in cyber operations could realise for the UK government. This programme was driven by open-source software, and a relentless thirst for developing young professionals across the UK military.
+                  </p>
+                {% endif %}
+            {% endfor %}
+          </div>
           {% else %}
               {% if application['source']['id'] == 2 %}
                 <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>

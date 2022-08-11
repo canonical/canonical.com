@@ -45,6 +45,9 @@ def _get_application(application_id):
     # Retrieve hiring lead from first job
     job = harvest.get_job(application["jobs"][0]["id"])
 
+    with open("webapp/hiring_leads.json") as json_file:
+        application["hiring_leads_list"] = json.load(json_file)
+
     for recruiter in job["hiring_team"]["recruiters"]:
         if recruiter["responsible"]:
             application["hiring_lead"] = harvest.get_user(recruiter["id"])
@@ -283,3 +286,4 @@ def request_withdrawal(token):
         withdrawal_reasons=withdrawal_reasons,
         application=_get_application_from_token(token),
     )
+
