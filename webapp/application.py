@@ -1,6 +1,6 @@
 import json
 import os
-import smtplib
+from smtplib import SMTP
 import socket
 from email.message import EmailMessage
 from email.utils import parseaddr
@@ -236,27 +236,36 @@ def confirmation_token(
     token = json.dumps(payload)
     return verification_token_cipher.encrypt(token)
 
+# Send email if configured
+smtp_server = os.getenv("SMTP_SERVER")
+smtp_user = os.getenv("SMTP_USER")
+smtp_pass = os.getenv("SMTP_PASS")
+smtp_sender_address = os.getenv("SMTP_SENDER_ADDRESS")
 
 def send_mail(
     to_email,
     subject,
     message,
-    server="smtp.gmail.com",
-    from_email="min.kim@canonical.com",
 ):
     # import smtplib
     try:
-        msg = EmailMessage()
-        msg["Subject"] = subject
-        msg["From"] = from_email
-        msg["To"] = ", ".join(to_email)
-        msg.set_content(message, subtype="html")
+        if smtp_server:
+            msg = EmailMessage()
+            msg["Subject"] = subject
+            msg["From"] = smtp_sender_address
+            msg["To"] = ", ".join(to_email)
+            msg.set_content(message, subtype="html")
+           
+            server = SMTP(smtp_server)
+            if smtp_user and smtp_pass:
 
-        server = smtplib.SMTP(server, 587)
-        server.starttls()
-        server.login(from_email, "")  # user & password
-        server.send_message(msg)
-        server.quit()
-        print("successfully sent the email")
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
+                server.login(smtp_user, smtp_pass)
+            server.send_message(msg)
+
+            server.quit()
+            print("successfully sent the email")
     except Exception:
         print("Error: unable to send email")
