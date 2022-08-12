@@ -300,12 +300,3 @@ class Harvest:
         response.raise_for_status()
 
         return response.json()
-
-    def reject_application(self, user_id):
-        return self.session.post(
-            f"{self.base_url}/{user_id}/reject",
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Basic {self.base64_key}",
-            },
-        )

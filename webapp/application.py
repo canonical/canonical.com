@@ -23,6 +23,7 @@ session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 verification_token_cipher = Cipher(os.environ.get("SECRET_KEY"))
+base_url = "https://harvest.greenhouse.io/v1"
 
 
 @application.after_request
@@ -159,8 +160,15 @@ def application_withdrawal(token):
 
     print(candidate["first_name"], withdrawal_reason)
 
-    # TODO: call the Greenhouse API to reject the application here
-    # ...
+    # call the Greenhouse API to reject the application
+
+    # rejection_reason_id = get_reason_id(withdrawal_reason)
+    # notes = withdrawal_reason
+
+    # reject_application(
+    #     application_id, candidate_id, rejection_reason_id, notes
+    # )
+
     return flask.render_template("applications/withdrawal.html")
 
 
@@ -236,11 +244,13 @@ def confirmation_token(
     token = json.dumps(payload)
     return verification_token_cipher.encrypt(token)
 
+
 # Send email if configured
 smtp_server = os.getenv("SMTP_SERVER")
 smtp_user = os.getenv("SMTP_USER")
 smtp_pass = os.getenv("SMTP_PASS")
 smtp_sender_address = os.getenv("SMTP_SENDER_ADDRESS")
+
 
 def send_mail(
     to_email,
@@ -255,17 +265,59 @@ def send_mail(
             msg["From"] = smtp_sender_address
             msg["To"] = ", ".join(to_email)
             msg.set_content(message, subtype="html")
-           
+
             server = SMTP(smtp_server)
             if smtp_user and smtp_pass:
-
                 server.ehlo()
                 server.starttls()
                 server.ehlo()
                 server.login(smtp_user, smtp_pass)
             server.send_message(msg)
-
             server.quit()
             print("successfully sent the email")
     except Exception:
         print("Error: unable to send email")
+
+
+def _post_api(url, headers, payload={}):
+    return session.post(
+        url,
+        auth=(harvest, ""),
+        data=json.dumps(payload),
+        headers=headers,
+    )
+
+
+def reject_application(application_id, user_id, rejection_reason_id, notes):
+    """Reject an application through Greenhouse API.
+    https://developers.greenhouse.io/harvest.html#post-reject-application
+    :param application_id: the id of the application to be rejected
+    :param user_id: the greenhouse id of the user performing the rejection
+    :param body: optional parameters (e.g. rejection reason)
+    :returns: the id of the application rejected, if the request is succesful,
+    otherwise it raises an error
+    """
+
+    url = f"{base_url}/applications/{application_id}/reject"
+    headers = {"On-Behalf-Of": f"{user_id}"}
+    body = {"rejection_reason_id": rejection_reason_id, "notes": notes}
+
+    response = _post_api(url, headers, body)
+    response.raise_for_status()
+
+    return int(application_id)
+
+
+def get_reason_id(withdrawal_reason):
+    if withdrawal_reason == "Accepted another position outside Canonical":
+        return "27987"
+    elif withdrawal_reason == "Decided to stay with current company":
+        return "27992"
+    elif withdrawal_reason == "Salary expectations not aligned":
+        return "31656"
+    elif withdrawal_reason == "Unwilling to complete assignment/test/exercise":
+        return "36714"
+    elif withdrawal_reason == "Withdrew application":
+        return "35818"
+    else:
+        return "33"
