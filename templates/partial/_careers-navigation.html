@@ -1,50 +1,116 @@
 <div class="col-3 col-medium-2 u-hide--small">
-  <div class="p-content-list">
-    <ul class="p-content-list-section" style="font-size: 1.1rem;">
-      <small class=" u-sv2">FILTERS</small>
-      <p class="p-heading--5 u-no-margin--bottom">Department</p>
-      {% for department in all_departments.values() %}
-        <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
+  <form action="" method="get">
+    <div class="p-content-list p-form__group">
+      <ul class="p-content-list-section" style="font-size: 1.1rem;">
+        <small class=" u-sv2">FILTERS</small>
+        <p class="p-heading--5 u-no-margin--bottom">Department</p>
+        {% for department in all_departments.values() %}
+          <li class="p-content-list-section__item js-filter p-form__control {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="{{department.name}}" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="{{department.name}}">{{ department.name }}</span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <ul class="p-content-list-section" style="font-size: 1.1rem;">
+        <p class="p-heading--5 u-no-margin--bottom">Experience</p>
+        <li class="p-content-list-section__item js-filter">
           <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="{{department.name}}" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="{{department.name}}">{{ department.name }}</span>
+            <input type="checkbox" aria-labelledby="Graduate" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Graduate">Graduate</span>
           </label>
         </li>
-      {% endfor %}
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'lifestyle' %}is-active{% endif %}">
-        <a href="/careers/lifestyle" class="p-link--soft">Lifestyle</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'ethics' %}is-active{% endif %}">
-        <a href="/careers/ethics" class="p-link--soft">Ethics</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'travel' %}is-active{% endif %}">
-        <a href="/careers/travel" class="p-link--soft">Travel</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'progression' %}is-active{% endif %}">
-        <a href="/careers/progression" class="p-link--soft">Progression</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'diversity' %}is-active{% endif %}">
-        <a href="/careers/diversity" class="p-link--soft">Diversity</a>
-      </li>
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
-        <a href="/careers/all" class="p-link--soft">All roles</a>
-        <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
-          {% set vacancies = {} %}
-          {% for department in all_departments.values() %}
-            {% for vacancy in department.vacancies %}
-              {% set vacancies = vacancies.__setitem__(vacancy.id, vacancy) %}
+        <li class="p-content-list-section__item js-filter">
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="Junior" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Junior">Junior</span>
+          </label>
+        </li>
+        <li class="p-content-list-section__item js-filter">
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="Mid-weight" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Mid-weight">Mid-weight</span>
+          </label>
+        </li>
+        <li class="p-content-list-section__item js-filter">
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="Senior" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Senior">Senior</span>
+          </label>
+        </li>
+        <li class="p-content-list-section__item js-filter">
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="Lead" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Lead">Lead</span>
+          </label>
+        </li>
+        <li class="p-content-list-section__item js-filter">
+          <label class="p-checkbox">
+            <input type="checkbox" aria-labelledby="Management" class="p-checkbox__input">
+            <span class="p-checkbox__label" id="Management">Management</span>
+          </label>
+        </li>
+      </ul>
+
+      <ul class="p-content-list-section" style="font-size: 1.1rem;">
+        <p class="p-heading--5 u-no-margin--bottom">Location</p>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Africa" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Africa">Africa</span>
+            </label>
+          </li>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Americas" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Americas">Americas</span>
+            </label>
+          </li>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Asia" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Asia">Asia</span>
+            </label>
+          </li>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Europe" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Europe">Europe</span>
+            </label>
+          </li>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Middle East" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Middle East">Middle East</span>
+            </label>
+          </li>
+          <li class="p-content-list-section__item js-filter">
+            <label class="p-checkbox">
+              <input type="checkbox" aria-labelledby="Oceania" class="p-checkbox__input">
+              <span class="p-checkbox__label" id="Oceania">Oceania</span>
+            </label>
+          </li>
+      </ul>
+      <ul class="p-content-list-section">
+        <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
+          <a href="/careers/all" class="p-link--soft">All roles</a>
+          <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
+            {% set vacancies = {} %}
+            {% for department in all_departments.values() %}
+              {% for vacancy in department.vacancies %}
+                {% set vacancies = vacancies.__setitem__(vacancy.id, vacancy) %}
+              {% endfor %}
             {% endfor %}
-          {% endfor %}
-          {{ vacancies | length() }}
-        </span>
-      </li>
-    </ul>
-  </div>
+            {{ vacancies | length() }}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </form>
 </div>
+
 <div class="col-3 u-hide--medium u-hide--large">
   <select name="menu" onchange="location.href=this.value">
     <option disabled="disabled" value="" selected="">Go to...</option>

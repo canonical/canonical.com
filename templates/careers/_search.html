@@ -27,26 +27,44 @@
       li.dataset.location = job.location
       li.dataset.management = job.management
       li.dataset.sector = job.departments
+      
+      const parentDiv = document.createElement('div')
+      parentDiv.setAttribute('class', 'row u-sv3');
+
+      const leftCol = document.createElement('div')
+      leftCol.setAttribute('class', 'col-3');
+      
+      const rightCol = document.createElement('div')
+      rightCol.setAttribute('class', 'col-5');
 
       const location = document.createElement('p')
       location.setAttribute('class', 'u-no-margin--bottom u-sv1');
       const small= document.createElement('small')
       small.textContent = job.location
 
-      const title = document.createElement('h2')
-      title.setAttribute('class', 'p-heading--3 u-no-padding--top u-no-margin--bottom');
-      const anchor = document.createElement('a')
-      anchor.setAttribute('class', 'p-link--soft');
-      anchor.setAttribute('href', `/careers/${job.id}`)
-      anchor.innerHTML= `${job.title}&nbsp;&rsaquo;`
+      const title = document.createElement('p')
+      title.setAttribute('class', 'u-sv1');
+
+      const titleAnchor = document.createElement('a')
+      titleAnchor.setAttribute('class', 'p-heading--4 u-no-margin--bottom');
+      titleAnchor.setAttribute('href', `/careers/${job.id}`)
+      titleAnchor.innerHTML= `${job.title}`
+
       const description = document.createElement('p')
       description.setAttribute('class', 'u-sv1');
       description.textContent = job.description
 
       location.appendChild(small);
-      title.appendChild(anchor);
-      li.append(location, title, description);
+      title.appendChild(titleAnchor)
+      
+      leftCol.appendChild(title)
+      rightCol.appendChild(description)
+      rightCol.appendChild(location)
+      parentDiv.appendChild(leftCol)
+      parentDiv.appendChild(rightCol)
 
+      li.append(parentDiv);
+      
       ul.appendChild(li);
     })
   }
