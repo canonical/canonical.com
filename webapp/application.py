@@ -160,14 +160,14 @@ def application_withdrawal(token):
 
     print(candidate["first_name"], withdrawal_reason)
 
-    # call the Greenhouse API to reject the application
+    # call the Harvest API to reject the application
 
     rejection_reason_id = get_reason_id(withdrawal_reason)
     notes = withdrawal_reason
 
-    # reject_application(
-    #     application_id, candidate_id, rejection_reason_id, notes
-    # )
+    harvest.reject_application(
+        application_id, candidate_id, rejection_reason_id, notes
+    )
 
     print(application_id, candidate_id, rejection_reason_id, notes)
 
@@ -291,26 +291,6 @@ def _post_api(url, headers, payload={}):
         data=json.dumps(payload),
         headers=headers,
     )
-
-
-def reject_application(application_id, user_id, rejection_reason_id, notes):
-    """Reject an application through Greenhouse API.
-    https://developers.greenhouse.io/harvest.html#post-reject-application
-    :param application_id: the id of the application to be rejected
-    :param user_id: the greenhouse id of the user performing the rejection
-    :param body: optional parameters (e.g. rejection reason)
-    :returns: the id of the application rejected, if the request is succesful,
-    otherwise it raises an error
-    """
-
-    url = f"{base_url}/applications/{application_id}/reject"
-    headers = {"On-Behalf-Of": f"{user_id}"}
-    body = {"rejection_reason_id": rejection_reason_id, "notes": notes}
-
-    response = _post_api(url, headers, body)
-    response.raise_for_status()
-
-    return int(application_id)
 
 
 def get_reason_id(withdrawal_reason):
