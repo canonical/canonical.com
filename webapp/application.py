@@ -221,6 +221,7 @@ def sendForm(token):
             "applications/_activate-email.html",
             applicant_name=candidate_name,
             position=position,
+            hiring_lead=hiring_lead,
             verification_link=confirmation_token(
                 candidate_email,
                 withdrawal_reason,
