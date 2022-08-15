@@ -162,12 +162,14 @@ def application_withdrawal(token):
 
     # call the Greenhouse API to reject the application
 
-    # rejection_reason_id = get_reason_id(withdrawal_reason)
-    # notes = withdrawal_reason
+    rejection_reason_id = get_reason_id(withdrawal_reason)
+    notes = withdrawal_reason
 
     # reject_application(
     #     application_id, candidate_id, rejection_reason_id, notes
     # )
+
+    print(application_id, candidate_id, rejection_reason_id, notes)
 
     return flask.render_template("applications/withdrawal.html")
 
@@ -275,8 +277,10 @@ def send_mail(
             server.send_message(msg)
             server.quit()
             print("successfully sent the email")
-    except Exception:
-        print("Error: unable to send email")
+        else:
+            print(message)
+    except Exception as e:
+        print(f"Error: unable to send email: {e}")
 
 
 def _post_api(url, headers, payload={}):
