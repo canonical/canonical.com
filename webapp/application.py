@@ -212,7 +212,7 @@ def sendForm(token):
 
     # Reject if user typed the wrong email
     if not candidate_email == email:
-        flask.abort(404)
+        return redirect(flask.request.referrer + "#wrong-email")
 
     send_mail(
         to_email=[candidate_email],
