@@ -6,15 +6,26 @@
 
 {% block content %}
   <script>
-    function showProgressDetail(stage) {
+   function showProgressDetail(stage) {
     const showMoreBtn = document.querySelector(`.show-more-${stage}`);
-    const detail = document.querySelector(`.progress-detail-${stage}`)
+    const showLessBtn = document.querySelector(`.show-less-${stage}`);
+    const detail = document.querySelector(`.progress-detail-${stage}`);
     if ( detail.classList.contains("u-hide")) {
       detail.classList.remove("u-hide")
-      showMoreBtn.innerHTML="Show less"
+      showMoreBtn.classList.add("u-hide")
+      showLessBtn.classList.remove("u-hide")
     } else {
       detail.classList.add("u-hide")
-      showMoreBtn.innerHTML="Show more"
+    }
+  }
+  function hideProgressDetail(stage) {
+    const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+    const showLessBtn = document.querySelector(`.show-less-${stage}`);
+    const detail = document.querySelector(`.progress-detail-${stage}`);
+    if (!detail.classList.contains("u-hide")) {
+      detail.classList.add("u-hide")
+      showMoreBtn.classList.remove("u-hide")
+      showLessBtn.classList.add("u-hide")
     }
   }
   </script>
@@ -63,23 +74,23 @@
           <h1 class="u-sv2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
-                <p class="u-no-margin--bottom">We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p class="u-no-margin--bottom">We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p class="u-no-margin--bottom">We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
+                <p class="u-no-margin--bottom">We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               <p>Your hiring lead is {{ hiring_lead["name"] }}.</p>
-              {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
               {% if application['source']['id'] == 2 %}
-              <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
-            {% else %}
-              <p>We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
-            {% endif %}
-            {% if application["candidate"]["application_ids"]|length >= 2 %}
-              <p class="p-heading--5 u-no-padding--top u-no-margin--bottom u-sv1">STATUS OF YOUR OTHER APPLICATIONS:</p>
-              {% for application in application["candidate"]["applications"] %}
-                  <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
-              {% endfor %}
-            {% endif %}
+                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+              {% else %}
+                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+              {% endif %}
+              {% if application["candidate"]["application_ids"]|length >= 2 %}
+                <p class="p-heading--5 u-no-padding--top u-no-margin--bottom u-sv1">STATUS OF YOUR OTHER APPLICATIONS:</p>
+                {% for application in application["candidate"]["applications"] %}
+                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
+                {% endfor %}
+              {% endif %}
           {% endif %}
         </div>
         <div class="col-6 p-divider__block" style="margin-left: 2rem">
@@ -109,14 +120,15 @@
                   <p class="progress-detail-hiring-lead u-hide">
                   Following a degree in Computer Science, Jon’s career started at the Royal Military Academy Sandhurst. He joined the Royal Corps of Signals where he played a key role in helping the UK define high-level doctrine for cyber operations and electronic warfare. He created a small start-up style programme with a culture of disruptive innovation, which helped to demonstrate the opportunities that investment in cyber operations could realise for the UK government. This programme was driven by open-source software, and a relentless thirst for developing young professionals across the UK military.
                   </p>
+                  <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
                 {% endif %}
             {% endfor %}
           </div>
           {% else %}
               {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p>We have received your application for the role {{ application["jobs"][0]["name"] }}.</p>
+                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
           {% endif %}
@@ -126,7 +138,7 @@
 
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
-        <h2 class="p-heading--4">YOUR APPLICATION PROCESS</h2>
+        <h2 class="p-heading--5">YOUR APPLICATION PROCESS</h2>
         {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
           <p class="u-sv1"><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
         {% endif %}
@@ -189,6 +201,7 @@
                         {% endif %}
                     {% endfor %}
               {% endif %}
+              <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
               </div>
             </div>
           </li>
@@ -223,6 +236,7 @@
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
+              <a href="" onclick="hideProgressDetail('early-stage'); event.preventDefault();" class="show-less-early-stage u-hide">Show less</a>
               </div>
             </div>
           </li>
@@ -251,12 +265,13 @@
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
-              {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+                  {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
                       <h4 class="p-heading--5">NEXT INTERVIEW</h4>
-                      {% include 'careers/application/_interview-card.html' %}
+                      {% include 'applications/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
+              <a href="" onclick="hideProgressDetail('late-stage'); event.preventDefault();" class="show-less-late-stage u-hide">Show less</a>
               </div>
             </div>
           </li>
@@ -277,7 +292,7 @@
     <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
-          <h2 class="p-heading--4">Hiring at Canonical</h2>
+          <h2 class="p-heading--5">HIRING AT CANONICAL</h2>
           <h3 class="p-heading--2">Mark Shuttleworth, CEO explains the hiring process at Canonical.</h3>
         </div>
         <div class="col-6 u-embedded-media">
@@ -291,7 +306,7 @@
       {% endif %}
       <div class="row">
         <div class="col-3">
-          <h2 class="p-heading--4">Life at Canonical</h2>
+          <h2 class="p-heading--5">LIFE AT CANONICAL</h2>
         </div>
         <div class="col-9">
           <ul class="p-list--divided">
