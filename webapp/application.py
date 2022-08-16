@@ -163,13 +163,12 @@ def application_withdrawal(token):
     # call the Harvest API to reject the application
 
     rejection_reason_id = get_reason_id(withdrawal_reason)
-    notes = withdrawal_reason
 
     harvest.reject_application(
-        application_id, candidate_id, rejection_reason_id, notes
+        application_id, candidate_id, rejection_reason_id, withdrawal_reason
     )
 
-    print(application_id, candidate_id, rejection_reason_id, notes)
+    print(application_id, candidate_id, rejection_reason_id, withdrawal_reason)
 
     return flask.render_template("applications/withdrawal.html")
 
