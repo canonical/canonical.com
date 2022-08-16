@@ -316,11 +316,11 @@ class Harvest:
         payload = {"rejection_reason_id": rejection_reason_id, "notes": notes}
         response = self.session.post(
             f"{self.base_url}applications/{application_id}/reject",
+            json=payload,
             headers={
-                "Authorization": f"Basic {self.base64_key}",
                 "Content-Type": "application/json",
                 "On-Behalf-Of": f"{user_id}",
+                "Authorization": f"Basic {self.base64_key}",
             },
-            data=json.dumps(payload),
         )
-        response.raise_for_status()
+        return response.json()

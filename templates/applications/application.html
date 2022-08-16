@@ -6,6 +6,7 @@
 
 {% block content %}
 <section class="p-strip--light is-deep">
+  {% if application["status"] == "active" %}
   <div id="withdrawal-requested" style="margin-bottom: 4rem">
     <div class="u-fixed-width">
       <div class="p-notification--caution">
@@ -24,7 +25,6 @@
       </div>
     </div>
   </div>
-  {% if application["status"] == "active" %}
     <div class="row">
       <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
       {% if application['source']['id'] == 2 %}
@@ -198,7 +198,7 @@
 {% else %}
 <section class="p-strip">
   <div class="row">
-    <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
+    <h1 class="u-sv3">Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
     <p>
       <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
       Check out <a href="/careers">our career page</a> to see if there 

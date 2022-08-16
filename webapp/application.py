@@ -151,26 +151,32 @@ def application_withdrawal(token):
         flask.abort(404)
 
     application = harvest.get_application(application_id)
-    candidate = harvest.get_candidate(application["candidate_id"])
+    job = harvest.get_job(application["jobs"][0]["id"])
+
+    hiring_lead = None
+    for recruiter in job["hiring_team"]["recruiters"]:
+        if recruiter["responsible"]:
+            hiring_lead = harvest.get_user(recruiter["id"])
+            break
+
     if (
         "candidate_id" not in application
         or application["candidate_id"] != candidate_id
     ):
         flask.abort(404)
 
-    print(candidate["first_name"], withdrawal_reason)
+    rejection_reason_id = get_reason_id(withdrawal_reason)
+    hiring_lead_id = hiring_lead["id"]
 
     # call the Harvest API to reject the application
-
-    rejection_reason_id = get_reason_id(withdrawal_reason)
-
-    harvest.reject_application(
-        application_id, candidate_id, rejection_reason_id, withdrawal_reason
+    response = harvest.reject_application(
+        application_id, hiring_lead_id, rejection_reason_id, withdrawal_reason
     )
 
-    print(application_id, candidate_id, rejection_reason_id, withdrawal_reason)
-
-    return flask.render_template("applications/withdrawal.html")
+    if response:
+        return flask.render_template("applications/withdrawal.html")
+    else:
+        flask.abort(404)
 
 
 @application.route("/withdraw/<string:token>", methods=["POST"])
@@ -281,15 +287,6 @@ def send_mail(
             print(message)
     except Exception as e:
         print(f"Error: unable to send email: {e}")
-
-
-def _post_api(url, headers, payload={}):
-    return session.post(
-        url,
-        auth=(harvest, ""),
-        data=json.dumps(payload),
-        headers=headers,
-    )
 
 
 def get_reason_id(withdrawal_reason):
