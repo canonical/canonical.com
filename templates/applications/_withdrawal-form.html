@@ -11,11 +11,9 @@
       <label for="textarea">Reason you wish to withdraw your application:</label>
       <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()">
         <option value="" disabled="disabled" selected="">Select an option</option>
-        <option value="Accepted another position outside Canonical">I've accepted another position</option>
-        <option value="Decided to stay with current company">I've decided to stay with my current employer</option>
-        <option value="Withdraw application">The position isn't a good fit</option>
-        <option value="Unwilling to complete assignment/test/exercise">I cannot complete the assessment</option>
-        <option value="Other">Other</option>
+        {% for reason_id, reason_message in withdrawal_reasons %}
+          <option value="{{ reason_id }}">{{ reason_message }}</option>
+        {% endfor %}
       </select>
       <div class="other-input" style="display:none;">
         <input type="text" id="withdrawal-reason-other" name="withdrawal-reason-other" placeholder="Please write your reason here">

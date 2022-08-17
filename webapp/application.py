@@ -12,6 +12,14 @@ from dateutil.parser import parse
 from webapp.greenhouse import Harvest
 from webapp.utils.cipher import Cipher
 
+
+withdrawal_reasons = {
+    "27987": "I've accepted another position",
+    "27992": "I've decided to stay with my current employer",
+    "36714": "I cannot complete the assessment",
+    "35818": "The position isn't a good fit",
+    "33": "Other"
+}
 application = flask.Blueprint(
     "application",
     __name__,
@@ -126,6 +134,7 @@ def application_page(token):
     return flask.render_template(
         "applications/application.html",
         title="You application",
+        withdrawal_reasons=withdrawal_reasons,
         candidate=candidate,
         application=application,
         job=job,
@@ -158,12 +167,12 @@ def application_withdrawal(token):
     ):
         flask.abort(403)
 
-    rejection_reason_id = get_reason_id(withdrawal_reason)
+    withdrawal_reason = withdrawal_reasons.get(withdrawal_reason_id)
     hiring_lead_id = hiring_lead["id"]
 
     # call the Harvest API to reject the application
     response = harvest.reject_application(
-        application_id, hiring_lead_id, rejection_reason_id, withdrawal_reason
+        application_id, hiring_lead_id, withdrawal_reason_id, withdrawal_reason
     )
     response.raise_for_status()
 
@@ -257,39 +266,17 @@ def send_mail(
     message,
 ):
     # import smtplib
-    try:
-        if smtp_server:
-            msg = EmailMessage()
-            msg["Subject"] = subject
-            msg["From"] = smtp_sender_address
-            msg["To"] = ", ".join(to_email)
-            msg.set_content(message, subtype="html")
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = smtp_sender_address
+    msg["To"] = ", ".join(to_email)
+    msg.set_content(message, subtype="html")
 
-            server = SMTP(smtp_server)
-            if smtp_user and smtp_pass:
-                server.ehlo()
-                server.starttls()
-                server.ehlo()
-                server.login(smtp_user, smtp_pass)
-            server.send_message(msg)
-            server.quit()
-            print("successfully sent the email")
-        else:
-            print(message)
-    except Exception as e:
-        print(f"Error: unable to send email: {e}")
-
-
-def get_reason_id(withdrawal_reason):
-    if withdrawal_reason == "Accepted another position outside Canonical":
-        return "27987"
-    elif withdrawal_reason == "Decided to stay with current company":
-        return "27992"
-    elif withdrawal_reason == "Salary expectations not aligned":
-        return "31656"
-    elif withdrawal_reason == "Unwilling to complete assignment/test/exercise":
-        return "36714"
-    elif withdrawal_reason == "Withdrew application":
-        return "35818"
-    else:
-        return "33"
+    server = SMTP(smtp_server)
+    if smtp_user and smtp_pass:
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(smtp_user, smtp_pass)
+    server.send_message(msg)
+    server.quit()
