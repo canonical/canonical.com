@@ -22,7 +22,6 @@ application = flask.Blueprint(
 session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
-verification_token_cipher = Cipher(os.environ.get("SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
 
 
@@ -137,7 +136,7 @@ def application_page(token):
 
 @application.route("/withdraw/<string:token>")
 def application_withdrawal(token):
-    payload = verification_token_cipher.decrypt(token)
+    payload = cipher.decrypt(token)
     try:
         payload = json.loads(payload)
         email = payload.get("email")
@@ -250,7 +249,7 @@ def confirmation_token(
         "hiring_lead": hiring_lead,
     }
     token = json.dumps(payload)
-    return verification_token_cipher.encrypt(token)
+    return cipher.encrypt(token)
 
 
 # Send email if configured
