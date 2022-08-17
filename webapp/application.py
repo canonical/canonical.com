@@ -137,17 +137,11 @@ def application_page(token):
 @application.route("/withdraw/<string:token>")
 def application_withdrawal(token):
     payload = cipher.decrypt(token)
-    try:
-        payload = json.loads(payload)
-        email = payload.get("email")
-        withdrawal_reason = payload.get("withdrawal_reason", "")
-        candidate_id = payload.get("candidate_id")
-        application_id = payload.get("application_id")
-    except (ValueError, TypeError):
-        flask.abort(404)
 
-    if not (email and candidate_id and application_id):
-        flask.abort(404)
+    payload = json.loads(payload)
+    withdrawal_reason_id = payload.get("withdrawal_reason")
+    candidate_id = payload["candidate_id"]
+    application_id = payload["application_id"]
 
     application = harvest.get_application(application_id)
     job = harvest.get_job(application["jobs"][0]["id"])
@@ -159,10 +153,10 @@ def application_withdrawal(token):
             break
 
     if (
-        "candidate_id" not in application
-        or application["candidate_id"] != candidate_id
+        "email" not in payload
+        or application.get("candidate_id") != candidate_id
     ):
-        flask.abort(404)
+        flask.abort(403)
 
     rejection_reason_id = get_reason_id(withdrawal_reason)
     hiring_lead_id = hiring_lead["id"]
@@ -171,11 +165,9 @@ def application_withdrawal(token):
     response = harvest.reject_application(
         application_id, hiring_lead_id, rejection_reason_id, withdrawal_reason
     )
+    response.raise_for_status()
 
-    if response:
-        return flask.render_template("applications/withdrawal.html")
-    else:
-        flask.abort(404)
+    return flask.render_template("applications/withdrawal.html")
 
 
 @application.route("/withdraw/<string:token>", methods=["POST"])
@@ -215,7 +207,7 @@ def sendForm(token):
         withdrawal_reason = flask.request.form["withdrawal-reason"]
 
     # Reject if user typed the wrong email
-    if not candidate_email == email:
+    if candidate_email != email:
         return redirect(flask.request.referrer + "#wrong-email")
 
     send_mail(

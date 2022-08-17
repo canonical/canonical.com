@@ -323,4 +323,5 @@ class Harvest:
                 "Authorization": f"Basic {self.base64_key}",
             },
         )
-        return response.json()
+
+        return response
