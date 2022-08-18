@@ -3,7 +3,7 @@ import datetime
 import itertools
 import os
 import re
-from urllib.parse import parse_qs, urlencode
+from urllib.parse import parse_qs, urlencode, urlparse
 from math import ceil
 from itertools import islice
 
