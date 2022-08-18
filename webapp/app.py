@@ -252,7 +252,6 @@ def all_jobs():
         vacancy.to_dict() for vacancy in context["vacancies"]
     ]
 
-    import ipdb
     jobs_list = context["vacancies_json"]
     
     total_results = len(context["vacancies_json"])
