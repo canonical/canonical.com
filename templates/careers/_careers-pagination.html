@@ -1,0 +1,28 @@
+{% if offset >= total_results %}
+  {% set current_page = 1 %}
+{% else %}
+  {% set current_page = ((offset / limit) + 1) | int %}
+{% endif %}
+
+<div class="u-fixed-width">
+  {% if current_page and total_pages and total_pages > 1 %}
+    <nav class="p-pagination" aria-label="Pagination">
+      <ol class="p-pagination__items u-align--right">
+        <li class="p-pagination__item">
+            {% if offset == 0 %}
+              <p>{{ limit }} of {{ total_results }} roles</p>
+            {% elif (total_results - offset) < limit %}
+              <p>{{ total_results}} of {{ total_results }} roles</p>
+            {% else %}
+              <p>{{ limit * current_page }} of {{ total_results }} roles</p>
+            {% endif %}
+          </li>
+        <li class="p-pagination__item">
+          {% if (total_results - offset) > limit%}
+           <a class="p-pagination__link--next" href="?{{ modify_query({'offset': offset + limit}) }}" title="Next page"><span>Show 20 more</span><i class="p-icon--chevron-down"></i></a>
+          {% endif %}
+        </li>
+      </ol>
+    </nav>
+  {% endif %}
+</div>

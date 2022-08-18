@@ -39,7 +39,7 @@
 
       const location = document.createElement('p')
       location.setAttribute('class', 'u-no-margin--bottom u-sv1');
-      const small= document.createElement('small')
+      const small = document.createElement('small')
       small.textContent = job.location
 
       const title = document.createElement('p')
@@ -61,19 +61,20 @@
       rightCol.appendChild(description)
       rightCol.appendChild(location)
       parentDiv.appendChild(leftCol)
-      parentDiv.appendChild(rightCol)
+      parentDiv.appendChild(rightCol)      
 
       li.append(parentDiv);
       
       ul.appendChild(li);
     })
   }
+  
   let search_term = '';
   const options = {
     threshold: 0.3,
     keys: ['title', 'description']
   }
-  const vacancies = {{ vacancies_json | tojson }};
+  const vacancies = {{ jobs_list | tojson }};
 
   const fuse = new Fuse(vacancies, options);
 
@@ -131,19 +132,19 @@
 
 
   function initSearchResetButtons(selector) {
-  const resetButtons = [].slice.call(document.querySelectorAll(selector));
-  const ul = document.querySelector(".p-search-panel-list");
-  const url = window.location.href
-  const newUrl = url.split("?")[0];
-  resetButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      const input = button.parentNode.querySelector('input');
+    const resetButtons = [].slice.call(document.querySelectorAll(selector));
+    const ul = document.querySelector(".p-search-panel-list");
+    const url = window.location.href
+    const newUrl = url.split("?")[0];
+    resetButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const input = button.parentNode.querySelector('input');
 
-      ul.innerHTML = ''
-      window.location.href = newUrl
-      input.focus();
+        ul.innerHTML = ''
+        window.location.href = newUrl
+        input.focus();
+      });
     });
-  });
 }
 document.addEventListener('click', closeSearch);
 

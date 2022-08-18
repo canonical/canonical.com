@@ -6,13 +6,21 @@
   Sorry, there are no open positions matching your criteria.
 </h2>
 <div class="js-filter-jobs-container">
-  <small class="u-sv2">FEATURED ROLES</small>
-  <hr>
-  <ul class="p-list--divided js-featured-jobs-list"></ul>
-</div>
-<div class="js-filter-jobs-container">
-  <small class="u-sv2">ALL OTHER ROLES</small>
+  <small class="u-sv2">ALL ROLES</small>
   <hr>
   <ul class="p-list--divided js-job-list"></ul>
 </div>
+<section class="p-strip">
+  <div class="u-fixed-width">
+    <hr>
+  </div>
+  {% with %}
+    {% set total_pages = total_pages %}
+    {% set total_results = total_results %}
+    {% set current_page = page %}
+    {% set total_results = total_results %}
+    {% set limit = limit %}
+    {% include "careers/_careers-pagination.html" %}
+  {% endwith %}
+</section>
 {% endif %}
