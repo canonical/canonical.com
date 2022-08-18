@@ -18,7 +18,7 @@ withdrawal_reasons = {
     "27992": "I've decided to stay with my current employer",
     "36714": "I cannot complete the assessment",
     "35818": "The position isn't a good fit",
-    "33": "Other"
+    "33": "Other",
 }
 application = flask.Blueprint(
     "application",
@@ -273,10 +273,14 @@ def send_mail(
     msg.set_content(message, subtype="html")
 
     server = SMTP(smtp_server)
-    if smtp_user and smtp_pass:
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login(smtp_user, smtp_pass)
-    server.send_message(msg)
-    server.quit()
+    # check if smtp_server exists as it would not exist on development
+    if smtp_server:
+        if smtp_user and smtp_pass:
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
+            server.login(smtp_user, smtp_pass)
+        server.send_message(msg)
+        server.quit()
+    else:
+        print(message)

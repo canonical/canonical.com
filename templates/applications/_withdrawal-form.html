@@ -11,7 +11,7 @@
       <label for="textarea">Reason you wish to withdraw your application:</label>
       <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()">
         <option value="" disabled="disabled" selected="">Select an option</option>
-        {% for reason_id, reason_message in withdrawal_reasons %}
+        {% for reason_id, reason_message in withdrawal_reasons.items() %}
           <option value="{{ reason_id }}">{{ reason_message }}</option>
         {% endfor %}
       </select>
