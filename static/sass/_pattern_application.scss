@@ -2,96 +2,59 @@
   .p-process-stepped-list--detailed {
     @extend .p-stepped-list--detailed;
 
-    counter-reset: process-list;
+    .p-process-stepped-list__title {
+      &--stepper-complete, &--stepper-active, &--stepper-not-completed {
+        @extend .p-stepped-list__title;
+
+        counter-reset: process-list;
+      }
+    }
 
     .p-stepped-list__item {
       p.p-stepped-list__content, div.p-stepped-list__content {
         margin-left: 0;
       }
     }
-    
+
     @supports (display: grid) {
       .p-stepped-list__title {
         grid-column-end: span 12;
       }
       .p-process-stepped-list__title {
-        grid-column-end: span 6;
-      };
-    }
-   
-    .p-process-stepped-list__title {
-      @extend .p-stepped-list__title;
-      
-      &::before {
-        display: none;
+        &--stepper-complete, &--stepper-active, &--stepper-not-completed { 
+          display: flex;
+          grid-column-end: span 6;
+          margin-left: 0;
+        }
+        &--stepper-complete {
+          &::before {
+            @include vf-icon-success;
+
+            background-repeat: no-repeat;
+            background-size: contain;
+            font-size: 0;
+        }
       }
-    }
+        &--stepper-active {
+          &::before {
+           background-color: #000;
+           color :#fff;
+          }
+        }
+        &--stepper-not-completed {
+          &::before {
+            background-color: #fff;
+            border: 1px solid #111;
   
-    h3.p-process-stepped-list__title {
-      padding-left: 0;
-    }
-  
-    h3 [class*="p-icon"]{
-      background-size: cover;
-      height: 2.3rem;
-      margin-right: 1rem;
-      width: 2.3rem;
-    }
-  }
-  
-  .p-on-pass {
-    &::before {
-      content: counter(process-list);
-      counter-increment: process-list;
-      direction: rtl;
-      left: 0;
-      position: absolute;
-      text-align: center;
-      visibility: hidden;
-    }
-  }
-
-  .p-on-stage {
-    line-height: 2.3rem;
-    padding-left: 3.3rem;  
-
-    &::before {
-      align-self: start;
-      background-color: #111;
-      border-radius: 100%;
-      color: #fff;
-      content: counter(process-list);
-      counter-increment: process-list;
-      direction: rtl;
-      display: inline-block;
-      font-size: 1.3rem;
-      height: 2.3rem;
-      left: 0;
-      position: absolute;
-      text-align: center;
-      vertical-align: middle;
-      width: 2.3rem;
-    }
-  }
-  .p-not-on-stage {
-    line-height: 2.3rem;
-    padding-left: 3.3rem;
-    &::before {
-      align-self: start;
-      background-color: #fff;
-      border: 1px solid #111;
-      border-radius: 100%;
-      content: counter(process-list);
-      counter-increment: process-list;
-      direction: rtl;
-      display: inline-block;
-      font-size: 1.3rem;
-      height: 2.3rem;
-      left: 0;
-      position: absolute;
-      text-align: center;
-      vertical-align: middle;
-      width: 2.3rem;
+          }
+        }
+      };
+      .p-stepped-list__content {
+        @media (min-width: $threshold-6-12-col) {
+          grid-column-end: span 6;
+          margin-top: 0;
+        }
+      }
     }
   }
 

@@ -146,25 +146,11 @@
       <div class="u-fixed-width">  
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title">
-              {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<span class="p-on-pass"><i class="p-icon--success">Passed</i></span>
-              {% elif "stage_progress" in application and not application["stage_progress"]["assessment"] and application["stage_progress"]["application"] %}
-              <span class="p-on-stage"></span> 
-              {% else %}<span class="p-not-on-stage"></span> 
-              {% endif %}
-              Application review
-            </h3>
+            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
             <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title">
-              {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}<span class="p-on-pass"><i class="p-icon--success">Passed</i></span>
-              {% elif "stage_progress" in application and not application["stage_progress"]["early_stage"] and application["stage_progress"]["assessment"] %}
-              <span class="p-on-stage"></span> 
-              {% else %}<span class="p-not-on-stage"></span> 
-              {% endif %}
-              Assessment
-            </h3>
+            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['early_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['early_stage'] and application['stage_progress']['assessment'] %}active{% else %}not-completed{% endif %}">Assessment</h3>
             <div class="p-stepped-list__content">
               {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
                 <p>There are three parts to this stage:</p>
@@ -218,14 +204,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title">
-              {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}<span class="p-on-pass"><i class="p-icon--success">Passed</i></span>
-              {% elif "stage_progress" in application and not application["stage_progress"]["late_stage"] and application["stage_progress"]["early_stage"] %}
-              <span class="p-on-stage"></span> 
-              {% else %}<span class="p-not-on-stage"></span> 
-              {% endif %}
-              Early stage
-            </h3>
+            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['late_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['late_stage'] and application['stage_progress']['early_stage'] %}active{% else %}not-completed{% endif %}">Early stage</h3>
             <div class="p-stepped-list__content">
               <p>Our interviews are a blend of technical and competency based interviews. If successful you will pass through to an interview with our HR team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
@@ -253,14 +232,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title">
-              {% if "stage_progress" in application and application["stage_progress"]["offer"] %}<span class="p-on-pass"><i class="p-icon--success">Passed</i></span>
-              {% elif "stage_progress" in application and not application["stage_progress"]["offer"] and application["stage_progress"]["late_stage"] %}
-              <span class="p-on-stage"></span> 
-              {% else %}<span class="p-not-on-stage"></span> 
-              {% endif %}
-              Late stage                    
-            </h3>
+            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">Late stage</h3>
             <div class="p-stepped-list__content">
               <p>During this stage you will meet with some of our more senior leads and executives who will form part of your management team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
@@ -288,13 +260,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title">
-              {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
-              <i class="p-icon--success">Passed</i> 
-              {% else %}<span class="p-not-on-stage"></span> 
-              {% endif %}
-              Offer
-            </h3>                
+            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
           </li>
         </ol>
       </div>
