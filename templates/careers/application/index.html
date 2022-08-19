@@ -71,7 +71,7 @@
 
       <div class="row p-divider">
         <div class="col-6 p-divider__block">
-          <h1 class="u-sv2 p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
                 <p class="u-no-margin--bottom">We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
@@ -86,7 +86,7 @@
                 <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <p class="p-heading--5 p-muted-heading u-no-padding--top u-no-margin--bottom u-sv1">Status of your other applications:</p>
+                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Status of your other applications:</p>
                 {% for application in application["candidate"]["applications"] %}
                     <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
                 {% endfor %}
@@ -96,12 +96,10 @@
         <div class="col-6 p-divider__block">
           {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <div class="u-sv2">
-                  <p class="p-heading--5 p-muted-heading u-no-padding--top u-no-margin--bottom u-sv1">Status of your other applications:</p>
-                  {% for application in application["candidate"]["applications"] %}
-                      <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
-                  {% endfor %}
-                </div>
+                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
+                {% for application in candidate["applications"] %}
+                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
+                {% endfor %}
               {% endif %}
               <div>
                 <p>ABOUT THIS ROLE</p>
@@ -138,19 +136,19 @@
 
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
-        <h2 class="p-heading--5 p-muted-heading">Your application process</h2>
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
         {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-          <p class="u-sv1"><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
+          <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
         {% endif %}
       </div>
       <div class="u-fixed-width">  
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
             <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['early_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['early_stage'] and application['stage_progress']['assessment'] %}active{% else %}not-completed{% endif %}">Assessment</h3>
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['early_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['early_stage'] and application['stage_progress']['assessment'] %}active{% else %}not-completed{% endif %}">Assessment</h3>
             <div class="p-stepped-list__content">
               {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
                 <p>There are three parts to this stage:</p>
@@ -170,14 +168,14 @@
                   {% for interview in application["scheduled_interviews"]|reverse %}
                       {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                           <hr />
-                          <h4 class="p-heading--5 p-muted-heading">Past interview</h4>
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
                           {% include 'careers/application/_interview-card-done.html' %}
                       {% endif %}
                   {% endfor %}
                   {% for interview in application["scheduled_interviews"] %}
                       {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
                           <hr />
-                          <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
                           {% include 'careers/application/_interview-card.html' %}
                       {% endif %}
                   {% endfor %}
@@ -204,7 +202,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['late_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['late_stage'] and application['stage_progress']['early_stage'] %}active{% else %}not-completed{% endif %}">Early stage</h3>
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['late_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['late_stage'] and application['stage_progress']['early_stage'] %}active{% else %}not-completed{% endif %}">Early stage</h3>
             <div class="p-stepped-list__content">
               <p>Our interviews are a blend of technical and competency based interviews. If successful you will pass through to an interview with our HR team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
@@ -216,14 +214,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if (interview["interview"]["name"]  == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr/>
-                      <h4 class="p-heading--5 p-muted-heading">Past interview</h4>
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
                   {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
@@ -232,7 +230,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">Late stage</h3>
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">Late stage</h3>
             <div class="p-stepped-list__content">
               <p>During this stage you will meet with some of our more senior leads and executives who will form part of your management team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
@@ -244,14 +242,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if interview["interview"]["name"]  == "Late Stage Interviews" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5 p-muted-heading">Past Interviews</h4>
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past Interviews</h4>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
                   {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
@@ -260,7 +258,7 @@
             </div>
           </li>
           <li class="p-stepped-list__item">
-            <h3 class="p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
           </li>
         </ol>
       </div>
@@ -270,7 +268,7 @@
     <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
-          <h2 class="p-heading--5 p-muted-heading">Hiring at Canonical</h2>
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
           <h3 class="p-heading--2">Mark Shuttleworth, CEO explains the hiring process at Canonical.</h3>
         </div>
         <div class="col-6 u-embedded-media">
@@ -284,13 +282,13 @@
       {% endif %}
       <div class="row">
         <div class="col-3">
-          <h2 class="p-heading--5 p-muted-heading">Life at Canonical</h2>
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Life at Canonical</h2>
         </div>
         <div class="col-9">
           <ul class="p-list--divided">
             <li class="p-list__item split-list">
               <div class="row">
-                <h3 class="col-3">
+                <h3 class="col-3 p-heading--2">
                   <a href="/careers/lifestyle">Lifestyle</a>
                 </h3>
                 <p class="col-6">Canonical is amazing for people who are organised, passionate about technology, and like to travel. People at Canonical say the people at Canonical are amazing. That’s special.</p>
@@ -298,7 +296,7 @@
             </li>
             <li class="p-list__item split-list">
               <div class="row">
-                <h3 class="col-3">
+                <h3 class="col-3 p-heading--2">
                   <a href="/careers/ethics">Ethics</a>
                 </h3>
                 <p class="col-6">We take our responsibility for the most critical elements of every piece of open infrastructure in the software-defined world very seriously, and we are committed to quality in every aspect of our product and services.</p>
@@ -306,7 +304,7 @@
             </li>
             <li class="p-list__item split-list">
               <div class="row">
-                <h3 class="col-3">
+                <h3 class="col-3 p-heading--2">
                   <a href="/careers/travel">Travel</a>
                 </h3>
                 <p class="col-6">We're uniquely global - we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
@@ -314,7 +312,7 @@
             </li>
             <li  class="p-list__item split-list">
               <div class="row">
-                <h3 class="col-3">
+                <h3 class="col-3 p-heading--2">
                   <a href="/careers/progression">Progression</a>
                 </h3>
                 <p class="col-6">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways - and we celebrate growth and development in many forms.</p>
@@ -322,7 +320,7 @@
             </li>
             <li class="p-list__item split-list">
               <div class="row">
-                <h3 class="col-3">
+                <h3 class="col-3 p-heading--2">
                   <a href="/careers/diversity">Diversity</a>
                 </h3>
                 <p class="col-6">We believe that talent is evenly distributed around the world. No matter where you were born, or what you look like, or how you like to dress.</p>
@@ -373,7 +371,7 @@
   {% else %}
     <section class="p-strip">
       <div class="row">
-        <h1 class="u-sv3">Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
+        <h1>Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
         <p>
           <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
           Check out <a href="/careers">our career page</a> to see if there 
