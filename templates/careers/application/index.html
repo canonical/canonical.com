@@ -71,7 +71,7 @@
 
       <div class="row p-divider">
         <div class="col-6 p-divider__block">
-          <h1 class="u-sv2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+          <h1 class="u-sv2 p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
                 <p class="u-no-margin--bottom">We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
@@ -86,7 +86,7 @@
                 <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <p class="p-heading--5 u-no-padding--top u-no-margin--bottom u-sv1">STATUS OF YOUR OTHER APPLICATIONS:</p>
+                <p class="p-heading--5 p-muted-heading u-no-padding--top u-no-margin--bottom u-sv1">Status of your other applications:</p>
                 {% for application in application["candidate"]["applications"] %}
                     <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
                 {% endfor %}
@@ -97,7 +97,7 @@
           {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
                 <div class="u-sv2">
-                  <p class="p-heading--5 u-no-padding--top u-no-margin--bottom u-sv1">STATUS OF YOUR OTHER APPLICATIONS:</p>
+                  <p class="p-heading--5 p-muted-heading u-no-padding--top u-no-margin--bottom u-sv1">Status of your other applications:</p>
                   {% for application in application["candidate"]["applications"] %}
                       <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
                   {% endfor %}
@@ -138,7 +138,7 @@
 
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
-        <h2 class="p-heading--5">YOUR APPLICATION PROCESS</h2>
+        <h2 class="p-heading--5 p-muted-heading">Your application process</h2>
         {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
           <p class="u-sv1"><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
         {% endif %}
@@ -184,14 +184,14 @@
                   {% for interview in application["scheduled_interviews"]|reverse %}
                       {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                           <hr />
-                          <h4 class="p-heading--5">PAST INTERVIEW</h4>
+                          <h4 class="p-heading--5 p-muted-heading">Past interview</h4>
                           {% include 'careers/application/_interview-card-done.html' %}
                       {% endif %}
                   {% endfor %}
                   {% for interview in application["scheduled_interviews"] %}
                       {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
                           <hr />
-                          <h4 class="p-heading--5">NEXT INTERVIEW</h4>
+                          <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
                           {% include 'careers/application/_interview-card.html' %}
                       {% endif %}
                   {% endfor %}
@@ -237,14 +237,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if (interview["interview"]["name"]  == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr/>
-                      <h4 class="p-heading--5">PAST INTERVIEW</h4>
+                      <h4 class="p-heading--5 p-muted-heading">Past interview</h4>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
                   {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5">NEXT INTERVIEW</h4>
+                      <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
@@ -272,14 +272,14 @@
               {% for interview in application["scheduled_interviews"]|reverse %}
                   {% if interview["interview"]["name"]  == "Late Stage Interviews" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5">PAST INTERVIEW</h4>
+                      <h4 class="p-heading--5 p-muted-heading">Past Interviews</h4>
                       {% include 'careers/application/_interview-card-done.html' %}
                   {% endif %}
               {% endfor %}
               {% for interview in application["scheduled_interviews"] %}
                   {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
                       <hr />
-                      <h4 class="p-heading--5">NEXT INTERVIEW</h4>
+                      <h4 class="p-heading--5 p-muted-heading">Next interview</h4>
                       {% include 'careers/application/_interview-card.html' %}
                   {% endif %}
               {% endfor %}
@@ -304,7 +304,7 @@
     <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
-          <h2 class="p-heading--5">HIRING AT CANONICAL</h2>
+          <h2 class="p-heading--5 p-muted-heading">Hiring at Canonical</h2>
           <h3 class="p-heading--2">Mark Shuttleworth, CEO explains the hiring process at Canonical.</h3>
         </div>
         <div class="col-6 u-embedded-media">
@@ -318,7 +318,7 @@
       {% endif %}
       <div class="row">
         <div class="col-3">
-          <h2 class="p-heading--5">LIFE AT CANONICAL</h2>
+          <h2 class="p-heading--5 p-muted-heading">Life at Canonical</h2>
         </div>
         <div class="col-9">
           <ul class="p-list--divided">
