@@ -6,7 +6,6 @@
       &--stepper-complete, &--stepper-active, &--stepper-not-completed {
         @extend .p-stepped-list__title;
 
-        counter-reset: process-list;
       }
     }
 
@@ -45,15 +44,14 @@
       }
         &--stepper-active {
           &::before {
-           background-color: #000;
-           color :#fff;
+           background-color: $color-x-dark;
+           color: $color-light;
           }
         }
         &--stepper-not-completed {
           &::before {
-            background-color: #fff;
-            border: 1px solid #111;
-  
+            background-color: $color-light;
+            border: 1px solid $color-x-dark;
           }
         }
       };
@@ -67,14 +65,30 @@
   }
 
   .split-list {
-    @media (min-width: $breakpoint-heading-threshold + 100px) {
+    @media (min-width: $breakpoint-heading-threshold) {
       display : flex;
     }
   }
 
   .hiring-lead-image {
     border-radius: 100%;
-    height: 64px;
-    width: 64px;
+    height: 4rem;
+    width: 4rem;
   }
+
+  @media (max-width: $breakpoint-large - 1) {
+    .p-divider__block.hide-divider {
+      &:not(:first-child)::before {
+        width: 0;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    .p-divider__block.hide-divider {
+      &:not(:first-child)::before {
+        width: 0;
+      }
+    }
+  } 
 }

@@ -78,7 +78,7 @@
               {% else %}
                 <p class="u-no-margin--bottom">We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
-              <p>Your hiring lead is {{ hiring_lead["name"] }}.</p>
+              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
           {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
               {% if application['source']['id'] == 2 %}
                 <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
@@ -93,7 +93,7 @@
               {% endif %}
           {% endif %}
         </div>
-        <div class="col-6 p-divider__block">
+        <div class="col-6 p-divider__block{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
           {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
                 <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
