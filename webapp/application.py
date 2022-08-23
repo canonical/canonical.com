@@ -132,7 +132,7 @@ def application_page(token):
             break
 
     return flask.render_template(
-        "applications/application.html",
+        "careers/application/index.html",
         title="You application",
         withdrawal_reasons=withdrawal_reasons,
         candidate=candidate,
@@ -176,7 +176,7 @@ def application_withdrawal(token):
     )
     response.raise_for_status()
 
-    return flask.render_template("applications/withdrawal.html")
+    return flask.render_template("careers/application/withdrawal.html")
 
 
 @application.route("/withdraw/<string:token>", methods=["POST"])
@@ -219,24 +219,45 @@ def sendForm(token):
     if candidate_email != email:
         return redirect(flask.request.referrer + "#wrong-email")
 
-    send_mail(
-        to_email=[candidate_email],
-        subject="Withdraw Application Confirmation",
-        message=flask.render_template(
-            "applications/_activate-email.html",
-            applicant_name=candidate_name,
-            position=position,
-            hiring_lead=hiring_lead,
-            verification_link=confirmation_token(
-                candidate_email,
-                withdrawal_reason,
-                candidate_id,
-                application_id,
-                hiring_lead,
-            ),
+    email_message = flask.render_template(
+        "careers/application/_activate-email.html",
+        applicant_name=candidate_name,
+        position=position,
+        hiring_lead=hiring_lead,
+        verification_link=confirmation_token(
+            candidate_email,
+            withdrawal_reason,
+            candidate_id,
+            application_id,
+            hiring_lead,
         ),
     )
-    return redirect(flask.request.referrer + "#withdrawal-requested")
+
+    # In local development we usually don't have access to the SMTP server
+    # This means in debug mode we skip sending the email.
+    #
+    # We want to make it very clear when sending has been skipped,
+    # because it's easily conceivable that the production application
+    # accidentally ends up in debug mode, or that the SMTP server isn't properly
+    # set up in production.
+    #
+    # For this reason we should display on the confirmation page that we didn't sent
+    # the email.
+    debug_skip_sending = flask.current_app.debug
+
+    if not debug_skip_sending:
+        send_mail(
+            to_email=[candidate_email],
+            subject="Withdraw Application Confirmation",
+            message=email_message,
+        )
+
+    return flask.render_template(
+        "careers/application/withdrawal-requested.html",
+        email=candidate_email,
+        email_message=email_message,
+        debug_skip_sending=debug_skip_sending,
+    )
 
 
 def confirmation_token(
@@ -253,18 +274,17 @@ def confirmation_token(
     return cipher.encrypt(token)
 
 
-# Send email if configured
-smtp_server = os.getenv("SMTP_SERVER")
-smtp_user = os.getenv("SMTP_USER")
-smtp_pass = os.getenv("SMTP_PASS")
-smtp_sender_address = os.getenv("SMTP_SENDER_ADDRESS")
-
-
 def send_mail(
     to_email,
     subject,
     message,
 ):
+    # Get SMTP server configuration
+    smtp_server = os.environ["SMTP_SERVER"]
+    smtp_user = os.environ["SMTP_USER"]
+    smtp_pass = os.environ["SMTP_PASS"]
+    smtp_sender_address = os.environ["SMTP_SENDER_ADDRESS"]
+
     # import smtplib
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -273,14 +293,11 @@ def send_mail(
     msg.set_content(message, subtype="html")
 
     server = SMTP(smtp_server)
-    # check if smtp_server exists as it would not exist on development
-    if smtp_server:
-        if smtp_user and smtp_pass:
-            server.ehlo()
-            server.starttls()
-            server.ehlo()
-            server.login(smtp_user, smtp_pass)
-        server.send_message(msg)
-        server.quit()
-    else:
-        print(message)
+
+    if smtp_user and smtp_pass:
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(smtp_user, smtp_pass)
+    server.send_message(msg)
+    server.quit()
