@@ -111,7 +111,14 @@
           <div>
             {% for lead in application["hiring_leads_list"]["list"] %}
                 {% if lead["name"] == application["hiring_lead"]["name"]  %}
-                  <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
+                  {% if lead['video'] %}
+                  <!-- Todo: update profile picture & bio  -->
+                  <div class="u-embedded-media">
+                    <iframe class="u-embedded-media__element" src="{{ lead['video']}}" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
+                  </div>
+                  {% else %}
+                    <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
+                  {% endif %}
                   <p>Your hiring Lead is {{ lead["name"] }}</p>
                   <p class="u-no-margin--bottom">{{ lead["name"] }} is VP Engineering, Enterprise Solutions at Canonical, leading the teams that deliver Juju and a suite of enterprise-ready operators for data platforms, machine learning operations, observability and more.</p>
                   <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
