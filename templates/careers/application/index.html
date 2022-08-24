@@ -1,40 +1,79 @@
 {% extends '/careers/base_job-details.html' %}
 
 {% block extra_metatags %}
-<meta name="robots" content="noindex">
+  <meta name="robots" content="noindex">
 {% endblock %}
 
 {% block content %}
-<section class="p-strip--light is-deep">
   {% if application["status"] == "active" %}
-  <div id="wrong-email" style="margin-bottom: 4rem">
-    <div class="u-fixed-width">
-      <div class="p-notification--caution">
-        <div class="p-notification__content">
-          <p class="p-notification__message"><strong>Incorrect email: </strong>The email you entered is incorrect.</p>
+    <section class="p-strip--light is-deep">
+      {% if withdrawal_requested %}
+        <div style="margin-bottom: 4rem">
+          <div class="u-fixed-width">
+            <div class="p-notification--caution">
+              <div class="p-notification__content">
+                <p style="padding-top: 1px"><strong>You have requested to withdraw this application</strong></p>
+                <p>Your application will remain active until you click on the link we have sent you via email.</p>
+              </div>
+            </div>
+          </div>
         </div>
+        {% if debug_skip_sending %}
+            <!--
+              We want to make it very clear when sending has been skipped, so we don't accidentally
+              end up skipping sending the email in production in a silent way that nobody notices.
+            -->
+
+          <div style="margin-bottom: 4rem">
+            <div class="u-fixed-width">
+              <div class="p-notification--caution">
+                <div class="p-notification__content">
+                  <p style="padding-top: 1px"><strong>[DEBUG] This email wasn't sent because you're in debug mode</strong></p>
+                  <p>The following email would have been sent to {{ candidate_email }}:</p>
+                  <p><blockquote>{{ email_message | safe }}</blockquote></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if wrong_email %}
+        <div style="margin-bottom: 4rem">
+          <div class="u-fixed-width">
+            <div class="p-notification--caution">
+              <div class="p-notification__content">
+                <p style="padding-top: 1px"><strong>Incorrect email</strong></p>
+                <p>The email you entered is incorrect.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="row">
+        <h1>Thanks for applying {{ application["candidate"]["first_name"] }}!</h1>
+        {% if application['source']['id'] == 2 %}
+          <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
+        {% else %}
+          <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
+        {% endif %}
+        {% if application.get("hiring_lead") %}
+          <p>
+            Your hiring lead is {{ application["hiring_lead"]["name"] }}
+            (<a href="mailto:{{ application['hiring_lead']['primary_email_address'] }}">{{ application["hiring_lead"]["primary_email_address"] }}</a>)
+          </p>
+        {% endif %}
       </div>
-    </div>
-  </div>
-    <div class="row">
-      <h1>Thanks for applying {{ candidate["first_name"] }}!</h1>
-      {% if application['source']['id'] == 2 %}
-        <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
-      {% else %}
-        <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
-      {% endif %}
-      {% if hiring_lead %}
-        <p>Your hiring lead is {{ hiring_lead["name"] }} (<a href="mailto:{{ hiring_lead['primary_email_address'] }}">{{ hiring_lead["primary_email_address"] }}</a>)</p>
-      {% endif %}
-    </div>
-  </section>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>Your application process</h2>
-      <p>Once your application is accepted, you will see more details about its status. See what our CEO says about our hiring process.</p>
-    </div>
-    <div class="row">  
-      <h3>Our recruitment process</h3>
+    </section>
+
+    <section class="p-strip is-deep">
+      <div class="u-fixed-width">
+        <h2>Your application process</h2>
+        <p>Once your application is accepted, you will see more details about its status. See what our CEO says about our hiring process.</p>
+      </div>
+      <div class="row">  
+        <h3>Our recruitment process</h3>
         <ol class="p-list">
           <li class="p-list_item">
             <h4 class='u-no-margin--bottom'>
@@ -115,87 +154,88 @@
             </h4>                
           </li>
         </ol>
-    </div>
-</section>
+      </div>
+    </section>
 
-<section class="p-strip--light is-deep">
-  <div class="row">
-    <div class="col-6">
-      <h2>Hiring at Canonical</h2>
-      <p>Mark Shuttleworth, CEO explains the hiring process at Canonical.</p>
-    </div>
-    <div class="col-6 u-embedded-media">
-      <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
-    </div>
-  </div>
-</section>
-<section class="p-strip is-deep">
-  <div class="u-fixed-width">
-    <h2>Life at Canonical</h2>
-  </div>
-  <div class="row">
-    <div class="p-strip">
+    <section class="p-strip--light is-deep">
       <div class="row">
-        <div class="col-4 p-card has-accent-border">
-          <h3 class="p-heading--4" id="product-heading">Lifestyle</h3>
-          <p id="product-description">Canonical is amazing for people who are organised, passionate about technology, and like to travel. People at Canonical say the people at Canonical are amazing. That’s special.</p>
-          <p id="product-link"><a href="/careers/lifestyle">Read more</a></p>
+        <div class="col-6">
+          <h2>Hiring at Canonical</h2>
+          <p>Mark Shuttleworth, CEO explains the hiring process at Canonical.</p>
         </div>
-        <div class="col-4 p-card has-accent-border">
-          <h3 class="p-heading--4" id="product-heading">Ethics</h3>
-          <p id="product-description">We take our responsibility for the most critical elements of every piece of open infrastructure in the software-defined world very seriously, and we are committed to quality in every aspect of our product and services.</p>
-          <p id="product-link"><a href="/careers/ethics">Read more</a></p>
-        </div>
-        <div class="col-4 p-card has-accent-border">
-          <h3 class="p-heading--4" id="product-heading">Travel</h3>
-          <p id="product-description">We're uniquely global - we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
-          <p id="product-link"><a href="/careers/travel">Read more</a></p>
+        <div class="col-6 u-embedded-media">
+          <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
         </div>
       </div>
+    </section>
+
+    <section class="p-strip is-deep">
+      <div class="u-fixed-width">
+        <h2>Life at Canonical</h2>
+      </div>
       <div class="row">
-        <div class="col-4 p-card has-accent-border">
-          <h3 class="p-heading--4" id="product-heading">Progression</h3>
-          <p id="product-description">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways - and we celebrate growth and development in many forms.</p>
-          <p id="product-link"><a href="/careers/progression">Read more</a></p>
-        </div>
-        <div class="col-4 p-card has-accent-border">
-          <h3 class="p-heading--4" id="product-heading">Diversity</h3>
-          <p id="product-description">We believe that talent is evenly distributed around the world. No matter where you were born, or what you look like, or how you like to dress.</p>
-          <p id="product-link"><a href="/careers/diversity">Read more</a></p>
+        <div class="p-strip">
+          <div class="row">
+            <div class="col-4 p-card has-accent-border">
+              <h3 class="p-heading--4" id="product-heading">Lifestyle</h3>
+              <p id="product-description">Canonical is amazing for people who are organised, passionate about technology, and like to travel. People at Canonical say the people at Canonical are amazing. That’s special.</p>
+              <p id="product-link"><a href="/careers/lifestyle">Read more</a></p>
+            </div>
+            <div class="col-4 p-card has-accent-border">
+              <h3 class="p-heading--4" id="product-heading">Ethics</h3>
+              <p id="product-description">We take our responsibility for the most critical elements of every piece of open infrastructure in the software-defined world very seriously, and we are committed to quality in every aspect of our product and services.</p>
+              <p id="product-link"><a href="/careers/ethics">Read more</a></p>
+            </div>
+            <div class="col-4 p-card has-accent-border">
+              <h3 class="p-heading--4" id="product-heading">Travel</h3>
+              <p id="product-description">We're uniquely global - we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
+              <p id="product-link"><a href="/careers/travel">Read more</a></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 p-card has-accent-border">
+              <h3 class="p-heading--4" id="product-heading">Progression</h3>
+              <p id="product-description">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways - and we celebrate growth and development in many forms.</p>
+              <p id="product-link"><a href="/careers/progression">Read more</a></p>
+            </div>
+            <div class="col-4 p-card has-accent-border">
+              <h3 class="p-heading--4" id="product-heading">Diversity</h3>
+              <p id="product-description">We believe that talent is evenly distributed around the world. No matter where you were born, or what you look like, or how you like to dress.</p>
+              <p id="product-link"><a href="/careers/diversity">Read more</a></p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="p-strip--light is-deep">
-  <div class="u-fixed-width">
-    <h2>Do you wish to withdraw your application?</h2>
-    <p>You will be asked for confirmation in the next steps.</p>
-    <button id="showModal" aria-controls="modal">Withdraw application</button>
-    {% include "careers/application/_withdrawal-form.html" %}
-  </div>
-</section>
+    <section class="p-strip--light is-deep">
+      <div class="u-fixed-width">
+        <h2>Do you wish to withdraw your application?</h2>
+        <p>You will be asked for confirmation in the next steps.</p>
+        <button id="showModal" aria-controls="modal">Withdraw application</button>
+        {% include "careers/application/_withdrawal-form.html" %}
+      </div>
+    </section>
 
-{% elif application["status"] == "hired" %}
-<section class="p-strip">
-  <div class="row">
-    <h1>Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
-    <p>
-      <i class="p-icon--success"></i> You are hired! Welcome to Canonical.
-    </p>
-  </div>
-</section>
-{% else %}
-<section class="p-strip">
-  <div class="row">
-    <h1 class="u-sv3">Thanks for applying {{ candidate["first_name"] }} {{ candidate["last_name"] }}!</h1>
-    <p>
-      <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
-      Check out <a href="/careers">our career page</a> to see if there 
-      is another role that would match your skills!
-    </p>
-  </div>
-</section>
-{% endif %}
+  {% elif application["status"] == "hired" %}
+    <section class="p-strip">
+      <div class="row">
+        <h1>Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
+        <p>
+          <i class="p-icon--success"></i> You are hired! Welcome to Canonical.
+        </p>
+      </div>
+    </section>
+  {% else %}
+    <section class="p-strip">
+      <div class="row">
+        <h1 class="u-sv3">Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
+        <p>
+          <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
+          Check out <a href="/careers">our career page</a> to see if there 
+          is another role that would match your skills!
+        </p>
+      </div>
+    </section>
+  {% endif %}
 {% endblock %}
