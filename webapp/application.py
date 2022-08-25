@@ -13,11 +13,10 @@ from webapp.utils.cipher import Cipher
 
 
 withdrawal_reasons = {
-    "": "No reason given",
     "27987": "I've accepted another position",
     "27992": "I've decided to stay with my current employer",
-    "36714": "I cannot complete the assessment",
     "35818": "The position isn't a good fit",
+    "36714": "I cannot complete the assessment",
     "33": "Other",
 }
 application = flask.Blueprint(

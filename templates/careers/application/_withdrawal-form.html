@@ -8,8 +8,9 @@
     <form action="/careers/application/{{ token }}" method="post" >
       <label for="email">Email address</label>
       <input required type="email" id="email" name="email" placeholder="example@canonical.com" autocomplete="email">
-      <label for="textarea">Reason you wish to withdraw your application:</label>
-      <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()">
+      <label for="textarea">Reason you wish to withdraw your application</label>
+      <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()" required>
+          <option value="" disabled="disabled" selected="">Select</option>
         {% for reason_id, reason_message in withdrawal_reasons.items() %}
           <option value="{{ reason_id }}">{{ reason_message }}</option>
         {% endfor %}
