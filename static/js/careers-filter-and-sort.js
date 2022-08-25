@@ -1,6 +1,7 @@
 (function () {
   const urlParams = new URLSearchParams(window.location.search);
   const domList = document.querySelector(".js-job-list");
+  const show20MoreEl = document.getElementById("show-20-more");
   const filterSelect = document.querySelector(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
@@ -83,6 +84,11 @@
     }
   }
 
+  function slice(elements, start, end) {
+    const sliced = Array.prototype.slice.call(elements, start, end);
+    return sliced;
+  }
+
   function init() {
     revealSearch();
     revealFilters();
@@ -94,13 +100,43 @@
     }
     if (domList) {
       parseLocations();
+
+      // Save original list
+      if (!window.careersJobList) {
+        window.careersJobList = domList.cloneNode(true);
+      }
+      
+      show20MoreEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("after click", window.careersJobList.childElementCount)
+        if (domList.childElementCount < window.careersJobList.childElementCount) {
+          let currentListRolesNodesCount = domList.childElementCount - 1;
+          const offsetListRolesNodesCount = currentListRolesNodesCount + 20;
+          const previousCareersJobList = window.careersJobList.cloneNode(true)
+          const listChildrenRolesNodes = slice(window.careersJobList.children, currentListRolesNodesCount, offsetListRolesNodesCount);
+          window.careersJobList = previousCareersJobList
+          domList.append(...listChildrenRolesNodes)
+        } else {
+          show20MoreEl.classList.add("u-hidden")
+        }
+        
+      })
+
+      if (window.careersJobList.childElementCount > 20) {
+        const listChildrenRolesNodes = slice(domList.children, 0, 20);
+        domList.replaceChildren(...listChildrenRolesNodes)
+      }
+
+
+
       var jobList = Array.from(domList.children);
-      if (filterSelect) {
+      if (filterSelect && filterSelect.options) {
         // Get list of options from the HTML form
         var filterOptions = [];
         Array.from(filterSelect.options).forEach(function (el) {
           filterOptions.push(el.value);
         });
+      
 
         if (urlParams.has("filter")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
