@@ -86,7 +86,7 @@
                 <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Status of your other applications:</p>
+                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
                 {% for application in application["candidate"]["applications"] %}
                     <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
                 {% endfor %}
@@ -158,7 +158,7 @@
             <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['early_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['early_stage'] and application['stage_progress']['assessment'] %}active{% else %}not-completed{% endif %}">Assessment</h3>
             <div class="p-stepped-list__content">
               {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
-                <p>There are three parts to this stage:</p>
+                <p>There are several parts to this stage:</p>
                 <a href="" onclick="showProgressDetail('assessment'); event.preventDefault();" class="show-more-assessment">Show more</a>
                 <div class="progress-detail-assessment u-hide">
                   <ol class="p-stepped-list">
@@ -189,7 +189,7 @@
                   <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
                 </div>
               {% elif "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"] %}
-                <p>There are three parts to this stage:</p>
+                <p>There are several parts to this stage:</p>
                 <ol class="p-stepped-list">
                   <li class="p-stepped-list__item">
                     <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. We ask that you submit this anonymously to ensure our hiring process is bias free. This is your opportunity to highlight your key strengths for this position.</p>
@@ -314,7 +314,7 @@
                 <h3 class="col-3 p-heading--2">
                   <a href="/careers/travel">Travel</a>
                 </h3>
-                <p class="col-6">We're uniquely global - we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
+                <p class="col-6">We're uniquely global &ndash; we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
               </div>
             </li>
             <li  class="p-list__item split-list">
@@ -322,7 +322,7 @@
                 <h3 class="col-3 p-heading--2">
                   <a href="/careers/progression">Progression</a>
                 </h3>
-                <p class="col-6">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways - and we celebrate growth and development in many forms.</p>
+                <p class="col-6">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways &ndash; and we celebrate growth and development in many forms.</p>
               </div>
             </li>
             <li class="p-list__item split-list">
