@@ -300,3 +300,28 @@ class Harvest:
         response.raise_for_status()
 
         return response.json()
+
+    def reject_application(
+        self, application_id, user_id, rejection_reason_id, notes
+    ):
+        """Reject an application through Harvest API.
+        https://developers.greenhouse.io/harvest.html#post-reject-application
+        :param application_id: the id of the application to be rejected
+        :param user_id: the greenhouse id of the user performing the rejection
+        :param body: optional parameters (e.g. rejection reason)
+        :returns: the id of the application rejected,
+        if the request is successful, otherwise it raises an error
+        """
+
+        payload = {"rejection_reason_id": rejection_reason_id, "notes": notes}
+        response = self.session.post(
+            f"{self.base_url}applications/{application_id}/reject",
+            json=payload,
+            headers={
+                "Content-Type": "application/json",
+                "On-Behalf-Of": f"{user_id}",
+                "Authorization": f"Basic {self.base64_key}",
+            },
+        )
+
+        return response

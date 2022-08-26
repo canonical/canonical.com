@@ -21,6 +21,29 @@ env:
       key: application-crypto-key
       name: greenhouse-credentials
 
+  - name: SEARCH_API_KEY
+    secretKeyRef:
+      key: google-custom-search-key
+      name: google-api
+
+  - name: SMTP_SENDER_ADDRESS
+    value: careers@canonical.com
+
+  - name: SMTP_SERVER
+    secretKeyRef:
+      key: server
+      name: smtp-credentials-careers
+
+  - name: SMTP_USER
+    secretKeyRef:
+      key: user
+      name: smtp-credentials-careers
+
+  - name: SMTP_PASS
+    secretKeyRef:
+      key: password
+      name: smtp-credentials-careers
+
 extraHosts:
   - domain: blog.canonical.com
   - domain: design.canonical.com

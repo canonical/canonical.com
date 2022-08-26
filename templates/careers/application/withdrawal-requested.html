@@ -1,0 +1,26 @@
+{% extends 'base_index.html' %} 
+
+{% block content %}
+  <section class="p-strip--light is-deep">
+    <div class="row">
+      <h1>You have requested to withdraw this application</h1>
+      <p>Your application will remain active until you click on the link we have sent you via email.</p>
+    </div>
+  </section>
+  {% if debug_skip_sending %}
+    <section>
+      <!--
+        We want to make it very clear when sending has been skipped, so we don't accidentally
+        end up skipping sending the email in production in a silent way that nobody notices.
+      -->
+      <div class="row">
+        <br/>
+        <h3>[DEBUG] This email wasn't sent because you're in debug mode</h3>
+        <p>The following email would have been sent to {{ email }}:</p>
+        <p>
+          <blockquote>{{ email_message | safe }}</blockquote>
+        </p>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
