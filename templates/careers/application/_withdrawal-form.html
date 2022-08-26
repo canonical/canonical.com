@@ -29,11 +29,14 @@
 <script>
 function showInput() {
   const selectValue = document.getElementById('withdrawal-reason').value;
+  const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
   const otherInput = document.querySelector('.other-input')
   if( selectValue === "33"){
     otherInput.style.display = "block";
+    withdrawalReasonOther.setAttribute("required", "true")
   } else{
     otherInput.style.display = "none";
+    withdrawalReasonOther.removeAttribute("required")
   }
 }
 
