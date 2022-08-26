@@ -209,6 +209,13 @@
         <p>Your application will remain active until you click on the link we have sent you via email.</p>
         <p>If you experience any issues please contact your hiring lead.</p>
       </div>
+      {% elif not withdrawal_requested and wrong_email %}
+      <div class="u-fixed-width">
+        <h2>We could not withdraw your application.</h2>
+        <p>The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
+        <button id="showModal" aria-controls="modal">Withdraw application</button>
+        {% include "careers/application/_withdrawal-form.html" %}
+      </div>
       {% else %}
       <div class="u-fixed-width">
         <h2>Do you wish to withdraw your application?</h2>
