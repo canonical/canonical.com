@@ -304,4 +304,3 @@ def request_withdrawal(token):
         withdrawal_reasons=withdrawal_reasons,
         application=_get_application_from_token(token),
     )
-
