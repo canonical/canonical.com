@@ -5,6 +5,30 @@
 {% endblock %}
 
 {% block content %}
+  <script>
+   function showProgressDetail(stage) {
+    const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+    const showLessBtn = document.querySelector(`.show-less-${stage}`);
+    const detail = document.querySelector(`.progress-detail-${stage}`);
+    if ( detail.classList.contains("u-hide")) {
+      detail.classList.remove("u-hide")
+      showMoreBtn.classList.add("u-hide")
+      showLessBtn.classList.remove("u-hide")
+    } else {
+      detail.classList.add("u-hide")
+    }
+  }
+  function hideProgressDetail(stage) {
+    const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+    const showLessBtn = document.querySelector(`.show-less-${stage}`);
+    const detail = document.querySelector(`.progress-detail-${stage}`);
+    if (!detail.classList.contains("u-hide")) {
+      detail.classList.add("u-hide")
+      showMoreBtn.classList.remove("u-hide")
+      showLessBtn.classList.add("u-hide")
+    }
+  }
+  </script>
   {% if application["status"] == "active" %}
     <section class="p-strip--light is-deep">
       {% if withdrawal_requested %}
@@ -45,164 +69,280 @@
         </div>
       {% endif %}
 
-      <div class="row">
-        <h1>Thanks for applying {{ application["candidate"]["first_name"] }}!</h1>
-        {% if application['source']['id'] == 2 %}
-          <p>You applied for the role: <a href="/careers/{{ application['job_post_id'] }}"><strong>{{ application["jobs"][0]["name"] }}</strong></a></p>
-        {% else %}
-          <p>You applied for the role: <strong>{{ application["jobs"][0]["name"] }}</strong></p>
-        {% endif %}
-        {% if application.get("hiring_lead") %}
-          <p>
-            Your hiring lead is {{ application["hiring_lead"]["name"] }}
-            (<a href="mailto:{{ application['hiring_lead']['primary_email_address'] }}">{{ application["hiring_lead"]["primary_email_address"] }}</a>)
-          </p>
-        {% endif %}
+      <div class="row p-divider">
+        <div class="col-6 p-divider__block">
+          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
+              {% if application['source']['id'] == 2 %}
+                <p class="u-no-margin--bottom">We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+              {% else %}
+                <p class="u-no-margin--bottom">We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+              {% endif %}
+              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+              {% if application['source']['id'] == 2 %}
+                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+              {% else %}
+                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+              {% endif %}
+              {% if application["candidate"]["application_ids"]|length >= 2 %}
+                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
+                {% for application in application["candidate"]["applications"] %}
+                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
+                {% endfor %}
+              {% endif %}
+          {% endif %}
+        </div>
+        <div class="col-6 p-divider__block{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
+              {% if application["candidate"]["application_ids"]|length >= 2 %}
+                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
+                {% for application in candidate["applications"] %}
+                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
+                {% endfor %}
+              {% endif %}
+              <div>
+                <p>ABOUT THIS ROLE</p>
+                <div class="col-6 u-embedded-media">
+                  <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
+                </div>
+              </div>
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+          <div>
+            {% for lead in application["hiring_leads_list"]["list"] %}
+                {% if lead["name"] == application["hiring_lead"]["name"]  %}
+                  {% if lead['video'] %}
+                  <!-- Todo: update profile picture & bio  -->
+                  <div class="u-embedded-media">
+                    <iframe class="u-embedded-media__element" src="{{ lead['video']}}" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
+                  </div>
+                  {% else %}
+                    <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
+                  {% endif %}
+                  <p>Your hiring Lead is {{ lead["name"] }}</p>
+                  <p class="u-no-margin--bottom">{{ lead["name"] }} is VP Engineering, Enterprise Solutions at Canonical, leading the teams that deliver Juju and a suite of enterprise-ready operators for data platforms, machine learning operations, observability and more.</p>
+                  <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
+                  <p class="progress-detail-hiring-lead u-hide">
+                  Following a degree in Computer Science, Jon’s career started at the Royal Military Academy Sandhurst. He joined the Royal Corps of Signals where he played a key role in helping the UK define high-level doctrine for cyber operations and electronic warfare. He created a small start-up style programme with a culture of disruptive innovation, which helped to demonstrate the opportunities that investment in cyber operations could realise for the UK government. This programme was driven by open-source software, and a relentless thirst for developing young professionals across the UK military.
+                  </p>
+                  <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
+                {% endif %}
+            {% endfor %}
+          </div>
+          {% else %}
+              {% if application['source']['id'] == 2 %}
+                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+              {% else %}
+                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+              {% endif %}
+              <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
+          {% endif %}
+        </div>
       </div>
     </section>
 
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
-        <h2>Your application process</h2>
-        <p>Once your application is accepted, you will see more details about its status. See what our CEO says about our hiring process.</p>
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
+        {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
+          <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
+        {% endif %}
       </div>
-      <div class="row">  
-        <h3>Our recruitment process</h3>
-        <ol class="p-list">
-          <li class="p-list_item">
-            <h4 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["application"] %}<i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
-              {% endif %}
-              Application review
-            </h4>
-            <p>Initial resume screening. A fully trained hiring lead will review your application against the job criteria set for this role.</p>
+      <div class="u-fixed-width">  
+        <ol class="p-process-stepped-list--detailed">
+          <li class="p-stepped-list__item">
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
+            <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
           </li>
-          <li class="p-list_item">
-            <h4 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}<i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+          <li class="p-stepped-list__item">
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['early_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['early_stage'] and application['stage_progress']['assessment'] %}active{% else %}not-completed{% endif %}">Assessment</h3>
+            <div class="p-stepped-list__content">
+              {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
+                <p>There are several parts to this stage:</p>
+                <a href="" onclick="showProgressDetail('assessment'); event.preventDefault();" class="show-more-assessment">Show more</a>
+                <div class="progress-detail-assessment u-hide">
+                  <ol class="p-stepped-list">
+                    <li class="p-stepped-list__item">
+                      <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. We ask that you submit this anonymously to ensure our hiring process is bias free. This is your opportunity to highlight your key strengths for this position.</p>
+                    </li>
+                    <li class="p-stepped-list__item">
+                      <p class="p-stepped-list__title u-no-margin--bottom">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence and behavioural traits.</p>
+                    </li>
+                    <li class="p-stepped-list__item">
+                      <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
+                    </li>
+                  </ol>
+                  {% for interview in application["scheduled_interviews"]|reverse %}
+                      {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                          <hr />
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
+                          {% include 'careers/application/_interview-card-done.html' %}
+                      {% endif %}
+                  {% endfor %}
+                  {% for interview in application["scheduled_interviews"] %}
+                      {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
+                          <hr />
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+                          {% include 'careers/application/_interview-card.html' %}
+                      {% endif %}
+                  {% endfor %}
+                  <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
+                </div>
+              {% elif "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"] %}
+                <p>There are several parts to this stage:</p>
+                <ol class="p-stepped-list">
+                  <li class="p-stepped-list__item">
+                    <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. We ask that you submit this anonymously to ensure our hiring process is bias free. This is your opportunity to highlight your key strengths for this position.</p>
+                  </li>
+                  <li class="p-stepped-list__item">
+                    <p class="p-stepped-list__title u-no-margin--bottom">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence and behavioural traits.</p>
+                  </li>
+                  <li class="p-stepped-list__item">
+                    <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
+                  </li>
+                </ol>
+              {% else %}
+                <p>
+                  There are several parts to this stage: a written interview, a psychometric assessment and some roles will require a technical assignment to be completed. 
+                </p>
               {% endif %}
-              Assessment
-            </h4>
-            <div>
-              There are three parts to this stage:
-              <ol>
-                <li>
-                  <p class='u-no-margin--bottom'>A written interview, submitted and reviewed anonymously to reduce bias. This is your opportunity to highlight your key strengths for this position and once reviewed will be referred back at later stage interviews.</p>
-                </li>
-                <li>
-                  <p class='u-no-margin--bottom'>A psychometric assessment measuring fluid intelligence and behavioural traits.</p>
-                </li>
-                <li>
-                  <p class='u-no-margin--bottom'>Initial Meet & Greet Interview with a member of Canonical to share more about life at Canonical and to answer some of your initial basic questions.</p>
-                </li>
-              </ol>
             </div>
-            <h4>Next interview</h4>
-            {% if not application["scheduled_interviews"] %}
-                <p><i class="p-icon--information"></i> No scheduled interviews. We do our best to keep you updated about the state of your application. Please check your spam folder.</p>
-            {% else %}
-                {% for interview in application["scheduled_interviews"] %}
-                    {% if now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        {% include 'careers/application/_interview-card.html' %}
-                    {% endif %}
-                {% endfor %}
-                </ul>
-                <h3>Past interviews</h3>
-                {% for interview in application["scheduled_interviews"]|reverse %}
-                    {% if now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                        {% include 'careers/application/_interview-card.html' %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            </ul>
           </li>
-          <li class="p-list_item">
-            <h4 class='u-no-margin--bottom'>
-              {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-              <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
-              {% endif %}
-              Early stage
-            </h4>
-            <p>This is a mixture of: technical assessments, competency based interviews and an interview with HR to talk about the benefits of working at Canonical, logistics and compensation.</p>
-          </li>
-          <li class="p-list_item">
-            <h4 class='u-no-margin--bottom'>
+          <li class="p-stepped-list__item">
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['late_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['late_stage'] and application['stage_progress']['early_stage'] %}active{% else %}not-completed{% endif %}">Early stage</h3>
+            <div class="p-stepped-list__content">
+              <p>Our interviews are a blend of technical and competency based interviews. If successful you will pass through to an interview with our HR team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
-              <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+              <a href="" onclick="showProgressDetail('early-stage'); event.preventDefault();" class="show-more-early-stage">Show more</a>
+              <div class="progress-detail-early-stage u-hide">
+              {% else %}
+              <div class="progress-detail-early-stage">
               {% endif %}
-              Late stage                    
-            </h4>
-            <p>Once you have successfully completed your early stage interviews you’ll be invited to meet with senior leads within your management chain</p>
+              {% for interview in application["scheduled_interviews"]|reverse %}
+                  {% if (interview["interview"]["name"]  == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                      <hr/>
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
+                      {% include 'careers/application/_interview-card-done.html' %}
+                  {% endif %}
+              {% endfor %}
+              {% for interview in application["scheduled_interviews"] %}
+                  {% if ( interview["interview"]["name"] == "Early Stage Interviews" or interview["interview"]["name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+                      <hr />
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+                      {% include 'careers/application/_interview-card.html' %}
+                  {% endif %}
+              {% endfor %}
+              <a href="" onclick="hideProgressDetail('early-stage'); event.preventDefault();" class="show-less-early-stage u-hide">Show less</a>
+              </div>
+            </div>
           </li>
-          <li class="p-list_item">
-            <h4 class='u-no-margin--bottom'>
+          <li class="p-stepped-list__item">
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">Late stage</h3>
+            <div class="p-stepped-list__content">
+              <p>During this stage you will meet with some of our more senior leads and executives who will form part of your management team.</p>
               {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
-              <i class="p-icon--success"></i> 
-              {% else %}<i class="p-icon--information"></i> 
+              <a href="" onclick="showProgressDetail('late-stage'); event.preventDefault();" class="show-more-late-stage">Show more</a>
+              <div class="progress-detail-late-stage u-hide">
+              {% else %}
+              <div class="progress-detail-late-stage">
               {% endif %}
-              Offer
-            </h4>                
+              {% for interview in application["scheduled_interviews"]|reverse %}
+                  {% if interview["interview"]["name"]  == "Late Stage Interviews" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                      <hr />
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past Interviews</h4>
+                      {% include 'careers/application/_interview-card-done.html' %}
+                  {% endif %}
+              {% endfor %}
+              {% for interview in application["scheduled_interviews"] %}
+                  {% if interview["interview"]["name"] == "Late Stage Interviews" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
+                      <hr />
+                      <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+                      {% include 'careers/application/_interview-card.html' %}
+                  {% endif %}
+              {% endfor %}
+              <a href="" onclick="hideProgressDetail('late-stage'); event.preventDefault();" class="show-less-late-stage u-hide">Show less</a>
+              </div>
+            </div>
+          </li>
+          <li class="p-stepped-list__item">
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
           </li>
         </ol>
       </div>
     </section>
 
-    <section class="p-strip--light is-deep">
+    {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
+    <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
-          <h2>Hiring at Canonical</h2>
-          <p>Mark Shuttleworth, CEO explains the hiring process at Canonical.</p>
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
+          <h3 class="p-heading--2">Mark Shuttleworth, CEO explains the hiring process at Canonical.</h3>
         </div>
         <div class="col-6 u-embedded-media">
           <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
         </div>
       </div>
     </section>
-
     <section class="p-strip is-deep">
-      <div class="u-fixed-width">
-        <h2>Life at Canonical</h2>
-      </div>
+    {% else %}
+    <section class="p-strip--light is-deep">
+      {% endif %}
       <div class="row">
-        <div class="p-strip">
-          <div class="row">
-            <div class="col-4 p-card has-accent-border">
-              <h3 class="p-heading--4" id="product-heading">Lifestyle</h3>
-              <p id="product-description">Canonical is amazing for people who are organised, passionate about technology, and like to travel. People at Canonical say the people at Canonical are amazing. That’s special.</p>
-              <p id="product-link"><a href="/careers/lifestyle">Read more</a></p>
-            </div>
-            <div class="col-4 p-card has-accent-border">
-              <h3 class="p-heading--4" id="product-heading">Ethics</h3>
-              <p id="product-description">We take our responsibility for the most critical elements of every piece of open infrastructure in the software-defined world very seriously, and we are committed to quality in every aspect of our product and services.</p>
-              <p id="product-link"><a href="/careers/ethics">Read more</a></p>
-            </div>
-            <div class="col-4 p-card has-accent-border">
-              <h3 class="p-heading--4" id="product-heading">Travel</h3>
-              <p id="product-description">We're uniquely global - we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
-              <p id="product-link"><a href="/careers/travel">Read more</a></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4 p-card has-accent-border">
-              <h3 class="p-heading--4" id="product-heading">Progression</h3>
-              <p id="product-description">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways - and we celebrate growth and development in many forms.</p>
-              <p id="product-link"><a href="/careers/progression">Read more</a></p>
-            </div>
-            <div class="col-4 p-card has-accent-border">
-              <h3 class="p-heading--4" id="product-heading">Diversity</h3>
-              <p id="product-description">We believe that talent is evenly distributed around the world. No matter where you were born, or what you look like, or how you like to dress.</p>
-              <p id="product-link"><a href="/careers/diversity">Read more</a></p>
-            </div>
-          </div>
+        <div class="col-3">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Life at Canonical</h2>
+        </div>
+        <div class="col-9">
+          <ul class="p-list--divided">
+            <li class="p-list__item split-list">
+              <div class="row">
+                <h3 class="col-3 p-heading--2">
+                  <a href="/careers/lifestyle">Lifestyle</a>
+                </h3>
+                <p class="col-6">Canonical is amazing for people who are organised, passionate about technology, and like to travel. People at Canonical say the people at Canonical are amazing. That’s special.</p>
+              </div>
+            </li>
+            <li class="p-list__item split-list">
+              <div class="row">
+                <h3 class="col-3 p-heading--2">
+                  <a href="/careers/ethics">Ethics</a>
+                </h3>
+                <p class="col-6">We take our responsibility for the most critical elements of every piece of open infrastructure in the software-defined world very seriously, and we are committed to quality in every aspect of our product and services.</p>
+              </div>
+            </li>
+            <li class="p-list__item split-list">
+              <div class="row">
+                <h3 class="col-3 p-heading--2">
+                  <a href="/careers/travel">Travel</a>
+                </h3>
+                <p class="col-6">We're uniquely global &ndash; we hire the best open source team globally, regardless of nationality or language, creed or colour, and we serve the global market for technology in open infrastructure and open applications.</p>
+              </div>
+            </li>
+            <li  class="p-list__item split-list">
+              <div class="row">
+                <h3 class="col-3 p-heading--2">
+                  <a href="/careers/progression">Progression</a>
+                </h3>
+                <p class="col-6">We hire for talent, passion and work ethic. Your career at Canonical can progress in many ways &ndash; and we celebrate growth and development in many forms.</p>
+              </div>
+            </li>
+            <li class="p-list__item split-list">
+              <div class="row">
+                <h3 class="col-3 p-heading--2">
+                  <a href="/careers/diversity">Diversity</a>
+                </h3>
+                <p class="col-6">We believe that talent is evenly distributed around the world. No matter where you were born, or what you look like, or how you like to dress.</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
-    
+
+    {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
     <section class="p-strip--light is-deep">
+    {% else %}
+    <section class="p-strip is-deep">
+    {% endif %}
       {% if withdrawal_requested %}
       <div class="u-fixed-width">
         <h2>You have requested to withdraw this application.</h2>
@@ -231,14 +371,14 @@
       <div class="row">
         <h1>Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
         <p>
-          <i class="p-icon--success"></i> You are hired! Welcome to Canonical.
+          <i class="p-icon--success">Passed</i> You are hired! Welcome to Canonical.
         </p>
       </div>
     </section>
   {% else %}
     <section class="p-strip">
       <div class="row">
-        <h1 class="u-sv3">Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
+        <h1>Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
         <p>
           <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
           Check out <a href="/careers">our career page</a> to see if there 
