@@ -92,22 +92,36 @@
     }
   }
 }
-@mixin canonical-p-modal {
-  .p-withdrawal-modal__header {
-    margin-top: 1rem;
-  } 
-  .p-withdrawal-modal__header p {
-    color: $color-mid-dark
-  } 
-  .p-withdrawal-modal__content p {
-    margin-top: 1rem;
-  }
+@mixin canonical-p-withdrawal-modal {
+  .p-withdrawal-modal {
+    @extend .p-modal;
 
-  .p-withdrawal-modal__footer {
-    text-align: right;
+    .p-withdrawal-modal__dialog {
+      @extend .p-modal__dialog;
 
-    &::after {
-        background-color: none;
+      bottom: auto;
+      padding: 0;
+
+      @media (min-width: $breakpoint-small + 100px) {
+        max-width: $grid-max-width + $spv--large * 2;
       }
-  }   
+    }
+    .p-withdrawal-modal__header {
+      margin-top: 1rem;
+    } 
+    .p-withdrawal-modal__header p {
+      color: $color-mid-dark
+    } 
+    .p-withdrawal-modal__content p {
+      margin-top: 1rem;
+    }
+  
+    .p-withdrawal-modal__footer {
+      text-align: right;
+  
+      &::after {
+          background-color: none;
+        }
+    }   
+  }
 } 
