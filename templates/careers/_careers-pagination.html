@@ -1,26 +1,17 @@
 <div class="u-fixed-width">
-  {% if current_page and total_pages and total_pages > 1 %}
+
     <nav class="p-pagination" aria-label="Pagination">
       <ol class="p-pagination__items u-align--right">
         <li class="p-pagination__item">
-            {% if page == 1 %}
-              <p>{{ limit }} of {{ total_results }} roles</p>
-            {% elif page == total_pages%}
-              <p>{{ total_results }} of {{ total_results }} roles</p>
-            {% else %}
-             <p>{{ limit * current_page }} of {{ total_results }} roles</p>
-            {% endif %}
+            <p id="total-jobs"></p>
           </li>
         <li class="p-pagination__item">
-          {% if page < total_pages %}
-            {% if total_results - limit < limit%}
-              <a class="p-pagination__link--next" href="?{{ modify_query({'page': page + 1}) }}" title="Next page"><span>Show all</span><i class="p-icon--chevron-down"></i></a>
-            {% else %}
-              <a class="p-pagination__link--next" href="?{{ modify_query({'page': page + 1}) }}" title="Next page"><span>Show 20 more</span><i class="p-icon--chevron-down"></i></a>
-            {% endif %}
-          {% endif %}
+          
+              <button class="p-pagination__link--next" id="show-all" title="Next page"><span>Show all</span><i class="p-icon--chevron-down"></i></button>
+       
+              <button class="p-pagination__link--next" id="show-20-more"  title="Next page"><span>Show 20 more</span><i class="p-icon--chevron-down"></i></button>
+         
         </li>
       </ol>
     </nav>
-  {% endif %}
 </div>

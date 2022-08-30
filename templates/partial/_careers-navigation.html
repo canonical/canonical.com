@@ -1,13 +1,13 @@
 <div class="col-3 col-medium-2 u-hide--small">
-  <form action="" method="get">
+  <form action="" method="get" class="js-filter-form">
     <div class="p-content-list p-form__group">
       <ul class="p-content-list-section" style="font-size: 1.1rem;">
         <small class=" u-sv2">FILTERS</small>
         <p class="p-heading--5 u-no-margin--bottom">Department</p>
         {% for department in all_departments.values() %}
-          <li class="p-content-list-section__item js-filter p-form__control {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
+          <li class="p-content-list-section__item  p-form__control {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="{{department.name}}" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="{{department.name}}" class="p-checkbox__input js-filter" name="{{department.name}}">
               <span class="p-checkbox__label" id="{{department.name}}">{{ department.name }}</span>
             </label>
           </li>
@@ -15,80 +15,40 @@
       </ul>
 
       <ul class="p-content-list-section" style="font-size: 1.1rem;">
-        <p class="p-heading--5 u-no-margin--bottom">Experience</p>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Graduate" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Graduate">Graduate</span>
-          </label>
-        </li>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Junior" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Junior">Junior</span>
-          </label>
-        </li>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Mid-weight" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Mid-weight">Mid-weight</span>
-          </label>
-        </li>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Senior" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Senior">Senior</span>
-          </label>
-        </li>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Lead" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Lead">Lead</span>
-          </label>
-        </li>
-        <li class="p-content-list-section__item js-filter">
-          <label class="p-checkbox">
-            <input type="checkbox" aria-labelledby="Management" class="p-checkbox__input">
-            <span class="p-checkbox__label" id="Management">Management</span>
-          </label>
-        </li>
-      </ul>
-
-      <ul class="p-content-list-section" style="font-size: 1.1rem;">
         <p class="p-heading--5 u-no-margin--bottom">Location</p>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item ">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Africa" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Africa" name="Africa" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Africa">Africa</span>
             </label>
           </li>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Americas" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Americas" name="Americas" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Americas">Americas</span>
             </label>
           </li>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Asia" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Asia" name="Asia" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Asia">Asia</span>
             </label>
           </li>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Europe" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Europe" name="Europe" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Europe">Europe</span>
             </label>
           </li>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Middle East" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Middle East" name="Middle East" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Middle East">Middle East</span>
             </label>
           </li>
-          <li class="p-content-list-section__item js-filter">
+          <li class="p-content-list-section__item">
             <label class="p-checkbox">
-              <input type="checkbox" aria-labelledby="Oceania" class="p-checkbox__input">
+              <input type="checkbox" aria-labelledby="Oceania" name="Oceania" class="p-checkbox__input js-filter--location">
               <span class="p-checkbox__label" id="Oceania">Oceania</span>
             </label>
           </li>
