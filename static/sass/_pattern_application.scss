@@ -66,11 +66,19 @@
   .p-faq-stepped-list--detailed {
     @extend .p-stepped-list--detailed;
 
+    .p-faq-stepped-list__item {
+      @extend .p-stepped-list__item;
+      
+      padding-top: 0;
+    }
+
     @supports (display: grid) {
       .p-faq-stepped-list__title {
-        display: flex;
-        grid-column-end: span 3;
-        margin-left: 0;
+        @media (min-width: $threshold-6-12-col) {
+          display: flex;
+          grid-column-end: span 3;
+          margin-left: 0;
+        }
       }
       .p-faq-stepped-list__content {
         @media (min-width: $threshold-6-12-col) {
