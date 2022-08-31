@@ -204,6 +204,13 @@ def stage_progress(current_stage):
     return progress
 
 
+@application.route("/faq")
+def faq():
+    return flask.render_template(
+        "careers/application/faq.html",
+    )
+
+
 @application.route("/<string:token>")
 def application_index(token):
     return flask.render_template(
