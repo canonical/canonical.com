@@ -171,7 +171,7 @@ def stage_progress(current_stage):
             "Technical Exercise",
             "Exec Interview",
             "Reference Check",
-            "HR interview",
+            "HR Interview",
             "Technical Interview",
             "Technical Assessment Classmarker",
         ),

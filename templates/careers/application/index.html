@@ -190,6 +190,7 @@
                 </div>
               {% elif "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"] %}
                 <p>There are several parts to this stage:</p>
+                <div class="progress-detail-assessment">
                 <ol class="p-stepped-list">
                   <li class="p-stepped-list__item">
                     <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. We ask that you submit this anonymously to ensure our hiring process is bias free. This is your opportunity to highlight your key strengths for this position.</p>
@@ -201,6 +202,22 @@
                     <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
                   </li>
                 </ol>
+                  {% for interview in application["scheduled_interviews"]|reverse %}
+                      {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+                          <hr />
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
+                          {% include 'careers/application/_interview-card-done.html' %}
+                      {% endif %}
+                  {% endfor %}
+                  {% for interview in application["scheduled_interviews"] %}
+                      {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
+                          <hr />
+                          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+                          {% include 'careers/application/_interview-card.html' %}
+                      {% endif %}
+                  {% endfor %}
+                  <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
+                </div>
               {% else %}
                 <p>
                   There are several parts to this stage: a written interview, a psychometric assessment and some roles will require a technical assignment to be completed. 
