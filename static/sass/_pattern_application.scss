@@ -1,0 +1,157 @@
+@mixin canonical-p-stepped-list {
+  .p-process-stepped-list--detailed {
+    @extend .p-stepped-list--detailed;
+
+    .p-process-stepped-list__title {
+      &--stepper-complete, &--stepper-active, &--stepper-not-completed {
+        @extend .p-stepped-list__title;
+
+      }
+    }
+
+    .p-stepped-list__item {
+      p.p-stepped-list__content, div.p-stepped-list__content {
+        margin-left: 0 !important;
+      }
+      
+      &:first-child::after {
+        content: none;
+      }
+    }
+  
+    @supports (display: grid) {
+      .p-stepped-list__title {
+        grid-column-end: span 12;
+      }
+      .p-process-stepped-list__title {
+
+        // XXX: Fix elliptical counters.
+        // The height of the before element needs to match h2 heading line-heights, both on small screens and large screens - so 2 media queries will be needed.
+        //Bug filed in vanilla: https://github.com/canonical/vanilla-framework/issues/4544, these values should be set for p-heading--* classes same way as they are for actual headings
+        &--stepper-complete, &--stepper-active, &--stepper-not-completed { 
+          display: flex;
+          grid-column-end: span 6;
+          margin-left: 0;
+        }
+        &--stepper-complete {
+          &::before {
+            @include vf-icon-success;
+
+            background-repeat: no-repeat;
+            background-size: contain;
+            font-size: 0;
+        }
+      }
+        &--stepper-active {
+          &::before {
+           background-color: $color-x-dark;
+           color: $color-light;
+          }
+        }
+        &--stepper-not-completed {
+          &::before {
+            background-color: $color-light;
+            border: 1px solid $color-x-dark;
+          }
+        }
+      };
+      .p-stepped-list__content {
+        @media (min-width: $threshold-6-12-col) {
+          grid-column-end: span 6;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+  .p-faq-stepped-list--detailed {
+    @extend .p-stepped-list--detailed;
+
+    .p-faq-stepped-list__item {
+      @extend .p-stepped-list__item;
+      
+      padding-top: 0;
+    }
+
+    @supports (display: grid) {
+      .p-faq-stepped-list__title {
+        @media (min-width: $threshold-6-12-col) {
+          display: flex;
+          grid-column-end: span 3;
+          margin-left: 0;
+        }
+      }
+      .p-faq-stepped-list__content {
+        @media (min-width: $threshold-6-12-col) {
+          grid-column-end: span 9;
+          margin-top: 0;
+        }
+      }
+    }
+    // TODO : the accordion component needs to be fixed in vanilla. The issue was filed on https://github.com/canonical/vanilla-framework/issues/4563. This styles written locally needs to be removed after vanilla update.
+    .u-default-max-width {
+      display: inline-block;
+      max-width: $text-max-width;
+    }
+  }
+  
+  .split-list {
+    @media (min-width: $breakpoint-heading-threshold) {
+      display : flex;
+    }
+  }
+
+  .hiring-lead-image {
+    border-radius: 100%;
+    height: 4rem;
+    width: 4rem;
+  }
+
+  @media (max-width: $breakpoint-large - 1) {
+    .p-divider__block.hide-divider {
+      &:not(:first-child)::before {
+        width: 0;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    .p-divider__block.hide-divider {
+      &:not(:first-child)::before {
+        width: 0;
+      }
+    }
+  }
+}
+@mixin canonical-p-withdrawal-modal {
+  .p-withdrawal-modal {
+    @extend .p-modal;
+
+    .p-withdrawal-modal__dialog {
+      @extend .p-modal__dialog;
+
+      bottom: auto;
+      padding: 0;
+
+      @media (min-width: $breakpoint-small + 100px) {
+        max-width: $grid-max-width + $spv--large * 2;
+      }
+    }
+    .p-withdrawal-modal__header {
+      margin-top: 1rem;
+    } 
+    .p-withdrawal-modal__header p {
+      color: $color-mid-dark
+    } 
+    .p-withdrawal-modal__content p {
+      margin-top: 1rem;
+    }
+  
+    .p-withdrawal-modal__footer {
+      text-align: right;
+  
+      &::after {
+          background-color: none;
+        }
+    }   
+  }
+} 
