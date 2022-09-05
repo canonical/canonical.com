@@ -7,7 +7,12 @@
   const locationSelect = document.querySelector(".js-filter--location");
   const tempLocationSelect = document.querySelectorAll(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
-  const paginationButton = document.querySelector("#show-20-more")
+  const showMoreButton = document.querySelector("#show-20-more")
+  const showAllButton = document.querySelector("#show-all")
+  const showMoreIncrement = 20;
+  let jobList = [];
+  let filteredJobList = [];
+  let limit = showMoreIncrement;
   
   // Show search and filter functionality if JS is available
   function revealSearch() {
@@ -58,14 +63,12 @@
 
     //check if job location matches a location in filtered region(s)
     for (let i = 0; i < filters.length; i++){
-      // console.log(regions[filters[i]], local, filters)
       let regionKey = regions[filters[i]]
       for (let j =0; j < local.length; j++) {
         if (Object.values(regionKey).includes(local[j].trim())) {
           return 1;
         }
       }
-      
     }
   }
 
@@ -75,17 +78,6 @@
     if (searchBox && querySearchText) {
       searchBox.focus();
       searchBox.value = querySearchText;
-    }
-  }
-
-  function paginationControls(node, index, numberOfJobsDisplayed, limit) {
-    console.log(index, limit, node)
-    // first visit
-    if (index > limit){
-      if (!node.classList.contains("u-hide")) {
-        node.classList.add("u-hide");
-      }
-      numberOfJobsDisplayed--;
     }
   }
     
@@ -98,8 +90,13 @@
     if (domList.length === 0) {
       updateNoResultsMessage();
     }
+
     if (domList) {
-      var jobList = Array.from(domList.children);
+      jobList = Array.from(domList.children);
+    }
+
+    if (jobList.length > 0) {
+      initShowMore();
 
       let newOptions = [];
       departmentFilters.forEach(el => newOptions.push(el.name));
@@ -161,13 +158,15 @@
         // Add filter to stored array if checked, remove it if unchcecked. Pass array to job filter and update URL
         tempLocationSelect.forEach(el => el.onclick = function(){locationListener(el, storedLocationFilters)})
         function locationListener (el, storedLocationFilters){
+          let filterName = el.name.toLowerCase();
           if (el.checked){
-            storedLocationFilters.push(el.name.toLowerCase())
+            storedLocationFilters.push(filterName)
             // updateURL(el.name, storedLocationFilters);
           } else {
-            let index = storedLocationFilters.indexOf(el.name)
+            let index = storedLocationFilters.indexOf(filterName)
             if (index > -1) {
               storedLocationFilters.splice(index, 1)
+              // updateURL(el.name, storedLocationFilters);
             }           
           }
           tempFilterJobs(storedDeptFilters, storedLocationFilters, jobList);
@@ -177,6 +176,71 @@
       tempFilterJobs(storedDeptFilters, storedLocationFilters, jobList);
       updateNoResultsMessage();
     }
+  }
+
+  function initShowMore() {
+    filteredJobList = jobList;
+    //edit below for intial list
+    console.log(filteredJobList.length)
+    showButtons(filteredJobList)
+    showJobs(filteredJobList);
+    handleShowMoreClick();
+  }
+
+  function updateTotalNumber(shownJobs, jobList) {
+    let totalResultsElement = document.querySelector("#total-results");
+
+    totalResultsElement.innerHTML = `${shownJobs.length} of ${jobList.length} roles`;
+  }
+
+  function showButtons(shownJobs){
+    let listLength = shownJobs.length;
+    console.log(listLength, limit)
+    if (listLength <= limit){
+      showMoreButton.classList.add('u-hide');
+      showAllButton.classList.add('u-hide');
+    } else if (listLength > limit && listLength < (limit + showMoreIncrement)) {
+      showMoreButton.classList.add('u-hide');
+      showAllButton.classList.remove('u-hide');
+    } else {
+      showMoreButton.classList.remove('u-hide');
+      showAllButton.classList.add('u-hide');
+    }
+  }
+
+  function showJobs(jobs) {
+    const jobsToShow = jobs.slice(0, limit)
+    const jobsToHide = jobs.slice(limit)
+    updateTotalNumber(jobsToShow, jobs)
+    // showButtons(jobsToShow)
+    console.log(jobs.length, jobsToShow.length)
+    jobList.forEach(job => {
+      job.classList.add('u-hide');
+    })
+
+    jobsToShow.forEach(job => {
+      job.classList.remove('u-hide');
+    });
+
+    jobsToHide.forEach(job => {
+      job.classList.add('u-hide');
+    })
+  }
+
+  function handleShowMoreClick() {
+    showMoreButton.addEventListener("click", function(){
+      limit = limit + showMoreIncrement;
+      showJobs(filteredJobList);
+    })
+  }
+
+  function handleShowAllClick() {
+    showAllButton.addEventListener("click", function(){
+      limit = filteredJobList.length;
+      showJobs(filteredJobList);
+      console.log(filteredJobList, limit)
+      showButtons(filteredJobList);
+    })
   }
 
   // Show filters if JS is available
@@ -189,120 +253,47 @@
 
   function tempFilterJobs(deptFilters, localFilters, jobList){
     numberOfJobsDisplayed = domList.childElementCount;
-    console.log("before", numberOfJobsDisplayed)
+    let jobsToShow = [];
 
-    jobList.forEach(function (node, index) {
-      let jobSector = node.dataset.sector;
-      let jobLocation = node.dataset.location;
-      let limit = 19;
+    jobList.forEach(job => {
+      let jobSector = job.dataset.sector;
+      let jobLocation = job.dataset.location;
 
-      paginationButton.addEventListener("click", function(){
-        limit = (limit * 2) +1 ;
-        paginationControls(node, index, numberOfJobsDisplayed, limit)
-      })
-      
-      if (deptFilters.length === 0 && localFilters.length === 0){
-        
-        paginationControls(node, index, numberOfJobsDisplayed, limit)
+      if (deptFilters.length > 0 && localFilters.length > 0) {
+        if (deptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){
+          jobsToShow.push(job)
+        }
       } else {
         //filter by dept
         if (deptFilters.length > 0){
           if (deptFilters.includes(jobSector)){
-            // if it was previously hidden, unhide it
-            if (node.classList.contains("u-hide")) {
-              node.classList.remove("u-hide");
-            } 
-          } else {
-            if (!node.classList.contains("u-hide")) {
-              node.classList.add("u-hide");
-            }
-            numberOfJobsDisplayed--;
+            jobsToShow.push(job)
           }
         }
         // filter by location 
-        else if (localFilters.length > 0){
-          if (parseLocations(jobLocation, localFilters)){
-            console.log(node)
-            if (node.classList.contains("u-hide")) {
-              node.classList.remove("u-hide");
-            } 
-          } else {
-            if (!node.classList.contains("u-hide")) {
-              node.classList.add("u-hide");
-            }
-            numberOfJobsDisplayed--;
+        if (localFilters.length > 0){
+          if (parseLocations(jobLocation, localFilters) && !jobsToShow.includes(job)){
+            jobsToShow.push(job)
           }
-        }
-        // filter by both
-      } 
-    })
-
-    console.log(numberOfJobsDisplayed)
-  }
-
-  function filterJobs(filterBy, jobList) {
-    numberOfJobsDisplayed = domList.childElementCount;
-    // jobList.forEach(job => checkFilters(job, filterBy))
-    
-    
-    jobList.forEach(function (node) {
-      console.log(node.dataset.sector, filterBy)
-
-      // if there are no location or department filters
-      if (filterBy.filterText === "All" && filterBy.location === "all") {
-        if (node.classList.contains("u-hide")) {
-          node.classList.remove("u-hide");
-        }
-        numberOfJobsDisplayed = domList.childElementCount;
-      } 
-      
-      // if there are no location filters, but there are department filters
-      else if (
-        filterBy.filterValue !== "all" &&
-        filterBy.location === "all"
-      ) {
-        if (node.dataset.sector == filterBy.filterText) {
-          if (node.classList.contains("u-hide")) {
-            node.classList.remove("u-hide");
-          }
-        } else {
-          if (!node.classList.contains("u-hide")) {
-            node.classList.add("u-hide");
-          }
-          numberOfJobsDisplayed--;
-        }
-      } else if (
-        filterBy.filterValue === "all" &&
-        filterBy.location !== "all"
-      ) {
-        if (node.getAttribute("location-filter").includes(filterBy.location)) {
-          if (node.classList.contains("u-hide")) {
-            node.classList.remove("u-hide");
-          }
-        } else {
-          if (!node.classList.contains("u-hide")) {
-            node.classList.add("u-hide");
-          }
-          numberOfJobsDisplayed--;
-        }
-      } else {
-        if (
-          node.dataset.sector == filterBy.filterText &&
-          node.getAttribute("location-filter").includes(filterBy.location)
-        ) {
-          if (node.classList.contains("u-hide")) {
-            node.classList.remove("u-hide");
-          }
-        } else {
-          if (!node.classList.contains("u-hide")) {
-            node.classList.add("u-hide");
-          }
-          numberOfJobsDisplayed--;
         }
       }
     });
-  }
 
+    if (deptFilters.length || localFilters.length) {
+      filteredJobList = jobsToShow;
+      showJobs(filteredJobList)
+      showButtons(filteredJobList)
+      handleShowAllClick(filteredJobList)
+
+    } else {
+      limit = showMoreIncrement;
+      showJobs(jobList)
+      showButtons(jobList)
+      handleShowAllClick(jobList)
+      console.log("unfiltered")
+    }
+
+  }
 
   // Display no reults message
   function updateNoResultsMessage() {
