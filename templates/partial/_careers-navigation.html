@@ -53,35 +53,7 @@
             </label>
           </li>
       </ul>
-      <ul class="p-content-list-section">
-        <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
-          <a href="/careers/all" class="p-link--soft">All roles</a>
-          <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
-            {% set vacancies = {} %}
-            {% for department in all_departments.values() %}
-              {% for vacancy in department.vacancies %}
-                {% set vacancies = vacancies.__setitem__(vacancy.id, vacancy) %}
-              {% endfor %}
-            {% endfor %}
-            {{ vacancies | length() }}
-          </span>
-        </li>
-      </ul>
+      
     </div>
   </form>
-</div>
-
-<div class="col-3 u-hide--medium u-hide--large">
-  <select name="menu" onchange="location.href=this.value">
-    <option disabled="disabled" value="" selected="">Go to...</option>
-    {% for slug, department in all_departments.items() %}
-      <option value="/careers/{{ slug }}">{{ department.name }}</option>
-    {% endfor %}
-    <option value="/careers/lifestyle">Lifestyle</option>
-    <option value="/careers/ethics">Ethics</option>
-    <option value="/careers/travel">Travel</option>
-    <option value="/careers/progression">Progression</option>
-    <option value="/careers/diversity">Diversity</option>
-    <option value="/careers/all">All</option>
-  </select>
 </div>

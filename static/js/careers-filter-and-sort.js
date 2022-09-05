@@ -4,8 +4,7 @@
   const departmentFilters = document.querySelectorAll(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
-  const locationSelect = document.querySelector(".js-filter--location");
-  const tempLocationSelect = document.querySelectorAll(".js-filter--location");
+  const locationSelect = document.querySelectorAll(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
   const showMoreButton = document.querySelector("#show-20-more")
   const showAllButton = document.querySelector("#show-all")
@@ -103,9 +102,6 @@
       let storedLocationFilters = []
 
       if (departmentFilters) {
-        // Get list of options from the HTML form
-        var filterOptions = [];
-        departmentFilters.forEach(el => filterOptions.push(el.name));
 
         if (urlParams.has("filter")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
@@ -132,11 +128,7 @@
         }
       }
 
-      if (tempLocationSelect) {
-        // Get list of options from the HTML form
-        var locationOptions = [];
-        tempLocationSelect.forEach(el => locationOptions.push(el.name));
-
+      if (locationSelect) {
         if (urlParams.has("location")) {
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var loadedLocationFilters = urlParams.getAll("location");
@@ -144,7 +136,7 @@
         }
 
         // Add filter to stored array if checked, remove it if unchcecked. Pass array to job filter and update URL
-        tempLocationSelect.forEach(el => el.onclick = function(){locationListener(el, storedLocationFilters)})
+        locationSelect.forEach(el => el.onclick = function(){locationListener(el, storedLocationFilters)})
         function locationListener (el, storedLocationFilters){
           let filterName = el.name.toLowerCase();
           if (filterName === "middle east"){

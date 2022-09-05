@@ -1,11 +1,8 @@
 # Standard library
 import datetime
-import itertools
 import os
 import re
 from urllib.parse import parse_qs, urlencode, urlparse
-from math import ceil
-from itertools import islice
 
 
 import bleach
@@ -233,7 +230,7 @@ def all_careers():
 
 
 @app.route("/careers/all", methods=["GET"])
-def all_jobs():    
+def all_jobs():
     context = {
         "all_departments": _group_by_department(greenhouse.get_vacancies())
     }
