@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 from smtplib import SMTP
 import socket
 from email.message import EmailMessage
@@ -79,6 +80,19 @@ def _get_application(application_id):
             interview["stage_name"] = interviews_stage[
                 interview["interview"]["id"]
             ]
+
+    application["to_be_rejected"] = False
+    if (
+        application["rejected_at"]
+        and not application["rejection_reason"]["type"]["id"] == 2
+    ):
+        now = datetime.now(timezone.utc)
+        rejection_time = parse(application["rejected_at"])
+        time_after_rejection = int((now - rejection_time).total_seconds() / 60)
+        if time_after_rejection < 2880:
+            application["to_be_rejected"] = True
+        else:
+            flask.abort(404)
 
     return application
 
