@@ -313,7 +313,11 @@ class Harvest:
         if the request is successful, otherwise it raises an error
         """
 
-        payload = {"rejection_reason_id": rejection_reason_id, "notes": notes,  "rejection_email": { "email_template_id": 348528 }}
+        payload = {
+            "rejection_reason_id": rejection_reason_id,
+            "notes": notes,
+            "rejection_email": {"email_template_id": 348528},
+        }
         response = self.session.post(
             f"{self.base_url}applications/{application_id}/reject",
             json=payload,
