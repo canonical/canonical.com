@@ -76,18 +76,9 @@ def _get_application(application_id):
 
 
 def _get_application_from_token(token):
-    decrypted = cipher.decrypt(token)
-    token_name, token_candidate_id, token_application_id = tuple(
-        decrypted.split("-")
-    )
+    token_application_id = cipher.decrypt(token)
 
-    application = _get_application(token_application_id)
-
-    # Check token contents match up
-    assert application["candidate"]["id"] == int(token_candidate_id)
-    assert application["candidate"]["first_name"].lower() == token_name
-
-    return application
+    return _get_application(token_application_id)
 
 
 def _confirmation_token(
@@ -114,7 +105,6 @@ def _send_mail(
     smtp_pass = os.environ["SMTP_PASS"]
     smtp_sender_address = os.environ["SMTP_SENDER_ADDRESS"]
 
-    # import smtplib
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = smtp_sender_address
