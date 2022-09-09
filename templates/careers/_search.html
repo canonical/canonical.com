@@ -21,7 +21,7 @@
     ul.innerHTML = ''
     jobs.forEach( job => { 
       const li= document.createElement('li')
-      li.setAttribute('class', 'p-list__item');
+      li.setAttribute('class', 'p-list__item p-strip is-shallow u-no-padding--top');
       li.dataset.office = job.office
       li.dataset.employment =  job.employment
       li.dataset.location = job.location
@@ -29,7 +29,7 @@
       li.dataset.sector = job.departments
       
       const parentDiv = document.createElement('div')
-      parentDiv.setAttribute('class', 'row u-sv3');
+      parentDiv.setAttribute('class', 'row');
 
       const leftCol = document.createElement('div')
       leftCol.setAttribute('class', 'col-4');
@@ -38,9 +38,8 @@
       rightCol.setAttribute('class', 'col-5');
 
       const location = document.createElement('p')
-      location.setAttribute('class', 'u-no-margin--bottom u-sv1');
-      const small = document.createElement('small')
-      small.textContent = job.location
+      location.setAttribute('class', 'u-text--muted');
+      location.textContent = job.location
 
       const title = document.createElement('p')
       title.setAttribute('class', 'u-sv1');
@@ -54,7 +53,7 @@
       description.setAttribute('class', 'u-sv1');
       description.textContent = job.description
 
-      location.appendChild(small);
+
       title.appendChild(titleAnchor)
       
       leftCol.appendChild(title)
