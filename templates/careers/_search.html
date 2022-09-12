@@ -15,21 +15,21 @@
   });
   
   const ShowJobList = (search_term) => {
-    const ul = document.querySelector(".js-job-list");
+    const containerDiv = document.querySelector(".js-job-list");
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : vacancies
     let jobs = vacancies.filter( a => searchResult.includes(a) )
-    ul.innerHTML = ''
+    containerDiv.innerHTML = ''
     jobs.forEach( job => { 
-      const li= document.createElement('li')
-      li.setAttribute('class', 'p-list__item p-strip is-shallow u-no-padding--top');
-      li.dataset.office = job.office
-      li.dataset.employment =  job.employment
-      li.dataset.location = job.location
-      li.dataset.management = job.management
-      li.dataset.sector = job.departments
+      const stripDiv = document.createElement('div')
+      stripDiv.setAttribute('class', 'p-strip is-shallow is-bordered u-no-padding--top');
+      stripDiv.dataset.office = job.office
+      stripDiv.dataset.employment =  job.employment
+      stripDiv.dataset.location = job.location
+      stripDiv.dataset.management = job.management
+      stripDiv.dataset.sector = job.departments
       
       const parentDiv = document.createElement('div')
-      parentDiv.setAttribute('class', 'row');
+      parentDiv.setAttribute('class', 'row ');
 
       const leftCol = document.createElement('div')
       leftCol.setAttribute('class', 'col-4');
@@ -42,16 +42,17 @@
       location.textContent = job.location
 
       const title = document.createElement('p')
-      title.setAttribute('class', 'u-sv1');
-
+      
       const titleAnchor = document.createElement('a')
-      titleAnchor.setAttribute('class', 'p-heading--4 u-no-margin--bottom');
+      titleAnchor.setAttribute('class', 'p-heading--4');
       titleAnchor.setAttribute('href', `/careers/${job.id}`)
       titleAnchor.innerHTML= `${job.title}`
 
       const description = document.createElement('p')
-      description.setAttribute('class', 'u-sv1');
+     
       description.textContent = job.description
+
+      const divider = document.createElement('hr');
 
 
       title.appendChild(titleAnchor)
@@ -60,11 +61,11 @@
       rightCol.appendChild(description)
       rightCol.appendChild(location)
       parentDiv.appendChild(leftCol)
-      parentDiv.appendChild(rightCol)      
+      parentDiv.appendChild(rightCol)  
 
-      li.append(parentDiv);
+      stripDiv.append(parentDiv);
       
-      ul.appendChild(li);
+      containerDiv.appendChild(stripDiv);
     })
   }
   
