@@ -9,25 +9,32 @@
    function showProgressDetail(stage) {
     const showMoreBtn = document.querySelector(`.show-more-${stage}`);
     const showLessBtn = document.querySelector(`.show-less-${stage}`);
-    const detail = document.querySelector(`.progress-detail-${stage}`);
-    if ( detail.classList.contains("u-hide")) {
-      detail.classList.remove("u-hide")
-      showMoreBtn.classList.add("u-hide")
-      showLessBtn.classList.remove("u-hide")
-    } else {
-      detail.classList.add("u-hide")
-    }
+    const details = document.querySelectorAll(`.progress-detail-${stage}`);
+    
+    [].forEach.call(details, function(detail){
+      if ( detail.classList.contains("u-hide")) {
+        detail.classList.remove("u-hide")
+        showMoreBtn.classList.add("u-hide")
+        showLessBtn.classList.remove("u-hide")
+      } else {
+        detail.classList.add("u-hide")
+      }
+    })
   }
+
   function hideProgressDetail(stage) {
     const showMoreBtn = document.querySelector(`.show-more-${stage}`);
     const showLessBtn = document.querySelector(`.show-less-${stage}`);
-    const detail = document.querySelector(`.progress-detail-${stage}`);
-    if (!detail.classList.contains("u-hide")) {
-      detail.classList.add("u-hide")
-      showMoreBtn.classList.remove("u-hide")
-      showLessBtn.classList.add("u-hide")
-    }
-  }
+    const details = document.querySelectorAll(`.progress-detail-${stage}`);
+    [].forEach.call(details, function(detail){
+      if (!detail.classList.contains("u-hide")) {
+        detail.classList.add("u-hide")
+        showMoreBtn.classList.remove("u-hide")
+        showLessBtn.classList.add("u-hide")
+      }
+    })
+  };
+
   </script>
   {% if application["status"] == "active" %}
     <section class="p-strip--light is-deep">
@@ -111,21 +118,27 @@
           <div>
             {% for lead in application["hiring_leads_list"]["list"] %}
                 {% if lead["name"] == application["hiring_lead"]["name"]  %}
-                  {% if lead['video'] %}
-                  <!-- Todo: update profile picture & bio  -->
+                  {% if lead['video_src'] %}
                   <div class="u-embedded-media">
-                    <iframe class="u-embedded-media__element" src="{{ lead['video']}}" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
+                    <iframe class="u-embedded-media__element" src="{{ lead['video_src']}}" width="560" height="315" frameborder="0" title="about role"></iframe>
                   </div>
                   {% else %}
                     <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
                   {% endif %}
                   <p>Your hiring Lead is {{ lead["name"] }}</p>
-                  <p class="u-no-margin--bottom">{{ lead["name"] }} is VP Engineering, Enterprise Solutions at Canonical, leading the teams that deliver Juju and a suite of enterprise-ready operators for data platforms, machine learning operations, observability and more.</p>
+                  {% if lead["bio"] %}
+                  <p>{{ lead["bio"][0] |safe }}</p>
                   <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
-                  <p class="progress-detail-hiring-lead u-hide">
-                  Following a degree in Computer Science, Jon’s career started at the Royal Military Academy Sandhurst. He joined the Royal Corps of Signals where he played a key role in helping the UK define high-level doctrine for cyber operations and electronic warfare. He created a small start-up style programme with a culture of disruptive innovation, which helped to demonstrate the opportunities that investment in cyber operations could realise for the UK government. This programme was driven by open-source software, and a relentless thirst for developing young professionals across the UK military.
-                  </p>
+                  <div>
+                    {% for bio in lead["bio"] %}
+                        {% if loop.index != 1 %}
+                          <p class="progress-detail-hiring-lead u-hide">{{ bio | safe }}
+                          </p>
+                        {% endif %}
+                    {% endfor %}
+                  </div>
                   <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
+                  {% endif %}
                 {% endif %}
             {% endfor %}
           </div>
