@@ -211,11 +211,13 @@ def faq():
 
 @application.route("/<string:token>")
 def application_index(token):
+    application = _get_application_from_token(token)
     return flask.render_template(
         "careers/application/index.html",
         withdrawal_reasons=withdrawal_reasons,
         token=token,
-        application=_get_application_from_token(token),
+        application=application,
+        candidate=application["candidate"],
     )
 
 
