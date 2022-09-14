@@ -158,20 +158,21 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 {% endif %}
 
-<div class="js-search-jobs-form u-hide u-align--bottom">
+<div class="js-search-jobs-form u-hide u-align--bottom" style="display: flex;">
   <form action="/search" class="p-form p-form--inline p-form--search">
-    <div class="p-form__group">
+    <div class="p-form__group" style="flex-direction: column;">
       <label class="u-off-screen" for="search">Search</label>
-      <div class="p-form__control u-clearfix">
+      <div class="p-form__control u-clearfix u-no-padding--right">
         <input class=" js-careers__search-input" id="search" type="search" name="search" value="" placeholder="Search by keyword" />
       </div>
+      <div class="p-search-panel u-hide">
+        <div class="p-search-panel__container">
+          <ul class="p-search-panel-list p-list p-card--highlighted u-no-padding u-no-margin--bottom p-autocomplete__suggestions">
+          </ul>
+        </div>
+      </div>
     </div>
-    <button type="submit"  alt="search roles" class="p-button--positive u-no-margin--left">Search roles</button>
-</form>
+    <button type="submit"  alt="search roles" class="p-button--positive">Search roles</button>
+  </form>
 </div>
-<div class="p-search-panel u-hide">
-  <div class="p-search-panel__container">
-    <ul class="p-search-panel-list p-list p-card--highlighted u-no-padding u-no-margin--bottom p-autocomplete__suggestions">
-    </ul>
-  </div>
-</div>
+

@@ -107,6 +107,7 @@
           // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
           var loadedDeptFiters = urlParams.getAll("filter");
           filterJobs(loadedDeptFiters, storedLocationFilters, jobList);
+          console.log("it has a filer")
         }
       
         departmentFilters.forEach(el => el.onclick = function(){departmentFiltersListener(el, storedDeptFilters)})
@@ -139,9 +140,7 @@
         locationSelect.forEach(el => el.onclick = function(){locationListener(el, storedLocationFilters)})
         function locationListener (el, storedLocationFilters){
           let filterName = el.name.toLowerCase();
-          if (filterName === "middle east"){
-            filterName = "middle-east";
-          }
+     
           if (el.checked){ 
             storedLocationFilters.push(filterName)
           } else {
@@ -177,7 +176,7 @@
 
   function showButtons(shownJobs){
     let listLength = shownJobs.length;
-    
+    console.log(listLength, limit)
     if (listLength <= limit){
       showMoreButton.classList.add('u-hide');
       showAllButton.classList.add('u-hide');
@@ -212,6 +211,7 @@
     showMoreButton.addEventListener("click", function(){
       limit = limit + showMoreIncrement;
       showJobs(filteredJobList);
+      showButtons(filteredJobList)
     })
   }
 
@@ -310,6 +310,7 @@
     }
     
     var url = baseURL + "?" + urlParams.toString();
+    console.log(url, "ran twice")
     window.history.pushState({}, "", url);
   }
     window.addEventListener('DOMContentLoaded', (event) => {
