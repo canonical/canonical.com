@@ -292,6 +292,14 @@ class Harvest:
 
         return response.json()
 
+    def get_stages(self, job_id):
+        response = self.session.get(
+            f"{self.base_url}jobs/{job_id}/stages",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+        return response.json()
+
     def get_user(self, user_id):
         response = self.session.get(
             f"{self.base_url}users/{user_id}",
