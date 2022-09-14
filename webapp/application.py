@@ -43,8 +43,8 @@ def _get_application(application_id):
     )
 
     # Retrieve hiring lead from first job
-    job = harvest.get_job(application["jobs"][0]["id"])
-
+    job_id = application["jobs"][0]["id"]
+    job = harvest.get_job(job_id)
     with open("webapp/hiring_leads.json") as json_file:
         application["hiring_leads_list"] = json.load(json_file)
 
@@ -54,6 +54,11 @@ def _get_application(application_id):
             break
 
     # Retrieve scheduled interviews, calculate duration of each
+    stages = harvest.get_stages(job_id)
+    interviews_stage = {}
+    for stage in stages:
+        for interview in stage["interviews"]:
+            interviews_stage[interview["id"]] = stage["name"]
     if application["current_stage"]:
         application["stage_progress"] = stage_progress(
             application["current_stage"]["name"]
@@ -71,6 +76,9 @@ def _get_application(application_id):
                 interview["end"]["datetime"] - interview["start"]["datetime"]
             )
             interview["duration"] = int(difference.total_seconds() / 60)
+            interview["stage_name"] = interviews_stage[
+                interview["interview"]["id"]
+            ]
 
     return application
 
