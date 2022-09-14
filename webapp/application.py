@@ -226,12 +226,21 @@ def faq():
 @application.route("/<string:token>")
 def application_index(token):
     application = _get_application_from_token(token)
+    if (
+        application["status"] != "active"
+        and application["rejection_reason"]["type"]["id"] == 2
+    ):
+        withdrawn = True
+    else:
+        withdrawn = False
+
     return flask.render_template(
         "careers/application/index.html",
         withdrawal_reasons=withdrawal_reasons,
         token=token,
         application=application,
         candidate=application["candidate"],
+        withdrawn=withdrawn,
     )
 
 
@@ -314,7 +323,6 @@ def request_withdrawal(token):
             subject="Withdraw Application Confirmation",
             message=email_message,
         )
-
     return flask.render_template(
         "careers/application/index.html",
         debug_skip_sending=debug_skip_sending,
