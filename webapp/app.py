@@ -240,10 +240,7 @@ def all_careers():
         vacancy.to_dict() for vacancy in context["vacancies"]
     ]
 
-    return flask.render_template(
-        "/careers/all.html",
-         **context
-    )
+    return flask.render_template("/careers/all.html", **context)
 
 
 @app.route("/careers/<department_slug>", methods=["GET", "POST"])
