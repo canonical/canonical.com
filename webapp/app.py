@@ -216,8 +216,8 @@ def start_career():
     return flask.render_template("/careers/start.html")
 
 
-@app.route("/careers", methods=["GET"])
-def all_careers():
+@app.route("/careers")
+def careers_index():
     context = {
         "all_departments": _group_by_department(greenhouse.get_vacancies())
     }
@@ -229,8 +229,8 @@ def all_careers():
     return flask.render_template("/careers/index.html", **context)
 
 
-@app.route("/careers/all", methods=["GET"])
-def all_jobs():
+@app.route("/careers/all")
+def all_careers():
     context = {
         "all_departments": _group_by_department(greenhouse.get_vacancies())
     }
@@ -240,12 +240,9 @@ def all_jobs():
         vacancy.to_dict() for vacancy in context["vacancies"]
     ]
 
-    jobs_list = context["vacancies_json"]
-
     return flask.render_template(
         "/careers/all.html",
-        **context,
-        jobs_list=jobs_list,
+         **context
     )
 
 

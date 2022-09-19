@@ -7,10 +7,8 @@
       showAutoComplete(search_term);
     });   
     showAutoComplete("");
-    
     const urlParams = new URLSearchParams(window.location.search);
     const querySearchText = urlParams.get("search");
-    
     ShowJobList(querySearchText)
   });
   
@@ -69,10 +67,9 @@
   let search_term = '';
   const options = {
     threshold: 0.3,
-    keys: ['title', 'description']
+    keys: ['title', 'description', 'departments']
   }
   const vacancies = {{ vacancies_json | tojson }};
-
   const fuse = new Fuse(vacancies, options);
 
   function hideSearchResult() {
@@ -157,9 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 {% endif %}
-
 <div class="js-search-jobs-form u-hide u-align--bottom" style="display: flex;">
-  <form action="/search" class="p-form p-form--inline p-form--search">
+  <form action="/careers/all" class="p-form p-form--inline p-form--search">
     <div class="p-form__group" style="flex-direction: column;">
       <label class="u-off-screen" for="search">Search</label>
       <div class="p-form__control u-clearfix u-no-padding--right">

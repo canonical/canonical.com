@@ -4,14 +4,16 @@
   const departmentFilters = document.querySelectorAll(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
-  const locationSelect = document.querySelectorAll(".js-filter--location");
+  const locationFilters = document.querySelectorAll(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
-  const showMoreButton = document.querySelector("#show-20-more")
-  const showAllButton = document.querySelector("#show-all")
+  const showMoreButton = document.querySelector("#show-20-more");
+  const showAllButton = document.querySelector("#show-all");
   const showMoreIncrement = 20;
   let jobList = [];
   let filteredJobList = [];
   let limit = showMoreIncrement;
+  let selectedDeptFilters = [];
+  let selectedLocationFilters = [];
   
   // Show search and filter functionality if JS is available
   function revealSearch() {
@@ -61,7 +63,7 @@
 
     //check if job location matches a location in filtered region(s)
     for (let i = 0; i < filters.length; i++){
-      let regionKey = regions[filters[i]]
+      let regionKey = regions[filters[i].toLowerCase()]
       for (let j =0; j < local.length; j++) {
         if (Object.values(regionKey).includes(local[j].trim())) {
           return 1;
@@ -70,15 +72,76 @@
     }
   }
 
-   // Update search box text with data from query params
-   function populateTextbox() {
-    const querySearchText = urlParams.get("search");
+  // Update search box text with data from query params
+  function populateTextbox() {
+  const querySearchText = urlParams.get("search");
     if (searchBox && querySearchText) {
       searchBox.focus();
       searchBox.value = querySearchText;
     }
   }
-    
+
+  function checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList) {
+    if (urlParams.has("filter")) {
+      // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
+      let loadedDeptFiters = urlParams.getAll("filter");
+
+      for (let i = 0; i < loadedDeptFiters.length; i++){
+        deptFilter = loadedDeptFiters[i]
+        inputElement = document.getElementsByName(deptFilter)[0];
+        
+        inputElement.onclick = function(){departmentFiltersListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+        inputElement.click()
+      }
+    }
+
+    if (urlParams.has("location")) {
+      let loadedLocationFilters = urlParams.getAll("location");
+
+      for (let i = 0; i < loadedLocationFilters.length; i++){
+        locationFilter = loadedLocationFilters[i]
+        inputElement = document.getElementsByName(locationFilter)[0];
+
+        inputElement.onclick = function(){locationListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+        inputElement.click()
+      }
+    }
+  };
+
+  function departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList) {
+    let filterName = el.name;
+
+    if (el.checked){
+      selectedDeptFilters.push(filterName)
+      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
+      updateURL(selectedDeptFilters, selectedLocationFilters)
+    } else {
+      let index = selectedDeptFilters.indexOf(filterName)
+      if (index > -1) {
+        selectedDeptFilters.splice(index, 1)
+      }       
+      filterJobs(selectedDeptFilters, selectedLocationFilters ,jobList);
+      updateURL(selectedDeptFilters, selectedLocationFilters);
+    }
+  }
+
+  function locationListener (el, selectedDeptFilters, selectedLocationFilters,jobList){
+    let locationName = el.name;
+
+    if (el.checked){ 
+      selectedLocationFilters.push(locationName)
+      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
+      updateURL(selectedDeptFilters, selectedLocationFilters);
+    } else {
+      let index = selectedLocationFilters.indexOf(locationName)
+      if (index > -1) {
+        selectedLocationFilters.splice(index, 1)
+      }           
+      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
+      updateURL(selectedDeptFilters, selectedLocationFilters);
+    }
+  }
+  
   function init() {
     revealSearch();
     revealFilters();
@@ -95,74 +158,20 @@
 
     if (jobList.length > 0) {
       initShowMore();
-
-      let newOptions = [];
-      departmentFilters.forEach(el => newOptions.push(el.name));
-      let storedDeptFilters = []
-      let storedLocationFilters = []
-
-      if (departmentFilters) {
-
-        if (urlParams.has("filter")) {
-          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
-          var loadedDeptFiters = urlParams.getAll("filter");
-          filterJobs(loadedDeptFiters, storedLocationFilters, jobList);
-          console.log("it has a filer")
-        }
+      checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList)
       
-        departmentFilters.forEach(el => el.onclick = function(){departmentFiltersListener(el, storedDeptFilters)})
-        
-        // Add filter to stored array if checked, remove it if unchcecked. Pass array to job filter and update URL
-        function departmentFiltersListener(el, storedDeptFilters) {
-          if (el.checked){
-            storedDeptFilters.push(el.name)
-            updateURL(el.name, storedDeptFilters);
-            // updateNoResultsMessage();
-          } else {
-            let index = storedDeptFilters.indexOf(el.name)
-            if (index > -1) {
-              storedDeptFilters.splice(index, 1)
-            }             
-          }
-          filterJobs(storedDeptFilters, storedLocationFilters ,jobList);
-          updateURL(storedDeptFilters, storedLocationFilters);
-        }
+      if (departmentFilters) {
+        departmentFilters.forEach(el => el.onclick = function(){departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
       }
 
-      if (locationSelect) {
-        if (urlParams.has("location")) {
-          // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
-          var loadedLocationFilters = urlParams.getAll("location");
-          filterJobs(storedDeptFilters, loadedLocationFilters, jobList);
-        }
-
-        // Add filter to stored array if checked, remove it if unchcecked. Pass array to job filter and update URL
-        locationSelect.forEach(el => el.onclick = function(){locationListener(el, storedLocationFilters)})
-        function locationListener (el, storedLocationFilters){
-          let filterName = el.name.toLowerCase();
-     
-          if (el.checked){ 
-            storedLocationFilters.push(filterName)
-          } else {
-            let index = storedLocationFilters.indexOf(filterName)
-            if (index > -1) {
-              storedLocationFilters.splice(index, 1)
-            }           
-          }
-          filterJobs(storedDeptFilters, storedLocationFilters, jobList);
-          updateURL(storedDeptFilters, storedLocationFilters);
-        }
+      if (locationFilters) {
+        locationFilters.forEach(el => el.onclick = function(){locationListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
       }
-
-      filterJobs(storedDeptFilters, storedLocationFilters, jobList);
-      updateURL(storedDeptFilters, storedLocationFilters);
-      updateNoResultsMessage();
     }
   }
 
   function initShowMore() {
     filteredJobList = jobList;
-    
     showButtons(filteredJobList)
     showJobs(filteredJobList);
     handleShowMoreClick();
@@ -176,7 +185,7 @@
 
   function showButtons(shownJobs){
     let listLength = shownJobs.length;
-    console.log(listLength, limit)
+
     if (listLength <= limit){
       showMoreButton.classList.add('u-hide');
       showAllButton.classList.add('u-hide');
@@ -231,22 +240,22 @@
     }
   }
 
-  function filterJobs(deptFilters, localFilters, jobList){
+  function filterJobs(selectedDeptFilters, localFilters, jobList){
     numberOfJobsDisplayed = domList.childElementCount;
     let jobsToShow = [];
-    console.log(deptFilters, localFilters)
+    
     jobList.forEach(job => {
       let jobSector = job.dataset.sector;
       let jobLocation = job.dataset.location;
 
-      if (deptFilters.length > 0 && localFilters.length > 0) {
-        if (deptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){
+      if (selectedDeptFilters.length > 0 && localFilters.length > 0) {
+        if (selectedDeptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){
           jobsToShow.push(job)
         }
       } else {
         //filter by dept
-        if (deptFilters.length > 0){
-          if (deptFilters.includes(jobSector)){
+        if (selectedDeptFilters.length > 0){
+          if (selectedDeptFilters.includes(jobSector)){
             jobsToShow.push(job)
           }
         }
@@ -259,12 +268,11 @@
       }
     });
 
-    if (deptFilters.length || localFilters.length) {
+    if (selectedDeptFilters.length || localFilters.length) {
       filteredJobList = jobsToShow;
       showJobs(filteredJobList)
       showButtons(filteredJobList)
       handleShowAllClick(filteredJobList)
-
     } else {
       limit = showMoreIncrement;
       showJobs(jobList)
@@ -286,31 +294,38 @@
     }
   }
 
-  function updateURL(deptFilters, locationFilters) {
+  function updateURL(selectedDeptFilters, selectedLocationFilters) {
     var baseURL = window.location.origin + window.location.pathname;
-
-    if (deptFilters.length > 0){
-      // set first filter
-      urlParams.set("filter", deptFilters[0])
-      // append if more filters
-      for (let i = 1; i < deptFilters.length; i++){
-        urlParams.append("filter", deptFilters[i]);
-      }
-    } else {
+    
+    // if url has filter param but filter array is empty, remove filter from url
+    if (urlParams.has("filter") && selectedDeptFilters.length == 0){
       urlParams.delete("filter");
-    }
-
-    if (locationFilters.length > 0){
-      urlParams.set("location", locationFilters[0])
-      for (let i = 1; i < locationFilters.length; i++){
-        urlParams.append("location", locationFilters[i]);
-      }
     } else {
-      urlParams.delete("location");
+      if (selectedDeptFilters.length > 0){
+      // set first filter
+        urlParams.set("filter", selectedDeptFilters[0])
+        // append if more filters
+        for (let i = 1; i < selectedDeptFilters.length; i++){
+          urlParams.append("filter", selectedDeptFilters[i]);
+        }
+      } 
     }
     
+    // if url has location param but location array is empty, remove location filter from url
+    if (urlParams.has("location") && selectedLocationFilters.length == 0){
+      urlParams.delete("location");
+    } else {
+      if (selectedLocationFilters.length > 0){
+      // set first filter
+        urlParams.set("location", selectedLocationFilters[0])
+        // append if more filters
+        for (let i = 1; i < selectedLocationFilters.length; i++){
+          urlParams.append("location", selectedLocationFilters[i]);
+        }
+      } 
+    }
+
     var url = baseURL + "?" + urlParams.toString();
-    console.log(url, "ran twice")
     window.history.pushState({}, "", url);
   }
     window.addEventListener('DOMContentLoaded', (event) => {
