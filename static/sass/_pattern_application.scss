@@ -155,3 +155,34 @@
     }   
   }
 } 
+@mixin canonical-p-feedback {
+  .l-tutorial__feedback-icon {
+    cursor: pointer;
+  }
+
+  .l-tutorial__feedback-options {
+    .p-inline-list__item {
+      .u-inline--child {
+        display: inline;
+      
+        > * {
+          display: inline;
+        }
+      }
+      
+      .has-color {
+        display: none;
+      }
+
+      &:hover {
+        .l-tutorial__feedback-icon {
+          display: none;
+        }
+
+        .has-color {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
