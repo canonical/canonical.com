@@ -29,7 +29,7 @@
     }
   }
   </script>
-  {% if application["status"] == "active" %}
+  {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <section class="p-strip--light is-deep">
       {% if withdrawal_requested %}
         <div class="u-fixed-width">
@@ -183,33 +183,35 @@
       {% include 'careers/application/partial/_lifestyle.html' %}
     </section>
 
-    {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-    <section class="p-strip--light is-deep">
-    {% else %}
-    <section class="p-strip is-deep">
-    {% endif %}
-      {% if withdrawal_requested %}
-      <div class="u-fixed-width">
-        <h2>You have requested to withdraw this application.</h2>
-        <p>Your application will remain active until you click on the link we have sent you via email.</p>
-        <p>If you experience any issues please contact your hiring lead.</p>
-      </div>
-      {% elif not withdrawal_requested and wrong_email %}
-      <div class="u-fixed-width">
-        <h2>We could not withdraw your application.</h2>
-        <p>The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
-        <button id="showModal" aria-controls="modal">Withdraw application</button>
-        {% include "careers/application/_withdrawal-form.html" %}
-      </div>
+    {% if application["status"] == "active" %}
+      {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
+      <section class="p-strip--light is-deep">
       {% else %}
-      <div class="u-fixed-width">
-        <h2>Do you wish to withdraw your application?</h2>
-        <p>You will be asked for confirmation in the next steps.</p>
-        <button id="showModal" aria-controls="modal">Withdraw application</button>
-        {% include "careers/application/_withdrawal-form.html" %}
-      </div>
+      <section class="p-strip is-deep">
       {% endif %}
-    </section>
+        {% if withdrawal_requested %}
+        <div class="u-fixed-width">
+          <h2>You have requested to withdraw this application.</h2>
+          <p>Your application will remain active until you click on the link we have sent you via email.</p>
+          <p>If you experience any issues please contact your hiring lead.</p>
+        </div>
+        {% elif not withdrawal_requested and wrong_email %}
+        <div class="u-fixed-width">
+          <h2>We could not withdraw your application.</h2>
+          <p>The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
+          <button id="showModal" aria-controls="modal">Withdraw application</button>
+          {% include "careers/application/_withdrawal-form.html" %}
+        </div>
+        {% else %}
+        <div class="u-fixed-width">
+          <h2>Do you wish to withdraw your application?</h2>
+          <p>You will be asked for confirmation in the next steps.</p>
+          <button id="showModal" aria-controls="modal">Withdraw application</button>
+          {% include "careers/application/_withdrawal-form.html" %}
+        </div>
+        {% endif %}
+      </section>
+    {% endif %}
 
   {% elif application["status"] == "hired" %}
     <section class="p-strip">
@@ -220,15 +222,11 @@
         </p>
       </div>
     </section>
-  {% else %}
-    <section class="p-strip">
+    {% elif withdrawn %}
+    <section class="p-strip--light is-deep">
       <div class="row">
-        <h1>Thanks for applying {{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}!</h1>
-        <p>
-          <i class="p-icon--error"></i> It seems your application on the role {{ application["jobs"][0]["name"] }} was rejected. 
-          Check out <a href="/careers">our career page</a> to see if there 
-          is another role that would match your skills!
-        </p>
+        <h1>Your application has been withdrawn</h1>
+        <p>Thank you for the time you have spent on this application. <br/> Check out <a href="https://canonical.com/careers">our career page</a> to find other roles that match your skills.</p>
       </div>
     </section>
   {% endif %}

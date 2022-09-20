@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 from smtplib import SMTP
 import socket
 from email.message import EmailMessage
@@ -79,6 +80,19 @@ def _get_application(application_id):
             interview["stage_name"] = interviews_stage[
                 interview["interview"]["id"]
             ]
+
+    application["to_be_rejected"] = False
+    if (
+        application["rejected_at"]
+        and not application["rejection_reason"]["type"]["id"] == 2
+    ):
+        now = datetime.now(timezone.utc)
+        rejection_time = parse(application["rejected_at"])
+        time_after_rejection = int((now - rejection_time).total_seconds() / 60)
+        if time_after_rejection < 2880:
+            application["to_be_rejected"] = True
+        else:
+            flask.abort(404)
 
     return application
 
@@ -212,12 +226,21 @@ def faq():
 @application.route("/<string:token>")
 def application_index(token):
     application = _get_application_from_token(token)
+    if (
+        application["status"] != "active"
+        and application["rejection_reason"]["type"]["id"] == 2
+    ):
+        withdrawn = True
+    else:
+        withdrawn = False
+
     return flask.render_template(
         "careers/application/index.html",
         withdrawal_reasons=withdrawal_reasons,
         token=token,
         application=application,
         candidate=application["candidate"],
+        withdrawn=withdrawn,
     )
 
 
@@ -300,7 +323,6 @@ def request_withdrawal(token):
             subject="Withdraw Application Confirmation",
             message=email_message,
         )
-
     return flask.render_template(
         "careers/application/index.html",
         debug_skip_sending=debug_skip_sending,
