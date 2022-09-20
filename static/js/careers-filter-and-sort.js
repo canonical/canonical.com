@@ -154,7 +154,7 @@
 
     if (domList) {
       jobList = Array.from(domList.children);
-    }
+    } 
 
     if (jobList.length > 0) {
       initShowMore();
@@ -167,6 +167,9 @@
       if (locationFilters) {
         locationFilters.forEach(el => el.onclick = function(){locationListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
       }
+    } else {
+      updateNoResultsMessage()
+      showButtons(jobList)
     }
   }
 
