@@ -1,12 +1,15 @@
 {% if vacancies %}
-  {% include "careers/_search.html" %}
-<div class="u-align--right js-filter-form u-hide">
-  {% include "careers/_filters.html" %}
-</div>
 <h2 class="p-heading--4 js-filter__no-results u-hide">
   Sorry, there are no open positions matching your criteria.
 </h2>
 <div class="js-filter-jobs-container">
-  <ul class="p-list--divided js-job-list"></ul>
+  <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">All roles</h2>
+  <hr>
+  <div class="js-job-list"></div>
 </div>
+<section class="p-strip is-shallow">
+  {% with %}
+    {% include "careers/_careers-pagination.html" %}
+  {% endwith %}
+</section>
 {% endif %}

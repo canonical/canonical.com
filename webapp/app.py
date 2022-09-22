@@ -215,6 +215,28 @@ def start_career():
     return flask.render_template("/careers/start.html")
 
 
+@app.route("/careers")
+def careers_index():
+    return flask.render_template(
+        "/careers/index.html",
+        all_departments=_group_by_department(greenhouse.get_vacancies()),
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+    )
+
+
+@app.route("/careers/all")
+def all_careers():
+    return flask.render_template(
+        "/careers/all.html",
+        all_departments=_group_by_department(greenhouse.get_vacancies()),
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+    )
+
+
 @app.route("/careers/<department_slug>", methods=["GET", "POST"])
 def department_group(department_slug):
     context = {

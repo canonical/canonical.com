@@ -1,0 +1,50 @@
+@mixin canonical-search-form {
+  .p-form--search {
+    width: 100%;
+
+    .p-button--positive {
+      white-space: nowrap;
+    }
+
+    @media screen and (max-width: $breakpoint-large - 1) {
+      width: 100%;
+
+      .p-button--positive {
+        width: 100%;
+      }
+    }
+
+    @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1) {
+      width: 90%;
+
+      .p-button--positive {
+        width: 20%;
+      }
+    }
+
+
+    .p-form__group {
+      flex-grow: 1;
+
+      &--no-grow {
+        flex-grow: 0;
+      }
+
+      @media screen and (max-width: $breakpoint-large - 1) {
+        margin-bottom: $spv--large;
+      }
+    }
+
+    .p-form__control {
+      width: 100%;
+    }
+  }
+
+
+  .no-search-query {
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

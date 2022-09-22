@@ -1,56 +1,58 @@
-<div class="col-3 col-medium-2 u-hide--small">
-  <div class="p-content-list">
-    <ul class="p-content-list-section" style="font-size: 1.1rem;">
-      {% for department in all_departments.values() %}
-        <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
-          <a href="/careers/{{ department.slug }}" class="p-link--soft">{{ department.name }}&nbsp;</a><span class="u-text--muted" style="padding-right: 0.5rem;">{{ department.vacancies | length }}</span>
+<div class="col-3 u-hide--small">
+  <form action="" method="get" class="js-filter-form">
+    <div class="p-form__group">
+      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-sv2">Filters</h2>
+      <h3 class="p-heading--5 u-no-margin--bottom">Department</h3>
+      <ul class="p-list u-no-margin--left" style="font-size: 1.1rem;">
+        {% for department in all_departments.values() %}
+          <li  class="p-list__item u-no-padding--top u-no-padding--bottom p-form__control {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
+            <label class="p-checkbox u-no-margin--bottom">
+              <input type="checkbox" aria-labelledby="{{department.slug}}" class="p-checkbox__input js-filter" name="{{department.name}}">
+              <span class="p-checkbox__label" id="{{department.slug}}">{{ department.name }}</span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <h3 class="p-heading--5 u-no-margin--bottom">Location</h3>
+      <ul class="p-list u-no-margin--left" style="font-size: 1.1rem;">
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Africa" name="Africa" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Africa">Africa</span>
+          </label>
         </li>
-      {% endfor %}
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'lifestyle' %}is-active{% endif %}">
-        <a href="/careers/lifestyle" class="p-link--soft">Lifestyle</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'ethics' %}is-active{% endif %}">
-        <a href="/careers/ethics" class="p-link--soft">Ethics</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'travel' %}is-active{% endif %}">
-        <a href="/careers/travel" class="p-link--soft">Travel</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'progression' %}is-active{% endif %}">
-        <a href="/careers/progression" class="p-link--soft">Progression</a>
-      </li>
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'diversity' %}is-active{% endif %}">
-        <a href="/careers/diversity" class="p-link--soft">Diversity</a>
-      </li>
-    </ul>
-    <ul class="p-content-list-section">
-      <li class="p-content-list-section__item {% if request.path|get_secondary_nav_path == 'all' %}is-active{% endif %}">
-        <a href="/careers/all" class="p-link--soft">All roles</a>
-        <span class="u-text--muted u-float-right" style="padding-right: 0.5rem;">
-          {% set vacancies = {} %}
-          {% for department in all_departments.values() %}
-            {% for vacancy in department.vacancies %}
-              {% set vacancies = vacancies.__setitem__(vacancy.id, vacancy) %}
-            {% endfor %}
-          {% endfor %}
-          {{ vacancies | length() }}
-        </span>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="col-3 u-hide--medium u-hide--large">
-  <select name="menu" onchange="location.href=this.value">
-    <option disabled="disabled" value="" selected="">Go to...</option>
-    {% for slug, department in all_departments.items() %}
-      <option value="/careers/{{ slug }}">{{ department.name }}</option>
-    {% endfor %}
-    <option value="/careers/lifestyle">Lifestyle</option>
-    <option value="/careers/ethics">Ethics</option>
-    <option value="/careers/travel">Travel</option>
-    <option value="/careers/progression">Progression</option>
-    <option value="/careers/diversity">Diversity</option>
-    <option value="/careers/all">All</option>
-  </select>
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Americas" name="Americas" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Americas">Americas</span>
+          </label>
+        </li>
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Asia" name="Asia" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Asia">Asia</span>
+          </label>
+        </li>
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Europe" name="Europe" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Europe">Europe</span>
+          </label>
+        </li>
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Middle-East" name="Middle-East" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Middle-East">Middle East</span>
+          </label>
+        </li>
+        <li class="p-list__item u-no-padding--top u-no-padding--bottom">
+          <label class="p-checkbox u-no-margin--bottom">
+            <input type="checkbox" aria-labelledby="Oceania" name="Oceania" class="p-checkbox__input js-filter--location">
+            <span class="p-checkbox__label" id="Oceania">Oceania</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </form>
 </div>
