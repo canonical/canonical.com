@@ -81,16 +81,16 @@
           <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
-                <p class="u-no-margin--bottom">We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p class="u-no-margin--bottom">We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p class="u-no-margin--bottom">We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+                <p class="u-no-margin--bottom">We have received your application for the role {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
           {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
               {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+                <p>We have received your application for the role {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
                 <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
@@ -108,12 +108,13 @@
                     <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
                 {% endfor %}
               {% endif %}
-              <div>
+              <!-- this section will be updated when video is ready -->
+              <!-- <div>
                 <p>ABOUT THIS ROLE</p>
                 <div class="col-6 u-embedded-media">
                   <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
                 </div>
-              </div>
+              </div> -->
           {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
           <div>
             {% for lead in application["hiring_leads_list"]["list"] %}
@@ -145,9 +146,9 @@
           </div>
           {% else %}
               {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role: <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p>We have received your application for the role <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p>We have received your application for the role: {{ application["jobs"][0]["name"] }}</p>
+                <p>We have received your application for the role {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
           {% endif %}
@@ -159,7 +160,7 @@
       <div class="u-fixed-width">
         <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
         {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-          <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
+          <!-- <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p> -->
         {% endif %}
       </div>
       <div class="u-fixed-width">  
@@ -179,7 +180,7 @@
     </section>
 
     {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-    <section class="p-strip--light is-deep" id="ceo-video">
+    <!-- <section class="p-strip--light is-deep" id="ceo-video">
       <div class="row">
         <div class="col-6">
           <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
@@ -190,7 +191,7 @@
         </div>
       </div>
     </section>
-    <section class="p-strip is-deep">
+    <section class="p-strip is-deep"> -->
     {% else %}
     <section class="p-strip--light is-deep">
       {% endif %}
