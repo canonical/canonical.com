@@ -447,7 +447,7 @@ def filtered_html_tags(content):
         "em",
         "br",
     ]
-    allowed_attributes = {"iframe": allow_src}
+    allowed_attributes = {"iframe": allow_src, "a": "href"}
 
     return bleach.clean(
         content,
