@@ -1,37 +1,91 @@
 <a href="#main-content" class="p-link--skip">Jump to main content</a>
 
-<header id="navigation" class="p-navigation{%if not request.path|get_nav_path == 'partners'%} is-sticky{% endif %}">
+<header id="navigation" class="p-navigation {%if not request.path|get_nav_path == 'partners'%}is-sticky{% endif %} is-dark">
   {% block header_banner %}
   <div class="p-navigation__row">
     <div class="p-navigation__banner">
-      <div class="p-navigation__logo">
-        <a class="p-navigation__item" href="/">
-          <img class="p-navigation__image" src="https://assets.ubuntu.com/v1/2eec3fd9-logo.svg" alt="" width="115">
-          <script>performance.mark("Logo rendered")</script>
+      <div class="p-navigation__tagged-logo">
+        <a class="p-navigation__link" href="/">
+          <div class="p-navigation__logo-tag">
+            <img class="p-navigation__logo-icon" src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg" alt="">
+          </div>
+          <span class="p-navigation__logo-title">Canonical</span>
         </a>
       </div>
       <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
       <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
     </div>
-    <nav class="p-navigation__nav">
+
+    <nav class="p-navigation__nav" aria-label="main-navigation">
       <ul class="p-navigation__items">
-        <li
-          class="p-navigation__item {% if request.path|get_nav_path == 'products' %}is-selected{% endif %}"
-          role="menuitem">
-          <a class="p-navigation__link" href="/products">Products</a>
+        <li class="p-navigation__item--dropdown-toggle" id="company">
+          <a href="/company" aria-controls="company-menu" class="p-navigation__link">Company</a>
+          <ul class="p-navigation__dropdown" id="company-menu" aria-hidden="true">
+            <li>
+              <a href="/company/about-us" class="p-navigation__dropdown-item">About us</a>
+            </li>
+            <li>
+              <a href="/company/blogs" class="p-navigation__dropdown-item">Blogs</a>
+            </li>
+            <li>
+              <a href="/company/documentation" class="p-navigation__dropdown-item">Documentation</a>
+            </li>
+            <li>
+              <a href="/company/press-centre" class="p-navigation__dropdown-item">Press centre</a>
+            </li>
+          </ul>
         </li>
-        <li
-          class="p-navigation__item {% if request.path|get_nav_path == 'partners' %}is-selected{% endif %}"
-          role="menuitem">
-          <a class="p-navigation__link" href="/partners">Partners</a>
+        <li class="p-navigation__item" id="products">
+          <a href="/products" class="p-navigation__link">Products</a>
         </li>
-        <li
-          class="p-navigation__item {% if request.path|get_nav_path == 'careers' %}is-selected{% endif %}"
-          role="menuitem">
-          <a class="p-navigation__link" href="/careers">Careers</a>
+        <li class="p-navigation__item--dropdown-toggle" id="partners">
+          <a href="/partners" aria-controls="partners-menu" class="p-navigation__link">Partners</a>
+          <ul class="p-navigation__dropdown" id="partners-menu" aria-hidden="true">
+            <li>
+              <a href="/partners/about" class="p-navigation__dropdown-item">About</a>
+            </li>
+            <li class="p-navigation__item">
+              <a href="/partners/partner-programs" class="p-navigation__dropdown-item">Our partner programs</a>
+              <ul>
+                <li><a href="/partners/desktop" class="p-navigation__link">Desktop</a></li>
+                <li><a href="/partners/channel-reseller" class="p-navigation__link">Channel/reseller</a></li>
+                <li><a href="/partners/iot" class="p-navigation__link">Internet of Things device</a></li>
+                <li><a href="/partners/ihv-oem" class="p-navigation__link">IHV/OEM</a></li>
+                <li><a href="/partners/gsi" class="p-navigation__link">Global Seller Initiative</a></li>
+                <li><a href="/partners/public-cloud" class="p-navigation__link">Public cloud</a></li>                
+              </ul>
+            </li>
+            <li>
+              <a href="/partners/become-a-partner" class="p-navigation__dropdown-item">Become a partner</a>
+            </li>
+            <li>
+              <a href="/partners/find-a-partner" class="p-navigation__dropdown-item">Find a partner</a>
+            </li>
+            <li>
+              <a href="/partners/log-in" class="p-navigation__dropdown-item">Log into the partner portal</a>
+            </li>            
+          </ul>
         </li>
+        <li class="p-navigation__item--dropdown-toggle" id="careers">
+          <a href="/careers" aria-controls="careers-menu" class="p-navigation__link">Careers</a>
+          <ul class="p-navigation__dropdown" id="careers-menu" aria-hidden="true">
+            <li>
+              <a href="/careers/overview" class="p-navigation__dropdown-item">Overview</a>
+            </li>
+            <li>
+              <a href="/careers/open-roles" class="p-navigation__dropdown-item">Open roles</a>
+            </li>
+            <li>
+              <a href="/careers/career-finder" class="p-navigation__dropdown-item">Career finder</a>
+            </li>
+            <li>
+              <a href="/careers/working-at-canonical" class="p-navigation__dropdown-item">Working at Canonical</a>
+            </li>          
+          </ul>
+        </li>        
       </ul>
     </nav>
+
   </div>
   {% endblock header_banner %}
 </header>

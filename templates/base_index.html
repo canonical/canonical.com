@@ -93,14 +93,11 @@
   </div>
     <div id="main-content">
       {% include "partial/_navigation.html" %}
-      {% if request.path|get_nav_path and request.path|get_nav_path == 'partners' %}
-        {% include request.path|get_nav_path + '/_secondary-navigation.html' %}
-      {% endif %}
-
       {% block content %}{% endblock content %}
     </div>
     {% include 'partial/_footer.html' %}
 
+    <script defer src="/static/js/navigation.js"></script>
     <script src="{{ versioned_static('js/modules/cookie-policy/cookie-policy.js') }}"></script>
     <script>
       cpNs.cookiePolicy();
