@@ -82,17 +82,18 @@ def _get_application(application_id):
             ]
 
     application["to_be_rejected"] = False
-    if (
-        application["rejected_at"]
-        and not application["rejection_reason"]["type"]["id"] == 2
-    ):
-        now = datetime.now(timezone.utc)
-        rejection_time = parse(application["rejected_at"])
-        time_after_rejection = int((now - rejection_time).total_seconds() / 60)
-        if time_after_rejection < 2880:
-            application["to_be_rejected"] = True
-        else:
-            flask.abort(404)
+
+    if application["rejected_at"]:
+        if not application["rejection_reason"]["type"]["id"] == 2:
+            now = datetime.now(timezone.utc)
+            rejection_time = parse(application["rejected_at"])
+            time_after_rejection = int(
+                (now - rejection_time).total_seconds() / 60
+            )
+            if time_after_rejection < 2880:
+                application["to_be_rejected"] = True
+            else:
+                flask.abort(404)
 
     return application
 
@@ -225,14 +226,11 @@ def faq():
 
 @application.route("/<string:token>")
 def application_index(token):
+    withdrawn = False
     application = _get_application_from_token(token)
-    if (
-        application["status"] != "active"
-        and application["rejection_reason"]["type"]["id"] == 2
-    ):
-        withdrawn = True
-    else:
-        withdrawn = False
+    if application["status"] != "active" and application["rejection_reason"]:
+        if application["rejection_reason"]["type"]["id"] == 2:
+            withdrawn = True
 
     return flask.render_template(
         "careers/application/index.html",
