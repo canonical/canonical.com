@@ -37,7 +37,8 @@
 
   </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
-    <section class="p-strip--light is-deep">
+    <!-- Start of thank you for applying section -->
+    <section class="p-strip is-deep">
       {% if withdrawal_requested %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
@@ -76,21 +77,22 @@
         </div>
       {% endif %}
 
-      <div class="row p-divider">
-        <div class="col-6 p-divider__block">
-          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+      <div class="row">
+        <div class="col-6">
+          <h1 class="p-heading--2 u-no-margin--bottom">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+        </div>
+        <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
               {% if application['source']['id'] == 2 %}
-                <p class="u-no-margin--bottom">We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p class="u-no-margin--bottom">We have received your application <br>for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p class="u-no-margin--bottom">We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
+                <p class="u-no-margin--bottom">We have received your application <br>for the role of {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
-              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
           {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
               {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+                <p>We have received your application <br>for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
               {% else %}
-                <p>We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
+                <p>We have received your application <br>for the role of {{ application["jobs"][0]["name"] }}</p>
               {% endif %}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
                 <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
@@ -99,8 +101,6 @@
                 {% endfor %}
               {% endif %}
           {% endif %}
-        </div>
-        <div class="col-6 p-divider__block{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
           {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
               {% if application["candidate"]["application_ids"]|length >= 2 %}
                 <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
@@ -116,7 +116,30 @@
                 </div>
               </div> -->
           {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-          <div>
+          {% else %}
+              {% if application['source']['id'] == 2 %}
+                <p>We have received your application <br>for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
+              {% else %}
+                <p>We have received your application <br>for the role of {{ application["jobs"][0]["name"] }}</p>
+              {% endif %}
+              <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
+          {% endif %}
+        </div>
+      </div>
+
+    </section>
+    <!-- End thank you for applying section. -->
+
+    <!-- Hiring lead section. -->
+    <hr class="is-fixed-width u-no-margin--bottom">
+    <section class="p-strip u-no-padding--top">
+      <div class="row">
+        <div class="col-6">
+          <h1 class="p-heading--2">Your hiring lead is <br>{{ application["hiring_lead"]["name"] }}.</h1>
+        </div>
+        <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
+          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
             {% for lead in application["hiring_leads_list"]["list"] %}
                 {% if lead["name"] == application["hiring_lead"]["name"]  %}
                   {% if lead['video_src'] %}
@@ -127,7 +150,6 @@
                   {% else %}
                     <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
                   {% endif %}
-                  <p>Your hiring Lead is {{ lead["name"] }}</p>
                   {% if lead["bio"] %}
                   <p>{{ lead["bio"][0] |safe }}</p>
                   <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
@@ -143,21 +165,29 @@
                   {% endif %}
                 {% endif %}
             {% endfor %}
-          </div>
           {% else %}
-              {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
-              {% else %}
-                <p>We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
-              {% endif %}
-              <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
           {% endif %}
         </div>
       </div>
     </section>
 
-    <section class="p-strip is-deep">
-      <div class="u-fixed-width">
+    <hr class="is-fixed-width u-no-margin--bottom">
+    <section class="p-strip u-no-padding--top">
+    {% if "stage_progress" in application and application["stage_progress"]["assessment"]  %}
+      <div class="row">
+        <div class="col-12">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
+          <div class="u-embedded-media">
+            <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="1248" height="702" frameborder="0" title="How we hire at Canonical"></iframe>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </section>
+
+    <hr class="is-fixed-width u-no-margin--bottom">
+    <section class="p-strip u-no-padding--top">
+      <div class="u-fixed-width p-strip is-shallow u-no-padding--top">
         <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
         {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
           <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
@@ -191,7 +221,7 @@
         </div>
       </div>
     </section>
-    <section class="p-strip is-deep">
+    <section class="p-strip">
     {% else %}
     <section class="p-strip--light is-deep">
       {% endif %}
@@ -202,7 +232,7 @@
       {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
       <section class="p-strip--light is-deep">
       {% else %}
-      <section class="p-strip is-deep">
+      <section class="p-strip">
       {% endif %}
         {% if withdrawal_requested %}
         <div class="u-fixed-width">
