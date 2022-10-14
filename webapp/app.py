@@ -212,7 +212,7 @@ def job_details(job_id, job_title):
 
 @app.route("/careers/start")
 def start_career():
-    return flask.render_template("/careers/start.html")
+    return flask.render_template("/careers/career-explorer.html")
 
 
 @app.route("/careers")
