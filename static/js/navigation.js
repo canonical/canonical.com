@@ -1,7 +1,6 @@
 function toggleDropdown(toggle, open) {
   var parentElement = toggle.parentNode;
   var dropdown = document.getElementById(toggle.getAttribute('aria-controls'));
-  console.log("dropdown = ", dropdown)
   dropdown.setAttribute('aria-hidden', !open);
 
   if (open) {
@@ -13,7 +12,6 @@ function toggleDropdown(toggle, open) {
 
 function closeAllDropdowns(toggles) {
   toggles.forEach(function (toggle) {
-    console.log("toggle",toggle)
     toggleDropdown(toggle, false);
   });
 }
@@ -31,7 +29,6 @@ function handleClickOutside(toggles, containerClass) {
 }
 
 function initNavDropdowns(containerClass) {
-  console.log("initing")
   var toggles = [].slice.call(document.querySelectorAll(containerClass + ' [aria-controls]'));
   handleClickOutside(toggles, containerClass);
 
@@ -40,12 +37,24 @@ function initNavDropdowns(containerClass) {
       e.preventDefault();
 
       const shouldOpen = !toggle.parentNode.classList.contains('is-active');
-      console.log("closing dropdowns")
       closeAllDropdowns(toggles);
-      console.log("toggling dropdown")
       toggleDropdown(toggle, shouldOpen);
     });
   });
 }
 
-initNavDropdowns('.p-navigation__item--dropdown-toggle')
+function initDropdowItems(itemClass) {
+  if (window.location.pathname != '/') {
+  var items = [].slice.call(document.querySelectorAll(itemClass));
+    items.forEach(item => {
+      if (item.pathname && item.pathname === window.location.pathname) {
+        item.classList.add("is-selected");
+      } else {
+        item.classList.remove("is-selected");
+      }
+    });
+  }
+}
+
+initNavDropdowns('.p-navigation__item--dropdown-toggle');
+initDropdowItems('.p-navigation__dropdown-item');
