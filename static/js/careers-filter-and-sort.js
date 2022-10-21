@@ -14,7 +14,7 @@
   let limit = showMoreIncrement;
   let selectedDeptFilters = [];
   let selectedLocationFilters = [];
-  
+
   // Show search and filter functionality if JS is available
   function revealSearch() {
     const searchForm = document.querySelector(".js-search-jobs-form");
@@ -27,7 +27,7 @@
   // Read data-location property and parse locations into well-defined categories
   function parseLocations(location, filters) {
     const regions = {
-      europe: [
+      emea: [
         "emea",
         "slovakia",
         "bratislava",
@@ -52,19 +52,23 @@
         "worldwide",
         "boston"
       ],
-      asia: ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
-      "middle-east": ["emea", "worldwide"],
-      africa: ["emea", "worldwide"],
-      oceania: ["apac", "worldwide"],
+      apac: [
+        "apac",
+        "taiwan",
+        "taipei",
+        "beijing",
+        "china",
+        "worldwide"
+      ],
     };
-    
-    // format job location string 
+
+    // format job location string
     local = location.toLowerCase().split('-').pop().split(',');
 
     //check if job location matches a location in filtered region(s)
-    for (let i = 0; i < filters.length; i++){
+    for (let i = 0; i < filters.length; i++) {
       let regionKey = regions[filters[i].toLowerCase()]
-      for (let j =0; j < local.length; j++) {
+      for (let j = 0; j < local.length; j++) {
         if (Object.values(regionKey).includes(local[j].trim())) {
           return 1;
         }
@@ -89,7 +93,7 @@
       for (let i = 0; i < loadedDeptFiters.length; i++){
         deptFilter = loadedDeptFiters[i]
         inputElement = document.getElementsByName(deptFilter)[0];
-        
+
         inputElement.onclick = function(){departmentFiltersListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
         inputElement.click()
       }
@@ -119,7 +123,7 @@
       let index = selectedDeptFilters.indexOf(filterName)
       if (index > -1) {
         selectedDeptFilters.splice(index, 1)
-      }       
+      }
       filterJobs(selectedDeptFilters, selectedLocationFilters ,jobList);
       updateURL(selectedDeptFilters, selectedLocationFilters);
     }
@@ -128,7 +132,7 @@
   function locationListener (el, selectedDeptFilters, selectedLocationFilters,jobList){
     let locationName = el.name;
 
-    if (el.checked){ 
+    if (el.checked){
       selectedLocationFilters.push(locationName)
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateURL(selectedDeptFilters, selectedLocationFilters);
@@ -136,12 +140,12 @@
       let index = selectedLocationFilters.indexOf(locationName)
       if (index > -1) {
         selectedLocationFilters.splice(index, 1)
-      }           
+      }
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateURL(selectedDeptFilters, selectedLocationFilters);
     }
   }
-  
+
   function init() {
     revealSearch();
     revealFilters();
@@ -154,12 +158,12 @@
 
     if (domList) {
       jobList = Array.from(domList.children);
-    } 
+    }
 
     if (jobList.length > 0) {
       initShowMore();
       checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList)
-      
+
       if (departmentFilters) {
         departmentFilters.forEach(el => el.onclick = function(){departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
       }
@@ -205,7 +209,7 @@
     const jobsToShow = jobs.slice(0, limit)
     const jobsToHide = jobs.slice(limit)
     updateTotalNumber(jobsToShow, jobs)
-    
+
     jobList.forEach(job => {
       job.classList.add('u-hide');
     })
@@ -246,7 +250,7 @@
   function filterJobs(selectedDeptFilters, localFilters, jobList){
     numberOfJobsDisplayed = domList.childElementCount;
     let jobsToShow = [];
-    
+
     jobList.forEach(job => {
       let jobSector = job.dataset.sector;
       let jobLocation = job.dataset.location;
@@ -262,7 +266,7 @@
             jobsToShow.push(job)
           }
         }
-        // filter by location 
+        // filter by location
         if (localFilters.length > 0){
           if (parseLocations(jobLocation, localFilters) && !jobsToShow.includes(job)){
             jobsToShow.push(job)
@@ -299,7 +303,7 @@
 
   function updateURL(selectedDeptFilters, selectedLocationFilters) {
     var baseURL = window.location.origin + window.location.pathname;
-    
+
     // if url has filter param but filter array is empty, remove filter from url
     if (urlParams.has("filter") && selectedDeptFilters.length == 0){
       urlParams.delete("filter");
@@ -311,9 +315,9 @@
         for (let i = 1; i < selectedDeptFilters.length; i++){
           urlParams.append("filter", selectedDeptFilters[i]);
         }
-      } 
+      }
     }
-    
+
     // if url has location param but location array is empty, remove location filter from url
     if (urlParams.has("location") && selectedLocationFilters.length == 0){
       urlParams.delete("location");
@@ -325,7 +329,7 @@
         for (let i = 1; i < selectedLocationFilters.length; i++){
           urlParams.append("location", selectedLocationFilters[i]);
         }
-      } 
+      }
     }
 
     var url = baseURL + "?" + urlParams.toString();
