@@ -233,18 +233,18 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 // Style for main navigation
 .p-navigation__dropdown .p-navigation__dropdown-item {
-  position: relative;
   color: #EEEDEB !important;
+  position: relative;
 }
 
 .p-navigation__dropdown > li:not(:last-child) > .p-navigation__dropdown-item::before {
   background: rgba(255, 255, 255, .1);
+  bottom: 0;
   content: "";
   height: 1px;
   left: 1rem;
   position: absolute;
   right: 0;
-  bottom: 0;
 }
 
 .p-navigation__dropdown a.is-selected {
@@ -255,6 +255,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 // Styles to allow for sub-lists in navigation dropdown, remove once added upstream
 .p-navigation__sub-list {
   @extend .p-navigation__item;
+
   margin-left: 0;
   padding-left: 0;
 }
@@ -265,12 +266,12 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     
     &::before {
       background: rgba(255, 255, 255, .1);
+      bottom: 0;
       content: "";
       height: 1px;
       left: 2rem;
       position: absolute;
       right: 0;
-      bottom: 0;
       
       @media (min-width: $breakpoint-navigation-threshold) {
         left: 2rem;
