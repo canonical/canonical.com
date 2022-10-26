@@ -22,7 +22,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_headings";
 @import "pattern_lists";
 @import "pattern_media-object";
-@import "pattern_navigation";
 @import "pattern_strip";
 @import "pattern_tabs";
 @import "pattern_search-panel";
@@ -42,7 +41,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-headings;
 @include canonical-p-withdrawal-modal;
 @include canonical-p-media-object;
-@include canonical-p-navigation;
 @include canonical-p-strip;
 @include canonical-p-tabs;
 @include canonical-p-search-panel;
@@ -229,6 +227,61 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
     @media only screen and (max-width: 874px) and (min-width: 620px) {
       width: 50%;
+    }
+  }
+}
+
+// Style for main navigation
+.p-navigation__dropdown .p-navigation__dropdown-item {
+  color: #EEEDEB !important;
+  position: relative;
+}
+
+.p-navigation__dropdown > li:not(:last-child) > .p-navigation__dropdown-item::before {
+  background: rgba(255, 255, 255, .1);
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 1rem;
+  position: absolute;
+  right: 0;
+}
+
+.p-navigation__dropdown a.is-selected {
+  border-left: 4px solid white;
+  color: white !important;
+}
+
+// Styles to allow for sub-lists in navigation dropdown, remove once added upstream
+.p-navigation__sub-list {
+  @extend .p-navigation__item;
+
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.p-navigation__sub-list > li {
+  > a {
+    padding-left: 2rem;
+    
+    &::before {
+      background: rgba(255, 255, 255, .1);
+      bottom: 0;
+      content: "";
+      height: 1px;
+      left: 2rem;
+      position: absolute;
+      right: 0;
+      
+      @media (min-width: $breakpoint-navigation-threshold) {
+        left: 2rem;
+      }
+    }
+  }
+
+  &:last-child a::before {
+    @media (min-width: $breakpoint-navigation-threshold) {
+      left: 1rem;
     }
   }
 }
