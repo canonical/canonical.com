@@ -8,6 +8,8 @@
 
 {% block meta_image %}ceed7655-Canonical-Careers-image.jpg{% endblock %}
 
+{% block canonical_url %}{{request.host_url}}careers/{{job.id}}{% endblock %}
+
 {% block extra_metatags %}
 <link rel="alternate" type="application/rss+xml"  href="/careers/feed" title="All job roles | Canonical Careers">
 
@@ -28,12 +30,13 @@
     {% endif %}
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
+    "applicantLocationRequirements": {{ job.location | job_location_countries | tojson}},
     {% else %}
     "jobLocation": {
       "@type": "Place",
       "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "{{ job.location }}"
+        "@type": "PostalAddress",
+        "addressLocality": "{{ job.location }}"
       }
     },
     {% endif %}

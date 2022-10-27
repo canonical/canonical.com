@@ -1,17 +1,18 @@
 import json
 import os
-from datetime import datetime, timezone
-from smtplib import SMTP
 import socket
+from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import parseaddr
+from smtplib import SMTP
+
 import flask
 import talisker.requests
 from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
+from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher
-
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -331,3 +332,13 @@ def request_withdrawal(token):
         withdrawal_reasons=withdrawal_reasons,
         application=_get_application_from_token(token),
     )
+
+
+@application.app_template_filter()
+def job_location_countries(job_location):
+    countries = []
+    for region in regions:
+        if region in job_location:
+            for country in regions[region]:
+                countries.append({"@type": "Country", "name": country})
+    return countries
