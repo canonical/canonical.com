@@ -10,7 +10,7 @@
     const showMoreBtn = document.querySelector(`.show-more-${stage}`);
     const showLessBtn = document.querySelector(`.show-less-${stage}`);
     const details = document.querySelectorAll(`.progress-detail-${stage}`);
-    
+
     [].forEach.call(details, function(detail){
       if ( detail.classList.contains("u-hide")) {
         detail.classList.remove("u-hide")
@@ -128,13 +128,13 @@
         </div>
       </section>
       {% include 'careers/application/partial/_ceo-video.html' %}
-      <section class="p-strip--light is-deep">        
+      <section class="p-strip--light is-deep">
     {% endif %}
 
       <div class="u-fixed-width">
         <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
       </div>
-      <div class="u-fixed-width">  
+      <div class="u-fixed-width">
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
             <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
@@ -144,7 +144,7 @@
           {% include 'careers/application/partial/_early-stage.html' %}
           {% include 'careers/application/partial/_late-stage.html' %}
           <li class="p-stepped-list__item">
-            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>
           </li>
         </ol>
       </div>
