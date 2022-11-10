@@ -38,8 +38,8 @@
   </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <!-- Start of thank you for applying section -->
-    <section class="p-strip--image is-dark is-x-deep" style="background-position: 100% 10%; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
-    {% if withdrawal_requested %}
+    <section class="p-strip--image is-dark is-deep" style="background-position: 100% 0; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
+      {% if withdrawal_requested %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
             <div class="p-notification__content">
@@ -102,6 +102,19 @@
       </section>
       {% endif %}
     <!-- End thank you for applying section. -->
+
+    {% if application["candidate"]["application_ids"]|length >= 2 %}
+    
+    <div class="p-strip--light">
+      <div class="u-fixed-width">
+          <p>This is the status of your other applications:</p>
+          {% for application in application["candidate"]["applications"] %}
+            <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
 
     {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
     <!-- Hiring lead section. -->
