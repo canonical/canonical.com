@@ -79,7 +79,7 @@
 
       <div class="row">
         <div class="col-6">
-          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
+          <h1 class="p-heading--2 u-no-margin--bottom"> <strong> Thanks for applying, {{ application["candidate"]["first_name"] }}.</strong></h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}
             <p class="u-no-margin--bottom">We have received your application for the role of
               {% if application['source']['id'] == 2 %}<a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">{% endif %}{{ application["jobs"][0]["name"] }}{% if application['source']['id'] == 2 %}</a>{% endif %}.
@@ -92,8 +92,8 @@
       {% if application["candidate"]["application_ids"]|length >= 2 %}
       <section class="p-strip--light is-shallow">
         <div class="u-fixed-width">
-          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">The status of your other applications:</h2>
-          <ul class="p-inline-list--middot">
+          <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
+          <ul class="p-inline-list--middot u-no-margin--bottom">
           {% for application in application["candidate"]["applications"] %}
             <li class="p-inline-list__item"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></li>
           {% endfor %}
@@ -102,19 +102,6 @@
       </section>
       {% endif %}
     <!-- End thank you for applying section. -->
-
-    {% if application["candidate"]["application_ids"]|length >= 2 %}
-    
-    <div class="p-strip--light">
-      <div class="u-fixed-width">
-          <p>This is the status of your other applications:</p>
-          {% for application in application["candidate"]["applications"] %}
-            <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
-
 
     {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
     <!-- Hiring lead section. -->
@@ -161,24 +148,24 @@
     {% endif %}
 
     {% if "stage_progress" in application and not application["stage_progress"]["early_stage"]  %}
-    <hr class="is-fixed-width u-no-margin--bottom">
+    <hr class="is-fixed-width">
     <section class="p-strip is-deep u-no-padding--top" id="ceo-video">
       <div class="row">
         <div class="col-6">
           <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
           <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
         </div>
-        <div class="col-6 u-embedded-media u-no-margin--bottom">
+        <div class="col-6 u-embedded-media">
           <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
         </div>
       </div>
     </section>
     {% endif %}
 
-    <hr class="is-fixed-width u-no-margin--bottom">
+    <hr class="is-fixed-width">
     <section class="p-strip u-no-padding--top">
       <div class="u-fixed-width p-strip is-shallow u-no-padding--top">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Your application process</h2>
         {% if "stage_progress" in application and application["stage_progress"]["early_stage"]  %}
           <p><a href="#ceo-video">Listen to how we hire at Canonical</a></p>
         {% endif %}
