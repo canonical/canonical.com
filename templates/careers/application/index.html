@@ -38,7 +38,7 @@
   </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <!-- Start of thank you for applying section -->
-    <section class="p-strip--light is-deep">
+    <section class="p-strip--image is-dark is-x-deep" style="background-position: 100% 10%; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
     {% if withdrawal_requested %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
@@ -79,29 +79,33 @@
 
       <div class="row">
         <div class="col-6">
-          <h1 class="p-heading--2 u-no-margin--bottom">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
-        </div>
-        <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
+          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}
             <p class="u-no-margin--bottom">We have received your application for the role of
-              {% if application['source']['id'] == 2 %}<a href="/careers/{{ application['job_post_id'] }}">{% endif %}{{ application["jobs"][0]["name"] }}{% if application['source']['id'] == 2 %}</a>{% endif %}.
+              {% if application['source']['id'] == 2 %}<a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">{% endif %}{{ application["jobs"][0]["name"] }}{% if application['source']['id'] == 2 %}</a>{% endif %}.
             </p>
-            {% if application["candidate"]["application_ids"]|length >= 2 %}
-              <p>This is the status of your other applications:</p>
-              {% for application in application["candidate"]["applications"] %}
-                <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
-              {% endfor %}
-            {% endif %}
+          </div>
           {% endif %}
         </div>
-      </div>
-    </section>
+      </section>
+
+      {% if application["candidate"]["application_ids"]|length >= 2 %}
+      <section class="p-strip--light is-shallow">
+        <div class="u-fixed-width">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">The status of your other applications:</h2>
+          <ul class="p-inline-list--middot">
+          {% for application in application["candidate"]["applications"] %}
+            <li class="p-inline-list__item"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      {% endif %}
     <!-- End thank you for applying section. -->
 
     {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
     <!-- Hiring lead section. -->
-    <hr class="is-fixed-width">
-    <section class="p-strip is-deep u-no-padding--top">
+    <section class="p-strip">
       <div class="row">
         <div class="col-4">
           <h2>Your hiring lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>

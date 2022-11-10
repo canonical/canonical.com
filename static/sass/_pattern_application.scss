@@ -22,12 +22,12 @@
       p.p-stepped-list__content, div.p-stepped-list__content {
         margin-left: 0 !important;
       }
-      
+
       &:first-child::after {
         content: none;
       }
     }
-  
+
     @supports (display: grid) {
       .p-stepped-list__title {
         grid-column-end: span 12;
@@ -37,24 +37,24 @@
         // XXX: Fix elliptical counters.
         // The height of the before element needs to match h2 heading line-heights, both on small screens and large screens - so 2 media queries will be needed.
         //Bug filed in vanilla: https://github.com/canonical/vanilla-framework/issues/4544, these values should be set for p-heading--* classes same way as they are for actual headings
-        &--stepper-complete, &--stepper-active, &--stepper-not-completed { 
+        &--stepper-complete, &--stepper-active, &--stepper-not-completed {
           display: flex;
           grid-column-end: span 6;
           margin-left: 0;
         }
         &--stepper-complete {
           &::before {
-            @include vf-icon-success;
+            @include vf-icon-success($color-mid-light);
 
             background-position: center center;
             background-repeat: no-repeat;
             background-size: 2rem;
             font-size: 0;
+          }
         }
-      }
         &--stepper-active {
           &::before {
-           background-color: $color-x-dark;
+           background-color: $color-positive;
            color: $color-light;
           }
         }
@@ -78,7 +78,6 @@
 
     .p-faq-stepped-list__item {
       @extend .p-stepped-list__item;
-      
       padding-top: 0;
     }
 
@@ -103,7 +102,7 @@
       max-width: $text-max-width;
     }
   }
-  
+
   .split-list {
     @media (min-width: $breakpoint-heading-threshold) {
       display : flex;
@@ -149,23 +148,23 @@
     }
     .p-withdrawal-modal__header {
       margin-top: 1rem;
-    } 
+    }
     .p-withdrawal-modal__header p {
       color: $color-mid-dark
-    } 
+    }
     .p-withdrawal-modal__content p {
       margin-top: 1rem;
     }
-  
+
     .p-withdrawal-modal__footer {
       text-align: right;
-  
+
       &::after {
           background-color: none;
         }
-    }   
+    }
   }
-} 
+}
 @mixin canonical-p-feedback {
   .l-tutorial__feedback-icon {
     cursor: pointer;
@@ -175,12 +174,12 @@
     .p-inline-list__item {
       .u-inline--child {
         display: inline;
-      
+
         > * {
           display: inline;
         }
       }
-      
+
       .has-color {
         display: none;
       }
