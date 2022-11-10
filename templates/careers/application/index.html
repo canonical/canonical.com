@@ -1,5 +1,7 @@
 {% extends '/careers/base_job-details.html' %}
 
+{% block title %}{{ application["candidate"]["first_name"] }}, application for {{ application["jobs"][0]["name"] }}{% endblock %}
+
 {% block extra_metatags %}
   <meta name="robots" content="noindex">
 {% endblock %}
@@ -78,12 +80,10 @@
     {% endif %}
 
       <div class="row">
-        <div class="col-6">
-          <h1 class="p-heading--2 u-no-margin--bottom"> <strong> Thanks for applying, {{ application["candidate"]["first_name"] }}.</strong></h1>
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"] %}
-            <p class="u-no-margin--bottom">We have received your application for the role of
-              {% if application['source']['id'] == 2 %}<a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">{% endif %}{{ application["jobs"][0]["name"] }}{% if application['source']['id'] == 2 %}</a>{% endif %}.
-            </p>
+        <div class="col-12">
+          <h1 class="p-heading--2 u-no-margin--bottom"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }} application for {{ application["jobs"][0]["name"] }}</h1>
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 %}
+            <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Job description for this role</a></p>
           </div>
           {% endif %}
         </div>
@@ -207,7 +207,6 @@
     </section>
 
     <hr class="is-fixed-width">
-
     <section class="p-strip is-deep u-no-padding--top">
       <div class="row">
         <div class="col-6">
@@ -221,8 +220,8 @@
     </section>
 
     {% if application["status"] == "active" %}
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <section class="p-strip is-deep">
+    <hr class="is-fixed-width">
+    <section class="p-strip is-deep u-no-padding--top">
       {% if withdrawal_requested %}
       <div class="row">
         <div class="col-6">
