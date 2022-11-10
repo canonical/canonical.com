@@ -81,7 +81,7 @@
 
       <div class="row">
         <div class="col-12">
-          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br> application for {{ application["jobs"][0]["name"] }}</h1>
+          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["jobs"][0]["name"] }}</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 %}
             <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Job description for this role</a></p>
           </div>
@@ -108,7 +108,7 @@
     <section class="p-strip">
       <div class="row">
         <div class="col-4">
-          <h2>Your hiring lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
+          <h2>Your Hiring Lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
         </div>
         <div class="col-2 u-align--right">
         {% for lead in application["hiring_leads_list"]["list"] %}
@@ -126,7 +126,7 @@
               <div class="u-embedded-media">
                 <iframe class="u-embedded-media__element" src="{{ lead['video_src']}}" width="560" height="315" frameborder="0" title="about role"></iframe>
               </div>
-                {% include 'careers/application/partial/_feedback.html' %}
+              {% include 'careers/application/partial/_feedback.html' %}
               {% endif %}
               {% if lead["bio"] %}
               <p>{{ lead["bio"][0] |safe }}</p>
@@ -154,6 +154,7 @@
         <div class="col-6">
           <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
           <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+          {% include 'careers/application/partial/_feedback.html' %}
         </div>
         <div class="col-6 u-embedded-media">
           <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
@@ -192,6 +193,7 @@
         <div class="col-6">
           <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
           <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+          {% include 'careers/application/partial/_feedback.html' %}
         </div>
         <div class="col-6 u-embedded-media u-no-margin--bottom">
           <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
@@ -229,7 +231,7 @@
         </div>
         <div class="col-6">
           <p>Your application will remain active until you click on the link we have sent you via email.</p>
-          <p>If you experience any issues please contact your hiring lead.</p>
+          <p>If you experience any issues please contact your Hiring Lead.</p>
         </div>
       </div>
       {% elif not withdrawal_requested and wrong_email %}
