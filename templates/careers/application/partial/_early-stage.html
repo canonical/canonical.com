@@ -1,22 +1,22 @@
 <li class="p-stepped-list__item">
   <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['late_stage'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['late_stage'] and application['stage_progress']['early_stage'] %}active{% else %}not-completed{% endif %}">Early stage</h3>
   <div class="p-stepped-list__content">
-    <p>Our interviews are a blend of technical and competency based interviews. If successful you will pass through to an interview with our People Team.</p>
+    <p>Our interviews are a blend of technical and competency based interviews. If successful you will also meet a member of our Talent Team.</p>
     {% if "stage_progress" in application and application["stage_progress"]["late_stage"] %}
     <a href="" onclick="showProgressDetail('early-stage'); event.preventDefault();" class="show-more-early-stage">Show more</a>
     <div class="progress-detail-early-stage u-hide">
     {% else %}
     <div class="progress-detail-early-stage">
     {% endif %}
-    {% for interview in application["scheduled_interviews"]|reverse %}
-        {% if (interview["stage_name"]  == "Early Stage Interviews" or interview["stage_name"]  == "HR Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+    {% for interview in application["scheduled_interviews"] %}
+        {% if (interview["stage_name"]  == "Early Stage Interviews" or interview["stage_name"]  == "HR Interview" or interview["stage_name"]  == "Talent Interview" ) and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
             <hr/>
             <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
             {% include 'careers/application/_interview-card-done.html' %}
         {% endif %}
     {% endfor %}
     {% for interview in application["scheduled_interviews"] %}
-        {% if ( interview["stage_name"] == "Early Stage Interviews" or interview["stage_name"]  == "HR Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
+        {% if ( interview["stage_name"] == "Early Stage Interviews" or interview["stage_name"]  == "HR Interview" or interview["stage_name"]  == "Talent Interview" ) and now("%Y%m%d") < interview["start"]["datetime"].strftime('%Y%m%d') %}
             <hr />
             <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
             {% include 'careers/application/_interview-card.html' %}

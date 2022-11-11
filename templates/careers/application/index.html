@@ -94,8 +94,10 @@
         <div class="u-fixed-width">
           <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
           <ul class="p-inline-list--middot u-no-margin--bottom">
-          {% for application in application["candidate"]["applications"] %}
-            <li class="p-inline-list__item"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></li>
+          {% for app in application["candidate"]["applications"] %}
+            {% if app["status"] != 'rejected' and app["id"] != application["id"] %}
+            <li class="p-inline-list__item"><a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a></li>
+            {% endif %}
           {% endfor %}
           </ul>
         </div>
@@ -169,6 +171,7 @@
           <p><a href="#ceo-video">Listen to how we hire at Canonical</a></p>
         {% endif %}
       </div>
+
       <div class="u-fixed-width">
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
