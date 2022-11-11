@@ -6,6 +6,15 @@
       &--stepper-complete, &--stepper-active, &--stepper-not-completed {
         @extend .p-stepped-list__title;
 
+        padding-left: 3.5rem !important;
+
+        &::before {
+          font-size: 1rem;
+          font-weight: 500;
+          line-height: 2rem;
+          margin-top: .6rem;
+          width: 2rem !important;
+        }
       }
     }
 
@@ -13,12 +22,12 @@
       p.p-stepped-list__content, div.p-stepped-list__content {
         margin-left: 0 !important;
       }
-      
+
       &:first-child::after {
         content: none;
       }
     }
-  
+
     @supports (display: grid) {
       .p-stepped-list__title {
         grid-column-end: span 12;
@@ -28,20 +37,22 @@
         // XXX: Fix elliptical counters.
         // The height of the before element needs to match h2 heading line-heights, both on small screens and large screens - so 2 media queries will be needed.
         //Bug filed in vanilla: https://github.com/canonical/vanilla-framework/issues/4544, these values should be set for p-heading--* classes same way as they are for actual headings
-        &--stepper-complete, &--stepper-active, &--stepper-not-completed { 
+        &--stepper-complete, &--stepper-active, &--stepper-not-completed {
           display: flex;
           grid-column-end: span 6;
           margin-left: 0;
         }
         &--stepper-complete {
           &::before {
-            @include vf-icon-success;
+            @include vf-icon-success-grey('%23666');
 
+            background-color: transparent;
+            background-position: center center;
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: 2rem;
             font-size: 0;
+          }
         }
-      }
         &--stepper-active {
           &::before {
            background-color: $color-x-dark;
@@ -50,7 +61,7 @@
         }
         &--stepper-not-completed {
           &::before {
-            background-color: $color-light;
+            background-color: $color-x-light;
             border: 1px solid $color-x-dark;
           }
         }
@@ -68,7 +79,7 @@
 
     .p-faq-stepped-list__item {
       @extend .p-stepped-list__item;
-      
+
       padding-top: 0;
     }
 
@@ -93,7 +104,7 @@
       max-width: $text-max-width;
     }
   }
-  
+
   .split-list {
     @media (min-width: $breakpoint-heading-threshold) {
       display : flex;
@@ -103,6 +114,7 @@
   .hiring-lead-image {
     border-radius: 100%;
     height: 4rem;
+    margin-top: 1rem;
     width: 4rem;
   }
 
@@ -138,23 +150,23 @@
     }
     .p-withdrawal-modal__header {
       margin-top: 1rem;
-    } 
+    }
     .p-withdrawal-modal__header p {
       color: $color-mid-dark
-    } 
+    }
     .p-withdrawal-modal__content p {
       margin-top: 1rem;
     }
-  
+
     .p-withdrawal-modal__footer {
       text-align: right;
-  
+
       &::after {
           background-color: none;
         }
-    }   
+    }
   }
-} 
+}
 @mixin canonical-p-feedback {
   .l-tutorial__feedback-icon {
     cursor: pointer;
@@ -164,12 +176,12 @@
     .p-inline-list__item {
       .u-inline--child {
         display: inline;
-      
+
         > * {
           display: inline;
         }
       }
-      
+
       .has-color {
         display: none;
       }

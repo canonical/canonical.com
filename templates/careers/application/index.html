@@ -1,5 +1,7 @@
 {% extends '/careers/base_job-details.html' %}
 
+{% block title %}{{ application["candidate"]["first_name"] }}, application for {{ application["jobs"][0]["name"] }}{% endblock %}
+
 {% block extra_metatags %}
   <meta name="robots" content="noindex">
 {% endblock %}
@@ -10,7 +12,7 @@
     const showMoreBtn = document.querySelector(`.show-more-${stage}`);
     const showLessBtn = document.querySelector(`.show-less-${stage}`);
     const details = document.querySelectorAll(`.progress-detail-${stage}`);
-    
+
     [].forEach.call(details, function(detail){
       if ( detail.classList.contains("u-hide")) {
         detail.classList.remove("u-hide")
@@ -37,133 +39,140 @@
 
   </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
-    <section class="p-strip--light is-deep">
+    <!-- Start of thank you for applying section -->
+    <section class="p-strip--image is-dark is-deep" style="background-position: 100% 0; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
       {% if withdrawal_requested %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
             <div class="p-notification__content">
-              <h5 class="p-notification__title"> You have requested to withdraw this application</h5>
+              <h5 class="p-notification__title">You have requested to withdraw this application</h5>
               <p class="p-notification__message">Your application will remain active until you click on the link we have sent you via email.</p>
             </div>
           </div>
         </div>
-        {% if debug_skip_sending %}
-            <!--
-              We want to make it very clear when sending has been skipped, so we don't accidentally
-              end up skipping sending the email in production in a silent way that nobody notices.
-            -->
+      {% if debug_skip_sending %}
+        <!--
+          We want to make it very clear when sending has been skipped, so we don't accidentally
+          end up skipping sending the email in production in a silent way that nobody notices.
+        -->
 
-          <div class="u-fixed-width">
-            <div class="p-notification--caution">
-              <div class="p-notification__content">
-                <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
-                <p>The following email would have been sent to {{ candidate_email }}:</p>
-                <p><blockquote>{{ email_message | safe }}</blockquote></p>
-              </div>
-            </div>
-          </div>
-        {% endif %}
-      {% endif %}
-
-      {% if wrong_email %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
             <div class="p-notification__content">
-              <h5 class="p-notification__title">We could not withdraw your application.</h5>
-              <p class="p-notification__message">The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
+              <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
+              <p>The following email would have been sent to {{ candidate_email }}:</p>
+              <p><blockquote>{{ email_message | safe }}</blockquote></p>
             </div>
           </div>
         </div>
       {% endif %}
+    {% endif %}
 
-      <div class="row p-divider">
-        <div class="col-6 p-divider__block">
-          <h1 class="p-heading--2">Thanks for applying, {{ application["candidate"]["first_name"] }}.</h1>
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"]  %}
-              {% if application['source']['id'] == 2 %}
-                <p class="u-no-margin--bottom">We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
-              {% else %}
-                <p class="u-no-margin--bottom">We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
-              {% endif %}
-              <p>Your hiring lead is {{ application["hiring_lead"]["name"] }}.</p>
-          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-              {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
-              {% else %}
-                <p>We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
-              {% endif %}
-              {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
-                {% for application in application["candidate"]["applications"] %}
-                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"] }}</a></p>
-                {% endfor %}
-              {% endif %}
+    {% if wrong_email %}
+      <div class="u-fixed-width">
+        <div class="p-notification--caution">
+          <div class="p-notification__content">
+            <h5 class="p-notification__title">We could not withdraw your application.</h5>
+            <p class="p-notification__message">The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+      <div class="row">
+        <div class="col-12">
+          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["jobs"][0]["name"] }}</h1>
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 %}
+            <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Job description for this role</a></p>
+          </div>
           {% endif %}
         </div>
-        <div class="col-6 p-divider__block{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"]  and not application["stage_progress"]["early_stage"]%}
-              {% if application["candidate"]["application_ids"]|length >= 2 %}
-                <p class="p-text--x-small-capitalised u-align-text--x-small-to-default">Status of your other applications:</p>
-                {% for application in candidate["applications"] %}
-                    <p class="u-no-margin--bottom"><a href='{{ application["custom_fields"]["canonical_com_application_page"] }}'>{{ application["jobs"][0]["name"]  }}</a></p>
-                {% endfor %}
-              {% endif %}
-              <!-- this section will be updated when video is ready -->
-              <!-- <div>
-                <p>ABOUT THIS ROLE</p>
-                <div class="col-6 u-embedded-media">
-                  <iframe class="u-embedded-media__element" src="https://player.vimeo.com/video/466106710?h=206809c045&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="560" height="315" frameborder="0" title="What is MicroK8s?"></iframe>
-                </div>
-              </div> -->
-          {% elif "stage_progress" in application and application["stage_progress"]["early_stage"] %}
-          <div>
-            {% for lead in application["hiring_leads_list"]["list"] %}
-                {% if lead["name"] == application["hiring_lead"]["name"]  %}
-                  {% if lead['video_src'] %}
-                  <div class="u-embedded-media">
-                    <iframe class="u-embedded-media__element" src="{{ lead['video_src']}}" width="560" height="315" frameborder="0" title="about role"></iframe>
-                  </div>
-                  {% include 'careers/application/partial/_feedback.html' %}
-                  {% else %}
-                    <img src="{{ lead['img_src']}}" class="hiring-lead-image"/>
-                  {% endif %}
-                  <p>Your hiring Lead is {{ lead["name"] }}</p>
-                  {% if lead["bio"] %}
-                  <p>{{ lead["bio"][0] |safe }}</p>
-                  <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
-                  <div>
-                    {% for bio in lead["bio"] %}
-                        {% if loop.index != 1 %}
-                          <p class="progress-detail-hiring-lead u-hide">{{ bio | safe }}
-                          </p>
-                        {% endif %}
-                    {% endfor %}
-                  </div>
-                  <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
-                  {% endif %}
-                {% endif %}
-            {% endfor %}
-          </div>
-          {% else %}
-              {% if application['source']['id'] == 2 %}
-                <p>We have received your application for the role of <a href="/careers/{{ application['job_post_id'] }}">{{ application["jobs"][0]["name"] }}</a></p>
-              {% else %}
-                <p>We have received your application for the role of {{ application["jobs"][0]["name"] }}</p>
-              {% endif %}
-              <p>We recommend you bookmark this page before leaving.<br/>Your personalised page will update as you move through our process, with new content and information on your application.</p>
+      </section>
+
+      {% if application["candidate"]["application_ids"]|length >= 2 %}
+      <section class="p-strip--light is-shallow">
+        <div class="u-fixed-width">
+          <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
+          <ul class="p-inline-list--middot u-no-margin--bottom">
+          {% for app in application["candidate"]["applications"] %}
+            {% if app["status"] != 'rejected' and app["id"] != application["id"] %}
+            <li class="p-inline-list__item"><a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a></li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      {% endif %}
+    <!-- End thank you for applying section. -->
+
+    {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
+    <!-- Hiring lead section. -->
+    <section class="p-strip">
+      <div class="row">
+        <div class="col-4">
+          <h2>Your Hiring Lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
+        </div>
+        <div class="col-2 u-align--right">
+        {% for lead in application["hiring_leads_list"]["list"] %}
+          {% if lead["name"] == application["hiring_lead"]["name"]  %}
+            <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ lead['img_src']}}" class="hiring-lead-image"/>
           {% endif %}
+        {% endfor %}
+        </div>
+        <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
+          {% for lead in application["hiring_leads_list"]["list"] %}
+            {% if lead["name"] == application["hiring_lead"]["name"]  %}
+              {% if lead['video_src'] %}
+              <div class="u-embedded-media">
+                <iframe class="u-embedded-media__element" src="{{ lead['video_src']}}" width="560" height="315" frameborder="0" title="about role"></iframe>
+              </div>
+              {% include 'careers/application/partial/_feedback.html' %}
+              {% endif %}
+              {% if lead["bio"] %}
+              <p>{{ lead["bio"][0] |safe }}</p>
+              <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
+              <div>
+                {% for bio in lead["bio"] %}
+                  {% if loop.index != 1 %}
+                    <p class="progress-detail-hiring-lead u-hide">{{ bio | safe }}</p>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
     </section>
+    {% endif %}
 
-    <section class="p-strip is-deep">
-      <div class="u-fixed-width">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Your application process</h2>
-        {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-          <p><a href="#ceo-video">See what our CEO says about our hiring process.</a></p>
+    {% if "stage_progress" in application and not application["stage_progress"]["early_stage"]  %}
+    <hr class="is-fixed-width">
+    <section class="p-strip is-deep u-no-padding--top" id="ceo-video">
+      <div class="row">
+        <div class="col-6">
+          <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
+          <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+          {% include 'careers/application/partial/_feedback.html' %}
+        </div>
+        <div class="col-6 u-embedded-media">
+          <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <hr class="is-fixed-width">
+    <section class="p-strip u-no-padding--top">
+      <div class="u-fixed-width p-strip is-shallow u-no-padding--top">
+        <h2 class="p-text--x-small-capitalised">Your application process</h2>
+        {% if "stage_progress" in application and application["stage_progress"]["early_stage"]  %}
+          <p><a href="#ceo-video">Listen to how we hire at Canonical</a></p>
         {% endif %}
       </div>
-      <div class="u-fixed-width">  
+
+      <div class="u-fixed-width">
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
             <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
@@ -173,59 +182,83 @@
           {% include 'careers/application/partial/_early-stage.html' %}
           {% include 'careers/application/partial/_late-stage.html' %}
           <li class="p-stepped-list__item">
-            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>                
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% else %}not-completed{% endif %}">Offer</h3>
           </li>
         </ol>
       </div>
     </section>
 
-    {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-    <section class="p-strip--light is-deep" id="ceo-video">
+    {% if "stage_progress" in application and application["stage_progress"]["early_stage"]  %}
+    <section class="p-strip--light" id="ceo-video">
       <div class="row">
         <div class="col-6">
-          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Hiring at Canonical</h2>
-          <h3 class="p-heading--2">Mark Shuttleworth, CEO explains the hiring process at Canonical.</h3>
+          <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
+          <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+          {% include 'careers/application/partial/_feedback.html' %}
         </div>
-        <div class="col-6 u-embedded-media">
+        <div class="col-6 u-embedded-media u-no-margin--bottom">
           <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
         </div>
       </div>
     </section>
-    <section class="p-strip is-deep">
+    <section class="p-strip">
     {% else %}
-    <section class="p-strip--light is-deep">
-      {% endif %}
+    <hr class="is-fixed-width u-no-margin--bottom">
+    <section class="p-strip is-deep u-no-padding--top">
+    {% endif %}
       {% include 'careers/application/partial/_lifestyle.html' %}
     </section>
 
-    {% if application["status"] == "active" %}
-      {% if "stage_progress" in application and not application["stage_progress"]["assessment"]  %}
-      <section class="p-strip--light is-deep">
-      {% else %}
-      <section class="p-strip is-deep">
-      {% endif %}
-        {% if withdrawal_requested %}
-        <div class="u-fixed-width">
-          <h2>You have requested to withdraw this application.</h2>
-          <p>Your application will remain active until you click on the link we have sent you via email.</p>
-          <p>If you experience any issues please contact your hiring lead.</p>
+    <hr class="is-fixed-width">
+    <section class="p-strip is-deep u-no-padding--top">
+      <div class="row">
+        <div class="col-6">
+          <h2>Any questions about hiring <br />at Canonical?</h2>
         </div>
-        {% elif not withdrawal_requested and wrong_email %}
-        <div class="u-fixed-width">
+        <div class="col-6">
+          <p>If you have any questions about the process or working at Canonical.</p>
+          <a href="/careers/application/faq" class="p-button">View our FAQs</a>
+        </div>
+      </div>
+    </section>
+
+    {% if application["status"] == "active" %}
+    <hr class="is-fixed-width">
+    <section class="p-strip is-deep">
+      {% if withdrawal_requested %}
+      <div class="row">
+        <div class="col-6">
+          <h2>You have requested to withdraw this application.</h2>
+        </div>
+        <div class="col-6">
+          <p>Your application will remain active until you click on the link we have sent you via email.</p>
+          <p>If you experience any issues please contact your Hiring Lead.</p>
+        </div>
+      </div>
+      {% elif not withdrawal_requested and wrong_email %}
+      <div class="row">
+        <div class="col-6">
           <h2>We could not withdraw your application.</h2>
+        </div>
+        <div class="col-6">
           <p>The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
           <button id="showModal" aria-controls="modal">Withdraw application</button>
           {% include "careers/application/_withdrawal-form.html" %}
         </div>
-        {% else %}
-        <div class="u-fixed-width">
-          <h2>Do you wish to withdraw your application?</h2>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col-6">
+          <h2>Do you wish to withdraw <br> your application?</h2>
+        </div>
+        <div class="col-6">
           <p>You will be asked for confirmation in the next steps.</p>
           <button id="showModal" aria-controls="modal">Withdraw application</button>
           {% include "careers/application/_withdrawal-form.html" %}
         </div>
-        {% endif %}
-      </section>
+      </div>
+      {% endif %}
+    </section>
     {% endif %}
 
   {% elif application["status"] == "hired" %}

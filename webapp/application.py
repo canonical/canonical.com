@@ -188,6 +188,7 @@ def stage_progress(current_stage):
             "HR Interview",
             "Technical Interview",
             "Technical Assessment Classmarker",
+            "Talent Interview",
         ),
         "late_stage": (
             "Late Stage Interviews",
