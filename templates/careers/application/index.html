@@ -131,10 +131,10 @@
               {% if lead["bio"] %}
               <p>{{ lead["bio"][0] |safe }}</p>
               <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
-              <div>
+              <div class="progress-detail-hiring-lead u-hide">
                 {% for bio in lead["bio"] %}
                   {% if loop.index != 1 %}
-                    <p class="progress-detail-hiring-lead u-hide">{{ bio | safe }}</p>
+                    <p>{{ bio | safe }}</p>
                   {% endif %}
                 {% endfor %}
               </div>
