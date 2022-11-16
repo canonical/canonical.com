@@ -274,6 +274,15 @@ class Harvest:
 
         return response.json()
 
+    def get_job_post(self, job_post_id):
+        response = self.session.get(
+            f"{self.base_url}job_posts/{job_post_id}",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+
+        return response.json()
+
     def get_candidate(self, candidate_id):
         response = self.session.get(
             f"{self.base_url}candidates/{candidate_id}",
