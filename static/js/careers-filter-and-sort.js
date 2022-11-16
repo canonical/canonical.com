@@ -182,6 +182,7 @@
     showButtons(filteredJobList)
     showJobs(filteredJobList);
     handleShowMoreClick();
+    handleShowAllClick(filteredJobList);
   }
 
   function updateTotalNumber(shownJobs, jobList) {
@@ -274,7 +275,7 @@
         }
       }
     });
-
+    
     if (selectedDeptFilters.length || localFilters.length) {
       filteredJobList = jobsToShow;
       showJobs(filteredJobList)
