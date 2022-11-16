@@ -109,10 +109,10 @@
     <!-- Hiring lead section. -->
     <section class="p-strip">
       <div class="row">
-        <div class="col-4">
+        <div class="col-5">
           <h2>Your Hiring Lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
         </div>
-        <div class="col-2 u-align--right">
+        <div class="col-1">
         {% for lead in application["hiring_leads_list"]["list"] %}
           {% if lead["name"] == application["hiring_lead"]["name"]  %}
             <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ lead['img_src']}}" class="hiring-lead-image"/>
@@ -131,10 +131,10 @@
               {% if lead["bio"] %}
               <p>{{ lead["bio"][0] |safe }}</p>
               <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
-              <div>
+              <div class="progress-detail-hiring-lead u-hide">
                 {% for bio in lead["bio"] %}
                   {% if loop.index != 1 %}
-                    <p class="progress-detail-hiring-lead u-hide">{{ bio | safe }}</p>
+                    <p>{{ bio | safe }}</p>
                   {% endif %}
                 {% endfor %}
               </div>
