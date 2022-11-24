@@ -115,6 +115,10 @@
   function departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList) {
     let filterName = el.name;
 
+    if (filterName == "People"){
+      filterName = "Human Resources"
+    }
+
     if (el.checked){
       selectedDeptFilters.push(filterName)
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
