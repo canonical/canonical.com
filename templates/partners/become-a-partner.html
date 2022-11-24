@@ -103,7 +103,7 @@
       </ul> #}
     </div>
     <div class="col-6 col-start-large-7">
-      <form action="https://pages.ubuntu.com/index.php/leadCapture/save" method="post" id="mktoForm_1260">
+      <form action="https://ubuntu.com/marketo/submit" method="post" id="mktoForm_1260" onsubmit="ga('send', 'Become a partner', 'Signup', 'Become a partner application');">
         <fieldset>
           <div class="p-form--container">
             <p class="p-heading--3">About you</p>
@@ -129,6 +129,17 @@
                 <label for="Phone">Phone</label>
                 <input required id="Phone" name="Phone" maxlength="255" title="" type="tel" class="mktoField mktoTelField  mktoRequired">
               </div>
+
+              {# These are honey pot fields to catch bots #}
+              <li class="u-off-screen">
+                <label class="website" for="website">Website:</label>
+                <input name="website" type="text" class="website" autocomplete="off" value="" id="website" tabindex="-1" />
+              </li>
+              <li class="u-off-screen">
+                <label class="name" for="name">Name:</label>
+                <input name="name" type="text" class="name" autocomplete="off" value="" id="name" tabindex="-1" />
+              </li>
+              {# End of honey pots #}
 
               <div class="col-3">
                 <label for="Country">Country</label>
@@ -430,19 +441,16 @@
             <div class="mktField">
               <button type="submit" class="p-button--positive mktoButton">Apply now</button>
               <input type="hidden" name="formid" class="mktoField" value="1260">
-              <input type="hidden" name="formVid" class="mktoField" value="1260">
-              <input type="hidden" name="lpId" class="mktoField" value="1558">
-              <input type="hidden" name="subId" class="mktoField" value="30">
-              <input type="hidden" name="munchkinId" class="mktoField" value="066-EOV-335">
+              <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_campaign" id="utm_campaign" value="" />
+              <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_medium" id="utm_medium" value="" />
+              <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_source" id="utm_source" value="" />
+              <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_content" id="utm_content" value="" />
+              <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_term" id="utm_term" value="" />
               <input type="hidden" name="lpurl" class="mktoField" value="https://pages.ubuntu.com/become-a-partner.html?cr={creative}&amp;kw={keyword}">
-              <input type="hidden" name="cr" class="mktoField" value="">
-              <input type="hidden" name="kw" class="mktoField" value="">
-              <input type="hidden" name="q" class="mktoField" value="">
             </div>
           </div>
         </fieldset>
         <input type="hidden" name="returnURL" value="https://canonical.com/partners/thank-you" />
-        <input type="hidden" name="retURL" value="https://canonical.com/partners/thank-you" />
       </form>
     </div>
   </div>
