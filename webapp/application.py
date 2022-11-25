@@ -39,7 +39,9 @@ base_url = "https://harvest.greenhouse.io/v1"
 def _get_application(application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
-    application["job_post"] = harvest.get_job_post(int(job_post_id))
+    application["job_post"] = (
+        harvest.get_job_post(job_post_id) if job_post_id else None
+    )
 
     # Add candidate object
     application["candidate"] = harvest.get_candidate(
