@@ -115,10 +115,6 @@
   function departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList) {
     let filterName = el.name;
 
-    if (filterName == "People"){
-      filterName = "Human Resources"
-    }
-
     if (el.checked){
       selectedDeptFilters.push(filterName)
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
@@ -259,6 +255,14 @@
     jobList.forEach(job => {
       let jobSector = job.dataset.sector;
       let jobLocation = job.dataset.location;
+      
+      if (jobSector == "Human Resources"){
+        jobSector = "People"
+      }
+
+      if (jobSector == "TechOps"){
+        jobSector = "Support Engineering"
+      }
 
       if (selectedDeptFilters.length > 0 && localFilters.length > 0) {
         if (selectedDeptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){

@@ -232,7 +232,7 @@ def all_careers():
 
     dept_order = [
         "engineering",
-        "techops",
+        "support-engineering",
         "marketing",
         "web-and-design",
         "project-management",
@@ -251,6 +251,14 @@ def all_careers():
         del dept_list["human-resources"]
         dept_value = dept_list["people"].__dict__
         dept_value["name"] = "People"
+        dept_value["slug"] = "people"
+    
+    if "techops" in dept_list:
+        dept_list["support-engineering"] = dept_list["techops"]
+        del dept_list["techops"]
+        dept_value = dept_list["support-engineering"].__dict__
+        dept_value["name"] = "Support Engineering"
+        dept_value["slug"] = "support-engineering"
 
     sorted_departments = {k: dept_list[k] for k in dept_order}
 
