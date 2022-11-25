@@ -252,7 +252,7 @@ def all_careers():
         dept_value = dept_list["people"].__dict__
         dept_value["name"] = "People"
         dept_value["slug"] = "people"
-    
+
     if "techops" in dept_list:
         dept_list["support-engineering"] = dept_list["techops"]
         del dept_list["techops"]
