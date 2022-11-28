@@ -61,10 +61,10 @@ initDropdowItems('.p-navigation__dropdown-item');
 
 
 // Init GA tracking
-addGANavEvents("#products", "canonical.com-nav-products");
-addGANavEvents("#company", "canonical.com-nav-company");
-addGANavEvents("#partners", "canonical.com-nav-partners");
-addGANavEvents("#careers", "canonical.com-nav-careers");
+addGANavEvents("#products-nav", "canonical.com-nav-products");
+addGANavEvents("#company-nav", "canonical.com-nav-company");
+addGANavEvents("#partners-nav", "canonical.com-nav-partners");
+addGANavEvents("#careers-nav", "canonical.com-nav-careers");
 
 function addGANavEvents(target, category) {
   var t = document.querySelector(target);
