@@ -226,8 +226,7 @@ def careers_index():
     )
 
 
-@app.route("/careers/all")
-def all_careers():
+def get_sorted_departments():
     all_departments = (_group_by_department(greenhouse.get_vacancies()),)
 
     dept_order = [
@@ -260,7 +259,13 @@ def all_careers():
         dept_value["name"] = "Support Engineering"
         dept_value["slug"] = "support-engineering"
 
-    sorted_departments = {k: dept_list[k] for k in dept_order}
+    return {k: dept_list[k] for k in dept_order}
+
+
+@app.route("/careers/all")
+def all_careers():
+
+    sorted_departments = get_sorted_departments()
 
     return flask.render_template(
         "/careers/all.html",
@@ -285,9 +290,10 @@ def department_group(department_slug):
         if template.endswith(".html"):
             template = template[:-5]
         templates.append(template)
-
+    print(templates, department_slug)
     # Check if deparment exist or return 404
     for slug, department in context["all_departments"].items():
+        print(department.slug, department_slug)
         if department.slug == department_slug:
             context["department"] = department
             context["vacancies"] = greenhouse.get_vacancies_by_department_slug(
@@ -300,11 +306,13 @@ def department_group(department_slug):
         context["vacancies"] = greenhouse.get_vacancies()
 
     context["templates"] = templates
+    sorted_departments = get_sorted_departments()
 
     if "vacancies" in context:
         context["vacancies_json"] = [
             vacancy.to_dict() for vacancy in context["vacancies"]
         ]
+
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
             flask.request.form,
@@ -322,9 +330,17 @@ def department_group(department_slug):
 
         context["message"] = message
 
-        return flask.render_template("careers/base-template.html", **context)
+        return flask.render_template(
+            "careers/base-template.html",
+            sorted_departments=sorted_departments,
+            **context,
+        )
 
-    return flask.render_template("careers/base-template.html", **context)
+    return flask.render_template(
+        "careers/base-template.html",
+        sorted_departments=sorted_departments,
+        **context,
+    )
 
 
 # Partners

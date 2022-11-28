@@ -93,9 +93,10 @@
       for (let i = 0; i < loadedDeptFiters.length; i++){
         deptFilter = loadedDeptFiters[i]
         inputElement = document.getElementsByName(deptFilter)[0];
-
-        inputElement.onclick = function(){departmentFiltersListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
-        inputElement.click()
+        if (inputElement) {
+          inputElement.onclick = function(){departmentFiltersListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+          inputElement.click();
+        }
       }
     }
 
@@ -105,9 +106,10 @@
       for (let i = 0; i < loadedLocationFilters.length; i++){
         locationFilter = loadedLocationFilters[i]
         inputElement = document.getElementsByName(locationFilter)[0];
-
-        inputElement.onclick = function(){locationListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
-        inputElement.click()
+        if (inputElement) {
+          inputElement.onclick = function(){locationListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+          inputElement.click();
+        }
       }
     }
   };
