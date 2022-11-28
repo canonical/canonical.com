@@ -255,6 +255,14 @@
     jobList.forEach(job => {
       let jobSector = job.dataset.sector;
       let jobLocation = job.dataset.location;
+      
+      if (jobSector == "Human Resources"){
+        jobSector = "People"
+      }
+
+      if (jobSector == "TechOps"){
+        jobSector = "Support Engineering"
+      }
 
       if (selectedDeptFilters.length > 0 && localFilters.length > 0) {
         if (selectedDeptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){

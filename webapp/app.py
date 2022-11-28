@@ -228,9 +228,43 @@ def careers_index():
 
 @app.route("/careers/all")
 def all_careers():
+    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+
+    dept_order = [
+        "engineering",
+        "support-engineering",
+        "marketing",
+        "web-and-design",
+        "project-management",
+        "operations",
+        "product",
+        "sales",
+        "finance",
+        "people",
+    ]
+
+    dept_list = all_departments[0]
+
+    # rename hr department and slug
+    if "human-resources" in dept_list:
+        dept_list["people"] = dept_list["human-resources"]
+        del dept_list["human-resources"]
+        dept_value = dept_list["people"].__dict__
+        dept_value["name"] = "People"
+        dept_value["slug"] = "people"
+
+    if "techops" in dept_list:
+        dept_list["support-engineering"] = dept_list["techops"]
+        del dept_list["techops"]
+        dept_value = dept_list["support-engineering"].__dict__
+        dept_value["name"] = "Support Engineering"
+        dept_value["slug"] = "support-engineering"
+
+    sorted_departments = {k: dept_list[k] for k in dept_order}
+
     return flask.render_template(
         "/careers/all.html",
-        all_departments=_group_by_department(greenhouse.get_vacancies()),
+        sorted_departments=sorted_departments,
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
