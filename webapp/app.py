@@ -290,10 +290,9 @@ def department_group(department_slug):
         if template.endswith(".html"):
             template = template[:-5]
         templates.append(template)
-    print(templates, department_slug)
+
     # Check if deparment exist or return 404
     for slug, department in context["all_departments"].items():
-        print(department.slug, department_slug)
         if department.slug == department_slug:
             context["department"] = department
             context["vacancies"] = greenhouse.get_vacancies_by_department_slug(
