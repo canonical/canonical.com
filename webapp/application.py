@@ -78,7 +78,18 @@ base_url = "https://harvest.greenhouse.io/v1"
 # ===
 
 
+def progressive(current, last):
+    if current in milestone_stages:
+        current_index = list(milestone_stages).index(current)
+        last_index = list(milestone_stages).index(last)
+
+        if current_index > last_index:
+            return True
+    return False
+
+
 def _find_most_recent_milestone(stages):
+    latest_milestone = next(iter(milestone_stages))
     for most_recent_finished_stage in reversed(stages):
         most_recent_finished_stage = most_recent_finished_stage.lower().strip()
         for milestone, stages_in_milestone in milestone_stages.items():
@@ -86,8 +97,10 @@ def _find_most_recent_milestone(stages):
                 if (
                     stage_in_milestone.lower().strip()
                     == most_recent_finished_stage
+                    and progressive(milestone, latest_milestone)
                 ):
-                    return milestone
+                    latest_milestone = milestone
+    return latest_milestone
 
 
 def _milestones_progress(current_stage, stages):
