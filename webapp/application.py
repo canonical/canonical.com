@@ -23,7 +23,7 @@ withdrawal_reasons = {
 }
 
 milestone_stages = {
-    "application": ("Application Review"),
+    "application": {("Application Review")},
     "assessment": (
         "Written Interview",
         "Thomas International - GIA",
@@ -58,7 +58,7 @@ milestone_stages = {
         "Panel Interview",
         "Materials Demonstration",
     ),
-    "offer": ("Offer"),
+    "offer": {("Offer")},
 }
 
 application = flask.Blueprint(
