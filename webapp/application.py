@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import parseaddr
 from smtplib import SMTP
+from typing import Dict, List, Tuple
 
 import flask
 import talisker.requests
@@ -21,6 +22,46 @@ withdrawal_reasons = {
     "36714": "I cannot complete the assessment",
     "33": "Other",
 }
+
+milestone_stages = {
+    "application": ("Application Review",),
+    "assessment": (
+        "Written Interview",
+        "Thomas International - GIA",
+        "Psychometric Assessment",
+        "Meet & Greet",
+        "Peer Interview",
+        "Phone Interview",
+        "Domain Expert Screen",
+    ),
+    "early_stage": (
+        "Early Stage Interviews",
+        "Thomas International - PPA",
+        "ClassMarker",
+        "Devskiller",
+        "Take Home Test",
+        "Technical Exercise",
+        "Exec Interview",
+        "Reference Check",
+        "HR Interview",
+        "Technical Interview",
+        "Technical Assessment Classmarker",
+        "Talent Interview",
+    ),
+    "late_stage": (
+        "Late Stage Interviews",
+        "Executive Review",
+        "Python Interview - Advanced"
+        "Executive Interviews"
+        "Sales Panel Interview",
+        "Cross Team Interview",
+        "CTO Interview",
+        "Panel Interview",
+        "Materials Demonstration",
+    ),
+    "offer": ("Offer",),
+}
+
 application = flask.Blueprint(
     "application",
     __name__,
@@ -36,6 +77,86 @@ base_url = "https://harvest.greenhouse.io/v1"
 
 # Helpers
 # ===
+
+
+def _sort_stages_by_milestone(
+    stages: List[str], milestones: Dict[str, Tuple[str]]
+):
+    """
+    Sort the given stages by milestones and filter out not recognized ones
+    - stages: the stages to sort
+    - milestone: an order list of milestones as keys and
+    sorted possible stages per milestone
+    """
+    stages = [stage for stage in stages]
+    all_ordered_stages = [
+        stage
+        for stages_per_milestone in milestones.values()
+        for stage in stages_per_milestone
+    ]
+    return [stage for stage in all_ordered_stages if stage in stages]
+
+
+def _find_most_recent_milestone(stages: List[str]):
+    """
+    Search for the most recent milestone that the candidate is currently in
+    """
+    for most_recent_finished_stage in reversed(stages):
+        most_recent_finished_stage = most_recent_finished_stage.lower().strip()
+        for milestone, stages_in_milestone in milestone_stages.items():
+            for stage_in_milestone in stages_in_milestone:
+                if (
+                    stage_in_milestone.lower().strip()
+                    == most_recent_finished_stage
+                ):
+                    return milestone
+    # return first milestone otherwise
+    return next(iter(milestone_stages))
+
+
+def _milestones_progress(stages, current_stage=None):
+    """
+    Get the list of finished and unfinished milestones for
+    a given candidate's application
+
+    - stages: The list of job stages ordered in the chronological order
+    - current_stage: (optional) The current stage that the candidate is
+    currently in
+    """
+    progress = {}
+    if not current_stage:
+        for milestone in milestone_stages:
+            progress[milestone] = False
+        return progress
+
+    stages = [stage["name"] for stage in stages]
+    current_stage = current_stage["name"]
+
+    # Filter out todo stages that candidate hasn't done yet
+    candidate_finished_stages = []
+    for stage in stages:
+        candidate_finished_stages.append(stage)
+        if stage == current_stage:
+            break
+
+    candidate_finished_stages = _sort_stages_by_milestone(
+        candidate_finished_stages, milestone_stages
+    )
+    most_recent_milestone = _find_most_recent_milestone(
+        candidate_finished_stages
+    )
+
+    # Set the progress of all the milestones prior
+    # to the current one as completed
+    is_before_most_recent_milestone = bool(most_recent_milestone)
+    for milestone in milestone_stages:
+        progress[milestone] = is_before_most_recent_milestone
+        if milestone == most_recent_milestone:
+            is_before_most_recent_milestone = False
+
+    return progress
+
+
 def _get_application(application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
@@ -59,32 +180,34 @@ def _get_application(application_id):
             application["hiring_lead"] = harvest.get_user(recruiter["id"])
             break
 
-    # Retrieve scheduled interviews, calculate duration of each
     stages = harvest.get_stages(job_id)
+
+    # By default GH sends stages in the right order
+    # we need to get the completed milestones based on the finished stages
+    application["stage_progress"] = _milestones_progress(
+        stages,
+        application["current_stage"],
+    )
+
+    # Retrieve scheduled interviews, calculate duration of each
     interviews_stage = {}
     for stage in stages:
         for interview in stage["interviews"]:
             interviews_stage[interview["id"]] = stage["name"]
-    if application["current_stage"]:
-        application["stage_progress"] = stage_progress(
-            application["current_stage"]["name"]
-        )
-        application["scheduled_interviews"] = harvest.get_interviews_scheduled(
-            application["id"]
-        )
+    application["scheduled_interviews"] = harvest.get_interviews_scheduled(
+        application["id"]
+    )
 
-        for interview in application["scheduled_interviews"]:
-            interview["start"]["datetime"] = parse(
-                interview["start"]["date_time"]
-            )
-            interview["end"]["datetime"] = parse(interview["end"]["date_time"])
-            difference = (
-                interview["end"]["datetime"] - interview["start"]["datetime"]
-            )
-            interview["duration"] = int(difference.total_seconds() / 60)
-            interview["stage_name"] = interviews_stage[
-                interview["interview"]["id"]
-            ]
+    for interview in application["scheduled_interviews"]:
+        interview["start"]["datetime"] = parse(interview["start"]["date_time"])
+        interview["end"]["datetime"] = parse(interview["end"]["date_time"])
+        difference = (
+            interview["end"]["datetime"] - interview["start"]["datetime"]
+        )
+        interview["duration"] = int(difference.total_seconds() / 60)
+        interview["stage_name"] = interviews_stage[
+            interview["interview"]["id"]
+        ]
 
     application["to_be_rejected"] = False
 
@@ -165,62 +288,6 @@ def add_headers(response):
         response.headers["Cache-Control"] = "private"
 
     return response
-
-
-def stage_progress(current_stage):
-    milestone_stages = {
-        "application": ("Application Review"),
-        "assessment": (
-            "Written Interview",
-            "Thomas International - GIA",
-            "Psychometric Assessment",
-            "Meet & Greet",
-            "Peer Interview",
-            "Phone Interview",
-            "Domain Expert Screen",
-            "Hold",
-        ),
-        "early_stage": (
-            "Early Stage Interviews",
-            "Thomas International - PPA",
-            "ClassMarker",
-            "Devskiller",
-            "Take Home Test",
-            "Technical Exercise",
-            "Exec Interview",
-            "Reference Check",
-            "HR Interview",
-            "Technical Interview",
-            "Technical Assessment Classmarker",
-            "Talent Interview",
-        ),
-        "late_stage": (
-            "Late Stage Interviews",
-            "Shortlist",
-            "Executive Review",
-            "Python Interview - Advanced"
-            "Executive Interviews"
-            "Sales Panel Interview",
-            "Cross Team Interview",
-            "CTO Interview",
-            "Panel Interview",
-            "Materials Demonstration",
-        ),
-        "offer": ("Offer"),
-    }
-
-    progress = {}
-    found = False
-    for milestone, stages in milestone_stages.items():
-        if current_stage in stages:
-            progress[milestone] = True
-            found = True
-        elif not found:
-            progress[milestone] = True
-        else:
-            progress[milestone] = False
-
-    return progress
 
 
 @application.route("/faq")
