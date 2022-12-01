@@ -42,8 +42,7 @@ app.register_blueprint(application, url_prefix="/careers/application")
 
 @app.route("/")
 def index():
-    partner_groups = partners_api.get_partner_groups()
-    return flask.render_template("index.html", partner_groups=partner_groups)
+    return flask.render_template("index.html")
 
 
 @app.route("/sitemap.xml")
