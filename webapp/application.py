@@ -134,10 +134,12 @@ def _milestones_progress(stages, current_stage=None):
 
     # Filter out todo stages that candidate hasn't done yet
     candidate_finished_stages = []
-    for stage in stages:
-        candidate_finished_stages.append(stage)
+    last_occurrence_found = False
+    for stage in reversed(stages):
         if stage == current_stage:
-            break
+            last_occurrence_found = True
+        if last_occurrence_found:
+            candidate_finished_stages.append(stage)
 
     candidate_finished_stages = _sort_stages_by_milestone(
         candidate_finished_stages, milestone_stages
