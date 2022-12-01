@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import parseaddr
 from smtplib import SMTP
+from typing import Dict, List, Tuple
 
 import flask
 import talisker.requests
@@ -23,7 +24,7 @@ withdrawal_reasons = {
 }
 
 milestone_stages = {
-    "application": {("Application Review")},
+    "application": ("Application Review",),
     "assessment": (
         "Written Interview",
         "Thomas International - GIA",
@@ -58,7 +59,7 @@ milestone_stages = {
         "Panel Interview",
         "Materials Demonstration",
     ),
-    "offer": {("Offer")},
+    "offer": ("Offer",),
 }
 
 application = flask.Blueprint(
@@ -78,18 +79,28 @@ base_url = "https://harvest.greenhouse.io/v1"
 # ===
 
 
-def progressive(current, last):
-    if current in milestone_stages:
-        current_index = list(milestone_stages).index(current)
-        last_index = list(milestone_stages).index(last)
+def _sort_stages_by_milestone(
+    stages: List[str], milestones: Dict[str, Tuple[str]]
+):
+    """
+    Sort the given stages by milestones and filter out not recognized ones
+    - stages: the stages to sort
+    - milestone: an order list of milestones as keys and
+    sorted possible stages per milestone
+    """
+    stages = [stage for stage in stages]
+    all_ordered_stages = [
+        stage
+        for stages_per_milestone in milestones.values()
+        for stage in stages_per_milestone
+    ]
+    return [stage for stage in all_ordered_stages if stage in stages]
 
-        if current_index > last_index:
-            return True
-    return False
 
-
-def _find_most_recent_milestone(stages):
-    latest_milestone = next(iter(milestone_stages))
+def _find_most_recent_milestone(stages: List[str]):
+    """
+    Search for the most recent milestone that the candidate is currently in
+    """
     for most_recent_finished_stage in reversed(stages):
         most_recent_finished_stage = most_recent_finished_stage.lower().strip()
         for milestone, stages_in_milestone in milestone_stages.items():
@@ -97,20 +108,20 @@ def _find_most_recent_milestone(stages):
                 if (
                     stage_in_milestone.lower().strip()
                     == most_recent_finished_stage
-                    and progressive(milestone, latest_milestone)
                 ):
-                    latest_milestone = milestone
-    return latest_milestone
+                    return milestone
+    # return first milestone otherwise
+    return next(iter(milestone_stages))
 
 
-def _milestones_progress(current_stage, stages):
+def _milestones_progress(stages, current_stage=None):
     """
     Get the list of finished and unfinished milestones for
     a given candidate's application
 
-    - current_stage: (optional) The current stage that
-    the candidate is currently in
     - stages: The list of job stages ordered in the chronological order
+    - current_stage: (optional) The current stage that the candidate is
+    currently in
     """
     progress = {}
     if not current_stage:
@@ -118,15 +129,19 @@ def _milestones_progress(current_stage, stages):
             progress[milestone] = False
         return progress
 
-    # Filter out todo stages that candidate hasn't done yet
-    candidate_finished_stages = []
     stages = [stage["name"] for stage in stages]
     current_stage = current_stage["name"]
+
+    # Filter out todo stages that candidate hasn't done yet
+    candidate_finished_stages = []
     for stage in stages:
         candidate_finished_stages.append(stage)
         if stage == current_stage:
             break
 
+    candidate_finished_stages = _sort_stages_by_milestone(
+        candidate_finished_stages, milestone_stages
+    )
     most_recent_milestone = _find_most_recent_milestone(
         candidate_finished_stages
     )
@@ -170,7 +185,8 @@ def _get_application(application_id):
     # By default GH sends stages in the right order
     # we need to get the completed milestones based on the finished stages
     application["stage_progress"] = _milestones_progress(
-        application["current_stage"], stages
+        stages,
+        application["current_stage"],
     )
 
     # Retrieve scheduled interviews, calculate duration of each
