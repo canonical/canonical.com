@@ -46,7 +46,9 @@ class TestApplicationPageHelpers(unittest.TestCase):
 
     def test_milestone_progress_current_stage_defined(self):
         self.assertDictEqual(
-            _milestones_progress(all_stages, {"name": "Devskiller"}),
+            _milestones_progress(
+                all_stages, {"name": "Early Stage Interviews"}
+            ),
             {
                 "application": True,
                 "assessment": True,
