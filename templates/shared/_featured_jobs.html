@@ -1,0 +1,14 @@
+<section class="p-strip">
+    <div class="u-fixed-width">
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Jobs</h2>
+        <hr/>
+    </div>
+    <div class="u-fixed-width">
+        <ul class="p-list is-split">
+            {% for job in featured_jobs %}
+            <li class="p-list__item"><a href="/careers/{{job.id}}">{{ job.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <a class="p-button" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
+    </div>
+</section>
