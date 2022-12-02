@@ -302,21 +302,26 @@ def department_group(department_slug):
     if not context["department"] and department_slug not in templates:
         flask.abort(404)
 
-    import ipdb
-    
-    vacancies=[
-        vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-    ],
+    vacancies = (
+        [vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
+    )
 
     featured_jobs = []
     fast_track_jobs = []
-    
+
+    # ipdb.set_trace()
     for vacancy in vacancies[0]:
-        if vacancy["featured"] and vacancy["departments"] == department_slug.capitalize():
+        if (
+            vacancy["featured"]
+            and vacancy["departments"] == department_slug.capitalize()
+        ):
             featured_jobs.append(vacancy)
 
-        if vacancy["fast_track"] and vacancy["departments"] == department_slug.capitalize():
+        if vacancy["fast_track"]:
             fast_track_jobs.append(vacancy)
+    # ipdb.set_trace()
+    # print(fast_track_jobs)
+    # print(featured_jobs)
 
     context["templates"] = templates
     sorted_departments = get_sorted_departments()
@@ -348,6 +353,7 @@ def department_group(department_slug):
         "careers/base-template.html",
         sorted_departments=sorted_departments,
         featured_jobs=featured_jobs,
+        fast_track_jobs=fast_track_jobs,
         department_slug=department_slug,
         **context,
     )
