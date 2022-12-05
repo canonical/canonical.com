@@ -1,5 +1,6 @@
 # Standard library
 import datetime
+import calendar
 import os
 import re
 from urllib.parse import parse_qs, urlencode, urlparse
@@ -450,6 +451,11 @@ def months_list(year):
     return months
 
 
+def month_name(string):
+    month = int(string)
+    return calendar.month_name[month]
+
+
 # Template context
 @app.context_processor
 def context():
@@ -457,6 +463,7 @@ def context():
         "modify_query": modify_query,
         "descending_years": descending_years,
         "months_list": months_list,
+        "month_name": month_name,
     }
 
 
