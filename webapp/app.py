@@ -309,19 +309,27 @@ def department_group(department_slug):
     featured_jobs = []
     fast_track_jobs = []
 
-    # ipdb.set_trace()
     for vacancy in vacancies[0]:
+        # Check for department name discrepancies 
+        if vacancy["departments"] == "Human Resources":
+            vacancy["departments"] = "People"
+
+        if vacancy["departments"] == "Web & Design":
+            vacancy["departments"] = "Web-and-Design"
+
+        if vacancy["departments"] == "TechOps":
+            vacancy["departments"] = "Support-Engineering"
+
+        # Check if department role is featured or fast track
         if (
             vacancy["featured"]
-            and vacancy["departments"] == department_slug.capitalize()
+            and vacancy["departments"].lower() == department_slug
         ):
             featured_jobs.append(vacancy)
 
+        # To be changed after review in include check for dept slug
         if vacancy["fast_track"]:
             fast_track_jobs.append(vacancy)
-    # ipdb.set_trace()
-    # print(fast_track_jobs)
-    # print(featured_jobs)
 
     context["templates"] = templates
     sorted_departments = get_sorted_departments()
