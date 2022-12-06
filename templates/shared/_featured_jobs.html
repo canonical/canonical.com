@@ -1,11 +1,11 @@
-<section class="p-strip">
+<section class="p-strip u-no-padding--top">
   <div class="u-fixed-width">
     <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Jobs</h2>
     <hr class="u-no-margin--bottom">
   </div>
   <div class="p-featured row">
     {% for job in featured_jobs %}
-    {% if loop.index % 3 == 0 %}
+    {% if loop.index % 4 == 1 %}
     <hr class="u-no-margin--bottom">
     {% endif %}
     <div class="p-featured__item col-3 col-small-4 col-medium-6">
@@ -15,5 +15,8 @@
     </div>
     {% endfor %}
   </div>
-  <a class="p-button" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
+  <div class="u-fixed-width">
+    <hr>
+    <a class="p-button" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
+  </div>
 </section>
