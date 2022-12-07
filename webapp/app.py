@@ -310,7 +310,7 @@ def department_group(department_slug):
     fast_track_jobs = []
 
     for vacancy in vacancies[0]:
-        # Check for department name discrepancies 
+        # Check for department name discrepancies
         if vacancy["departments"] == "Human Resources":
             vacancy["departments"] = "People"
 
