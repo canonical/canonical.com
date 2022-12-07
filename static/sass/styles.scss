@@ -290,18 +290,27 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .p-featured {
   gap: 0;
 
+  &.is-fast-track &__item {
+     background-color: $color-light;
+  }
+
   &__item {
-    background-color: $color-light;
-    border-right: 1px solid $color-x-light;
+    // @include vf-transition(#{background-color, border-color}, snap, in);
+    
+    margin-right: 1px;
+    border-top: 1px solid $colors--light-theme--border-default;
     padding: 0 1rem 1rem;
 
     &:active {
-      background-color: $colors--light-theme--background-active
+      background-color: $colors--light-theme--background-active;
     }
 
     &:hover {
-      background-color: $colors--light-theme--background-hover
+      background-color: $colors--light-theme--background-hover;
+      
+      a {
+        text-decoration: underline; 
+      }
     }
   }
-
 }
