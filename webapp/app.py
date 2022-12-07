@@ -217,12 +217,61 @@ def start_career():
 
 @app.route("/careers")
 def careers_index():
+    import ipdb
+    
+    all_departments=_group_by_department(greenhouse.get_vacancies()),
+
+    dept_list = [
+        "engineering",
+        "support-engineering",
+        "marketing",
+        "web-and-design",
+        "project-management",
+        "operations",
+        "product",
+        "sales",
+        "finance",
+        "people",
+    ]
+    vacancy_count = []
+   
+    for vacancy in all_departments:
+        for dept in dept_list:
+            if dept == "support-engineering":
+                dept = "techops"
+
+            if dept == "people":
+                dept = "human-resources"
+
+            if vacancy[dept]:
+                if dept == "techops":
+                    dept_name = "Support Engineering"
+                    dept_count = len(vacancy[dept].__dict__["vacancies"])
+                    dept_slug = "support-engineering"
+                elif dept == "human-resources":
+                    dept_name = "People"
+                    dept_count = len(vacancy[dept].__dict__["vacancies"])
+                    dept_slug = "people"
+                else:
+                    dept_name = vacancy[dept].__dict__["name"]
+                    dept_count = len(vacancy[dept].__dict__["vacancies"])
+                    dept_slug = vacancy[dept].__dict__["slug"]
+
+                vacancy_count.append(
+                    {
+                    "dept_name": dept_name,
+                    "dept_count": dept_count,
+                    "dept_slug": dept_slug,
+                    }
+                )
+
     return flask.render_template(
         "/careers/index.html",
-        all_departments=_group_by_department(greenhouse.get_vacancies()),
+        all_departments=all_departments,
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+        vacancy_count=vacancy_count
     )
 
 
