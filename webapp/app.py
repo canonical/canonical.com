@@ -240,7 +240,7 @@ def careers_index():
                 count = len(vacancy[dept].__dict__["vacancies"])
 
                 if dept == "techops":
-                    name = "Support Engineering"     
+                    name = "Support Engineering"
                     slug = "support-engineering"
                 elif dept == "human-resources":
                     name = "People"
