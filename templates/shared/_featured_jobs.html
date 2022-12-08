@@ -1,19 +1,24 @@
-<div class="u-fixed-width">
-  <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Jobs</h2>
-  <hr class="u-no-margin--bottom">
-</div>
-<div class="p-featured row">
-  {% for job in featured_jobs %}
-    {% if loop.index < 9 %}
-      <div class="p-featured__item col-small-4 col-medium-3 col-3">
-        <p class="p-featured__role">
-          <a class="p-featured__url" href="/careers/{{job.id}}">{{ job.title }}</a>
-        </p>
-      </div>
-    {% endif %}
-  {% endfor %}
-</div>
-<div class="u-fixed-width">
-  <hr>
-  <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
-</div>
+<section class="p-strip u-no-padding--top">
+  <div class="u-fixed-width">
+    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Jobs</h2>
+    <hr class="u-no-margin--bottom">
+  </div>
+  <div class="p-featured row">
+    {% for job in featured_jobs %}
+      {% if loop.index < 9 %}
+        <!-- {% if loop.index % 4 == 1 %}
+          <hr class="u-no-margin--bottom">
+        {% endif %} -->
+        <div class="p-featured__item col-small-4 col-medium-3 col-3">
+          <p class="p-featured__role">
+             <a class="p-featured__url" href="/careers/{{job.id}}">{{ job.title }}</a>
+          </p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="u-fixed-width">
+    <hr>
+    <a class="p-button" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
+  </div>
+</section>
