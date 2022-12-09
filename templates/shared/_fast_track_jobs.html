@@ -1,15 +1,14 @@
-<section class="p-strip is-shallow">
-  <div class="u-fixed-width">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Fast track Jobs</h2>
-    <hr class="u-no-margin--bottom">
+<div class="u-fixed-width">
+  <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin--bottom">Expertises</h2>
+  <p class="p-heading--5 u-fixed-width">If you would like us to help you identify a suitable role for you please select and apply for the stream you are interested in:</p>
+  <hr class="u-no-margin--bottom">
+</div>
+<div class="p-featured is-fast-track row">
+  {% for job in fast_track_jobs %}
+  <div class="p-featured__item col-small-4 col-medium-3 col-3">
+    <p class="p-featured__role">
+      <a class="p-featured__role-url" href="/careers/{{job.id}}">{{ job.title }}</a>
+    </p>
   </div>
-  <div class="p-featured is-fast-track row">
-    {% for job in fast_track_jobs %}
-    <div class="p-featured__item col-small-4 col-medium-3 col-3">
-      <p class="p-featured__role">
-        <a class="p-featured__role-url" href="/careers/{{job.id}}">{{ job.title }}</a>
-      </p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+  {% endfor %}
+</div>

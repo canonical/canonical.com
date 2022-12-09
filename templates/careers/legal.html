@@ -21,32 +21,23 @@
   </div>
 </section>
 
-{% if fast_track_jobs %}
-  {% include "shared/_fast_track_jobs.html" %}
-{% endif %}
+{% if fast_track_jobs or featured_jobs %}
+  <section class="p-strip is-shallow">
+    {% if fast_track_jobs %}
+      {% include "shared/_fast_track_jobs.html" %}
+    {% endif %}
 
-{% if featured_jobs %}
-  {% set department = department_slug.capitalize()%}
-  {% include "shared/_featured_jobs.html" %}
+    {% if featured_jobs %}
+      {% set department = department_slug.capitalize()%}
+      {% include "shared/_featured_jobs.html" %}
+    {% endif %}
+  </section>
 {% endif %}
 
 <section class="p-strip">
   <div class="u-fixed-width">
-    {% if featured_jobs or fast_track_jobs%}
-      <hr class="is-fixed-width u-no-margin--bottom">
-    {% endif %}
+    <hr class="is-fixed-width u-no-margin--bottom">
     <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="u-fixed-width u-hide--small u-hide--medium">
-    {{ image (
-      url="https://assets.ubuntu.com/v1/815e6e4a-department-legal-%402x.jpg",
-      alt="",
-      width="2216",
-      height="834",
-      hi_def=True,
-      loading="auto"
-      ) | safe
-    }}
   </div>
   <div class="p-strip is-shallow u-no-padding--top">
     <div class="row">
@@ -57,6 +48,19 @@
         <p>Enabling enterprises, partners and technology providers across the globe to embrace the latest open source technology means efficient contracting that is both commercially sophisticated and technically interesting. We shape multinational agreements between many of the very largest organisations in a wide range of industries &ndash; from telecommunications to retail, financial services to media. And we participate in the world wide process to define and understand the future of collaborative engineering, as open source licences explore new ways to support the creation of open software by companies and individual contributors.</p>
         <p>Our goal is to reflect the simplest, cleanest and most understandable contractual framework to our counterparts, that represents current best practice and the latest approaches to software production, consumption and distribution. We pride ourselves on the combination of rigour and business enablement &ndash; we support complex deals in a way that protects all parties and minimises friction.</p>
       </div>
+    </div>
+  </div>
+  <div class="p-strip is-shallow u-no-padding--top">
+    <div class="u-fixed-width u-hide--small u-hide--medium">
+      {{ image (
+        url="https://assets.ubuntu.com/v1/815e6e4a-department-legal-%402x.jpg",
+        alt="",
+        width="2216",
+        height="834",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
     </div>
   </div>
   <div class="p-strip is-shallow u-no-padding--top">
