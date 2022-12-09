@@ -327,8 +327,10 @@ def department_group(department_slug):
         ):
             featured_jobs.append(vacancy)
 
-        # To be changed after review in include check for dept slug
-        if vacancy["fast_track"]:
+        if (
+            vacancy["fast_track"]
+            and vacancy["departments"].lower() == department_slug
+        ):
             fast_track_jobs.append(vacancy)
 
     context["templates"] = templates
