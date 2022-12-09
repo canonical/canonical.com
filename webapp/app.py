@@ -217,6 +217,11 @@ def start_career():
 
 @app.route("/careers")
 def careers_index():
+    """
+    Create a dictionary containing number of roles, slug
+    and department name for a given department
+    """
+
     all_departments = (_group_by_department(greenhouse.get_vacancies()),)
 
     dept_list = [
@@ -233,7 +238,7 @@ def careers_index():
     ]
 
     departments_overview = []
-    # Create an object of number of roles, slug and department name for a given department
+
     for vacancy in all_departments:
         for dept in dept_list:
             if vacancy[dept]:
