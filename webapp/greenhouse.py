@@ -92,6 +92,7 @@ class Vacancy:
                 _get_metadata(job, "departments") or [],
             )
         )
+
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
         self.description: str = _get_metadata(job, "description")
