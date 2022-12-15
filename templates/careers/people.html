@@ -1,0 +1,87 @@
+{% extends '/careers/base-tabs.html' %}
+
+{% block meta_copydoc %} https://docs.google.com/document/d/1sj-WToRUa9N2c5brs8iAoOfOPHJCeHwvHByq8qcSgK4 {% endblock meta_copydoc %}
+
+{% block title %}People | Careers{% endblock %}
+
+{% block meta_description %}Canonical provides a unique window into the world of 21st-century digital business. We work with smart individuals from a wide range of professional backgrounds in more than 40 countries worldwide, bringing together.{% endblock %}
+
+{% block content %}
+<section class="p-strip--dark is-deep" style="background-position: 100% 0%; background-size: cover; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
+  <hr class="is-fixed-width u-no-margin--bottom is-dark">
+  <div class="row">
+    <div class="col-6">
+      <h1 class="p-heading--2"><strong>People</strong></h1>
+    </div>
+    <div class="col-6">
+      <p>Canonical provides a unique window into the world of 21st-century digital business. We work with smart individuals from a wide range of professional backgrounds in more than 60 countries worldwide, bringing together distinct and diverse perspectives to contribute to the advancement of state-of-the-art technical infrastructure. </p>
+      <p class="u-sv2">Our team is united by a passion for open engineering and a commitment to crisp, reliable execution which enables us to exceed our customers' expectations when it comes to next-gen open source technology.</p>
+      <a class="p-button--positive" href="/careers/all?filter=People">See all People roles</a>
+      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
+    </div>
+  </div>
+</section>
+
+{% if fast_track_jobs or featured_jobs %}
+  <section class="p-strip--light">
+    {% if fast_track_jobs %}
+      {% include "shared/_fast_track_jobs.html" %}
+    {% endif %}
+
+    {% if featured_jobs %}
+      {% set department = department_slug.capitalize()%}
+      {% include "shared/_featured_jobs.html" %}
+    {% endif %}
+  </section>
+{% endif %}
+
+<section class="p-strip">
+  <div class="u-fixed-width">
+    <hr class="is-fixed-width u-no-margin--bottom">
+    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
+  </div>
+  <div class="p-strip is-shallow u-no-padding--top">
+    <div class="row">
+      <div class="col-6">
+        <h3 class="p-heading--2">People at Canonical</h3>
+      </div>
+      <div class="col-6">
+        <p>We pride ourselves on exceptional quality of work and our HR team embody and build that quality within Canonical. Our HR team is central to the development and growth of that capacity and competence. Our commitment to the team is to seek out potential colleagues with the right mix of interests, ambitions, aptitudes and attitudes, to coach and develop them through a varied career ensuring that they have the right opportunities to learn and grow. Our commitment to the business is to ensure that we operate consistently on a global basis, mindful of regional and national regulations. We are also committed to offering our HR and talent professionals the coaching, learning opportunities, and challenges that will enable them to create a varied and successful career.</p>
+      </div>
+    </div>
+  </div>
+  <div class="p-strip is-shallow u-no-padding--top">
+    <div class="u-fixed-width u-hide--small u-hide--medium">
+      {{ image (
+        url="https://assets.ubuntu.com/v1/cdb9248f-department-hr-%402x.jpg",
+        alt="",
+        width="1242",
+        height="467",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
+    </div>
+  </div>
+  <hr class="is-fixed-width u-no-margin--bottom">
+  <div class="p-strip is-shallow u-no-padding--top">
+    <div class="row">
+      <div class="col-6">
+        <h3 class="p-heading--2">Who you are</h3>
+      </div>
+      <div class="col-6">
+        <p>Our set-up provides a unique challenge for our HR team, who ensure that we operate consistently on a global basis and are compliant with regional and national regulations. If you are interested in finding, coaching, and developing the best talent, Canonical encourages our management team to hire the best person for the job, no matter who they are or where they are located. If you are fascinated by the technical and legal aspects of HR, Canonical will give you the chance to work with teams in multiple jurisdictions, from Asia to the Americas and so many places in between.</p>
+        <p>Our HR team ensures that we operate consistently across our global footprint and are compliant with all regional and national regulations where we do business.  We strive to hire world-class talent regardless of their location, we're not burdened by traditional models that only market to certain cities or require team members to reside where an office is.  If you have a passion for the technical, legal, and interpersonal aspects of HR, Canonical provides an array of opportunities to make impactful change while working with teams from Asia-Pacific to the Americas and many places in between.</p>
+      </div>
+    </div>
+  </div>  
+</section>
+
+{% include "shared/_social-icons-section.html" %}
+
+{% with section_classes='p-strip', heading_topic='People', tag_id='1216', limit='3' %}
+  {% include "shared/_blog-card.html" %}
+{% endwith %}
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}
