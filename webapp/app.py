@@ -347,16 +347,40 @@ def department_group(department_slug):
 
     if not context["department"] and department_slug not in templates:
         flask.abort(404)
-    elif department_slug == "all":
-        context["vacancies"] = greenhouse.get_vacancies()
+
+    vacancies = (
+        [vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
+    )
+
+    featured_jobs = []
+    fast_track_jobs = []
+
+    for vacancy in vacancies[0]:
+        # Check for department name discrepancies
+        if vacancy["departments"] == "Human Resources":
+            vacancy["departments"] = "People"
+
+        if vacancy["departments"] == "Web & Design":
+            vacancy["departments"] = "Web-and-Design"
+
+        if vacancy["departments"] == "TechOps":
+            vacancy["departments"] = "Support-Engineering"
+
+        # Check if department role is featured or fast track
+        if (
+            vacancy["featured"]
+            and vacancy["departments"].lower() == department_slug
+        ):
+            featured_jobs.append(vacancy)
+
+        if (
+            vacancy["fast_track"]
+            and vacancy["departments"].lower() == department_slug
+        ):
+            fast_track_jobs.append(vacancy)
 
     context["templates"] = templates
     sorted_departments = get_sorted_departments()
-
-    if "vacancies" in context:
-        context["vacancies_json"] = [
-            vacancy.to_dict() for vacancy in context["vacancies"]
-        ]
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(
@@ -384,6 +408,9 @@ def department_group(department_slug):
     return flask.render_template(
         "careers/base-template.html",
         sorted_departments=sorted_departments,
+        featured_jobs=featured_jobs,
+        fast_track_jobs=fast_track_jobs,
+        department_slug=department_slug,
         **context,
     )
 

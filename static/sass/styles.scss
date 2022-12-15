@@ -285,3 +285,52 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     }
   }
 }
+
+
+.p-featured {
+  gap: 0;
+
+  &__item {    
+    border-top: 1px solid $colors--light-theme--border-default;
+    margin-right: 1px;
+    padding: 0 1rem 1rem;
+
+    &:active {
+      background-color: $colors--light-theme--background-active;
+    }
+
+    &:hover {
+      background-color: $colors--light-theme--background-hover;
+      
+      a {
+        text-decoration: underline; 
+      }
+    }
+  }
+
+  &__filler {
+    border-top: 1px solid $colors--light-theme--border-default;
+    margin-right: 1px;
+    padding: 0 1rem 1rem;
+  }
+
+  &.is-fast-track &__item {
+    background-color: $color-light;
+  }
+}
+
+// When a blog card does not have a featured image, hide the container
+.blog-p-card__content > .u-crop--16-9:has(.article-image:empty) {
+  display: none;
+}
+
+// XXX: appending this to the vanilla placeholder. Remove when this pr is merged: https://github.com/canonical/vanilla-framework/pull/4625
+%social-icon {
+  max-height: 1.5rem;
+  max-width: 1.5rem;
+}
+
+.p-inline-list.is-inlined-with-h2 {
+  display: inline-block;
+  margin: 1.5rem 0 0 1rem;
+}

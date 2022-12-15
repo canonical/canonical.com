@@ -14,6 +14,8 @@ def _get_metadata(job, name):
         "skills": 675557,
         "description": 2739137,
         "employment_type": 149021,
+        "is_featured": 11961371,
+        "is_fast_track": 12679300,
     }
 
     for data in job["metadata"]:
@@ -100,6 +102,8 @@ class Vacancy:
         self.slug: str = _get_job_slug(job)
         self.skills: list = _get_metadata(job, "skills") or []
         self.is_remote: bool = False if job["offices"][0]["location"] else True
+        self.featured: str = _get_metadata(job, "is_featured")
+        self.fast_track: str = _get_metadata(job, "is_fast_track")
 
     def to_dict(self):
         sector = ""
@@ -117,6 +121,8 @@ class Vacancy:
             "description": self.description,
             "employment": self.employment,
             "date": self.date,
+            "featured": self.featured,
+            "fast_track": self.fast_track,
             "departments": sector,
         }
 
