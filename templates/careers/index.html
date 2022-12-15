@@ -28,9 +28,26 @@
     </div>
   </div>
 </section>
-<section class="p-strip is-deep">
-  <hr class="u-no-margin--bottom is-fixed-width">
+
+{% if departments_overview %}
+<section class="p-strip--light">
+  <div class="u-fixed-width">
+    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Departments</h2>
+    <hr>
+  </div>
   <div class="row">
+    {% for dept in departments_overview %}
+      <div class="col-3">
+        <a class="p-heading--5 u-no-margin--bottom" href="/careers/{{dept.slug}}">{{ dept.name }}</a>
+        <p>{{ dept.count }} roles</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="p-strip">
+  <div class="row ">
     <div class="col-3">
       <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Our Mission</h2>
     </div>
@@ -41,9 +58,9 @@
   </div>
 </section>
 
-<section class="p-strip--light is-shallow u-no-padding--bottom">
-  <div class="p-strip--light u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
+<section class="p-strip is-shallow u-no-padding--bottom">
+  <div class="p-strip u-no-padding--top">
+    <div class="u-fixed-width u-hide--small u-hide--medium u-sv3">
       {{ image (
         url="https://assets.ubuntu.com/v1/f540ae09-more-real-travel-image.png",
         alt="",
@@ -54,6 +71,7 @@
         ) | safe
       }}
     </div>
+    <hr class="is-fixed-width u-no-margin--bottom">
     <div class="row">
       <div class="col-3">
         <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Remote working</h2>
@@ -62,50 +80,6 @@
         <p class="p-heading--2">Less commuting, more real travel</p>
         <p>Canonical is uniquely global &ndash; we hire the best open source team, regardless of nationality or language, creed or colour.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="p-strip is-deep">
-  <hr class="u-no-margin--bottom is-fixed-width">
-  <div class="row">
-    <div class="col-3">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Find your team</h2>
-    </div>
-    <div class="col-9">
-      <div class="p-strip is-shallow is-bordered u-no-padding--top">
-        <div class="row">
-          <div class="col-medium-2 col-3">
-          <h3 class="p-heading--2"><a href="/careers/all?filter=Engineering">Engineering</a></h3>
-        </div>
-        <div class="col-medium-4 col-6">
-          <p>Open source is transforming the entire stack. This is your chance to be right at the center of that revolution, to shape the platforms and tools that millions use to invent our global technology future. From bare metal to cloud to high performance computing, from AI and big data to the web and connected devices, open source is the key ingredient for success.</p>
-        </div>
-        </div>
-      </div>
-      <div class="p-strip is-shallow is-bordered u-no-padding--top">
-        <div class="row">
-          <div class="col-medium-2 col-3">
-            <h3 class="p-heading--2"><a href="/careers/all?filter=Support+Engineering">Support Engineering</a></h3>
-          </div>
-          <div class="col-medium-4 col-6">
-            <p>Getting it done right is the best feeling in the world. Whether it's running complex technical infrastructure or challenging projects, your consistent focus on data, organisation and teamwork means you're a force for good in the battle against entropy. Time zones are easy and technical customers are your favourite.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-strip is-shallow is-bordered u-no-padding--top">
-        <div class="row">
-          <div class="col-medium-2 col-3">
-            <h3 class="p-heading--2"><a href="/careers/all?filter=Sales">Sales</a></h3>
-          </div>
-          <div class="col-medium-4 col-6">
-            <p>You build long term relationships and you always promote the approach that is in the customers best interests. You are interested in the state of the art, you love to represent a company that knows how to transform customer operations.</p>
-          </div>
-        </div>
-      </div>
-
-      <a class="p-button" style="margin-top: 1rem;" href="/careers/departments">All departments</a>
     </div>
   </div>
 </section>

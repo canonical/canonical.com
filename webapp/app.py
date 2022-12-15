@@ -217,12 +217,58 @@ def start_career():
 
 @app.route("/careers")
 def careers_index():
+    """
+    Create a dictionary containing number of roles, slug
+    and department name for a given department
+    """
+
+    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+
+    dept_list = [
+        "engineering",
+        "techops",
+        "marketing",
+        "web-and-design",
+        "project-management",
+        "operations",
+        "product",
+        "sales",
+        "finance",
+        "human-resources",
+    ]
+
+    departments_overview = []
+
+    for vacancy in all_departments:
+        for dept in dept_list:
+            if vacancy[dept]:
+                count = len(vacancy[dept].__dict__["vacancies"])
+
+                if dept == "techops":
+                    name = "Support Engineering"
+                    slug = "support-engineering"
+                elif dept == "human-resources":
+                    name = "People"
+                    slug = "people"
+                else:
+                    name = vacancy[dept].__dict__["name"]
+                    slug = vacancy[dept].__dict__["slug"]
+
+                departments_overview.append(
+                    {
+                        "name": name,
+                        "count": count,
+                        "slug": slug,
+                    }
+                )
+
     return flask.render_template(
         "/careers/index.html",
-        all_departments=_group_by_department(greenhouse.get_vacancies()),
+        all_departments=all_departments,
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+        departments_overview=departments_overview,
     )
 
 
