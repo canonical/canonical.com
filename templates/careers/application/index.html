@@ -114,7 +114,7 @@
         </div>
         <div class="col-1">
         {% for lead in application["hiring_leads_list"]["list"] %}
-          {% if lead["name"] == application["hiring_lead"]["name"]  %}
+          {% if lead["name"] == application["hiring_lead"]["name"] and lead['img_src']  %}
             <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ lead['img_src']}}" class="hiring-lead-image"/>
           {% endif %}
         {% endfor %}
