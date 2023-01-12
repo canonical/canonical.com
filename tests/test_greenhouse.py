@@ -9,9 +9,13 @@ class TestGreenhouseAPI(unittest.TestCase):
         self.assertEqual(parsed_department.slug, department)
 
     def test_parse_feed_department_matched(self):
-        department = "cloud engineering"
-        parsed_department = Department(department)
-        self.assertEqual(parsed_department.slug, "engineering")
+        # Check '&' and ' ' get replaced in slugs
+        web_and_design = Department("Web & Design")
+        self.assertEqual(web_and_design.slug, "web-and-design")
+
+        # Check department renames are happening
+        techops = Department("Techops")
+        self.assertEqual(techops.slug, "support-engineering")
 
 
 if __name__ == "__main__":

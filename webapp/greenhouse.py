@@ -62,19 +62,21 @@ def _get_job_slug(job):
 
 class Department(object):
     def __init__(self, name):
-        field = {
-            "cloud engineering": "engineering",
-            "device engineering": "engineering",
-            "operations": "operations",
-            "product management": "product",
+        self.name = name
+        self.slug = name.replace("&", "and").replace(" ", "-").lower()
+
+        # Rename some departments
+        renames = {
+            "techops": {
+                "name": "Support Engineering",
+                "slug": "support-engineering",
+            },
+            "human-resources": {"name": "People", "slug": "people"},
         }
 
-        self.name = name
-
-        if name.lower() in field:
-            self.slug = field[name.lower()]
-        else:
-            self.slug = name.replace("&", "and").replace(" ", "-").lower()
+        if self.slug in renames:
+            self.name = renames[self.slug]["name"]
+            self.slug = renames[self.slug]["slug"]
 
 
 class Vacancy:
@@ -106,9 +108,6 @@ class Vacancy:
         self.fast_track: str = _get_metadata(job, "is_fast_track")
 
     def to_dict(self):
-        sector = ""
-        for department in self.departments:
-            sector = department.name
         return {
             "id": self.id,
             "title": self.title,
@@ -123,7 +122,7 @@ class Vacancy:
             "date": self.date,
             "featured": self.featured,
             "fast_track": self.fast_track,
-            "departments": sector,
+            "departments": [dept.name for dept in self.departments],
         }
 
 

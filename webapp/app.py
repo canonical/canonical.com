@@ -226,7 +226,7 @@ def careers_index():
 
     dept_list = [
         "engineering",
-        "techops",
+        "support-engineering",
         "marketing",
         "web-and-design",
         "project-management",
@@ -234,7 +234,7 @@ def careers_index():
         "product",
         "sales",
         "finance",
-        "human-resources",
+        "people",
     ]
 
     departments_overview = []
@@ -242,17 +242,9 @@ def careers_index():
     for vacancy in all_departments:
         for dept in dept_list:
             if vacancy[dept]:
-                count = len(vacancy[dept].__dict__["vacancies"])
-
-                if dept == "techops":
-                    name = "Support Engineering"
-                    slug = "support-engineering"
-                elif dept == "human-resources":
-                    name = "People"
-                    slug = "people"
-                else:
-                    name = vacancy[dept].__dict__["name"]
-                    slug = vacancy[dept].__dict__["slug"]
+                count = len(vacancy[dept].vacancies)
+                name = vacancy[dept].name
+                slug = vacancy[dept].slug
 
                 departments_overview.append(
                     {
@@ -289,21 +281,6 @@ def get_sorted_departments():
     ]
 
     dept_list = all_departments[0]
-
-    # rename hr department and slug
-    if "human-resources" in dept_list:
-        dept_list["people"] = dept_list["human-resources"]
-        del dept_list["human-resources"]
-        dept_value = dept_list["people"].__dict__
-        dept_value["name"] = "People"
-        dept_value["slug"] = "people"
-
-    if "techops" in dept_list:
-        dept_list["support-engineering"] = dept_list["techops"]
-        del dept_list["techops"]
-        dept_value = dept_list["support-engineering"].__dict__
-        dept_value["name"] = "Support Engineering"
-        dept_value["slug"] = "support-engineering"
 
     return {k: dept_list[k] for k in dept_order}
 
@@ -356,28 +333,13 @@ def department_group(department_slug):
     fast_track_jobs = []
 
     for vacancy in vacancies[0]:
-        # Check for department name discrepancies
-        if vacancy["departments"] == "Human Resources":
-            vacancy["departments"] = "People"
-
-        if vacancy["departments"] == "Web & Design":
-            vacancy["departments"] = "Web-and-Design"
-
-        if vacancy["departments"] == "TechOps":
-            vacancy["departments"] = "Support-Engineering"
-
         # Check if department role is featured or fast track
-        if (
-            vacancy["featured"]
-            and vacancy["departments"].lower() == department_slug
-        ):
-            featured_jobs.append(vacancy)
+        if department_slug in vacancy["departments"]:
+            if vacancy["featured"]:
+                featured_jobs.append(vacancy)
 
-        if (
-            vacancy["fast_track"]
-            and vacancy["departments"].lower() == department_slug
-        ):
-            fast_track_jobs.append(vacancy)
+            if vacancy["fast_track"]:
+                fast_track_jobs.append(vacancy)
 
     context["templates"] = templates
     sorted_departments = get_sorted_departments()
