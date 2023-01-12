@@ -106,9 +106,6 @@ class Vacancy:
         self.fast_track: str = _get_metadata(job, "is_fast_track")
 
     def to_dict(self):
-        sector = ""
-        for department in self.departments:
-            sector = department.name
         return {
             "id": self.id,
             "title": self.title,
@@ -123,7 +120,7 @@ class Vacancy:
             "date": self.date,
             "featured": self.featured,
             "fast_track": self.fast_track,
-            "departments": sector,
+            "departments": [dept.name for dept in self.departments],
         }
 
 

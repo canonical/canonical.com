@@ -367,17 +367,12 @@ def department_group(department_slug):
             vacancy["departments"] = "Support-Engineering"
 
         # Check if department role is featured or fast track
-        if (
-            vacancy["featured"]
-            and vacancy["departments"].lower() == department_slug
-        ):
-            featured_jobs.append(vacancy)
+        if department_slug in vacancy["departments"]:
+            if vacancy["featured"]:
+                featured_jobs.append(vacancy)
 
-        if (
-            vacancy["fast_track"]
-            and vacancy["departments"].lower() == department_slug
-        ):
-            fast_track_jobs.append(vacancy)
+            if vacancy["fast_track"]:
+                fast_track_jobs.append(vacancy)
 
     context["templates"] = templates
     sorted_departments = get_sorted_departments()

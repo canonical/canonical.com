@@ -255,27 +255,18 @@
     let jobsToShow = [];
 
     jobList.forEach(job => {
-      let jobSector = job.dataset.sector;
+      let departments = job.departments;
       let jobLocation = job.dataset.location;
-      
-      if (jobSector == "Human Resources"){
-        jobSector = "People"
-      }
+      let matchingDepartments = selectedDeptFilters.filter(value => departments.includes(value));
 
-      if (jobSector == "TechOps"){
-        jobSector = "Support Engineering"
-      }
-
-      if (selectedDeptFilters.length > 0 && localFilters.length > 0) {
-        if (selectedDeptFilters.includes(jobSector) && parseLocations(jobLocation, localFilters)){
+      if (matchingDepartments.length && localFilters.length) {
+        if (matchingDepartments && parseLocations(jobLocation, localFilters)){
           jobsToShow.push(job)
         }
       } else {
         //filter by dept
-        if (selectedDeptFilters.length > 0){
-          if (selectedDeptFilters.includes(jobSector)){
-            jobsToShow.push(job)
-          }
+        if (matchingDepartments.length) {
+          jobsToShow.push(job)
         }
         // filter by location
         if (localFilters.length > 0){
