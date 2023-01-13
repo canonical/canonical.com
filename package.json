@@ -14,7 +14,7 @@
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
-    "test-python": "python3 -m unittest discover tests",
+    "test-python": "playwright install && pytest -s",
     "cypress:run": "cypress run --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/",
     "cypress:open": "cypress open --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/"
   },
