@@ -264,10 +264,10 @@ def careers_index():
     )
 
 
-def get_sorted_departments():
-    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+def _get_sorted_departments():
+    departments = _group_by_department(greenhouse.get_vacancies())
 
-    dept_order = [
+    sort_order = [
         "engineering",
         "support-engineering",
         "marketing",
@@ -280,15 +280,17 @@ def get_sorted_departments():
         "people",
     ]
 
-    dept_list = all_departments[0]
+    sorted = {slug: departments[slug] for slug in sort_order}
+    remaining_slugs = set(departments.keys()).difference(sort_order)
+    remaining = {slug: departments[slug] for slug in remaining_slugs}
+    sorted_departments = {**sorted, **remaining}
 
-    return {k: dept_list[k] for k in dept_order}
+    return sorted_departments
 
 
 @app.route("/careers/all")
 def all_careers():
-
-    sorted_departments = get_sorted_departments()
+    sorted_departments = _get_sorted_departments()
 
     return flask.render_template(
         "/careers/all.html",
@@ -299,12 +301,18 @@ def all_careers():
     )
 
 
-@app.route("/careers/<department_slug>", methods=["GET", "POST"])
+@app.route("/careers/<department_slug>")
 def department_group(department_slug):
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
+    departments = _get_sorted_departments()
+
+    if department_slug not in departments:
+        flask.abort(404)
+
+    department = departments[department_slug]
+
+    featured_jobs = [job for job in department.vacancies if job.featured]
+    fast_track_jobs = [job for job in department.vacancies if job.fast_track]
+
     templates = []
 
     # Generate list of templates in the /templates/careers folder,
@@ -314,66 +322,14 @@ def department_group(department_slug):
             template = template[:-5]
         templates.append(template)
 
-    # Check if deparment exist or return 404
-    for slug, department in context["all_departments"].items():
-        if department.slug == department_slug:
-            context["department"] = department
-            context["vacancies"] = greenhouse.get_vacancies_by_department_slug(
-                department.slug
-            )
-
-    if not context["department"] and department_slug not in templates:
-        flask.abort(404)
-
-    vacancies = (
-        [vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
-    )
-
-    featured_jobs = []
-    fast_track_jobs = []
-
-    for vacancy in vacancies[0]:
-        # Check if department role is featured or fast track
-        if department_slug in vacancy["departments"]:
-            if vacancy["featured"]:
-                featured_jobs.append(vacancy)
-
-            if vacancy["fast_track"]:
-                fast_track_jobs.append(vacancy)
-
-    context["templates"] = templates
-    sorted_departments = get_sorted_departments()
-
-    if flask.request.method == "POST":
-        response = greenhouse.submit_application(
-            flask.request.form,
-            flask.request.files,
-        )
-        if response.status_code == 200:
-            return flask.render_template("/careers/thank-you.html", **context)
-
-        else:
-            message = {
-                "type": "negative",
-                "title": f"Error {response.status_code}",
-                "text": f"{response.reason}. Please try again!",
-            }
-
-        context["message"] = message
-
-        return flask.render_template(
-            "careers/base-template.html",
-            sorted_departments=sorted_departments,
-            **context,
-        )
-
     return flask.render_template(
         "careers/base-template.html",
-        sorted_departments=sorted_departments,
+        department=department,
+        sorted_departments=departments,
         featured_jobs=featured_jobs,
         fast_track_jobs=fast_track_jobs,
         department_slug=department_slug,
-        **context,
+        templates=templates,
     )
 
 

@@ -1,5 +1,10 @@
+import logging
+
 from vcr_unittest import VCRTestCase
 from webapp.app import app
+
+
+logging.getLogger("talisker.context").disabled = True
 
 
 class TestRoutes(VCRTestCase):
