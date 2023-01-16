@@ -540,4 +540,12 @@ def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
         message = str(e)[len(prefix) :]
-    return flask.render_template("/502.html", message=message), 502
+    return flask.render_template("502.html", message=message), 502
+
+
+@app.errorhandler(401)
+def unauthorized_error(error):
+    return (
+        flask.render_template("401.html", message=error.description),
+        500,
+    )

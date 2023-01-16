@@ -1,7 +1,7 @@
 import base64
 import hashlib
 
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken  # noqa: F401
 
 
 class Cipher:

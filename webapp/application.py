@@ -13,7 +13,7 @@ from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
 from webapp.job_regions import regions
-from webapp.utils.cipher import Cipher
+from webapp.utils.cipher import Cipher, InvalidToken
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -298,10 +298,20 @@ def faq():
     )
 
 
+@application.route("/")
+def application_access_denied():
+    flask.abort(401, "No authentication token provided.")
+
+
 @application.route("/<string:token>")
 def application_index(token):
     withdrawn = False
-    application = _get_application_from_token(token)
+
+    try:
+        application = _get_application_from_token(token)
+    except InvalidToken:
+        flask.abort(401, "Invalid token")
+
     if application["status"] != "active" and application["rejection_reason"]:
         if application["rejection_reason"]["type"]["id"] == 2:
             withdrawn = True
@@ -318,7 +328,11 @@ def application_index(token):
 
 @application.route("/withdraw/<string:token>")
 def application_withdrawal(token):
-    payload = json.loads(cipher.decrypt(token))
+    try:
+        payload = json.loads(cipher.decrypt(token))
+    except InvalidToken:
+        flask.abort(401, "Invalid token")
+
     application = _get_application(payload["application_id"])
     withdrawal_reason_id = payload.get("withdrawal_reason_id")
     withdrawal_message = payload.get("withdrawal_message")
@@ -337,7 +351,10 @@ def application_withdrawal(token):
 
 @application.route("/<string:token>", methods=["POST"])
 def request_withdrawal(token):
-    application = _get_application_from_token(token)
+    try:
+        application = _get_application_from_token(token)
+    except InvalidToken:
+        flask.abort(401, "Invalid token")
 
     # Sanitize and parse user input
     email = parseaddr(flask.request.form["email"])[1]
