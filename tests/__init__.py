@@ -1,7 +1,7 @@
 from multiprocessing import Process
 
 import pytest
-from webapp import app
+from webapp.app import app
 from flask import Flask
 
 server = None
