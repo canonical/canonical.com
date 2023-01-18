@@ -3,7 +3,9 @@
     @extend .p-stepped-list--detailed;
 
     .p-process-stepped-list__title {
-      &--stepper-complete, &--stepper-active, &--stepper-not-completed {
+      &--stepper-complete,
+      &--stepper-active,
+      &--stepper-not-completed {
         @extend .p-stepped-list__title;
 
         padding-left: 3.5rem !important;
@@ -12,14 +14,15 @@
           font-size: 1rem;
           font-weight: 500;
           line-height: 1.9rem !important;
-          margin-top: .6rem !important;
+          margin-top: 0.6rem !important;
           width: 2rem !important;
         }
       }
     }
 
     .p-stepped-list__item {
-      p.p-stepped-list__content, div.p-stepped-list__content {
+      p.p-stepped-list__content,
+      div.p-stepped-list__content {
         margin-left: 0 !important;
       }
 
@@ -32,19 +35,22 @@
       .p-stepped-list__title {
         grid-column-end: span 12;
       }
-      .p-process-stepped-list__title {
 
+      .p-process-stepped-list__title {
         // XXX: Fix elliptical counters.
         // The height of the before element needs to match h2 heading line-heights, both on small screens and large screens - so 2 media queries will be needed.
-        //Bug filed in vanilla: https://github.com/canonical/vanilla-framework/issues/4544, these values should be set for p-heading--* classes same way as they are for actual headings
-        &--stepper-complete, &--stepper-active, &--stepper-not-completed {
+        // Bug filed in vanilla: https://github.com/canonical/vanilla-framework/issues/4544, these values should be set for p-heading--* classes same way as they are for actual headings
+        &--stepper-complete,
+        &--stepper-active,
+        &--stepper-not-completed {
           display: flex;
           grid-column-end: span 6;
           margin-left: 0;
         }
+
         &--stepper-complete {
           &::before {
-            @include vf-icon-success-grey('%23666');
+            @include vf-icon-success-grey("%23666");
 
             background-color: transparent;
             background-position: center center;
@@ -53,19 +59,22 @@
             font-size: 0;
           }
         }
+
         &--stepper-active {
           &::before {
-           background-color: $color-x-dark;
-           color: $color-light;
+            background-color: $color-x-dark;
+            color: $color-light;
           }
         }
+
         &--stepper-not-completed {
           &::before {
             background-color: $color-x-light;
             border: 1px solid $color-x-dark;
           }
         }
-      };
+      }
+
       .p-stepped-list__content {
         @media (min-width: $threshold-6-12-col) {
           grid-column-end: span 6;
@@ -74,6 +83,7 @@
       }
     }
   }
+
   .p-faq-stepped-list--detailed {
     @extend .p-stepped-list--detailed;
 
@@ -91,6 +101,7 @@
           margin-left: 0;
         }
       }
+
       .p-faq-stepped-list__content {
         @media (min-width: $threshold-6-12-col) {
           grid-column-end: span 9;
@@ -98,6 +109,7 @@
         }
       }
     }
+
     // TODO : the accordion component needs to be fixed in vanilla. The issue was filed on https://github.com/canonical/vanilla-framework/issues/4563. This styles written locally needs to be removed after vanilla update.
     .u-default-max-width {
       display: inline-block;
@@ -107,7 +119,7 @@
 
   .split-list {
     @media (min-width: $breakpoint-heading-threshold) {
-      display : flex;
+      display: flex;
     }
   }
 
@@ -135,6 +147,7 @@
     }
   }
 }
+
 @mixin canonical-p-withdrawal-modal {
   .p-withdrawal-modal {
     @extend .p-modal;
@@ -149,12 +162,15 @@
         max-width: $grid-max-width + $spv--large * 2;
       }
     }
+
     .p-withdrawal-modal__header {
       margin-top: 1rem;
     }
+
     .p-withdrawal-modal__header p {
-      color: $color-mid-dark
+      color: $color-mid-dark;
     }
+
     .p-withdrawal-modal__content p {
       margin-top: 1rem;
     }
@@ -163,8 +179,8 @@
       text-align: right;
 
       &::after {
-          background-color: none;
-        }
+        background-color: none;
+      }
     }
   }
 }
