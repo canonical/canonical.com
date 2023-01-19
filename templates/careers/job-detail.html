@@ -54,7 +54,8 @@
 <section class="p-strip--suru-topped u-no-padding--bottom">
   <div class="row">
     <div class="col-6">
-      <a href="{% if request.referrer and 'careers' in request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+      <a id="back-roles" href="{% if request.referrer and 'careers' in request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+      <a id="back-details" class="u-sv2 u-hide">&lsaquo;&nbsp;Back to role description</a>
     </div>
   </div>
   <div class="row u-equal-height">
@@ -62,9 +63,6 @@
       <h1>{{ job.title }}</h1>
       <p class="p-muted-heading">{{ job.location }}</p>
     </div>
-    <!-- <div class="col-6 u-align--right u-vertically-center">
-      <a class="p-button--positive" href="#apply">Apply for this role</a>
-    </div> -->
   </div>
 </section>
 {% endblock %}
@@ -82,13 +80,18 @@
 </div>
 {% endif %}
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <div class="job-desc">
       {{ job.content | filtered_html_tags | safe }}
     </div>
+    <p><a class="p-button--positive" id="apply-button">Apply</a></p>
   </div>
+</div>
+{% endblock %}
 
-  <div class="col-5 col-start-large-8 p-card--form">
+{% block application_content %}
+<div class="row">
+  <div class="col-8 p-card--form">
     <h3>Apply for this role</h3>
     <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
           'event': 'GAEvent',
@@ -138,6 +141,5 @@
   </div>
 </div>
 
-<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
-<script defer src="{{ versioned_static('js/apply-for-jobs.js') }}"></script>
+
 {% endblock %}

@@ -2,8 +2,44 @@
 
 {% block hero %}{% endblock %}
 
-<section class="p-strip u-extra-space">
+<section class="p-strip u-extra-space" id="details">
   {% block careers_content %}{% endblock %}
 </section>
+<section class="p-strip u-extra-space u-hide" id="application">
+  {% block application_content %}{% endblock %}
+</section>
 
+<script>
+  const apply_button = document.getElementById("apply-button")
+  const back_roles = document.getElementById("back-roles")
+  const back_details = document.getElementById("back-details")
+  job_details = document.getElementById("details")
+  application_form = document.getElementById("application")
+  const origin_url = window.location.pathname
+  
+  apply_button.addEventListener("click", function(){
+    show_application()
+    window.history.replaceState({}, document.title, `${window.location.pathname}/application`);
+  })
+  
+  back_details.addEventListener("click", function(){
+    hide_application()
+    window.history.replaceState({}, document.title, origin_url);
+  })
+  
+  function show_application(){
+    back_roles.classList.add("u-hide")
+    job_details.classList.add("u-hide")
+    application_form.classList.remove("u-hide")
+    back_details.classList.remove("u-hide")
+  }
+
+  function hide_application(){
+    job_details.classList.remove("u-hide")
+    back_roles.classList.remove("u-hide")
+    application_form.classList.add("u-hide")
+    back_details.classList.add("u-hide")
+  }
+</script>
 {% endblock %}
+
