@@ -31,14 +31,21 @@
   
   apply_button.addEventListener("click", function(){
     show_application()
-    window.history.replaceState({}, document.title, `${origin_url}/application`)
+    window.history.pushState({}, document.title, `${origin_url}/application`)
   })
   
   back_details.addEventListener("click", function(){
     hide_application()
-    window.history.replaceState({}, document.title, origin_url)
+    window.history.pushState({}, document.title, origin_url)
   })
   
+  // handle back button
+  window.addEventListener('popstate', function (event) {
+    if(!origin_url.includes("application")){
+      hide_application()
+    }
+  });  
+ 
   function show_application(){
     back_roles.classList.add("u-hide")
     job_details.classList.add("u-hide")
