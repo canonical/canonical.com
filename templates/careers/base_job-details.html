@@ -1,30 +1,42 @@
 {% extends 'base_index.html' %} {% block content %}
 
-{% block hero %}{% endblock %}
+<section class="p-strip">
+  <div class="u-fixed-width">
+    <a id="back-roles" href="{% if request.referrer and 'careers' in request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
+    <a id="back-details" class="u-sv2 u-hide">&lsaquo;&nbsp;Back to role description</a>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <h1 class="p-heading--2">{{ job.title }}</h1>
+      <p class="p-muted-heading">{{ job.location }}</p>
+    </div>
+    <div class="col-6" id="details">
+      {% block careers_content %}{% endblock %}
+    </div>
+    <div class="col-6 u-hide" id="application">
+      {% block application_content %}{% endblock %}
+    </div>
+  </div>
+</section>
 
-<section class="p-strip u-extra-space" id="details">
-  {% block careers_content %}{% endblock %}
-</section>
-<section class="p-strip u-extra-space u-hide" id="application">
-  {% block application_content %}{% endblock %}
-</section>
+
 
 <script>
   const apply_button = document.getElementById("apply-button")
   const back_roles = document.getElementById("back-roles")
   const back_details = document.getElementById("back-details")
-  job_details = document.getElementById("details")
-  application_form = document.getElementById("application")
+  const job_details = document.getElementById("details")
+  const application_form = document.getElementById("application")
   const origin_url = window.location.pathname
   
   apply_button.addEventListener("click", function(){
     show_application()
-    window.history.replaceState({}, document.title, `${window.location.pathname}/application`);
+    window.history.replaceState({}, document.title, `${origin_url}/application`)
   })
   
   back_details.addEventListener("click", function(){
     hide_application()
-    window.history.replaceState({}, document.title, origin_url);
+    window.history.replaceState({}, document.title, origin_url)
   })
   
   function show_application(){
@@ -32,6 +44,7 @@
     job_details.classList.add("u-hide")
     application_form.classList.remove("u-hide")
     back_details.classList.remove("u-hide")
+    application_form.scrollIntoView()
   }
 
   function hide_application(){
