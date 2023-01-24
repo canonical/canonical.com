@@ -83,7 +83,7 @@
         <div class="col-12">
           <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["job_post"]["title"] or application["jobs"][0]["name"] }}</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 and application['job_post_id'] %}
-            <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Read more about this job&nbsp;&rsaquo;</a></p>
+            <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Read more about this role&nbsp;&rsaquo;</a></p>
           </div>
           {% endif %}
         </div>
@@ -200,10 +200,8 @@
     </section>
     <section class="p-strip">
     {% else %}
-    <hr class="is-fixed-width u-no-margin--bottom">
     <section class="p-strip is-deep u-no-padding--top">
     {% endif %}
-      {% include 'careers/application/partial/_lifestyle.html' %}
     </section>
 
     <hr class="is-fixed-width">
