@@ -1,13 +1,11 @@
 {% if vacancies %}
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-
   window.addEventListener('DOMContentLoaded', (event) => {
     const search_input = document.querySelector(".js-careers__search-input");
+    const urlParams = new URLSearchParams(window.location.search);
     search_input.addEventListener('input', e => {
       search_term = e.target.value;
       showAutoComplete(search_term);
-      updateURLParams(search_term);
     });   
     showAutoComplete("");
     const querySearchText = urlParams.get("search");
@@ -123,15 +121,6 @@
 
         ul.appendChild(li);
       })
-    }
-  }
-
-  function updateURLParams(search_term){
-    const baseURL = window.location.origin + window.location.pathname;
-
-    if (search_term == ""){
-      urlParams.delete("search");
-      window.location = `${baseURL}/?${urlParams.toString()}`;
     }
   }
 
