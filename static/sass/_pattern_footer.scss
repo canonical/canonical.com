@@ -1,44 +1,15 @@
 @mixin canonical-p-footer {
-  .p-footer {
-    @extend %vf-strip;
+  .row:first-child{
+    position: relative;
 
-    background-image: linear-gradient(
-        to bottom left,
-        rgba(119 41 83 / 100%) 0%,
-        rgba(119 41 83 / 100%) 49.9%,
-        rgba(119 41 83 / 0%) 50%,
-        rgba(119 41 83 / 0%) 100%
-      ),
-      linear-gradient(
-        to bottom left,
-        $color-accent-background 0%,
-        $color-accent-background 100%
-      );
-    background-position: top right;
-    background-repeat: no-repeat;
-    background-size: 25% 15%, 100%;
-    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% calc(0% + 4rem));
-    color: $color-mid-light;
-    padding-bottom: 2.5rem;
-    padding-top: 6rem;
-
-    &__link {
-      color: $color-mid-light;
-
-      &:hover,
-      &:visited {
-        color: $color-mid-light;
-      }
-    }
-
-    hr {
-      background: rgba(255 255 255 / 25%);
-      margin: 2rem 0;
+    .p-inline-list{
+      position: absolute;
+      bottom: 0;
     }
   }
-  @media (max-width: $breakpoint-x-small) {
-    .p-footer {
-      clip-path: polygon(130% 0%, 124% 134%, 0% 124%, 0% calc(0% + 4rem));
-    }
+
+  .p-list__item{
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
