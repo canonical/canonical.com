@@ -2,12 +2,12 @@
 <script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const search_input = document.querySelector(".js-careers__search-input");
+    const urlParams = new URLSearchParams(window.location.search);
     search_input.addEventListener('input', e => {
       search_term = e.target.value;
       showAutoComplete(search_term);
     });   
     showAutoComplete("");
-    const urlParams = new URLSearchParams(window.location.search);
     const querySearchText = urlParams.get("search");
     ShowJobList(querySearchText)
   });
@@ -124,34 +124,15 @@
     }
   }
 
+  document.addEventListener('click', closeSearch);
 
-  function initSearchResetButtons(selector) {
-    const resetButtons = [].slice.call(document.querySelectorAll(selector));
-    const ul = document.querySelector(".p-search-panel-list");
-    const url = window.location.href
-    const newUrl = url.split("?")[0];
-    resetButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        const input = button.parentNode.querySelector('input');
-
-        ul.innerHTML = ''
-        window.location.href = newUrl
-        input.focus();
-      });
-    });
-}
-document.addEventListener('click', closeSearch);
-
-function closeSearch() {
-  const jobContainer = document.querySelector(".p-search-panel");
-  if(!jobContainer.classList.contains("u-hide")){
-    jobContainer.classList.add("u-hide");
+  function closeSearch() {
+    const jobContainer = document.querySelector(".p-search-panel");
+    if(!jobContainer.classList.contains("u-hide")){
+      jobContainer.classList.add("u-hide");
+    }
   }
-}
 
-document.addEventListener('DOMContentLoaded', function () {
-  initSearchResetButtons('.p-search-box__reset');
-});
 </script>
 {% endif %}
 <div class="js-search-jobs-form p-form-container u-hide u-align--bottom">

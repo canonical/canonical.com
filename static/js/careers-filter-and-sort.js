@@ -1,5 +1,7 @@
 (function () {
   const urlParams = new URLSearchParams(window.location.search);
+  const baseURL = window.location.origin + window.location.pathname;
+  const search_input = document.querySelector(".js-careers__search-input");
   const domList = document.querySelector(".js-job-list");
   const departmentFilters = document.querySelectorAll(".js-filter");
   const noResults = document.querySelector(".js-filter__no-results");
@@ -120,14 +122,14 @@
     if (el.checked){
       selectedDeptFilters.push(filterName)
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateURL(selectedDeptFilters, selectedLocationFilters)
+      updateFilterParams(selectedDeptFilters, selectedLocationFilters)
     } else {
       let index = selectedDeptFilters.indexOf(filterName)
       if (index > -1) {
         selectedDeptFilters.splice(index, 1)
       }
       filterJobs(selectedDeptFilters, selectedLocationFilters ,jobList);
-      updateURL(selectedDeptFilters, selectedLocationFilters);
+      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     }
   }
 
@@ -137,14 +139,14 @@
     if (el.checked){
       selectedLocationFilters.push(locationName)
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateURL(selectedDeptFilters, selectedLocationFilters);
+      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     } else {
       let index = selectedLocationFilters.indexOf(locationName)
       if (index > -1) {
         selectedLocationFilters.splice(index, 1)
       }
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateURL(selectedDeptFilters, selectedLocationFilters);
+      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     }
   }
 
@@ -303,9 +305,20 @@
     }
   }
 
-  function updateURL(selectedDeptFilters, selectedLocationFilters) {
-    var baseURL = window.location.origin + window.location.pathname;
-
+  // handle search input clear, retain existing filters
+  search_input.addEventListener('input', e => {
+    search_term = e.target.value;
+    updateURL()
+  });
+  
+  function updateURL(){
+    if (search_term == ""){
+      urlParams.delete("search");
+      window.location =(`${baseURL}/?${urlParams.toString()}`);
+    }
+  }
+  
+  function updateFilterParams(selectedDeptFilters, selectedLocationFilters) {
     // if url has filter param but filter array is empty, remove filter from url
     if (urlParams.has("filter") && selectedDeptFilters.length == 0){
       urlParams.delete("filter");
