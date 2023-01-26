@@ -1,15 +1,35 @@
 @mixin canonical-p-footer {
-  .row:first-child{
-    position: relative;
+  .p-footer {
+    @extend %vf-strip;
 
-    .p-inline-list{
-      bottom: 0;
-      position: absolute;
+    background-color: #262626;
+    
+    &.is-dark {
+      color: #fff;
+    }
+  
+    .p-list__item{
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    a {
+      color: #3097FF;
+
+      &:visited {
+        color: #AB83D3;
+      }
     }
   }
 
-  .p-list__item{
-    padding-bottom: 0;
-    padding-top: 0;
+  @media (min-width: $breakpoint-large) {
+    .row:first-child{
+      position: relative;
+  
+      .p-inline-list{
+        bottom: 0;
+        position: absolute;
+      }
+    }
   }
 }
