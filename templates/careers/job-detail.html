@@ -50,25 +50,6 @@
 </script>
 {% endblock %}
 
-{% block hero %}
-<section class="p-strip--suru-topped u-no-padding--bottom">
-  <div class="row">
-    <div class="col-6">
-      <a href="{% if request.referrer and 'careers' in request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
-    </div>
-  </div>
-  <div class="row u-equal-height">
-    <div class="col-12">
-      <h1>{{ job.title }}</h1>
-      <p class="p-muted-heading">{{ job.location }}</p>
-    </div>
-    <!-- <div class="col-6 u-align--right u-vertically-center">
-      <a class="p-button--positive" href="#apply">Apply for this role</a>
-    </div> -->
-  </div>
-</section>
-{% endblock %}
-
 {% block careers_content %}
 {% if message %}
 <div class="row">
@@ -82,13 +63,18 @@
 </div>
 {% endif %}
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <div class="job-desc">
       {{ job.content | filtered_html_tags | safe }}
     </div>
+    <p class="p-button--positive" id="apply-button">Apply</p>
   </div>
+</div>
+{% endblock %}
 
-  <div class="col-5 col-start-large-8 p-card--form">
+{% block application_content %}
+<div class="row">
+  <div class="col-8 p-card--form">
     <h3>Apply for this role</h3>
     <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
           'event': 'GAEvent',
