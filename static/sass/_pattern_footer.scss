@@ -1,14 +1,10 @@
 @mixin canonical-p-footer {
   .p-footer {
     @extend %vf-strip;
-
-    background-color: #262626;
-    
-    &.is-dark {
-      color: #fff;
-    }
   
-    .p-list__item{
+    .p-list__item--condensed {
+      @extend %vf-list-item;
+    
       padding-bottom: 0;
       padding-top: 0;
     }
@@ -24,17 +20,17 @@
 }
 
 // Align social links to bottom on large screens
-@mixin canonical-u-footer-align-bottom{
+@mixin canonical-u-footer-align-bottom {
   @media (min-width: $breakpoint-large) {
-    .u-align--bottom {  
+    .u-position {
       position: relative;
     
-      .p-inline-list{
-          bottom: 0;
-          position: absolute;
+      .u-position--bottom {
+        bottom: 0;
+        position: absolute;
       }
     }
-    }
   }
+}
   
 
