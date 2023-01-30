@@ -60,6 +60,18 @@ def _get_job_slug(job):
     return f"{suffix}-{location}"
 
 
+def _add_req_to_content(job):
+    # Add reuisition ID to content
+    if job["requisition_id"]:
+        job["content"] = (
+            job["content"]
+            + "&lt;p&gt;Requisition ID: "
+            + job["requisition_id"]
+            + "&lt;p&gt;"
+        )
+    return unescape(job["content"])
+
+
 class Department(object):
     def __init__(self, name):
         self.name = name
@@ -84,7 +96,7 @@ class Vacancy:
         self.id: str = job["id"]
         self.title: str = job["title"]
         self.meta_title: str = _get_meta_title(job)
-        self.content: str = unescape(job["content"])
+        self.content: str = _add_req_to_content(job)
         self.url: str = job["absolute_url"]
         self.location: str = job["location"]["name"]
         self.employment: str = _get_metadata(job, "employment")
