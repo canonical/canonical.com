@@ -4,8 +4,8 @@
   </div>
   <div class="p-featured row u-sv2">
     {% for job in featured_jobs %}
-      {% if loop.index < 9 %}
-        <div class="p-featured__item col-small-4 col-medium-3 col-3">
+      {% if loop.index < 7 %}
+        <div class="p-featured__item col-small-4 col-medium-3 col-4">
           <p class="p-featured__role">
              <a class="p-featured__url" href="/careers/{{job.id}}">{{ job.title }}</a>
           </p>
@@ -17,6 +17,10 @@
     {% endfor %}
   </div>
   <div class="u-fixed-width">
-    <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{department}}">See all {{ department }} roles</a>
+    {% if formatted_slug %}
+      <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{formatted_slug}}">See all {{ department.name }} roles</a>
+    {% else %}
+      <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{department.slug.capitalize()}}">See all {{ department.name }} roles</a>
+    {% endif %}
   </div>
 </section>
