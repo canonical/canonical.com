@@ -1,6 +1,6 @@
 <section>
   <div class="u-fixed-width">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Jobs</h2>
+    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
   </div>
   <div class="p-featured row u-sv2">
     {% for job in featured_jobs %}
@@ -10,9 +10,6 @@
              <a class="p-featured__url" href="/careers/{{job.id}}">{{ job.title }}</a>
           </p>
         </div>
-        {% if loop.last and not loop.index % 4 == 0 %}
-          <div class="p-featured__filler u-hide--small col-medium-{{ (4 - loop.last) * 1 }} col-{{ (4 - loop.last) * 3 }}"></div>
-        {% endif %}
       {% endif %}
     {% endfor %}
   </div>
