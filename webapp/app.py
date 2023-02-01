@@ -230,7 +230,7 @@ def careers_index():
         "marketing",
         "web-and-design",
         "project-management",
-        "operations",
+        "commercial-operations",
         "product",
         "sales",
         "finance",
@@ -273,7 +273,7 @@ def _get_sorted_departments():
         "marketing",
         "web-and-design",
         "project-management",
-        "operations",
+        "commercial-operations",
         "product",
         "sales",
         "finance",
@@ -310,6 +310,13 @@ def department_group(department_slug):
 
     department = departments[department_slug]
 
+    # format edge case slugs
+    formatted_slug = ""
+    if " & " in department.name:
+        formatted_slug = department.name.replace(" & ", "+%26+")
+    elif " " in department.name:
+        formatted_slug = department.name.replace(" ", "+")
+
     featured_jobs = [job for job in department.vacancies if job.featured]
     fast_track_jobs = [job for job in department.vacancies if job.fast_track]
 
@@ -328,7 +335,7 @@ def department_group(department_slug):
         sorted_departments=departments,
         featured_jobs=featured_jobs,
         fast_track_jobs=fast_track_jobs,
-        department_slug=department_slug,
+        formatted_slug=formatted_slug,
         templates=templates,
     )
 
