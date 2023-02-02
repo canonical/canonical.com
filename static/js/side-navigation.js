@@ -1,4 +1,4 @@
-(function() {
+function setUpTogglableSideNav() {
   var navigationDrawer = document.querySelector("#drawer");
   var navigationDrawerToggles = Array.prototype.slice.call(
     document.querySelectorAll(".js-drawer-toggle"
@@ -19,9 +19,9 @@
       navigationDrawer.classList.remove("is-expanded");
     });
   });
-})();
+};
 
-(function() {
+function setUpDynamicSideNav() {
   const questions = Array.prototype.slice.call(
     document.querySelectorAll(".question-heading")
   );
@@ -43,10 +43,15 @@
         });
       }
     }, {
-      rootMargin: "-100px 0px",
-      threshold: 0.75,
+      rootMargin: "-200px 0px -400px",
+      threshold: 0.5,
     });
 
     observer.observe(question);
   });
+};
+
+(function() {
+  setUpTogglableSideNav();
+  setUpDynamicSideNav();
 })();
