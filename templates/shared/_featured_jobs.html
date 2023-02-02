@@ -3,12 +3,13 @@
     <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
   </div>
   <div class="p-featured row u-sv2">
+    <hr class="u-fixed-width">
     {% for job in featured_jobs %}
       {% if loop.index < 7 %}
-        <div class="p-featured__item col-small-4 col-medium-3 col-4">
-          <p class="p-featured__role">
-             <a class="p-featured__url" href="/careers/{{job.id}}">{{ job.title }}</a>
-          </p>
+        <div class="p-featured__item col-small-4 col-medium-3 col-4 u-no-padding--left u-vertically-center">
+          <div class="p-card p-featured__role u-no-margin--bottom u-vertically-center">
+            <a class="p-featured__url p-card--content" href="/careers/{{job.id}}">{{ job.title }}</a>
+          </div>
         </div>
       {% endif %}
     {% endfor %}
