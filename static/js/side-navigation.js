@@ -1,24 +1,26 @@
 function setUpTogglableSideNav() {
   var navigationDrawer = document.querySelector("#drawer");
   var navigationDrawerToggles = Array.prototype.slice.call(
-    document.querySelectorAll(".js-drawer-toggle"
-  ));
-
-  var navigationLinks = Array.prototype.slice.call(
-    navigationDrawer.querySelectorAll("a")
+    document.querySelectorAll(".js-drawer-toggle")
   );
 
-  navigationDrawerToggles.forEach(function(toggle) {
-    toggle.addEventListener("click", function() {
-      navigationDrawer.classList.toggle("is-expanded");
-    });
-  });
+  if (navigationDrawer) {
+    var navigationLinks = Array.prototype.slice.call(
+      navigationDrawer.querySelectorAll("a")
+    );
 
-  navigationLinks.forEach(function(link) {
-    link.addEventListener("click", function() {
-      navigationDrawer.classList.remove("is-expanded");
+    navigationDrawerToggles.forEach(function(toggle) {
+      toggle.addEventListener("click", function() {
+        navigationDrawer.classList.toggle("is-expanded");
+      });
     });
-  });
+
+    navigationLinks.forEach(function(link) {
+      link.addEventListener("click", function() {
+        navigationDrawer.classList.remove("is-expanded");
+      });
+    });
+  }
 };
 
 function setUpDynamicSideNav() {
