@@ -291,10 +291,14 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-featured {
   gap: 0;
 
-  &__item {    
-    border-top: 1px solid $colors--light-theme--border-default;
+  &__item { 
+    cursor: pointer;
     margin-right: 1px;
     padding: 0 1rem 1rem;
+
+    &:nth-child(3n+3){
+      padding-right: 0;
+    }
 
     &:active {
       background-color: $colors--light-theme--background-active;
@@ -307,6 +311,13 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
         text-decoration: underline; 
       }
     }
+  }
+
+  &__role {
+    box-shadow: 0 4px 2px -2px $colors--light-theme--border-default;
+    margin-top: .5rem;
+    min-height: 5rem;
+    padding-top: .5rem;
   }
 
   &__filler {
