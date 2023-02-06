@@ -88,6 +88,7 @@ class Department(object):
                 "name": "Commercial Operations",
                 "slug": "commercial-operations",
             },
+            "admin": {"name": "Administration", "slug": "administration"},
         }
 
         if self.slug in renames:

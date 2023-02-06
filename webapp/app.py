@@ -99,6 +99,13 @@ def _group_by_department(vacancies):
             else:
                 vacancies_by_department[slug].vacancies.append(vacancy)
 
+    # Add departments with no vacancies
+    for dept in departments_by_slug:
+        slug = departments_by_slug[dept].slug
+        if slug not in vacancies_by_department:
+            vacancies_by_department[slug] = departments_by_slug[slug]
+            vacancies_by_department[slug].vacancies = {}
+
     return vacancies_by_department
 
 
@@ -210,7 +217,7 @@ def job_details(job_id, job_title):
     return flask.render_template("/careers/job-detail.html", **context)
 
 
-@app.route("/careers/start")
+@app.route("/careers/career-explorer")
 def start_career():
     return flask.render_template("/careers/career-explorer.html")
 
@@ -235,6 +242,8 @@ def careers_index():
         "sales",
         "finance",
         "people",
+        "administration",
+        "legal",
     ]
 
     departments_overview = []
@@ -242,7 +251,10 @@ def careers_index():
     for vacancy in all_departments:
         for dept in dept_list:
             if vacancy[dept]:
-                count = len(vacancy[dept].vacancies)
+                if vacancy[dept].vacancies:
+                    count = len(vacancy[dept].vacancies)
+                else:
+                    count = 0
                 name = vacancy[dept].name
                 slug = vacancy[dept].slug
 
@@ -278,6 +290,8 @@ def _get_sorted_departments():
         "sales",
         "finance",
         "people",
+        "administration",
+        "legal",
     ]
 
     sorted = {slug: departments[slug] for slug in sort_order}
