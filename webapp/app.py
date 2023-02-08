@@ -99,6 +99,13 @@ def _group_by_department(vacancies):
             else:
                 vacancies_by_department[slug].vacancies.append(vacancy)
 
+    # Add departments with no vacancies
+    for dept in departments_by_slug:
+        slug = departments_by_slug[dept].slug
+        if slug not in vacancies_by_department:
+            vacancies_by_department[slug] = departments_by_slug[slug]
+            vacancies_by_department[slug].vacancies = {}
+
     return vacancies_by_department
 
 
@@ -210,7 +217,7 @@ def job_details(job_id, job_title):
     return flask.render_template("/careers/job-detail.html", **context)
 
 
-@app.route("/careers/start")
+@app.route("/careers/career-explorer")
 def start_career():
     return flask.render_template("/careers/career-explorer.html")
 
@@ -230,11 +237,13 @@ def careers_index():
         "marketing",
         "web-and-design",
         "project-management",
-        "operations",
+        "commercial-operations",
         "product",
         "sales",
         "finance",
         "people",
+        "administration",
+        "legal",
     ]
 
     departments_overview = []
@@ -242,7 +251,10 @@ def careers_index():
     for vacancy in all_departments:
         for dept in dept_list:
             if vacancy[dept]:
-                count = len(vacancy[dept].vacancies)
+                if vacancy[dept].vacancies:
+                    count = len(vacancy[dept].vacancies)
+                else:
+                    count = 0
                 name = vacancy[dept].name
                 slug = vacancy[dept].slug
 
@@ -273,11 +285,13 @@ def _get_sorted_departments():
         "marketing",
         "web-and-design",
         "project-management",
-        "operations",
+        "commercial-operations",
         "product",
         "sales",
         "finance",
         "people",
+        "administration",
+        "legal",
     ]
 
     sorted = {slug: departments[slug] for slug in sort_order}
@@ -310,6 +324,13 @@ def department_group(department_slug):
 
     department = departments[department_slug]
 
+    # format edge case slugs
+    formatted_slug = ""
+    if " & " in department.name:
+        formatted_slug = department.name.replace(" & ", "+%26+")
+    elif " " in department.name:
+        formatted_slug = department.name.replace(" ", "+")
+
     featured_jobs = [job for job in department.vacancies if job.featured]
     fast_track_jobs = [job for job in department.vacancies if job.fast_track]
 
@@ -328,7 +349,7 @@ def department_group(department_slug):
         sorted_departments=departments,
         featured_jobs=featured_jobs,
         fast_track_jobs=fast_track_jobs,
-        department_slug=department_slug,
+        formatted_slug=formatted_slug,
         templates=templates,
     )
 
