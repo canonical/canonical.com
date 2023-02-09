@@ -1,0 +1,14 @@
+{% extends 'base_index.html' %}
+
+{% block extra_meta %}
+  <meta name="robots" content="noindex" />
+{% endblock %}
+
+{% block content %}
+  {% include "documentation/_documentation-header.html" %}
+  {% include "documentation/_documentation-tab-navigation.html" %}
+
+  {% block documentation_content %} {% endblock %}
+
+  <script src="{{ versioned_static('js/side-navigation.js') }}"></script>
+{% endblock %}
