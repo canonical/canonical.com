@@ -60,7 +60,6 @@ function initCareersGame() {
     form.append(p)
     card.append(form)
     cardParent.append(card)
-    console.log(typeof(cardParent))
   }
 
   function buildModal(skill) {
@@ -130,9 +129,11 @@ function initCareersGame() {
   function handleCardClick() {
     let selectableCards = document.querySelectorAll(".p-card--test");
 
-    const cardModal = document.querySelector(".p-card--modal");
-    const closeModalButton = document.querySelector(".p-modal__close");
-    console.log(selectableCards.element);
+    let cardModal = document.querySelectorAll(".p-card--modal")
+    console.log("from code", cardModal, typeof(cardmodal));
+    
+    
+    const closeModalButton = document.querySelectorAll(".p-modal__close");
 
     // Show modal 
     [].forEach.call(selectableCards, function (selectedCard) {
