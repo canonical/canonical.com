@@ -1,23 +1,26 @@
-<div class="p-card--game js-skill" id="skill-{{ id }}" data-skill="{{ id }}">
-  <button class="has-icon js-button--add" data-parent="skill-{{ id }}">
-    <span>That's me</span><i class="p-icon--plus"></i>
-  </button>
-
-  <h4 class="p-card--game__title">{{ title }}</h4>
-
-  <div class="p-card--game__content">
-    <p class="p-card--game__tagline">{{ tagline }}</p>
-    <p class="p-card--game__description">{{ description }}</p>
-  </div>
-</div>
-
-<div class="p-card">
+<div class="p-card--test" data-skill="{{ id }}">
   <form>
     <label class="p-checkbox">
-    <input type="checkbox" aria-labelledby="checkboxLabel0" class="p-checkbox__input">
-      <span class="p-checkbox__label" id="checkboxLabel0"><strong>{{ title }}</strong></span>
-  </label>
-    <p class="u-text--muted content">{{ tagline }}</p>
-  
+      <input type="checkbox" id="skill-{{ id }}" name="skill-card" aria-labelledby="skill" class="p-checkbox__input add-skill">
+      <span class="p-checkbox__label p-card--test__title" id="skill"><strong>{{ title }}</strong></span>
+    </label>
+    <p class="u-text--muted p-card--test__tagline  p-heading--6">{{ tagline }}</p>
   </form>
+</div>
+
+<div class="p-card--modal u-hide" id="modal" data-skill="{{ id }}">
+  <section class="p-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+    <button class="p-modal__close " aria-label="Close active modal" aria-controls="modal">Close</button>
+    <div class="p-card--test">
+      <form>
+        <label class="p-checkbox">
+          <input type="checkbox" aria-labelledby="checkboxLabel0" class="p-checkbox__input">
+          <span class="p-checkbox__label" id="checkboxLabel0"><strong>{{ title }}</strong></span>
+        </label>
+        <p class="u-text--muted p-card--test__tagline p-heading--6">{{ tagline }}</p>
+        <p class="u-text--muted p-card--test__tagline">{{ description }}</p>
+        <button class="p-button add-skill-button" style="margin-left: 2rem;"><i class="p-icon--conflict-resolution-grey"></i>That's me</button>
+      </form>
+    </div>
+  </section>
 </div>

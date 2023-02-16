@@ -3,66 +3,216 @@ function initCareersGame() {
   var skillsContainer = document.querySelector(".js-skills");
   var submitButton = document.querySelector(".js-submit-button");
   var selectedSkills = [];
-
   selectedSkillsContainer.classList.remove("u-hide");
   skillsContainer.classList.remove("u-hide");
 
+  handleData();
+  handleCheckbox();
   handleCardClick();
-  handleSkillAdd();
+  handleModalButton();
   handleSkillRemove();
-  handleSubmit();
+  handleSubmit(); 
+   
+  function handleData(){
+    fetch("/static/data/skill-data.json")
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach(skill => {
+        buildCard(skill)
+        buildModal(skill)
+      })
+    })
+  }
+
+  function buildCard(skill) {
+    const cardParent = document.querySelector(".js-skills");
+    let colDiv = document.createElement('div')
+    colDiv.setAttribute("class", "col-3")
+   
+    let card = document.createElement('div')
+    card.setAttribute("class", "p-card--test col-3")
+    card.setAttribute("data-skill", skill.id)
+    
+    let form = document.createElement('form')
+    
+    let label = document.createElement('label')
+    label.setAttribute("class", "p-checkbox")
+    
+    let input = document.createElement('input')
+    input.setAttribute("type", "checkbox")
+    input.setAttribute("id", `skill-${skill.id}`)
+    input.setAttribute("name", "skill-card")
+    input.setAttribute("aria-labelledby", "skill")
+    input.setAttribute("class", "p-checkbox__input")
+    
+    let span = document.createElement('span')
+    span.setAttribute("class", "p-checkbox__label p-card--test__title")
+    span.setAttribute("id", "skill")
+    span.textContent = skill.title
+    
+    let p = document.createElement('p')
+    p.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6")
+    p.innerText = skill.tagline
+    
+    label.append(input)
+    label.append(span)
+    form.append(label)
+    form.append(p)
+    card.append(form)
+    cardParent.append(card)
+    console.log(typeof(cardParent))
+  }
+
+  function buildModal(skill) {
+    const cardParent = document.querySelector(".js-skills");
+
+    let modal = document.createElement("div")
+    modal.setAttribute("class", "p-card--modal u-hide")
+    modal.setAttribute("id", "modal")
+    modal.setAttribute("data-skill", skill.id)
+
+    let section = document.createElement("section")
+    section.setAttribute("class", "p-modal__dialog")
+    section.setAttribute("role", "dialog")
+    section.setAttribute("aria-modal", "true")
+    section.setAttribute("aria-labelledby", "modal-title")
+    section.setAttribute("aria-describedby", "modal-description")
+  
+    let closeButton = document.createElement("button")
+    closeButton.setAttribute("class", "p-modal__close")
+    closeButton.setAttribute("aria-label", "Close active modal")
+    closeButton.setAttribute("aria-controls", "modal")
+    closeButton.innerText = "Close"
+
+    let formDiv = document.createElement('div')
+    formDiv.setAttribute("class", "p-card--test")
+    
+    let form = document.createElement('form')
+
+    let label = document.createElement('label')
+    label.setAttribute("class", "p-checkbox")
+  
+    let input = document.createElement('input')
+    input.setAttribute("type", "checkbox")
+    input.setAttribute("aria-labelledby", "skill-modal")
+    input.setAttribute("class", "p-checkbox__input")
+    
+    let span = document.createElement('span')
+    span.setAttribute("class", "p-checkbox__label")
+    span.setAttribute("id", "skill-modal")
+    span.textContent = skill.title
+
+    let pTitle = document.createElement("p")
+    pTitle.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6")
+    pTitle.innerText = skill.title
+
+    let pDescription = document.createElement("p")
+    pDescription.setAttribute("class", "u-text--muted p-card--test__tagline")
+    pDescription.innerText = skill.description
+
+    let addButton = document.createElement("button")
+    addButton.setAttribute("class", "p-button add-skill-button")
+    addButton.innerText = "That's me"
+  
+    label.append(input)
+    label.append(span)
+    form.append(label)
+    form.append(pTitle)
+    form.append(pDescription)
+    form.append(addButton)
+    formDiv.append(form)
+    section.append(closeButton)
+    section.append(formDiv)
+    modal.append(section)
+    cardParent.append(modal)
+  }
 
   function handleCardClick() {
-    selectableCards = document.querySelectorAll(".p-card--game");
-    
-    [].forEach.call(selectableCards, function (selectableCard) {
-      selectableCard.addEventListener("click", function (e) {
-        var expandedCard = document.querySelector(".p-card--game.is-grey");
-        var targetCard = e.currentTarget;
-        
-        if (expandedCard) {
-          expandedCard.classList.remove("is-grey");
-        }
+    let selectableCards = document.querySelectorAll(".p-card--test");
 
-        if (!targetCard.classList.contains("is-empty")) {
-          targetCard.classList.add("is-grey");
-        }
+    const cardModal = document.querySelector(".p-card--modal");
+    const closeModalButton = document.querySelector(".p-modal__close");
+    console.log(selectableCards.element);
+
+    // Show modal 
+    [].forEach.call(selectableCards, function (selectedCard) {
+      selectedCard.addEventListener("click", function (e){
+        cardModal.classList.remove("u-hide")
       });
+    });
+
+    // Close modal
+    closeModalButton.addEventListener('click', function(e){   
+      cardModal.classList.add("u-hide")
     });
   }
 
-  function handleSkillAdd() {
-    var skillAddButtons = document.querySelectorAll(".js-button--add");
+  function handleCheckbox() {
+    var checkboxes = document.querySelectorAll("input[type=checkbox][name=skill-card]");
+    
+    [].forEach.call(checkboxes, function (checkbox) {
+      checkbox.addEventListener("click", function(e) {
+        let parentDiv = e.target.parentNode.parentNode;
+        let title = parentDiv.querySelector(".p-card--test__title").innerText
+        handleSkillAdd(title)
+      })
+    })
+  }
 
-    [].forEach.call(skillAddButtons, function (button) {
-      button.addEventListener("click", function (event) {
-        var skillCardID = event.currentTarget.getAttribute("data-parent");
-        var skillCard = document.getElementById(skillCardID);
-        var title = skillCard.querySelector(".p-card--game__title").innerText;
-        var tagline = skillCard.querySelector(".p-card--game__tagline")
-          .innerText;
+  function handleModalButton() {
+    let skillButtons = document.querySelectorAll(".add-skill-button");
 
-        event.stopPropagation();
+    [].forEach.call(skillButtons, function (skillButton) {
+      // let parentDiv = skillButton.parentNode.parentNode;
+      // let title = parentDiv.querySelector("span").innerText;
+      //   console.log(parentDiv, title)
+      skillButton.addEventListener("click", function(e) {
+        let parentDiv = skillButton.parentNode.parentNode;
+        let title = parentDiv.querySelector("span").innerText;
+        e.preventDefault()
+        handleSkillAdd(title)
+      })
+    })
+    
+  }
 
-        if (skillCard) {
-          if (selectedSkills.length < 5) {
-            var skillObject = {
-              id: skillCard.getAttribute("data-skill"),
-              title: title,
-              tagline: tagline,
-            };
+  function handleSkillAdd(title) {
+ 
+    if (selectedSkills.length < 5) {
+      selectedSkills.push(title)
+      console.log(selectedSkills)
+    }
 
-            selectedSkills.push(skillObject);
-            toggleCardVisibility(skillCard);
-            renderSelectedSkills();
-          } else {
-            alert(
-              "You have already selected 5 skills! Please click the 'Submit choices' button to see the list of roles suitable for you."
-            );
-          }
-        }
-      });
-    });
+    // [].forEach.call(skillAddButtons, function (button) {
+    //   button.addEventListener("click", function (event) {
+
+        // var skillCardID = event.currentTarget.getAttribute("data-parent");
+        // var skillCard = document.getElementById(skillCardID);
+        // var title = skillCard.querySelector(".p-card--test__title");
+        // var tagline = skillCard.querySelector(".p-card--test__tagline")
+        //   .innerText;
+
+        // event.stopPropagation();
+
+        // if (skillCard) {
+        //   if (selectedSkills.length < 5) {
+        //     var skillObject = {
+        //       id: skillCard.getAttribute("data-skill"),
+        //       title: title,
+        //       tagline: tagline,
+        //     };
+
+        //     selectedSkills.push(skillObject);
+        //     toggleCardVisibility(skillCard);
+        //     renderSelectedSkills();
+        //   } else {
+        //     alert(
+        //       "You have already selected 5 skills! Please click the 'Submit choices' button to see the list of roles suitable for you."
+        //     );
+        //   }
+        // }
+    //   });
+    // });
   }
 
   function handleSkillRemove() {
