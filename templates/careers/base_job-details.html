@@ -3,17 +3,24 @@
 <section class="p-strip">
   <div class="u-fixed-width">
     <a id="back-roles" href="{% if request.referrer and 'careers' in request.referrer %}{{ request.referrer }}{% else %}/careers/all{% endif %}" class="u-sv2">&lsaquo;&nbsp;Back to list</a>
-    <a id="back-details" class="u-sv2 u-hide">&lsaquo;&nbsp;Back to role description</a>
+    <a href="" id="back-details" class="u-sv2 u-hide">&lsaquo;&nbsp;Back to role description</a>
+    <hr>
   </div>
-  <div class="row">
+  <div class="row" id="details">
+    <div class="col-6" style="position: relative">
+      <div style="position: sticky; top: 65px">
+        <h1 class="p-heading--2">{{ job.title }}</h1>
+        <p class="p-muted-heading">{{ job.location }}</p>
+      </div>
+    </div>
     <div class="col-6">
+    {% block careers_content %}{% endblock %}
+    </div>
+  </div>
+  <div class="row u-hide" id="application">
+    <div class="col-6 col-start-large-4">
       <h1 class="p-heading--2">{{ job.title }}</h1>
       <p class="p-muted-heading">{{ job.location }}</p>
-    </div>
-    <div class="col-6" id="details">
-      {% block careers_content %}{% endblock %}
-    </div>
-    <div class="col-6 u-hide" id="application">
       {% block application_content %}{% endblock %}
     </div>
   </div>
@@ -22,43 +29,60 @@
 
 
 <script>
-  const apply_button = document.getElementById("apply-button")
-  const back_roles = document.getElementById("back-roles")
-  const back_details = document.getElementById("back-details")
-  const job_details = document.getElementById("details")
-  const application_form = document.getElementById("application")
-  const origin_url = window.location.pathname
-  
-  apply_button.addEventListener("click", function(){
-    show_application()
-    window.history.pushState({}, document.title, `${origin_url}/application`)
-  })
-  
-  back_details.addEventListener("click", function(){
-    hide_application()
-    window.history.pushState({}, document.title, origin_url)
-  })
-  
-  // handle back button
-  window.addEventListener('popstate', function (event) {
-    if(!origin_url.includes("application")){
-      hide_application()
-    }
-  });  
- 
-  function show_application(){
-    back_roles.classList.add("u-hide")
-    job_details.classList.add("u-hide")
-    application_form.classList.remove("u-hide")
-    back_details.classList.remove("u-hide")
-    application_form.scrollIntoView()
+  const applyButton = document.getElementById("apply-button");
+  const backRoles = document.getElementById("back-roles");
+  const backDetails = document.getElementById("back-details");
+  const jobDetails = document.getElementById("details");
+  const applicationForm = document.getElementById("application");
+  const originURL = window.location.pathname;
+  const URLSplit = originURL.split("/");
+
+  // If loading the page with application switch to that state
+  if (onApplicationScreen()) {
+    show_application();
   }
 
-  function hide_application(){
-    job_details.classList.remove("u-hide")
-    back_roles.classList.remove("u-hide")
-    application_form.classList.add("u-hide")
-    back_details.classList.add("u-hide")
+  applyButton.addEventListener("click", function() {
+    show_application();
+    window.history.pushState({}, document.title, `${window.location.pathname}/application`);
+  })
+
+  backDetails.addEventListener("click", function(e) {
+    e.preventDefault();
+    hide_application();
+    const currentPath = window.location.pathname;
+    const returnPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    window.history.pushState({}, document.title, returnPath);
+  })
+
+  // When the "Back to list" link is clicked handle transitioning to the JD
+  window.addEventListener('popstate', function (event) {
+    if(!onApplicationScreen()) {
+      hide_application();
+    }
+  });
+
+  function show_application() {
+    backRoles.classList.add("u-hide");
+    jobDetails.classList.add("u-hide");
+    applicationForm.classList.remove("u-hide");
+    backDetails.classList.remove("u-hide");
+    window.scrollTo({top: 0, behavior: 'auto'});
+    applicationForm.querySelector('input[type="text"]').focus();
+  }
+
+  function hide_application() {
+    jobDetails.classList.remove("u-hide");
+    backRoles.classList.remove("u-hide");
+    applicationForm.classList.add("u-hide");
+    backDetails.classList.add("u-hide");
+  }
+
+  function onApplicationScreen() {
+    if(URLSplit[URLSplit.length - 1] === "application") {
+      return true;
+    }
+    return false;
   }
 </script>
 {% endblock %}
