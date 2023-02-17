@@ -7,9 +7,6 @@ function initCareersGame() {
   skillsContainer.classList.remove("u-hide");
 
   handleData();
-  handleCheckbox();
-  handleCardClick();
-  handleModalButton();
   handleSkillRemove();
   handleSubmit(); 
    
@@ -19,7 +16,6 @@ function initCareersGame() {
     .then((data) => {
       data.forEach(skill => {
         buildCard(skill)
-        buildModal(skill)
       })
     })
   }
@@ -60,13 +56,21 @@ function initCareersGame() {
     form.append(p)
     card.append(form)
     cardParent.append(card)
+   
+    p.addEventListener("click", function(e){
+      buildModal(skill)
+    })
+
+    input.addEventListener("click", function (e){
+      handleCheckboxSkillAdd(skill.title)
+    })
   }
 
   function buildModal(skill) {
     const cardParent = document.querySelector(".js-skills");
 
     let modal = document.createElement("div")
-    modal.setAttribute("class", "p-card--modal u-hide")
+    modal.setAttribute("class", "p-card--modal")
     modal.setAttribute("id", "modal")
     modal.setAttribute("data-skill", skill.id)
 
@@ -124,97 +128,43 @@ function initCareersGame() {
     section.append(formDiv)
     modal.append(section)
     cardParent.append(modal)
-  }
 
-  function handleCardClick() {
-    let selectableCards = document.querySelectorAll(".p-card--test");
+    closeButton.addEventListener("click", function(e) {
+      modal.classList.add("u-hide")
+    })
 
-    let cardModal = document.querySelectorAll(".p-card--modal")
-    console.log("from code", cardModal, typeof(cardmodal));
-    
-    
-    const closeModalButton = document.querySelectorAll(".p-modal__close");
-
-    // Show modal 
-    [].forEach.call(selectableCards, function (selectedCard) {
-      selectedCard.addEventListener("click", function (e){
-        cardModal.classList.remove("u-hide")
-      });
-    });
-
-    // Close modal
-    closeModalButton.addEventListener('click', function(e){   
-      cardModal.classList.add("u-hide")
-    });
-  }
-
-  function handleCheckbox() {
-    var checkboxes = document.querySelectorAll("input[type=checkbox][name=skill-card]");
-    
-    [].forEach.call(checkboxes, function (checkbox) {
-      checkbox.addEventListener("click", function(e) {
-        let parentDiv = e.target.parentNode.parentNode;
-        let title = parentDiv.querySelector(".p-card--test__title").innerText
-        handleSkillAdd(title)
-      })
+    addButton.addEventListener("click", function(e) {
+      e.preventDefault()
+      handleCheckboxSkillAdd(skill.title)
     })
   }
 
-  function handleModalButton() {
-    let skillButtons = document.querySelectorAll(".add-skill-button");
-
-    [].forEach.call(skillButtons, function (skillButton) {
-      // let parentDiv = skillButton.parentNode.parentNode;
-      // let title = parentDiv.querySelector("span").innerText;
-      //   console.log(parentDiv, title)
-      skillButton.addEventListener("click", function(e) {
-        let parentDiv = skillButton.parentNode.parentNode;
-        let title = parentDiv.querySelector("span").innerText;
-        e.preventDefault()
-        handleSkillAdd(title)
-      })
-    })
-    
-  }
-
-  function handleSkillAdd(title) {
- 
+  function handleCheckboxSkillAdd(title) {
+    // add skill
     if (selectedSkills.length < 5) {
       selectedSkills.push(title)
-      console.log(selectedSkills)
+
+      let skillDiv = document.querySelector(`.selected-skills[id=selected-${selectedSkills.length}]`)
+      skillDiv.innerText = title + ",";
+    } 
+
+    // check checkbox if skill added from modal
+
+    // disable checkboxes if skill cap reached
+    if (selectedSkills.length == 5) {
+      let checks = document.querySelectorAll(".p-checkbox__input")
+      checks.forEach(check => {
+        if (!check.checked){
+          check.disabled = true;
+        }
+      })
     }
 
-    // [].forEach.call(skillAddButtons, function (button) {
-    //   button.addEventListener("click", function (event) {
+    // disable modal button if skill cap
 
-        // var skillCardID = event.currentTarget.getAttribute("data-parent");
-        // var skillCard = document.getElementById(skillCardID);
-        // var title = skillCard.querySelector(".p-card--test__title");
-        // var tagline = skillCard.querySelector(".p-card--test__tagline")
-        //   .innerText;
-
-        // event.stopPropagation();
-
-        // if (skillCard) {
-        //   if (selectedSkills.length < 5) {
-        //     var skillObject = {
-        //       id: skillCard.getAttribute("data-skill"),
-        //       title: title,
-        //       tagline: tagline,
-        //     };
-
-        //     selectedSkills.push(skillObject);
-        //     toggleCardVisibility(skillCard);
-        //     renderSelectedSkills();
-        //   } else {
-        //     alert(
-        //       "You have already selected 5 skills! Please click the 'Submit choices' button to see the list of roles suitable for you."
-        //     );
-        //   }
-        // }
-    //   });
-    // });
+    
   }
+
 
   function handleSkillRemove() {
     var removeSkillCTAs = document.querySelectorAll(".js-button--remove");
