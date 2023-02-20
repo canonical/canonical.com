@@ -63,7 +63,7 @@
 </div>
 {% endif %}
 <div class="row">
-  <div class="col-8">
+  <div class="col-6">
     <div class="job-desc">
       {{ job.content | filtered_html_tags | safe }}
     </div>
@@ -74,15 +74,16 @@
 
 {% block application_content %}
 <div class="row">
-  <div class="col-8 p-card--form">
-    <h3>Apply for this role</h3>
+  <div class="col-6">
+    <hr class="u-no-margin--bottom">
+    <h3 class="p-heading--5">Apply for this role</h3>
     <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
           'event': 'GAEvent',
           'eventCategory': 'Form',
           'eventAction': 'job application: {{ job.id }}',
           'eventLabel': 'Submit Application',
           'eventValue': undefined });" >
-      <fieldset style="border: none; margin-bottom: 0;">
+      <fieldset style="border: none; margin-bottom: 0; padding: 0;">
         <p class="required-legend u-align-text--right ">Required</p>
         <input type="hidden" name="id" value="{{ job.id }}" />
         {% if job.questions %}
