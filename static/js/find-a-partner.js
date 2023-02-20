@@ -1,6 +1,6 @@
 (function () {
   const numberOfPartnersLabel = document.querySelector(
-    ".js-find-a-partner__number"
+    ".js-find-a-partner__number",
   );
   const searchBox = document.querySelector(".js-find-a-partner__search-input");
   const urlParams = new URLSearchParams(window.location.search);
@@ -71,7 +71,8 @@
       partners.forEach(function (partner) {
         partner.classList.remove("js-searched");
         var searchText = partner.getAttribute("data-searchText").toLowerCase();
-        if (searchText.includes(searchBox.value)) {
+
+        if (searchText.includes(searchBox.value.toLowerCase())) {
           partner.classList.add("js-searched");
         }
       });
@@ -150,7 +151,7 @@
     window.history.pushState(
       { search: searchBox.value, filters: filters },
       "",
-      newUrl
+      newUrl,
     );
   }
 
@@ -203,7 +204,7 @@
   function updateNumberOfPartners() {
     if (numberOfPartnersLabel) {
       numberOfPartnersLabel.innerHTML = document.querySelectorAll(
-        ".js-find-a-partner__partner.js-searched.js-filtered"
+        ".js-find-a-partner__partner.js-searched.js-filtered",
       ).length;
     }
   }
