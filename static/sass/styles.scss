@@ -193,6 +193,27 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 }
 
+// Override h2 in job descriptions to look like h3
+.job-desc {
+  h1 {
+    @extend %vf-heading-2;
+  }
+
+  h2 {
+    @extend %vf-heading-3;
+  }
+
+  h3 {
+    @extend %vf-heading-5;
+  }
+
+  // Hide any empty p tags or consecutive breaks
+  p:empty,
+  br + br {
+    display: none;
+  }
+}
+
 .desktop-hero {
   background-image: url("#{$assets-path}ce95be94-careers-guy.jpg");
   background-position: right bottom;
@@ -324,4 +345,12 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-inline-list.is-inlined-with-h2 {
   display: inline-block;
   margin: 1.5rem 0 0 1rem;
+}
+
+// XXX: Ant - 21/02/2023
+// Fix for breakage introduced in Vanilla v3.11.1
+// Reported: https://github.com/canonical/vanilla-framework/issues/4664
+.p-text--x-small-capitalised {
+  font-size: 1rem;
+  font-weight: 400;
 }
