@@ -6,63 +6,68 @@ function initCareersGame() {
   selectedSkillsContainer.classList.remove("u-hide");
   skillsContainer.classList.remove("u-hide");
 
-  handleData();
-  handleSkillRemove();
+  handleSkillData();
   handleSubmit(); 
    
-  function handleData(){
+  function handleSkillData() {
     fetch("/static/data/skill-data.json")
     .then((response) => response.json())
     .then((data) => {
       data.forEach(skill => {
-        buildCard(skill)
+        buildModal(skill);
+        buildCard(skill);
       })
     })
   }
 
   function buildCard(skill) {
     const cardParent = document.querySelector(".js-skills");
-    let colDiv = document.createElement('div')
-    colDiv.setAttribute("class", "col-3")
+    let colDiv = document.createElement('div');
+    colDiv.setAttribute("class", "col-3");
    
-    let card = document.createElement('div')
-    card.setAttribute("class", "p-card--test col-3")
-    card.setAttribute("data-skill", skill.id)
+    let card = document.createElement('div');
+    card.setAttribute("class", "p-card--test col-3");
     
-    let form = document.createElement('form')
+    let form = document.createElement('form');
     
-    let label = document.createElement('label')
-    label.setAttribute("class", "p-checkbox")
+    let label = document.createElement('label');
+    label.setAttribute("class", "p-checkbox");
     
-    let input = document.createElement('input')
-    input.setAttribute("type", "checkbox")
-    input.setAttribute("id", `skill-${skill.id}`)
-    input.setAttribute("name", "skill-card")
-    input.setAttribute("aria-labelledby", "skill")
-    input.setAttribute("class", "p-checkbox__input")
+    let input = document.createElement('input');
+    input.setAttribute("type", "checkbox");
+    input.setAttribute("id", `skill-${skill.id}`);
+    input.setAttribute("name", "skill-card");
+    input.setAttribute("aria-labelledby", "skill-card");
+    input.setAttribute("class", "p-checkbox__input");
+    input.setAttribute("data-skill", skill.id);
     
-    let span = document.createElement('span')
-    span.setAttribute("class", "p-checkbox__label p-card--test__title")
-    span.setAttribute("id", "skill")
-    span.textContent = skill.title
+    let span = document.createElement('span');
+    span.setAttribute("class", "p-checkbox__label p-card--test__title");
+    span.setAttribute("id", "skill-card");
+    span.textContent = skill.title;
     
-    let p = document.createElement('p')
-    p.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6")
-    p.innerText = skill.tagline
+    let p = document.createElement('p');
+    p.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6");
+    p.innerText = skill.tagline;
     
-    label.append(input)
-    label.append(span)
-    form.append(label)
-    form.append(p)
-    card.append(form)
-    cardParent.append(card)
-   
+    label.append(input);
+    label.append(span);
+    form.append(label);
+    form.append(p);
+    card.append(form);
+    cardParent.append(card);
+    
     p.addEventListener("click", function(e){
-      buildModal(skill)
+      let modal = document.getElementById(`modal-${skill.id}`)
+      modal.classList.remove("u-hide")
     })
 
     input.addEventListener("click", function (e){
-      handleCheckboxSkillAdd(skill.title)
+      if (input.checked) {
+        handleSkillAdd(skill)
+      } else {
+        handleSkillRemove(skill)
+      }
     })
   }
 
@@ -70,9 +75,8 @@ function initCareersGame() {
     const cardParent = document.querySelector(".js-skills");
 
     let modal = document.createElement("div")
-    modal.setAttribute("class", "p-card--modal")
-    modal.setAttribute("id", "modal")
-    modal.setAttribute("data-skill", skill.id)
+    modal.setAttribute("class", "p-card--modal u-hide")
+    modal.setAttribute("id", `modal-${skill.id}`)
 
     let section = document.createElement("section")
     section.setAttribute("class", "p-modal__dialog")
@@ -90,15 +94,16 @@ function initCareersGame() {
     let formDiv = document.createElement('div')
     formDiv.setAttribute("class", "p-card--test")
     
-    let form = document.createElement('form')
+    let form = document.createElement("form")
 
-    let label = document.createElement('label')
+    let label = document.createElement("label")
     label.setAttribute("class", "p-checkbox")
   
     let input = document.createElement('input')
     input.setAttribute("type", "checkbox")
     input.setAttribute("aria-labelledby", "skill-modal")
     input.setAttribute("class", "p-checkbox__input")
+    input.setAttribute("data-skill", skill.id)
     
     let span = document.createElement('span')
     span.setAttribute("class", "p-checkbox__label")
@@ -113,9 +118,9 @@ function initCareersGame() {
     pDescription.setAttribute("class", "u-text--muted p-card--test__tagline")
     pDescription.innerText = skill.description
 
-    let addButton = document.createElement("button")
-    addButton.setAttribute("class", "p-button add-skill-button")
-    addButton.innerText = "That's me"
+    let addButton = document.createElement("button");
+    addButton.setAttribute("class", "p-button add-skill-button");
+    addButton.innerText = "That's me";
   
     label.append(input)
     label.append(span)
@@ -135,55 +140,87 @@ function initCareersGame() {
 
     addButton.addEventListener("click", function(e) {
       e.preventDefault()
-      handleCheckboxSkillAdd(skill.title)
+      handleSkillAdd(skill)
+    })
+
+    input.addEventListener("click", function(e) {
+      if (input.checked) {
+        handleSkillAdd(skill)
+      } else {
+        handleSkillRemove(skill)
+      }
     })
   }
 
-  function handleCheckboxSkillAdd(title) {
-    // add skill
+  function handleSkillAdd(skill) {
+    let skillCheckboxes = document.querySelectorAll(`[data-skill="${skill.id}"]`)
+    let skillDivs = document.querySelectorAll(".selected-skills")
+
     if (selectedSkills.length < 5) {
-      selectedSkills.push(title)
+      selectedSkills.push(skill.title)
+      for (let i = 0; i < skillDivs.length;i++) {
+        if (!skillDivs[i].innerText) {
+          skillDivs[i].innerText = skill.title
+          break;
+        }
+      }
+    }
+    // Check all boxes for given skill (modal and card)
+    skillCheckboxes.forEach(box => {
+      if (selectedSkills.includes(skill.title) && box.checked == false) {
+        box.checked = true;
+      }
+    })
 
-      let skillDiv = document.querySelector(`.selected-skills[id=selected-${selectedSkills.length}]`)
-      skillDiv.innerText = title + ",";
-    } 
+    toggleCTAs(skill)
+  }
 
-    // check checkbox if skill added from modal
+  function handleSkillRemove(skill) {
+    let index = selectedSkills.indexOf(skill.title)
+    let skillDiv = document.querySelector(`.selected-skills[id=selected-${index + 1}]`)
 
-    // disable checkboxes if skill cap reached
+    selectedSkills.splice(index, 1)
+    skillDiv.innerHTML = "";
+    
+    toggleCTAs(skill)
+  }
+  
+  function toggleCTAs(skill) {
+    let skillCheckboxes = document.querySelectorAll(`[data-skill="${skill.id}"]`)
+    let allCheckboxes = document.querySelectorAll(".p-checkbox__input")
+    let allModalButtons = document.querySelectorAll(".add-skill-button")
+
     if (selectedSkills.length == 5) {
-      let checks = document.querySelectorAll(".p-checkbox__input")
-      checks.forEach(check => {
+      // Disable checkboxes/modal button if skill cap reached
+      allCheckboxes.forEach(check => {
         if (!check.checked){
           check.disabled = true;
         }
       })
+      allModalButtons.forEach(button => {
+        button.setAttribute("disabled", "")
+      })
+      // Enable submit button
+      submitButton.removeAttribute("disabled")
+    } 
+
+    if (selectedSkills.length < 5) {
+      // Re-enable checkboxes/modal button
+      allCheckboxes.forEach(check => {
+        if (check.disabled == true){
+          check.disabled = false;
+        }
+      })
+      allModalButtons.forEach(button => {
+        button.removeAttribute("disabled")
+      })
+      // Disable submit button
+      submitButton.setAttribute("disabled", "true")
     }
-
-    // disable modal button if skill cap
-
-    
-  }
-
-
-  function handleSkillRemove() {
-    var removeSkillCTAs = document.querySelectorAll(".js-button--remove");
-
-    [].forEach.call(removeSkillCTAs, function (cta) {
-      cta.addEventListener("click", function (event) {
-        var selectedCardID = event.currentTarget.getAttribute("data-parent");
-        var selectedCard = document.getElementById(selectedCardID);
-        var skillID = selectedCard.getAttribute("data-skill");
-        var skillCard = document.getElementById("skill-" + skillID);
-
-        selectedSkills = selectedSkills.filter(function (el) {
-          return !(el.id === skillID);
-        });
-
-        toggleCardVisibility(skillCard);
-        renderSelectedSkills();
-      });
-    });
+    // Make sure both checkboxes match
+    if (skillCheckboxes[0].checked == false && skillCheckboxes[1].checked) {
+      skillCheckboxes[1].checked = false
+    }
   }
 
   function handleSubmit() {
@@ -191,7 +228,7 @@ function initCareersGame() {
       var skillsString = "";
 
       [].forEach.call(selectedSkills, function (skill) {
-        skillsString += skill.title;
+        skillsString += skill;
 
         if (skill !== selectedSkills[selectedSkills.length - 1]) {
           skillsString += ",";
@@ -200,43 +237,6 @@ function initCareersGame() {
 
       location.href = "results?core-skills=" + skillsString;
     });
-  }
-
-  function renderSelectedSkills() {
-    var cards = selectedSkillsContainer.querySelectorAll(".p-card--game");
-
-    for (i = 0; i < cards.length; i++) {
-      var tagline = "";
-      var title = "";
-      var cardTitleEl = cards[i].querySelector(".p-card--game__title");
-      var cardTaglineEl = cards[i].querySelector(".p-card--game__tagline");
-
-      if (selectedSkills[i]) {
-        title = selectedSkills[i].title;
-        tagline = selectedSkills[i].tagline;
-        cards[i].classList.remove("is-empty");
-        cards[i].classList.add("is-selected");
-        cards[i].setAttribute("data-skill", selectedSkills[i].id);
-      } else {
-        cards[i].classList.add("is-empty");
-        cards[i].classList.remove("is-selected");
-        cards[i].removeAttribute("data-skill");
-      }
-
-      cardTitleEl.innerText = title;
-      cardTaglineEl.innerText = tagline;
-    }
-
-    if (selectedSkills.length === 5) {
-      submitButton.disabled = false;
-    } else {
-      submitButton.disabled = true;
-    }
-  }
-
-  function toggleCardVisibility(card) {
-    card.classList.toggle("is-empty");
-    card.classList.remove("is-grey");
   }
 }
 

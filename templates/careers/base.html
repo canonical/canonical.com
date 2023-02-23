@@ -9,7 +9,9 @@
 
 <section class="p-strip u-extra-space">
   <div class="row">
-    {% include 'partial/_careers-navigation.html' %}
+    {% if "results" not in request.url  %}
+      {% include 'partial/_careers-navigation.html' %}
+    {% endif %}
     <div class="col-9 col-medium-4">
       {% block careers_content %}{% endblock %}
     </div>
