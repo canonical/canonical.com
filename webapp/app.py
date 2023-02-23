@@ -227,37 +227,45 @@ def careers_index():
     all_departments = (_group_by_department(greenhouse.get_vacancies()),)
 
     dept_list = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
+        {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
+        {
+            "slug": "support-engineering",
+            "icon": "df08c7f2-Support Engineering.svg",
+        },
+        {"slug": "marketing", "icon": "27b93be4-Marketing.svg"},
+        {"slug": "web-and-design", "icon": "b200e162-design.svg"},
+        {
+            "slug": "project-management",
+            "icon": "0f64ee5c-Project Management.svg",
+        },
+        {"slug": "commercial-operations", "icon": "1f84f8c7-Operations.svg"},
+        {"slug": "product", "icon": "d5341dfa-Product.svg"},
+        {"slug": "sales", "icon": "2dc1ceb1-Sales.svg"},
+        {"slug": "finance", "icon": "8b2110ea-finance.svg"},
+        {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
+        {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
+        {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
     ]
 
     departments_overview = []
 
     for vacancy in all_departments:
         for dept in dept_list:
-            if vacancy[dept]:
-                if vacancy[dept].vacancies:
-                    count = len(vacancy[dept].vacancies)
+            if vacancy[dept["slug"]]:
+                if vacancy[dept["slug"]].vacancies:
+                    count = len(vacancy[dept["slug"]].vacancies)
                 else:
                     count = 0
-                name = vacancy[dept].name
-                slug = vacancy[dept].slug
+                name = vacancy[dept["slug"]].name
+                slug = vacancy[dept["slug"]].slug
+                icon = dept["icon"]
 
                 departments_overview.append(
                     {
                         "name": name,
                         "count": count,
                         "slug": slug,
+                        "icon": icon,
                     }
                 )
 
