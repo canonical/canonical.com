@@ -1,0 +1,68 @@
+@mixin canonical-careers-explorer {
+  @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1) {
+    .p-strip--game {
+      background-color: $color-dark;
+      color: $color-light;
+    }
+    .p-card--skill{
+      &__title {
+        color: $color-light;
+      }
+    }
+    form {
+      display: flex;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-large) {
+    .p-card--skill{
+      &:hover {
+        background-color: $color-mid-x-light;
+        cursor: pointer;
+      }
+
+      &__tagline {
+        color: $colors--light-theme--text-muted;
+        padding-top: 0;
+      }
+    }
+  }
+  .p-strip--game {
+    @extend %vf-strip;
+  }
+
+  .p-card--skill{
+    border-top: 1.5px solid #d9d9d9;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-height: 7rem;
+    
+    &__tagline {
+      padding-left: 2rem;
+      position: relative;
+      
+    }
+  }
+
+  .p-card--modal {
+    align-items: center;
+    background: transparentize($color-dark, 0.15);
+    bottom: 0;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    margin: 0;
+    padding: $spv--large;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 150; // render on top of any other content or layout elements
+  }
+
+  .p-modal__dialog {
+    width: 373px;
+  }
+  
+}

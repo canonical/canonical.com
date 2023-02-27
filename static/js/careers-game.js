@@ -4,7 +4,6 @@ function initCareersGame() {
   var submitButton = document.querySelector(".js-submit-button");
   var selectedSkills = [];
   selectedSkillsContainer.classList.remove("u-hide");
-  skillsContainer.classList.remove("u-hide");
 
   handleSkillData();
   handleSubmit(); 
@@ -21,12 +20,11 @@ function initCareersGame() {
   }
 
   function buildCard(skill) {
-    const cardParent = document.querySelector(".js-skills");
     let colDiv = document.createElement('div');
     colDiv.setAttribute("class", "col-3");
    
     let card = document.createElement('div');
-    card.setAttribute("class", "p-card--test col-3");
+    card.setAttribute("class", "p-card--skill col-3");
     
     let form = document.createElement('form');
     
@@ -42,12 +40,12 @@ function initCareersGame() {
     input.setAttribute("data-skill", skill.id);
     
     let span = document.createElement('span');
-    span.setAttribute("class", "p-checkbox__label p-card--test__title");
+    span.setAttribute("class", "p-checkbox__label p-card--skill__title");
     span.setAttribute("id", "skill-card");
     span.textContent = skill.title;
     
     let p = document.createElement('p');
-    p.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6");
+    p.setAttribute("class", "p-card--skill__tagline p-heading--6");
     p.innerText = skill.tagline;
     
     label.append(input);
@@ -55,7 +53,7 @@ function initCareersGame() {
     form.append(label);
     form.append(p);
     card.append(form);
-    cardParent.append(card);
+    skillsContainer.append(card);
     
     p.addEventListener("click", function(e){
       let modal = document.getElementById(`modal-${skill.id}`)
@@ -92,7 +90,7 @@ function initCareersGame() {
     closeButton.innerText = "Close"
 
     let formDiv = document.createElement('div')
-    formDiv.setAttribute("class", "p-card--test")
+    formDiv.setAttribute("class", "p-card--skill")
     
     let form = document.createElement("form")
 
@@ -111,11 +109,11 @@ function initCareersGame() {
     span.textContent = skill.title
 
     let pTitle = document.createElement("p")
-    pTitle.setAttribute("class", "u-text--muted p-card--test__tagline p-heading--6")
+    pTitle.setAttribute("class", "u-text--muted p-card--skill__tagline p-heading--6")
     pTitle.innerText = skill.title
 
     let pDescription = document.createElement("p")
-    pDescription.setAttribute("class", "u-text--muted p-card--test__tagline")
+    pDescription.setAttribute("class", "u-text--muted p-card--skill__tagline")
     pDescription.innerText = skill.description
 
     let addButton = document.createElement("button");
