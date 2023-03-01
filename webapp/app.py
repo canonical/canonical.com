@@ -318,6 +318,19 @@ def all_careers():
     )
 
 
+@app.route("/careers/<path>")
+def working_here_pages(path):
+    # more pages to come
+    pages = {
+        "travel"
+    }
+
+    if path not in pages:
+        flask.abort(404)
+
+    return flask.render_template(f"{flask.request.path}.html")
+
+
 @app.route("/careers/<department_slug>")
 def department_group(department_slug):
     departments = _get_sorted_departments()
