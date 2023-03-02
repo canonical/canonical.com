@@ -371,9 +371,388 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   font-weight: 400;
 }
 
+.p-list--sustainability {
+  @extend .p-list--divided;
+
+  .p-list__item {
+    list-style: inside;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+  }
+}
+$color-tabs-active-bar: #e95420;
+
+@import '../../node_modules/vanilla-framework';
+
+
+// import cookie policy
+@import "@canonical/cookie-policy/build/css/cookie-policy";
+
+$color-brand: #7c355d;
+$color-dark: #262626;
+$nudge--small: 0.55rem;
+$p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
+
+@import "pattern_animations";
+@import "pattern_application";
+@import "pattern_buttons";
+@import "pattern_blog-card";
+@import "pattern_cards";
+@import "pattern_careers-modal";
+@import "pattern_footer";
+@import "pattern_forms";
+@import "pattern_headings";
+@import "pattern_lists";
+@import "pattern_media-object";
+@import "pattern_strip";
+@import "pattern_tabs";
+@import "pattern_search-panel";
+@import "pattern_search-form";
+
+@include vanilla;
+@include blog-p-card;
+@include canonical-u-animations;
+@include canonical-p-stepped-list;
+@include canonical-p-buttons;
+@include canonical-p-card;
+@include canonical-p-careers-modal;
+@include canonical-p-content-list;
+@include canonical-p-feedback;
+@include canonical-p-footer;
+@include canonical-p-forms;
+@include canonical-p-headings;
+@include canonical-p-withdrawal-modal;
+@include canonical-p-media-object;
+@include canonical-p-strip;
+@include canonical-p-tabs;
+@include canonical-p-search-panel;
+@include canonical-search-form;
+@include canonical-u-footer-align-bottom;
+
+.is-grey {
+  background-color: $color-mid-x-light;
+}
+
+.is-parallax {
+  background-attachment: fixed;
+}
+
+.js-find-a-partner__partner {
+  // find-a-partner search
+  display: none;
+}
+
+.js-filtered.js-searched {
+  // find-a-partner search
+  display: block;
+}
+
+.p-accordion-panel {
+  overflow: auto; // include child margins into its height
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+
+  // Hides panel content
+  &[aria-hidden="true"] {
+    display: none;
+  }
+
+  @media (max-width: $breakpoint-large - 1) {
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+}
+
+.p-pull-quote--inverted {
+    overflow-x: hidden;
+
+  .p-pull-quote__quote {
+    &::before {
+      color: $color-x-light;
+    }
+
+    &::after {
+      color: $color-x-light;
+    }
+  }
+}
+
+
+
+.required-legend {
+  font-size: small;
+  margin-bottom: 0;
+  padding: 0;
+
+  &::before {
+    color: $color-negative;
+    content: "*";
+    position: relative;
+    right: 0.25rem;
+  }
+}
+
+.js-partner-link:hover .p {
+  border-right: 3px solid $color-tabs-active-bar;
+}
+
+[type="checkbox"] + label.p-checkbox-label--h2 {
+  $offset-top--h2-large: 1.2rem;
+  $offset-top--h2-small: 0.8rem;
+  $tick-offset: 0.1875rem;
+
+  &::before {
+    top: $offset-top--h2-small;
+
+    @media (min-width: $breakpoint-heading-threshold) {
+      top: $offset-top--h2-large;
+    }
+  }
+
+  &::after {
+    top: $offset-top--h2-small + $tick-offset;
+
+    @media (min-width: $breakpoint-heading-threshold) {
+      top: $offset-top--h2-large + $tick-offset;
+    }
+  }
+}
+
+.p-separator {
+  margin: 4rem 0;
+}
+
+.p-image--shadowed {
+  border-radius: 2px;
+  box-shadow: 0 -2px 27px 0 rgba(0 0 0 / 50%);
+}
+
+.p-media-object__image.is-small {
+  margin: 0 1rem 0 0.5rem;
+  position: relative;
+  top: 6px;
+}
+
+.p-inline-list--middot.is-x-dense {
+  .p-inline-list__item::after {
+    right: -0.7rem;
+    top: 0.8em;
+  }
+}
+
+.is-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.p-reveal-link {
+  padding-right: 2rem;
+  position: relative;
+
+  &:visited {
+    color: $color-link;
+  }
+
+  &::after {
+    @include vf-icon-chevron(vf-url-friendly-color($color-link));
+
+    background-position: top 52% right 50%;
+    background-repeat: no-repeat;
+    background-size: 0.75rem;
+    content: "";
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: transform 0.1s;
+    width: 2rem;
+  }
+
+  &.is-open {
+    &::after {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+// Override h2 in job descriptions to look like h3
+.job-desc {
+  h1 {
+    @extend %vf-heading-2;
+  }
+
+  h2 {
+    @extend %vf-heading-3;
+  }
+
+  h3 {
+    @extend %vf-heading-5;
+  }
+
+  // Hide any empty p tags or consecutive breaks
+  p:empty,
+  br + br {
+    display: none;
+  }
+}
+
+.desktop-hero {
+  background-image: url("#{$assets-path}ce95be94-careers-guy.jpg");
+  background-position: right bottom;
+  background-size: 1000px auto;
+
+  @media only screen and (min-width: 2000px) {
+    background-size: 75%;
+  }
+
+  &--subtext {
+    max-width: 28em;
+
+    @media only screen and (max-width: 874px) and (min-width: 620px) {
+      width: 50%;
+    }
+  }
+}
+
+// Style for main navigation
+.p-navigation__dropdown .p-navigation__dropdown-item {
+  color: #EEEDEB !important;
+  position: relative;
+}
+
+.p-navigation__dropdown > li:not(:last-child) > .p-navigation__dropdown-item::before {
+  background: rgba(255 255 255 / 10%);
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 1rem;
+  position: absolute;
+  right: 0;
+}
+
+.p-navigation__dropdown a.is-selected {
+  border-left: 4px solid white;
+  color: white !important;
+}
+
+// Styles to allow for sub-lists in navigation dropdown, remove once added upstream
+.p-navigation__sub-list {
+  @extend .p-navigation__item;
+
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.p-navigation__sub-list > li {
+  > a {
+    padding-left: 2rem;
+
+    &::before {
+      background: rgba(255 255 255 / 10%);
+      bottom: 0;
+      content: "";
+      height: 1px;
+      left: 2rem;
+      position: absolute;
+      right: 0;
+
+      @media (min-width: $breakpoint-navigation-threshold) {
+        left: 2rem;
+      }
+    }
+  }
+
+  &:last-child a::before {
+    @media (min-width: $breakpoint-navigation-threshold) {
+      left: 1rem;
+    }
+  }
+}
+
+
+.p-featured {
+  gap: 0;
+
+  &__item {
+    cursor: pointer;
+    margin-right: 1px;
+    padding: 0 1rem 1rem;
+
+    &:nth-child(3n+3){
+      padding-right: 0;
+    }
+
+    &:active {
+      background-color: $colors--light-theme--background-active;
+    }
+
+    &:hover {
+      background-color: $colors--light-theme--background-hover;
+
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__role {
+    box-shadow: 0 4px 2px -2px $colors--light-theme--border-default;
+    margin-top: .5rem;
+    min-height: 5rem;
+    padding-top: .5rem;
+  }
+
+  &__filler {
+    border-top: 1px solid $colors--light-theme--border-default;
+    margin-right: 1px;
+    padding: 0 1rem 1rem;
+  }
+
+  &.is-fast-track &__item {
+    background-color: $color-light;
+  }
+}
+
+// When a blog card does not have a featured image, hide the container
+.blog-p-card__content > .u-crop--16-9:has(.article-image:empty) {
+  display: none;
+}
+
+// XXX: appending this to the vanilla placeholder. Remove when this pr is merged: https://github.com/canonical/vanilla-framework/pull/4625
+%social-icon {
+  max-height: 1.5rem;
+  max-width: 1.5rem;
+}
+
+.p-inline-list.is-inlined-with-h2 {
+  display: inline-block;
+  margin: 1.5rem 0 0 1rem;
+}
+
+// Makes side-navigation fit with the custom top-navigation of c.com
+.p-side-navigation {
+  &--raw-html.is-sticky {
+    top: 4.5rem;
+    z-index: 1;
+  }
+
+  &__drawer {
+  top: 48px;
+  }
+}
+
+// XXX: Ant - 21/02/2023
+// Fix for breakage introduced in Vanilla v3.11.1
+// Reported: https://github.com/canonical/vanilla-framework/issues/4664
+.p-text--x-small-capitalised {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
 .p-list--travel {
   @extend .p-list--divided;
   
+
   columns: 5;
 
   @media (max-width: 620px){
