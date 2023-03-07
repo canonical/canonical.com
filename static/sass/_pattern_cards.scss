@@ -53,17 +53,22 @@
 }
 
 @mixin selectable-card {
-  .p-selectable-card {
+  %selectable-card {
     @extend %vf-card;
 
     border-top: 1px solid $color-mid-light;
     margin-bottom: 0;
+  }
+
+  .p-selectable-card {
+    @extend %selectable-card;
 
     &:hover {
       background-color: $color-mid-x-light;
     }
 
     &--selected {
+      @extend %selectable-card;
       background-color: $color-x-light;
     }
   }
