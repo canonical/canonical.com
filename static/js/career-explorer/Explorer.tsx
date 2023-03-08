@@ -6,7 +6,12 @@ export default function Explorer() {
   const [selectedSkills, setSelectedSkills] = useState([] as number[]);
   const handleOnChange = (position: number) => {
     let updatedSkills = [...selectedSkills];
-    updatedSkills.push(position);
+    const index = updatedSkills.indexOf(position);
+    if (index !== -1) {
+      updatedSkills.splice(index, 1);
+    } else {
+      updatedSkills.push(position);
+    }
     setSelectedSkills(updatedSkills);
   };
 
