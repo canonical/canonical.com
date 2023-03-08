@@ -3,6 +3,10 @@ function initMap() {
     zoom: 3,
     center: { lat: 38.44079856183539, lng: -32.13058355540764 },
   });
+  
+  const mapDiv = document.getElementById("sprint-map");
+  mapDiv.style.height = "25rem";
+  mapDiv.style.width = "69rem";
 
   const sprintLocations = [
     [{ lat: 51.53910042435768, lng: -0.1416575585467801 }, "London"],
@@ -16,7 +20,6 @@ function initMap() {
     [{ lat: 30.355265001335628, lng: -97.76687845245245 }, "Austin"],
     [{ lat: 48.857074990278676, lng: 2.3395547447652056 }, "Paris"],
     [{ lat: 29.767193226058257, lng: -95.3670538129764 }, "Houston"],
-    [{ lat: -31.043359293503908, lng: 25.51255683173218 }, "Spier"],
     [{ lat: 35.8932740016975, lng: 14.43746658277917 }, "Malta"],
     [{ lat: 45.76429262112831, lng: 4.835301390987176 }, "Lyon"],
     [{ lat: 38.67917381627824, lng: -90.20103074315858 }, "St. Louis"],
@@ -43,7 +46,7 @@ function initMap() {
     [{ lat: 25.763155578558653, lng: 54.94246340504953 }, "Dubai"],
     [{ lat: 47.65006756574396, lng: -122.35867431899362 }, "Seattle"],
     [{ lat: 37.42579354504801, lng: -78.17007396261319 }, "Virginia"],
-    [{ lat: 41.078424184612594, lng: -9.051132205419249 }, "Portugal"],
+    [{ lat: 39.70820784971259, lng: -8.484528745678654 }, "Portugal"],
     [{ lat: 14.567870738893827, lng: 120.93577783953602 }, "Manilla"],
     [{ lat: 39.382464124962944, lng: -105.64887008422835 }, "Colorado"],
     [{ lat: 40.77912659323516, lng: -112.04853012171523 }, "Salt Lake City"],
@@ -56,7 +59,7 @@ function initMap() {
     [{ lat: 45.901473355934364, lng: 6.13502570130426 }, "Annecy"],
     [{ lat: 51.234949685621814, lng: 3.2142528855251635 }, "Bruges"],
     [{ lat: 28.535137392578626, lng: -81.4092377509802 }, "Orlando"],
-  ];
+  ]; 
   // Create an info window to share between markers.
   const infoWindow = new google.maps.InfoWindow();
 
@@ -76,6 +79,9 @@ function initMap() {
       infoWindow.open(marker.getMap(), marker);
     });
   });
+
+//   style="width: 69rem; height: 25rem;"
+   
 }
 
 window.initMap = initMap;
