@@ -4,7 +4,7 @@
 
 {% block title %}Travel | Careers{% endblock %}
 
-{% block meta_description %}Travel is central to Canonical’s global, distributed workplace. All teams participate in regular team and cross-team events. We spread locations across time zones and look for interesting and diverse cultural places. Many employees return to these destinations with friends and family.{% endblock %}
+{% block meta_description %}Travel is central to Canonical's global, distributed workplace. All teams participate in regular team and cross-team events. We spread locations across time zones and look for interesting and diverse cultural places. Many employees return to these destinations with friends and family.{% endblock %}
 
 {% block content %}
 <section class="p-strip--dark is-deep" style="background-position: 100% 0%; background-size: cover; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
@@ -43,11 +43,11 @@
     </div>
   </div>
   <!-- map goes here -->
-  <!-- <div class="p-strip">
-    <div id="map">
+  <div class="p-strip is-shallow u-no-padding--top">
+    <div id="sprint-map" class="row" style="width: 69rem; height: 25rem;">
 
     </div>
-  </div> -->
+  </div>
   <hr class="is-fixed-width u-no-margin--bottom">
   <div class="p-strip is-shallow u-no-padding--top">
     <div class="row">
@@ -104,4 +104,9 @@
     </div>
   </div>  
 </section>
+<script defer src="{{ versioned_static('js/sprint-map.js') }}"></script>
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly"
+defer
+></script>
 {% endblock %}
