@@ -321,9 +321,7 @@ def all_careers():
 @app.route("/careers/<path>")
 def working_here_pages(path):
     # more pages to come
-    pages = {
-        "travel"
-    }
+    pages = {"travel"}
 
     if path not in pages:
         flask.abort(404)
