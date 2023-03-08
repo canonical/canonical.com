@@ -4,6 +4,7 @@ import SelectedSkills from "./components/SelectedSkills/SelectedSkills";
 
 export default function Explorer() {
   const [selectedSkills, setSelectedSkills] = useState([] as number[]);
+  const [selectionComplete, setselectionComplete] = useState(false);
   const handleOnChange = (position: number) => {
     let updatedSkills = [...selectedSkills];
     const index = updatedSkills.indexOf(position);
@@ -11,6 +12,11 @@ export default function Explorer() {
       updatedSkills.splice(index, 1);
     } else {
       updatedSkills.push(position);
+    }
+    if (updatedSkills.length >= 5) {
+      setselectionComplete(true);
+    } else {
+      setselectionComplete(false);
     }
     setSelectedSkills(updatedSkills);
   };
@@ -28,6 +34,7 @@ export default function Explorer() {
         </div>
         <SelectableCards
           selectedSkills={selectedSkills}
+          selectionComplete={selectionComplete}
           onChange={handleOnChange}
         />
       </section>

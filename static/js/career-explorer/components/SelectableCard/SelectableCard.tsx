@@ -1,10 +1,30 @@
 import React, { useState } from "react";
 
-const SelectableCard = ({ skill, selectedSkills, onChange }) => {
+const SelectableCard = ({
+  skill,
+  selectedSkills,
+  selectionComplete,
+  onChange,
+}) => {
+  const [selected, setSelected] = useState(false);
+
   const getClassName = (id) => {
     return `col-3 p-selectable-card${selectedSkills.map((skill) =>
       skill.id === id ? "--selected" : ""
     )}}`;
+  };
+
+  const onChangeHandler = () => {
+    setSelected(true);
+    onChange(skill.id);
+  };
+
+  const isDisabled = () => {
+    if (selectionComplete && !selected) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -16,7 +36,8 @@ const SelectableCard = ({ skill, selectedSkills, onChange }) => {
             id={skill.id}
             name="skill-card"
             className="p-checkbox__input"
-            onChange={() => onChange(skill.id)}
+            onChange={() => onChangeHandler()}
+            disabled={isDisabled()}
           />
           <span className="p-checkbox__label p-card--skill__title">
             {skill.title}
