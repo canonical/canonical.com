@@ -18,7 +18,7 @@
 
 <section class="p-strip">
   <div class="u-fixed-width u-hide--medium u-hide--small">  
-  <img src="https://assets.ubuntu.com/v1/34b9fe84-cities2.jpg" alt="Sprint locations" style="height: 518px; width: 1250px;"/>
+  <img src="https://assets.ubuntu.com/v1/34b9fe84-cities2.jpg" alt="An image split in four showing four cities that we have visited, including NYC, Seoul, etc" style="height: 518px; width: 1250px;"/>
   </div>
   <div class="p-strip">
     <div class="row">
@@ -36,7 +36,24 @@
   <!-- map goes here -->
   <div class="p-strip is-shallow u-no-padding--top">
     <div id="sprint-map" class="row" >
-
+      <noscript>
+        <hr class="is-fixed-width u-no-margin--bottom">
+        <div class="p-strip is-shallow u-no-padding--top">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="p-heading--2">Past sprint locations</h3>
+            </div>
+            <div class="col-6">
+              <ul class="p-list--travel">
+                {% for location in sprint_locations %}
+                  {% set location = location[1] %}
+                  <li class="p-list__item">{{ location }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </noscript>
     </div>
   </div>
   <hr class="is-fixed-width u-no-margin--bottom">
@@ -95,6 +112,7 @@
     </div>
   </div>  
 </section>
+<script>const sprintLocations = {{ sprint_locations|tojson }}</script>
 <script defer src="{{ versioned_static('js/sprint-map.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly" defer></script>
 {% endblock %}
