@@ -19,7 +19,10 @@ export default function SelectedSkills({ selectedSkills }) {
           );
         })}
       </ul>
-      <button className="p-button--positive js-submit-button" disabled={true}>
+      <button
+        className="p-button--positive js-submit-button"
+        disabled={selectedSkills.length < 5}
+      >
         Submit choices
       </button>
       <p>
