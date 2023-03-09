@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import SelectableCards from "./components/SelectableCards/SelectableCards";
 import SelectedSkills from "./components/SelectedSkills/SelectedSkills";
 
@@ -33,7 +32,6 @@ export default function Explorer() {
           </div>
         </div>
         <SelectableCards
-          selectedSkills={selectedSkills}
           selectionComplete={selectionComplete}
           onChange={handleOnChange}
         />

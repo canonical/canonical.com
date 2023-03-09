@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Skill } from "../../../types";
 import { SkillsData } from "../../utils";
 

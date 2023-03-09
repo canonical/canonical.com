@@ -17,6 +17,7 @@
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
     "test-python": "python3 -m unittest discover tests",
+    "test-js": "jest --env=jsdom",
     "cypress:run": "cypress run --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/",
     "cypress:open": "cypress open --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/"
   },
@@ -36,14 +37,29 @@
     "vanilla-framework": "3.11.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.4.0",
     "concurrently": "6.5.1",
     "cypress": "12.3.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "prettier": "2.8.3",
     "stylelint": "14.16.1",
     "stylelint-config-prettier": "9.0.4",
     "stylelint-config-standard-scss": "6.1.0",
     "stylelint-order": "6.0.1",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.5",
     "watch-cli": "0.2.3"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "static/js/career-explorer"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+    }
   }
 }

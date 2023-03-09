@@ -1,18 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const SelectableCard = ({
-  skill,
-  selectedSkills,
-  selectionComplete,
-  onChange,
-}) => {
+const SelectableCard = ({ skill, selectionComplete, onChange }) => {
   const [selected, setSelected] = useState(false);
-
-  const getClassName = (id) => {
-    return `col-3 p-selectable-card${selectedSkills.map((skill) =>
-      skill.id === id ? "--selected" : ""
-    )}}`;
-  };
 
   const onChangeHandler = () => {
     setSelected(true);
@@ -28,7 +17,7 @@ const SelectableCard = ({
   };
 
   return (
-    <div className={getClassName(selectedSkills.id)}>
+    <div className={`col-3 p-selectable-card${selected ? "--selected" : ""}`}>
       <form>
         <label className="p-checkbox">
           <input
