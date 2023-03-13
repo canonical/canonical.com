@@ -6,7 +6,7 @@ function initMap() {
   
   const mapDiv = document.getElementById("sprint-map");
   mapDiv.style.height = "25rem";
-  mapDiv.style.width = "69rem";
+  // mapDiv.style.width = "69rem";
   
   // Create an info window to share between markers.
   const infoWindow = new google.maps.InfoWindow();
