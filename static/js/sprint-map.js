@@ -6,8 +6,17 @@ function initMap() {
   
   const mapDiv = document.getElementById("sprint-map");
   mapDiv.style.height = "25rem";
-  // mapDiv.style.width = "69rem";
   
+  // Change map center for smaller screens
+  const screenWidth = window.screen.availWidth;
+  if ( screenWidth <= 620 ) {
+    map.setCenter({
+      lat : 49.44547224793554,
+      lng : 15.89044708488471
+    });
+  }
+
+
   // Create an info window to share between markers.
   const infoWindow = new google.maps.InfoWindow();
 
