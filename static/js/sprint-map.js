@@ -16,7 +16,6 @@ function initMap() {
     });
   }
 
-
   // Create an info window to share between markers.
   const infoWindow = new google.maps.InfoWindow();
 
