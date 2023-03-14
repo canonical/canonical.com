@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 
 const SelectableCard = ({ skill, selectionComplete, onChange }) => {
@@ -17,23 +18,33 @@ const SelectableCard = ({ skill, selectionComplete, onChange }) => {
   };
 
   return (
-    <div className={`col-3 p-selectable-card${selected ? "--selected" : ""}`}>
-      <form>
-        <label className="p-checkbox">
-          <input
-            type="checkbox"
-            id={skill.id}
-            name="skill-card"
-            className="p-checkbox__input"
-            onChange={() => onChangeHandler()}
-            disabled={isDisabled()}
-          />
-          <span className="p-checkbox__label p-card--skill__title">
-            {skill.title}
-          </span>
-          <p className="p-card--skill__tagline p-heading--6">{skill.tagline}</p>
-        </label>
-      </form>
+    <div
+      className={`col-3 p-selectable-card${selected ? "--selected" : ""}`}
+      data-testid="container"
+    >
+      <label className="p-checkbox">
+        <input
+          type="checkbox"
+          id={skill.id}
+          name="skill"
+          className="p-checkbox__input"
+          onChange={() => onChangeHandler()}
+          disabled={isDisabled()}
+          data-testid="input"
+        />
+        <span
+          className="p-checkbox__label p-card--skill__title"
+          data-testid="title"
+        >
+          {skill.title}
+        </span>
+        <p
+          className="p-card--skill__tagline p-heading--6"
+          data-testid="tagline"
+        >
+          {skill.tagline}
+        </p>
+      </label>
     </div>
   );
 };

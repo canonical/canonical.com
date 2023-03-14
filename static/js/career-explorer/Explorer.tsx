@@ -1,5 +1,8 @@
+import React from "react";
+import { useState } from "react";
 import SelectableCards from "./components/SelectableCards/SelectableCards";
 import SelectedSkills from "./components/SelectedSkills/SelectedSkills";
+import { SkillsData } from "./utils";
 
 export default function Explorer() {
   const [selectedSkills, setSelectedSkills] = useState([] as number[]);
@@ -28,12 +31,16 @@ export default function Explorer() {
             <h1 className="p-heading--2">What kind of excellent are you?</h1>
           </div>
           <div className="col-6">
-            <SelectedSkills selectedSkills={selectedSkills} />
+            <SelectedSkills
+              selectedSkills={selectedSkills}
+              skillsData={SkillsData}
+            />
           </div>
         </div>
         <SelectableCards
           selectionComplete={selectionComplete}
           onChange={handleOnChange}
+          skillsData={SkillsData}
         />
       </section>
     </>
