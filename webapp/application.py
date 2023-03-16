@@ -263,8 +263,7 @@ def _send_mail(
     msg["To"] = ", ".join(to_email)
     msg.set_content(message, subtype="html")
 
-    server = SMTP(smtp_server)
-
+    server = SMTP(host=smtp_server)
     if smtp_user and smtp_pass:
         server.ehlo()
         server.starttls()
