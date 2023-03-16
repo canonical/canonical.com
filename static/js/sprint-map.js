@@ -6,13 +6,18 @@ function initMap() {
   
   const mapDiv = document.getElementById("sprint-map");
   mapDiv.style.height = "25rem";
-  
+
   // Change map center for smaller screens
   const screenWidth = window.screen.availWidth;
-  if ( screenWidth <= 620 ) {
+  if ( screenWidth <= 1035 && screenWidth > 280) {
     map.setCenter({
       lat : 49.44547224793554,
       lng : 15.89044708488471
+    });
+  } else if (screenWidth <= 280) {
+    map.setCenter({
+      lat : 46.875651470802104,
+      lng : 7.99805750339787
     });
   }
 
