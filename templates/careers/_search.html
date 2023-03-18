@@ -1,19 +1,48 @@
 {% if vacancies %}
-<script>
+<div class="js-search-jobs-form p-form-container u-align--bottom">
+  <form action="/careers/all" class="p-form p-form--inline p-form--search">
+    <div class="p-form__group" style="flex-direction: column;">
+      <label class="u-off-screen" for="search">Search</label>
+      <div class="p-form__control u-clearfix u-no-padding--right">
+        <input class=" js-careers__search-input" id="search" type="search" name="search" value="" placeholder="Search by keyword" autocomplete="off"/>
+      </div>
+      <div class="p-search-panel u-hide">
+        <div class="p-search-panel__container">
+          <ul class="p-search-panel-list p-list p-card--highlighted u-no-padding u-no-margin--bottom p-autocomplete__suggestions">
+          </ul>
+        </div>
+      </div>
+    </div>
+    <button type="submit"  alt="search roles" class="p-button--positive">Search roles</button>
+  </form>
+</div>
+<script src="{{ versioned_static('js/modules/fuse/fuse.js') }}"></script>
+<script type="text/javascript">
   window.addEventListener('DOMContentLoaded', (event) => {
     const search_input = document.querySelector(".js-careers__search-input");
     const urlParams = new URLSearchParams(window.location.search);
+    let search_term = '';
+    const options = {
+      threshold: 0.3,
+      keys: ['title', 'description', 'departments', 'skills']
+    }
+    const vacancies = {{ vacancies | tojson }};
+    const fuse = new Fuse(vacancies, options);
+    const querySearchText = urlParams.get("search");
+    const containerDiv = document.querySelector(".js-job-list");
+    
     search_input.addEventListener('input', e => {
       search_term = e.target.value;
-      showAutoComplete(search_term);
+      showAutoComplete(search_term, vacancies);
     });   
-    showAutoComplete("");
-    const querySearchText = urlParams.get("search");
-    ShowJobList(querySearchText)
-  });
-  
-  const ShowJobList = (search_term) => {
-    const containerDiv = document.querySelector(".js-job-list");
+    showAutoComplete("", vacancies);
+
+    if (containerDiv) {
+      showJobList(containerDiv, querySearchText, vacancies)
+    }
+
+
+  function showJobList(containerDiv, search_term, vacancies) {
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : vacancies
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     containerDiv.innerHTML = ''
@@ -64,15 +93,8 @@
     })
   }
   
-  let search_term = '';
-  const options = {
-    threshold: 0.3,
-    keys: ['title', 'description', 'departments', 'skills']
-  }
-  const vacancies = {{ vacancies | tojson }};
-  const fuse = new Fuse(vacancies, options);
 
-  function hideSearchResult() {
+  function hideSearchResult(search_term) {
     const jobContainer = document.querySelector(".p-search-panel");
     if (search_term) {
       jobContainer.classList.remove("u-hide");
@@ -81,8 +103,8 @@
     }
   }
 
-  const showAutoComplete = (search_term) => {
-    hideSearchResult()
+  function showAutoComplete(search_term, vacancies) {
+    hideSearchResult(search_term)
     const ul = document.querySelector(".p-search-panel-list");
     const jobContainer = document.querySelector(".p-search-panel");
     let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
@@ -97,7 +119,7 @@
         jobContainer.classList.add("u-hide");
       }
 
-      jobs.forEach( job => { 
+      jobs.forEach( job => {
         const li= document.createElement('li')
         li.setAttribute('class', 'p-list__item');
 
@@ -132,24 +154,10 @@
       jobContainer.classList.add("u-hide");
     }
   }
+});
+
+  
 
 </script>
 {% endif %}
-<div class="js-search-jobs-form p-form-container u-hide u-align--bottom">
-  <form action="/careers/all" class="p-form p-form--inline p-form--search">
-    <div class="p-form__group" style="flex-direction: column;">
-      <label class="u-off-screen" for="search">Search</label>
-      <div class="p-form__control u-clearfix u-no-padding--right">
-        <input class=" js-careers__search-input" id="search" type="search" name="search" value="" placeholder="Search by keyword" autocomplete="off"/>
-      </div>
-      <div class="p-search-panel u-hide">
-        <div class="p-search-panel__container">
-          <ul class="p-search-panel-list p-list p-card--highlighted u-no-padding u-no-margin--bottom p-autocomplete__suggestions">
-          </ul>
-        </div>
-      </div>
-    </div>
-    <button type="submit"  alt="search roles" class="p-button--positive">Search roles</button>
-  </form>
-</div>
 
