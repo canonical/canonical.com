@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { Skill } from "../../../types";
 import SelectedSkills from "./SelectedSkills";
@@ -40,18 +40,18 @@ describe("SelectableCard", () => {
 
   it("renders no skills when none are selected", () => {
     render(<SelectedSkills selectedSkills={[]} skillsData={skillsData} />);
-    const selected = screen.queryAllByRole("listitem");
+    const selected = screen.queryAllByTestId("selected");
     expect(selected).toHaveLength(0);
   });
 
   it("renders one skills when one is selected", () => {
     render(<SelectedSkills selectedSkills={[1]} skillsData={skillsData} />);
-    expect(screen.getByRole("listitem")).toHaveTextContent("Red");
+    expect(screen.getByTestId("selected")).toHaveTextContent("Red");
   });
 
   it("renders many skills when many are selected", () => {
     render(<SelectedSkills selectedSkills={[1, 3]} skillsData={skillsData} />);
-    const selected = screen.getAllByRole("listitem");
+    const selected = screen.getAllByTestId("selected");
     expect(selected).toHaveLength(2);
     const selectedSkills = selected.map((item) => item.textContent);
     expect(selectedSkills).toMatchInlineSnapshot(`
@@ -62,12 +62,20 @@ describe("SelectableCard", () => {
       `);
   });
 
-  it("handles onSubmit correctly", () => {
+  it("submit button is disabled if not all selected", async () => {
+    render(
+      <SelectedSkills selectedSkills={[1, 2, 3]} skillsData={skillsData} />
+    );
+    expect(screen.getByTestId("submit")).toBeDisabled();
+  });
+
+  it("submit button is enabled if all selected", async () => {
     render(
       <SelectedSkills
         selectedSkills={[1, 2, 3, 4, 5]}
         skillsData={skillsData}
       />
     );
+    expect(screen.getByTestId("submit")).not.toBeDisabled();
   });
 });

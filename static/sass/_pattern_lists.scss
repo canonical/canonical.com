@@ -49,24 +49,36 @@
 
 @mixin canonical-p-inline-list-selection {
   .p-inline-list--selection {
-    height: 2rem;
     display: flex;
-    padding-left: 0;
     margin-left: 0;
+    padding-left: 0;
 
-    .p-inline-list__item {
-      flex: 1;
-      list-style: none;
+    .p-inline-list__item,
+    .p-inline-list__item--empty {
+      @extend %bold;
+
       margin-right: 1rem;
-      border-bottom: 1px solid $color-dark;
+      list-style: none;
       position: relative;
+      line-height: .8rem;
 
       &:after {
+        @extend %bold;
+
+        bottom: -.2rem;
         content: ", ";
         position: absolute;
-        right: 0;
-        bottom: 0;
+        right: -.5rem;
       }
+
+      &:last-child:after {
+        content: ".";
+      }
+    }
+
+    .p-inline-list__item--empty {
+      border-bottom: 1px solid $color-mid-light;
+      flex: 1;
     }
   }
 }

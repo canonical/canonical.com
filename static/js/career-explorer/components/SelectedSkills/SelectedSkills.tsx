@@ -6,7 +6,7 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
     return skillsData.find((skill: Skill) => skill.id === id);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (): void => {
     let skillsCombined = "";
     let comma = "";
 
@@ -18,6 +18,16 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
     location.href = "results?core-skills=" + skillsCombined;
   };
 
+  const getUnselectedSkills = (): Array<string> => {
+    let count = 5 - selectedSkills.length;
+    const unselectedArray = [];
+    while (count) {
+      unselectedArray.push(`unselected-${count}`);
+      count--;
+    }
+    return unselectedArray;
+  };
+
   return (
     <>
       <p className="u-text--muted">
@@ -26,8 +36,25 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
       <ul role="list" className="p-inline-list--selection">
         {selectedSkills.map((id: number) => {
           return (
-            <li role="listitem" className="p-inline-list__item" key={id}>
+            <li
+              role="listitem"
+              className="p-inline-list__item"
+              data-testid="selected"
+              key={id}
+            >
               {getSkillDetail(id)?.title}
+            </li>
+          );
+        })}
+        {getUnselectedSkills().map((key: string) => {
+          return (
+            <li
+              role="listitem"
+              className="p-inline-list__item--empty"
+              key={key}
+              data-testid="empty"
+            >
+              &nbsp;
             </li>
           );
         })}
@@ -36,6 +63,7 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
         className="p-button--positive"
         disabled={selectedSkills.length < 5}
         onClick={() => handleSubmit()}
+        data-testid="submit"
       >
         Submit choices
       </button>
