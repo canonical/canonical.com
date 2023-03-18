@@ -24,6 +24,18 @@ describe("SelectableCard", () => {
       tagline: "snow, paper",
       description: "This is the white selectable card element",
     },
+    {
+      id: 4,
+      title: "Blue",
+      tagline: "sea, whale",
+      description: "This is the blue selectable card element",
+    },
+    {
+      id: 5,
+      title: "Black",
+      tagline: "sky, ink",
+      description: "This is the black selectable card element",
+    },
   ];
 
   it("renders no skills when none are selected", () => {
@@ -48,5 +60,14 @@ describe("SelectableCard", () => {
           "White",
         ]
       `);
+  });
+
+  it("handles onSubmit correctly", () => {
+    render(
+      <SelectedSkills
+        selectedSkills={[1, 2, 3, 4, 5]}
+        skillsData={skillsData}
+      />
+    );
   });
 });

@@ -6,12 +6,24 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
     return skillsData.find((skill: Skill) => skill.id === id);
   };
 
+  const handleSubmit = () => {
+    let skillsCombined = "";
+    let comma = "";
+
+    selectedSkills.forEach((id) => {
+      skillsCombined += `${getSkillDetail(id)?.title}${comma}`;
+      comma = ",";
+    });
+
+    location.href = "results?core-skills=" + skillsCombined;
+  };
+
   return (
     <>
       <p className="u-text--muted">
         Choose 5 that best describe your strengths and ambition:
       </p>
-      <ul role="list" className="p-inline-list--middot">
+      <ul role="list" className="p-inline-list--selection">
         {selectedSkills.map((id: number) => {
           return (
             <li role="listitem" className="p-inline-list__item" key={id}>
@@ -21,8 +33,9 @@ export default function SelectedSkills({ selectedSkills, skillsData }) {
         })}
       </ul>
       <button
-        className="p-button--positive js-submit-button"
+        className="p-button--positive"
         disabled={selectedSkills.length < 5}
+        onClick={() => handleSubmit()}
       >
         Submit choices
       </button>

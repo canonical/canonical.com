@@ -5,7 +5,7 @@ const SelectableCard = ({ skill, selectionComplete, onChange }) => {
   const [selected, setSelected] = useState(false);
 
   const onChangeHandler = () => {
-    setSelected(true);
+    setSelected(!selected);
     onChange(skill.id);
   };
 
@@ -32,16 +32,10 @@ const SelectableCard = ({ skill, selectionComplete, onChange }) => {
           disabled={isDisabled()}
           data-testid="input"
         />
-        <span
-          className="p-checkbox__label p-card--skill__title"
-          data-testid="title"
-        >
+        <strong className="p-checkbox__label" data-testid="title">
           {skill.title}
-        </span>
-        <p
-          className="p-card--skill__tagline p-heading--6"
-          data-testid="tagline"
-        >
+        </strong>
+        <p className="p-selectable-card__tagline" data-testid="tagline">
           {skill.tagline}
         </p>
       </label>
