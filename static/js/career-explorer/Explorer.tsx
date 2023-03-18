@@ -37,6 +37,8 @@ export default function Explorer() {
             />
           </div>
         </div>
+      </section>
+      <section className="p-strip u-no-padding--top">
         <SelectableCards
           selectionComplete={selectionComplete}
           onChange={handleOnChange}

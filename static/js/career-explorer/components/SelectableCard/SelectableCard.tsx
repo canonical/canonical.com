@@ -19,7 +19,9 @@ const SelectableCard = ({ skill, selectionComplete, onChange }) => {
 
   return (
     <div
-      className={`col-3 p-selectable-card${selected ? "--selected" : ""}`}
+      className={`col-3 col-medium-3 p-selectable-card${
+        selected ? "--selected" : ""
+      }`}
       data-testid="container"
     >
       <label className="p-checkbox">
