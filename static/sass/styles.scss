@@ -1,7 +1,6 @@
 $color-tabs-active-bar: #e95420;
 
-@import '../../node_modules/vanilla-framework';
-
+@import "../../node_modules/vanilla-framework";
 
 // import cookie policy
 @import "@canonical/cookie-policy/build/css/cookie-policy";
@@ -26,6 +25,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 @import "pattern_tabs";
 @import "pattern_search-panel";
 @import "pattern_search-form";
+@import "pattern_careers-progression";
 
 @include vanilla;
 @include vf-p-icon-status-waiting;
@@ -50,6 +50,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 @include canonical-p-search-panel;
 @include canonical-search-form;
 @include canonical-u-footer-align-bottom;
+@include canonical-p-careers-progression;
 
 .is-grey {
   background-color: $color-mid-x-light;
@@ -86,7 +87,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-pull-quote--inverted {
-    overflow-x: hidden;
+  overflow-x: hidden;
 
   .p-pull-quote__quote {
     &::before {
@@ -98,8 +99,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     }
   }
 }
-
-
 
 .required-legend {
   font-size: small;
@@ -238,11 +237,13 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 // Style for main navigation
 .p-navigation__dropdown .p-navigation__dropdown-item {
-  color: #EEEDEB !important;
+  color: #eeedeb !important;
   position: relative;
 }
 
-.p-navigation__dropdown > li:not(:last-child) > .p-navigation__dropdown-item::before {
+.p-navigation__dropdown
+  > li:not(:last-child)
+  > .p-navigation__dropdown-item::before {
   background: rgba(255 255 255 / 10%);
   bottom: 0;
   content: "";
@@ -291,7 +292,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 }
 
-
 .p-featured {
   gap: 0;
 
@@ -300,7 +300,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     margin-right: 1px;
     padding: 0 1rem 1rem;
 
-    &:nth-child(3n+3){
+    &:nth-child(3n + 3) {
       padding-right: 0;
     }
 
@@ -319,9 +319,9 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
   &__role {
     box-shadow: 0 4px 2px -2px $colors--light-theme--border-default;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     min-height: 5rem;
-    padding-top: .5rem;
+    padding-top: 0.5rem;
   }
 
   &__filler {
@@ -359,7 +359,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 
   &__drawer {
-  top: 48px;
+    top: 48px;
   }
 }
 
@@ -373,10 +373,10 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 .p-list--travel {
   @extend .p-list--divided;
-  
+
   columns: 5;
 
-  @media (max-width: 620px){
+  @media (max-width: 620px) {
     columns: 3;
   }
 }
@@ -388,7 +388,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     width: 92%;
   }
 
-  @media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-x-large - 1){
+  @media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-x-large - 1) {
     width: 86%;
   }
 

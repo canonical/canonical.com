@@ -19,9 +19,9 @@
 <script src="{{ versioned_static('js/modules/fuse/fuse.js') }}"></script>
 <script type="text/javascript">
   window.addEventListener('DOMContentLoaded', (event) => {
-    const search_input = document.querySelector(".js-careers__search-input");
+    const searchInput = document.querySelector(".js-careers__search-input");
     const urlParams = new URLSearchParams(window.location.search);
-    let search_term = '';
+    let searchTerm = '';
     const options = {
       threshold: 0.3,
       keys: ['title', 'description', 'departments', 'skills']
@@ -31,9 +31,9 @@
     const querySearchText = urlParams.get("search");
     const containerDiv = document.querySelector(".js-job-list");
     
-    search_input.addEventListener('input', e => {
-      search_term = e.target.value;
-      showAutoComplete(search_term, vacancies);
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value;
+      showAutoComplete(searchTerm, vacancies);
     });   
     showAutoComplete("", vacancies);
 
@@ -42,8 +42,8 @@
     }
 
 
-  function showJobList(containerDiv, search_term, vacancies) {
-    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : vacancies
+  function showJobList(containerDiv, searchTerm, vacancies) {
+    let searchResult = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : vacancies
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     containerDiv.innerHTML = ''
     jobs.forEach( job => { 
@@ -94,20 +94,20 @@
   }
   
 
-  function hideSearchResult(search_term) {
+  function hideSearchResult(searchTerm) {
     const jobContainer = document.querySelector(".p-search-panel");
-    if (search_term) {
+    if (searchTerm) {
       jobContainer.classList.remove("u-hide");
     } else {
       jobContainer.classList.add("u-hide");
     }
   }
 
-  function showAutoComplete(search_term, vacancies) {
-    hideSearchResult(search_term)
+  function showAutoComplete(searchTerm, vacancies) {
+    hideSearchResult(searchTerm)
     const ul = document.querySelector(".p-search-panel-list");
     const jobContainer = document.querySelector(".p-search-panel");
-    let searchResult = search_term ? fuse.search(search_term).map( a => a.item ) : [];
+    let searchResult = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : [];
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     ul.innerHTML = ''
     
@@ -146,6 +146,18 @@
     }
   }
 
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const searchInput = document.querySelector(".js-careers__search-input");
+    const urlParams = new URLSearchParams(window.location.search);
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value;
+      showAutoComplete(searchTerm);
+    });   
+    showAutoComplete("");
+    const querySearchText = urlParams.get("search");
+    ShowJobList(querySearchText)
+  });
+
   document.addEventListener('click', closeSearch);
 
   function closeSearch() {
@@ -155,8 +167,6 @@
     }
   }
 });
-
-  
 
 </script>
 {% endif %}

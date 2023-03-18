@@ -71,6 +71,16 @@ class TestRoutes(VCRTestCase):
 
         self.assertEqual(self.client.get("/careers/foo").status_code, 404)
 
+    def test_careers_progression(self):
+        """
+        When given the URL of careers progression page,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/careers/progression").status_code, 200
+        )
+
     def test_partners_detail_pages(self):
         """
         When given the URL of a valid parters detail page,
