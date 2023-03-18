@@ -42,6 +42,8 @@ describe("SelectableCard", () => {
     render(<SelectedSkills selectedSkills={[]} skillsData={skillsData} />);
     const selected = screen.queryAllByTestId("selected");
     expect(selected).toHaveLength(0);
+    const empty = screen.getAllByTestId("empty");
+    expect(empty).toHaveLength(5);
   });
 
   it("renders one skills when one is selected", () => {
@@ -53,6 +55,8 @@ describe("SelectableCard", () => {
     render(<SelectedSkills selectedSkills={[1, 3]} skillsData={skillsData} />);
     const selected = screen.getAllByTestId("selected");
     expect(selected).toHaveLength(2);
+    const empty = screen.getAllByTestId("empty");
+    expect(empty).toHaveLength(3);
     const selectedSkills = selected.map((item) => item.textContent);
     expect(selectedSkills).toMatchInlineSnapshot(`
         [
