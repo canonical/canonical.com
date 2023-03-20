@@ -37,10 +37,20 @@
   </div>
   <div class="row">
     {% for dept in departments_overview %}
-      <div class="col-3">
-        <a class="p-heading--5 u-no-margin--bottom" href="/careers/{{dept.slug}}">{{ dept.name }}</a>
-        <p>{{ dept.count }} roles</p>
+    <div class="col-3 col-medium-2 col-small-2">
+      <div class="p-heading-icon--small">
+        <div class="p-heading-icon__header">
+          <img src="https://assets.ubuntu.com/v1/{{dept.icon}}" class="p-heading-icon__img" style="width: 32px; height: 32px; position: relative; top: 7px;" alt="">
+          <p class="p-heading-icon__title">
+            <a href="/careers/{{dept.slug}}"><strong>{{ dept.name }}</strong></a><br />
+            <span>{{ dept.count }} roles</span>
+          </p>
+        </div>
       </div>
+    </div>
+    {% if loop.index % 4 == 0 and not loop.last  %}
+    <hr class="u-hide u-show--large"/>
+    {% endif %}
     {% endfor %}
   </div>
 </section>

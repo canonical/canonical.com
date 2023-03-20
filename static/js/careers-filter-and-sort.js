@@ -52,24 +52,17 @@
         "seattle",
         "america",
         "worldwide",
-        "boston"
+        "boston",
       ],
-      apac: [
-        "apac",
-        "taiwan",
-        "taipei",
-        "beijing",
-        "china",
-        "worldwide"
-      ],
+      apac: ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
     };
 
     // format job location string
-    local = location.toLowerCase().split('-').pop().split(',');
+    local = location.toLowerCase().split("-").pop().split(",");
 
     //check if job location matches a location in filtered region(s)
     for (let i = 0; i < filters.length; i++) {
-      let regionKey = regions[filters[i].toLowerCase()]
+      let regionKey = regions[filters[i].toLowerCase()];
       for (let j = 0; j < local.length; j++) {
         if (Object.values(regionKey).includes(local[j].trim())) {
           return 1;
@@ -80,23 +73,34 @@
 
   // Update search box text with data from query params
   function populateTextbox() {
-  const querySearchText = urlParams.get("search");
+    const querySearchText = urlParams.get("search");
     if (searchBox && querySearchText) {
       searchBox.focus();
       searchBox.value = querySearchText;
     }
   }
 
-  function checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList) {
+  function checkUrlFilters(
+    selectedDeptFilters,
+    selectedLocationFilters,
+    jobList
+  ) {
     if (urlParams.has("filter")) {
       // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
       let loadedDeptFiters = urlParams.getAll("filter");
 
-      for (let i = 0; i < loadedDeptFiters.length; i++){
-        deptFilter = loadedDeptFiters[i]
+      for (let i = 0; i < loadedDeptFiters.length; i++) {
+        deptFilter = loadedDeptFiters[i];
         inputElement = document.getElementsByName(deptFilter)[0];
         if (inputElement) {
-          inputElement.onclick = function(){departmentFiltersListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+          inputElement.onclick = function () {
+            departmentFiltersListener(
+              inputElement,
+              selectedDeptFilters,
+              selectedLocationFilters,
+              jobList
+            );
+          };
           inputElement.click();
         }
       }
@@ -105,45 +109,62 @@
     if (urlParams.has("location")) {
       let loadedLocationFilters = urlParams.getAll("location");
 
-      for (let i = 0; i < loadedLocationFilters.length; i++){
-        locationFilter = loadedLocationFilters[i]
+      for (let i = 0; i < loadedLocationFilters.length; i++) {
+        locationFilter = loadedLocationFilters[i];
         inputElement = document.getElementsByName(locationFilter)[0];
         if (inputElement) {
-          inputElement.onclick = function(){locationListener(inputElement, selectedDeptFilters, selectedLocationFilters,jobList)}
+          inputElement.onclick = function () {
+            locationListener(
+              inputElement,
+              selectedDeptFilters,
+              selectedLocationFilters,
+              jobList
+            );
+          };
           inputElement.click();
         }
       }
     }
-  };
+  }
 
-  function departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList) {
+  function departmentFiltersListener(
+    el,
+    selectedDeptFilters,
+    selectedLocationFilters,
+    jobList
+  ) {
     let filterName = el.name;
 
-    if (el.checked){
-      selectedDeptFilters.push(filterName)
+    if (el.checked) {
+      selectedDeptFilters.push(filterName);
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateFilterParams(selectedDeptFilters, selectedLocationFilters)
+      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     } else {
-      let index = selectedDeptFilters.indexOf(filterName)
+      let index = selectedDeptFilters.indexOf(filterName);
       if (index > -1) {
-        selectedDeptFilters.splice(index, 1)
+        selectedDeptFilters.splice(index, 1);
       }
-      filterJobs(selectedDeptFilters, selectedLocationFilters ,jobList);
+      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     }
   }
 
-  function locationListener (el, selectedDeptFilters, selectedLocationFilters,jobList){
+  function locationListener(
+    el,
+    selectedDeptFilters,
+    selectedLocationFilters,
+    jobList
+  ) {
     let locationName = el.name;
 
-    if (el.checked){
-      selectedLocationFilters.push(locationName)
+    if (el.checked) {
+      selectedLocationFilters.push(locationName);
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     } else {
-      let index = selectedLocationFilters.indexOf(locationName)
+      let index = selectedLocationFilters.indexOf(locationName);
       if (index > -1) {
-        selectedLocationFilters.splice(index, 1)
+        selectedLocationFilters.splice(index, 1);
       }
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateFilterParams(selectedDeptFilters, selectedLocationFilters);
@@ -156,9 +177,6 @@
     if (searchBox) {
       populateTextbox();
     }
-    if (domList.length === 0) {
-      updateNoResultsMessage();
-    }
 
     if (domList) {
       jobList = Array.from(domList.children);
@@ -166,24 +184,44 @@
 
     if (jobList.length > 0) {
       initShowMore();
-      checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList)
+      checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList);
 
       if (departmentFilters) {
-        departmentFilters.forEach(el => el.onclick = function(){departmentFiltersListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
+        departmentFilters.forEach(
+          (el) =>
+            (el.onclick = function () {
+              departmentFiltersListener(
+                el,
+                selectedDeptFilters,
+                selectedLocationFilters,
+                jobList
+              );
+            })
+        );
       }
 
       if (locationFilters) {
-        locationFilters.forEach(el => el.onclick = function(){locationListener(el, selectedDeptFilters, selectedLocationFilters,jobList)})
+        locationFilters.forEach(
+          (el) =>
+            (el.onclick = function () {
+              locationListener(
+                el,
+                selectedDeptFilters,
+                selectedLocationFilters,
+                jobList
+              );
+            })
+        );
       }
     } else {
-      updateNoResultsMessage()
-      showButtons(jobList)
+      updateNoResultsMessage();
+      showButtons(jobList);
     }
   }
 
   function initShowMore() {
     filteredJobList = jobList;
-    showButtons(filteredJobList)
+    showButtons(filteredJobList);
     showJobs(filteredJobList);
     handleShowMoreClick();
     handleShowAllClick(filteredJobList);
@@ -191,57 +229,62 @@
 
   function updateTotalNumber(shownJobs, jobList) {
     let totalResultsElement = document.querySelector("#total-results");
-
-    totalResultsElement.innerHTML = `${shownJobs.length} of ${jobList.length} roles`;
+    if (shownJobs.length > 0) {
+      totalResultsElement.innerHTML = `${shownJobs.length} of ${jobList.length} roles`;
+    } else {
+      totalResultsElement.innerHTML = "";
+    }
   }
 
-  function showButtons(shownJobs){
+  function showButtons(shownJobs) {
     let listLength = shownJobs.length;
 
-    if (listLength <= limit){
-      showMoreButton.classList.add('u-hide');
-      showAllButton.classList.add('u-hide');
-    } else if (listLength > limit && listLength < (limit + showMoreIncrement)) {
-      showMoreButton.classList.add('u-hide');
-      showAllButton.classList.remove('u-hide');
+    if (listLength <= limit) {
+      showMoreButton.classList.add("u-hide");
+      showAllButton.classList.add("u-hide");
+    } else if (listLength > limit && listLength < limit + showMoreIncrement) {
+      showMoreButton.classList.add("u-hide");
+      showAllButton.classList.remove("u-hide");
     } else {
-      showMoreButton.classList.remove('u-hide');
-      showAllButton.classList.add('u-hide');
+      showMoreButton.classList.remove("u-hide");
+      showAllButton.classList.add("u-hide");
     }
   }
 
   function showJobs(jobs) {
-    const jobsToShow = jobs.slice(0, limit)
-    const jobsToHide = jobs.slice(limit)
-    updateTotalNumber(jobsToShow, jobs)
+    const jobsToShow = jobs.slice(0, limit);
+    const jobsToHide = jobs.slice(limit);
+    updateTotalNumber(jobsToShow, jobs);
+    numberOfJobsDisplayed = jobsToShow.length;
+    updateNoResultsMessage();
 
-    jobList.forEach(job => {
-      job.classList.add('u-hide');
-    })
-
-    jobsToShow.forEach(job => {
-      job.classList.remove('u-hide');
+    jobList.forEach((job) => {
+      job.classList.add("u-hide");
     });
 
-    jobsToHide.forEach(job => {
-      job.classList.add('u-hide');
-    })
+    jobsToShow.forEach((job) => {
+      job.classList.remove("u-hide");
+    });
+
+    jobsToHide.forEach((job) => {
+      job.classList.add("u-hide");
+    });
   }
 
   function handleShowMoreClick() {
-    showMoreButton.addEventListener("click", function(){
+    showMoreButton.addEventListener("click", function () {
       limit = limit + showMoreIncrement;
       showJobs(filteredJobList);
-      showButtons(filteredJobList)
-    })
+      showButtons(filteredJobList);
+    });
   }
 
   function handleShowAllClick() {
-    showAllButton.addEventListener("click", function(){
+    showAllButton.addEventListener("click", function () {
       limit = filteredJobList.length;
       showJobs(filteredJobList);
       showButtons(filteredJobList);
-    })
+    });
   }
 
   // Show filters if JS is available
@@ -252,43 +295,48 @@
     }
   }
 
-  function filterJobs(selectedDeptFilters, localFilters, jobList){
+  function filterJobs(selectedDeptFilters, localFilters, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     let jobsToShow = [];
 
-    jobList.forEach(job => {
+    jobList.forEach((job) => {
       let departments = job.departments;
       let jobLocation = job.dataset.location;
-      let matchingDepartments = selectedDeptFilters.filter(value => departments.includes(value));
+      let matchingDepartments = selectedDeptFilters.filter((value) =>
+        departments.includes(value)
+      );
 
       if (matchingDepartments.length && localFilters.length) {
-        if (matchingDepartments && parseLocations(jobLocation, localFilters)){
-          jobsToShow.push(job)
+        if (matchingDepartments && parseLocations(jobLocation, localFilters)) {
+          jobsToShow.push(job);
         }
       } else {
         //filter by dept
         if (matchingDepartments.length) {
-          jobsToShow.push(job)
+          jobsToShow.push(job);
         }
         // filter by location
-        if (localFilters.length > 0){
-          if (parseLocations(jobLocation, localFilters) && !jobsToShow.includes(job)){
-            jobsToShow.push(job)
+        if (localFilters.length > 0) {
+          if (
+            parseLocations(jobLocation, localFilters) &&
+            !jobsToShow.includes(job)
+          ) {
+            jobsToShow.push(job);
           }
         }
       }
     });
-    
+
     if (selectedDeptFilters.length || localFilters.length) {
       filteredJobList = jobsToShow;
-      showJobs(filteredJobList)
-      showButtons(filteredJobList)
-      handleShowAllClick(filteredJobList)
+      showJobs(filteredJobList);
+      showButtons(filteredJobList);
+      handleShowAllClick(filteredJobList);
     } else {
       limit = showMoreIncrement;
-      showJobs(jobList)
-      showButtons(jobList)
-      handleShowAllClick(jobList)
+      showJobs(jobList);
+      showButtons(jobList);
+      handleShowAllClick(jobList);
     }
   }
 
@@ -306,42 +354,42 @@
   }
 
   // handle search input clear, retain existing filters
-  search_input.addEventListener('input', e => {
+  search_input.addEventListener("input", (e) => {
     search_term = e.target.value;
-    updateURL()
+    updateURL();
   });
-  
-  function updateURL(){
-    if (search_term == ""){
+
+  function updateURL() {
+    if (search_term == "") {
       urlParams.delete("search");
-      window.location =(`${baseURL}/?${urlParams.toString()}`);
+      window.location = `${baseURL}/?${urlParams.toString()}`;
     }
   }
-  
+
   function updateFilterParams(selectedDeptFilters, selectedLocationFilters) {
     // if url has filter param but filter array is empty, remove filter from url
-    if (urlParams.has("filter") && selectedDeptFilters.length == 0){
+    if (urlParams.has("filter") && selectedDeptFilters.length == 0) {
       urlParams.delete("filter");
     } else {
-      if (selectedDeptFilters.length > 0){
-      // set first filter
-        urlParams.set("filter", selectedDeptFilters[0])
+      if (selectedDeptFilters.length > 0) {
+        // set first filter
+        urlParams.set("filter", selectedDeptFilters[0]);
         // append if more filters
-        for (let i = 1; i < selectedDeptFilters.length; i++){
+        for (let i = 1; i < selectedDeptFilters.length; i++) {
           urlParams.append("filter", selectedDeptFilters[i]);
         }
       }
     }
 
     // if url has location param but location array is empty, remove location filter from url
-    if (urlParams.has("location") && selectedLocationFilters.length == 0){
+    if (urlParams.has("location") && selectedLocationFilters.length == 0) {
       urlParams.delete("location");
     } else {
-      if (selectedLocationFilters.length > 0){
-      // set first filter
-        urlParams.set("location", selectedLocationFilters[0])
+      if (selectedLocationFilters.length > 0) {
+        // set first filter
+        urlParams.set("location", selectedLocationFilters[0]);
         // append if more filters
-        for (let i = 1; i < selectedLocationFilters.length; i++){
+        for (let i = 1; i < selectedLocationFilters.length; i++) {
           urlParams.append("location", selectedLocationFilters[i]);
         }
       }
@@ -350,7 +398,7 @@
     var url = baseURL + "?" + urlParams.toString();
     window.history.pushState({}, "", url);
   }
-    window.addEventListener('DOMContentLoaded', (event) => {
-      init();
-    })
-  })();
+  window.addEventListener("DOMContentLoaded", (event) => {
+    init();
+  });
+})();

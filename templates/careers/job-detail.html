@@ -98,7 +98,7 @@
             {% elif question.fields[0].type == "multi_value_single_select" %}
             <select name="{{ question.fields[0].name }}" id="{{ question.fields[0].name }}" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
-              {% for answer_option in question.fields[0].get("values",[]) %}
+              {% for answer_option in question.fields[0].get("values",[])|reverse %}
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
