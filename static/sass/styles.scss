@@ -366,3 +366,29 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   font-size: 1rem;
   font-weight: 400;
 }
+
+.p-list--travel {
+  @extend .p-list--divided;
+  
+  columns: 5;
+
+  @media (max-width: 620px){
+    columns: 3;
+  }
+}
+
+#sprint-map {
+  width: 95.1%;
+
+  @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1) {
+    width: 92%;
+  }
+
+  @media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-x-large - 1){
+    width: 86%;
+  }
+
+  @media screen and (min-width: $breakpoint-x-large) {
+    width: 65%;
+  }
+}
