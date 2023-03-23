@@ -53,6 +53,10 @@
     margin-left: 0;
     padding-left: 0;
 
+    @media (min-width: $breakpoint-small) {
+      flex-wrap: wrap;
+    }
+
     .p-inline-list__item,
     .p-inline-list__item--empty {
       @extend %bold;
@@ -74,11 +78,16 @@
       &:last-child::after {
         content: ".";
       }
+
+      @media (min-width: $breakpoint-small) {
+        margin-bottom: .75rem;
+      }
     }
 
     .p-inline-list__item--empty {
       border-bottom: 1px solid $color-mid-light;
       flex: 1;
+      max-width: 5rem;
     }
   }
 }
