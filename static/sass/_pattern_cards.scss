@@ -1,4 +1,6 @@
 @mixin canonical-p-card {
+  @include selectable-card;
+
   .p-card--strip {
     @extend %vf-card;
 
@@ -48,90 +50,31 @@
     background-color: $color-light;
     border-top: 4px solid $color-brand;
   }
+}
 
-  .p-card--game {
+@mixin selectable-card {
+  %selectable-card {
     @extend %vf-card;
 
-    margin-bottom: $spv--large;
-    min-height: 8rem;
-    position: relative;
+    border-top: 1px solid $color-mid-light;
+    margin-bottom: 0;
+  }
 
-    &:hover {
-      background-color: $color-mid-x-light;
-      cursor: pointer;
-    }
-
-    &__title::after {
-      border-bottom: 2px solid $color-mid-light;
-      content: "";
-      display: block;
-      width: 50%;
-    }
-
-    &__content {
-      font-size: small;
-    }
+  .p-selectable-card {
+    @extend %selectable-card;
 
     &__tagline {
-      font-style: italic;
-      margin-bottom: 0;
+      color: $color-mid-dark;
+      text-indent: 0;
     }
 
-    &__description {
-      display: none;
-      padding-top: 1.1rem;
+    &:hover {
+      background-color: $color-light;
     }
 
-    .js-button--add {
-      display: none;
-    }
-
-    &.is-grey {
-      .js-button--add {
-        display: flex;
-      }
-
-      .p-card--game__description {
-        display: block;
-      }
-    }
-
-    &.is-selected {
-      background-color: $color-brand;
-      color: $color-x-light;
-
-      &:hover {
-        background-color: $color-mid-dark;
-      }
-    }
-
-    &.is-empty {
-      background-color: transparent;
-      border: 1px dashed $color-x-light;
-      cursor: default;
-
-      &:hover {
-        background-color: transparent;
-      }
-
-      & * {
-        display: none;
-      }
-
-      .js-button--remove {
-        display: none;
-      }
-    }
-
-    @media (max-width: $breakpoint-small) {
-      &.is-empty {
-        display: none;
-      }
-    }
-  }
-  @media (min-width: $breakpoint-small) {
-    .p-card--game {
-      min-height: 10rem;
+    &--selected {
+      @extend %selectable-card;
     }
   }
 }
+

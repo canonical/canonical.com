@@ -1,3 +1,8 @@
+@mixin canonical-p-lists {
+  @include canonical-p-content-list;
+  @include canonical-p-inline-list-selection
+}
+
 @mixin canonical-p-content-list {
   .p-content-list {
     &-section {
@@ -38,6 +43,51 @@
       border-right: 1px solid $color-mid-light;
       border-top: 0;
       padding: 0;
+    }
+  }
+}
+
+@mixin canonical-p-inline-list-selection {
+  .p-inline-list--selection {
+    display: flex;
+    margin-left: 0;
+    padding-left: 0;
+
+    @media (max-width: $breakpoint-small) {
+      flex-wrap: wrap;
+    }
+
+    .p-inline-list__item,
+    .p-inline-list__item--empty {
+      @extend %bold;
+
+      line-height: .8rem;
+      list-style: none;
+      margin-right: 1rem;
+      position: relative;
+
+      &::after {
+        @extend %bold;
+
+        bottom: -.1rem;
+        content: ", ";
+        position: absolute;
+        right: -0.3rem;
+      }
+
+      &:last-child::after {
+        content: ".";
+      }
+
+      @media (max-width: $breakpoint-small) {
+        margin-bottom: .75rem;
+      }
+    }
+
+    .p-inline-list__item--empty {
+      border-bottom: 1px solid $color-mid-light;
+      flex: 1;
+      max-width: 5rem;
     }
   }
 }

@@ -93,6 +93,18 @@ jobs:
           coverage run  --source=. -m unittest discover tests
           bash <(curl -s https://codecov.io/bash) -cF python
 
+  test-javascript:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint scss
+        run: yarn test-js
+
   inclusive-naming-check:
     runs-on: ubuntu-20.04
 
