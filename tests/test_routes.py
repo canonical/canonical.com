@@ -32,6 +32,34 @@ class TestRoutes(VCRTestCase):
 
         self.assertEqual(self.client.get("/").status_code, 200)
 
+    def test_department_page(self):
+        """
+        When given the index URL,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(self.client.get("/careers/people").status_code, 200)
+        self.assertEqual(
+            self.client.get("/careers/support-engineering").status_code, 200
+        )
+        self.assertEqual(
+            self.client.get("/careers/marketing").status_code, 200
+        )
+        self.assertEqual(
+            self.client.get("/careers/web-and-design").status_code, 200
+        )
+        self.assertEqual(
+            self.client.get("/careers/administration").status_code, 200
+        )
+
+    def test_working_here_pages(self):
+        """
+        When given the index URL,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(self.client.get("/careers/travel").status_code, 200)
+
     def test_invalid_careers_department(self):
         """
         When given the URL of an invalid careers department,

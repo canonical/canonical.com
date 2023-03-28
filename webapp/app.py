@@ -318,11 +318,8 @@ def all_careers():
     )
 
 
-@app.route("/careers/<path>")
-def working_here_pages(path):
-    # more pages to come
-    pages = {"travel"}
-
+@app.route("/careers/travel")
+def working_here_travel_page():
     sprint_locations = [
         [{"lat": 51.53910042435768, "lng": -0.1416575585467801}, "London"],
         [{"lat": -33.876169534561576, "lng": 18.382182743342554}, "Cape Town"],
@@ -384,9 +381,6 @@ def working_here_pages(path):
         [{"lat": 51.234949685621814, "lng": 3.2142528855251635}, "Bruges"],
         [{"lat": 28.535137392578626, "lng": -81.4092377509802}, "Orlando"],
     ]
-
-    if path not in pages:
-        flask.abort(404)
 
     return flask.render_template(
         f"{flask.request.path}.html", sprint_locations=sprint_locations
