@@ -98,3 +98,13 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
+
+    def test_company_culture(self):
+        """
+        When given the URL of company culture page,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/careers/company-culture").status_code, 200
+        )
