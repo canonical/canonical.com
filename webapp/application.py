@@ -233,6 +233,19 @@ def _get_application_from_token(token):
     return _get_application(token_application_id)
 
 
+def _get_gia_feedback(attachments):
+    for attachment in attachments:
+        if (
+            attachment
+            and attachment["filename"]
+            and attachment["filename"].endswith(
+                "Thomas_International_Candidate_Feedback.pdf"
+            )
+        ):
+            print(attachment)
+            return attachment
+
+
 def _confirmation_token(
     email, withdrawal_reason_id, withdrawal_message, application_id
 ):
@@ -314,6 +327,10 @@ def application_index(token):
     if application["status"] != "active" and application["rejection_reason"]:
         if application["rejection_reason"]["type"]["id"] == 2:
             withdrawn = True
+
+    gia_feedback = _get_gia_feedback(application["attachments"])
+    if gia_feedback:
+        application["gia_feedback"] = gia_feedback
 
     return flask.render_template(
         "careers/application/index.html",
