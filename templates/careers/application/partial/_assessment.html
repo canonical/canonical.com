@@ -5,67 +5,71 @@
       <p>There are several parts to this stage:</p>
       <a href="" onclick="showProgressDetail('assessment'); event.preventDefault();" class="show-more-assessment">Show more</a>
       <div class="progress-detail-assessment u-hide">
+    {% elif "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"] %}
+      <p>There are several parts to this stage:</p>
+      <div class="progress-detail-assessment">
+        {% endif %}
         <ol class="p-stepped-list">
           <li class="p-stepped-list__item">
             <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.</p>
           </li>
           <li class="p-stepped-list__item">
-            <p class="p-stepped-list__title u-no-margin--bottom">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.</p>
+            <p class="p-stepped-list__title">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.</p>
+            {% if application["gia_feedback"] %}
+            <p style="padding-left: 2.5rem;" class="u-no-margin--bottom" id="reportRequestContainer">
+              <button id="showRequestAssessmentModal" aria-controls="request-assessment-modal">Request assessment report</button>
+            </p>
+            <div class="p-modal" id="request-assessment-modal">
+              <section class="p-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="request-assessment-modal-title" aria-describedby="request-assessment-modal-description">
+                <div data-action="/careers/application/get-report/{{ token }}" method="post" id="request-assessment-form">
+                  <header class="p-modal__header">
+                    <h2 class="p-modal__title" id="request-assessment-modal-title">Get the Thomas International candidate report</h2>
+                    <button class="p-modal__close" aria-label="Close active modal" aria-controls="request-assessment-modal">Close</button>
+                  </header>
+                  <p id="request-assessment-modal-description">For security reasons, we ask you to provide us with the email address you used in your application.</p>
+                  <div class="p-form-validation">
+                    <label for="request-assessment-email">Email address</label>
+                    <input class="p-form-validation__input" type="email" id="request-assessment-email" name="request-assessment-email" placeholder="example@canonical.com" autocomplete="email">
+                    <p class="p-form-validation__message" id="exampleInputErrorMessage"></p>
+                  </div>
+                  <footer class="p-modal__footer">
+                    <button class="u-no-margin--bottom" aria-controls="modal">Cancel</button>
+                    <button id="request-assessment-submit" class="p-button u-no-margin--bottom">
+                      <i class="p-icon--spinner u-animation--spin u-hide"></i>
+                      Get Report
+                    </button>
+                  </footer>
+                </div>
+              </section>
+              <script async src="{{ versioned_static('js/applications/get-report.js') }}"></script>
+            </div>
+            <div class="u-hide">
+              <p style="padding-left: 2.5rem;" class="u-no-margin--bottom"><a href="{{ application['gia_feedback'].url }}" download>Download your GIA feedback document <i class="p-icon--begin-downloading"></i></a></p>
+            </div>
+            {% endif %}
           </li>
           <li class="p-stepped-list__item">
             <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
           </li>
         </ol>
         {% for interview in application["scheduled_interviews"]|reverse %}
-            {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                <hr />
-                <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
-                {% include 'careers/application/_interview-card-done.html' %}
-            {% endif %}
+          {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
+            <hr />
+            <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
+            {% include 'careers/application/_interview-card-done.html' %}
+          {% endif %}
         {% endfor %}
         {% for interview in application["scheduled_interviews"] %}
-            {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
-                <hr />
-                <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
-                {% include 'careers/application/_interview-card.html' %}
-            {% endif %}
+          {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
+            <hr />
+            <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+            {% include 'careers/application/_interview-card.html' %}
+          {% endif %}
         {% endfor %}
         <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
       </div>
-    {% elif "stage_progress" in application and application["stage_progress"]["assessment"] and not application["stage_progress"]["early_stage"] %}
-      <p>There are several parts to this stage:</p>
-      <div class="progress-detail-assessment">
-      <ol class="p-stepped-list">
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.</p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title u-no-margin--bottom">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.</p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
-        </li>
-      </ol>
-        {% for interview in application["scheduled_interviews"]|reverse %}
-            {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-                <hr />
-                <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
-                {% include 'careers/application/_interview-card-done.html' %}
-            {% endif %}
-        {% endfor %}
-        {% for interview in application["scheduled_interviews"] %}
-            {% if interview["interview"]["name"] == "Meet & Greet Interview" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
-                <hr />
-                <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
-                {% include 'careers/application/_interview-card.html' %}
-            {% endif %}
-        {% endfor %}
-        <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
-      </div>
-    {% else %}
       <p>
         There are several parts to this stage: a written interview, a psychometric assessment and some roles will require a technical assignment to be completed.
       </p>
-    {% endif %}
   </div>
 </li>
