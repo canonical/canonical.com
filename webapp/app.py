@@ -319,7 +319,8 @@ def all_careers():
 
 
 @app.route("/careers/travel")
-def working_here_travel_page():
+@app.route("/careers/sustainability")
+def working_here_pages():
     sprint_locations = [
         [{"lat": 51.53910042435768, "lng": -0.1416575585467801}, "London"],
         [{"lat": -33.876169534561576, "lng": 18.382182743342554}, "Cape Town"],

@@ -59,6 +59,9 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/careers/travel").status_code, 200)
+        self.assertEqual(
+            self.client.get("/careers/sustainability").status_code, 200
+        )
 
     def test_invalid_careers_department(self):
         """
