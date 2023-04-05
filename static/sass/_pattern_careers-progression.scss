@@ -1,0 +1,413 @@
+@import "../../node_modules/vanilla-framework/scss/patterns_icons";
+
+@mixin canonical-p-careers-progression {
+  .p-strip--careers-progression {
+    @extend %vf-strip;
+
+    background-color: #261f24;
+    color: vf-determine-text-color(#261f24);
+
+    &.is-hero {
+      padding-top: 16.5rem;
+
+      @media screen and (min-width: $breakpoint-small) and (max-width: 1112px) {
+        padding-top: 2.5rem;
+      }
+
+      @media screen and (max-width: ($breakpoint-small - 1)) {
+        padding-top: $sp-large;
+      }
+    }
+
+    .p-careers-progression-roles {
+      border-right: 1px solid rgb(255 255 255 / 25%);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+      padding-right: 1.8rem;
+
+      @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large) {
+        margin-top: 1rem;
+      }
+
+      @media screen and (max-width: $breakpoint-small) {
+        border: 0;
+      }
+
+      img {
+        border-radius: 0;
+      }
+    }
+
+    .p-strip--hero-title {
+      font-size: 6.625rem;
+      line-height: 6rem;
+      margin-bottom: 6rem;
+
+      span {
+        margin-top: 3rem;
+        @media screen and (max-width: ($breakpoint-small - 1)) {
+          margin-top: 1.5rem;
+        }
+      }
+
+      @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large) {
+        font-size: 3.625rem;
+        line-height: 3rem;
+      }
+
+      @media screen and (max-width: ($breakpoint-small - 1)) {
+        font-size: 2rem;
+        line-height: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+
+  // Custom animations
+  // @keyframes slide-right {
+  // 	0% {
+  // 		opacity: 0;
+  // 		transform: translate3d(-50%, -20%, 0);
+  // 	}
+  // 	50% {
+  // 		opacity: 0;
+  // 		transform: translate3d(-.25, -10%, 0);
+  // 	}
+  // 	100% {
+  // 		opacity: 1;
+  // 		transform: translate3d(0 0 0);
+ // 	}
+  // }
+
+  // .u-animation--slide-right {
+  // white-space: nowrap;
+  // display: block;
+  // overflow: hidden;
+  // margin: 3rem 0;
+  // animation: type 4s 1 forwards linear;
+  // }
+
+  @keyframes slide-right {
+    from {
+      opacity: 0;
+      transform: translateY(20%);
+      width: 0;
+    }
+
+    to {
+      opacity: 1;
+      overflow: visible;
+      transform: translateY(0%);
+      width: var(--width);
+    }
+  }
+
+  .u-animation--slide-right {
+    --width: 100%;
+
+    &-separator {
+      --width: 110px;
+    }
+
+    animation: slide-right map-get($animation-duration, sleepy) 1 forwards
+      cubic-bezier(0.6, 0.12, 0.28, 0.75);
+    display: block;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+
+    @media screen and (max-width: ($breakpoint-small - 1)) {
+      margin: $sp-large 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      opacity: 1;
+      overflow: visible;
+    }
+  }
+
+  .p-careers-progression-separator {
+    @extend .u-animation--slide-right;
+    @extend .u-no-margin;
+
+    animation-delay: map-get($animation-duration, slow);
+    background-color: $color-x-light;
+    height: 2px;
+    margin-top: 3rem;
+    text-align: left;
+    width: 110px;
+  }
+
+  // Collage
+  .p-collage__container {
+    column-gap: 2rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    row-gap: 2rem;
+
+    .p-collage--1 {
+      height: 307px;
+      width: 250px;
+
+      @media screen and (max-width: 688px) {
+        height: 170px;
+        width: 139px;
+      }
+    }
+
+    .p-collage--2 {
+      align-self: end;
+      height: 233px;
+      width: 350px;
+
+      @media screen and (max-width: 688px) {
+        height: 116px;
+        width: 193px;
+      }
+    }
+
+    .p-collage--3 {
+      align-self: flex-start;
+      height: 217px;
+      margin-left: 4rem;
+      width: 253px;
+
+      @media screen and (max-width: 688px) {
+        height: 146px;
+        margin-left: 2rem;
+        width: 170px;
+      }
+    }
+
+    .p-collage--4 {
+      height: 337px;
+      width: 224px;
+
+      @media screen and (max-width: 688px) {
+        height: 187px;
+        width: 125px;
+      }
+    }
+  }
+
+  .p-carousel-buttons__group {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .p-careers-progression-carousel {
+    max-width: 900px;
+    padding: 0;
+    position: relative;
+
+    @media screen and (max-width: ($breakpoint-large - 1)) {
+      max-width: initial;
+    }
+
+    .p-careers-progression-carousel__slides {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      width: 100%;
+    }
+
+    .p-careers-progression-carousel__slide {
+      flex: 0 0 calc(70% / 1 - 10px);
+
+      @media screen and (max-width: ($breakpoint-large - 1)) {
+        height: auto;
+        padding: $sp-large $sp-small;
+      }
+    }
+
+    .p-careers-progression-carousel__slide--text {
+      @extend .p-careers-progression-carousel__slide;
+
+      flex: 0 0 calc(102% / 1 - 10px);
+    }
+  }
+
+  .p-careers-progression-carousel__controls {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (max-width: ($breakpoint-large - 1)) {
+      margin-bottom: 0;
+    }
+
+    .p-careers-progression-carousel__previous {
+      @extend .p-icon--chevron-up;
+
+      border: 0;
+      height: 44px;
+      transform: rotate(90deg);
+      width: 44px;
+    }
+
+    .p-careers-progression-carousel__next {
+      @extend .p-icon--chevron-up;
+
+      border: 0;
+      height: 44px;
+      // Fix rotation spacing
+      margin-top: 2%;
+      transform: rotate(-90deg);
+      width: 44px;
+    }
+  }
+
+  .p-careers-progression-carousel__navigation {
+    align-items: start;
+    display: flex;
+    justify-content: start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .p-careers-progression-carousel__selector {
+    background-color: #989898;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    height: 4px;
+    margin: 0 5px;
+    padding: 0;
+    width: 68px;
+
+    @media screen and (max-width: $breakpoint-small) {
+      width: 48px;
+    }
+
+    &:focus {
+      outline-offset: 4px;
+    }
+
+    &[aria-current="true"],
+    &:hover {
+      background-color: #e85420;
+    }
+  }
+
+  // Left side of the carousel
+  .p-careers-progression--opensource {
+    display: flex;
+    justify-content: space-between;
+    width: calc(100vw - ((100vw - 72rem) / 2));
+
+    @media screen and (max-width: ($breakpoint-large - 1)) {
+      margin-left: $sp-large;
+      width: 100%;
+    }
+
+    @media screen and (max-width: ($breakpoint-small)) {
+      margin-left: 0;
+    }
+
+    .p-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-right: $sp-large;
+      width: 50%;
+
+      @media screen and (max-width: ($breakpoint-large - 1)) {
+        width: 100%;
+      }
+    }
+  }
+
+  .p-3d-carousel {
+    height: 10px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+  }
+
+  .p-3d-carousel__container {
+    .p-3d-carousel__item {
+      background-color: $color-x-light;
+      box-shadow: 0 0 46.8px rgb(0 0 0 / 10%),
+        1.56px 1.56px 1.56px rgb(0 0 0 / 5%);
+      height: 212px;
+      left: 50%;
+      margin-left: calc(-420px / 2);
+      margin-top: calc(-212px / 2);
+      padding: 3.5rem 2.3rem;
+      position: absolute;
+      top: 50%;
+      width: 420px;
+
+      &[aria-current="true"],
+      &:hover {
+        box-shadow: 0 0 60px rgb(0 0 0 / 10%);
+      }
+
+      // Reset Vanilla to center
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  .p-careers-progression__testimonials {
+    height: 370px;
+  }
+
+  @media screen and (max-width: $breakpoint-large) {
+    .p-careers-progression__testimonials--mobile {
+      height: auto;
+      margin-bottom: 4.2rem;
+
+      .p-careers-progression-cards {
+        align-items: center;
+        background: $color-x-light;
+        box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+        display: flex;
+        flex-direction: row;
+        height: 160px;
+        justify-content: center;
+        margin: $sp-large 0;
+        padding: 2rem 1.375rem;
+      }
+    }
+  }
+
+  .u-hug-right__container {
+    margin: 0 auto;
+    max-width: 72rem;
+
+    @media screen and (max-width: $breakpoint-large) {
+      overflow-x: visible;
+    }
+
+    // Reset Vanilla styles
+    .u-hug-right__element {
+      margin: 0;
+      max-width: initial;
+      padding: 0;
+      width: 100%;
+    }
+
+    @media (min-width: ($breakpoint-large - 1)) {
+      .u-hug-right__element {
+        width: calc(100vw - ((100vw - 72rem) / 2));
+      }
+    }
+  }
+
+  .u-fix-overflow {
+    overflow-x: hidden;
+  }
+}

@@ -41,38 +41,6 @@ partners_api = Partners(session)
 app.register_blueprint(application, url_prefix="/careers/application")
 
 
-@app.route("/")
-def index():
-    return flask.render_template("index.html")
-
-
-@app.route("/sitemap.xml")
-def index_sitemap():
-    xml_sitemap = flask.render_template("sitemap-index.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/sitemap-links.xml")
-def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/secure-boot-master-ca.crl")
-def secure_boot():
-    return flask.send_from_directory(
-        "../static/files", "secure-boot-master-ca.crl"
-    )
-
-
 def _group_by_department(vacancies):
     """
     Return a dictionary of departments by slug,
@@ -107,6 +75,116 @@ def _group_by_department(vacancies):
             vacancies_by_department[slug].vacancies = {}
 
     return vacancies_by_department
+
+
+def _get_sorted_departments():
+    departments = _group_by_department(greenhouse.get_vacancies())
+
+    sort_order = [
+        "engineering",
+        "support-engineering",
+        "marketing",
+        "web-and-design",
+        "project-management",
+        "commercial-operations",
+        "product",
+        "sales",
+        "finance",
+        "people",
+        "administration",
+        "legal",
+    ]
+
+    sorted = {slug: departments[slug] for slug in sort_order}
+    remaining_slugs = set(departments.keys()).difference(sort_order)
+    remaining = {slug: departments[slug] for slug in remaining_slugs}
+    sorted_departments = {**sorted, **remaining}
+
+    return sorted_departments
+
+
+def _get_all_departments() -> tuple:
+    """
+    Refactor for careers search section
+    """
+    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+
+    dept_list = [
+        {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
+        {
+            "slug": "support-engineering",
+            "icon": "df08c7f2-Support Engineering.svg",
+        },
+        {"slug": "marketing", "icon": "27b93be4-Marketing.svg"},
+        {"slug": "web-and-design", "icon": "b200e162-design.svg"},
+        {
+            "slug": "project-management",
+            "icon": "0f64ee5c-Project Management.svg",
+        },
+        {"slug": "commercial-operations", "icon": "1f84f8c7-Operations.svg"},
+        {"slug": "product", "icon": "d5341dfa-Product.svg"},
+        {"slug": "sales", "icon": "2dc1ceb1-Sales.svg"},
+        {"slug": "finance", "icon": "8b2110ea-finance.svg"},
+        {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
+        {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
+        {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
+    ]
+
+    departments_overview = []
+
+    for vacancy in all_departments:
+        for dept in dept_list:
+            if vacancy[dept["slug"]]:
+                if vacancy[dept["slug"]].vacancies:
+                    count = len(vacancy[dept["slug"]].vacancies)
+                else:
+                    count = 0
+                name = vacancy[dept["slug"]].name
+                slug = vacancy[dept["slug"]].slug
+                icon = dept["icon"]
+
+                departments_overview.append(
+                    {
+                        "name": name,
+                        "count": count,
+                        "slug": slug,
+                        "icon": icon,
+                    }
+                )
+
+    return all_departments, departments_overview
+
+
+@app.route("/")
+def index():
+    return flask.render_template("index.html")
+
+
+@app.route("/sitemap.xml")
+def index_sitemap():
+    xml_sitemap = flask.render_template("sitemap-index.xml")
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
+@app.route("/sitemap-links.xml")
+def home_sitemap():
+    xml_sitemap = flask.render_template("sitemap-links.xml")
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
+@app.route("/secure-boot-master-ca.crl")
+def secure_boot():
+    return flask.send_from_directory(
+        "../static/files", "secure-boot-master-ca.crl"
+    )
 
 
 # Career departments
@@ -224,50 +302,7 @@ def careers_index():
     and department name for a given department
     """
 
-    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
-
-    dept_list = [
-        {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
-        {
-            "slug": "support-engineering",
-            "icon": "df08c7f2-Support Engineering.svg",
-        },
-        {"slug": "marketing", "icon": "27b93be4-Marketing.svg"},
-        {"slug": "web-and-design", "icon": "b200e162-design.svg"},
-        {
-            "slug": "project-management",
-            "icon": "0f64ee5c-Project Management.svg",
-        },
-        {"slug": "commercial-operations", "icon": "1f84f8c7-Operations.svg"},
-        {"slug": "product", "icon": "d5341dfa-Product.svg"},
-        {"slug": "sales", "icon": "2dc1ceb1-Sales.svg"},
-        {"slug": "finance", "icon": "8b2110ea-finance.svg"},
-        {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
-        {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
-        {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
-    ]
-
-    departments_overview = []
-
-    for vacancy in all_departments:
-        for dept in dept_list:
-            if vacancy[dept["slug"]]:
-                if vacancy[dept["slug"]].vacancies:
-                    count = len(vacancy[dept["slug"]].vacancies)
-                else:
-                    count = 0
-                name = vacancy[dept["slug"]].name
-                slug = vacancy[dept["slug"]].slug
-                icon = dept["icon"]
-
-                departments_overview.append(
-                    {
-                        "name": name,
-                        "count": count,
-                        "slug": slug,
-                        "icon": icon,
-                    }
-                )
+    all_departments, departments_overview = _get_all_departments()
 
     return flask.render_template(
         "/careers/index.html",
@@ -279,30 +314,18 @@ def careers_index():
     )
 
 
-def _get_sorted_departments():
-    departments = _group_by_department(greenhouse.get_vacancies())
+@app.route("/careers/progression")
+def careers_progression():
+    all_departments, departments_overview = _get_all_departments()
 
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
-
-    return sorted_departments
+    return flask.render_template(
+        "/careers/progression.html",
+        all_departments=all_departments,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+        departments_overview=departments_overview,
+    )
 
 
 @app.route("/careers/all")
