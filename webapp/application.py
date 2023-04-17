@@ -6,6 +6,9 @@ from email.message import EmailMessage
 from email.utils import parseaddr
 from smtplib import SMTP
 from typing import Dict, List, Tuple
+from gql import Client, gql
+from gql.transport.requests import RequestsHTTPTransport
+
 
 import flask
 import talisker.requests
@@ -73,9 +76,39 @@ harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
 
+directory_api_url = f'{os.environ["DIRECTORY_API_URL"]}/graphql/'
+directory_api_token = f'token {os.environ["DIRECTORY_API_TOKEN"]}'
+
 
 # Helpers
 # ===
+
+def _get_directory_employee():
+    # Provide a GraphQL query
+    transport = RequestsHTTPTransport(
+        url=directory_api_url,
+        headers={"Authorization": directory_api_token},
+        use_json=True,
+        verify=False,
+    )
+
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+
+    query = gql(
+        """
+        {
+            employees {
+                email
+                workingStartTime
+                workingEndTime
+            }
+        }
+        """
+    )
+
+    # Execute the query on the transport
+    result = client.execute(query)
+    return result
 
 
 def _sort_stages_by_milestone(
