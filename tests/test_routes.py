@@ -108,3 +108,14 @@ class TestRoutes(VCRTestCase):
         self.assertEqual(
             self.client.get("/careers/company-culture").status_code, 200
         )
+
+    def test_diversity(self):
+        """
+        When given the URL of careers diversity page,
+        we should return a 200 status code
+        """
+
+        self.assertEqual(
+            self.client.get("/careers/company-culture/diversity").status_code,
+            200,
+        )
