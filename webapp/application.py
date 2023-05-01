@@ -336,21 +336,22 @@ def application_withdrawal(token):
     withdrawal_reason_id = payload.get("withdrawal_reason_id")
     withdrawal_message = payload.get("withdrawal_message")
 
-    applicant_name = (
+    candidate_name = (
         application["candidate"]["first_name"]
         + " "
         + application["candidate"]["last_name"]
     )
-    applicant_id = application["candidate"]["id"]
+    candidate_id = application["candidate"]["id"]
 
     hiring_lead_name = application["hiring_lead"]["name"]
     hiring_lead_email = application["hiring_lead"]["emails"]
 
     application_url = (
-        f"https://canonical.greenhouse.io/people/{applicant_id}?application_id={payload['application_id']}"
+        f"https://canonical.greenhouse.io/people/{candidate_id}?"
+        f"application_id={payload['application_id']}"
     )
-    new_withdrawal_message = (
-        f"Hello {hiring_lead_name} \nThe candidate {applicant_name} has"
+    hiring_lead_withdrawal_mail = (
+        f"Hello {hiring_lead_name} \nThe candidate {candidate_name} has"
         f"withdrawn themselves from the job with the following reason(s): " 
         "{withdrawal_message}\n you can refer to their"
         f" application here: {application_url}"
@@ -369,7 +370,7 @@ def application_withdrawal(token):
 
     if not debug_skip_sending:
         _send_mail(
-            hiring_lead_email, "Candidate Withdrawal", new_withdrawal_message
+            hiring_lead_email, "Candidate Withdrawal", hiring_lead_withdrawal_mail
         )
 
     return flask.render_template("careers/application/withdrawal.html")
