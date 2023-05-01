@@ -352,7 +352,7 @@ def application_withdrawal(token):
     )
     hiring_lead_withdrawal_mail = (
         f"Hello {hiring_lead_name} \nThe candidate {candidate_name} has"
-        f"withdrawn themselves from the job with the following reason(s): " 
+        f"withdrawn themselves from the job with the following reason(s): "
         "{withdrawal_message}\n you can refer to their"
         f" application here: {application_url}"
     )
@@ -370,7 +370,9 @@ def application_withdrawal(token):
 
     if not debug_skip_sending:
         _send_mail(
-            hiring_lead_email, "Candidate Withdrawal", hiring_lead_withdrawal_mail
+            hiring_lead_email, 
+            "Candidate Withdrawal", 
+            hiring_lead_withdrawal_mail
         )
 
     return flask.render_template("careers/application/withdrawal.html")
