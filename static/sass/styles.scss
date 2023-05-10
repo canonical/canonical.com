@@ -7,6 +7,7 @@ $color-tabs-active-bar: #e95420;
 
 $color-brand: #7c355d;
 $color-dark: #262626;
+$color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
 
@@ -495,4 +496,78 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 /// can be removed once added upstream
 .is-paper {
   background-color: #f3f3f3;
+}
+
+.p-department-cards__container {  
+  aspect-ratio: auto;
+  background-color: #fff;
+
+  @media screen and (min-width: $breakpoint-large) {
+    aspect-ratio: 2 / 3;
+    margin-bottom: $spv--large;
+    margin-top: $spv--small;
+  }
+
+  .p-department-cards__card {
+    @extend %vf-bg--x-light;
+    @extend %vf-card-padding;
+    // Push roles text down
+    @extend .u-stack;
+
+    align-items: center;
+    background-color: $color-paper;
+    flex-flow: row nowrap;
+    overflow: auto;
+    padding: $spv--small;
+
+    @media screen and (min-width: $breakpoint-large) {
+      align-items: start;
+      background-color: #fff;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: $spv--large;
+    }
+
+    .p-department-cards__link {
+      color: $color-link;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .p-department-cards__icon {
+      height: 2rem;
+      position: relative;
+      top: 0.4375rem;
+      width: 2rem;
+    }
+    
+    .p-department-cards__image-container {
+      align-items: center;
+      display: flex;
+
+      @media screen and (min-width: $breakpoint-large) {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    .p-department-cards__image {
+      height: 2.25rem;
+      padding-right: $spv--small;
+      width: 2.25rem;
+    }
+  }
+}
+
+.p-suru25light {
+  background-color: #f3f3f3;
+  background-image: url('https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg');
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  max-width: $grid-max-width;
+  padding-top: 19%;
 }
