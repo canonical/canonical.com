@@ -19,8 +19,8 @@ from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
-from webapp.application import application, harvest
-from webapp.greenhouse import Greenhouse
+from webapp.application import application
+from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
 
 app = FlaskBase(
@@ -35,6 +35,7 @@ session = talisker.requests.get_session()
 greenhouse = Greenhouse(
     session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
 )
+harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
 
 app.register_blueprint(application, url_prefix="/careers/application")

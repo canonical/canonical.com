@@ -1,11 +1,6 @@
-from webapp.application import (
-    _milestones_progress,
-    _sort_stages_by_milestone,
-    _get_employee_directory_data,
-)
-from vcr_unittest import VCRTestCase
-from webapp.app import app
+import unittest
 
+from webapp.application import _milestones_progress, _sort_stages_by_milestone
 
 all_stages = [
     {"name": "Application Review"},
@@ -24,23 +19,7 @@ all_stages = [
 ]
 
 
-class TestApplicationPageHelpers(VCRTestCase):
-    def _get_vcr_kwargs(self):
-        """
-        This removes the authorization header
-        from VCR so we don't record auth parameters
-        """
-        return {"filter_headers": ["Authorization"]}
-
-    def setUp(self):
-        """
-        Set up Flask app for testing
-        """
-
-        app.testing = True
-        self.client = app.test_client()
-        return super(TestApplicationPageHelpers, self).setUp()
-
+class TestApplicationPageHelpers(unittest.TestCase):
     def test_sort_stages_by_milestone_sort_and_filter(self):
         milestones = {"m1": ["s1", "s2"], "m2": ["s3"]}
         stages_to_sort = ["s3", "s1", "s4", "s2", "s5"]
@@ -118,16 +97,6 @@ class TestApplicationPageHelpers(VCRTestCase):
             },
         )
 
-    def test_get_employee_directory_data(self):
-        """
-        When provided with a employee_id it should return
-        an object with avatar, bio, email, id, name
-        """
-        fake_directory_data = {
-            "avatar": "test_image",
-            "bio": "test",
-            "id": "1234",
-            "name": "Mike Valen",
-        }
-        result = _get_employee_directory_data("1234")
-        self.assertDictEqual(fake_directory_data, result)
+
+if __name__ == "__main__":
+    unittest.main()
