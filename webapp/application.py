@@ -117,6 +117,7 @@ def _get_employee_directory_data(employee_id: str):
     return result[0]
 
 
+
 def _sort_stages_by_milestone(
     stages: List[str], milestones: Dict[str, Tuple[str]]
 ):
