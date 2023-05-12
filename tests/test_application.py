@@ -124,17 +124,17 @@ class TestGetGiaFeedback(unittest.TestCase):
                 "created_at": "2023-03-14T14:56:11.164Z",
             },
         ]
-        self.assertDictEqual(
-            _get_gia_feedback(attachments),
+        expected = [
             {
                 "filename": "Joe_Thomas_International_Candidate_Feedback.pdf",
                 "url": "https://Thomas_International_Candidate_Feedback.pdf",
                 "type": "other",
                 "created_at": "2023-03-14T14:56:19.012Z",
             },
-        )
+        ]
+        self.assertListEqual(_get_gia_feedback(attachments), expected)
 
-    def test_gia_feedback_returns_one_if_more_available(self):
+    def test_gia_feedback_returns_all_if_more_available(self):
         attachments = [
             {
                 "filename": "Joe_Thomas_International_GIA_Report.pdf",
@@ -161,15 +161,21 @@ class TestGetGiaFeedback(unittest.TestCase):
                 "created_at": "2023-03-14T14:56:11.164Z",
             },
         ]
-        self.assertDictEqual(
-            _get_gia_feedback(attachments),
+        expected = [
             {
                 "filename": "Joe_Thomas_International_Candidate_Feedback.pdf",
                 "url": "https://Thomas_International_Candidate_Feedback.pdf",
                 "type": "other",
                 "created_at": "2023-03-14T14:56:19.012Z",
             },
-        )
+            {
+                "filename": "Joe_Thomas_International_Candidate_Feedback.pdf",
+                "url": "https://Thomas_International_Candidate_Feedback.pdf",
+                "type": "other",
+                "created_at": "2023-03-14T14:56:19.012Z",
+            },
+        ]
+        self.assertListEqual(_get_gia_feedback(attachments), expected)
 
     def test_gia_feedback_not_found(self):
         attachments = [
@@ -186,11 +192,11 @@ class TestGetGiaFeedback(unittest.TestCase):
                 "created_at": "2023-03-14T14:56:11.164Z",
             },
         ]
-        self.assertEqual(_get_gia_feedback(attachments), None)
+        self.assertEqual(_get_gia_feedback(attachments), [])
 
     def test_gia_feedback_not_found_when_empty(self):
         attachments = []
-        self.assertEqual(_get_gia_feedback(attachments), None)
+        self.assertEqual(_get_gia_feedback(attachments), [])
 
 
 if __name__ == "__main__":
