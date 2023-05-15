@@ -7,7 +7,6 @@ $color-tabs-active-bar: #e95420;
 
 $color-brand: #7c355d;
 $color-dark: #262626;
-$color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
 
@@ -465,7 +464,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-strip--diversity {
   @extend .p-strip--light;
 
-  background-color: #f4f4f3;
+  background-color: $color-paper;
 }
 
 .u-no-padding--left {
@@ -579,7 +578,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-suru25light {
-  background-color: #f3f3f3;
+  background-color: $color-paper;
   background-image: url('https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg');
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -641,4 +640,63 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
       width: 121px;  
     }
   }
+}
+
+.p-icon--chevron-right {
+  @extend .p-icon--chevron-up;
+
+  transform: rotate(-90deg);
+}
+
+.p-engineering-fast-track {
+  margin-bottom: $spv--large;
+
+  &__container {
+    background-color: $color-x-light;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+    }
+  }
+
+  &__item {
+    padding: 0 $spv--medium $spv--small;
+
+    &::before {
+      background: rgb(17 17 17 / 20%);;
+      content: "";
+      display: block;
+      height: 3.5rem;
+      position: absolute;
+      right: 2.9375rem;
+      width: 1px;
+    }
+  }
+
+  &__url {
+    &:hover, &:active, &:visited {
+      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+      color: $color-dark;
+      text-decoration: none;
+    }
+
+    &:focus, &:focus-visible {
+      display: block;
+      outline: 0.1875rem solid #2e96ff !important;
+      outline-offset: -0.1875rem !important;
+    }
+  }
+
+  &__chevron {
+    margin: $spv--small $spv--large 0;
+  }
+}
+
+#latest-articles article:first-child hr {
+  display: none;
 }
