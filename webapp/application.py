@@ -235,13 +235,10 @@ def _get_application_from_token(token):
 
 def _get_gia_feedback(attachments):
     feedback_attachments = []
+    THOMAS_FILENAME = "Thomas_International_Candidate_Feedback.pdf"
     for attachment in attachments:
-        if (
-            attachment
-            and attachment["filename"]
-            and attachment["filename"].endswith(
-                "Thomas_International_Candidate_Feedback.pdf"
-            )
+        if attachment["filename"] and attachment["filename"].endswith(
+            THOMAS_FILENAME
         ):
             feedback_attachments.append(attachment)
 
