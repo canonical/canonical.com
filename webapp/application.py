@@ -343,7 +343,6 @@ def application_index(token):
 
 @application.route("/get-report/<string:token>", methods=["POST"])
 def application_report(token):
-    print(token)
     try:
         application = _get_application_from_token(token)
     except InvalidToken:
@@ -355,7 +354,11 @@ def application_report(token):
 
     if candidate_email.lower() != submitted_email.lower():
         return flask.jsonify(
-            {"status": "error", "message": "Email did not match"}
+            {
+                "status": "error",
+                "message": "The email you entered does not match the one "
+                "from your application.",
+            }
         )
 
     gia_feedback = _get_gia_feedback(application["attachments"])

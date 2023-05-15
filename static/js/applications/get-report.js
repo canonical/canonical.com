@@ -42,7 +42,7 @@ function finishGet(response) {
     requestBUttonContainer.innerHTML = "";
     attachments.forEach((attachment) => {
       const downloadLink = document.createElement("a");
-      downloadLink.innerHTML = `Download your assessment report`;
+      downloadLink.innerHTML = `Download your candidate report`;
       downloadLink.download = true;
       downloadLink.href = attachment.url;
       downloadLink.target = "_blank";
