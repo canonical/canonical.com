@@ -6,7 +6,7 @@ const buttons = form.querySelectorAll("footer button");
 const loadingIcon = form.querySelector(".p-icon--spinner");
 const submitButton = form.querySelector("#request-assessment-submit");
 const closeModalButton = form.querySelector(".p-modal__close");
-const requestBUttonContainer = document.getElementById(
+const requestButtonContainer = document.getElementById(
   "reportRequestContainer"
 );
 
@@ -39,15 +39,17 @@ function runGet() {
 function finishGet(response) {
   if (response.status === "success") {
     const attachments = response.message;
-    requestBUttonContainer.innerHTML = "";
+    requestButtonContainer.innerHTML = "";
     attachments.forEach((attachment) => {
+      // <p style="padding-left: 2.5rem;" class="u-no-margin--bottom"><a href="{{ application['gia_feedback'].url }}" download>Download your GIA feedback document <i class="p-icon--begin-downloading"></i></a></p>
+      const downloadContainer = document.createElement("p");
       const downloadLink = document.createElement("a");
-      downloadLink.innerHTML = `Download your candidate report`;
+      downloadLink.innerHTML = `Download your candidate report <i class="p-icon--begin-downloading"></i>`;
       downloadLink.download = true;
       downloadLink.href = attachment.url;
       downloadLink.target = "_blank";
-      downloadLink.classList.add("p-button--positive");
-      requestBUttonContainer.appendChild(downloadLink);
+      downloadContainer.appendChild(downloadLink);
+      requestButtonContainer.appendChild(downloadContainer);
     });
     closeModalButton.click();
   } else {
