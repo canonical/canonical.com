@@ -33,7 +33,7 @@ homepage_featured_products = [
         link="https://maas.io",
         image="https://assets.ubuntu.com/v1/3c26ff14-products-maas-wht-aubergine2.svg",
         alt="MAAS",
-        content="The new standard secure enterprise Linux for servers, desktops, cloud, developers and things",
+        content="Dynamic server provisioning and IPAM gives you on-demand bare metal, a physical cloud",
         footer="maas.io",
     ),
     FeaturedProduct(
