@@ -22,6 +22,7 @@ from slugify import slugify
 from webapp.application import application
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
+from webapp.static_data import homepage_featured_products
 
 app = FlaskBase(
     __name__,
@@ -32,9 +33,7 @@ app = FlaskBase(
     template_500="500.html",
 )
 session = talisker.requests.get_session()
-greenhouse = Greenhouse(
-    session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
-)
+greenhouse = Greenhouse(session=session, api_key=os.environ.get("GREENHOUSE_API_KEY"))
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
 
@@ -157,7 +156,11 @@ def _get_all_departments() -> tuple:
 
 @app.route("/")
 def index():
-    return flask.render_template("index.html")
+    context = {
+        "featured_products": homepage_featured_products,
+    }
+
+    return flask.render_template("index.html", **context)
 
 
 @app.route("/sitemap.xml")
@@ -182,26 +185,20 @@ def home_sitemap():
 
 @app.route("/secure-boot-master-ca.crl")
 def secure_boot():
-    return flask.send_from_directory(
-        "../static/files", "secure-boot-master-ca.crl"
-    )
+    return flask.send_from_directory("../static/files", "secure-boot-master-ca.crl")
 
 
 # Career departments
 @app.route("/careers/diversity")
 def diversity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
+    context = {"all_departments": _group_by_department(greenhouse.get_vacancies())}
     context["department"] = None
     return flask.render_template("careers/diversity/index.html", **context)
 
 
 @app.route("/careers/diversity/identity")
 def identity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
+    context = {"all_departments": _group_by_department(greenhouse.get_vacancies())}
     context["department"] = None
     return flask.render_template("careers/diversity/identity.html", **context)
 
@@ -259,9 +256,7 @@ def careers_rss():
     methods=["GET", "POST"],
     defaults={"job_title": None},
 )
-@app.route(
-    "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
-)
+@app.route("/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"])
 def job_details(job_id, job_title):
     context = {"bleach": bleach}
 
@@ -312,9 +307,7 @@ def careers_index():
     return flask.render_template(
         "/careers/index.html",
         all_departments=all_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
+        vacancies=[vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
         departments_overview=departments_overview,
     )
 
@@ -326,9 +319,7 @@ def careers_progression():
     return flask.render_template(
         "/careers/progression.html",
         all_departments=all_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
+        vacancies=[vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
         departments_overview=departments_overview,
     )
 
@@ -340,9 +331,7 @@ def all_careers():
     return flask.render_template(
         "/careers/all.html",
         sorted_departments=sorted_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
+        vacancies=[vacancy.to_dict() for vacancy in greenhouse.get_vacancies()],
     )
 
 
@@ -458,12 +447,8 @@ def department_group(department_slug):
 # Partners
 @app.route("/partners/find-a-partner")
 def find_a_partner():
-    partners = sorted(
-        partners_api.get_partner_list(), key=lambda item: item["name"]
-    )
-    return flask.render_template(
-        "/partners/find-a-partner.html", partners=partners
-    )
+    partners = sorted(partners_api.get_partner_list(), key=lambda item: item["name"])
+    return flask.render_template("/partners/find-a-partner.html", partners=partners)
 
 
 @app.route("/partners/channel-and-reseller")
@@ -477,9 +462,7 @@ def partner_details():
     partners = partners_api._get(
         partners_api.partner_page_map[flask.request.path.split("/")[2]]
     )
-    return flask.render_template(
-        f"{flask.request.path}.html", partners=partners
-    )
+    return flask.render_template(f"{flask.request.path}.html", partners=partners)
 
 
 @app.route("/partners/sitemap.xml")
@@ -501,9 +484,7 @@ class BlogView(flask.views.View):
 class PressCentre(BlogView):
     def dispatch_request(self):
         page_param = flask.request.args.get("page", default=1, type=int)
-        category_param = flask.request.args.get(
-            "category", default="", type=str
-        )
+        category_param = flask.request.args.get("category", default="", type=str)
         context = self.blog_views.get_group(
             "canonical-announcements", page_param, category_param
         )
@@ -582,9 +563,7 @@ def context():
 
 @app.template_filter()
 def convert_to_kebab(kebab_input):
-    words = re.findall(
-        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
-    )
+    words = re.findall(r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input)
 
     return "-".join(map(str.lower, words))
 
