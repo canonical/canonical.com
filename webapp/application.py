@@ -78,9 +78,7 @@ base_url = "https://harvest.greenhouse.io/v1"
 # ===
 
 
-def _sort_stages_by_milestone(
-    stages: List[str], milestones: Dict[str, Tuple[str]]
-):
+def _sort_stages_by_milestone(stages: List[str], milestones: Dict[str, Tuple[str]]):
     """
     Sort the given stages by milestones and filter out not recognized ones
     - stages: the stages to sort
@@ -104,10 +102,7 @@ def _find_most_recent_milestone(stages: List[str]):
         most_recent_finished_stage = most_recent_finished_stage.lower().strip()
         for milestone, stages_in_milestone in milestone_stages.items():
             for stage_in_milestone in stages_in_milestone:
-                if (
-                    stage_in_milestone.lower().strip()
-                    == most_recent_finished_stage
-                ):
+                if stage_in_milestone.lower().strip() == most_recent_finished_stage:
                     return milestone
     # return first milestone otherwise
     return next(iter(milestone_stages))
@@ -143,9 +138,7 @@ def _milestones_progress(stages, current_stage=None):
     candidate_finished_stages = _sort_stages_by_milestone(
         candidate_finished_stages, milestone_stages
     )
-    most_recent_milestone = _find_most_recent_milestone(
-        candidate_finished_stages
-    )
+    most_recent_milestone = _find_most_recent_milestone(candidate_finished_stages)
 
     # Set the progress of all the milestones prior
     # to the current one as completed
@@ -161,14 +154,10 @@ def _milestones_progress(stages, current_stage=None):
 def _get_application(application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
-    application["job_post"] = (
-        harvest.get_job_post(job_post_id) if job_post_id else None
-    )
+    application["job_post"] = harvest.get_job_post(job_post_id) if job_post_id else None
 
     # Add candidate object
-    application["candidate"] = harvest.get_candidate(
-        application["candidate_id"]
-    )
+    application["candidate"] = harvest.get_candidate(application["candidate_id"])
 
     # Retrieve hiring lead from first job
     job_id = application["jobs"][0]["id"]
@@ -202,13 +191,9 @@ def _get_application(application_id):
     for interview in application["scheduled_interviews"]:
         interview["start"]["datetime"] = parse(interview["start"]["date_time"])
         interview["end"]["datetime"] = parse(interview["end"]["date_time"])
-        difference = (
-            interview["end"]["datetime"] - interview["start"]["datetime"]
-        )
+        difference = interview["end"]["datetime"] - interview["start"]["datetime"]
         interview["duration"] = int(difference.total_seconds() / 60)
-        interview["stage_name"] = interviews_stage[
-            interview["interview"]["id"]
-        ]
+        interview["stage_name"] = interviews_stage[interview["interview"]["id"]]
 
     application["to_be_rejected"] = False
 
@@ -216,9 +201,7 @@ def _get_application(application_id):
         if not application["rejection_reason"]["type"]["id"] == 2:
             now = datetime.now(timezone.utc)
             rejection_time = parse(application["rejected_at"])
-            time_after_rejection = int(
-                (now - rejection_time).total_seconds() / 60
-            )
+            time_after_rejection = int((now - rejection_time).total_seconds() / 60)
             if time_after_rejection < 2880:
                 application["to_be_rejected"] = True
             else:
@@ -336,11 +319,6 @@ def application_withdrawal(token):
     withdrawal_reason_id = payload.get("withdrawal_reason_id")
     withdrawal_message = payload.get("withdrawal_message")
 
-    candidate_name = (
-        application["candidate"]["first_name"]
-        + " "
-        + application["candidate"]["last_name"]
-    )
     candidate_id = application["candidate"]["id"]
 
     hiring_lead_name = application["hiring_lead"]["name"]
@@ -349,12 +327,6 @@ def application_withdrawal(token):
     application_url = (
         f"https://canonical.greenhouse.io/people/{candidate_id}?"
         f"application_id={payload['application_id']}"
-    )
-    hiring_lead_withdrawal_mail = (
-        f"Hello {hiring_lead_name} \nThe candidate {candidate_name} has"
-        f"withdrawn themselves from the job with the following reason(s): "
-        "{withdrawal_message}\n you can refer to their"
-        f" application here: {application_url}"
     )
 
     # call the Harvest API to reject the application
@@ -366,16 +338,29 @@ def application_withdrawal(token):
     )
     response.raise_for_status()
 
-    debug_skip_sending = flask.current_app.debug
+    email_message = flask.render_template(
+        "careers/application/_withdrawal_notification-email.html",
+        applicant_name=application["candidate"]["first_name"],
+        hiring_lead_name=hiring_lead_name,
+        position=application["jobs"][0]["name"],
+        hiring_lead=application["hiring_lead"],
+        application_url=application_url,
+    )
 
+    debug_skip_sending = flask.current_app.debug
     if not debug_skip_sending:
         _send_mail(
             hiring_lead_email,
             "Candidate Withdrawal",
-            hiring_lead_withdrawal_mail,
+            email_message,
         )
 
-    return flask.render_template("careers/application/withdrawal.html")
+    return flask.render_template(
+        "careers/application/withdrawal.html",
+        debug_skip_sending=debug_skip_sending,
+        email_message=email_message,
+        hiring_lead_email=hiring_lead_email,
+    )
 
 
 @application.route("/<string:token>", methods=["POST"])
@@ -394,10 +379,7 @@ def request_withdrawal(token):
     withdrawal_reason_id = flask.request.form["withdrawal-reason"]
     withdrawal_message = withdrawal_reasons[withdrawal_reason_id]
 
-    if (
-        withdrawal_reason_id == "33"
-        and "withdrawal-reason-other" in flask.request.form
-    ):
+    if withdrawal_reason_id == "33" and "withdrawal-reason-other" in flask.request.form:
         withdrawal_message = flask.request.form["withdrawal-reason-other"]
 
     # Reject if user typed the wrong email
