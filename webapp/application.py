@@ -78,7 +78,9 @@ base_url = "https://harvest.greenhouse.io/v1"
 # ===
 
 
-def _sort_stages_by_milestone(stages: List[str], milestones: Dict[str, Tuple[str]]):
+def _sort_stages_by_milestone(
+    stages: List[str], milestones: Dict[str, Tuple[str]]
+):
     """
     Sort the given stages by milestones and filter out not recognized ones
     - stages: the stages to sort
@@ -102,7 +104,10 @@ def _find_most_recent_milestone(stages: List[str]):
         most_recent_finished_stage = most_recent_finished_stage.lower().strip()
         for milestone, stages_in_milestone in milestone_stages.items():
             for stage_in_milestone in stages_in_milestone:
-                if stage_in_milestone.lower().strip() == most_recent_finished_stage:
+                if (
+                    stage_in_milestone.lower().strip()
+                    == most_recent_finished_stage
+                ):
                     return milestone
     # return first milestone otherwise
     return next(iter(milestone_stages))
@@ -138,7 +143,9 @@ def _milestones_progress(stages, current_stage=None):
     candidate_finished_stages = _sort_stages_by_milestone(
         candidate_finished_stages, milestone_stages
     )
-    most_recent_milestone = _find_most_recent_milestone(candidate_finished_stages)
+    most_recent_milestone = _find_most_recent_milestone(
+        candidate_finished_stages
+    )
 
     # Set the progress of all the milestones prior
     # to the current one as completed
@@ -154,10 +161,14 @@ def _milestones_progress(stages, current_stage=None):
 def _get_application(application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
-    application["job_post"] = harvest.get_job_post(job_post_id) if job_post_id else None
+    application["job_post"] = (
+        harvest.get_job_post(job_post_id) if job_post_id else None
+    )
 
     # Add candidate object
-    application["candidate"] = harvest.get_candidate(application["candidate_id"])
+    application["candidate"] = harvest.get_candidate(
+        application["candidate_id"]
+    )
 
     # Retrieve hiring lead from first job
     job_id = application["jobs"][0]["id"]
@@ -191,9 +202,13 @@ def _get_application(application_id):
     for interview in application["scheduled_interviews"]:
         interview["start"]["datetime"] = parse(interview["start"]["date_time"])
         interview["end"]["datetime"] = parse(interview["end"]["date_time"])
-        difference = interview["end"]["datetime"] - interview["start"]["datetime"]
+        difference = (
+            interview["end"]["datetime"] - interview["start"]["datetime"]
+        )
         interview["duration"] = int(difference.total_seconds() / 60)
-        interview["stage_name"] = interviews_stage[interview["interview"]["id"]]
+        interview["stage_name"] = interviews_stage[
+            interview["interview"]["id"]
+        ]
 
     application["to_be_rejected"] = False
 
@@ -201,7 +216,9 @@ def _get_application(application_id):
         if not application["rejection_reason"]["type"]["id"] == 2:
             now = datetime.now(timezone.utc)
             rejection_time = parse(application["rejected_at"])
-            time_after_rejection = int((now - rejection_time).total_seconds() / 60)
+            time_after_rejection = int(
+                (now - rejection_time).total_seconds() / 60
+            )
             if time_after_rejection < 2880:
                 application["to_be_rejected"] = True
             else:
@@ -379,7 +396,10 @@ def request_withdrawal(token):
     withdrawal_reason_id = flask.request.form["withdrawal-reason"]
     withdrawal_message = withdrawal_reasons[withdrawal_reason_id]
 
-    if withdrawal_reason_id == "33" and "withdrawal-reason-other" in flask.request.form:
+    if (
+        withdrawal_reason_id == "33"
+        and "withdrawal-reason-other" in flask.request.form
+    ):
         withdrawal_message = flask.request.form["withdrawal-reason-other"]
 
     # Reject if user typed the wrong email
