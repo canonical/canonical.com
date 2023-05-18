@@ -1,5 +1,12 @@
 class FeaturedProduct:
-    def __init__(self, link, image, alt, content, footer):
+    def __init__(
+        self,
+        link,
+        image,
+        alt,
+        content,
+        footer,
+    ):
         self.link = link
         self.image = image
         self.alt = alt
@@ -7,68 +14,96 @@ class FeaturedProduct:
         self.footer = footer
 
 
+base_url = "https://assets.ubuntu.com"
 homepage_featured_products = [
     FeaturedProduct(
         link="https://ubuntu.com",
-        image="https://assets.ubuntu.com/v1/25be0ace-products-ubuntu-wht-aubergine.svg",
+        image="{base_url}/v1/25be0ace-products-ubuntu-wht-aubergine.svg",
         alt="Ubuntu",
-        content="The new standard secure enterprise Linux for servers, desktops, cloud, developers and things",
+        content=(
+            "The new standard secure enterprise Linux for servers, desktops,"
+            " cloud, developers and things"
+        ),
         footer="ubuntu.com",
     ),
     FeaturedProduct(
         link="https://ubuntu.com/security",
-        image="https://assets.ubuntu.com/v1/c47655d3-products-security-wht-aubergine4.svg",
+        image="{base_url}/v1/c47655d3-products-security-wht-aubergine4.svg",
         alt="Security and support",
-        content="Extended Security Maintenance, Kernel Livepatch, FIPS, enterprise support and certification",
+        content=(
+            "Extended Security Maintenance, Kernel Livepatch, FIPS, enterprise"
+            " support and certification"
+        ),
         footer="ubuntu.com/security",
     ),
     FeaturedProduct(
         link="https://landscape.canonical.com",
-        image="https://assets.ubuntu.com/v1/7f8d7403-products-landscape-wht.svg",
+        image="{base_url}/v1/7f8d7403-products-landscape-wht.svg",
         alt="Landscape",
-        content="Updates, package management, repositories, security, and regulatory compliance for Ubuntu",
+        content=(
+            "Updates, package management, repositories, security, and"
+            " regulatory compliance for Ubuntu"
+        ),
         footer="landscape.canonical.com",
     ),
     FeaturedProduct(
         link="https://maas.io",
-        image="https://assets.ubuntu.com/v1/3c26ff14-products-maas-wht-aubergine2.svg",
+        image="{base_url}/v1/3c26ff14-products-maas-wht-aubergine2.svg",
         alt="MAAS",
-        content="Dynamic server provisioning and IPAM gives you on-demand bare metal, a physical cloud",
+        content=(
+            "Dynamic server provisioning and IPAM gives you on-demand bare"
+            " metal, a physical cloud"
+        ),
         footer="maas.io",
     ),
     FeaturedProduct(
         link="https://linuxcontainers.org",
-        image="https://assets.ubuntu.com/v1/a737970a-products-lxd-wht-aubergine4.svg",
+        image="{base_url}/v1/a737970a-products-lxd-wht-aubergine4.svg",
         alt="LXD",
-        content="The pure-container hypervisor. Run legacy apps in secure containers for speed and density",
+        content=(
+            "The pure-container hypervisor. Run legacy apps in secure"
+            " containers for speed and density"
+        ),
         footer="ubuntu.com/lxd",
     ),
     FeaturedProduct(
         link="https://juju.is",
-        image="https://assets.ubuntu.com/v1/1dee5076-products-juju-wht-aubergine2.svg",
+        image="{base_url}/v1/1dee5076-products-juju-wht-aubergine2.svg",
         alt="Juju",
-        content="Model-driven cloud-native apps on public and private infrastructure and CAAS",
+        content=(
+            "Model-driven cloud-native apps on public and private"
+            " infrastructure and CAAS"
+        ),
         footer="juju.is",
     ),
     FeaturedProduct(
         link="https://ubuntu.com/openstack",
-        image="https://assets.ubuntu.com/v1/0694ab7a-openstack_lrg.svg",
+        image="{base_url}/v1/0694ab7a-openstack_lrg.svg",
         alt="OpenStack",
-        content="Upgrades, maintenance, support, and fully managed options for long-term low-cost infrastructure",
+        content=(
+            "Upgrades, maintenance, support, and fully managed options for"
+            " long-term low-cost infrastructure"
+        ),
         footer="ubuntu.com/openstack",
     ),
     FeaturedProduct(
         link="https://ubuntu.com/kubernetes",
-        image="https://assets.ubuntu.com/v1/32ef9123-kubernetes_lrg.svg",
+        image="{base_url}/v1/32ef9123-kubernetes_lrg.svg",
         alt="Kubernetes",
-        content="App portability for K8s on VMware, Amazon, Azure, Google, Oracle, IBM and bare metal",
+        content=(
+            "App portability for K8s on VMware, Amazon, Azure, Google, Oracle,"
+            " IBM and bare metal"
+        ),
         footer="ubuntu.com/kubernetes",
     ),
     FeaturedProduct(
         link="https://snapcraft.io",
-        image="https://assets.ubuntu.com/v1/11776603-snapcraft_lrg.svg",
+        image="{base_url}/v1/11776603-snapcraft_lrg.svg",
         alt="Snapcraft",
-        content="The app store with secure packages and ultra-reliable updates for multiple Linux distros",
+        content=(
+            "The app store with secure packages and ultra-reliable updates for"
+            " multiple Linux distros"
+        ),
         footer="snapcraft.io",
     ),
 ]
