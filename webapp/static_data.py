@@ -18,7 +18,7 @@ base_url = "https://assets.ubuntu.com"
 homepage_featured_products = [
     FeaturedProduct(
         link="https://ubuntu.com",
-        image="{base_url}/v1/25be0ace-products-ubuntu-wht-aubergine.svg",
+        image=f"{base_url}/v1/25be0ace-products-ubuntu-wht-aubergine.svg",
         alt="Ubuntu",
         content=(
             "The new standard secure enterprise Linux for servers, desktops,"
@@ -28,7 +28,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://ubuntu.com/security",
-        image="{base_url}/v1/c47655d3-products-security-wht-aubergine4.svg",
+        image=f"{base_url}/v1/c47655d3-products-security-wht-aubergine4.svg",
         alt="Security and support",
         content=(
             "Extended Security Maintenance, Kernel Livepatch, FIPS, enterprise"
@@ -38,7 +38,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://landscape.canonical.com",
-        image="{base_url}/v1/7f8d7403-products-landscape-wht.svg",
+        image=f"{base_url}/v1/7f8d7403-products-landscape-wht.svg",
         alt="Landscape",
         content=(
             "Updates, package management, repositories, security, and"
@@ -48,7 +48,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://maas.io",
-        image="{base_url}/v1/3c26ff14-products-maas-wht-aubergine2.svg",
+        image=f"{base_url}/v1/3c26ff14-products-maas-wht-aubergine2.svg",
         alt="MAAS",
         content=(
             "Dynamic server provisioning and IPAM gives you on-demand bare"
@@ -58,7 +58,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://linuxcontainers.org",
-        image="{base_url}/v1/a737970a-products-lxd-wht-aubergine4.svg",
+        image=f"{base_url}/v1/a737970a-products-lxd-wht-aubergine4.svg",
         alt="LXD",
         content=(
             "The pure-container hypervisor. Run legacy apps in secure"
@@ -68,7 +68,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://juju.is",
-        image="{base_url}/v1/1dee5076-products-juju-wht-aubergine2.svg",
+        image=f"{base_url}/v1/1dee5076-products-juju-wht-aubergine2.svg",
         alt="Juju",
         content=(
             "Model-driven cloud-native apps on public and private"
@@ -78,7 +78,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://ubuntu.com/openstack",
-        image="{base_url}/v1/0694ab7a-openstack_lrg.svg",
+        image=f"{base_url}/v1/0694ab7a-openstack_lrg.svg",
         alt="OpenStack",
         content=(
             "Upgrades, maintenance, support, and fully managed options for"
@@ -88,7 +88,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://ubuntu.com/kubernetes",
-        image="{base_url}/v1/32ef9123-kubernetes_lrg.svg",
+        image=f"{base_url}/v1/32ef9123-kubernetes_lrg.svg",
         alt="Kubernetes",
         content=(
             "App portability for K8s on VMware, Amazon, Azure, Google, Oracle,"
@@ -98,7 +98,7 @@ homepage_featured_products = [
     ),
     FeaturedProduct(
         link="https://snapcraft.io",
-        image="{base_url}/v1/11776603-snapcraft_lrg.svg",
+        image=f"{base_url}/v1/11776603-snapcraft_lrg.svg",
         alt="Snapcraft",
         content=(
             "The app store with secure packages and ultra-reliable updates for"
