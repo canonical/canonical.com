@@ -336,6 +336,16 @@ def application_withdrawal(token):
     withdrawal_reason_id = payload.get("withdrawal_reason_id")
     withdrawal_message = payload.get("withdrawal_message")
 
+    candidate_id = application["candidate"]["id"]
+
+    hiring_lead_name = application["hiring_lead"]["name"]
+    hiring_lead_email = application["hiring_lead"]["emails"]
+
+    application_url = (
+        f"https://canonical.greenhouse.io/people/{candidate_id}?"
+        f"application_id={payload['application_id']}"
+    )
+
     # call the Harvest API to reject the application
     response = harvest.reject_application(
         application["id"],
@@ -345,7 +355,29 @@ def application_withdrawal(token):
     )
     response.raise_for_status()
 
-    return flask.render_template("careers/application/withdrawal.html")
+    email_message = flask.render_template(
+        "careers/application/_withdrawal_notification-email.html",
+        applicant_name=application["candidate"]["first_name"],
+        hiring_lead_name=hiring_lead_name,
+        position=application["jobs"][0]["name"],
+        hiring_lead=application["hiring_lead"],
+        application_url=application_url,
+    )
+
+    debug_skip_sending = flask.current_app.debug
+    if not debug_skip_sending:
+        _send_mail(
+            hiring_lead_email,
+            "Candidate Withdrawal",
+            email_message,
+        )
+
+    return flask.render_template(
+        "careers/application/withdrawal.html",
+        debug_skip_sending=debug_skip_sending,
+        email_message=email_message,
+        hiring_lead_email=hiring_lead_email,
+    )
 
 
 @application.route("/<string:token>", methods=["POST"])

@@ -1,6 +1,27 @@
 {% extends 'base_index.html' %} 
 
 {% block content %}
+
+<section class="p-strip--image is-dark is-deep" style="background-position: 100% 0; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
+    {% if debug_skip_sending %}
+      <!--
+        We want to make it very clear when sending has been skipped, so we don't accidentally
+        end up skipping sending the email in production in a silent way that nobody notices.
+      -->
+
+      <div class="u-fixed-width">
+        <div class="p-notification--caution">
+          <div class="p-notification__content">
+            <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
+            <p>The following email would have been sent to {{ hiring_lead_email }}:</p>
+            <p><blockquote>{{ email_message | safe }}</blockquote></p>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+</section>
+
+
 <section class="p-strip--light is-deep">
   <div class="row">
     <h1>Your application has been withdrawn</h1>
