@@ -22,6 +22,7 @@ from slugify import slugify
 from webapp.application import application
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
+from webapp.static_data import homepage_featured_products
 
 app = FlaskBase(
     __name__,
@@ -157,7 +158,11 @@ def _get_all_departments() -> tuple:
 
 @app.route("/")
 def index():
-    return flask.render_template("index.html")
+    context = {
+        "featured_products": homepage_featured_products,
+    }
+
+    return flask.render_template("index.html", **context)
 
 
 @app.route("/sitemap.xml")

@@ -43,128 +43,22 @@
       <h4 class="p-muted-heading" style="max-width: none; text-transform: capitalize;">Best Enterprise Security. Best Datacenter Automation. Best Developer Experience. Best App Store. Best Devices.</h4>
     </div>
   </div>
-  <div class="row u-equal-height" style="grid-gap: 1rem;">
+  <div class="row u-equal-height" style="grid-gap: 0 1rem;">
+    {% for product in featured_products %}
     <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
       <div class="p-card--strip u-no-padding">
         <div class="p-strip is-shallow">
-          <a href="https://ubuntu.com">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/25be0ace-products-ubuntu-wht-aubergine.svg" alt="Ubuntu">
+          <a href="{{product.link}}" class="u-flex">
+            <img class="p-card__thumbnail" src="{{product.image}}" alt="{{product.alt}}">
           </a>
         </div>
         <div class="p-card__content">
-          <p>The new standard secure enterprise Linux for servers, desktops, cloud, developers and things</p>
-          <p><a href="https://ubuntu.com">ubuntu.com&nbsp;&rsaquo;</a></p>
+          <p>{{product.content}}</p>
+          <p><a href="{{product.link}}">{{product.footer}}&nbsp;&rsaquo;</a></p>
         </div>
       </div>
     </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://ubuntu.com/security">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/c47655d3-products-security-wht-aubergine4.svg" alt="Security and support">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>Extended Security Maintenance, Kernel Livepatch, FIPS, enterprise support and certification</p>
-          <p><a href="https://ubuntu.com/security">ubuntu.com/security&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://landscape.canonical.com">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/7f8d7403-products-landscape-wht.svg" alt="Landscape">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>Updates, package management, repositories, security, and regulatory compliance for Ubuntu</p>
-          <p><a href="https://landscape.canonical.com">landscape.canonical.com&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row u-equal-height" style="grid-gap: 1rem;">
-    <div class="col-4 u-equal-height"  data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://maas.io">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/3c26ff14-products-maas-wht-aubergine2.svg" alt="MAAS">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>Dynamic server provisioning and IPAM gives you on-demand bare metal, a physical cloud</p>
-          <p><a href="https://maas.io">maas.io&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://linuxcontainers.org">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/a737970a-products-lxd-wht-aubergine4.svg" alt="LXD">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>The pure-container hypervisor. Run legacy apps in secure containers for speed and density</p>
-          <p><a href="https://ubuntu.com/lxd">ubuntu.com/lxd&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://juju.is">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/1dee5076-products-juju-wht-aubergine2.svg" alt="Juju">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>Model-driven cloud-native apps on public and private infrastructure and CAAS</p>
-          <p><a href="https://juju.is">juju.is&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row u-equal-height" style="grid-gap: 1rem;">
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://ubuntu.com/openstack">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/0694ab7a-openstack_lrg.svg" alt="OpenStack">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>Upgrades, maintenance, support, and fully managed options for long-term low-cost infrastructure</p>
-          <p><a href="https://ubuntu.com/openstack">ubuntu.com/openstack&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://ubuntu.com/kubernetes">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/32ef9123-kubernetes_lrg.svg" alt="Kubernetes">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>App portability for K8s on VMware, Amazon, Azure, Google, Oracle, IBM and bare metal</p>
-          <p><a href="https://ubuntu.com/kubernetes">ubuntu.com/kubernetes&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 u-equal-height" data-animation="u-animation--slide-from-bottom">
-      <div class="p-card--strip u-no-padding">
-        <div class="p-strip is-shallow">
-          <a href="https://snapcraft.io">
-            <img class="p-card__thumbnail" src="https://assets.ubuntu.com/v1/11776603-snapcraft_lrg.svg" alt="Snapcraft">
-          </a>
-        </div>
-        <div class="p-card__content">
-          <p>The app store with secure packages and ultra-reliable updates for multiple Linux distros</p>
-          <p><a href="https://snapcraft.io">snapcraft.io&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <div class="row u-equal-height u-extra-space" style="grid-gap: 1rem;">
     <div class="col-2 u-equal-height" data-animation="u-animation--slide-from-bottom">
