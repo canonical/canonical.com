@@ -17,7 +17,7 @@
         </div>
         <p>Connect with partners from around the globe to learn about open source, from data centre to the cloud.</p>
         <p>
-          <a href="#get-in-touch" class="p-button--positive js-invoke-modal" data-testid="interactive-form-link">Contact us</a>
+          <a href="/partners/become-a-partner" class="p-button--positive" id="showModal" aria-controls="executive-summit-modal">Contact us</a>
         </p>
       </div>
       <div class="col-6 col-medium-3">
@@ -186,5 +186,11 @@
       </div>
     </div>
   </section>
+
+  {% with %}
+    {% set formid = "" %}
+    {% set returnURL = "https://canonical.com/partners/executive-summit#success" %}
+    {% include "partners/partial/_executive-summit-form.html" %}
+  {% endwith %}
 
 {% endblock %}
