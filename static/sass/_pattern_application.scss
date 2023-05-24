@@ -11,10 +11,13 @@
         padding-left: 3.5rem !important;
 
         &::before {
+          border-radius: 50%;
           font-size: 1rem;
           font-weight: 500;
+          height: 2rem !important;
           line-height: 1.9rem !important;
           margin-top: 0.6rem !important;
+          text-align: center;
           width: 2rem !important;
         }
       }
@@ -64,13 +67,15 @@
           &::before {
             background-color: $color-x-dark;
             color: $color-light;
+            content: counter(li);
           }
         }
 
         &--stepper-not-completed {
           &::before {
             background-color: $color-x-light;
-            border: 1px solid $color-x-dark;
+            border: 3px solid $color-x-dark;
+            content: counter(li);
           }
         }
       }
