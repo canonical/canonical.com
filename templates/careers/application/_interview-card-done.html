@@ -4,5 +4,9 @@
   {% if interview["stage_name"]  == "Talent Interview" %}
   <p class="p-card__content u-sv1">Talent team interview to discuss your CV history, choices and decisions you have made throughout your career and to discuss your behavioural assessment.</p>
   {% endif %}
-  <p class="p-card__content u-sv1">{{ interview["start"]["datetime"].strftime('%d %B') }}, with {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
+  <p class="p-card__content u-sv2">{{ interview["start"]["datetime"].strftime('%d %B') }}, with {% for interviewer in interview["interviewers"] %}{% if loop.index > 1 %}, {% endif %}{{ interviewer["name"] }}{% endfor %}</p>
+  {% if interview["stage_name"]  == "Talent Interview" %}
+  <p class="p-card__content u-sv1">Once completed, your behavioural assement will be avaiable in the <a href="#assessment" onclick="showProgressDetail('assessment');">Assessment</a> section.</p>
+  {% endif %}
+
 </div>

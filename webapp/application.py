@@ -233,6 +233,18 @@ def _get_application_from_token(token):
     return _get_application(token_application_id)
 
 
+def _get_gia_feedback(attachments):
+    feedback_attachments = []
+    THOMAS_FILENAME = "Thomas_International_Candidate_Feedback.pdf"
+    for attachment in attachments:
+        if attachment["filename"] and attachment["filename"].endswith(
+            THOMAS_FILENAME
+        ):
+            feedback_attachments.append(attachment)
+
+    return feedback_attachments
+
+
 def _confirmation_token(
     email, withdrawal_reason_id, withdrawal_message, application_id
 ):
@@ -315,6 +327,10 @@ def application_index(token):
         if application["rejection_reason"]["type"]["id"] == 2:
             withdrawn = True
 
+    gia_feedback = _get_gia_feedback(application["attachments"])
+    if gia_feedback:
+        application["gia_feedback"] = gia_feedback
+
     return flask.render_template(
         "careers/application/index.html",
         withdrawal_reasons=withdrawal_reasons,
@@ -323,6 +339,31 @@ def application_index(token):
         candidate=application["candidate"],
         withdrawn=withdrawn,
     )
+
+
+@application.route("/get-report/<string:token>", methods=["POST"])
+def application_report(token):
+    try:
+        application = _get_application_from_token(token)
+    except InvalidToken:
+        return flask.jsonify(
+            {"status": "error", "message": "Could not find application"}
+        )
+    submitted_email = flask.request.json["request-assessment-email"]
+    candidate_email = application["candidate"]["email_addresses"][0]["value"]
+
+    if candidate_email.lower() != submitted_email.lower():
+        return flask.jsonify(
+            {
+                "status": "error",
+                "message": "The email you entered does not match the one "
+                "from your application.",
+            }
+        )
+
+    gia_feedback = _get_gia_feedback(application["attachments"])
+    if gia_feedback:
+        return flask.jsonify({"status": "success", "message": gia_feedback})
 
 
 @application.route("/withdraw/<string:token>")
