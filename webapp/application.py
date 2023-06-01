@@ -6,6 +6,10 @@ from email.message import EmailMessage
 from email.utils import parseaddr
 from smtplib import SMTP
 from typing import Dict, List, Tuple
+from gql import Client, gql
+from gql.transport.requests import RequestsHTTPTransport
+from requests.exceptions import HTTPError
+
 
 import flask
 import talisker.requests
@@ -73,9 +77,45 @@ harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
 
+directory_api_url = "https://directory.wpe.internal/graphql/"
+directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
 
 # Helpers
 # ===
+
+
+def _get_employee_directory_data(employee_id: str):
+    """
+    Get directory data of an employee given the
+    employee_id
+    """
+    transport = RequestsHTTPTransport(
+        url=directory_api_url,
+        headers={"Authorization": directory_api_token},
+        use_json=True,
+        verify=False,
+    )
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    filter_term = r"{id: $id}"
+    query = gql(
+        """
+            query getEmployee($id: ID!){
+                employees(filter:%s) {
+                    id
+                    name
+                    bio
+                    avatar
+                }
+            }
+        """
+        % filter_term
+    )
+    result = client.execute(query, variable_values={"id": employee_id}).get(
+        "employees"
+    )
+    # It should always return 1 employee if employee_id is unique
+    # and we have data consistency in the directory DB
+    return result[0]
 
 
 def _sort_stages_by_milestone(
@@ -185,12 +225,42 @@ def _get_application(application_id):
     # Retrieve hiring lead from first job
     job_id = application["jobs"][0]["id"]
     job = harvest.get_job(job_id)
-    with open("webapp/hiring_leads.json") as json_file:
-        application["hiring_leads_list"] = json.load(json_file)
 
     for recruiter in job["hiring_team"]["recruiters"]:
         if recruiter["responsible"]:
             application["hiring_lead"] = harvest.get_user(recruiter["id"])
+
+            try:
+                employee_data = _get_employee_directory_data(
+                    recruiter["employee_id"]
+                )
+                application["hiring_lead"]["avatar"] = employee_data["avatar"]
+                # Split bio into a list, as it was previously
+                if employee_data["bio"]:
+                    application["hiring_lead"]["bio"] = employee_data[
+                        "bio"
+                    ].split("\\n")
+                else:
+                    application["hiring_lead"]["bio"] = None
+
+            except HTTPError as error:
+                print(error)
+
+            if (
+                # Currently only user with video
+                # as we don't have a source to pull this video from
+                # we still use the hiring_leads.json
+                recruiter["employee_id"] == "4268"
+                or recruiter["employee_id"] == "4289"
+            ):
+                with open("webapp/hiring_leads.json") as json_file:
+                    hiring_lead_list = json.load(json_file)
+                    application["hiring_lead"]["video_src"] = hiring_lead_list[
+                        recruiter["employee_id"]
+                    ]["video_src"]
+
+            else:
+                application["hiring_lead"]["video_src"] = None
             break
 
     stages = harvest.get_stages(job_id)
