@@ -360,7 +360,7 @@
   });
 
   function updateURL() {
-    if (search_term == "") {
+    if (search_term == "" && window.location.pathname === "/careers/all") {
       urlParams.delete("search");
       window.location = `${baseURL}/?${urlParams.toString()}`;
     }

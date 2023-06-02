@@ -2,17 +2,40 @@
   @include vf-u-truncate;
   @include vf-u-text-muted;
 
+
+  .p-search-roles {
+    &__form {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      
+       @media screen and (min-width: $breakpoint-large) {
+          flex-direction: row;
+        }
+    }
+
+    &__group {
+      max-width: 27.6875rem;
+      padding-right: 1.5rem;
+      width: 100%;
+    }
+  }
+
   .p-search-panel {
-    margin-top: 2.3rem;
-    position : absolute;
+    position : relative;
     width: 100%;
 
     .p-search-panel__container {
       background: #fff;
-      border:  1px solid #000;
+      border: 1px solid #000;
       border-top-color: transparent;
       max-height: 15rem;
+      max-width: 27rem;
       overflow-y: scroll;
+      position: absolute;
+      top: -1rem;
+      width: 100%;
+      z-index: 3;
 
       &::-webkit-scrollbar-track {
         background-color: #fafafa;
@@ -31,10 +54,6 @@
         min-height: 100px;
         width: 0.8rem;
       }
-
-      position: absolute;
-      width: 100%;
-      z-index: 34;
 
       .p-list__item {
         padding: 0.5rem 1rem;

@@ -1,10 +1,12 @@
 {% extends 'careers/base.html' %}
 
-{% block meta_copydoc %}https://docs.google.com/document/d/1pNyOXfR07FiBr6TmEMRdB7NZUB5SeBz6COuSxO3ylC0{% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1o8ind3Zav-kwrUDWgiMJnkw2QLpniKgdlWrw9byIvlE/edit#heading=h.ov7lrxgwh2dv{% endblock meta_copydoc %}
 
 {% block title %}Careers{% endblock %}
 
 {% block meta_description %}Canonical publishes Ubuntu, provides commercial services and solutions for Ubuntu, and works with hardware manufacturers, software vendors and public clouds to certify Ubuntu.{% endblock %}
+
+{% set is_paper = True %}
 
 {% block content %}
 <!-- StackOverflow ad tracking pixel -->
@@ -18,79 +20,115 @@
   <img src='https://pubads.g.doubleclick.net/activity;xsp=5024608;ord=1?' width=1 height=1 border=0>
 </noscript>
 
-<section class="p-strip--image is-dark is-deep" style="background-image: url(https://assets.ubuntu.com/v1/aebc1742-01_suru2_dark_2K.png); background-position: 100% 55%; background-size: 180%; background-repeat: repeat-x;">
+<section class="p-section">
+  <div class="u-fixed-width">
+    <div class="p-breadcrumbs u-sv1" aria-label="Breadcrumbs">
+      <ol class="p-breadcrumbs__items p-text--x-small-capitalised">
+          <li class="p-breadcrumbs__item ">Careers</li>
+      </ol>
+    </div>
+    <h1 class="p-text--x-small-capitalised u-off-screen">Careers</h1>
+    <hr class="p-rule">
+  </div>
   <div class="row">
-    <div class="col-8 col-start-large-4">
-      <h1 class="p-heading--2">Make a difference in open source</h1>
+    <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
+      <div class="p-block">
+      <div class="p-section">
+        <h2 class="u-no-margin--bottom"><strong>Passionate about open source? So are we. </strong><br class="u-hide--small u-hide--medium"><span>Be where the cutting edge is established.</span></h2>
+      </div>
+
       {% if vacancies %}
         {% include "careers/_search.html" %}
       {% endif %}
     </div>
   </div>
+  <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
+    <div class="p-suru25light"></div>
+  </div>
 </section>
 
 {% if departments_overview %}
-<section class="p-strip--light">
+<section class="p-section">
   <div class="u-fixed-width">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Departments</h2>
-    <hr>
+    <hr class="p-rule">
   </div>
   <div class="row">
-    {% for dept in departments_overview %}
-    <div class="col-3 col-medium-2 col-small-2">
-      <div class="p-heading-icon--small">
-        <div class="p-heading-icon__header">
-          <img src="https://assets.ubuntu.com/v1/{{dept.icon}}" class="p-heading-icon__img" style="width: 32px; height: 32px; position: relative; top: 7px;" alt="">
-          <p class="p-heading-icon__title">
-            <a href="/careers/{{dept.slug}}"><strong>{{ dept.name }}</strong></a><br />
-            <span>{{ dept.count }} roles</span>
-          </p>
+    <div class="col-12 col-medium-2 p-block">
+      <h2 class="p-text--x-small-capitalised">Departments</h2>
+    </div>
+    <div class="col-12 col-medium-4">
+      <div class="row">
+        {% for dept in departments_overview %}
+        <div class="col-2 col-medium-12 col-small-12 p-department-cards__container">
+          <a href="/careers/{{dept.slug}}" style="text-decoration: none">
+          <div class="p-department-cards__card">
+            <div class="p-department-cards__image-container">
+              <img src="https://assets.ubuntu.com/v1/{{dept.icon}}" class="p-department-cards__image" alt="">
+              <strong class="p-department-cards__link">{{ dept.name }}</strong><br />
+            </div>
+            <div>
+              <span>{{ dept.count }} roles</span>
+            </div>
+          </div>
+          {% if not loop.last %}
+            <hr class="p-rule u-hide--large" />
+          {% endif %}
+          </a>
         </div>
+        {% endfor %}
       </div>
     </div>
-    {% if loop.index % 4 == 0 and not loop.last  %}
-    <hr class="u-hide u-show--large"/>
-    {% endif %}
-    {% endfor %}
-  </div>
+</div>
+
 </section>
 {% endif %}
 
-<section class="p-strip">
-  <div class="row ">
-    <div class="col-3">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Our Mission</h2>
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule">
+  </div>
+
+  <div class="p-block">
+    <div class="row">
+      <div class="col-3 col-medium-2 p-block">
+        <h2 class="p-text--x-small-capitalised">Our Mission</h2>
+      </div>
+      <div class="col-9 col-medium-4">
+	<div class="p-block">
+	  <p class="p-heading--2">We amplify <br class="u-hide--small" /> the impact of open source</p>
+	</div>
+        <p>We help people and organisations tap into the power of open source to develop new products at speed and with confidence. Whether it’s powering up self-driving cars or enabling compute for scientific discovery, we are here to deliver the best open source experience.</p>
+        <p>Every team member contributes to this mission with a commitment to excellence.</p>
+        <p>
+          <a class="p-button" href="/careers/company-culture">Our work culture</a>
+        </p>
+      </div>
     </div>
-    <div class="col-9">
-      <p class="p-heading--2">Seamless consumption of open source<br class="u-hide--small">across the compute spectrum</p>
-      <p>Join an intense global mission &ndash; to deliver the world's best open source experience,<br class="u-hide--small">from platform to application</p>
-    </div>
+  </div>
+  <div class="u-fixed-width">
+    <img src="https://assets.ubuntu.com/v1/da3fbf74-summit2022_crowd.png" width="100%" alt="Canonical employees at Ubuntu Summit 2022">
   </div>
 </section>
 
-<section class="p-strip is-shallow u-no-padding--bottom">
-  <div class="p-strip u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium u-sv3">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/f540ae09-more-real-travel-image.png",
-        alt="",
-        width="1330",
-        height="500",
-        hi_def=True,
-        loading="lazy",
-        ) | safe
-      }}
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule">
+  </div>
+  <div class="row">
+    <div class="col-3 col-medium-2 p-block">
+      <h3 class="p-muted-heading">Working here</h3>
     </div>
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-3">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Remote working</h2>
-      </div>
-      <div class="col-9">
-        <p class="p-heading--2">Less commuting, more real travel</p>
-        <p>Canonical is uniquely global &ndash; we hire the best open source team, regardless of nationality or language, creed or colour.</p>
-      </div>
-    </div>
+    <div class="col-9 col-medium-4">
+      <p class="p-heading--2"><a href="/careers/travel">Remote work</a></p>
+      <hr class="p-rule">
+      <p class="p-heading--2"><a href="/careers/progression">Progression</a></p>
+      <hr class="p-rule">
+      <p class="p-heading--2"><a href="/careers/diversity">Diversity</a></p>
+			<hr class="p-rule">
+      <p class="p-heading--2"><a href="/careers/sustainability">Sustainability</a></p>
+      <hr class="p-rule">
+      <p class="p-heading--2"><a href="/careers/application/faq">FAQs</a></p>
+  </div>
   </div>
 </section>
 

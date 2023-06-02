@@ -1,10 +1,10 @@
 {% if vacancies %}
-<div class="js-search-jobs-form p-form-container u-align--bottom">
-  <form action="/careers/all" class="p-form p-form--inline p-form--search">
-    <div class="p-form__group" style="flex-direction: column;">
+<div class="js-search-jobs-form p-search-roles">
+  <form action="/careers/all" class="p-search-roles__form">
+    <div class="p-search-roles__group">
       <label class="u-off-screen" for="search">Search</label>
-      <div class="p-form__control u-clearfix u-no-padding--right">
-        <input class=" js-careers__search-input" id="search" type="search" name="search" value="" placeholder="Search by keyword" autocomplete="off"/>
+      <div class="p-search-roles__control u-clearfix u-no-padding--right">
+        <input class="js-careers__search-input" id="search" type="search" name="search" value="" placeholder="Search by keyword" autocomplete="off"/>
       </div>
       <div class="p-search-panel u-hide">
         <div class="p-search-panel__container">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <button type="submit"  alt="search roles" class="p-button--positive">Search roles</button>
+    <button type="submit"  alt="search roles" class="p-button--positive" style="white-space: nowrap">Search roles</button>
   </form>
 </div>
 <script src="{{ versioned_static('js/modules/fuse/fuse.js') }}"></script>
@@ -34,7 +34,7 @@
     searchInput.addEventListener('input', e => {
       searchTerm = e.target.value;
       showAutoComplete(searchTerm, vacancies);
-    });   
+    });
     showAutoComplete("", vacancies);
 
     if (containerDiv) {
