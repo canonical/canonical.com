@@ -106,7 +106,7 @@ class Vacancy:
         self.location: str = job["location"]["name"]
         self.employment: str = _get_metadata(job, "employment")
         self.date: str = job["updated_at"]
-        self.questions: dict = job.get("questions", {})
+        self.questions: dict = self.parse_questions(job)
         self.departments: list = list(
             map(
                 lambda d: Department(d),
@@ -123,6 +123,18 @@ class Vacancy:
         self.is_remote: bool = False if job["offices"][0]["location"] else True
         self.featured: str = _get_metadata(job, "is_featured")
         self.fast_track: str = _get_metadata(job, "is_fast_track")
+
+    def parse_questions(self, job):
+        questions = job.get("questions", {})
+        for question in questions:
+            if question["description"]:
+                question["description"] = (
+                    question["description"]
+                    .replace("</p>\n<p>", "<br />")
+                    .replace("<p>", "")
+                    .replace("</p>", "")
+                )
+        return questions
 
     def to_dict(self):
         return {
