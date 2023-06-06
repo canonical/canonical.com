@@ -1,6 +1,6 @@
 {% extends '/careers/base_job-details.html' %}
 
-{% block title %}{{ application["candidate"]["first_name"] }}, application for {{ application["jobs"][0]["name"] }}{% endblock %}
+{% block title %}{{ application["candidate"]["first_name"] }}, application for {{ application["role_name"] }}{% endblock %}
 
 {% block extra_metatags %}
   <meta name="robots" content="noindex">
@@ -79,7 +79,7 @@
 
       <div class="row">
         <div class="col-12">
-          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["job_post"]["title"] or application["jobs"][0]["name"] }}</h1>
+          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["role_name"] }}</h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 and application['job_post_id'] %}
             <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Read more about this role&nbsp;&rsaquo;</a></p>
           </div>
