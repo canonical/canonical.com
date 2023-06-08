@@ -158,6 +158,18 @@ def _milestones_progress(stages, current_stage=None):
     return progress
 
 
+def _calculate_job_title(application):
+    """
+    If the applied for job id matches the job post > job id then the job post
+    title is the current role. If not the application has been transferred to
+    another role so return that name.
+    """
+    if application["jobs"][0]["id"] == application["job_post"]["job_id"]:
+        return application["job_post"]["title"]
+    else:
+        return application["jobs"][0]["name"]
+
+
 def _get_application(application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
@@ -211,6 +223,7 @@ def _get_application(application_id):
         ]
 
     application["to_be_rejected"] = False
+    application["role_name"] = _calculate_job_title(application)
 
     if application["rejected_at"]:
         if not application["rejection_reason"]["type"]["id"] == 2:
