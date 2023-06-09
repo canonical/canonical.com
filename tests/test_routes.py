@@ -58,7 +58,12 @@ class TestRoutes(VCRTestCase):
         we should return a 200 status code
         """
 
-        self.assertEqual(self.client.get("/careers/travel").status_code, 200)
+        self.assertEqual(
+            self.client.get(
+                "/careers/company-culture/remote-work"
+            ).status_code,
+            200,
+        )
         self.assertEqual(
             self.client.get("/careers/sustainability").status_code, 200
         )

@@ -351,7 +351,7 @@ def all_careers():
     )
 
 
-@app.route("/careers/travel")
+@app.route("/careers/company-culture/remote-work")
 @app.route("/careers/sustainability")
 def working_here_pages():
     sprint_locations = [
@@ -417,7 +417,11 @@ def working_here_pages():
     ]
 
     return flask.render_template(
-        f"{flask.request.path}.html", sprint_locations=sprint_locations
+        f"{flask.request.path}.html",
+        sprint_locations=sprint_locations,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
     )
 
 
