@@ -52,7 +52,7 @@ class TestRoutes(VCRTestCase):
             self.client.get("/careers/administration").status_code, 200
         )
 
-    def test_working_here_pages(self):
+    def test_company_culture_pages(self):
         """
         When given the index URL,
         we should return a 200 status code
@@ -65,7 +65,23 @@ class TestRoutes(VCRTestCase):
             200,
         )
         self.assertEqual(
-            self.client.get("/careers/company-culture/sustainability").status_code, 200
+            self.client.get(
+                "/careers/company-culture/sustainability"
+            ).status_code,
+            200,
+        )
+        self.assertEqual(
+            self.client.get(
+                "/careers/company-culture/progression"
+            ).status_code,
+            200,
+        )
+        self.assertEqual(
+            self.client.get("/careers/company-culture/diversity").status_code,
+            200,
+        )
+        self.assertEqual(
+            self.client.get("/careers/company-culture").status_code, 200
         )
 
     def test_invalid_careers_department(self):
@@ -75,16 +91,6 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/careers/foo").status_code, 404)
-
-    def test_careers_progression(self):
-        """
-        When given the URL of careers progression page,
-        we should return a 200 status code
-        """
-
-        self.assertEqual(
-            self.client.get("/careers/progression").status_code, 200
-        )
 
     def test_partners_detail_pages(self):
         """
@@ -103,24 +109,3 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
-
-    def test_company_culture(self):
-        """
-        When given the URL of company culture page,
-        we should return a 200 status code
-        """
-
-        self.assertEqual(
-            self.client.get("/careers/company-culture").status_code, 200
-        )
-
-    def test_diversity(self):
-        """
-        When given the URL of careers diversity page,
-        we should return a 200 status code
-        """
-
-        self.assertEqual(
-            self.client.get("/careers/company-culture/diversity").status_code,
-            200,
-        )
