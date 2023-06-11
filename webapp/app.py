@@ -281,6 +281,17 @@ def start_career():
     return flask.render_template("/careers/career-explorer.html")
 
 
+@app.route("/careers/roles.json")
+def roles():
+    """
+    API endpoint for _navigation to consume
+    roles by department section with the up to date roles.
+    """
+
+    all_departments, departments_overview = _get_all_departments()
+    return flask.jsonify(departments_overview)
+
+
 @app.route("/careers")
 def careers_index():
     """
