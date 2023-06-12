@@ -9,7 +9,8 @@ $color-brand: #7c355d;
 $color-dark: #262626;
 $color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
-$p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
+$p-small-lh-diff: map-get($line-heights, default-text) -
+  map-get($line-heights, small);
 
 @import "pattern_animations";
 @import "pattern_application";
@@ -252,15 +253,15 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-navigation__dropdown
   > li:not(:first-child)
   > .p-navigation__dropdown-item::before {
-    @media (min-width: $breakpoint-navigation-threshold) {
-      background: rgba(255 255 255 / 10%);
-      bottom: 0;
-      content: "";
-      height: 1px;
-      left: 1rem;
-      position: absolute;
-      right: 0;
-    }
+  @media (min-width: $breakpoint-navigation-threshold) {
+    background: rgba(255 255 255 / 10%);
+    bottom: 0;
+    content: "";
+    height: 1px;
+    left: 1rem;
+    position: absolute;
+    right: 0;
+  }
 }
 
 .p-navigation__sub-list {
@@ -385,14 +386,14 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   margin-top: 1rem;
   padding: calc(1rem - 1px);
 
-  @media screen and (max-width: $breakpoint-small){
+  @media screen and (max-width: $breakpoint-small) {
     height: auto;
   }
 
   &:nth-child(2) {
     background-position: -1104px 49px;
 
-    @media screen and (max-width: $breakpoint-small){
+    @media screen and (max-width: $breakpoint-small) {
       background-position: -1055px 49px;
     }
   }
@@ -400,7 +401,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   &:nth-child(3) {
     background-position: -1300px 65px;
 
-    @media screen and (max-width: $breakpoint-small){
+    @media screen and (max-width: $breakpoint-small) {
       background-position: -1300px 55px;
     }
   }
@@ -409,7 +410,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-strip--careers {
   @extend .p-strip--dark;
 
-  background-image: url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg');
+  background-image: url("https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg");
   background-position: 100 0%;
   background-size: cover;
 
@@ -454,7 +455,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   @extend .p-strip;
 
   background-color: #f4f4f3;
-  background-image: url('https://assets.ubuntu.com/v1/6ee7af42-0_website_suru_25.png');
+  background-image: url("https://assets.ubuntu.com/v1/6ee7af42-0_website_suru_25.png");
   background-position: center 105%;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -478,12 +479,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 .p-heading--bold {
   font-weight: $font-weight-bold;
-}
-
-/// pete f - 09/05/2023
-/// can be removed once added upstream
-.is-paper {
-  background-color: #f3f3f3;
 }
 
 /// ochuko p. 17/05/2023
@@ -514,7 +509,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   background-size: contain;
 }
 
-.p-department-cards__container {  
+.p-department-cards__container {
   aspect-ratio: auto;
   background-color: #fff;
 
@@ -547,7 +542,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
     .p-department-cards__link {
       color: $color-link;
-      
+
       &:hover {
         text-decoration: underline;
       }
@@ -559,7 +554,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
       top: 0.4375rem;
       width: 2rem;
     }
-    
+
     .p-department-cards__image-container {
       align-items: center;
       display: flex;
@@ -580,14 +575,13 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 .p-suru25light {
   background-color: #f3f3f3;
-  background-image: url('https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg');
+  background-image: url("https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg");
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100%;
   max-width: $grid-max-width;
   padding-top: 19%;
 }
-
 
 // Remote work collage
 .p-remote-work__collage-container {
@@ -638,7 +632,31 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
     @media screen and (max-width: 688px) {
       height: 181px;
-      width: 121px;  
+      width: 121px;
+    }
+  }
+}
+
+.p-overlayed-section {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  grid-template-rows: 477px 106px 1fr;
+
+  &__illustration {
+    background-repeat: no-repeat;
+    background-size: cover;
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  &__content {
+    background-color: $color-paper;
+    grid-column: 1 / 3;
+    grid-row: 2 / 4;
+
+    @media screen and (min-width: $breakpoint-large) {
+      grid-column: 2;
+      padding: $sp-xxxx-large $sp-medium $sp-xxxx-large $sp-xxxx-large;
     }
   }
 }
