@@ -164,7 +164,10 @@ def _calculate_job_title(application):
     title is the current role. If not the application has been transferred to
     another role so return that name.
     """
-    if application["jobs"][0]["id"] == application["job_post"]["job_id"]:
+    if (
+        application["job_post"]
+        and application["jobs"][0]["id"] == application["job_post"]["job_id"]
+    ):
         return application["job_post"]["title"]
     else:
         return application["jobs"][0]["name"]
