@@ -352,7 +352,7 @@ def all_careers():
 
 
 @app.route("/careers/company-culture/remote-work")
-@app.route("/careers/sustainability")
+@app.route("/careers/company-culture/sustainability")
 def working_here_pages():
     sprint_locations = [
         [{"lat": 51.53910042435768, "lng": -0.1416575585467801}, "London"],
