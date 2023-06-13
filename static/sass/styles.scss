@@ -637,15 +637,24 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-overlayed-section {
-  display: grid;
-  grid-template-columns: 2fr 8fr;
-  grid-template-rows: 477px 106px 1fr;
+  display: flex;
+
+  @media screen and (min-width: $breakpoint-large) {
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    grid-template-rows: 33rem 7rem 1fr;
+  }
 
   &__illustration {
-    background-repeat: no-repeat;
-    background-size: cover;
-    grid-column: 1 / 3;
-    grid-row: 1 / 3;
+    display: none;
+
+    @media screen and (min-width: $breakpoint-large) {
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: block;
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
   }
 
   &__content {
