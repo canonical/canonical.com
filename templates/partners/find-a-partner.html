@@ -162,12 +162,8 @@
       </div>
       <div class="col-9 ">
         <div id="results" class="p-find-a-partner">
-          <div class="u-fixed-width is-inline">
-
-            <h3 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-sv3">Partners</h3>
-            <span class="p-label--information p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;">All</span>
-          </div>
-
+          <h3 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-sv3" style="display: inline-block;">Partners</h3>
+          <span class="p-label--information p-tooltip--top-center js-find-a-partner__number" style="border-radius: 3rem;">All</span>
           <div class="u-fixed-width">
             <div class="p-notification js-find-a-partner__no-results u-hide">
               <p class="p-notification__content">
@@ -194,7 +190,6 @@
                     {% endif %}
                   </p>
                   <p>{{ partner['short_description']|markup|safe }}</p>
-                  
                 </div>
                 <hr class="is-rule u-no-margin--bottom">
               </div>
@@ -207,22 +202,4 @@
   </section>
 
   <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
-  <script>
-    function displayFilters () {
-      const toggle = (element, show) => {
-        element.setAttribute('aria-expanded', show);
-        document
-          .querySelector(element.getAttribute('aria-controls'))
-          .setAttribute('aria-hidden', !show);
-      }
-      document
-        .querySelector(".p-button--accordion")
-        .addEventListener('click', e => {
-          const target = e.target;
-          const isTargetOpen = target.getAttribute('aria-expanded') === 'true';
-          toggle(target, !isTargetOpen);
-      });
-    }
-    displayFilters ();
-  </script>
 {% endblock %}
