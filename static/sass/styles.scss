@@ -9,7 +9,8 @@ $color-brand: #7c355d;
 $color-dark: #262626;
 $color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
-$p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
+$p-small-lh-diff: map-get($line-heights, default-text) -
+  map-get($line-heights, small);
 
 @import "pattern_animations";
 @import "pattern_application";
@@ -637,20 +638,32 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-overlayed-section {
+  $second-row: #{$spv--strip-regular + map-get($line-heights, h2-mobile) +
+    map-get($nudges, h1)};
+
+  display: grid;
+  grid-template-rows: auto $second-row 1fr;
+
   &__illustration {
     display: none;
-    
+
     @media screen and (min-width: $breakpoint-large) {
       aspect-ratio: 2.43;
       background-repeat: no-repeat;
       background-size: cover;
       display: block;
-      margin-bottom: -#{$spv--strip-regular + map-get($line-heights, h2-mobile) + map-get($nudges, h1)};
+      grid-column: 1;
+      grid-row: 1 / 3;
     }
+  }
+
+  > .row {
+    grid-column: 1;
+    grid-row: 2 /4;
   }
 
   &__content {
     @extend %section-padding--default;
-   background-color: $color-paper;
+    background-color: $color-paper;
   }
 }
