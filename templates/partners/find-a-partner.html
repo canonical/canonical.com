@@ -27,8 +27,41 @@
             <button type="reset" class="p-search-box__reset u-no-margin--right" alt="reset"><i class="p-icon--close"></i></button>
             <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
           </form>
-          </div>
         </div>
+      </div>
+    </div>
+    <div class="row u-hide--large u-hide--medium">
+      <div class="u-fixed-width">
+        <div class="p-block">
+          <button class="p-button--partners-filters is-inline" aria-pressed="false" onclick="toggleFilters()" id="toggle-filters">
+            <span>Toggle filters</span>
+          </button>
+          <button class="p-button is-inline">
+            Clear filters
+          </button>
+
+        </div>
+        <aside class="p-accordion">
+          <ul class="p-accordion__list">
+            <li class="p-accordion__group">
+              <div class="p-accordion__heading" role="heading" aria-level="3">
+                <button class="p-accordion__tab p-button" type="button" id="filter-tab-on" aria-controls="filter-tab-on-section" aria-expanded="false">
+                  <span>Toggle filters</span>
+                </button>
+              </div>
+              <section class="p-accordion__panel" id="filter-tab-on-section" aria-hidden="true" aria-labelledby="filter-tab-on">
+                ggnfnfgn
+              </section>
+            </li>
+            <li class="p-accordion__group">
+              <div class="p-accordion__heading">
+                <button class="p-accordion__tab p-button">
+                  <span>Clear filters</span>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </aside>
       </div>
     </div>
   </section>
@@ -37,7 +70,7 @@
     <hr class="p-rule is-fixed-width">
     <div class="row">
       <div class="col-3">
-        <div class="row">
+        <div class="row u-hide--small" id="filters">
             <div class="p-section col-3">
               <h2 class="p-muted-heading">Filters</h2>
             </div>
@@ -146,14 +179,11 @@
             </div>
             {% if partners %}
               {% for partner in partners %}
-              {% if loop.index > 1 %}
-                <hr class="p-rule">
-              {% endif %}
-              <div class="p-block">
-                <div class="row js-find-a-partner__partner" id="{{ partner['slug'] }}" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
+              <div class="p-block js-find-a-partner__partner" id="{{ partner['slug'] }}" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
+                <div class="row">
                   <div class="col-3 col-medium-2">
                     {% if partner['logo'] %}
-                      <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" loading="lazy">              
+                      <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-width: 10rem;" loading="lazy">              
                     {% endif %}
                   </div>
                   <div class="col-6 col-medium-4">
@@ -166,6 +196,7 @@
                     </p>
                     <p>{{ partner['short_description']|markup|safe }}</p>
                   </div>
+                  <hr class="p-rule">
                 </div>
               </div>
               {% endfor %}
@@ -176,4 +207,21 @@
   </section>
 
   <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
+
+  <script>
+    function toggleFilters() {
+      let toggleButton = document.getElementById("toggle-filters")
+      let currentState =  toggleButton.getAttribute("aria-pressed")
+      
+      toggleButton.setAttribute("aria-pressed", currentState === "true")
+
+      const filters = document.getElementById("filters")
+      toggleButton.setAttribute("aria-pressed", true)
+      console.log(expanded)
+      if (expanded === true){
+        filters.classList.remove("u-hide--small")
+      } 
+    }
+
+</script>
 {% endblock %}

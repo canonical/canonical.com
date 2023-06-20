@@ -642,3 +642,35 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     }
   }
 }
+
+
+.p-button--partners-filters {
+  
+  &::before {
+    @extend %icon;
+    @include vf-icon-chevron($color-mid-dark);
+    @include vf-transition($property: transform, $duration: fast);
+
+    content: '';
+    margin-right: .5rem;
+  }
+
+      // aria-selected controls the open and closed state for the accordion tab
+      &[aria-expanded='true'] {
+        // override base expanded button styles
+        background-color: inherit;
+  
+        &:hover {
+          background-color: $colors--light-theme--background-hover;
+        }
+        @include vf-transition(#{background-color, border-color});
+      }
+  
+      &[aria-expanded='false'] {
+        &::before {
+          transform: rotate(-90deg);
+        }
+  
+        @include vf-transition(#{background-color, border-color});
+      }
+}
