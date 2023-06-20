@@ -9,15 +9,11 @@
 {% set is_paper = True %}
 
 {% block content %}
-<div class="row">
-  <div class="p-breadcrumbs u-sv1" aria-label="Breadcrumbs">
-    <ol class="p-breadcrumbs__items p-text--small-caps">
-      <li class="p-breadcrumbs__item "><a href="/partners">Partners</a></li>
-      <li class="p-breadcrumbs__item ">Become a partner</li>
-    </ol>
-  </div>
-  <hr>
-</div>
+
+{% with parent_name="Partners", parent_href="/partners", title="Become a partner" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
 <div class="row">
   <div class="p-overlayed-section">
     <div class="p-overlayed-section__illustration" role="img" style="background-image: url('https://assets.ubuntu.com/v1/b9eafff9-Become-a-partner-hero-image.png');"></div>
