@@ -10,15 +10,9 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="p-breadcrumbs u-sv1" aria-label="Breadcrumbs">
-    <ol class="p-breadcrumbs__items p-text--small-caps">
-      <li class="p-breadcrumbs__item "><a href="/partners">Partners</a></li>
-      <li class="p-breadcrumbs__item ">IHV and OEM</li>
-    </ol>
-  </div>
-  <hr class="p-rule">
-</div>
+{% with parent_name="Partners", parent_href="/partners", title="IHV and OEM" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
 
 <section class="p-section">
   <div class="row--50-50">
@@ -36,27 +30,9 @@
   </div>
 </section>
 
-<section class="p-section">
-  <div class="row p-block">
-    <hr class="p-rule">
-    <h2>A selection of our IHV and OEM partners</h2>
-  </div>
-  <div class="row">
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        <!-- We need to split the list in two to add the separator. -->  
-        {% for partner in partners %}
-            <div class="p-logo-section__item">
-              <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-            </div>
-        {% endfor %}
-      </div>  
-    </div>
-    <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
-      <p><a href="/partners/find-a-partner?filters=ihv-oem">See all IHV/OEM partners</a></p>
-    </div>
-  </div>
-</section>
+{% with title="A selection of our IHV and OEM partners", link_text="See all IHV/OEM partners ›", link_href="/partners/find-a-partner?filters=ihv-oem" %}
+  {% include '/partners/partial/_partners-logos.html' %}
+{% endwith %}
 
 <section class="p-section">
   <div class="row p-block">
@@ -165,22 +141,8 @@
   </div>
 </section>
 
-<section class="p-section">
-  <div class="row">
-    <hr class="p-rule">
-  </div>
-  <div class="row--50-50">
-    <div class="col">
-      <h2>Co-sell with Canonical <br class="u-hide--medium">through the partner portal</h2>
-    </div>
-    <div class="col">
-      <p>Open source technology is growing in demand. We want you to benefit from this unique opportunity, and take advantage of the investment Canonical is making in its partner community. We are committed to giving you the tools and programs to succeed, from discounts and financial incentives, to sales and technical support teams.</p>
-      <hr class="p-rule">
-      <p><a href="https://partner-portal.canonical.com/">Login to the partner portal</a></p>
-    </div>
-  </div>
-</section>
+{% include '/partners/partial/_co-sell-with-canonical.html' %}
 
-{% include 'partial/_partners-footer.html' %}
+{% include '/partners/partial/_footer.html' %}
 
 {% endblock %}
