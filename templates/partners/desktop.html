@@ -6,144 +6,223 @@
 
 {% block meta_description %}Canonical collaborates with the world&rsquo;s leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.{% endblock %}
 
+{% set is_paper = True %}
+
 {% block content %}
-  <section class="p-strip--suru-topped">
-    <div class="row">
-      <div class="col-7 col-medium-4">
-        <h1>Desktop Programme</h1>
-        <p>Canonical collaborates with the world&rsquo;s leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.</p>
-        <p>Whether built with the developer in mind or to power AI ambitions, these out-of the-box platforms give practitioners everything they need to transform their enterprise IT.</p>
-        <a href="https://certification.ubuntu.com/desktop" class="p-button"><span>Find a certified PC</span></a><a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
-      </div>
-      <div class="col-5 col-medium-2 u-vertically-center">
-        <ul class="p-logo-section__items">
-          {% for partner in partners %}
-          <li class="p-logo-section__item">
-            <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+
+{% with parent_name="Partners", parent_href="/partners", title="Desktop" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
+<section class="p-section">
+  <div class="row--50-50">
+    <div class="col">
+      <h1>Desktop Programme</h1>
     </div>
-  </section>
-  <section class="p-strip--light is-deep">
-    <div class="row">
-      <div class="col-12 col-medium-6">
-        <h2 style="margin-bottom: 3rem;">Why buy a certified Ubuntu desktop?</h2>
-      </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Preloaded with Ubuntu</h3>
-        <div class="p-matrix__desc">
+    <div class="col">
+      <p>Canonical collaborates with the world&rsquo;s leading vendors to optimise and certify Ubuntu on 100s of laptops, desktops and workstations for a secure and constantly updated platform.</p>
+      <p>Whether built with the developer in mind or to power AI ambitions, these out-of the-box platforms give practitioners everything they need to transform their enterprise IT.</p>
+      <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
+      <a href="https://certification.ubuntu.com/desktop" class="p-button"><span>Find a certified PC</span></a>
+    </div>
+  </div>
+</section>
+<section class="p-section">
+  <div class="row">
+    <hr class="p-rule">
+    <div class="col-medium-6 col-6">
+      <h2>A selection<br class="u-hide--small u-hide--medium"> of our Desktop partners</h2>
+    </div>
+    <div class="col-medium-6 col-6">
+      <ul class="p-logo-section__items" style="justify-content: space-around;">
+        {% for partner in partners %}
+        <li class="p-logo-section__item">
+          <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
+        </li>
+        {% endfor %}
+      </ul>
+      <hr class="p-rule">
+      <p><a href="/partners/find-a-partner?filters=desktop">See all desktop partners</a></p>
+    </div>
+  </div>
+</section>
+<section class="p-section">
+  <div class="row p-block">
+    <hr class="p-rule">
+    <h2>Why buy a certified Ubuntu desktop?</h2>
+  </div>
+  <div class="row">
+    <div class="col-9 col-start-large-4 col-medium-5 col-start-medium-2">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Preloaded with Ubuntu
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
           <p>Ubuntu certified PCs ship with a clean version of Ubuntu, straight from Canonical</p>
         </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Works out of the box</h3>
-        <div class="p-matrix__desc">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Works out of the box
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
           <p>Canonical performs 100s of stringent tests to ensure all Ubuntu functionality works out-of-the-box</p>
         </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">5 years support</h3>
-        <p class="p-matrix__desc">Certified PCs are continuously tested throughout the lifetime of the preloaded Ubuntu release</p>
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            5 years support
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Certified PCs are continuously tested throughout the lifetime of the preloaded Ubuntu release</p>
+        </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Optimised images</h3>
-        <div class="p-matrix__desc">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Optimised images
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
           <p>PCs preloaded with Ubuntu at the factory come with an optimised image to provide users with the best experience for their hardware</p>
         </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Latest hardware</h3>
-        <p class="p-matrix__desc">Collaboration with Intel, Nvidia and AMD guarantees Ubuntu runs flawlessly on the latest CPUs and GPUs</p>
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Latest hardware
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Collaboration with Intel, Nvidia and AMD guarantees Ubuntu runs flawlessly on the latest CPUs and GPUs</p>
+        </div>
+      </div> 
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Battery life
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Ubuntu certified PCs meet the most stringent energy regulations &mdash; Energy Star, CEC</p>
+        </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Battery life</h3>
-        <p class="p-matrix__desc">Ubuntu certified PCs meet the most stringent energy regulations &mdash; Energy Star, CEC</p>
-      </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Reliability</h3>
-        <div class="p-matrix__desc">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Reliability
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
           <p>Ubuntu certified PCs undergo rigorous testing to ensure they perform flawlessly after 30+ suspend/resume cycles</p>
         </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">Ready for Enterprise</h3>
-        <div class="p-matrix__desc">
-          <p>Ubuntu certified PCs are eligible for <a href="https://buy.ubuntu.com">Ubuntu Advantage</a>, the most comprehensive Linux enterprise subscription</p>
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            Ready for Enterprise
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Ubuntu certified PCs are eligible for <a href="https://buy.ubuntu.com">Ubuntu Pro</a>, the most comprehensive Linux enterprise subscription</p>
         </div>
       </div>
-      <div class="col-4 col-medium-2 p-card--highlighted">
-        <h3 class="p-matrix__title">The key to corporate fleet</h3>
-        <div class="p-matrix__desc">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <p class="p-heading--5">
+            The key to corporate fleet
+          </p>
+        </div>
+        <div class="col-6 col-medium-3">
           <p>With 100s of certified models, ranging from low-cost tower PCs to AI workstations</p>
         </div>
       </div>
     </div>
-  </section>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width p-logo-section">
-      <h2 class="p-logo-section__title p-muted-heading u-align-text--center">A selection of our Desktop partners</h2>
-      <ul class="p-logo-section__items">
-        {% for partner in partners %}
-        <li class="p-logo-section__item">
-          <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
-        </li>
-        {% endfor %}
-      </ul>
-      <p class="u-align-text--center">
-        <a href="/partners/find-a-partner?filters=desktop">See all Desktop partners&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </section>
-  <hr />
-  <section class="p-strip is-deep">
-    <div class="row" style="margin-bottom: 3rem;">
+  </div>
+</section>
+<section class="p-section">
+  <div class="row">
+    <hr class="p-rule">
+  </div>
+  <div class="row--50-50">
+    <div class="col">
       <h2>Buy a certified Ubuntu PC</h2>
-      <p>We've been working with partners like Dell, HP and Lenovo for years to ensure that Ubuntu devices reach market as effectively as possible. With the help of these partners, Ubuntu machines are distributed around the world and can be found in both their exclusive and partner stores.</p>
     </div>
-    <div class="row">
-      <div class="col-4 p-card--highlighted has-cta">
-        <div class="p-card__content">
-          <img src="https://assets.ubuntu.com/v1/d258d23b-2018-logo-dell.svg" alt="Dell" width="80" height="80">
+    <div class="col">
+      <p>We've been working with partners like Dell, HP and Lenovo for years to ensure that Ubuntu devices reach market as effectively as possible.</p> 
+      <p>With the help of these partners, Ubuntu machines are distributed around the world and can be found in both their exclusive and partner stores.</p> 
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <hr>
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <div class="p-laptop-image-wrapper">
+            <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_500,h_402/https://assets.ubuntu.com/v1/97f7138f-dell-xps-laptop-jammy.png" srcset="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_1000,h_804/https://assets.ubuntu.com/v1/97f7138f-dell-xps-laptop-jammy.png 2x" alt="" width="500" height="402" loading="lazy">
+          </div>
           <p>Canonical and Dell work together to deliver Ubuntu on systems from entry-level laptops to high-end developer machines.</p>
+          <hr class="p-rule">
           <p><a href="https://www.delltechnologies.com/en-gb/ai-technologies/index.htm">See the Ubuntu certified AI-ready workstations</a></p>
+          <hr class="p-rule">
+          <p><a href="http://www.dell.com/linux">Shop for Dell with Ubuntu</a></p>
         </div>
-        <a href="http://www.dell.com/linux" class="p-button--positive p-card__cta"><span>Shop for Dell with Ubuntu</span></a>
-      </div>
-      <div class="col-4 p-card--highlighted has-cta">
-        <div class="p-card__content">
-          <img src="https://assets.ubuntu.com/v1/f627fbfb-hp.svg" alt="HP" width="80" height="80">
+        <div class="col-3 col-medium-2">
+          <div class="p-laptop-image-wrapper">
+            <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_1000,h_804/https://assets.ubuntu.com/v1/7f76ac3a-hp-laptop-studio-jammy.png" srcset="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_2000,h_1608/https://assets.ubuntu.com/v1/7f76ac3a-hp-laptop-studio-jammy.png 2x" alt="" width="1000" height="804" loading="lazy">
+          </div>
           <p>HP sells a wide range of Canonical-certified Ubuntu laptops and desktop machines globally.</p>
+          <hr class="p-rule">
+          <p><a href="https://certification.ubuntu.com/desktop/models?vendors=HP"><span>View HP with Ubuntu</span></a></p>
         </div>
-        <a href="https://certification.ubuntu.com/desktop/models?vendors=HP" class="p-button--positive p-card__cta"><span>View HP with Ubuntu</span></a>
-      </div>
-      <div class="col-4 p-card--highlighted has-cta">
-        <div class="p-card__content">
-          <div class="u-vertically-center" style="height: 80px;">
-            <img src="https://assets.ubuntu.com/v1/3180a6b5-partner-logo-lenovo.svg" alt="Lenovo" width="195" height="40">
+        <div class="col-3 col-medium-2">
+          <div class="p-laptop-image-wrapper">
+            <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_500,h_402/https://assets.ubuntu.com/v1/a3ec6ab2-lenovo-laptop-p16-jammy.png" srcset="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_1000,h_804/https://assets.ubuntu.com/v1/a3ec6ab2-lenovo-laptop-p16-jammy.png 2x" alt="" width="500" height="402" loading="lazy">
           </div>
           <p>Canonical has been shipping Ubuntu on a variety of Lenovo's popular machines which are available from Lenovo's enterprise teams.</p>
+          <hr class="p-rule">
           <p><a href="https://www.lenovo.com/us/en/think-workstations/artificial-intelligence-industry/c/artificial-intelligence-industry">Buy AI workstations with Ubuntu</a></p>
-        </div>
-        <a href="https://certification.ubuntu.com/desktop/models?vendors=Lenovo" class="p-button--positive p-card__cta"><span>View Lenovo with Ubuntu</span></a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="p-card--highlighted has-cta">
-        <div class="row">
-          <div class="col-8 u-vertically-center">
-            <h2 class="p-heading--4">Buy Ubuntu Advantage</h2>
-            <p style="max-width: none;">Security, compliance and support to improve efficiency while reducing complexity and cost.</p>
-          </div>
-          <div class="col-4 u-vertically-center" style="justify-content: inherit;">
-            <a href="https://buy.ubuntu.com/" class="p-button--positive"><span>Learn about our support options</span></a>
-          </div>
+          <hr class="p-rule">
+          <p><a href="https://certification.ubuntu.com/desktop/models?vendors=Lenovo"><span>View Lenovo with Ubuntu</span></a></p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+<section class="p-section">
+  <div class="row">
+    <hr class="p-rule">
+  </div>
+  <div class="row--50-50">
+    <div class="col">
+      <h2>Get Ubuntu Pro</h2>
+    </div>
+    <div class="col">
+      <p>Security, compliance and support to improve efficiency while reducing complexity and cost.</p>
+      <hr class="p-rule">
+      <p><a href="https://buy.ubuntu.com/">Learn about our support options</a></p>
+    </div>
+  </div>
+</section>
 
-  {% include 'partial/_partners-footer.html' %}
+{% include '/partners/partial/_footer.html' %}
 
 {% endblock %}

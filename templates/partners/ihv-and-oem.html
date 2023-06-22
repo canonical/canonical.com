@@ -6,152 +6,143 @@
 
 {% block meta_description %}For nearly two decades, Canonical and our enterprise partners have provided market-leading solutions for customers seeking alternatives to complex and costly proprietary operating environments.{% endblock %}
 
+{% set is_paper = True %}
+
 {% block content %}
-<section class="p-strip--image u-no-padding--top is-dark">
-  <div class="p-strip--suru-top">
-    <div class="row">
-      <div class="col-8">
-        <h1>IHV and OEM Programme</h1>
+
+{% with parent_name="Partners", parent_href="/partners", title="IHV and OEM" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
+<section class="p-section">
+  <div class="row--50-50">
+    <div class="col">
+      <h1>IHV and OEM <br>Programme</h1>
+    </div>
+    <div class="col">
+      <div class="p-block">
         <p>Pioneering open source for the modern data centre.</p>
-        <p>For nearly two decades, Canonical and our enterprise partners have provided market&dash;leading solutions for customers seeking alternatives to complex and costly proprietary operating environments. Along the way, we have pioneered open source technologies for modern data centres. Whether you&rsquo;re building physical, virtual, or cloud environments, you can be confident in our tested and certified joint partner solutions.</p>
-        <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
+        <p>For nearly two decades, Canonical and our enterprise partners have provided market&dash;leading solutions for customers seeking alternatives to complex and costly proprietary operating environments.</p> 
+        <p>Along the way, we have pioneered open source technologies for modern data centres. Whether you&rsquo;re building physical, virtual, or cloud environments, you can be confident in our tested and certified joint partner solutions.</p>
       </div>
-      <div class="col-4 u-hide--small u-hide--medium u-align--center u-vertically-center">
-        <img src="https://assets.ubuntu.com/v1/0cf81aee-servers-wht.svg" alt="">
-      </div>
+      <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
     </div>
   </div>
 </section>
-<style>
-  .p-strip--suru-top {
-    background-image:
-      linear-gradient(to top right, #fff 0%, #fff 49%, transparent 50%),
-      linear-gradient(to top right, rgba(74, 24, 60, 0) 0%, rgba(74, 24, 60, 0) 49.9%, rgba(74, 24, 60, 0.3) 50%, rgba(74, 24, 60, 0.3) 100%),
-      linear-gradient(to bottom right, rgba(210, 180, 202, 0.05) 0%, rgba(210, 180, 202, 0.05) 49.9%, rgba(210, 180, 202, 0) 50%, rgba(210, 180, 202, 0) 100%),
-      linear-gradient(216deg, #E95420 0%, #5E2750 33%, #2C001E 71%);
-    background-repeat: no-repeat;
-    background-size: 110% 10%, 70% 100%, 100% 40%, 100% 100%;
-    background-position: bottom -0.2px left, top right, top left;
-    padding-bottom: 6rem;
-    padding-top: 3rem;
-  }
 
-  @media (max-width: 772px) {
-    .p-strip--suru-top {
-      background-image:
-        linear-gradient(to top right, #fff 0%, #fff 49%, transparent 50%),
-        linear-gradient(to top right, rgba(74, 24, 60, 0) 0%, rgba(74, 24, 60, 0) 49.9%, rgba(74, 24, 60, 0.3) 50%, rgba(74, 24, 60, 0.3) 100%),
-        linear-gradient(to bottom right, rgba(210, 180, 202, 0.05) 0%, rgba(210, 180, 202, 0.05) 49.9%, rgba(210, 180, 202, 0) 50%, rgba(210, 180, 202, 0) 100%),
-        linear-gradient(216deg, #E95420 0%, #5E2750 33%, #2C001E 71%);
-      background-repeat: no-repeat;
-      background-size: 105% 5%, 70% 100%, 100% 40%, 100% 100%;
-      background-position: bottom -1px left, top right, top left;
-    }
-  }
-</style>
+{% with title="A selection of our IHV and OEM partners", link_text="See all IHV/OEM partners ›", link_href="/partners/find-a-partner?filters=ihv-oem" %}
+  {% include '/partners/partial/_partners-logos.html' %}
+{% endwith %}
 
-<section class="p-strip is-deep">
-  <div class="u-fixed-width u-align--center">
-    <div class="p-logo-section">
-      <p class="p-muted-heading u-no-max-width">A selection of our IHV and OEM partners</p>
-      <div class="p-logo-section__items">
-        {% for partner in partners %}
-          <div class="p-logo-section__item">
-            <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-          </div>
-        {% endfor %}
-        </div>
-      </div>
-      <p class="u-align-text--center"><a href="/partners/find-a-partner?filters=ihv-oem">See all IHV/OEM partners</a></p>
-    </div>
-</section>
-
-<section class="p-strip--light is-deep">
-  <div class="u-fixed-width u-sv3">
+<section class="p-section">
+  <div class="row p-block">
+    <hr class="p-rule">
     <h2>Benefits of the IHV and OEM Partner Programme</h2>
   </div>
-  <div class="row">
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Certification</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Promote your hardware as 'Ubuntu Certified'</li>
-        <li class="p-list__item is-ticked">Assistance to test, review, and configure machines to be Ubuntu Certified</li>
-        <li class="p-list__item is-ticked">Public postings on our Ubuntu Certified hardware page</li>
-      </ul>
-    </div>
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Sales enablement access</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Opportunity registration</li>
-        <li class="p-list__item is-ticked">Sales assets</li>
-        <li class="p-list__item is-ticked">Pricing and packaging lists</li>
-        <li class="p-list__item is-ticked">Sales training</li>
-      </ul>
-    </div>
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Joint marketing</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Tailored campaigns</li>
-        <li class="p-list__item is-ticked">Access technical guides to enhance team's knowledge</li>
-        <li class="p-list__item is-ticked">Marketing funding for joint events</li>
-        <li class="p-list__item is-ticked">Logos and joint branding</li>
-      </ul>
-    </div>
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Dedicated partner team</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Named resources within Canonical for alliances, sales, technical training, marketing and certification</li>
-      </ul>
-    </div>
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Reference architecture</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Develop joint hardware-based reference architectures for predictable and repeatable customer deployments</li>
-      </ul>
-    </div>
-    <div class="col-4 col-medium-3 p-card--highlighted">
-      <h3 class="p-card__title p-heading--4">Roadmap alignment</h3>
-      <ul class="p-list">
-        <li class="p-list__item is-ticked">Weekly alignment calls with alliances and certification team</li>
-        <li class="p-list__item is-ticked">Bi-annual product roadmap review sessions to plan for upcoming releases</li>
-      </ul>
+  <div class="row--25-75">
+    <div class="col">
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Certification</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Promote your hardware as 'Ubuntu Certified'</li>
+            <li class="p-list__item is-ticked">Assistance to test, review, and configure machines to be Ubuntu Certified</li>
+            <li class="p-list__item is-ticked">Public postings on our Ubuntu Certified hardware page</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Sales enablement access</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Opportunity registration</li>
+            <li class="p-list__item is-ticked">Sales assets</li>
+            <li class="p-list__item is-ticked">Pricing and packaging lists</li>
+            <li class="p-list__item is-ticked">Sales training</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Joint marketing</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Tailored campaigns</li>
+            <li class="p-list__item is-ticked">Access technical guides to enhance team's knowledge</li>
+            <li class="p-list__item is-ticked">Marketing funding for joint events</li>
+            <li class="p-list__item is-ticked">Logos and joint branding</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Dedicated partner team</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Named resources within Canonical for alliances, sales, technical training, marketing and certification</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Reference architecture</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Develop joint hardware-based reference architectures for predictable and repeatable customer deployments</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule col-9">
+        <div class="col-3">
+          <h3 class="p-heading--5">Roadmap alignment</h3>
+        </div>
+        <div class="col-6">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Weekly alignment calls with alliances and certification team</li>
+            <li class="p-list__item is-ticked">Bi-annual product roadmap review sessions to plan for upcoming releases</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="p-strip is-deep is-bordered">
+<section class="p-section">
   <div class="row">
-    <div class="col-6 u-vertically-center u-hide--small u-hide--medium">
-      <img src="https://assets.ubuntu.com/v1/729c18b3-certificates.svg" alt="Certified Ubuntu">
+    <hr class="p-rule">
+  </row>
+  <div class="row--50-50">
+    <div class="col">
+      <h2>Increase your sales <br class="u-hide--small">by becoming Ubuntu Certified</h2>
     </div>
-    <div class="col-6">
-      <h2>Increase your sales by becoming Ubuntu Certified</h2>
-      <p>
-        Our users have a high level of expectation in their experience with Ubuntu. Whether at home, in development, or production, an easy and predictable user experience is important to us. To ensure this success, we partner closely with server vendors worldwide to test, validate, and certify their portfolios.
-      </p>
-      <p>
-        The top 7 servers manufacturers in the world are all regularly engaged with Canonical on promoting their platforms as Ubuntu Certified.
-      </p>
-      <a href="https://ubuntu.com/certified">Learn more about Ubuntu certified hardware&nbsp;&rsaquo;</a>
+    <div class="col">
+      <div class="p-block p-image-wrapper">
+        <img src="https://assets.ubuntu.com/v1/1255680a-certified-laptop.png" alt="Photo of laptop running Ubuntu" width="100%">
+      </div>
+      <p>Our users have a high level of expectation in their experience with Ubuntu.</p>
+      <p>Whether at home, in development, or production, an easy and predictable user experience is important to us. To ensure this success, we partner closely with server vendors worldwide to test, validate, and certify their portfolios.</p>
+      <p>The top 7 servers manufacturers in the world are all regularly engaged with Canonical on promoting their platforms as Ubuntu Certified.</p>
+      <hr class="p-rule">
+      <p><a href="https://ubuntu.com/certified">Learn more about Ubuntu certified hardware&nbsp;&rsaquo;</a></p>
     </div>
   </div>
 </section>
 
-<section class="p-strip is-deep">
-  <div class="u-fixed-width">
-    <h2>Co-sell with Canonical through the partner portal</h2>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <p>Open source technology is growing in demand. We want you to benefit from this unique opportunity, and take advantage of the investment Canonical is making in its partner community. We are committed to giving you the tools and programs to succeed, from discounts and financial incentives, to sales and technical support teams.</p>
-      <p><a href="https://partner-portal.canonical.com/">Login to the partner portal</a></p>
-    </div>
-    <div class="col-5 col-start-large-8 u-vertically-center u-hide--small u-hide--medium">
-      <img src="https://assets.ubuntu.com/v1/a544a3b0-partner_portal_sml.png" alt="Photo of laptop running Ubuntu" width="413" height="256">
-    </div>
-  </div>
-</section>
+{% include '/partners/partial/_co-sell-with-canonical.html' %}
 
-{% include 'partial/_partners-footer.html' %}
+{% include '/partners/partial/_footer.html' %}
 
 {% endblock %}
