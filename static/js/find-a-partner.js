@@ -13,6 +13,7 @@
 
   function init() {
     revealSearch();
+    retainCheckedFilters();
 
     if (searchBox) {
       populateTextbox();
@@ -38,12 +39,13 @@
     updateNumberOfPartners();
 
     if (toggleFilterButton) {
-      toggleFilterButton.addEventListener("click", function(){toggleFilters(toggleFilterButton)})
+      toggleFilterButton.addEventListener("click", function(){toggleFilters(toggleFilterButton)});
     }
 
     if (clearFiltersButton) {
-      clearFiltersButton.addEventListener("click", clearFilters)
+      clearFiltersButton.addEventListener("click", clearFilters);
     }
+
   }
 
   function toggleFilters(element) {
@@ -53,9 +55,9 @@
     element.setAttribute("aria-pressed", !pressed);
 
     if (pressed){
-      allFilters.classList.remove("u-hide--small")
+      allFilters.classList.remove("u-hide--small");
     } else {
-      allFilters.classList.add("u-hide--small")
+      allFilters.classList.add("u-hide--small");
     }
   }
 
@@ -180,6 +182,21 @@
       "",
       newUrl,
     );
+  }
+
+  // Retain checked filters on page load
+  function retainCheckedFilters() {
+    if (urlParams.has("filters")) {
+      let loadedFilters = urlParams.get("filters").split(',');
+
+      loadedFilters.forEach(filter => {
+        checkboxes.forEach(box => {
+          if (box.name === filter) {
+            box.checked = true;
+          }
+        })
+      });
+    }
   }
 
   // Check if element shold be filtered
