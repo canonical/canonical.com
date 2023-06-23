@@ -29,10 +29,10 @@
     <div class="row u-hide--large u-hide--medium">
       <div class="u-fixed-width">
         <div class="p-block">
-          <button class="p-button--partners-filters" aria-pressed="false" onclick="handleButtonClick(event)" id="toggle-filters">
+          <button class="p-button--partners-filters" aria-pressed="false" id="toggle-filters">
             Toggle filters
           </button>
-          <button class="p-button" onclick="handleButtonClick(event)">
+          <button class="p-button" id="clear-filters">
             Clear filters
           </button>
         </div>
@@ -185,37 +185,8 @@
   </section>
 
 
-  <script>
-    const partnersLength = {{ partners_length }}
-    
-    function handleButtonClick(event) {
-      const targetButton = event.target.id;
-
-      if (targetButton === 'toggle-filters') {
-        toggleFilters(event.target);
-      } else {
-        clearFilters()
-      }
-    }
-
-    function toggleFilters(element) {
-      const filters = document.getElementById("filters")
-      const pressed = element.getAttribute("aria-pressed") === "true";
-
-      // Change aria-pressed to the opposite state
-      element.setAttribute("aria-pressed", !pressed);
-
-      if (pressed){
-        filters.classList.remove("u-hide--small")
-      } else {
-        filters.classList.add("u-hide--small")
-      }
-    }
-
-    function clearFilters() {
-      console.log("cleared!")
-    }
-
+<script>
+  const partnersLength = {{ partners_length }}
 </script>
 
 <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>

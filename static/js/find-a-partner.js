@@ -5,6 +5,9 @@
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
+  const toggleFilterButton = document.querySelector(".p-button--partners-filters");
+  const clearFiltersButton = document.getElementById("clear-filters");
+  const allFilters = document.getElementById("filters");
 
   var filters = [];
 
@@ -33,6 +36,33 @@
     }
 
     updateNumberOfPartners();
+
+    if (toggleFilterButton) {
+      toggleFilterButton.addEventListener("click", function(){toggleFilters(toggleFilterButton)})
+    }
+
+    if (clearFiltersButton) {
+      clearFiltersButton.addEventListener("click", clearFilters)
+    }
+  }
+
+  function toggleFilters(element) {
+    const pressed = element.getAttribute("aria-pressed") === "true";
+
+    // Change aria-pressed to the opposite state
+    element.setAttribute("aria-pressed", !pressed);
+
+    if (pressed){
+      allFilters.classList.remove("u-hide--small")
+    } else {
+      allFilters.classList.add("u-hide--small")
+    }
+  }
+
+  function clearFilters() {
+    checkboxes.forEach(box => {
+      box.checked = false
+    });
   }
 
   // Display no reults message
