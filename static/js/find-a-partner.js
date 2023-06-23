@@ -1,7 +1,4 @@
 (function () {
-  const numberOfPartnersLabel = document.querySelector(
-    ".js-find-a-partner__number",
-  );
   const searchBox = document.querySelector(".js-find-a-partner__search-input");
   const urlParams = new URLSearchParams(window.location.search);
   const partners = document.querySelectorAll(".js-find-a-partner__partner");
@@ -36,13 +33,13 @@
     }
 
     updateNumberOfPartners();
-    updateNoResultsMessage();
   }
 
   // Display no reults message
-  function updateNoResultsMessage() {
+  function updateNoResultsMessage(filteredCount) {
+
     if (noResults) {
-      if (numberOfPartnersLabel.innerHTML === "0") {
+      if (filteredCount === 0) {
         noResults.classList.remove("u-hide");
       } else {
         noResults.classList.add("u-hide");
@@ -200,14 +197,36 @@
     }
   }
 
+  // Check if any filters are applied
+  function checkFilters(){
+    let filterCount = 0;
+    for (let i = 0; i < checkboxes.length;i++ ){
+      if (checkboxes[i].checked){
+        filterCount += 1;
+      }
+    }
+    return filterCount
+  }
+
   // Update number of partners mtachig search and/or filter criteria
   function updateNumberOfPartners() {
-    if (numberOfPartnersLabel) {
-      numberOfPartnersLabel.innerHTML = document.querySelectorAll(
-        ".js-find-a-partner__partner.js-searched.js-filtered",
-      ).length;
-    }
+    const partnersCountElement = document.getElementById("partners-count")
+   
+    let filteredCount = document.querySelectorAll(
+      ".js-find-a-partner__partner.js-searched.js-filtered",
+    ).length
+
+    if (filteredCount == partnersLength){
+      partnersCountElement.innerHTML = "All " + filteredCount + " partners"
+    } else if (filteredCount === 1) {
+      partnersCountElement.innerHTML = filteredCount + " partner"
+    } else {
+      partnersCountElement.innerHTML = filteredCount + " partners"
+    } 
+    
+    updateNoResultsMessage(filteredCount)
   }
+  
 
   init();
 })();

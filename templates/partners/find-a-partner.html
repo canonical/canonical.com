@@ -5,20 +5,16 @@
 {% set is_paper = True %}
 
 {% block content %}
+
+{% with parent_name="Partners", parent_href="/partners", title="Find a partner" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
   <section class="p-section">
-    <div class="u-fixed-width">
-      <nav class="p-breadcrumbs u-sv1" aria-label="Breadcrumbs">
-        <ol class="p-breadcrumbs__items p-text--small-caps">
-          <li class="p-breadcrumbs__item "><a href="/partners">Partners</a></li>
-          <li class="p-breadcrumbs__item ">Find a partner</li>
-        </ol>
-      </nav>
-      <hr class="p-rule">
-    </div>
-    <div class="row p-section">
+    <div class="row p-block">
       <div class="col-start-large-4 col-9">
         <div class="row">
-          <div class="p-section">
+          <div class="p-block">
             <h1>Find a Canonical partner</h1>
           </div>
           <p>Canonical's network of Ubuntu partners spans the full range of our product suite. We offer partner programmes for public clouds, IHVs/OEMs, desktop, channel/resellers and global systems integrators.</p>
@@ -33,35 +29,13 @@
     <div class="row u-hide--large u-hide--medium">
       <div class="u-fixed-width">
         <div class="p-block">
-          <button class="p-button--partners-filters is-inline" aria-pressed="false" onclick="toggleFilters()" id="toggle-filters">
-            <span>Toggle filters</span>
+          <button class="p-button--partners-filters" aria-pressed="false" onclick="handleButtonClick(event)" id="toggle-filters">
+            Toggle filters
           </button>
-          <button class="p-button is-inline">
+          <button class="p-button" onclick="handleButtonClick(event)">
             Clear filters
           </button>
-
         </div>
-        <aside class="p-accordion">
-          <ul class="p-accordion__list">
-            <li class="p-accordion__group">
-              <div class="p-accordion__heading" role="heading" aria-level="3">
-                <button class="p-accordion__tab p-button" type="button" id="filter-tab-on" aria-controls="filter-tab-on-section" aria-expanded="false">
-                  <span>Toggle filters</span>
-                </button>
-              </div>
-              <section class="p-accordion__panel" id="filter-tab-on-section" aria-hidden="true" aria-labelledby="filter-tab-on">
-                ggnfnfgn
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div class="p-accordion__heading">
-                <button class="p-accordion__tab p-button">
-                  <span>Clear filters</span>
-                </button>
-              </div>
-            </li>
-          </ul>
-        </aside>
       </div>
     </div>
   </section>
@@ -95,6 +69,10 @@
               <label class="p-checkbox">
                 <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="public-cloud" aria-labelledby="public-cloud">
                 <span class="p-checkbox__label" id="public-cloud">Public Cloud</span>
+              </label>
+              <label class="p-checkbox">
+                <input type="checkbox" class="p-checkbox__input js-find-a-partner__filter" name="silicon" aria-labelledby="silicon">
+                <span class="p-checkbox__label" id="silicon">Silicon</span>
               </label>
             </div>
             <div class="col-medium-2 col-2 p-block">
@@ -167,7 +145,7 @@
           <div id="results" class="p-find-a-partner">
             <div class="p-section">
               <hr class="p-rule u-hide--large">
-              <h2 class="p-muted-heading">Partners (<span class="js-find-a-partner__number">All</span>)</h2>
+              <h2 class="p-muted-heading" id="partners-count"></h2>
             </div>
             <div class="u-fixed-width">
               <div class="p-notification js-find-a-partner__no-results u-hide">
@@ -206,22 +184,40 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
 
   <script>
-    function toggleFilters() {
-      let toggleButton = document.getElementById("toggle-filters")
-      let currentState =  toggleButton.getAttribute("aria-pressed")
-      
-      toggleButton.setAttribute("aria-pressed", currentState === "true")
+    const partnersLength = {{ partners_length }}
+    
+    function handleButtonClick(event) {
+      const targetButton = event.target.id;
 
+      if (targetButton === 'toggle-filters') {
+        toggleFilters(event.target);
+      } else {
+        clearFilters()
+      }
+    }
+
+    function toggleFilters(element) {
       const filters = document.getElementById("filters")
-      toggleButton.setAttribute("aria-pressed", true)
-      console.log(expanded)
-      if (expanded === true){
+      const pressed = element.getAttribute("aria-pressed") === "true";
+
+      // Change aria-pressed to the opposite state
+      element.setAttribute("aria-pressed", !pressed);
+
+      if (pressed){
         filters.classList.remove("u-hide--small")
-      } 
+      } else {
+        filters.classList.add("u-hide--small")
+      }
+    }
+
+    function clearFilters() {
+      console.log("cleared!")
     }
 
 </script>
+
+<script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
+
 {% endblock %}
