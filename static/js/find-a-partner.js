@@ -244,17 +244,6 @@
     }
   }
 
-  // Check if any filters are applied
-  function checkFilters(){
-    let filterCount = 0;
-    for (let i = 0; i < checkboxes.length;i++ ){
-      if (checkboxes[i].checked){
-        filterCount += 1;
-      }
-    }
-    return filterCount
-  }
-
   // Update number of partners mtachig search and/or filter criteria
   function updateNumberOfPartners() {
     const partnersCountElement = document.getElementById("partners-count")
