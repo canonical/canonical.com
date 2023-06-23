@@ -11,8 +11,8 @@
 {% endwith %}
 
   <section class="p-section">
-    <div class="row p-block">
-      <div class="col-start-large-4 col-9">
+    <div class="row">
+      <div class="col-start-large-4 col-6">
         <div class="row">
           <div class="p-block">
             <h1>Find a Canonical partner</h1>
@@ -159,14 +159,10 @@
             {% if partners %}
               {% for partner in partners %}
               <div class="p-block js-find-a-partner__partner" id="{{ partner['slug'] }}" data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}" data-filter="{% for technology in partner['technology'] %}{{technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
+                <hr class="p-rule">
                 <div class="row">
-                  <div class="col-3 col-medium-2">
-                    {% if partner['logo'] %}
-                      <img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-width: 10rem;" loading="lazy">              
-                    {% endif %}
-                  </div>
-                  <div class="col-6 col-medium-4">
-                    <p>
+                  <div class="col-6 col-medium-4 col-small-3">
+                    <p class="p-heading--2">
                       {% if partner['partner_website'] %}
                       <a title="{{ partner['name'] }} website" href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a>
                       {% else %}
@@ -175,7 +171,11 @@
                     </p>
                     <p>{{ partner['short_description']|markup|safe }}</p>
                   </div>
-                  <hr class="p-rule">
+                  <div class="col-2 col-start-large-8 col-medium-2 col-small-1">
+                    {% if partner['logo'] %}
+                      <div class="p-image-wrapper"><img src="{{ partner['logo'] }}" alt="image for {{ partner['name'] }}" style="max-height: 4rem; max-width: 8rem;" loading="lazy"></div>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
               {% endfor %}
@@ -184,7 +184,6 @@
         </div>
     </div>
   </section>
-
 
 <script>
   const partnersLength = {{ partners_length }}
