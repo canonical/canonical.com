@@ -470,11 +470,13 @@ def find_a_partner():
     partners = sorted(
         partners_api.get_partner_list(), key=lambda item: item["name"]
     )
-    
+
     partners_length = len(partners)
 
     return flask.render_template(
-        "/partners/find-a-partner.html", partners=partners, partners_length = partners_length
+        "/partners/find-a-partner.html",
+        partners=partners,
+        partners_length=partners_length,
     )
 
 
