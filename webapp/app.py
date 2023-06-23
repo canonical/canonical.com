@@ -324,12 +324,12 @@ def careers_index():
     )
 
 
-@app.route("/careers/progression")
+@app.route("/careers/company-culture/progression")
 def careers_progression():
     all_departments, departments_overview = _get_all_departments()
 
     return flask.render_template(
-        "/careers/progression.html",
+        "/careers/company-culture/progression.html",
         all_departments=all_departments,
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
