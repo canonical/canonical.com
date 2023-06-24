@@ -64,23 +64,15 @@
     </div>
     {% for article in articles %}
       {% if loop.index0 < 5 %}
-        {% include 'press-centre/card.html' %}
+      {% include 'blog/blog-card.html' %}
       {% endif %}
     {% endfor %}
   </section>
 
-  <section class="p-section">
-    <div class="row">
-      <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
-        <hr>
-        {% with %}
-          {% set total_pages = total_pages %}
-          {% set current_page = current_page %}
-          {% set off_center = True %}
-          {% include "shared/_pagination.html" %}
-        {% endwith %}
-      </div>
-    </div>
-  </section>
+  {% with %}
+  {% set total_pages = total_pages %}
+  {% set current_page = current_page %}
+  {% include "shared/_pagination.html" %}
+  {% endwith %}
 
 {% endblock %}

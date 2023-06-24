@@ -7,12 +7,12 @@ $color-tabs-active-bar: #e95420;
 
 $color-brand: #7c355d;
 $color-dark: #262626;
-$color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) -
   map-get($line-heights, small);
 
 @import "pattern_animations";
+@import "pattern_article";
 @import "pattern_application";
 @import "pattern_buttons";
 @import "pattern_blog-card";
@@ -34,9 +34,9 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
-@include vf-p-icon-begin-downloading;
-@include blog-p-card;
 @include canonical-u-animations;
+@include canonical-p-article;
+@include canonical-p-blog-card;
 @include canonical-p-stepped-list;
 @include canonical-p-buttons;
 @include canonical-p-card;
@@ -501,12 +501,17 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   width: 100%;
 }
 
+.u-aspect-ratio--3-2 {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+}
+
 .p-image--2-3 {
   @extend .u-aspect-ratio--2-3;
 
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
 }
 
 .p-department-cards__container {
@@ -697,7 +702,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   width: 100%;
 }
 
-
 .p-testimonial {
   @extend %fixed-width-container;
 
@@ -780,12 +784,12 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 .partners-logo {
   max-width: 10rem;
-  
+
   @media (max-width: $breakpoint-large - 1) {
     max-width: 100%;
   }
 }
-  
+
 // used to obfuscate email addresses on projetcs/directory
 .sign {
   color: transparent;
@@ -814,5 +818,20 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     &::before {
       content: ".";
     }
+  }
+}
+
+// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
+.p-breadcrumbs {
+  margin-bottom: $spv--small;
+}
+
+// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4820
+.p-pagination {
+  .p-pagination__item
+    + .p-pagination__item:not(:nth-child(2)):not(:nth-last-child(1)),
+  .p-pagination__item + .p-pagination__item:nth-child(2),
+  .p-pagination__item + .p-pagination__item:nth-last-child(1) {
+    margin-left: -1px;
   }
 }
