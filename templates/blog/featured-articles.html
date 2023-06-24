@@ -1,15 +1,13 @@
 {% block featured_articles %}
 
-<div class="p-strip--suru-background is-dark" id="articles-list">
+<div class="p-section" id="articles-list">
   <div class="u-fixed-width">
-    <h4>Featured articles</h4>
+    <h4 class="p-muted-heading">Featured</h4>
+    <hr class="p-rule">
   </div>
-
-  <div class="row u-equal-height u-clearfix">
-    {% for article in featured_articles %}
-      {% include 'blog/blog-card.html' %}
-    {% endfor %}
-  </div>
+  {% for article in featured_articles %}
+    {% include 'blog/blog-card.html' %}
+  {% endfor %}
 </div>
 
 {% endblock %}
