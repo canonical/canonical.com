@@ -8,6 +8,10 @@ $color-tabs-active-bar: #e95420;
 $color-brand: #7c355d;
 $color-dark: #262626;
 $color-paper: #f3f3f3;
+
+//XXX: remove once this is merged: https://github.com/canonical/vanilla-framework/pull/4810
+$border-radius: 0;
+
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) -
   map-get($line-heights, small);
@@ -34,7 +38,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
-@include vf-p-icon-begin-downloading;
 @include blog-p-card;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
@@ -501,12 +504,17 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   width: 100%;
 }
 
+.u-aspect-ratio--3-2 {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+}
+
 .p-image--2-3 {
   @extend .u-aspect-ratio--2-3;
 
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
 }
 
 .p-department-cards__container {
@@ -679,4 +687,64 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 .is-ticked.is-play-button::before {
   @include vf-icon-video-play($color-mid-dark);
+//XXX: padd content so it doesn't get to close to text in the adjacent column. Idea borrowed from the guardian. Propose this to vanilla.
+}
+
+.u-pad--right {
+  padding-right: $sph--x-large;
+}
+
+.u-align-social-icons-to-text {
+  vertical-align: text-bottom;
+}
+
+.l-article {
+  @extend %vf-row;
+
+  &__aside {
+    grid-row: 2;
+  }
+
+  @media (min-width: $breakpoint-small) {
+    $main-col-span: 4;
+
+    &__aside {
+      grid-column: auto / span 2;
+      grid-row: auto;
+    }
+
+    &__main {
+      grid-column: auto / span 4;
+
+      .row {
+        grid-template-columns: repeat($main-col-span, minmax(0, 1fr));
+      }
+    }
+
+  }
+
+  @media (min-width: $breakpoint-large) {
+    $main-col-span: 9;
+
+    &__aside {
+      grid-column: auto / span 3;
+      grid-row: auto;
+    }
+
+    &__main {
+      grid-column: auto / span 9;
+
+      .row {
+        grid-template-columns: repeat($main-col-span, minmax(0, 1fr));
+      }
+    }
+
+  }
+
+  & .row,
+  & .u-fixed-width {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
 }
