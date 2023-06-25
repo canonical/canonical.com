@@ -44,17 +44,10 @@
   </div>
 </section>
 
-<section class="p-section">
-  <div class="row">
-    <div class="col-9 col-start-large-4 col-medium-4 col-start-medium-3">
-      <hr>
-      {% with %}
-        {% set total_pages = total_pages %}
-        {% set current_page = current_page %}
-        {% include "shared/_pagination.html" %}
-      {% endwith %}
-    </div>
-  </div>
-</section>
+{% with %}
+  {% set total_pages = total_pages %}
+  {% set current_page = current_page %}
+  {% include "shared/_pagination.html" %}
+{% endwith %}
 
 {% endblock content %}
