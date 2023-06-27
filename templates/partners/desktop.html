@@ -27,25 +27,11 @@
     </div>
   </div>
 </section>
-<section class="p-section">
-  <div class="row">
-    <hr class="p-rule">
-    <div class="col-medium-6 col-6">
-      <h2>A selection<br class="u-hide--small u-hide--medium"> of our Desktop partners</h2>
-    </div>
-    <div class="col-medium-6 col-6">
-      <ul class="p-logo-section__items" style="justify-content: space-around;">
-        {% for partner in partners %}
-        <li class="p-logo-section__item">
-          <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-        </li>
-        {% endfor %}
-      </ul>
-      <hr class="p-rule">
-      <p><a href="/partners/find-a-partner?filters=desktop">See all desktop partners</a></p>
-    </div>
-  </div>
-</section>
+
+{% with title='A selection of our Desktop partners', link_text="See all desktop partners", link_href="/partners/find-a-partner?filters=desktop", is_split=True %}
+  {% include '/partners/partial/_partners-logos.html' %}
+{% endwith %}
+
 <section class="p-section">
   <div class="row p-block">
     <hr class="p-rule">
