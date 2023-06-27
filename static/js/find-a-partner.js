@@ -5,9 +5,8 @@
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
-  const toggleFilterButton = document.querySelector(".p-button--partners-filters");
-  const clearFiltersButton = document.getElementById("clear-filters");
-  const allFilters = document.getElementById("filters");
+  const sideNavButtons = document.querySelectorAll(".js-drawer-toggle");
+  const clearFiltersButton = document.getElementById("js-clear-filters");
 
   var filters = [];
 
@@ -38,37 +37,32 @@
 
     updateNumberOfPartners();
 
-    if (toggleFilterButton) {
-      toggleFilterButton.addEventListener("click", function(){toggleFilters(toggleFilterButton)});
+    if (sideNavButtons) {
+      sideNavButtons.forEach(el => {
+        el.addEventListener("click", function(){toggleSection(el)})
+      });
     }
 
     if (clearFiltersButton) {
-      clearFiltersButton.addEventListener("click", clearFilters);
-    }
-
-  }
-
-  function toggleFilters(element) {
-    const pressed = element.getAttribute("aria-pressed") === "true";
-
-    // Change aria-pressed to the opposite state
-    element.setAttribute("aria-pressed", !pressed);
-
-    if (pressed){
-      allFilters.classList.remove("u-hide--small");
-    } else {
-      allFilters.classList.add("u-hide--small");
+      clearFiltersButton.addEventListener("click", clearFilters)
     }
   }
 
-  function clearFilters() {
-    checkboxes.forEach(box => {
-      box.checked = false
-    });
+  // Toggle side nav accordions
+  function toggleSection(el) {
+    if (el) {
+      let targetPanel = el.parentElement.parentElement.querySelector(".p-accordion__panel");
+
+      el.ariaExpanded = el.ariaExpanded !== "true";
+      targetPanel.ariaHidden = targetPanel.ariaHidden !== "true";
+    }
   }
 
   // Display no reults message
-  function updateNoResultsMessage(filteredCount) {
+  function updateNoResultsMessage() {
+    let filteredCount = document.querySelectorAll(
+      ".js-find-a-partner__partner.js-searched.js-filtered",
+    ).length
 
     if (noResults) {
       if (filteredCount === 0) {
@@ -114,6 +108,7 @@
     updateNumberOfPartners();
     updateNoResultsMessage();
     updateUrl("filters", filters);
+    toggleClearButton();
   }
 
   function filterDom() {
@@ -144,6 +139,15 @@
       }, wait);
       if (immediate && !timeout) func.apply(context, args);
     };
+  }
+
+  // Hide clear filters button if there are no selected filters
+  function toggleClearButton() {
+    if (filters.length > 0) {
+      clearFiltersButton.classList.remove("u-hide")
+    } else {
+      clearFiltersButton.classList.add("u-hide")
+    }
   }
 
   // Update browser url updateUrl
@@ -199,7 +203,7 @@
     }
   }
 
-  // Check if element shold be filtered
+  // Check if element should be filtered
   function filterCheck(filterText) {
     var match = false;
     filters.forEach((filter) => {
@@ -216,10 +220,25 @@
       filters = [];
       checkboxes.forEach((checkbox) => {
         if (checkbox.checked) {
-          filters.push(checkbox.name);
+          if (filters.includes(checkbox.name)) {
+            let index = filters.indexOf(checkbox.name)
+            filters.splice(index,1)
+          } else {
+            filters.push(checkbox.name);
+          }
         }
       });
     }
+  }
+
+  // Clear all applied filters
+  function clearFilters() {
+    if (checkboxes) {
+      checkboxes.forEach(box => {
+        box.checked = false
+      });
+    }
+    filterHandler();
   }
 
   // Check any checkboxes that match URL filters query
@@ -260,7 +279,7 @@
       partnersCountElement.innerHTML = filteredCount + " partners"
     } 
     
-    updateNoResultsMessage(filteredCount)
+    updateNoResultsMessage()
   }
   
 
