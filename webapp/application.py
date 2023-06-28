@@ -104,7 +104,6 @@ def _get_employee_directory_data(employee_id: str):
                     id
                     name
                     bio
-                    avatar
                 }
             }
         """
@@ -234,7 +233,8 @@ def _get_application(application_id):
                 employee_data = _get_employee_directory_data(
                     recruiter["employee_id"]
                 )
-                application["hiring_lead"]["avatar"] = employee_data["avatar"]
+                # Avatar not available for now
+                application["hiring_lead"]["avatar"] = None
                 # Split bio into a list, as it was previously
                 if employee_data["bio"]:
                     application["hiring_lead"]["bio"] = employee_data[
