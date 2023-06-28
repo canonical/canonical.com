@@ -192,24 +192,6 @@ def secure_boot():
 
 
 # Career departments
-@app.route("/careers/diversity")
-def diversity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/index.html", **context)
-
-
-@app.route("/careers/diversity/identity")
-def identity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/identity.html", **context)
-
-
 @app.route("/careers/results")
 def results():
     vacancies = []
@@ -225,11 +207,6 @@ def results():
     }
 
     return flask.render_template("careers/results.html", **context)
-
-
-@app.route("/careers/company-culture")
-def culture():
-    return flask.render_template("careers/company-culture.html")
 
 
 @app.route("/careers/sitemap.xml")
@@ -323,20 +300,6 @@ def careers_index():
     )
 
 
-@app.route("/careers/progression")
-def careers_progression():
-    all_departments, departments_overview = _get_all_departments()
-
-    return flask.render_template(
-        "/careers/progression.html",
-        all_departments=all_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
-        departments_overview=departments_overview,
-    )
-
-
 @app.route("/careers/all")
 def all_careers():
     sorted_departments = _get_sorted_departments()
@@ -347,6 +310,37 @@ def all_careers():
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+    )
+
+
+# Company culture pages
+@app.route("/careers/company-culture")
+def culture():
+    return flask.render_template("careers/company-culture.html")
+
+
+@app.route("/careers/company-culture/progression")
+def careers_progression():
+    all_departments, departments_overview = _get_all_departments()
+
+    return flask.render_template(
+        "/careers/company-culture/progression.html",
+        all_departments=all_departments,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+        departments_overview=departments_overview,
+    )
+
+
+@app.route("/careers/company-culture/diversity")
+def diversity():
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+    context["department"] = None
+    return flask.render_template(
+        "careers/company-culture/diversity.html", **context
     )
 
 
