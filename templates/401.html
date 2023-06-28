@@ -1,21 +1,11 @@
-{% extends 'base_index.html' %}
+{% extends '/_error.tmpl' %}
 
-{% block title %}401: Unauthorised{% endblock %}
+{% set error_code = "401" %}
 
-{% block meta_description %}Something&rsquo;s gone wrong.{% endblock %}
+{% set error_message = "Unauthorised" %}
 
-{% block content %}
-<div class="p-strip is-deep u-extra-space">
-  <div class="row">
-    <div class="col-6 col-medium-3 u-hide--small">
-      <img src="https://assets.ubuntu.com/v1/4de1c56c-404_v1.svg" alt="Error owl" width="400" height="400" />
-    </div>
-    <div class="col-6 col-medium-3">
-      <h1>401: Unauthorised</h1>
-      <p>Sorry you are not allowed to access this page.</p>
-      {% if message %}<p></p><blockquote><code>{{ message }}</code></blockquote></p>{% endif %}
-      <p>If you believe this is an error, please <a href="https://github.com/canonical/canonical.com/issues/new">file an issue</a>.</p>
-    </div>
-  </div>
-</div>
-{% endblock content %}
+{% block error_content %}
+  Sorry you are not allowed to access this page.
+  <br>
+  <a href="https://github.com/canonical/canonical.com/issues/new">File a bug</a> if you think this might be an error.
+{% endblock error_content %}
