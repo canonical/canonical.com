@@ -1,124 +1,153 @@
 {% extends 'base_index.html' %}
 
 {% block title %}Open source projects directory{% endblock %}
+
 {% block meta_description %}{% endblock %}
 
+{% set is_paper = True %}
+
 {% block content %}
-<section class="p-strip is-deep is-bordered">
+
+{% with parent_name="Projects", parent_href="/projects", title="Directory" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
+<section class="p-section">
   <div class="row">
-    <div class="col-9">
-      <h1>Open source projects directory</h1>
+    <div class="col-9 col-start-large-4">
+      <div class="p-block">
+        <h1>Open source projects directory</h1>
+      </div>
       <p>The following projects are covered by Canonical&rsquo;s contributor agreement. If you want to contribute to any of the projects below, please contact the project contacts listed in the third column.</p>
       <p>In order to contribute, you need to sign <a href="https://www.ubuntu.com/legal/contributors">Canonical&rsquo;s contributor agreement</a>.</p>
     </div>
   </div>
+</section>
+<section class="p-section">
   <div class="row">
     <div class="col-12">
       <div class="table__wrapper">
-        <table id="open-source-projects-directory">
+        <table id="open-source-projects-directory" class="p-table--mobile-card" >
           <thead>
             <tr>
               <th scope="col">Description</th>
               <th scope="col">Module/project name</th>
               <th scope="col">Contact</th>
+              <th scope="col">Contact email</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row">Bazaar</th>
               <td></td>
-              <td>John Arbash Meinel (john.meinel&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>John Arbash Meinel</td>
+              <td>john.meinel<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
           
             <tr>
               <th scope="row">Candid authentication service</th>
               <td>candid</td>
-              <td>Francesco Banconi (francesco.banconi&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Francesco Banconi</td>
+              <td>francesco.banconi<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Canonical-copyright opensource project</th>
               <td>pam-xdg-support</td>
-              <td>Matthieu Clemenceau (matthieu.clemenceau&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Matthieu Clemenceau</td>
+              <td>matthieu.clemenceau<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Cloud-init</th>
               <td>cloud-init</td>
-              <td>Christian Ehrhardt (christian.ehrhardt&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Christian Ehrhardt</td>
+              <td>christian.ehrhardt<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Crash and error reporting</th>
               <td>Apport</td>
-              <td>Matthieu Clemenceau (matthieu.clemenceau&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Matthieu Clemenceau</td>
+              <td>matthieu.clemenceau<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Driver detection and loading</th>
               <td>Jockey,<br />
               ubuntu-drivers-common</td>
-              <td>Alberto Milone (alberto.milone&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Alberto Milone</td>
+              <td>alberto.milone<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Germinate</th>
               <td></td>
-              <td>Matthieu Clemenceau (matthieu.clemenceau&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Matthieu Clemenceau</td>
+              <td>matthieu.clemenceau<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Juju</th>
               <td></td>
-              <td>John Arbash Meinel (john.meinel&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>John Arbash Meinel</td>
+              <td>john.meinel<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Juju Dashboard</th>
               <td>jaas-dashboard</td>
-              <td>Claudio Gomboli (claudio.gomboli&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Claudio Gomboli</td>
+              <td>claudio.gomboli<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Landscape Client</th>
               <td></td>
-              <td>Bret Barker (bret.barker&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Bret Barker</td>
+              <td>bret.barker<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Launchpad</th>
               <td></td>
-              <td>Colin Watson (colin.watson&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Colin Watson</td>
+              <td>colin.watson<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">LAZR packages</th>
               <td></td>
-              <td>Colin Watson (colin.watson&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Colin Watson</td>
+              <td>colin.watson<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">LightDM</th>
               <td>lightdm</td>
-              <td>Robert Ancell (robert.ancell&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Robert Ancell</td>
+              <td>robert.ancell<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Loggerhead</th>
               <td></td>
-              <td>Michael Hudson-Doyle (michael.hudson&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Michael Hudson-Doyle</td>
+              <td>michael.hudson<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Metal as a Service</th>
               <td>maas</td>
-              <td>Adam Collard (adam.collard&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Adam Collard</td>
+              <td>adam.collard<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">MicroK8s</th>
               <td>microk8s</td>
-              <td>Alex Jones (alex.jones&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Alex Jones</td>
+              <td>alex.jones<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
@@ -126,13 +155,15 @@
               <td>mir,<br />
               unity-system-compositor,<br />
               unity-greeter-session-broadcast</td>
-              <td>Alan Griffiths (alan.griffiths&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Alan Griffiths</td>
+              <td>alan.griffiths<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Offspring</th>
               <td></td>
-              <td>Pascal Morin (pascal.morin&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Pascal Morin</td>
+              <td>pascal.morin<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
@@ -153,32 +184,37 @@
               ubuntu-system-settings-online-accounts,<br />
               online-accounts-api,<br />
               unity-control-center-signon</td>
-              <td>Alberto Mardegan (alberto.mardegan&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Alberto Mardegan</td>
+              <td>alberto.mardegan<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Oxide</th>
               <td>oxide-qt</td>
-              <td>Chris Coulson (chris.coulson&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Chris Coulson</td>
+              <td>chris.coulson<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Snapcraft</th>
               <td>snapcraft</td>
-              <td>Bret Barker (bret.barker&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Bret Barker</td>
+              <td>bret.barker<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Snapd</th>
               <td>snapd</td>
-              <td>Michael Vogt (michael.vogt&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Michael Vogt</td>
+              <td>michael.vogt<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Software installation and removal</th>
               <td>software-center,<br />
               software-properties-*</td>
-              <td>Ken VanDine (ken.vandine&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Ken VanDine</td>
+              <td>ken.vandine<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
@@ -186,74 +222,86 @@
               <td>Update-manager,<br />
               Update-notifier,<br />
               system-image</td>
-              <td>Steve Langasek (steve.langasek&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Steve Langasek</td>
+              <td>steve.langasek<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Software-properties</th>
               <td></td>
-              <td>Steve Langasek (steve.langasek&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Steve Langasek</td>
+              <td>steve.langasek<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Storm</th>
               <td>storm</td>
-              <td>Gustavo Niemeyer (gustavo.niemeyer&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Gustavo Niemeyer</td>
+              <td>gustavo.niemeyer<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu CD image building tools</th>
               <td>ubuntu-cdimage</td>
-              <td>Steve Langasek (steve.langasek&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Steve Langasek</td>
+              <td>steve.langasek<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu crash database</th>
               <td>whoopsie-daisy</td>
-              <td>Steve Langasek (steve.langasek&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Steve Langasek</td>
+              <td>steve.langasek<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu Live CD Installer</th>
               <td>Ubiquity</td>
-              <td>Steve Langasek (steve.langasek&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Steve Langasek</td>
+              <td>steve.langasek<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu Desktop Installer</th>
               <td>ubuntu-desktop-installer</td>
-              <td>Ken VanDine (ken.vandine&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Ken VanDine</td>
+              <td>ken.vandine<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu OpenStack</th>
               <td>openstack</td>
-              <td>Billy Olsen (billy.olsen&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Billy Olsen</td>
+              <td>billy.olsen<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Ubuntu Server Live Installer</th>
               <td>subiquity</td>
-              <td>Matthieu Clemenceau (matthieu.clemenceau&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Matthieu Clemenceau</td>
+              <td>matthieu.clemenceau<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
-              <th scope="row">Uncomplicated Firewall (ufw)</th>
-              <td></td>
-              <td>Alex Burrage (alex.burrage&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <th scope="row">Uncomplicated Firewall</td>
+              <td>ufw</th>
+              <td>Alex Burrage</td>
+              <td>alex.burrage<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Upstart tasks and services manager</th>
               <td>upstart,<br />
               ubuntu-app-launch</td>
-              <td>Matthieu Clemenceau (matthieu.clemenceau&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Matthieu Clemenceau</td>
+              <td>matthieu.clemenceau<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Vanilla framework</th>
               <td>vanilla-framework</td>
-              <td>Claudio Gomboli (claudio.gomboli&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Claudio Gomboli</td>
+              <td>claudio.gomboli<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
@@ -262,19 +310,22 @@
               ubuntu-mono,<br />
               notify-osd-icons,<br />
               ubuntu-themes</td>
-              <td>Marcus Haslam (marcus.haslam&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Marcus Haslam</td>
+              <td>marcus.haslam<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">VMBuilder</th>
               <td></td>
-              <td>Christian Ehrhardt (christian.ehrhardt&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Christian Ehrhardt</td>
+              <td>christian.ehrhardt<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
             <tr>
               <th scope="row">Xpresser</th>
               <td></td>
-              <td>Gustavo Niemeyer (gustavo.niemeyer&nbsp;{at}&nbsp;canonical&nbsp;{dot}&nbsp;com)</td>
+              <td>Gustavo Niemeyer</td>
+              <td>gustavo.niemeyer<span class="sign sign--first">{ AT }</span>canonical<span class="sign sign--second">{ DOT }</span>com</td>
             </tr>
 
           </tbody>
