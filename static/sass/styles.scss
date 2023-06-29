@@ -680,3 +680,34 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .is-ticked.is-play-button::before {
   @include vf-icon-video-play($color-mid-dark);
 }
+
+// used to obfuscate email addresses on projetcs/directory
+.sign {
+  color: transparent;
+  display: inline-flex;
+  height: 1.3rem;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    color: $colors--light-theme--text-default;
+    display: inline;
+    position: relative;
+  }
+
+  &--first {
+    width: 1rem;
+
+    &::before {
+      content: "@";
+    }
+  }
+
+  &--second {
+    width: 4px;
+
+    &::before {
+      content: ".";
+    }
+  }
+}
