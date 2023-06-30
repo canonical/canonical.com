@@ -1,25 +1,11 @@
-{% extends 'base_index.html' %}
+{% extends '/_error.tmpl' %}
 
-{% block title %}500: Server error{% endblock %}
+{% set error_code = "500" %}
 
-{% block meta_description %}Something&rsquo;s gone wrong.{% endblock %}
+{% set error_message = "Server error" %}
 
-{% block content %}
-<div class="p-strip is-deep u-extra-space">
-  <div class="row">
-    <div class="col-6 col-medium-3 u-hide--small">
-      <img src="https://assets.ubuntu.com/v1/4de1c56c-404_v1.svg" alt="Error owl" width="400" height="400" />
-    </div>
-    <div class="col-6 col-medium-3">
-      <h1>500: Server error</h1>
-      <p class="p-heading--4">Something&rsquo;s gone wrong.</p>
-      {% if message %}<blockquote><code>{{ message }}</code></blockquote>{% endif %}
-      <p>
-        Try reloading the page.
-        If the error persists, please note that it may be a <a href="https://github.com/canonical-web-and-design/canonical.com/issues">known issue</a>.
-        If not, please <a href="https://github.com/canonical-web-and-design/canonical.com/issues/new">file a new issue</a>.
-      </p>
-    </div>
-  </div>
-</div>
-{% endblock content %}
+{% block error_content %}
+  We couldn't load this page.<br>
+  Try reloading or <a href="https://github.com/canonical/canonical.com/issues/new">file an issue</a>.<br>
+  Please note, this may be a <a href="https://github.com/canonical/canonical.com/issues">known issue</a> that we are working on.
+{% endblock error_content %}
