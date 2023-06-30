@@ -783,5 +783,35 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   
   @media (max-width: $breakpoint-large - 1) {
     max-width: 100%;
+}
+  
+// used to obfuscate email addresses on projetcs/directory
+.sign {
+  color: transparent;
+  display: inline-flex;
+  height: 1.3rem;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    color: $colors--light-theme--text-default;
+    display: inline;
+    position: relative;
+  }
+
+  &--first {
+    width: 1rem;
+
+    &::before {
+      content: "@";
+    }
+  }
+
+  &--second {
+    width: 4px;
+
+    &::before {
+      content: ".";
+    }
   }
 }
