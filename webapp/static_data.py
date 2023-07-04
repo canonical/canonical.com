@@ -57,7 +57,7 @@ homepage_featured_products = [
         footer="maas.io",
     ),
     FeaturedProduct(
-        link="https://linuxcontainers.org",
+        link="https://ubuntu.com/lxd",
         image=f"{base_url}/v1/a737970a-products-lxd-wht-aubergine4.svg",
         alt="LXD",
         content=(

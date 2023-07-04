@@ -19,8 +19,8 @@ from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
-from webapp.application import application
-from webapp.greenhouse import Greenhouse, Harvest
+from webapp.application import application, harvest
+from webapp.greenhouse import Greenhouse
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
 
@@ -36,7 +36,6 @@ session = talisker.requests.get_session()
 greenhouse = Greenhouse(
     session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
 )
-harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
 
 app.register_blueprint(application, url_prefix="/careers/application")
@@ -351,8 +350,8 @@ def all_careers():
     )
 
 
-@app.route("/careers/travel")
-@app.route("/careers/sustainability")
+@app.route("/careers/company-culture/remote-work")
+@app.route("/careers/company-culture/sustainability")
 def working_here_pages():
     sprint_locations = [
         [{"lat": 51.53910042435768, "lng": -0.1416575585467801}, "London"],
@@ -417,7 +416,11 @@ def working_here_pages():
     ]
 
     return flask.render_template(
-        f"{flask.request.path}.html", sprint_locations=sprint_locations
+        f"{flask.request.path}.html",
+        sprint_locations=sprint_locations,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
     )
 
 

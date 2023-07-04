@@ -7,7 +7,6 @@ $color-tabs-active-bar: #e95420;
 
 $color-brand: #7c355d;
 $color-dark: #262626;
-$color-paper: #f3f3f3;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
 
@@ -377,22 +376,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 }
 
-#sprint-map {
-  width: 95.1%;
-
-  @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1) {
-    width: 92%;
-  }
-
-  @media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-x-large - 1) {
-    width: 86%;
-  }
-
-  @media screen and (min-width: $breakpoint-x-large) {
-    width: 65%;
-  }
-}
-
 .p-card--pillar {
   background: url("https://assets.ubuntu.com/v1/8131976a-sustainability-suru.png");
   background-position: -45px 45px;
@@ -481,7 +464,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-strip--diversity {
   @extend .p-strip--light;
 
-  background-color: #f4f4f3;
+  background-color: $color-paper;
 }
 
 .u-no-padding--left {
@@ -492,10 +475,42 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   padding-right: 0;
 }
 
+.p-heading--bold {
+  font-weight: $font-weight-bold;
+}
+
 /// pete f - 09/05/2023
 /// can be removed once added upstream
 .is-paper {
   background-color: #f3f3f3;
+}
+
+/// ochuko p. 17/05/2023
+/// can be removed once added upstream
+.p-strip--paper {
+  @extend .p-strip;
+
+  background-color: #f2f2f2;
+}
+
+.p-image-wrapper {
+  padding-top: $spv--small;
+}
+
+// XXX Ochuko 01/06/2023
+// Custom styles for 2 by 3 aspect ratio containers
+// will propose to Vanilla to add this to the framework
+.u-aspect-ratio--2-3 {
+  aspect-ratio: 2 / 3;
+  width: 100%;
+}
+
+.p-image--2-3 {
+  @extend .u-aspect-ratio--2-3;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .p-department-cards__container {  
@@ -563,11 +578,125 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-suru25light {
-  background-color: #f3f3f3;
+  background-color: $color-paper;
   background-image: url('https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg');
   background-position: 0 0;
   background-repeat: no-repeat;
   background-size: 100%;
   max-width: $grid-max-width;
   padding-top: 19%;
+}
+
+
+// Remote work collage
+.p-remote-work__collage-container {
+  column-gap: 0.71rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  max-width: 500px;
+  row-gap: 0.71rem;
+
+  .p-remote-work__collage--1 {
+    height: 181px;
+    width: 121px;
+
+    @media screen and (max-width: 688px) {
+      height: 181px;
+      width: 121px;
+    }
+  }
+
+  .p-remote-work__collage--2 {
+    align-self: end;
+    height: 121px;
+    width: 200px;
+
+    @media screen and (max-width: 688px) {
+      height: 121px;
+      width: 200px;
+    }
+  }
+
+  .p-remote-work__collage--3 {
+    align-self: flex-start;
+    height: 121px;
+    margin-left: 1.5rem;
+    width: 181px;
+
+    @media screen and (max-width: 688px) {
+      height: 121px;
+      margin-left: 0.5rem;
+      width: 181px;
+    }
+  }
+
+  .p-remote-work__collage--4 {
+    height: 181px;
+    width: 121px;
+
+    @media screen and (max-width: 688px) {
+      height: 181px;
+      width: 121px;  
+    }
+  }
+}
+
+.p-icon--chevron-right {
+  @extend .p-icon--chevron-up;
+
+  transform: rotate(-90deg);
+}
+
+.p-engineering-fast-track {
+  margin-bottom: $spv--large;
+
+  &__container {
+    background-color: $color-x-light;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+    }
+  }
+
+  &__item {
+    padding: 0 $spv--medium $spv--small;
+
+    &::before {
+      background: rgb(17 17 17 / 20%);;
+      content: "";
+      display: block;
+      height: 3.5rem;
+      position: absolute;
+      right: 2.9375rem;
+      width: 1px;
+    }
+  }
+
+  &__url {
+    &:hover, &:active, &:visited {
+      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+      color: $color-dark;
+      text-decoration: none;
+    }
+
+    &:focus, &:focus-visible {
+      display: block;
+      outline: 0.1875rem solid #2e96ff !important;
+      outline-offset: -0.1875rem !important;
+    }
+  }
+
+  &__chevron {
+    margin: $spv--small $spv--large 0;
+  }
+}
+
+#latest-articles article:first-child hr {
+  display: none;
 }
