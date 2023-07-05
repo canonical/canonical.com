@@ -1,6 +1,7 @@
 @mixin canonical-p-lists {
   @include canonical-p-content-list;
-  @include canonical-p-inline-list-selection
+  @include canonical-p-inline-list-selection;
+  @include canonical-p-inline-list-social;
 }
 
 @mixin canonical-p-content-list {
@@ -88,6 +89,21 @@
       border-bottom: 1px solid $color-mid-light;
       flex: 1;
       max-width: 5rem;
+    }
+  }
+}
+
+@mixin canonical-p-inline-list-social {
+  .p-inline-list--social {
+    margin-left: 0;
+    padding-left: 0;
+  
+    .p-inline-list__item {
+      @include vf-inline-list-item;
+    }
+
+    [class^="p-icon--"] {
+      vertical-align: text-bottom;
     }
   }
 }
