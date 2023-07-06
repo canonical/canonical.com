@@ -486,16 +486,17 @@ def application_withdrawal(token):
         "careers/application/_withdrawal_notification-email.html",
         applicant_name=application["candidate"]["first_name"],
         hiring_lead_name=hiring_lead_name,
-        position=application["jobs"][0]["name"],
+        position=application["role_name"],
         hiring_lead=application["hiring_lead"],
         application_url=application_url,
+        current_stage=application["current_stage"],
     )
 
     debug_skip_sending = flask.current_app.debug
     if not debug_skip_sending:
         _send_mail(
             hiring_lead_email,
-            "Candidate Withdrawal",
+            "Candidate Withdrawal for " + application["role_name"],
             email_message,
         )
 
