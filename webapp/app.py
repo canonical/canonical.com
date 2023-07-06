@@ -521,7 +521,7 @@ class PressCentre(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=session),
-    excluded_tags=[3184, 3265],
+    excluded_tags=[3184, 3265, 4491, 3599],
     per_page=11,
 )
 
