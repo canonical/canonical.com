@@ -34,16 +34,20 @@
 {% endblock %}
 
 {% block content %}
+
 {% with parent_name="Blog", parent_href="/blog", title="Article" %}
   {% include '/partial/_breadcrumbs.html' %}
 {% endwith %}
+
 <article class="p-article">
-  <hr class="p-rule is-fixed-width">
-  <header class="p-article__header">
+  <header class="row">
+    <hr class="p-rule">
     <div class="p-article__aside">
       <div class="p-media-object">
         {% if article.author %}
-        <div class="p-image-wrapper"><img src="{% if article.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ article.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image" alt=""></div>
+          <div class="p-image-wrapper">
+            <img src="{% if article.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ article.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image" alt="">
+          </div>
         {% endif %}
       
         <div class="p-media-object__details">
@@ -66,13 +70,13 @@
 
       {% if tags %}
         <div class="p-block">
-          {%- for tag in tags -%}
+          {% for tag in tags %}
             <a class="p-chip--information" href="/blog/tag/{{ tag.slug }}">
               <span class="p-chip__value">
-                  {{ tag.name }}
+                {{ tag.name }}
               </span>
             </a>
-          {%- endfor -%}
+          {% endfor %}
         </div>
       {% endif %}
 
@@ -81,37 +85,34 @@
           <span class="p-text--default">
             Share on:
           </span>
-          <li class="p-inline-list__item">
-            <a class="p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
-              Facebook
-            </a>
-          </li>
-
-          <li class="p-inline-list__item">
-            <a class="p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
-              Twitter
-            </a>
-          </li>
-
-          <li class="p-inline-list__item">
-            <a class="p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
-              LinkedIn
-            </a>
-          </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+            Facebook
+          </a>
+        </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
+            Twitter
+          </a>
+        </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
+            LinkedIn
+          </a>
+        </li>
       </ul>
     </div>
   </header>
-  <hr class="p-rule is-fixed-width">
-  <div class="p-article__row">
-    <aside class="p-article__newsletter-signup">
+  <div class="row">
+    <aside class="p-article__aside">
       <hr class="p-rule u-hide--medium u-hide--large">
-      <div class="p-article__aside">
+      <div class="p-section">
         <div class="p-block">
           <h2 class="p-muted-heading">Newsletter signup</h2>
         </div>
         <form action="https://ubuntu.com/marketo/submit" method="post" id="mktoForm_1212" onsubmit="ga('send', 'Newsletter', 'Signup', 'New homepage newsletter signup');">
           <p >Select topics you're interested in:</p>
-          
+
           <ul class="p-list">
             <li class="p-list__item u-clearfix">
               <label class="p-checkbox">
@@ -177,14 +178,13 @@
         </form>
       </div>
   </aside>
-  <section class="p-article__main">
-    <div class="u-text-max-width">
+    <section class="p-article__main">
       {{ article.content.rendered|safe }}
-    </div>
-  </section>
+    </section>
   </div>
+</article>
 
-  {% if related_articles %}
+{% if related_articles %}
   <section class="p-section">
     <div class="u-fixed-width">
       <h4 class="p-muted-heading">Related posts</h4>
@@ -193,8 +193,6 @@
       {% include 'blog/blog-card.html' %}
     {% endfor %}
   </section>
-  {% endif %}
+{% endif %}
   
-</article>
-
 {% endblock %}
