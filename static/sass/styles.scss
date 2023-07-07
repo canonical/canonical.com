@@ -5,7 +5,6 @@
 
 $color-brand: #7c355d;
 $color-dark: $colors--dark-theme--background-default;
-$color-paper: #f3f3f3;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) -
@@ -14,7 +13,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_animations";
 @import "pattern_application";
 @import "pattern_buttons";
-@import "pattern_blog-card";
 @import "pattern_cards";
 @import "pattern_careers-modal";
 @import "pattern_footer";
@@ -33,8 +31,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
-@include vf-p-icon-begin-downloading;
-@include blog-p-card;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
 @include canonical-p-buttons;
@@ -492,22 +488,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   padding-top: $spv--small;
 }
 
-// XXX Ochuko 01/06/2023
-// Custom styles for 2 by 3 aspect ratio containers
-// will propose to Vanilla to add this to the framework
-.u-aspect-ratio--2-3 {
-  aspect-ratio: 2 / 3;
-  width: 100%;
-}
-
-.p-image--2-3 {
-  @extend .u-aspect-ratio--2-3;
-
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
 .p-department-cards__container {
   aspect-ratio: auto;
   background-color: #fff;
@@ -836,5 +816,23 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     &::before {
       content: ".";
     }
+  }
+}
+
+// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
+.p-breadcrumbs {
+  margin-bottom: $spv--small;
+}
+
+// XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
+.p-pagination {
+  flex-wrap: wrap;
+}
+
+.aside {
+  grid-row: 2;
+
+  @media (min-width: $breakpoint-small) {
+    grid-row: auto;
   }
 }
