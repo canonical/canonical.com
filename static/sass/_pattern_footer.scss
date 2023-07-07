@@ -1,19 +1,22 @@
 @mixin canonical-p-footer {
   .p-footer {
     @extend %vf-strip;
-  
+
+    background: $colors--dark-theme--background-alt;
+    color: $colors--dark-theme--text-default;
+
     .p-list__item--condensed {
       @extend %vf-list-item;
-    
+
       padding-bottom: 0;
       padding-top: 0;
     }
 
     a {
-      color: #3097FF;
+      color: $color-link-dark;
 
       &:visited {
-        color: #AB83D3;
+        color: $color-link-visited-dark;
       }
     }
   }
@@ -22,8 +25,8 @@
 // Align social links to bottom on large screens
 @mixin canonical-partners-footer {
   .partners-footer {
-    border-left: 5px solid #E95420;
-    padding-left:27px;
+    border-left: 5px solid $color-ubuntu;
+    padding-left: 27px;
   }
 }
 
@@ -31,7 +34,7 @@
   @media (min-width: $breakpoint-large) {
     .u-position {
       position: relative;
-    
+
       .u-position--bottom {
         bottom: 0;
         position: absolute;
@@ -39,5 +42,3 @@
     }
   }
 }
-  
-
