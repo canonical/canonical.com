@@ -1,12 +1,14 @@
-<div class="p-blog-card">
+<div class="p-block">
   <hr class="p-rule is-fixed-width">
-  <div class="p-blog-card__row">
-    <div class="p-blog-card__aside">
-      <p><a href="/blog/author/{{article.author.slug}}">{{ article.author.name }}</a>
-        <br>{{ article.date }}
+  <div class="row">
+    <div class="aside col-3 col-medium-2">
+      <p>
+        <a href="/blog/author/{{article.author.slug}}">{{ article.author.name }}</a>
+        <br>
+        {{ article.date }}
       </p>
     </div>
-    <div class="p-blog-card__main">
+    <div class="col-6 col-medium-4">
       <h3 class="p-heading--4">
         <a href="/blog/{{ article.slug }}">{{ article.title.rendered|safe }}</a>
       </h3>
@@ -32,17 +34,15 @@
           {% include 'blog/singular-category.html' %}
         </span>
       </span>
-      <p class="p-blog-card__excerpt">
+      <p class="u-hide--small u-hide--medium">
         {{ article.excerpt.raw.replace("[…]", "")|truncate(1000) }}...
       </p>
     </div>
-    <div class="p-blog-card__thumbnail">
+    <div class="col-3 u-hide--small u-hide--medium">
       {% if article.image and article.image.source_url %}
-      <div class="u-aspect-ratio--3-2">
         <a href="/blog/{{ article.slug }}" aria-hidden="true" tabindex="-1">
           <div class="p-image-wrapper">{{ article.image.rendered|safe }}</div>
         </a>
-      </div>
       {% endif %}
     </div>
   </div>

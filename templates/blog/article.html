@@ -39,10 +39,9 @@
   {% include '/partial/_breadcrumbs.html' %}
 {% endwith %}
 
-<article class="p-article">
+<article class="p-block">
   <header class="row">
-    <hr class="p-rule">
-    <div class="p-article__aside">
+    <div class="aside col-3 col-medium-2">
       <div class="p-media-object">
         {% if article.author %}
           <div class="p-image-wrapper">
@@ -63,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="p-article__title-block">
+    <div class="p-block col-9 col-medium-4">
       <div class="p-block">
         <h1>{{ article.title.rendered|safe }}</h1>
       </div>
@@ -103,11 +102,12 @@
       </ul>
     </div>
   </header>
+  <hr class="p-rule is-fixed-width">
   <div class="row">
-    <aside class="p-article__aside">
-      <hr class="p-rule u-hide--medium u-hide--large">
+    <aside class="aside col-3 col-medium-2">
       <div class="p-section">
         <div class="p-block">
+          <hr class="p-rule u-hide--medium u-hide--large">
           <h2 class="p-muted-heading">Newsletter signup</h2>
         </div>
         <form action="https://ubuntu.com/marketo/submit" method="post" id="mktoForm_1212" onsubmit="ga('send', 'Newsletter', 'Signup', 'New homepage newsletter signup');">
@@ -178,7 +178,7 @@
         </form>
       </div>
   </aside>
-    <section class="p-article__main">
+    <section class="p-section col-6 col-medium-4">
       {{ article.content.rendered|safe }}
     </section>
   </div>
