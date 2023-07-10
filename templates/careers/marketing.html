@@ -1,92 +1,28 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/1larR0nWbVEqeUQbIJdgWemr7I6cqzoUhA9MD6sRQZwE {% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1larR0nWbVEqeUQbIJdgWemr7I6cqzoUhA9MD6sRQZwE{% endblock meta_copydoc %}
 
 {% block title %}Marketing | Careers{% endblock %}
 
 {% block meta_description %}We deliver the right technology message to a highly competent audience, at exactly the right moment. Success depends on having good instincts for tech trends and topics and a natural inclination to leadership.{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Marketing</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">We deliver the right technology message to a highly competent audience, at exactly the right moment. Success depends on having good instincts, a keen interest in technology  and a natural inclination for leadership.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Marketing">See all Marketing roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Marketing at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>Our team also understands that it's not just about broadcast, it's about feedback, measurement, iteration and improvement. We use analytics to understand how the world is consuming our narrative, and technology to sift through mountains of engagement data to spot the opportunities that are ready to explore further.</p>
-        <p>We delight in showing that we can engineer growth in engagement, awareness, consumption and commerce just as effectively as our colleagues in software development engineer reliability and performance in their products. </p>
-        <p>We are growth hackers at heart. As the tools evolve, so do we, which creates a learning environment that celebrates new ideas. We work in an industry of giants, so we have always punched way above our weight and that's exactly what we expect from new members of the team too.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/df050be9-department-marketing-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>Marketers at Canonical are advocates for our brands and products. We work together across the full portfolio.</p>
-        <p>Our marketing roles are not behind-the-scenes jobs, they are public leadership roles. We expect our team to be just as comfortable delivering our message online as they are face-to-face at meetups, meetings, conferences, partner workshops, or press events. From the analyst community to the tech press, from the CIO to the graduate engineer, from prospects to existing customers, we think Ubuntu should be the starting point for technology transformation around open source, and our marketing team is the amplifier for our message.</p>
-        <p>This team is all about having the confidence in our ideas and the quality of our solutions to put us squarely into the frame for companies thinking about their biggest technology questions. Join us if you are passionate about digital marketing and technology products.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>Successful marketers at Canonical love technology and words. They are tech-savvy and resourceful. They are strong communicators and are comfortable working with data at scale. They love visualising and presenting data. They are passionate about message and language, and strive to find the best way to share a powerful idea that leads people to act.</p>
-        <p>Most of all, our marketers understand Canonical's unique audience. The company has a global following of sophisticated tech readers and decision makers that are constantly evaluating the state of the art for open infrastructure and applications. If you join the team, you'll join us in our mission to reach this audience at precisely the right moment with clear information that highlights how Canonical's solutions deliver the very best in quality and economics. It’s a fast-paced, high stakes responsibility that demands a high level of intellect and work ethic.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Marketing', tag_id='1216', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="We deliver the right technology message to a highly competent audience, at exactly the right moment. Success depends on having good instincts, a keen interest in technology and a natural inclination for leadership.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Marketing at Canonical',
+    block_1_text=["Our team also understands that it's not just about broadcast, it's about feedback, measurement, iteration and improvement. We use analytics to understand how the world is consuming our narrative, and technology to sift through mountains of engagement data to spot the opportunities that are ready to explore further.", "We delight in showing that we can engineer growth in engagement, awareness, consumption and commerce just as effectively as our colleagues in software development engineer reliability and performance in their products.", "We are growth hackers at heart. As the tools evolve, so do we, which creates a learning environment that celebrates new ideas. We work in an industry of giants, so we have always punched way above our weight and that's exactly what we expect from new members of the team too."],
+    image_url='https://assets.ubuntu.com/v1/df050be9-department-marketing-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["Marketers at Canonical are advocates for our brands and products. We work together across the full portfolio.", "Our marketing roles are not behind-the-scenes jobs, they are public leadership roles. We expect our team to be just as comfortable delivering our message online as they are face-to-face at meetups, meetings, conferences, partner workshops, or press events. From the analyst community to the tech press, from the CIO to the graduate engineer, from prospects to existing customers, we think Ubuntu should be the starting point for technology transformation around open source, and our marketing team is the amplifier for our message.", "This team is all about having the confidence in our ideas and the quality of our solutions to put us squarely into the frame for companies thinking about their biggest technology questions. Join us if you are passionate about digital marketing and technology products."],
+    block_3_subheading="Who you are",
+    block_3_text=["Successful marketers at Canonical love technology and words. They are tech-savvy and resourceful. They are strong communicators and are comfortable working with data at scale. They love visualising and presenting data. They are passionate about message and language, and strive to find the best way to share a powerful idea that leads people to act.", "Most of all, our marketers understand Canonical's unique audience. The company has a global following of sophisticated tech readers and decision makers that are constantly evaluating the state of the art for open infrastructure and applications. If you join the team, you'll join us in our mission to reach this audience at precisely the right moment with clear information that highlights how Canonical's solutions deliver the very best in quality and economics. It’s a fast-paced, high stakes responsibility that demands a high level of intellect and work ethic."],
+    blog_heading_topic='Marketing',
+    blog_tag_id='1216'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

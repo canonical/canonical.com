@@ -7,81 +7,22 @@
 {% block meta_description %}Finance at Canonical isn't just about numbers. It's about connecting with people across the business, helping them to understand the value they bring, as well as promoting the commercial focus that will grow our brand.{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Finance</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">Finance at Canonical isn't just about numbers. It's about connecting with people across the business, helping them understand the value they bring, as well as promoting the commercial focus that will grow our brand.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Finance">See all Finance roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Finance at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>We fuel growth by devising innovative solutions to complex problems in forecasting, accounting, compliance, and project management. From advising all teams across the business to managing day-to-day data, you'll help keep our business on track to meet (or, better yet, exceed) our goals.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/b0df5c27-department-finance-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>With significant growth and a stated path to public markets, industry–leading analysis is essential. Our team  translates complex data into actionable insights that drive strategic company decisions, whether modelling business scenarios or tracking performance metrics.  We manage large-scale projects and implement data analytics strategies that address and solve our complex business needs.  We protect Canonical by partnering with our business and engineering teams to identify and address risks. We balance our legal and compliance requirements with our company values and the dynamic needs of our users, along with developing efficient systems to ensure Canonical keeps up with regulations.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>The finance team at Canonical offers rapid growth in understanding both industry best practises with analytical excellence. We welcome candidates with an outstanding track record, a commitment to teamwork, and a personal interest in the future of software and the financial frameworks that simplify how customers access our products, solutions and support.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Finance', tag_id='2533', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="Finance at Canonical isn't just about numbers. It's about connecting with people across the business, helping them understand the value they bring, as well as promoting the commercial focus that will grow our brand.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Finance at Canonical',
+    image_url='https://assets.ubuntu.com/v1/b0df5c27-department-finance-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["With significant growth and a stated path to public markets, industry–leading analysis is essential. Our team  translates complex data into actionable insights that drive strategic company decisions, whether modelling business scenarios or tracking performance metrics. We manage large-scale projects and implement data analytics strategies that address and solve our complex business needs. We protect Canonical by partnering with our business and engineering teams to identify and address risks. We balance our legal and compliance requirements with our company values and the dynamic needs of our users, along with developing efficient systems to ensure Canonical keeps up with regulations."],
+    block_3_subheading="Who you are",
+    block_3_text=["The finance team at Canonical offers rapid growth in understanding both industry best practises with analytical excellence. We welcome candidates with an outstanding track record, a commitment to teamwork, and a personal interest in the future of software and the financial frameworks that simplify how customers access our products, solutions and support."],
+    blog_heading_topic="Finance",
+    blog_tag_id="2533",
+    blog_limit="3"
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

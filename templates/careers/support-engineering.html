@@ -1,88 +1,26 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/1TkePZPzjdIMRTPIep6C1f8SnTPmkKiGdMyUEPMK9rH8 {% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1hc5olKZcPIHFtxYAHvYFS_c-NZIYy3ZT8WqG7r021MI/{% endblock meta_copydoc %}
 
 {% block title %}Support Engineering | Careers{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Support Engineering</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">Support Engineering roles include technology experts and support operators across a vast portfolio of open source projects. We support, test, fix and operate the Ubuntu OS, infrastructure such as Kubernetes, LXD, OpenStack, MAAS, and a growing portfolio of open source applications. We believe in customer-centricity, working with the community and enabling smart operations through code. </p>
-      <a class="p-button--positive" href="/careers/all?filter=Support+Engineering">See all Support Engineering roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Support Engineering at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>In Support Engineering, you will enjoy the excitement of a team that is fun, diverse, distributed globally and incredibly competent. Every day, we deliver the expertise our customers need to solve some of the world’s most challenging problems.</p>
-        <p>While we all enjoy the feeling that comes from passionately working together, we also collectively respect each other's lives away from work. Part of standing together with a global team that is set up to work remotely means you can step away during your off-hours and know that your team has your back. Your manager will guide and mentor you through your work but equally wants you to make sure you are taking the time away from work to help you unwind and refocus. All of us are in this together, and we want you in Support Engineering for the long term.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/456c9c0f-department-support-engineering-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>We build strong relationships with customers and stakeholders. This may involve regular check-ins with key customers, hosting customer events, or performing service reviews.</p>
-        <p>We work closely with engineering teams to ensure that customer issues are addressed in a timely manner, and that support requirements are considered during the product development process.</p>
-        <p>Our team also improves the quality of support documentation and resources. This may involve updating existing documentation, creating new knowledge base articles, or developing tutorials and training materials.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>If you enjoy helping customers, solving really complex problems and thrive on operating software or building software, then Support Engineering at Canonical offers a challenging work environment where you can learn and grow.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Support Engineering', tag_id='1374', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="Support Engineering roles include technology experts and support operators across a vast portfolio of open source projects. We support, test, fix and operate the Ubuntu OS, infrastructure such as Kubernetes, LXD, OpenStack, MAAS, and a growing portfolio of open source applications. We believe in customer-centricity, working with the community and enabling smart operations through code.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Support Engineering at Canonical',
+    block_1_text=["In Support Engineering, you will enjoy the excitement of a team that is fun, diverse, distributed globally and incredibly competent. Every day, we deliver the expertise our customers need to solve some of the world’s most challenging problems.", "While we all enjoy the feeling that comes from passionately working together, we also collectively respect each other's lives away from work. Part of standing together with a global team that is set up to work remotely means you can step away during your off-hours and know that your team has your back. Your manager will guide and mentor you through your work but equally wants you to make sure you are taking the time away from work to help you unwind and refocus. All of us are in this together, and we want you in Support Engineering for the long term."],
+    image_url='https://assets.ubuntu.com/v1/456c9c0f-department-support-engineering-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["We build strong relationships with customers and stakeholders. This may involve regular check-ins with key customers, hosting customer events, or performing service reviews.", "We work closely with engineering teams to ensure that customer issues are addressed in a timely manner, and that support requirements are considered during the product development process.", "Our team also improves the quality of support documentation and resources. This may involve updating existing documentation, creating new knowledge base articles, or developing tutorials and training materials."],
+    block_3_subheading="Who you are",
+    block_3_text=["If you enjoy helping customers, solving really complex problems and thrive on operating software or building software, then Support Engineering at Canonical offers a challenging work environment where you can learn and grow."],
+    blog_heading_topic='Support Engineering',
+    blog_tag_id='1374'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}
