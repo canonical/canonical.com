@@ -19,8 +19,8 @@ from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
-from webapp.application import application
-from webapp.greenhouse import Greenhouse, Harvest
+from webapp.application import application, harvest
+from webapp.greenhouse import Greenhouse
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
 
@@ -36,7 +36,6 @@ session = talisker.requests.get_session()
 greenhouse = Greenhouse(
     session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
 )
-harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
 
 app.register_blueprint(application, url_prefix="/careers/application")
@@ -193,24 +192,6 @@ def secure_boot():
 
 
 # Career departments
-@app.route("/careers/diversity")
-def diversity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/index.html", **context)
-
-
-@app.route("/careers/diversity/identity")
-def identity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/identity.html", **context)
-
-
 @app.route("/careers/results")
 def results():
     vacancies = []
@@ -226,11 +207,6 @@ def results():
     }
 
     return flask.render_template("careers/results.html", **context)
-
-
-@app.route("/careers/company-culture")
-def culture():
-    return flask.render_template("careers/company-culture.html")
 
 
 @app.route("/careers/sitemap.xml")
@@ -324,20 +300,6 @@ def careers_index():
     )
 
 
-@app.route("/careers/progression")
-def careers_progression():
-    all_departments, departments_overview = _get_all_departments()
-
-    return flask.render_template(
-        "/careers/progression.html",
-        all_departments=all_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
-        departments_overview=departments_overview,
-    )
-
-
 @app.route("/careers/all")
 def all_careers():
     sorted_departments = _get_sorted_departments()
@@ -348,6 +310,37 @@ def all_careers():
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+    )
+
+
+# Company culture pages
+@app.route("/careers/company-culture")
+def culture():
+    return flask.render_template("careers/company-culture.html")
+
+
+@app.route("/careers/company-culture/progression")
+def careers_progression():
+    all_departments, departments_overview = _get_all_departments()
+
+    return flask.render_template(
+        "/careers/company-culture/progression.html",
+        all_departments=all_departments,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+        departments_overview=departments_overview,
+    )
+
+
+@app.route("/careers/company-culture/diversity")
+def diversity():
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+    context["department"] = None
+    return flask.render_template(
+        "careers/company-culture/diversity.html", **context
     )
 
 
@@ -527,7 +520,7 @@ class PressCentre(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=session),
-    excluded_tags=[3184, 3265],
+    excluded_tags=[3184, 3265, 4491, 3599],
     per_page=11,
 )
 
