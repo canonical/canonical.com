@@ -44,7 +44,6 @@
 
   function showJobList(containerDiv, searchTerm, vacancies) {
     let searchResult = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : vacancies
-    console.log(searchTerm)
     let jobs = vacancies.filter( a => searchResult.includes(a) )
     containerDiv.innerHTML = ''
     jobs.forEach( job => { 
