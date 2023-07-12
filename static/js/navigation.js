@@ -12,6 +12,9 @@ function toggleDropdown(toggle, open) {
     }
   } else {
     parentElement.classList.remove('is-active');
+    if (overlay) {
+      overlay.classList.remove("is-applied")
+    }
   }
 }
 
