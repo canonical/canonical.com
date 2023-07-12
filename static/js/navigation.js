@@ -50,6 +50,7 @@ function initNavDropdowns(containerClass) {
       const shouldOpen = !toggle.parentNode.classList.contains('is-active');
       closeAllDropdowns(toggles);
       toggleDropdown(toggle, shouldOpen);
+      toggleDropdownOnEsc(toggles);
     });
   });
 }
@@ -67,6 +68,14 @@ function initDropdowItems(itemClass) {
   }
 }
 
+function toggleDropdownOnEsc(toggles) {
+  document.addEventListener("keydown", function(e){
+    if(e.code === "Escape") {
+      closeAllDropdowns(toggles);
+    }
+  })
+}
+    
 initNavDropdowns('.p-navigation__item--dropdown-toggle');
 initDropdowItems('.p-navigation__dropdown-item');
 
