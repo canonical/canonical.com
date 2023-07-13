@@ -1,3 +1,5 @@
+const overlay = document.querySelector(".p-navigation__overlay");
+
 function toggleDropdown(toggle, open) {
   var parentElement = toggle.parentNode;
   var dropdown = document.getElementById(toggle.getAttribute('aria-controls'));
@@ -5,8 +7,14 @@ function toggleDropdown(toggle, open) {
 
   if (open) {
     parentElement.classList.add('is-active');
+    if (overlay) {
+      overlay.classList.add("is-applied")
+    }
   } else {
     parentElement.classList.remove('is-active');
+    if (overlay) {
+      overlay.classList.remove("is-applied")
+    }
   }
 }
 
@@ -23,6 +31,9 @@ function handleClickOutside(toggles, containerClass) {
     if (target.closest) {
       if (!target.closest(containerClass)) {
         closeAllDropdowns(toggles);
+        if (overlay) {
+          overlay.classList.remove("is-applied")
+        }
       }
     }
   });
@@ -39,6 +50,7 @@ function initNavDropdowns(containerClass) {
       const shouldOpen = !toggle.parentNode.classList.contains('is-active');
       closeAllDropdowns(toggles);
       toggleDropdown(toggle, shouldOpen);
+      toggleDropdownOnEsc(toggles);
     });
   });
 }
@@ -56,6 +68,14 @@ function initDropdowItems(itemClass) {
   }
 }
 
+function toggleDropdownOnEsc(toggles) {
+  document.addEventListener("keydown", function(e){
+    if(e.code === "Escape") {
+      closeAllDropdowns(toggles);
+    }
+  })
+}
+    
 initNavDropdowns('.p-navigation__item--dropdown-toggle');
 initDropdowItems('.p-navigation__dropdown-item');
 
