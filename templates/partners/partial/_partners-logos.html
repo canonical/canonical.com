@@ -1,44 +1,27 @@
 {% if partners %}
-  {% if is_split %}
-    <section class="p-section">
-      <div class="row">
-        <hr class="p-rule">
-        <div class="col-medium-6 col-6">
-          <h2>{{ title }}</h2>
-        </div>
-        <div class="col-medium-6 col-6">
-          <ul class="p-logo-section__items" style="justify-content: space-around;">
-            {% for partner in partners %}
-            <li class="p-logo-section__item">
-              <img class="p-logo-section__logo" src="{{ partner.logo }}" style="min-width: 5rem;" alt="{{ partner.slug}}">
-            </li>
-            {% endfor %}
-          </ul>
-          <hr class="p-rule">
-          <p><a href="{{ link_href }}">{{ link_text }}&nbsp;&rsaquo;</a></p>
-        </div>
+  <section class="p-section">
+    <div class="row p-block">
+      <hr class="p-rule">
+      <h2>{{ title }}</h2>
+    </div>
+    <div class="row p-block">
+      <div class="p-logo-section">
+        <div class="p-logo-section__items" style="justify-content: flex-start;"> 
+          {% for partner in partners %}
+            {% if loop.index % 7 == 0 %} 
+              <hr class="p-rule">
+            {% else %}
+              <div class="p-logo-section__item">
+                <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug }}" style="width: auto;">
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>  
       </div>
-    </section>
-  {% else %}
-    <section class="p-section">
-      <div class="row p-block">
-        <hr class="p-rule">
-        <h2>{{ title }}</h2>
+      <hr class="p-rule">
+      <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
+        <p class="u-align--right"><a href="{{ link_href }}">{{ link_text }}&nbsp;&rsaquo;</a></p>
       </div>
-      <div class="row">
-        <div class="p-logo-section">
-          <div class="p-logo-section__items"> 
-            {% for partner in partners %}
-                <div class="p-logo-section__item">
-                  <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug }}">
-                </div>
-            {% endfor %}
-          </div>  
-        </div>
-        <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
-          <p><a href="{{ link_href }}">{{ link_text }}&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </section>
-  {% endif %}
+    </div>
+  </section>
 {% endif %}

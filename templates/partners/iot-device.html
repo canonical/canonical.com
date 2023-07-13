@@ -29,28 +29,9 @@
   </div>
 </section>
 
-<section class="p-section">
-  <div class="u-fixed-width p-block">
-    <hr class="p-rule is-fixed-width">
-    <h2>A selection of our IoT partners</h2>
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        {% for partner in partners %}
-          <div class="p-logo-section__item">
-            <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-    <div class="p-block">
-      <div class="row">
-        <div class="col-start-large-7 col-6">
-          <p class="u-align--right"><a href="/partners/find-a-partner">See all partners&nbsp;&rsaquo;</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{% with title="A selection of our IoT partners", link_text="See all partners", link_href="/partners/find-a-partner" %}
+  {% include '/partners/partial/_partners-logos.html' %}
+{% endwith %}
 
 <section class="p-section">
   <div class="u-fixed-width u-sv3">
