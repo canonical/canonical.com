@@ -8,11 +8,12 @@
 
 {% set is_paper = True %}
 
+{% block content %}
+
 {% with parent_name="Partners", parent_href="/partners", title="Public cloud programme" %}
   {% include '/partial/_breadcrumbs.html' %}
 {% endwith %}
 
-{% block content %}
 <section class="p-section">
   <div class="row--50-50">
     <div class="col">
@@ -28,38 +29,9 @@
   </div>
 </section>
 
-<section class="p-section">
-  <div class="row">
-    <hr class="p-rule">
-    <div class="col-6 col-medium-3">
-      <h2>A selection<br class="u-hide--small"> of our Public Cloud partners</h2>
-    </div>
-    <div class="col-6 col-medium-3">
-      <div class="p-logo-section">
-      <div class="p-logo-section__items u-no-margin--bottom">
-        {% for partner in partners %}
-          {% if loop.index <= 3%}
-          <div class="p-logo-section__item">
-            <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
-          </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <hr class="p-rule">
-      <div class="p-logo-section__items u-no-margin--bottom">
-        {% for partner in partners %}
-          {% if loop.index > 3%}
-          <div class="p-logo-section__item">
-            <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug}}">
-          </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <hr class="p-rule">
-      <p class="u-align-text--right"><a href="/partners/find-a-partner?filters=public-cloud">See all Public Cloud partners&nbsp;&rsaquo;</a></p>
-    </div>
-  </div>
-</section>
+{% with title="A selection of our Public Cloud partners", link_text="See all partners", link_href="/partners/find-a-partner" %}
+  {% include '/partners/partial/_partners-logos.html' %}
+{% endwith %}
 
 <section class="p-section">
   <div class="row--50-50">
