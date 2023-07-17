@@ -683,7 +683,7 @@ def cache_headers(response):
     import ipdb
     ipdb.set_trace()
     if flask.request.path.startswith(disable_cache_on):
-        response.cache_control.max_age = "600"
+        response.cache_control.max_age = "3600"
 
     return response
 
