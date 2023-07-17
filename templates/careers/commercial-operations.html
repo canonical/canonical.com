@@ -1,88 +1,28 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/1zLFku18ZAMVStgkIO3bCoKEXW6ShwMEkB0w9d_nCx9U/ {% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1zLFku18ZAMVStgkIO3bCoKEXW6ShwMEkB0w9d_nCx9U{% endblock meta_copydoc %}
 
 {% block title %}Commercial Operations | Careers{% endblock %}
 
 {% block meta_description %}Excellence in operations enables Canonical to scale efficiently. We look for people who are passionate about tools and efficiency.{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Commercial Operations</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p>Canonical is a globally distributed company with customers and employees in almost every country. Excellence in commercial operations helps us scale efficiently &ndash; and thrive as we do. We celebrate relentless improvement. Our team members are passionate about tools and efficiency, focused on measurement, and always ready to lend a helping hand.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Commercial+Operations">See all Commercial Operations roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Commercial Operations at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>At Canonical, we don't just run a great business, we run the infrastructure and applications that power many great businesses. From IT to commercial operations and logistics, our Commercial Operations team ensures that everything runs smoothly. For us, getting it done right is the best feeling in the world. No shortcuts, no loose ends, no waste.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/a93df5b0-department-operations-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>We believe it's only possible to operate with mastery if you understand your domain deeply, prioritise re-use and iteration, and bring a sharp mind to every problem. That’s why we invest in improving our data and tools to elevate our self-awareness and automate processes.</p>
-      </div>
-    </div>
-  </div>  
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>Whether it's running complex technical infrastructure or challenging projects, successful operations team members at Canonical have a consistent focus on data, a willingness to learn, and exceptional personal organisation and teamwork. This combination makes our team a force for good in the battle against entropy. You'll thrive in our team if you find time zones easy and if technical customers are your favourite.</p>
-      </div>
-    </div>
-  </div>  
-</section>
-
-{% include "shared/_social-icons-section-with-github-extended.html" %}
-
-
-{% with section_classes='p-strip', heading_topic='Commercial Operations', tag_id='3819', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="Canonical is a globally distributed company with customers and employees in almost every country. Excellence in commercial operations helps us scale efficiently &ndash; and thrive as we do. We celebrate relentless improvement. Our team members are passionate about tools and efficiency, focused on measurement, and always ready to lend a helping hand.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Commercial operations at Canonical',
+    block_1_text=["At Canonical, we don't just run a great business, we run the infrastructure and applications that power many great businesses. From IT to commercial operations and logistics, our Commercial Operations team ensures that everything runs smoothly. For us, getting it done right is the best feeling in the world. No shortcuts, no loose ends, no waste."],
+    image_url='https://assets.ubuntu.com/v1/a93df5b0-department-operations-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["We believe it's only possible to operate with mastery if you understand your domain deeply, prioritise re-use and iteration, and bring a sharp mind to every problem. That’s why we invest in improving our data and tools to elevate our self-awareness and automate processes."],
+    block_3_subheading="Who you are",
+    block_3_text=["Whether it's running complex technical infrastructure or challenging projects, successful operations team members at Canonical have a consistent focus on data, a willingness to learn, and exceptional personal organisation and teamwork. This combination makes our team a force for good in the battle against entropy. You'll thrive in our team if you find time zones easy and if technical customers are your favourite."],
+    blog_heading_topic='Commercial Operations',
+    blog_tag_id='3819'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

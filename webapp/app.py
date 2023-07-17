@@ -316,7 +316,7 @@ def all_careers():
 # Company culture pages
 @app.route("/careers/company-culture")
 def culture():
-    return flask.render_template("careers/company-culture.html")
+    return flask.render_template("careers/company-culture/index.html")
 
 
 @app.route("/careers/company-culture/progression")

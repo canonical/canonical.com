@@ -7,81 +7,22 @@
 {% block meta_description %}Canonical works at the forefront of global digital trends and the legal, licensing and regulatory frameworks that support them. We are a tight-knit team that thrives on the rapid changes that are taking place in the technology and business landscape.{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Legal</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">Canonical works at the forefront of global digital trends and the legal, licensing and regulatory frameworks that support them. We are a tight-knit team that thrives on the rapid changes that are taking place in the technology and business landscape.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Legal">See all Legal roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Legal at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>Enabling enterprises, partners and technology providers across the globe to embrace the latest open source technology requires efficient contracting that is both commercially sophisticated and technically interesting. We shape multinational agreements between many of the largest organisations in a wide range of industries - from telecommunications to retail, financial services and media.</p>
-        <p>We also participate in the global effort to define and understand the future of collaborative engineering that open source licences can unlock.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/815e6e4a-department-legal-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>In everything we work on, we aim to deliver contractual frameworks that are simple, clean and understandable. We ensure that our contracts represent current best practice and the latest approaches to software production, consumption and distribution. We believe that rigour should be combined with business enablement, which means we support complex deals in a way that protects all parties and minimises friction.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>Experience at Canonical offers rapid growth in understanding the global legal landscape, in terms of technology, but also in terms of commercial and corporate contracting. We welcome candidates with an outstanding track record, a commitment to teamwork, and a personal interest in the future of software and the legal frameworks that underpin it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Legal', tag_id='1216', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="Canonical works at the forefront of global digital trends and the legal, licensing and regulatory frameworks that support them. We are a tight-knit team that thrives on the rapid changes that are taking place in the technology and business landscape.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Legal at Canonical',
+    block_1_text=["Enabling enterprises, partners and technology providers across the globe to embrace the latest open source technology requires efficient contracting that is both commercially sophisticated and technically interesting. We shape multinational agreements between many of the largest organisations in a wide range of industries - from telecommunications to retail, financial services and media.", "We also participate in the global effort to define and understand the future of collaborative engineering that open source licences can unlock."],
+    image_url="https://assets.ubuntu.com/v1/815e6e4a-department-legal-%402x.jpg",
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["In everything we work on, we aim to deliver contractual frameworks that are simple, clean and understandable. We ensure that our contracts represent current best practice and the latest approaches to software production, consumption and distribution. We believe that rigour should be combined with business enablement, which means we support complex deals in a way that protects all parties and minimises friction."],
+    block_3_subheading="Who you are",
+    block_3_text=["Experience at Canonical offers rapid growth in understanding the global legal landscape, in terms of technology, but also in terms of commercial and corporate contracting. We welcome candidates with an outstanding track record, a commitment to teamwork, and a personal interest in the future of software and the legal frameworks that underpin it."],
+    blog_heading_topic='Legal',
+    blog_tag_id='1216'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}
