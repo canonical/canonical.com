@@ -680,8 +680,7 @@ def cache_headers(response):
         "/documentation",
         "/projects"
     )
-    import ipdb
-    ipdb.set_trace()
+
     if flask.request.path.startswith(disable_cache_on):
         response.cache_control.max_age = "3600"
 
