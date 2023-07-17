@@ -1,19 +1,18 @@
-$color-tabs-active-bar: #e95420;
-
 @import "../../node_modules/vanilla-framework";
 
 // import cookie policy
 @import "@canonical/cookie-policy/build/css/cookie-policy";
 
 $color-brand: #7c355d;
-$color-dark: #262626;
+$color-dark: $colors--dark-theme--background-default;
+$color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
-$p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
+$p-small-lh-diff: map-get($line-heights, default-text) -
+  map-get($line-heights, small);
 
 @import "pattern_animations";
 @import "pattern_application";
 @import "pattern_buttons";
-@import "pattern_blog-card";
 @import "pattern_cards";
 @import "pattern_careers-modal";
 @import "pattern_footer";
@@ -32,8 +31,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
-@include vf-p-icon-begin-downloading;
-@include blog-p-card;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
 @include canonical-p-buttons;
@@ -69,7 +66,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 .js-filtered.js-searched {
   // find-a-partner search
-  display: block;
+  display: grid;
 }
 
 .p-accordion-panel {
@@ -116,7 +113,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .js-partner-link:hover .p {
-  border-right: 3px solid $color-tabs-active-bar;
+  border-right: $bar-thickness solid $colors--light-theme--text-default;
 }
 
 [type="checkbox"] + label.p-checkbox-label--h2 {
@@ -251,15 +248,15 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-navigation__dropdown
   > li:not(:first-child)
   > .p-navigation__dropdown-item::before {
-    @media (min-width: $breakpoint-navigation-threshold) {
-      background: rgba(255 255 255 / 10%);
-      bottom: 0;
-      content: "";
-      height: 1px;
-      left: 1rem;
-      position: absolute;
-      right: 0;
-    }
+  @media (min-width: $breakpoint-navigation-threshold) {
+    background: rgba(255 255 255 / 10%);
+    bottom: 0;
+    content: "";
+    height: 1px;
+    left: 1rem;
+    position: absolute;
+    right: 0;
+  }
 }
 
 .p-navigation__sub-list {
@@ -350,7 +347,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-side-navigation {
   &--raw-html.is-sticky {
     top: 4.5rem;
-    z-index: 1;
+    z-index: 5; // make sure it's higher than 2, that is used by some components (like the rules)
   }
 
   &__drawer {
@@ -384,22 +381,22 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   margin-top: 1rem;
   padding: calc(1rem - 1px);
 
-  @media screen and (max-width: $breakpoint-small){
+  @media screen and (max-width: $breakpoint-small) {
     height: auto;
   }
 
   &:nth-child(2) {
     background-position: -1104px 49px;
 
-    @media screen and (max-width: $breakpoint-small){
+    @media screen and (max-width: $breakpoint-small) {
       background-position: -1055px 49px;
     }
   }
 
-  &:nth-child(3) {
+  &.is-last-pillar {
     background-position: -1300px 65px;
 
-    @media screen and (max-width: $breakpoint-small){
+    @media screen and (max-width: $breakpoint-small) {
       background-position: -1300px 55px;
     }
   }
@@ -408,7 +405,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 .p-strip--careers {
   @extend .p-strip--dark;
 
-  background-image: url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg');
+  background-image: url("https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg");
   background-position: 100 0%;
   background-size: cover;
 
@@ -453,7 +450,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   @extend .p-strip;
 
   background-color: #f4f4f3;
-  background-image: url('https://assets.ubuntu.com/v1/6ee7af42-0_website_suru_25.png');
+  background-image: url("https://assets.ubuntu.com/v1/6ee7af42-0_website_suru_25.png");
   background-position: center 105%;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -479,12 +476,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   font-weight: $font-weight-bold;
 }
 
-/// pete f - 09/05/2023
-/// can be removed once added upstream
-.is-paper {
-  background-color: #f3f3f3;
-}
-
 /// ochuko p. 17/05/2023
 /// can be removed once added upstream
 .p-strip--paper {
@@ -494,23 +485,12 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-image-wrapper {
+  margin-top: $spv--medium;
   padding-top: $spv--small;
-}
 
-// XXX Ochuko 01/06/2023
-// Custom styles for 2 by 3 aspect ratio containers
-// will propose to Vanilla to add this to the framework
-.u-aspect-ratio--2-3 {
-  aspect-ratio: 2 / 3;
-  width: 100%;
-}
-
-.p-image--2-3 {
-  @extend .u-aspect-ratio--2-3;
-
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  &.is-partner {
+    background-color: #fff;
+  }
 }
 
 .p-department-cards__container {
@@ -577,17 +557,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 }
 
-.p-suru25light {
-  background-color: $color-paper;
-  background-image: url('https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg');
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  max-width: $grid-max-width;
-  padding-top: 19%;
-}
-
-
 // Remote work collage
 .p-remote-work__collage-container {
   column-gap: 0.71rem;
@@ -642,6 +611,236 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 }
 
+.p-overlayed-section {
+  $second-row: #{$spv--strip-regular + map-get($line-heights, h2-mobile) +
+    map-get($nudges, h1)};
+
+  display: grid;
+  grid-template-rows: auto $second-row 1fr;
+
+  &__illustration {
+    display: none;
+
+    @media screen and (min-width: $breakpoint-large) {
+      aspect-ratio: 2.43;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: block;
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+  }
+
+  > .row {
+    grid-column: 1;
+    grid-row: 2 /4;
+  }
+
+  &__content {
+    @extend %section-padding--default;
+    background-color: $color-paper;
+  }
+}
+
+.p-laptop-image-wrapper {
+  @extend %vf-card;
+  align-items: center;
+  aspect-ratio: 0.67;
+  display: flex;
+  justify-content: center;
+}
+
+.p-card--silicon-h-suru {
+  align-items: center;
+  aspect-ratio: 269/150;
+  background: #000 url("https://assets.ubuntu.com/v1/2923651d-background-1.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.p-card--silicon-v-suru {
+  align-items: center;
+  aspect-ratio: 2/3;
+  background: #000 url("https://assets.ubuntu.com/v1/8c04e56e-background-3.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.p-testimonial {
+  @extend %fixed-width-container;
+
+  padding-bottom: $sph--x-large;
+  position: relative;
+
+  @supports (display: grid) {
+    display: grid;
+    grid-auto-rows: minmax(min-content, max-content);
+    grid-gap: 0 map-get($grid-gutter-widths, small);
+    grid-template-columns: repeat($grid-columns-small, minmax(0, 1fr));
+    margin-left: auto;
+    margin-right: auto;
+    max-width: $grid-max-width;
+
+    @media (min-width: $breakpoint-x-small) {
+      grid-gap: 0 map-get($grid-gutter-widths, default);
+      grid-template-columns: repeat($grid-columns-medium, minmax(0, 1fr));
+    }
+
+    @media (min-width: $breakpoint-small) {
+      grid-gap: 0 map-get($grid-gutter-widths, default);
+      grid-template-columns: repeat($grid-columns, minmax(0, 1fr));
+    }
+  }
+
+  .p-testimonial__logo {
+    @media (max-width: ($breakpoint-x-small - 1)) {
+      grid-column: 1 / span 2;
+      grid-row: 2 / span 1;
+    }
+
+    @media (min-width: $breakpoint-x-small) and (max-width: ($breakpoint-small - 1)) {
+      grid-column: auto / span 2;
+    }
+
+    @media (min-width: $breakpoint-small) {
+      grid-column: auto / span 3;
+    }
+  }
+
+  .p-testimonial__author {
+    @media (max-width: ($breakpoint-x-small - 1)) {
+      grid-column: 3 / span 2;
+      grid-row: 2 / span 1;
+    }
+
+    @media (min-width: $breakpoint-x-small) and (max-width: ($breakpoint-small - 1)) {
+      grid-column: auto / span 1;
+    }
+
+    @media (min-width: $breakpoint-small) {
+      grid-column: auto / span 3;
+    }
+  }
+
+  .p-testimonial__quote {
+    @media (max-width: ($breakpoint-x-small - 1)) {
+      grid-column: 1 / span 4;
+      grid-row: 1 / span 1;
+    }
+
+    @media (min-width: $breakpoint-x-small) and (max-width: ($breakpoint-small - 1)) {
+      grid-column: auto / span 3;
+    }
+
+    @media (min-width: $breakpoint-small) {
+      grid-column: auto / span 6;
+    }
+  }
+}
+
+.u-pad-logo {
+  padding-top: 0.2rem;
+}
+
+.is-ticked.is-play-button::before {
+  @include vf-icon-video-play($color-mid-dark);
+}
+
+// new homepage styles
+
+.is-graphite {
+  background: $colors--dark-theme--background-default;
+  color: $colors--dark-theme--text-default;
+}
+
+.is-graphite,
+.is-dark {
+  a:not([class^="p-button"]) {
+    color: $color-link-dark;
+
+    &:visited {
+      color: $color-link-visited-dark;
+    }
+  }
+}
+
+.p-heading--display {
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 4.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  max-width: $text-max-width;
+  padding-top: 0;
+
+  @media (min-width: $breakpoint-heading-threshold) {
+    font-size: 5rem;
+    line-height: 5.5rem;
+  }
+}
+
+.partners-logo {
+  max-width: 10rem;
+
+  @media (max-width: $breakpoint-large - 1) {
+    max-width: 100%;
+  }
+}
+
+// used to obfuscate email addresses on projetcs/directory
+.sign {
+  color: transparent;
+  display: inline-flex;
+  height: 1.3rem;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    color: $colors--light-theme--text-default;
+    display: inline;
+    position: relative;
+  }
+
+  &--first {
+    width: 1rem;
+
+    &::before {
+      content: "@";
+    }
+  }
+
+  &--second {
+    width: 4px;
+
+    &::before {
+      content: ".";
+    }
+  }
+}
+
+// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
+.p-breadcrumbs {
+  margin-bottom: $spv--small;
+}
+
+// XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
+.p-pagination {
+  flex-wrap: wrap;
+}
+
+.aside {
+  grid-row: 2;
+
+  @media (min-width: $breakpoint-small) {
+    grid-row: auto;
+  }
+}
+
 .p-icon--chevron-right {
   @extend .p-icon--chevron-up;
 
@@ -660,7 +859,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     position: relative;
 
     &:hover {
-      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+      background-color: rgba(0, 0, 0, $hover-background-opacity-amount);
     }
   }
 
@@ -668,7 +867,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     padding: 0 $spv--medium $spv--small;
 
     &::before {
-      background: rgb(17 17 17 / 20%);;
+      background: rgb(17 17 17 / 20%);
       content: "";
       display: block;
       height: 3.5rem;
@@ -679,13 +878,16 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   }
 
   &__url {
-    &:hover, &:active, &:visited {
-      background-color: rgba(0,0,0, $hover-background-opacity-amount);
+    &:hover,
+    &:active,
+    &:visited {
+      background-color: rgba(0, 0, 0, $hover-background-opacity-amount);
       color: $color-dark;
       text-decoration: none;
     }
 
-    &:focus, &:focus-visible {
+    &:focus,
+    &:focus-visible {
       display: block;
       outline: 0.1875rem solid #2e96ff !important;
       outline-offset: -0.1875rem !important;
@@ -701,8 +903,29 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   display: none;
 }
 
-// XXX: 05.06.23 - This can be removed once this project is using Vanilla 4.0
-// Upstream fix: https://github.com/canonical/vanilla-framework/pull/4821
-.p-navigation__tagged-logo .p-navigation__logo-tag {
-  background-color: #E95420;
+.p-logo-section {
+  &__items {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+
+  &__item,
+  [class^=col] &__item {
+
+    margin-left: 0;
+    margin-right: 3rem;
+    width: auto;
+  }
+
+  &__logo {
+    height: 8rem;
+    width: auto;
+  }
+}
+
+.p-navigation__overlay.is-applied {
+  @media screen and (min-width: $breakpoint-large) {
+    opacity: .08;
+    pointer-events: all;
+  }
 }

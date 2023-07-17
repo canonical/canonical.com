@@ -6,9 +6,11 @@
   <div class="p-featured row u-sv2">
     {% for job in featured_jobs %}
       {% if loop.index < 7 %}
-        <div class="p-featured__item col-small-4 col-medium-3 col-4 u-no-padding--left">
-          <div class="p-card p-featured__role u-no-margin--bottom">
-            <p><a class="p-featured__url p-card--content" href="/careers/{{job.id}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a></p>
+        <div class="col-small-4 col-medium-3 col-4">
+          <div class="p-featured__item u-no-padding--left u-no-padding--right">
+            <div class="p-card p-featured__role u-no-margin--bottom">
+              <p><a class="p-featured__url p-card--content" href="/careers/{{job.id}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a></p>
+            </div>
           </div>
         </div>
       {% endif %}

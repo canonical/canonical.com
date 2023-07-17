@@ -4,103 +4,78 @@
 
 {% block meta_description %}The home of Canonical media resources, news stories and press releases.{% endblock %}
 
+{% set is_paper = True %}
+
 {% block content %}
-  <section class="p-strip--standard-dark is-dark is-shallow">
-    <div class="row u-equal-height u-vertically-center">
-      <div class="col-7 p-card--suru">
-        <h1 class="p-heading--1">Press centre</h1>
-        <p class="p-heading--4">The home of Canonical media resources, news stories and press releases. Journalists seeking further information can contact <a class="p-link--inverted" href="mailto:pr@canonical.com">pr@canonical.com</a>
-        </p>
-      </div>
-      <div id="rtp-banner" class="rtp-banner"></div>
-    </div>
-  </section>
 
-  <section class="p-strip is-deep" id="posts-list">
+  <section class="p-strip">
     <div class="row">
-      <div class="col-8">
-        {% for article in articles %}
-          {% include 'press-centre/card.html' %}
-        {% endfor %}
+      <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
+        <h1 class="u-no-margin--bottom">Press centre</h1>
+        <p class="p-heading--2">All the latest news and featured stories <br class="u-hide--small u-hide--medium">from Canonical.</p>
       </div>
+    </div>
+    <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
+      <img src="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg" alt="" style="aspect-ratio: 5.177570093457944; width: 100%;"/>
+    </div>
+  </section>
 
-      <div class="col-4">
-        <div class="p-card">
-          <h2 class="p-heading--4">Logos</h2>
-          <ul class="p-list">
-            <li class="p-list__item is-ticked"><a href="https://assets.ubuntu.com/v1/18a64171-ubuntu-brandmark1.zip" title="Ubuntu logo pack zip file">Ubuntu logo pack [ZIP]&nbsp;&rsaquo;</a></li>
-            <li class="p-list__item is-ticked"><a href="https://assets.ubuntu.com/v1/47b9260c-canonical-brandmark1.zip" title="Canonical logo pack">Canonical logo pack [ZIP]&nbsp;&rsaquo;</a></li>
-          </ul>
-        </div>
-
-        <div class="p-card">
-          <h2 class="p-heading--4">Follow us</h2>
-          <h3 class="p-muted-heading">Twitter</h3>
-          <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="https://twitter.com/canonical" title="Follow us on @Canonical twitter">@Canonical</a></li>
-            <li class="p-inline-list__item"><a href="https://twitter.com/ubuntu" title="Follow us on @Ubuntu twitter">@Ubuntu</a></li>
-          </ul>
-          <h3 class="p-muted-heading">Facebook</h3>
-          <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="https://www.facebook.com/ubuntulinux" title="Follow us on facebook">Ubuntu</a></li>
-          </ul>
-          <h3 class="p-muted-heading">YouTube</h3>
-          <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="https://www.youtube.com/user/celebrateubuntu" title="Follow us on YouTube">Celebrate Ubuntu</a></li>
-          </ul>
-          <h3 class="p-muted-heading">LinkedIn</h3>
-          <ul class="p-inline-list--middot">
-            <li class="p-inline-list__item"><a href="https://www.linkedin.com/company/234280/" title="Follow us on LinkedIn">Canonical</a></li>
-          </ul>
-        </div>
-
-        <div class="p-card">
-          <h2 class="p-heading--4">Media Contacts</h2>
-          <div>
-            <h3 class="p-muted-heading">General media enquiries</h3>
-            <ul class="p-inline-list--middot">
-              <li class="p-inline-list__item"><a href="mailto:pr@canonical.com">pr@canonical.com</a></li>
-            </ul>
+  <section class="p-section">
+    <div class="row">
+      <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
+        <hr class="p-rule">
+        <div class="row">
+          <div class="col-3 col-medium-2 col-small-2">
+            <h2 class="p-muted-heading">Resources</h2>
+            <p>
+              <a href="https://drive.google.com/drive/folders/1I6Oi39qKONRN3gjNKLtovUUtwu8YYwEf?usp=drive_link">Canonical logos</a>
+              <br>
+              <a href="https://design.ubuntu.com/brand">Brand guidelines</a>
+            </p>
           </div>
-
-          <div>
-            <h3 class="p-muted-heading">Cloud (UK)</h3>
-            <ul class="p-inline-list--middot">
-              <li class="p-inline-list__item"><a href="mailto:canonical@berkeley.global">canonical@berkeley.global</a></li>
-            </ul>
+          <div class="col-3 col-medium-2 col-small-2">
+            <h2 class="p-muted-heading">Get in touch</h2>
+            <p>For the Canonical Communications team, email <a href="mailto:pr@canonical.com">pr@canonical.com</a>.</p>
           </div>
-
-          <div>
-            <h3 class="p-muted-heading">IoT &amp; Desktop (UK)</h3>
-            <ul class="p-inline-list--middot">
-              <li class="p-inline-list__item"><a href="mailto:3mzcanonical@3monkeyszeno.com">3mzcanonical@3monkeyszeno.com</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="p-muted-heading">Cloud &amp; IoT (US)</h3>
-            <ul class="p-inline-list--middot">
-              <li class="p-inline-list__item"><a href="mailto:canonical@offleashpr.com">canonical@offleashpr.com</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="p-muted-heading">All other enquiries</h3>
-            <ul class="p-inline-list--middot">
-              <li class="p-inline-list__item"><a href="/contact-us">Contact Canonical</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="p-card">
-          <h2 class="p-heading--4">Archives</h2>
-          <ul class="p-list">
-            {% for year in descending_years(2015) %}
-              <li class="p-list__item"><h3 class="p-heading--5"><a class="p-link--soft" href="/blog/archives?group=canonical-announcements&amp;year={{ year }}">{{ year }}</a></h3></li>
-            {% endfor %}
-          </ul>
         </div>
       </div>
     </div>
   </section>
+
+  <section class="p-section">
+    <div class="row">
+      <hr class="p-rule">
+      <div class="col-3 col-medium-2">
+        <h2 class="p-muted-heading">Canonical <br class="u-hide--small">at a glance</h2>
+      </div>
+      <div class="col-9 col-medium-4">
+        <div class="p-block">
+          <p class="p-heading--2">Publishing the #1 OS in the cloud. <br class="u-hide--medium u-hide--small">Trusted by industry leaders.</p>
+        </div>
+        <ul class="p-list--divided">
+          <li class="p-list__item has-bullet">8 of the top 10 automotive companies.</li>
+          <li class="p-list__item has-bullet">90% of the top financial institutions in Europe and the US.</li>
+          <li class="p-list__item has-bullet">Governments around the world.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section" id="posts-list">
+    <div class="row">
+      <h2 class="p-muted-heading">Latest news</h2>
+    </div>
+    {% for article in articles %}
+      {% if loop.index0 < 5 %}
+      {% include 'blog/blog-card.html' %}
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  {% with %}
+  {% set total_pages = total_pages %}
+  {% set current_page = current_page %}
+  {% include "shared/_pagination.html" %}
+  {% endwith %}
+
 {% endblock %}

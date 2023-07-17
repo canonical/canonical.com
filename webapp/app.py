@@ -463,8 +463,13 @@ def find_a_partner():
     partners = sorted(
         partners_api.get_partner_list(), key=lambda item: item["name"]
     )
+
+    partners_length = len(partners)
+
     return flask.render_template(
-        "/partners/find-a-partner.html", partners=partners
+        "/partners/find-a-partner.html",
+        partners=partners,
+        partners_length=partners_length,
     )
 
 
@@ -474,6 +479,7 @@ def find_a_partner():
 @app.route("/partners/ihv-and-oem")
 @app.route("/partners/public-cloud")
 @app.route("/partners/iot-device")
+@app.route("/partners/silicon")
 @app.route("/partners/devices-and-iot")
 def partner_details():
     partners = partners_api._get(

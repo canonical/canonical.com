@@ -1,0 +1,25 @@
+{% extends 'base_index.html' %}
+
+{% block title %}{{error_code}}: {{error_message}}{% endblock %}
+
+{% block meta_description %}{{error_message}}{% endblock %}
+
+{% set is_paper = True %}
+
+{% block content %}
+  <div class="p-strip is-deep">
+    <div class="row">
+      <hr class="p-rule">
+      <div class="col-3 col-medium-2 col-medium-3 u-hide--small">
+        <p class="p-heading--1">{{error_code}}</p>
+      </div>
+      <div class="col-9 col-medium-4">
+        <h1><span class="u-hide--medium u-hide--large">{{error_code}}: </span>{{error_message}}</h1>
+        <p class="p-heading--2">
+          {% block error_content %}
+          {% endblock error_content %}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
