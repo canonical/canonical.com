@@ -665,6 +665,28 @@ def allow_src(tag, name, value):
     return False
 
 
+@app.after_request
+def cache_headers(response):
+    """
+    Set cache expiry to 60 seconds
+    """
+
+    disable_cache_on = (
+        "/",
+        "/careers",
+        "/partners",
+        "/blog",
+        "/press-centre",
+        "/documentation",
+        "/projects"
+    )
+
+    if flask.request.path.startswith(disable_cache_on):
+        response.cache_control.no_store = True
+
+    return response
+
+
 @app.errorhandler(502)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
