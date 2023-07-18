@@ -1,50 +1,5 @@
 @mixin canonical-p-lists {
-  @include canonical-p-content-list;
   @include canonical-p-inline-list-selection;
-}
-
-@mixin canonical-p-content-list {
-  .p-content-list {
-    &-section {
-      list-style: none;
-      padding: 0;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $color-mid-light;
-      }
-
-      &:last-child {
-        padding-bottom: $sp-x-small;
-      }
-
-      &__item {
-        align-items: end;
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: $sp-x-small;
-        padding-top: $sp-x-small;
-
-        &:last-child {
-          margin-bottom: 1.5rem;
-        }
-
-        &:visited {
-          color: $color-dark;
-        }
-
-        &.is-active {
-          border-right: $bar-thickness solid $colors--light-theme--text-default;
-          font-weight: $font-weight-bold;
-        }
-      }
-    }
-
-    @media (min-width: $breakpoint-small) {
-      border-right: 1px solid $color-mid-light;
-      border-top: 0;
-      padding: 0;
-    }
-  }
 }
 
 @mixin canonical-p-inline-list-selection {
