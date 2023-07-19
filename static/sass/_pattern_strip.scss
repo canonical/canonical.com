@@ -1,31 +1,18 @@
 @mixin canonical-p-strip {
-  @include canonical-p-strip-mid-light;
-  @include canonical-p-strip-suru-large;
   @include canonical-p-strip-suru;
   @include canonical-p-strip-suru-background;
-  @include canonical-p-strip-suru-image;
   @include canonical-p-strip-slanted;
-  @include canonical-p-strip-tag;
   @include canonical-p-strip-suru-bottomed;
   @include canonical-p-strip-suru-half-and-half-reversed;
   @include canonical-p-strip-suru-topped;
   @include canonical-p-strip-suru-partners;
   @include canonical-p-strip-suru-top;
-  @include canonical-p-strip-standard-dark;
 
   .p-strip--light {
     &.is-x-shallow {
       background: $color-mid-x-light;
       padding: 1.5rem 0;
     }
-  }
-}
-
-@mixin canonical-p-strip-mid-light {
-  .p-strip--mid-light {
-    @extend %vf-strip;
-
-    background-color: $color-mid-x-light;
   }
 }
 
@@ -123,105 +110,6 @@
   }
 }
 
-@mixin canonical-p-strip-suru-image {
-  .p-strip--suru-image {
-    @extend %vf-strip;
-
-    background-image: url("https://assets.ubuntu.com/v1/0b093f40-dotted-map.svg"),
-      linear-gradient(
-        to bottom right,
-        rgb(210 180 202 / 5%) 0%,
-        rgb(210 180 202 / 5%) 49.9%,
-        rgb(210 180 202 / 0%) 50%,
-        rgb(210 180 202 / 0%) 100%
-      ),
-      linear-gradient(
-        to top right,
-        rgb(74 24 60 / 0%) 0%,
-        rgb(74 24 60 / 0%) 49.9%,
-        rgb(74 24 60 / 34%) 50%,
-        rgb(74 24 60 / 34%) 100%
-      ),
-      linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
-      linear-gradient(230deg, #e95420 0%, #772953 33%, #2c001e 72%);
-    background-position: right top, left top, right top, right bottom;
-    background-repeat: no-repeat;
-    background-size: auto, 70% 80%, 70% 100%, 100% 20%, 100% 100%;
-    padding-bottom: 8rem;
-    padding-top: 8rem;
-
-    &.is-shallow {
-      padding: 4rem 0;
-    }
-
-    @media only screen and (max-width: $breakpoint-small) {
-      background-image: linear-gradient(
-          to bottom right,
-          rgb(210 180 202 / 5%) 0%,
-          rgb(210 180 202 / 5%) 49.9%,
-          rgb(210 180 202 / 0%) 50%,
-          rgb(210 180 202 / 0%) 100%
-        ),
-        linear-gradient(
-          to top right,
-          rgb(74 24 60 / 0%) 0%,
-          rgb(74 24 60 / 0%) 49.9%,
-          rgb(74 24 60 / 34%) 50%,
-          rgb(74 24 60 / 34%) 100%
-        ),
-        linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
-        linear-gradient(230deg, #e95420 0%, #772953 33%, #2c001e 72%);
-      background-position: left top, right top, right bottom;
-      background-repeat: no-repeat;
-      background-size: 70% 80%, 70% 100%, 100% 20%, 100% 100%;
-      padding-bottom: 6rem;
-      padding-top: 6rem;
-    }
-  }
-}
-
-@mixin canonical-p-strip-suru-large {
-  .p-strip--suru-large {
-    @extend %vf-strip;
-
-    background-blend-mode: multiply, multiply, multiply, multiply, normal;
-    background-image: linear-gradient(
-        to bottom left,
-        rgb(225 225 225 / 30%) 0%,
-        rgb(225 225 225 / 30%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(
-        to bottom right,
-        rgb(225 225 225 / 30%) 0%,
-        rgb(225 225 225 / 30%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(
-        to top right,
-        rgb(225 225 225 / 30%) 0%,
-        rgb(225 225 225 / 30%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(
-        to top left,
-        rgb(225 225 225 / 30%) 0%,
-        rgb(225 225 225 / 30%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(199deg, #8b3236 -20%, #5e2750 25%, #2c001e 50%);
-    background-position: top right, top left, bottom left, bottom right, 100%;
-    background-repeat: no-repeat;
-    background-size: 70% 25%, 70% 45%, 70% 25%, 110% 85%, 100%;
-    color: $color-x-light;
-    position: relative;
-  }
-}
-
 @mixin canonical-p-strip-slanted {
   .is-slanted {
     &--top-right {
@@ -239,30 +127,6 @@
 
   .u-extra-space {
     margin-bottom: 4rem;
-  }
-}
-
-@mixin canonical-p-strip-tag {
-  .has-tag {
-    &::after {
-      background-image: linear-gradient(
-        to bottom left,
-        rgb(119 41 83 / 100%) 0%,
-        rgb(119 41 83 / 100%) 49.9%,
-        rgb(119 41 83 / 0%) 50%,
-        rgb(119 41 83 / 0%) 100%
-      );
-      background-position: top right;
-      background-repeat: no-repeat;
-      background-size: 30% 10%;
-      content: "";
-      display: block;
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100%;
-    }
   }
 }
 
@@ -482,49 +346,6 @@
         center right;
       background-repeat: no-repeat;
       background-size: 100% 100%, 105% 25%, 70% 80%, 100% 100%;
-    }
-  }
-}
-
-@mixin canonical-p-strip-standard-dark {
-  .p-strip--standard-dark {
-    @extend %vf-strip;
-
-    background-image: linear-gradient(
-        to bottom left,
-        rgb(225 225 225 / 3%) 0%,
-        rgb(225 225 225 / 3%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(
-        to top left,
-        rgb(225 225 225 / 3%) 0%,
-        rgb(225 225 225 / 3%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(
-        to bottom right,
-        rgb(225 225 225 / 3%) 0%,
-        rgb(225 225 225 / 3%) 49.9%,
-        rgb(225 225 225 / 0%) 50%,
-        rgb(225 225 225 / 0%) 100%
-      ),
-      linear-gradient(135deg, #8b3236 -20%, #5e2750 25%, #2c001e 50%);
-    background-position: top right, bottom right, top right, 100%;
-    background-repeat: no-repeat;
-    background-size: 70% 65%, 40% 85%, 100% 30%, 100%;
-    color: $color-x-light;
-    padding: 8rem 0;
-
-    &.is-shallow {
-      padding: 4rem 0;
-    }
-
-    hr {
-      background: rgb(255 255 255 / 25%);
-      margin: 2rem 0;
     }
   }
 }

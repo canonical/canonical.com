@@ -12,18 +12,15 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 @import "pattern_animations";
 @import "pattern_application";
-@import "pattern_buttons";
 @import "pattern_cards";
 @import "pattern_careers-modal";
 @import "pattern_footer";
 @import "pattern_forms";
-@import "pattern_headings";
 @import "pattern_lists";
 @import "pattern_media-object";
 @import "pattern_strip";
 @import "pattern_tabs";
 @import "pattern_search-panel";
-@import "pattern_search-form";
 @import "pattern_careers-progression";
 
 @include vanilla;
@@ -33,31 +30,19 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include vf-p-icon-warning-grey;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
-@include canonical-p-buttons;
 @include canonical-p-card;
 @include canonical-p-careers-modal;
 @include canonical-p-lists;
 @include canonical-p-feedback;
 @include canonical-p-footer;
 @include canonical-p-forms;
-@include canonical-p-headings;
 @include canonical-p-withdrawal-modal;
 @include canonical-p-media-object;
 @include canonical-p-strip;
 @include canonical-p-tabs;
 @include canonical-p-search-panel;
-@include canonical-search-form;
 @include canonical-u-footer-align-bottom;
 @include canonical-p-careers-progression;
-@include canonical-partners-footer;
-
-.is-grey {
-  background-color: $color-mid-x-light;
-}
-
-.is-parallax {
-  background-attachment: fixed;
-}
 
 .js-find-a-partner__partner {
   // find-a-partner search
@@ -67,36 +52,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .js-filtered.js-searched {
   // find-a-partner search
   display: grid;
-}
-
-.p-accordion-panel {
-  overflow: auto; // include child margins into its height
-  padding-left: 1.5rem;
-  padding-top: 1.5rem;
-
-  // Hides panel content
-  &[aria-hidden="true"] {
-    display: none;
-  }
-
-  @media (max-width: $breakpoint-large - 1) {
-    padding-left: 1rem;
-    padding-top: 1rem;
-  }
-}
-
-.p-pull-quote--inverted {
-  overflow-x: hidden;
-
-  .p-pull-quote__quote {
-    &::before {
-      color: $color-x-light;
-    }
-
-    &::after {
-      color: $color-x-light;
-    }
-  }
 }
 
 .required-legend {
@@ -116,83 +71,14 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   border-right: $bar-thickness solid $colors--light-theme--text-default;
 }
 
-[type="checkbox"] + label.p-checkbox-label--h2 {
-  $offset-top--h2-large: 1.2rem;
-  $offset-top--h2-small: 0.8rem;
-  $tick-offset: 0.1875rem;
-
-  &::before {
-    top: $offset-top--h2-small;
-
-    @media (min-width: $breakpoint-heading-threshold) {
-      top: $offset-top--h2-large;
-    }
-  }
-
-  &::after {
-    top: $offset-top--h2-small + $tick-offset;
-
-    @media (min-width: $breakpoint-heading-threshold) {
-      top: $offset-top--h2-large + $tick-offset;
-    }
-  }
-}
-
-.p-separator {
-  margin: 4rem 0;
-}
-
 .p-image--shadowed {
   border-radius: 2px;
   box-shadow: 0 -2px 27px 0 rgba(0 0 0 / 50%);
 }
 
-.p-media-object__image.is-small {
-  margin: 0 1rem 0 0.5rem;
-  position: relative;
-  top: 6px;
-}
-
-.p-inline-list--middot.is-x-dense {
-  .p-inline-list__item::after {
-    right: -0.7rem;
-    top: 0.8em;
-  }
-}
-
 .is-sticky {
   position: sticky;
   top: 0;
-}
-
-.p-reveal-link {
-  padding-right: 2rem;
-  position: relative;
-
-  &:visited {
-    color: $color-link;
-  }
-
-  &::after {
-    @include vf-icon-chevron(vf-url-friendly-color($color-link));
-
-    background-position: top 52% right 50%;
-    background-repeat: no-repeat;
-    background-size: 0.75rem;
-    content: "";
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    transition: transform 0.1s;
-    width: 2rem;
-  }
-
-  &.is-open {
-    &::after {
-      transform: rotate(-180deg);
-    }
-  }
 }
 
 // Override h2 in job descriptions to look like h3
@@ -213,24 +99,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   p:empty,
   br + br {
     display: none;
-  }
-}
-
-.desktop-hero {
-  background-image: url("#{$assets-path}ce95be94-careers-guy.jpg");
-  background-position: right bottom;
-  background-size: 1000px auto;
-
-  @media only screen and (min-width: 2000px) {
-    background-size: 75%;
-  }
-
-  &--subtext {
-    max-width: 28em;
-
-    @media only screen and (max-width: 874px) and (min-width: 620px) {
-      width: 50%;
-    }
   }
 }
 
@@ -332,12 +200,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   display: none;
 }
 
-// XXX: appending this to the vanilla placeholder. Remove when this pr is merged: https://github.com/canonical/vanilla-framework/pull/4625
-%social-icon {
-  max-height: 1.5rem;
-  max-width: 1.5rem;
-}
-
 .p-inline-list.is-inlined-with-h2 {
   display: inline-block;
   margin: 1.5rem 0 0 1rem;
@@ -353,14 +215,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   &__drawer {
     top: 48px;
   }
-}
-
-// XXX: Ant - 21/02/2023
-// Fix for breakage introduced in Vanilla v3.11.1
-// Reported: https://github.com/canonical/vanilla-framework/issues/4664
-.p-text--x-small-capitalised {
-  font-size: 1rem;
-  font-weight: 400;
 }
 
 .p-list--travel {
@@ -402,18 +256,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-.p-strip--careers {
-  @extend .p-strip--dark;
-
-  background-image: url("https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg");
-  background-position: 100 0%;
-  background-size: cover;
-
-  @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1) {
-    background-size: inherit;
-  }
-}
-
 .u-data-border--top {
   border-top: 3px solid $color-dark;
 }
@@ -432,10 +274,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   justify-content: space-between;
 }
 
-.u-flex {
-  display: flex;
-}
-
 .p-equal-opportunities {
   background-color: #f4f4f3;
 
@@ -446,30 +284,10 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-.p-strip--diversity-hero {
-  @extend .p-strip;
-
-  background-color: #f4f4f3;
-  background-image: url("https://assets.ubuntu.com/v1/6ee7af42-0_website_suru_25.png");
-  background-position: center 105%;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  padding-bottom: 18rem;
-  padding-top: 8rem;
-}
-
 .p-strip--diversity {
   @extend .p-strip--light;
 
   background-color: $color-paper;
-}
-
-.u-no-padding--left {
-  padding-left: 0;
-}
-
-.u-no-padding--right {
-  padding-right: 0;
 }
 
 .p-heading--bold {
