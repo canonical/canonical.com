@@ -1,0 +1,37 @@
+{% if request.path|get_secondary_nav_path in templates %}
+	{% include ("/careers/" + request.path|get_secondary_nav_path + ".html") %}
+{% else %}
+
+{% extends '/careers/base.html' %}
+
+{% block title %}
+	{{ department.name }}
+{% endblock %}
+
+{% block hero %}
+  <section class="p-strip--image is-dark is-deep u-no-padding--top u-no-padding--bottom u-extra-space">
+    <div class="p-strip--suru-background">
+      <div class="row">
+        <div class="col-6">
+          <h1 class="u-no-margin--bottom">{{ department.name }}</h1>    {{"hey"}}
+
+        </div>
+      </div>
+    </div>
+	</section>
+{% endblock %}
+
+{% block careers_content %}
+	<nav class="p-tabs">
+		<ul class="p-tabs__list" role="tablist">
+			<li class="p-tabs__item" role="presentation">
+				<a href="#available-roles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="available-roles" aria-selected="true">Available roles</a>
+			</li>
+		</ul>
+	</nav>
+	{% include 'partial/_careers-available-roles.html' %}
+	<script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}"></script>
+	<script defer src="{{ versioned_static('js/apply-for-jobs.js') }}"></script>
+	<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
+{% endblock %}
+{% endif %}
