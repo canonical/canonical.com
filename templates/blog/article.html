@@ -2,10 +2,9 @@
 
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 {% block meta_description %}{{ article.excerpt.raw }}{% endblock %}
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}is-paper blog-article{% endblock body_class %}
 {% block meta_image %}{{ article.image.source_url }}{% endblock %}
 
-{% block body_class %}blog-article{% endblock %}
 {% block canonical_url %}{% if 2996 in article.tags %}https://snapcraft.io/blog/{{ article.slug }}{% elif 4059 in article.tags %}https://juju.is/blog/{{ article.slug }}{% elif 1304 in article.tags or 3681 in article.tags -%}https://maas.io/blog/{{ article.slug }}{% else %}{{ super() }}{% endif %}{% endblock canonical_url %}
 {% block extra_metatags %}
 
