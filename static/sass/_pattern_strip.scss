@@ -2,11 +2,66 @@
   @include canonical-p-strip-suru;
   @include canonical-p-strip-suru-topped;
   @include canonical-p-strip-suru-top;
+  @include canonical-p-strip-suru-background;
 
   .p-strip--light {
     &.is-x-shallow {
       background: $color-mid-x-light;
       padding: 1.5rem 0;
+    }
+  }
+}
+
+@mixin canonical-p-strip-suru-background {
+  .p-strip--suru-background {
+    @extend %vf-strip;
+
+    background-image: linear-gradient(
+        to bottom right,
+        rgb(210 180 202 / 5%) 0%,
+        rgb(210 180 202 / 5%) 49.9%,
+        rgb(210 180 202 / 0%) 50%,
+        rgb(210 180 202 / 0%) 100%
+      ),
+      linear-gradient(
+        to top right,
+        rgb(74 24 60 / 0%) 0%,
+        rgb(74 24 60 / 0%) 49.9%,
+        rgb(74 24 60 / 34%) 50%,
+        rgb(74 24 60 / 34%) 100%
+      ),
+      linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
+      linear-gradient(230deg, #e95420 0%, #772953 33%, #2c001e 72%);
+    background-position: left top, right top, right 101%;
+    background-repeat: no-repeat;
+    background-size: 70% 80%, 70% 100%, 110% 20%, 100% 100%;
+    padding-bottom: 4rem;
+    padding-top: 2rem;
+
+    @media only screen and (max-width: $breakpoint-small) {
+      background-image: linear-gradient(
+          to bottom right,
+          rgb(210 180 202 / 5%) 0%,
+          rgb(210 180 202 / 5%) 49.9%,
+          rgb(210 180 202 / 0%) 50%,
+          rgb(210 180 202 / 0%) 100%
+        ),
+        linear-gradient(
+          to top right,
+          rgb(74 24 60 / 0%) 0%,
+          rgb(74 24 60 / 0%) 49.9%,
+          rgb(74 24 60 / 34%) 50%,
+          rgb(74 24 60 / 34%) 100%
+        ),
+        linear-gradient(to top left, #fff 0%, #fff 49%, transparent 50%),
+        linear-gradient(230deg, #e95420 0%, #772953 33%, #2c001e 72%);
+      background-position: left top, right top, right bottom -1px;
+      background-repeat: no-repeat;
+      background-size: 70% 80%, 70% 100%, 100% 20%, 100% 100%;
+    }
+
+    &.is-dark {
+      color: #fff;
     }
   }
 }
