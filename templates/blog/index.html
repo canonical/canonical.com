@@ -19,10 +19,12 @@
     </div>
   </div>
 </div>
-{% if current_page and current_page == 1 and featured_articles %}
-  {% include "blog/featured-articles.html" %}
+{% if current_page and current_page == 1 %}
+    {% if featured_articles %}
+      {% include "blog/featured-articles.html" %}
+    {% endif %}
+  {% include 'blog/newsletter-form.html' %}
 {% endif %}
-{% include 'blog/newsletter-form.html' %}
 <section class="p-section" id="posts-list">
   <div class="row">
   {% for article in articles %}
