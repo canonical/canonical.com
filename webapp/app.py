@@ -529,6 +529,38 @@ class PressCentre(BlogView):
 
         return flask.render_template("press-centre/index.html", **context)
 
+class BlogSitemapIndex(BlogView):
+    def dispatch_request(self):
+        response = session.get(
+            "https://admin.insights.ubuntu.com/sitemap_index.xml"
+        )
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/",
+            "https://canonical.com/blog/sitemap/",
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+class BlogSitemapPage(BlogView):
+    def dispatch_request(self, slug):
+        response = session.get(f"https://admin.insights.ubuntu.com/{slug}.xml")
+
+        if response.status_code == 404:
+            return flask.abort(404)
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/", "https://canonical.com/blog/"
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
 
 blog_views = BlogViews(
     api=BlogAPI(session=session),
