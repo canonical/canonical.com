@@ -529,6 +529,7 @@ class PressCentre(BlogView):
 
         return flask.render_template("press-centre/index.html", **context)
 
+
 class BlogSitemapIndex(BlogView):
     def dispatch_request(self):
         response = session.get(
@@ -544,6 +545,7 @@ class BlogSitemapIndex(BlogView):
         response = flask.make_response(xml)
         response.headers["Content-Type"] = "application/xml"
         return response
+
 
 class BlogSitemapPage(BlogView):
     def dispatch_request(self, slug):
