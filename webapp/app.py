@@ -571,6 +571,14 @@ blog_views = BlogViews(
 )
 
 app.add_url_rule(
+    "/blog/sitemap.xml",
+    view_func=BlogSitemapIndex.as_view("sitemap", blog_views=blog_views),
+)
+app.add_url_rule(
+    "/blog/sitemap/<regex('.+'):slug>.xml",
+    view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
+)
+app.add_url_rule(
     "/press-centre",
     view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
 )
