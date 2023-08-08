@@ -458,7 +458,7 @@ def department_group(department_slug):
         templates.append(template)
 
     return flask.render_template(
-        "careers/base-template.html",
+        "careers/base.html",
         department=department,
         sorted_departments=departments,
         featured_jobs=featured_jobs,

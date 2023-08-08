@@ -1,20 +1,25 @@
-{% extends 'base_index.html' %} {% block content %}
+{% if request.path|get_secondary_nav_path in templates %}
+	{% include ("/careers/" + request.path|get_secondary_nav_path + ".html") %}
+{% else %}
 
-{% block extra_metatags %}
-  <link rel="alternate" type="application/rss+xml"  href="/careers/feed" title="All job roles | Canonical Careers">
-{% endblock %}
+  {% extends 'base_index.html' %} {% block content %}
 
-{% block hero %}{% endblock %}
+  {% block extra_metatags %}
+    <link rel="alternate" type="application/rss+xml"  href="/careers/feed" title="All job roles | Canonical Careers">
+  {% endblock %}
 
-<section class="p-strip u-extra-space">
-  <div class="row">
-    {% if "results" not in request.url  %}
-      {% include 'partial/_careers-navigation.html' %}
-    {% endif %}
-    <div class="col-9 col-medium-4">
-      {% block careers_content %}{% endblock %}
+  {% block hero %}{% endblock %}
+
+  <section class="p-strip u-extra-space">
+    <div class="row">
+      {% if "results" not in request.url  %}
+        {% include 'partial/_careers-navigation.html' %}
+      {% endif %}
+      <div class="col-9 col-medium-4">
+        {% block careers_content %}{% endblock %}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{% endblock %}
+  {% endblock %}
+{% endif %}
