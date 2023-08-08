@@ -530,12 +530,54 @@ class PressCentre(BlogView):
         return flask.render_template("press-centre/index.html", **context)
 
 
+class BlogSitemapIndex(BlogView):
+    def dispatch_request(self):
+        response = session.get(
+            "https://admin.insights.ubuntu.com/sitemap_index.xml"
+        )
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/",
+            "https://canonical.com/blog/sitemap/",
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+
+class BlogSitemapPage(BlogView):
+    def dispatch_request(self, slug):
+        response = session.get(f"https://admin.insights.ubuntu.com/{slug}.xml")
+
+        if response.status_code == 404:
+            return flask.abort(404)
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/", "https://canonical.com/blog/"
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+
 blog_views = BlogViews(
     api=BlogAPI(session=session),
     excluded_tags=[3184, 3265, 4491, 3599],
     per_page=11,
 )
 
+app.add_url_rule(
+    "/blog/sitemap.xml",
+    view_func=BlogSitemapIndex.as_view("sitemap", blog_views=blog_views),
+)
+app.add_url_rule(
+    "/blog/sitemap/<regex('.+'):slug>.xml",
+    view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
+)
 app.add_url_rule(
     "/press-centre",
     view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
