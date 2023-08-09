@@ -564,9 +564,25 @@ class BlogSitemapPage(BlogView):
         return response
 
 
+class KrBlogs(BlogView):
+    def dispatch_request(self):
+        context = self.blog_views.get_index()
+        tag = {"name": "lang:kr"}
+
+        return flask.render_template(
+            "/blog/tag.html", articles=context["articles"], tag=tag
+        )
+
+
 blog_views = BlogViews(
     api=BlogAPI(session=session),
     excluded_tags=[3184, 3265, 4491, 3599],
+    per_page=11,
+)
+
+blog_views_kr = BlogViews(
+    api=BlogAPI(session=session),
+    tag_ids=[4491],
     per_page=11,
 )
 
@@ -581,6 +597,10 @@ app.add_url_rule(
 app.add_url_rule(
     "/press-centre",
     view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
+)
+app.add_url_rule(
+    "/blog/tag/lang:kr",
+    view_func=KrBlogs.as_view("kr_blogs", blog_views=blog_views_kr),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
