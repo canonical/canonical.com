@@ -109,12 +109,8 @@ class TestRoutes(VCRTestCase):
         we should return a 200 status code
         """
 
-        self.assertEqual(
-            self.client.get("/partners").status_code, 200
-        )
-        self.assertEqual(
-            self.client.get("/partners/desktop").status_code, 200
-        )
+        self.assertEqual(self.client.get("/partners").status_code, 200)
+        self.assertEqual(self.client.get("/partners/desktop").status_code, 200)
         self.assertEqual(
             self.client.get("/partners/channel-and-reseller").status_code, 200
         )
@@ -124,15 +120,11 @@ class TestRoutes(VCRTestCase):
         self.assertEqual(
             self.client.get("/partners/ihv-and-oem").status_code, 200
         )
-        self.assertEqual(
-            self.client.get("/partners/gsi").status_code, 200
-        )
+        self.assertEqual(self.client.get("/partners/gsi").status_code, 200)
         self.assertEqual(
             self.client.get("/partners/public-cloud").status_code, 200
         )
-        self.assertEqual(
-            self.client.get("/partners/silicon").status_code, 200
-        )
+        self.assertEqual(self.client.get("/partners/silicon").status_code, 200)
         self.assertEqual(
             self.client.get("/partners/become-a-partner").status_code, 200
         )
@@ -142,8 +134,8 @@ class TestRoutes(VCRTestCase):
         self.assertEqual(
             self.client.get("/partners/executive-summit").status_code, 200
         )
-    
-    def test_invalid_careers_department(self):
+
+    def test_invalid_partners_page(self):
         """
         When given the URL of an invalid partners department,
         we should return a 404 status code
