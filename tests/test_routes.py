@@ -34,7 +34,7 @@ class TestRoutes(VCRTestCase):
 
     def test_careers_overview(self):
         """
-        When given the index URL,
+        When given the /careers index URL,
         we should return a 200 status code
         """
 
