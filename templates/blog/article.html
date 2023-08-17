@@ -43,9 +43,11 @@
     <div class="aside col-3 col-medium-2">
       <div class="p-media-object">
         {% if article.author %}
-          <div class="p-image-wrapper">
-            <img src="{% if article.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ article.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image" alt="">
-          </div>
+          {% if article.author and article.author.id == 217 %}
+            <img src="https://assets.ubuntu.com/v1/f16c40d0-Favicon+-+CoF.svg" class="p-media-object__image" alt="" style="align-self: center;">
+          {% else %}
+            <img src="{{ article.author.avatar_urls['96'] }}" class="p-media-object__image is-round" alt="" style="align-self: center;">
+          {% endif %}
         {% endif %}
       
         <div class="p-media-object__details">
