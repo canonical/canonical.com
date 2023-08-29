@@ -248,7 +248,7 @@ class Greenhouse:
         payload["resume_content_filename"] = form_files["resume"].filename
 
         # Add cover letter to the payload if exists
-        if form_files["cover_letter"]:
+        if "cover_letter" in form_files:
             # Encode the cover_letter file to base64
             payload["cover_letter_content"] = b64encode(
                 form_files["cover_letter"].read()
