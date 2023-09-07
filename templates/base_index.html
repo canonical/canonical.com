@@ -119,6 +119,13 @@
         } else {
           document.querySelector(successElement).classList.add("u-hide");
         }
+
+        let params = new URLSearchParams(window.location.search);
+        const utm_names = ["campaign", "source", "medium", "content", "term"];
+        for (let i = 0; i < utm_names.length; i++) {
+          var utm_fields = document.getElementsByName("utm_" + utm_names[i]);
+          utm_fields[0].value = params.get("utm_" + utm_names[i]);
+        }
       })()
     </script>
     <script defer src="{{ versioned_static('js/source-inheritance.js') }}"></script>
