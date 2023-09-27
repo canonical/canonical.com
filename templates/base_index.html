@@ -124,7 +124,9 @@
         const utm_names = ["campaign", "source", "medium", "content", "term"];
         for (let i = 0; i < utm_names.length; i++) {
           var utm_fields = document.getElementsByName("utm_" + utm_names[i]);
-          utm_fields[0].value = params.get("utm_" + utm_names[i]);
+          if (utm_fields.length > 0) {
+            utm_fields[0].value = params.get("utm_" + utm_names[i]);
+          }
         }
       })()
     </script>
