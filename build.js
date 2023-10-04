@@ -3,6 +3,8 @@ const path = require("path");
 
 let entries = {
   careerExplorer: "./static/js/career-explorer/App.tsx",
+  "side-navigation": "./static/js/side-navigation.js",
+
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
