@@ -332,6 +332,12 @@ def _get_gia_feedback(attachments):
     return feedback_attachments
 
 
+def _submitted_email_match(submitted_email, application):
+    candidate_emails_data = application["candidate"]["email_addresses"]
+    candidate_emails_list = [a["value"] for a in candidate_emails_data]
+    return submitted_email in candidate_emails_list
+
+
 def _confirmation_token(
     email, withdrawal_reason_id, withdrawal_message, application_id
 ):
@@ -437,9 +443,8 @@ def application_report(token):
             {"status": "error", "message": "Could not find application"}
         )
     submitted_email = flask.request.json["request-assessment-email"]
-    candidate_email = application["candidate"]["email_addresses"][0]["value"]
 
-    if candidate_email.lower() != submitted_email.lower():
+    if not _submitted_email_match(submitted_email, application):
         return flask.jsonify(
             {
                 "status": "error",

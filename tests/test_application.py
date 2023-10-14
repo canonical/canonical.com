@@ -7,6 +7,7 @@ from webapp.application import (
     _sort_stages_by_milestone,
     _get_gia_feedback,
     _get_employee_directory_data,
+    _submitted_email_match,
 )
 
 all_stages = [
@@ -230,3 +231,26 @@ class TestGetGiaFeedback(unittest.TestCase):
     def test_gia_feedback_not_found_when_empty(self):
         attachments = []
         self.assertEqual(_get_gia_feedback(attachments), [])
+
+
+class TestCandidateEmailMatches(unittest.TestCase):
+    def test_returns_correctly_for_single_email(self):
+        application = {
+            "candidate": {
+                "email_addresses": [{"value": "a@b.com", "type": "personal"}]
+            }
+        }
+        self.assertTrue(_submitted_email_match("a@b.com", application))
+        self.assertFalse(_submitted_email_match("foo@bar.com", application))
+
+    def test_returns_correctly_for_multiple_emails(self):
+        application = {
+            "candidate": {
+                "email_addresses": [
+                    {"value": "test@example.com", "type": "personal"},
+                    {"value": "foo@bar.com", "type": "personal"},
+                ]
+            }
+        }
+        self.assertTrue(_submitted_email_match("foo@bar.com", application))
+        self.assertFalse(_submitted_email_match("a@b.com", application))
