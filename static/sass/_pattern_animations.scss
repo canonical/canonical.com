@@ -1,4 +1,20 @@
 @mixin canonical-u-animations {
+  // Careers meganav
+  .u-animation--slide-dropdown {
+    transform: translateY(-110%);
+  }
+
+  .u-animation--fade-dropdown {
+    opacity: 0;
+    visibility: hidden;
+  
+    .u-visible-nav & {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+    }
+  }
+
   .u-animation--slide-from-bottom {
     animation: slide-from-bottom map-get($animation-duration, sleepy) linear
       forwards;

@@ -13,6 +13,7 @@ class Partners:
         "iot": "programme__name=Internet%20of%20Things&featured=true",
         "gsi": "programme__name=Global%20System%20Integrators&featured=true",
         "public-cloud": "programme__name=Public%20Cloud&featured=true",
+        "silicon": "programme__name=Silicon&featured=true",
     }
 
     def __init__(self, session):

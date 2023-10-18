@@ -6,8 +6,6 @@
 
 {% block meta_keywords %}{{ job.skills | join(', ') }}{% endblock %}
 
-{% block meta_image %}ceed7655-Canonical-Careers-image.jpg{% endblock %}
-
 {% block canonical_url %}{{request.host_url}}careers/{{job.id}}{% endblock %}
 
 {% block extra_metatags %}
@@ -117,10 +115,6 @@
             {% endif %}
           {% endfor %}
         {% endif %}
-        <label for="location" class="is-required">Location (City)</label>
-        <input id="location" name="location" type="text" class="js-location" required maxlength="255">
-        <button type="button" class="js-locate-me">Locate me</button>
-        <span class="js-locate-error u-hide" style="color: #c7162b">Location unavailable</span>
         <hr style="margin: 1rem 0;" />
         <p>In submitting this form, I confirm that I have read and agree to Canonical's <a href="https://ubuntu.com/legal/data-privacy/recruitment">Recruitment Privacy Notice</a> and <a href="https://ubuntu.com/legal/data-privacy/">Privacy Policy</a>.</p>
         <input type="hidden" name="mapped_url_token" value="" id="ghsrc" />
