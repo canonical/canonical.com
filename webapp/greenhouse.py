@@ -239,16 +239,18 @@ class Greenhouse:
     """
 
     def submit_application(self, form_data, form_files, job_id="1658196"):
-        # Encode the resume file to base64
-        resume = b64encode(form_files["resume"].read()).decode("utf-8")
-
         # Create payload for api submission
         payload = form_data.to_dict()
-        payload["resume_content"] = resume
-        payload["resume_content_filename"] = form_files["resume"].filename
+
+        # Add resume to the payload if exists
+        if form_files.get("resume"):
+            # Encode the resume file to base64
+            resume = b64encode(form_files["resume"].read()).decode("utf-8")
+            payload["resume_content"] = resume
+            payload["resume_content_filename"] = form_files["resume"].filename
 
         # Add cover letter to the payload if exists
-        if form_files["cover_letter"]:
+        if form_files.get("cover_letter"):
             # Encode the cover_letter file to base64
             payload["cover_letter_content"] = b64encode(
                 form_files["cover_letter"].read()

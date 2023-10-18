@@ -5,84 +5,24 @@
 {% block title %}Web and design | Careers{% endblock %}
 
 {% block meta_description %}The design team at Canonical crafts and builds the user-experience for sophisticated technical specialists across a wide range of industries and geographies.{% endblock %}
-
+{% block body_class %}is-paper{% endblock body_class %}
 {% block content %}
-<section class="p-strip--dark is-deep" style="background-position: 100% 0%; background-size: cover; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark">
-  <div class="row">
-    <div class="col-6">
-      <h1 class="p-heading--2"><strong>Web and Design</strong></h1>
-    </div>
-    <div class="col-6">
-      <p class="u-sv2">Canonical and Ubuntu are central to modern tech &ndash; from cloud to the internet of things, from the web to mobile back-ends, from development to production. Our Web and Design team shapes the user experience across this landscape.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Web+%26+Design">See all Web and Design roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Web and Design at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>The design team at Canonical crafts the user experiences of sophisticated technical specialists across a wide range of industries. Guided by the precision of our design system, we work on a range of products to deliver a consistent experience across a range of web interfaces. Our team has specialists in visual and UX design, and all aspects of web engineering. We collaborate, as product design squads, with globally distributed development engineering teams. </p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/4b0fc90b-department-web-design-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>Canonical delivers a range of products and solutions to help businesses move to an open source stack.</p>
-        <p>In the Web and Design team, we shape the user experience across the enterprise infrastructure and application operations landscape. We have the unique opportunity to work on every layer of the stack &ndash; from bare metal data centre operations to virtualisation infrastructure and cloud, to the desktop, to systems management, to serverless and embedded connected devices.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>We count on our team to bring together deep design-thinking, technical domain knowledge and great instincts. We follow a rigorous process to shape products for a very demanding audience. Successful designers at Canonical are effective in working collaboratively in a digital space, and maximise time spent face-to-face at company sprints and summits. You'll thrive if you have equal appetites for design, innovation and cutting-edge technology.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section-with-github.html" %}
-
-{% with section_classes='p-strip', heading_topic='Web and Design', tag_id='3329', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="Canonical and Ubuntu are central to modern tech &ndash; from cloud to the internet of things, from the web to mobile back-ends, from development to production. Our Web and Design team shapes the user experience across this landscape.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading="Web and Design at Canonical",
+    block_1_text=["The design team at Canonical crafts the user experiences of sophisticated technical specialists across a wide range of industries. Guided by the precision of our design system, we work on a range of products to deliver a consistent experience across a range of web interfaces. Our team has specialists in visual and UX design, and all aspects of web engineering. We collaborate, as product design squads, with globally distributed development engineering teams."],
+    image_url='https://assets.ubuntu.com/v1/4b0fc90b-department-web-design-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["Canonical delivers a range of products and solutions to help businesses move to an open source stack.", "In the Web and Design team, we shape the user experience across the enterprise infrastructure and application operations landscape. We have the unique opportunity to work on every layer of the stack &ndash; from bare metal data centre operations to virtualisation infrastructure and cloud, to the desktop, to systems management, to serverless and embedded connected devices."],
+    block_3_subheading="Who you are",
+    block_3_text=["We count on our team to bring together deep design-thinking, technical domain knowledge and great instincts. We follow a rigorous process to shape products for a very demanding audience. Successful designers at Canonical are effective in working collaboratively in a digital space, and maximise time spent face-to-face at company sprints and summits. You'll thrive if you have equal appetites for design, innovation and cutting-edge technology."],
+    blog_heading_topic="Web and Design",
+    blog_tag_id="3329"
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

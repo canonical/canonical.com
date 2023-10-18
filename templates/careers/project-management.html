@@ -1,90 +1,28 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/1hc5olKZcPIHFtxYAHvYFS_c-NZIYy3ZT8WqG7r021MI/ {% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1hc5olKZcPIHFtxYAHvYFS_c-NZIYy3ZT8WqG7r021MI/{% endblock meta_copydoc %}
 
 {% block title %}Project Management | Careers{% endblock %}
 
 {% block meta_description %}Canonical's Engagement Project Management Office team owns, drives and communicates delivery excellence by providing strong Project process guidelines, project continuity and data analytics.{% endblock %}
-
+{% block body_class %}is-paper{% endblock body_class %}
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Project Management</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">The Project Management team at Canonical embodies and spearheads our company's strategy of excellence in execution. Project managers are engaged during all phases of projects, from pre-sales support to delivery and the hand-off of complete projects.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Project+Management">See all Project Management roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Project Management at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>Canonical's project management team ensures that all projects are delivered according to time, resource and scope expectations. The team creates, manages and maintains project-specific schedules and manages each project through its entire life-cycle. Ultimately, the team ensures that our clients' goals, as well as Canonical's goals, are met. </p>
-        <p>Our Senior Project Managers fulfil high-profile customer relationship management roles. They provide account leadership and insight and are the primary interface for Canonical's key enterprise accounts. As expert engagement managers, they excel where relationship management and advocacy for Canonical's solutions are strategically crucial.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">     
-      {{ image (
-        url="https://assets.ubuntu.com/v1/6195ae44-department-project-management-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>Project managers at Canonical lead the delivery of a wide variety of projects. Their scope spans delivering a wide range of commercial customer projects as well as internal Canonical digital projects, from bare metal to cloud and high-performance computing, from AI and big data to the web and smart connected devices.</p>
-      </div>
-    </div>
-    
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>Canonical's project managers are masters at engaging stakeholders. They ensure the success of projects by taking ownership, giving direction and driving communication with stakeholders. They champion respect, integrity and accountability.</p>
-        <p>Collaboration underpins everything the team does. Upskilling and prioritising innovation drives our pursuit of excellence. Successful project managers are proactive, skilled at evaluating projects and driving client vision with new business opportunities in mind.</p>
-      </div>
-    </div>
-  </div>  
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Project Management', tag_id='1216', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="The Project Management team at Canonical embodies and spearheads our company's strategy of excellence in execution. Project managers are engaged during all phases of projects, from pre-sales support to delivery and the hand-off of complete projects.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Marketing at Canonical',
+    block_1_text=["Canonical's project management team ensures that all projects are delivered according to time, resource and scope expectations. The team creates, manages and maintains project-specific schedules and manages each project through its entire life-cycle. Ultimately, the team ensures that our clients' goals, as well as Canonical's goals, are met.", "Our Senior Project Managers fulfil high-profile customer relationship management roles. They provide account leadership and insight and are the primary interface for Canonical's key enterprise accounts. As expert engagement managers, they excel where relationship management and advocacy for Canonical's solutions are strategically crucial."],
+    image_url='https://assets.ubuntu.com/v1/6195ae44-department-project-management-%402x.jpg',
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["Project managers at Canonical lead the delivery of a wide variety of projects. Their scope spans delivering a wide range of commercial customer projects as well as internal Canonical digital projects, from bare metal to cloud and high-performance computing, from AI and big data to the web and smart connected devices."],
+    block_3_subheading="Who you are",
+    block_3_text=["Canonical's project managers are masters at engaging stakeholders. They ensure the success of projects by taking ownership, giving direction and driving communication with stakeholders. They champion respect, integrity and accountability.", "Collaboration underpins everything the team does. Upskilling and prioritising innovation drives our pursuit of excellence. Successful project managers are proactive, skilled at evaluating projects and driving client vision with new business opportunities in mind."],
+    blog_heading_topic='Project Management',
+    blog_tag_id='1216'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

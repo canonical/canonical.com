@@ -1,15 +1,7 @@
 (function () {
-  // Mapbox api
-  const API_KEY =
-    "pk.eyJ1IjoiY2Fub25pY2FsLXdlYnRlYW0iLCJhIjoiY2swZ3M0Y2tpMDNvMzNubGo1NG9pajZqMiJ9.v8qNlzrS4_gI5pJZQTAFaQ";
-  const url = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
-
   var numberOfEducations = 0;
 
   const addEducationButton = document.querySelector(".js-add-education");
-  const locateMeButton = document.querySelector(".js-locate-me");
-  const locateMeError = document.querySelector(".js-locate-error");
-  const locationLabel = document.querySelector(".js-location");
   const educationContainer = document.querySelector(".education-container");
   const schoolsList = document.querySelector(".js-school-0");
 
@@ -70,7 +62,7 @@
   function addEducationInput(n) {
     const educationInput = document.createElement("div");
     educationInput.setAttribute("data-education", n);
-    educationInput.innerHTML = `  
+    educationInput.innerHTML = `
       <hr/>
       <a href="#" class="js-remove-education">
         <i class="p-icon--close" style="float: right;"></i>
@@ -177,35 +169,6 @@
           datalistElement.innerHTML = list;
         }, 350)
       );
-    });
-  }
-
-  if (locateMeButton) {
-    locateMeButton.addEventListener("click", () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            fetch(
-              `${url}${pos.coords.longitude},${pos.coords.latitude}.json?access_token=${API_KEY}&autocomplete=true&types=place%2Clocality`
-            )
-              .then((res) => {
-                return res.json();
-              })
-              .then((response) => {
-                locationLabel.value = response.features[0].place_name;
-              })
-              .catch((error) => console.error("Error:", error));
-          },
-          () => {
-            locateMeError.classList.remove("u-hide");
-            setTimeout(() => {
-              locateMeError.classList.add("u-hide");
-            }, 4000);
-          }
-        );
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
     });
   }
 

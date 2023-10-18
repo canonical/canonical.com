@@ -2,11 +2,25 @@
 
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 {% block meta_description %}{{ article.excerpt.raw }}{% endblock %}
+{% block body_class %}is-paper blog-article{% endblock body_class %}
 {% block meta_image %}{{ article.image.source_url }}{% endblock %}
 
-{% block body_class %}blog-article{% endblock %}
-{% block canonical_url %}{% if 2996 in article.tags %}https://snapcraft.io/blog/{{ article.slug }}{% elif 4059 in article.tags %}https://juju.is/blog/{{ article.slug }}{% elif 1304 in article.tags or 3681 in article.tags -%}https://maas.io/blog/{{ article.slug }}{% else %}{{ super() }}{% endif %}{% endblock canonical_url %}
+{%- block canonical_url -%}
+  {%- if article.author and article.author.id == 217 -%}
+    https://canonical.com/blog/{{ article.slug }}
+  {%- elif 2996 in article.tags -%}
+    https://snapcraft.io/blog/{{ article.slug }}
+  {%- elif 4059 in article.tags -%}
+    https://juju.is/blog/{{ article.slug }}
+  {%- elif 1304 in article.tags or 3681 in article.tags -%}
+    https://maas.io/blog/{{ article.slug }}
+  {%- else -%}
+    https://ubuntu.com/blog/{{ article.slug }}
+  {%- endif -%}
+{%- endblock canonical_url -%}
+
 {% block extra_metatags %}
+
 <script type="application/ld+json">
   {
     "@context": "http://schema.org",
@@ -32,111 +46,167 @@
 {% endblock %}
 
 {% block content %}
-<article>
-  <header class="p-strip--image is-light is-shallow u-extra-space" style="background-image: url(https://assets.ubuntu.com/v1/f8a323a7-image-background-paper.png);">
-    <div class="row">
-      <div class="col-8">
-        <h1>{{ article.title.rendered|safe }}</h1>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-8">
-        <div class="p-media-object">
-          {% if article.author %}
-            <img src="{% if article.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ article.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image is-round" alt="">
+{% with parent_name="Blog", parent_href="/blog", title="Article" %}
+  {% include '/partial/_breadcrumbs.html' %}
+{% endwith %}
+
+<article class="p-block">
+  <header class="row">
+    <div class="aside col-3 col-medium-2">
+      <div class="p-media-object">
+        {% if article.author %}
+          {% if article.author and article.author.id == 217 %}
+            <img src="https://assets.ubuntu.com/v1/f16c40d0-Favicon+-+CoF.svg" class="p-media-object__image" alt="" style="align-self: center;">
+          {% else %}
+            <img src="{{ article.author.avatar_urls['96'] }}" class="p-media-object__image is-round" alt="" style="align-self: center;">
           {% endif %}
+        {% endif %}
 
-          <div class="p-media-object__details">
-            {% if article.author %}
-              <h3 class="p-media-object__title">
-                <a href="/blog/author/{{ article.author.slug }}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>
-              </h3>
+        <div class="p-media-object__details">
+          <p class="u-no-margin--bottom">
+          {% if article.author %}
+            <span class="p-heading--5">
+              <a href="/blog/author/{{ article.author.slug }}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>
+            </span>
+            <br>
             {% endif %}
-            <p class="p-media-object__content">on {{ article.date }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <ul class="p-inline-list-icons u-no-padding--left u-no-margin--left">
-          <li class="p-inline-list__item">
-            Share on:
-          </li>
-
-          <li class="p-inline-list__item">
-            <a  class="p-link--inverted p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
-              Facebook
-            </a>
-          </li>
-
-          <li class="p-inline-list__item">
-            <a class="p-link--inverted p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
-              Twitter
-            </a>
-          </li>
-
-          <li class="p-inline-list__item">
-            <a class="p-link--inverted p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
-            LinkedIn
-          </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    {% if tags %}
-      <div class="row">
-        <div class="col-10">
-          <p>
-            <strong>Tags:</strong>
-            {%- for tag in tags -%}
-              <a href="/blog/tag/{{ tag.slug }}">
-                {{ tag.name }}
-              </a>{%- if not loop.last %},{% endif -%}
-            {%- endfor -%}
+            <span>on {{ article.date }}</span>
           </p>
         </div>
       </div>
-    {% endif %}
-  </header>
-
-  <section class="p-strip is-bordered">
-    <div class="row u-equal-height">
-      <div class="col-8">
-        <div>
-          {{ article.content.rendered|safe }}
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div style="margin-top:1rem;">
-          {% include 'blog/newsletter-form.html' %}
-        </div>
-      </div>
     </div>
-  </section>
+    <div class="p-block col-9 col-medium-4">
+      <div class="p-block">
+        <h1>{{ article.title.rendered|safe }}</h1>
+      </div>
+
+      {% if tags %}
+        <div class="p-block">
+          {% for tag in tags %}
+            <a class="p-chip--information" href="/blog/tag/{{ tag.slug }}">
+              <span class="p-chip__value">
+                {{ tag.name }}
+              </span>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <ul class="p-inline-list">
+        <li class="p-inline-list__item">
+          <span class="p-text--default">
+            Share on:
+          </span>
+        <li class="p-inline-list__item">
+          <a class="p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+            Facebook
+          </a>
+        </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
+            Twitter
+          </a>
+        </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
+            LinkedIn
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <hr class="p-rule is-fixed-width">
+  <div class="row">
+    <aside class="aside col-3 col-medium-2">
+      <div class="p-section">
+        <div class="p-block">
+          <hr class="p-rule u-hide--medium u-hide--large">
+          <h2 class="p-muted-heading">Newsletter signup</h2>
+        </div>
+        <form action="https://ubuntu.com/marketo/submit" method="post" id="mktoForm_1212" onsubmit="ga('send', 'Newsletter', 'Signup', 'New homepage newsletter signup');">
+          <p >Select topics you're interested in:</p>
+
+          <ul class="p-list">
+            <li class="p-list__item u-clearfix">
+              <label class="p-checkbox">
+                <input class="p-checkbox__input" type="checkbox" aria-labelledby="insightscloudserver" name="insightscloudserver" value="true" />
+                <span class="p-checkbox__label" id="insightscloudserver">Cloud and Server</span>
+              </label>
+            </li>
+            <li class="p-list__item u-clearfix">
+              <label class="p-checkbox">
+                <input class="p-checkbox__input" type="checkbox" aria-labelledby="insightsdesktop" name="insightsdesktop" value="true" />
+                <span class="p-checkbox__label" id="insightsdesktop">Desktop</span>
+              </label>
+            </li>
+            <li class="p-list__item u-clearfix">
+              <label class="p-checkbox">
+                <input class="p-checkbox__input" type="checkbox" aria-labelledby="insightsiot" name="insightsiot" value="true" />
+                  <span class="p-checkbox__label" id="insightsiot">Internet of Things</span>
+                </label>
+              </li>
+              <li class="p-list__item u-clearfix">
+                <label class="p-checkbox">
+                  <input class="p-checkbox__input" aria-labelledby="insightsrobotics" name="insightsrobotics" value="true" type="checkbox">
+                  <span class="p-checkbox__label" id="insightsrobotics">Robotics</span>
+                </label>
+              </li>
+              <li class="p-list__item u-clearfix">
+                <label class="p-checkbox">
+                  <input class="p-checkbox__input" aria-labelledby="insightstutorials" name="insightstutorials" value="true" type="checkbox">
+                  <span class="p-checkbox__label" id="insightstutorials">Tutorials</span>
+                </label>
+              </li>
+              {# These are honey pot fields to catch bots #}
+              <li class="u-off-screen">
+                <label class="website" for="website">Website:</label>
+                <input name="website" type="text" class="website" autocomplete="off" value="" id="website" tabindex="-1" />
+              </li>
+              <li class="u-off-screen">
+                <label class="name" for="name">Name:</label>
+                <input name="name" type="text" class="name" autocomplete="off" value="" id="name" tabindex="-1" />
+              </li>
+              {# End of honey pots #}
+            </ul>
+
+            <label for="email">
+              <span>Work email: <span>*</span></span>
+            </label>
+            <input required id="email" name="email" maxlength="255" type="email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"/>
+            <p>
+              In submitting this form, I confirm that I have read and agree to <a href="https://ubuntu.com/legal/data-privacy/newsletter">Canonical's Privacy Notice</a> and <a href="https://ubuntu.com/legal/data-privacy">Privacy Policy</a>.
+            </p>
+            <button type="submit" class="u-no-margin--bottom">Subscribe now</button>
+            <input value="1212" name="formid" type="hidden">
+            <input type="hidden" name="Consent_to_Processing__c" value="yes" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="returnURL" value="https://canonical.com/blog#success" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_campaign" id="utm_campaign" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_medium" id="utm_medium" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_source" id="utm_source" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_content" id="utm_content" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_term" id="utm_term" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="GCLID__c" id="GCLID__c" value="" />
+            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="Facebook_Click_ID__c" id="Facebook_Click_ID__c" value="" />
+            <input type="hidden" name="thankyoumessage" value="Thank you for subscribing!<br />You will begin receiving emails as new content is posted. You may unsubscribe any time by clicking the link in the email.">
+        </form>
+      </div>
+  </aside>
+    <section class="p-section col-6 col-medium-4">
+      {{ article.content.rendered|safe }}
+    </section>
+  </div>
 </article>
 
 {% if related_articles %}
-<section class="p-strip is-shallow">
-  <div class="row">
-    <div class="col-8">
-      <h3>Related posts</h3>
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <h4 class="p-muted-heading">Related posts</h4>
     </div>
-  </div>
-
-  <div class="row p-divider">
-    {% for related_article in related_articles %}
-    <div class="col-4 p-divider__block">
-      <h4>
-        <a href="/blog/{{ related_article.slug }}">
-          {{ related_article.title.rendered|safe }}
-        </a>
-      </h4>
-      <p>{{ related_article.excerpt.raw.replace("[…]", "")|truncate(162) }}</p>
-    </div>
+    {% for article in related_articles %}
+      {% include 'blog/blog-card.html' %}
     {% endfor %}
-  </div>
-</section>
+  </section>
 {% endif %}
+
 {% endblock %}

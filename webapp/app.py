@@ -3,6 +3,7 @@ import datetime
 import calendar
 import os
 import re
+import requests
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import bleach
@@ -15,14 +16,19 @@ from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.discourse import DiscourseAPI, Docs, DocParser
+from canonicalwebteam.search import build_search_view
 from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
-from webapp.application import application
-from webapp.greenhouse import Greenhouse, Harvest
+from webapp.application import application, harvest
+from webapp.greenhouse import Greenhouse
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
+
+CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
+CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
 
 app = FlaskBase(
     __name__,
@@ -36,8 +42,17 @@ session = talisker.requests.get_session()
 greenhouse = Greenhouse(
     session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
 )
-harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 partners_api = Partners(session)
+
+charmhub_session = requests.Session()
+talisker.requests.configure(charmhub_session)
+charmhub_discourse_api = DiscourseAPI(
+    base_url="https://discourse.charmhub.io/",
+    session=charmhub_session,
+    api_key=CHARMHUB_DISCOURSE_API_KEY,
+    api_username=CHARMHUB_DISCOURSE_API_USERNAME,
+    get_topics_query_id=2,
+)
 
 app.register_blueprint(application, url_prefix="/careers/application")
 
@@ -193,24 +208,6 @@ def secure_boot():
 
 
 # Career departments
-@app.route("/careers/diversity")
-def diversity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/index.html", **context)
-
-
-@app.route("/careers/diversity/identity")
-def identity():
-    context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
-    }
-    context["department"] = None
-    return flask.render_template("careers/diversity/identity.html", **context)
-
-
 @app.route("/careers/results")
 def results():
     vacancies = []
@@ -226,11 +223,6 @@ def results():
     }
 
     return flask.render_template("careers/results.html", **context)
-
-
-@app.route("/careers/company-culture")
-def culture():
-    return flask.render_template("careers/company-culture.html")
 
 
 @app.route("/careers/sitemap.xml")
@@ -305,6 +297,17 @@ def start_career():
     return flask.render_template("/careers/career-explorer.html")
 
 
+@app.route("/careers/roles.json")
+def roles():
+    """
+    API endpoint for _navigation to consume
+    roles by department section with the up to date roles.
+    """
+
+    all_departments, departments_overview = _get_all_departments()
+    return flask.jsonify(departments_overview)
+
+
 @app.route("/careers")
 def careers_index():
     """
@@ -324,20 +327,6 @@ def careers_index():
     )
 
 
-@app.route("/careers/progression")
-def careers_progression():
-    all_departments, departments_overview = _get_all_departments()
-
-    return flask.render_template(
-        "/careers/progression.html",
-        all_departments=all_departments,
-        vacancies=[
-            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
-        ],
-        departments_overview=departments_overview,
-    )
-
-
 @app.route("/careers/all")
 def all_careers():
     sorted_departments = _get_sorted_departments()
@@ -348,6 +337,37 @@ def all_careers():
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+    )
+
+
+# Company culture pages
+@app.route("/careers/company-culture")
+def culture():
+    return flask.render_template("careers/company-culture/index.html")
+
+
+@app.route("/careers/company-culture/progression")
+def careers_progression():
+    all_departments, departments_overview = _get_all_departments()
+
+    return flask.render_template(
+        "/careers/company-culture/progression.html",
+        all_departments=all_departments,
+        vacancies=[
+            vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
+        ],
+        departments_overview=departments_overview,
+    )
+
+
+@app.route("/careers/company-culture/diversity")
+def diversity():
+    context = {
+        "all_departments": _group_by_department(greenhouse.get_vacancies())
+    }
+    context["department"] = None
+    return flask.render_template(
+        "careers/company-culture/diversity.html", **context
     )
 
 
@@ -454,7 +474,7 @@ def department_group(department_slug):
         templates.append(template)
 
     return flask.render_template(
-        "careers/base-template.html",
+        "careers/base.html",
         department=department,
         sorted_departments=departments,
         featured_jobs=featured_jobs,
@@ -470,8 +490,13 @@ def find_a_partner():
     partners = sorted(
         partners_api.get_partner_list(), key=lambda item: item["name"]
     )
+
+    partners_length = len(partners)
+
     return flask.render_template(
-        "/partners/find-a-partner.html", partners=partners
+        "/partners/find-a-partner.html",
+        partners=partners,
+        partners_length=partners_length,
     )
 
 
@@ -481,6 +506,7 @@ def find_a_partner():
 @app.route("/partners/ihv-and-oem")
 @app.route("/partners/public-cloud")
 @app.route("/partners/iot-device")
+@app.route("/partners/silicon")
 @app.route("/partners/devices-and-iot")
 def partner_details():
     partners = partners_api._get(
@@ -520,12 +546,54 @@ class PressCentre(BlogView):
         return flask.render_template("press-centre/index.html", **context)
 
 
+class BlogSitemapIndex(BlogView):
+    def dispatch_request(self):
+        response = session.get(
+            "https://admin.insights.ubuntu.com/sitemap_index.xml"
+        )
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/",
+            "https://canonical.com/blog/sitemap/",
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+
+class BlogSitemapPage(BlogView):
+    def dispatch_request(self, slug):
+        response = session.get(f"https://admin.insights.ubuntu.com/{slug}.xml")
+
+        if response.status_code == 404:
+            return flask.abort(404)
+
+        xml = response.text.replace(
+            "https://admin.insights.ubuntu.com/", "https://canonical.com/blog/"
+        )
+        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+
+        response = flask.make_response(xml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+
 blog_views = BlogViews(
     api=BlogAPI(session=session),
-    excluded_tags=[3184, 3265],
+    excluded_tags=[3184, 3265, 3599],
     per_page=11,
 )
 
+app.add_url_rule(
+    "/blog/sitemap.xml",
+    view_func=BlogSitemapIndex.as_view("sitemap", blog_views=blog_views),
+)
+app.add_url_rule(
+    "/blog/sitemap/<regex('.+'):slug>.xml",
+    view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
+)
 app.add_url_rule(
     "/press-centre",
     view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
@@ -664,6 +732,241 @@ def allow_src(tag, name, value):
         p = urlparse(value)
         return (not p.netloc) or p.netloc in allowed_sources
     return False
+
+
+# Data Platform Spark on K8s docs
+data_spark_k8s_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=8963,
+        url_prefix="/data/docs/spark/k8s",
+    ),
+    document_template="/data/docs/spark/k8s/document.html",
+    url_prefix="/data/docs/spark/k8s",
+    blueprint_name="data-docs-spark-k8s",
+)
+app.add_url_rule(
+    "/data/docs/spark/k8s/search",
+    "data-docs-spark-k8s-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/spark/k8s",
+        template_path="/data/docs/spark/k8s/search-results.html",
+    ),
+)
+data_spark_k8s_docs.init_app(app)
+
+# Data Platform MySQL on IAAS docs
+data_mysql_iaas_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=9925,
+        url_prefix="/data/docs/mysql/iaas",
+    ),
+    document_template="/data/docs/mysql/iaas/document.html",
+    url_prefix="/data/docs/mysql/iaas",
+    blueprint_name="data-docs-mysql-iaas",
+)
+app.add_url_rule(
+    "/data/docs/mysql/iaas/search",
+    "data-docs-mysql-iaas-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/mysql/iaas",
+        template_path="/data/docs/mysql/iaas/search-results.html",
+    ),
+)
+data_mysql_iaas_docs.init_app(app)
+
+# Data Platform MySQL on K8s docs
+data_mysql_k8s_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=9680,
+        url_prefix="/data/docs/mysql/k8s",
+    ),
+    document_template="/data/docs/mysql/k8s/document.html",
+    url_prefix="/data/docs/mysql/k8s",
+    blueprint_name="data-docs-mysql-k8s",
+)
+app.add_url_rule(
+    "/data/docs/mysql/k8s/search",
+    "data-docs-mysql-k8s-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/mysql/k8s",
+        template_path="/data/docs/mysql/k8s/search-results.html",
+    ),
+)
+data_mysql_k8s_docs.init_app(app)
+
+# Data Platform MongoDB on IaaS docs
+data_mongodb_iaas_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=7663,
+        url_prefix="/data/docs/mongodb/iaas",
+    ),
+    document_template="/data/docs/mongodb/iaas/document.html",
+    url_prefix="/data/docs/mongodb/iaas",
+    blueprint_name="data-docs-mongodb-iaas",
+)
+app.add_url_rule(
+    "/data/docs/mongodb/iaas/search",
+    "data-docs-mongodb-vm-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/mongodb/iaas",
+        template_path="/data/docs/mongodb/iaas/search-results.html",
+    ),
+)
+data_mongodb_iaas_docs.init_app(app)
+
+# Data Platform MongoDB on K8s docs
+data_mongodb_k8s_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=10265,
+        url_prefix="/data/docs/mongodb/k8s",
+    ),
+    document_template="/data/docs/mongodb/k8s/document.html",
+    url_prefix="/data/docs/mongodb/k8s",
+    blueprint_name="data-docs-mongodb-k8s",
+)
+app.add_url_rule(
+    "/data/docs/mongodb/k8s/search",
+    "data-docs-mongodb-k8s-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/mongodb/k8s",
+        template_path="/data/docs/mongodb/k8s/search-results.html",
+    ),
+)
+data_mongodb_k8s_docs.init_app(app)
+
+# Data Platform PostgreSQL on K8s docs
+data_postgresql_k8s_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=9307,
+        url_prefix="/data/docs/postgresql/k8s",
+    ),
+    document_template="/data/docs/postgresql/k8s/document.html",
+    url_prefix="/data/docs/postgresql/k8s",
+    blueprint_name="data-docs-postgresql-k8s",
+)
+app.add_url_rule(
+    "/data/docs/postgresql/k8s/search",
+    "data-docs-postgresql-k8s-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/postgresql/k8s",
+        template_path="/data/docs/postgresql/k8s/search-results.html",
+    ),
+)
+data_postgresql_k8s_docs.init_app(app)
+
+# Data Platform PostgreSQL on IaaS docs
+data_postgresql_iaas_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=9710,
+        url_prefix="/data/docs/postgresql/iaas",
+    ),
+    document_template="/data/docs/postgresql/iaas/document.html",
+    url_prefix="/data/docs/postgresql/iaas",
+    blueprint_name="data-docs-postgresql-iaas",
+)
+app.add_url_rule(
+    "/data/docs/postgresql/iaas/search",
+    "data-docs-postgresql-iaas-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/postgresql/iaas",
+        template_path="/data/docs/postgresql/iaas/search-results.html",
+    ),
+)
+data_postgresql_iaas_docs.init_app(app)
+
+# Data Platform OpenSearch on IaaS docs
+data_opensearch_iaas_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=9729,
+        url_prefix="/data/docs/opensearch/iaas",
+    ),
+    document_template="/data/docs/opensearch/iaas/document.html",
+    url_prefix="/data/docs/opensearch/iaas",
+    blueprint_name="data-docs-opensearch-iaas",
+)
+app.add_url_rule(
+    "/data/docs/opensearch/iaas/search",
+    "data-docs-opensearch-iaas-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/opensearch/iaas",
+        template_path="/data/docs/opensearch/iaas/search-results.html",
+    ),
+)
+data_opensearch_iaas_docs.init_app(app)
+
+# Data Platform Kafka on IaaS docs
+data_kafka_iaas_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=10288,
+        url_prefix="/data/docs/kafka/iaas",
+    ),
+    document_template="/data/docs/kafka/iaas/document.html",
+    url_prefix="/data/docs/kafka/iaas",
+    blueprint_name="data-docs-kafka-iaas",
+)
+app.add_url_rule(
+    "/data/docs/kafka/iaas/search",
+    "data-docs-kafka-iaas-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/kafka/iaas",
+        template_path="/data/docs/kafka/iaas/search-results.html",
+    ),
+)
+data_kafka_iaas_docs.init_app(app)
+
+# Data Platform Kafka on K8s docs
+data_kafka_k8s_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=10296,
+        url_prefix="/data/docs/kafka/k8s",
+    ),
+    document_template="/data/docs/kafka/k8s/document.html",
+    url_prefix="/data/docs/kafka/k8s",
+    blueprint_name="data-docs-kafka-k8s",
+)
+app.add_url_rule(
+    "/data/docs/kafka/k8s/search",
+    "data-docs-kafka-k8s-search",
+    build_search_view(
+        session=session,
+        site="canonical.com/data/docs/kafka/k8s",
+        template_path="/data/docs/kafka/k8s/search-results.html",
+    ),
+)
+data_kafka_k8s_docs.init_app(app)
+
+# Data Platform index docs
+data_docs = Docs(
+    parser=DocParser(
+        api=charmhub_discourse_api,
+        index_topic_id=10863,
+        url_prefix="/data/docs",
+    ),
+    document_template="/data/docs/document.html",
+    url_prefix="/data/docs/",
+    blueprint_name="data_docs",
+)
+
+data_docs.init_app(app)
 
 
 @app.errorhandler(502)

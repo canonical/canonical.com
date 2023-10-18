@@ -111,35 +111,29 @@
           <h2>Your Hiring Lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
         </div>
         <div class="col-1">
-        {% for lead in application["hiring_leads_list"]["list"] %}
-          {% if lead["name"] == application["hiring_lead"]["name"] and lead['img_src']  %}
-            <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ lead['img_src']}}" class="hiring-lead-image"/>
-          {% endif %}
-        {% endfor %}
+        {% if application['hiring_lead']['name'] and application['hiring_lead']['avatar'] %}
+          <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ application['hiring_lead']['avatar'] }}" class="hiring-lead-image"/>
+        {% endif %}
         </div>
         <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
-          {% for lead in application["hiring_leads_list"]["list"] %}
-            {% if lead["name"] == application["hiring_lead"]["name"]  %}
-              {% if lead['video_src'] %}
-              <div class="u-embedded-media">
-                <iframe class="u-embedded-media__element" src="{{ lead['video_src']}}" width="560" height="315" frameborder="0" title="about role"></iframe>
-              </div>
-              {% include 'careers/application/partial/_feedback.html' %}
-              {% endif %}
-              {% if lead["bio"] %}
-              <p>{{ lead["bio"][0] |safe }}</p>
+            {% if application['hiring_lead']['video_src'] %}
+            <div class="u-embedded-media">
+              <iframe class="u-embedded-media__element" src="{{ application['hiring_lead']['video_src'] }}" width="560" height="315" frameborder="0" title="about role"></iframe>
+            </div>
+            {% include 'careers/application/partial/_feedback.html' %}
+            {% endif %}
+            {% if application['hiring_lead']["bio"] %}
+              <p>{{ application['hiring_lead']["bio"][0] | safe }}</p>
               <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
               <div class="progress-detail-hiring-lead u-hide">
-                {% for bio in lead["bio"] %}
+                {% for bio in application['hiring_lead']["bio"] %}
                   {% if loop.index != 1 %}
                     <p>{{ bio | safe }}</p>
                   {% endif %}
                 {% endfor %}
               </div>
-              <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
-              {% endif %}
+            <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
             {% endif %}
-          {% endfor %}
         </div>
       </div>
     </section>

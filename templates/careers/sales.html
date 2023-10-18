@@ -7,83 +7,22 @@
 {% block meta_description %}Canonical is looking for Sales Professionals that are Trusted Advisors which bring confidence to our customers that we understand their transformation to multi-cloud, and we can bring the right solutions to the table in order to solve those problems.{% endblock %}
 
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Sales</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">At Canonical, we shape the future of enterprise technology. Our sales team thrives on helping our clients be a part of this future. We love technology, and we love doing business.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Sales">See all Sales roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-    <hr class="is-fixed-width u-no-margin--bottom">
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Sales at Canonical</h3>
-      </div>
-      <div class="col-6">
-          <p>Open source is transforming the enterprise stack. This brings a set of challenges which we help our customers solve. Whether it's improving security, driving productivity with automation or gaining platform stability, we are trusted advisors that help innovators meet their goals.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/9acad1b0-department-sales-%402x.jpg",
-        alt="",
-        width="1242",
-        height="467",
-        hi_def=True,
-        loading="auto"
-        ) | safe
-      }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>The key focus of our sales team is helping customers use and deploy open source software at scale and ensuring it's maintained and secured. You will work closely with some of the world’s leading brands and organisations and help them consume high-quality open source software to achieve their ambitions. From self-driving cars to critical government systems, we take pride in helping our customers transform our future.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>Your approach is consultative, you are results and goal-oriented, and you know how to invest your time to maximise the benefit for customers and the company.</p>
-        <p>You build long-term relationships, and you always promote the approach that is in the customer's best interests, regardless of short-term consequences. You are interested in the state of the art, you love to represent a company that knows how to transform customer operations, and you are keen to see new customers benefit from that knowledge.</p>
-        <p>You are organised, persistent, friendly and hard-working. You are effective in a digital world, keeping track of your plans and your progress, collaborating with colleagues to deliver for your customers. You are professionally competitive - respectful of the competition and determined to improve until you win regularly.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Sales', tag_id='2307', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="At Canonical, we shape the future of enterprise technology. Our sales team thrives on helping our clients be a part of this future. We love technology, and we love doing business.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Sales at Canonical',
+    block_1_text=["Open source is transforming the enterprise stack. This brings a set of challenges which we help our customers solve. Whether it's improving security, driving productivity with automation or gaining platform stability, we are trusted advisors that help innovators meet their goals."],
+    image_url="https://assets.ubuntu.com/v1/9acad1b0-department-sales-%402x.jpg",
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["The key focus of our sales team is helping customers use and deploy open source software at scale and ensuring it's maintained and secured. You will work closely with some of the world’s leading brands and organisations and help them consume high-quality open source software to achieve their ambitions. From self-driving cars to critical government systems, we take pride in helping our customers transform our future."],
+    block_3_subheading="Who you are",
+    block_3_text=["Your approach is consultative, you are results and goal-oriented, and you know how to invest your time to maximise the benefit for customers and the company.", "You build long-term relationships, and you always promote the approach that is in the customer's best interests, regardless of short-term consequences. You are interested in the state of the art, you love to represent a company that knows how to transform customer operations, and you are keen to see new customers benefit from that knowledge.", "You are organised, persistent, friendly and hard-working. You are effective in a digital world, keeping track of your plans and your progress, collaborating with colleagues to deliver for your customers. You are professionally competitive - respectful of the competition and determined to improve until you win regularly."],
+    blog_heading_topic='Sales',
+    blog_tag_id='2307'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}

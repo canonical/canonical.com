@@ -1,95 +1,28 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/12rAis8nzWUOun0ZEK_L-ZGz1eEMzBgfc7UhN5t9OpJM/ {% endblock meta_copydoc %}
+{% block meta_copydoc %}https://docs.google.com/document/d/12rAis8nzWUOun0ZEK_L-ZGz1eEMzBgfc7UhN5t9OpJM/{% endblock meta_copydoc %}
 
 {% block title %}Product | Careers{% endblock %}
 
-{% block meta_description %} Product management at Canonical is all about the excellence, quality and thought-leadership required to put us squarely into the frame for companies thinking afresh about their biggest technology questions. {% endblock %}
-
+{% block meta_description %}Product Management at Canonical is all about the excellence, quality and thought-leadership required to put us squarely into the frame for companies thinking afresh about their biggest technology questions.{% endblock %}
+{% block body_class %}is-paper{% endblock body_class %}
 {% block content %}
-<section class="p-strip--careers is-deep">
-  <hr class="is-fixed-width u-no-margin--bottom is-dark u-hide--small">
-  <div class="row">
-    <div class="col-6 col-medium-2">
-      <h1 class="p-heading--2"><strong>Product</strong></h1>
-    </div>
-    <div class="col-6 col-medium-4">
-      <p class="u-sv2">In Product Management, we predict, define, deliver, and promote the coming waves of open source technology. Product Management is both an art and a science &mdash; full of creativity, problem solving, organisation, and leadership. Your experience, instincts, user focus, analytical nature and passion ensure that people across the company look to you as a leader.</p>
-      <a class="p-button--positive" href="/careers/all?filter=Product">See all Product roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
-
-{% if fast_track_jobs or featured_jobs %}
-  {% include "shared/_promoted_roles.html" %}
-{% endif %}
-
-<section class="p-strip">
-  <div class="u-fixed-width">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Product Management at Canonical</h3>
-      </div>
-      <div class="col-6">
-        <p>Product Management at Canonical is a nexus between the various parts of the company &mdash; the CEO, engineering, marketing, sales, field sales, support &mdash; and the various audiences that use, contribute to, influence and commercially interact with the open source products under your stewardship.</p>
-        <p>We delight in showing that we can engineer growth in engagement, awareness, consumption and commerce just as effectively as our colleagues in software development engineer reliability and performance in our products.  We're a tiny company in an industry of giants, so we have always punched way above our weight and that's exactly what we expect from new members of the team too.</p>
-      </div>
-    </div>
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="u-fixed-width u-hide--small u-hide--medium">     
-    {{ 
-      image (
-      url="https://assets.ubuntu.com/v1/53cee986-department-product-management-%402x.jpg",
-      alt="",
-      width="1242",
-      height="467",
-      hi_def=True,
-      loading="lazy"
-      ) | safe
-    }}
-    </div>
-  </div>
-  <hr class="is-fixed-width u-no-margin--bottom">
-  <div class="p-strip is-shallow u-no-padding--top">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Projects you'll work on</h3>
-      </div>
-      <div class="col-6">
-        <p>As product manager,  you are a representative of Canonical and you are an advocate of our brands and products. We all work together across the full portfolio &mdash; you are expected to understand the big picture of how Canonical's products fit together, there are no siloes. These are not behind-the-scenes roles, they are public leadership roles. We expect our team to be just as comfortable delivering our message online as they are face to face at meetups, meetings, conferences, partner workshops or press events. This team is all about the excellence, quality and thought-leadership required to put us squarely into the frame for companies thinking afresh about their biggest technology questions.</p>
-      </div>
-    </div>
-    
-  </div>
-  <div class="p-strip is-shallow u-no-padding--top">
-    <hr class="is-fixed-width u-no-margin--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="p-heading--2">Who you are</h3>
-      </div>
-      <div class="col-6">
-        <p>You are customer obsessed. You over-communicate strategy and vision.  You are strategic and tactical. You use data and your intuition to make decisions.  You love sharing ideas, information and enthusiasm. You partner with and influence the entire organisation &mdash; and are passionate about the future of technology.</p>
-        <p>Our team has an insatiable intellectual curiosity. We love the question “Why?” and are relentless in finding answers through user interviews, data, and experimentation.</p>
-        <p>In this team, it's important to have a sense of ownership. Every part of the product's success is your responsibility. You will work closely with the CEO and collaborate with every part of the organisation to realise that success &mdash; whether it's marketing, sales, engineering, or any other key stakeholder.</p>
-        <p>We look for people who are excellent communicators and can speak to and write effectively for everyone &mdash; from marketers to engineers to c-suite executives. You communicate in the format the audience best receives information, whether that's written, visually, or with data. Through it all, you communicate with confidence and empathy.</p>
-        <p>You take a strategic approach and use the available resources to deliver as much value to the business and customers as possible. You understand the long game and spend a lot of time looking around corners, envisioning what might go right and what might go wrong.</p>
-        <p>Through it all, you are process-driven and focused. You'll keep our product teams on track by documenting dependencies, planning sprints, and staying ahead of issues that might block our progress.</p>
-    </div>
-    </div>
-  </div>  
-</section>
-
-{% include "shared/_social-icons-section.html" %}
-
-{% with section_classes='p-strip', heading_topic='Product', tag_id='1216', limit='3' %}
-  {% include "shared/_blog-card.html" %}
+{% with 
+    department=department,
+    claim="In Product Management, we predict, define, deliver, and promote the coming waves of open source technology. Product Management is both an art and a science &mdash; full of creativity, problem solving, organisation, and leadership. Your experience, instincts, user focus, analytical nature and passion ensure that people across the company look to you as a leader.",
+    fast_track_jobs=fast_track_jobs,
+    block_1_subheading='Product Management at Canonical',
+    block_1_text=["Product Management at Canonical is a nexus between the various parts of the company &mdash; the CEO, engineering, marketing, sales, field sales, support &mdash; and the various audiences that use, contribute to, influence and commercially interact with the open source products under your stewardship.", "We delight in showing that we can engineer growth in engagement, awareness, consumption and commerce just as effectively as our colleagues in software development engineer reliability and performance in our products. We're a tiny company in an industry of giants, so we have always punched way above our weight and that's exactly what we expect from new members of the team too."],
+    image_url="https://assets.ubuntu.com/v1/53cee986-department-product-management-%402x.jpg",
+    image_width="1500",
+    image_height="564",
+    block_2_heading="Projects you'll work on",
+    block_2_text=["As product manager, you are a representative of Canonical and you are an advocate of our brands and products. We all work together across the full portfolio &mdash; you are expected to understand the big picture of how Canonical's products fit together, there are no siloes. These are not behind-the-scenes roles, they are public leadership roles. We expect our team to be just as comfortable delivering our message online as they are face to face at meetups, meetings, conferences, partner workshops or press events. This team is all about the excellence, quality and thought-leadership required to put us squarely into the frame for companies thinking afresh about their biggest technology questions."],
+    block_3_subheading="Who you are",
+    block_3_text=["You are customer obsessed. You over-communicate strategy and vision.  You are strategic and tactical. You use data and your intuition to make decisions.  You love sharing ideas, information and enthusiasm. You partner with and influence the entire organisation &mdash; and are passionate about the future of technology.", "Our team has an insatiable intellectual curiosity. We love the question “Why?” and are relentless in finding answers through user interviews, data, and experimentation.", "In this team, it's important to have a sense of ownership. Every part of the product's success is your responsibility. You will work closely with the CEO and collaborate with every part of the organisation to realise that success &mdash; whether it's marketing, sales, engineering, or any other key stakeholder.", "We look for people who are excellent communicators and can speak to and write effectively for everyone &mdash; from marketers to engineers to c-suite executives. You communicate in the format the audience best receives information, whether that's written, visually, or with data. Through it all, you communicate with confidence and empathy.", "You take a strategic approach and use the available resources to deliver as much value to the business and customers as possible. You understand the long game and spend a lot of time looking around corners, envisioning what might go right and what might go wrong.", "Through it all, you are process-driven and focused. You'll keep our product teams on track by documenting dependencies, planning sprints, and staying ahead of issues that might block our progress."],
+    blog_heading_topic='Product',
+    blog_tag_id='1216'
+  %}
+  {% include "careers/_base-department.html" %}
 {% endwith %}
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-{% endblock %}
+{% endblock content %}
