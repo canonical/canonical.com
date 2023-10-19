@@ -4,7 +4,6 @@
 @import "@canonical/cookie-policy/build/css/cookie-policy";
 
 $color-brand: #7c355d;
-$color-dark: $colors--dark-theme--background-default;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
 $p-small-lh-diff: map-get($line-heights, default-text) -
@@ -22,6 +21,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_navigation";
 @import "pattern_search-panel";
 @import "pattern_careers-progression";
+@import "pattern_global-nav";
 
 @include vanilla;
 @include vf-p-icon-status-waiting;
@@ -42,6 +42,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-search-panel;
 @include canonical-u-footer-align-bottom;
 @include canonical-p-careers-progression;
+@include canonical-p-global-nav;
 
 .js-find-a-partner__partner {
   // find-a-partner search
@@ -785,5 +786,12 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   @media screen and (min-width: $breakpoint-small) {
     float: right;
     position: sticky;
+  }
+}
+
+// /data UX requirement align to the left for smaller devices
+.p-data-logos {
+  @media screen and (min-width: $breakpoint-large - 1) {
+    text-align: right;
   }
 }

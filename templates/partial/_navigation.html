@@ -1,78 +1,12 @@
-<a href="#main-content" class="p-link--skip">Jump to main content</a>
+{% block header_banner %}
 
-<header id="navigation" class="p-navigation is-dark">
-  {% block header_banner %}
-  <div class="row">
-    <div class="p-navigation__banner col-3 u-no-padding--left">
-      <div class="p-navigation__tagged-logo">
-        <a class="p-navigation__link" href="/">
-          <div class="p-navigation__logo-tag">
-            <img class="p-navigation__logo-icon" src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg" alt="Canonical" width="95">
-          </div>
-          <span class="p-navigation__logo-title">Canonical</span>
-        </a>
-      </div>
-      <a href="#navigation" class="p-navigation__toggle--open" title="menu">Menu</a>
-      <a href="#navigation-closed" class="p-navigation__toggle--close" title="close menu">Close menu</a>
-    </div>
-
-    <nav class="p-navigation__nav col-9" aria-label="main-navigation">
-      <ul class="p-navigation__items js-show-nav" style="margin-left: -.75rem;">
-        <li class="p-navigation__item--dropdown-toggle" id="company-nav">
-          <a href="/company" aria-controls="company-menu" class="p-navigation__link">Company</a>
-          <ul class="p-navigation__dropdown" id="company-menu" aria-hidden="true">
-            <li>
-              <a href="/blog" class="p-navigation__dropdown-item">Blog</a>
-            </li>
-            <li>
-              <a href="/press-centre" class="p-navigation__dropdown-item">Press centre</a>
-            </li>
-            <li>
-              <a href="/documentation" class="p-navigation__dropdown-item">Documentation practice</a>
-            </li>
-            <li>
-              <a href="/projects" class="p-navigation__dropdown-item">Projects</a>
-            </li>
-          </ul>
-        </li>
-        <li class="p-navigation__item" id="products-nav">
-          <a href="/#products" class="p-navigation__link">Products</a>
-        </li>
-        <li class="p-navigation__item--dropdown-toggle" id="partners-nav">
-          <a href="/partners" aria-controls="partners-menu" class="p-navigation__link">Partners</a>
-          <ul class="p-navigation__dropdown" id="partners-menu" aria-hidden="true">
-            <li>
-              <a href="/partners" class="p-navigation__dropdown-item">Our partner programs</a>
-              <ul class="p-navigation__sub-list">
-                <li><a href="/partners/desktop" class="p-navigation__dropdown-item">Desktop</a></li>
-                <li><a href="/partners/channel-and-reseller" class="p-navigation__dropdown-item">Channel/reseller</a></li>
-                <li><a href="/partners/iot-device" class="p-navigation__dropdown-item">IoT devices</a></li>
-                <li><a href="/partners/ihv-and-oem" class="p-navigation__dropdown-item">IHV/OEM</a></li>
-                <li><a href="/partners/gsi" class="p-navigation__dropdown-item">Global System Integrators</a></li>
-                <li><a href="/partners/public-cloud" class="p-navigation__dropdown-item">Public cloud</a></li>
-                <li><a href="/partners/silicon" class="p-navigation__dropdown-item">Silicon</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/partners/become-a-partner" class="p-navigation__dropdown-item">Become a partner</a>
-            </li>
-            <li>
-              <a href="/partners/find-a-partner" class="p-navigation__dropdown-item">Find a partner</a>
-            </li>
-            <li>
-              <a href="/partners/executive-summit" class="p-navigation__dropdown-item">Partner Executive Summit</a>
-            </li>
-            <li>
-              <a href="https://partner-portal.canonical.com/" class="p-navigation__dropdown-item">Log into the partner portal</a>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown-toggle" id="careers-nav">
-          <a href="" class="p-navigation__link" onclick="fetchDropdown('careers-menu');">Careers</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  {% endblock header_banner %}
-</header>
-{% include "/partial/_careers_navigation.html" %}
+  {% if request.path|get_nav_path == "data" %}
+    {% include "partial/_data-navigation.html" %}
+  {% else %}
+    {% include "partial/_standard-navigation.html" %}
+  {% endif %}
+  <script src="{{ versioned_static('js/modules/global-nav/global-nav.js') }}"></script>
+  <script>
+    canonicalGlobalNav.createNav({ breakpoint: 1036 })
+  </script>
+{% endblock header_banner %}
