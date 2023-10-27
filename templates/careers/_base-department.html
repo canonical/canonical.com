@@ -15,7 +15,9 @@
     </div>
     <div class="col-6 col-medium-3">
       <p class="u-sv2">{{ claim | safe }}</p>
-      {% if not fast_track_jobs %}
+      {% if fast_track_jobs %}
+        <div class="u-sv-3"></div>
+      {% else %}
         <a class="p-button--positive" href="/careers/all?filter={{ department.name | safe | urlencode }}">See all {{ department.name }} roles</a>
         <a class="p-button" href="/careers/career-explorer">Career explorer</a>
       {% endif %}
