@@ -1,131 +1,108 @@
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Micro services', 'eventValue' : undefined });">
-	<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-		<div class="p-engineering-fast-track__item">
-			<p><span class="p-engineering-fast-track__text">Micro services</span></p>
+<section class="p-section">
+	<div class="u-fixed-width">
+		<hr class="p-rule">
+	</div>
+	<div class="row">
+		<div class="col-3 col-medium-3">
+			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Apply based on</h2>
 		</div>
-		<div class="p-engineering-fast-track__chevron">
-			<i class="p-icon--chevron-right"></i>
+		<div class="col-6 col-medium-3">
+			<div class="row">
+				<div class="col-6">
+					<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Technology & Field</h2>
+				</div>
+				<div class="col-3">
+					<a href="/careers/5191982">Microservices</a>
+					<p class="u-no-padding--top">REST API design in Go and Python</p>
+				</div>
+				<div class="col-3">
+					<a href="/careers/5151903">Kernel</a>
+					<p class="u-no-padding--top">Low-level system engineering</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<a href="/careers/5143074">Python</a>
+					<p class="u-no-padding--top">Develop for open source</p>
+				</div>
+				<div class="col-3">
+					<a href="/careers/5140562">Embedded Linux</a>
+					<p class="u-no-padding--top">ARM & x86, SoC, ACPI</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<a href="/careers/5146709">Golang</a>
+					<p class="u-no-padding--top">Develop for open source</p>
+				</div>
+				<div class="col-3">
+					<a href="/careers/5172247">Containers & Virtualisation</a>
+					<p class="u-no-padding--top">LXD, Rust VMM, Docker</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<a href="/careers/5150422">Web Frontend</a>
+					<p class="u-no-padding--top">JS, CSS, React & Flutter</p>
+				</div>
+				<div class="col-3">
+					<a href="/careers/5146620">Security</a>
+					<p class="u-no-padding--top">Keep Linux secure</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<a href="/careers/5163397">Networking</a>
+					<p class="u-no-padding--top">Data centres, SDN/NFV tech</p>
+				</div>
+				<div class="col-3">
+					<a href="/careers/3655681">DevRel</a>
+					<p class="u-no-padding--top">Engage with community and devs</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-3 col-medium-3 col-start-medium-4">
+			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Position Level</h2>
+			<a href="/careers/5211861">Director</a>
+			<p class="u-no-padding--top">Define strategy and assist teams</p>
+			<a href="/careers/5188002">Manager</a>
+			<p class="u-no-padding--top">Lead globally-distributed teams</p>
+			<a href="/careers/5142887">Senior Engineer</a>
+			<p class="u-no-padding--top">Solve open source challenges</p>
 		</div>
 	</div>
-	</a>
-</div>
+</section>
 
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Python', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Python</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
+<section class="p-section">
+	{% if featured_jobs %}
+	<div class="u-fixed-width">
+		<hr class="p-rule">
+	</div>
+	<div class="row">
+		<div class="col-3 col-medium-3">
+			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
 		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Golang', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Golang</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
+		<div class="col-6 col-medium-3">
+			{% for job in featured_jobs %}
+			<p>
+				<a class="p-featured__url p-card--content" href="/careers/{{job.id}}"
+					onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">
+					{{job.title }}
+				</a>
+			</p>
+			{% endfor %}
 		</div>
-	</a>
-</div>
-
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Distro', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Distro</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
+		<div class="col-3 col-medium-3 col-start-medium-4">
+			<p class="u-sv-1">
+				{% if formatted_slug %}
+				<a href="/careers/all?filter={{formatted_slug}}">Explore all {{ department.name }} roles</a>
+				{% else %}
+				<a href="/careers/all?filter={{department.slug.capitalize()}}">Explore all {{ department.name }} roles</a>
+				{% endif %}
+			</p>
+			<hr />
+			<a href="/careers/career-explorer">Career explorer</a>
 		</div>
-	</a>
-</div>
-
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Embedded', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Embedded</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Performance', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Performance</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Performance', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Performance</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Web - JS, CSS, Flutter', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Web - JS, CSS, Flutter</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Data Scientist', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Data Scientist</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
-
-<div class="col-3 col-medium-3 p-engineering-fast-track">
-	<a class="p-engineering-fast-track__url p-card--content" aria-disabled="true" href="/careers/3798310" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Fast track roles', 'eventAction' : 'Click', 'eventLabel' : 'Dev Rel', 'eventValue' : undefined });">
-		<div class="p-engineering-fast-track__container col-small-4 col-medium-3 col-4 u-no-padding--left">
-			<div class="p-engineering-fast-track__item">
-				<p><span class="p-engineering-fast-track__text">Dev Rel</span></p>
-			</div>
-			<div class="p-engineering-fast-track__chevron">
-				<i class="p-icon--chevron-right"></i>
-			</div>
-		</div>
-	</a>
-</div>
+	</div>
+	{% endif %}
+</section>
