@@ -263,15 +263,16 @@ def job_details(job_id, job_title):
     context = {"bleach": bleach}
 
     try:
-        context["job"] = greenhouse.get_vacancy(job_id)
+        # Greenhouse job board API (get_vacancy) doesn't show inactive roles
+        context["job"] = harvest.get_job_post(job_id)
     except HTTPError as error:
         if error.response.status_code == 404:
             flask.abort(404)
         else:
             raise error
 
-    if not context["job"]:
-        flask.abort(404)
+    if "job" not in context:
+        return flask.abort(404)
 
     if flask.request.method == "POST":
         response = greenhouse.submit_application(

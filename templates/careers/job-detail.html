@@ -28,7 +28,7 @@
     {% endif %}
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
-    "applicantLocationRequirements": {{ job.location | job_location_countries | tojson}},
+    "applicantLocationRequirements": {{ job.location | job_location_countries | tojson }},
     {% else %}
     "jobLocation": {
       "@type": "Place",
@@ -65,7 +65,11 @@
     <div class="job-desc">
       {{ job.content | filtered_html_tags | safe }}
     </div>
-    <p class="p-button--positive" id="apply-button">Apply</p>
+    {% if job.active %}
+      <button class="p-button--positive" id="apply-button">Apply</button>
+    {% else %}
+      <button class="p-button--positive" disabled="">No longer accepting applications</button>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
@@ -86,32 +90,32 @@
         <input type="hidden" name="id" value="{{ job.id }}" />
         {% if job.questions %}
           {% for question in job.questions %}
-          <label for="{{ question.fields[0].name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
-            {% if question.fields[0].type == "input_text" %}
-            <input id="{{ question.fields[0].name }}" name="{{ question.fields[0].name }}" {% if question.description %}aria-describedby="{{ question.fields[0].name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255">
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.fields[0].name }}_help">{{ question.description | safe }}</p>{% endif %}
-            {% elif question.fields[0].type == "input_file" %}
-            <input id="{{ question.fields[0].name }}" name="{{ question.fields[0].name }}" {% if question.description %}aria-describedby="{{ question.fields[0].name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf">
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.fields[0].name }}_help">{{ question.description | safe }}</p>{% endif %}
-            {% elif question.fields[0].type == "textarea" %}
-            <textarea id="{{ question.fields[0].name }}" name="{{ question.fields[0].name }}" {% if question.description %}aria-describedby="{{ question.fields[0].name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.fields[0].name }}_help">{{ question.description | safe }}</p>{% endif %}
-            {% elif question.fields[0].type == "multi_value_single_select" %}
-            <select name="{{ question.fields[0].name }}" id="{{ question.fields[0].name }}" {% if question.description %}aria-describedby="{{ question.fields[0].name }}_help"{% endif %} {% if question.required %}required{% endif %}>
+          <label for="{{ question.name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
+            {% if question.type == "short_text" %}
+            <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255">
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% elif question.type == "attachment" %}
+            <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf">
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% elif question.type == "long_text" %}
+            <textarea id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% elif question.type == "single_select" or question.type == "boolean" %}
+            <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
-              {% for answer_option in question.fields[0].get("values",[])|reverse %}
+              {% for answer_option in question.get("values",[])|reverse %}
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.fields[0].name }}_help">{{ question.description | safe }}</p>{% endif %}
-            {% elif question.fields[0].type == "multi_value_multi_select" %}
-            <select name="{{ question.fields[0].name }}" id="{{ question.fields[0].name }}" {% if question.description %}aria-describedby="{{ question.fields[0].name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% elif question.type == "multi_value_multi_select" %}
+            <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled">Select...</option>
-              {% for answer_option in question.fields[0].get("values",[]) %}
+              {% for answer_option in question.get("values",[]) %}
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.fields[0].name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
             {% endif %}
           {% endfor %}
         {% endif %}
