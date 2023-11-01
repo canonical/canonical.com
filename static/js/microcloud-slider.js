@@ -9,8 +9,10 @@ function threeItemSlider() {
   let index = 0;
   let windowIndex = (index + activeItems * 2);
   let windowLimit = windowIndex - (windowIndex - length);
-  resultsCount.innerHTML = `${activeItems} of ${length} `;
-  
+  let totalPages = Math.ceil(length / activeItems);
+  let currentPage = index / activeItems + 1;
+  resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+
   if (index == 0 ) {
     prevBtn.classList.add('is-disabled');
   }
@@ -26,14 +28,17 @@ function threeItemSlider() {
         items[i].classList.remove('u-hide');
       }
       index += activeItems;
+      currentPage = index / activeItems + 1;
   
-      resultsCount.innerHTML = `${windowLimit} of ${length} `;
+      resultsCount.innerHTML = `${(currentPage)} of ${totalPages} `;
       prevBtn.classList.remove('is-disabled');
     } 
 
     if (index >= length - 1){
       nextBtn.classList.add('is-disabled');
     }  
+
+    jumpToTop();
   }
 
   // Handles prev button click and disables button if at beginning of list
@@ -47,17 +52,25 @@ function threeItemSlider() {
         items[i].classList.remove('u-hide');
       }
       index -= activeItems;
+      currentPage = index / activeItems + 1;
     }
 
     if (index == 0 ) {
       prevBtn.classList.add('is-disabled');
 
-      if (length) {
+      if (length > activeItems) {
         nextBtn.classList.remove('is-disabled');
       }
     } 
 
-    resultsCount.innerHTML = `${activeItems} of ${length} `;
+    resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+  }
+}
+
+// Scrolls to top of section on tablet/mobile
+function jumpToTop() {
+  if(window.screen.width < 1036) {
+    document.getElementById('videos-and-webinars').scrollIntoView();
   }
 }
 
