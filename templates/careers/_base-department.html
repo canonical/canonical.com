@@ -1,5 +1,5 @@
 <div class="u-fixed-width">
-  <nav class="p-breadcrumbs u-sv1" aria-label="Breadcrumbs">
+  <nav class="p-breadcrumbs" aria-label="Breadcrumbs">
     <ol class="p-breadcrumbs__items p-text--x-small-capitalised">
         <li class="p-breadcrumbs__item "><a href="/careers/">Careers</a></li>
         <li class="p-breadcrumbs__item ">{{ department.name }}</li>
@@ -7,6 +7,7 @@
   </nav>
   <h1 class="p-text--x-small-capitalised u-hide">Careers</h1>
 </div>
+{% if not fast_track_jobs %}
 <section class="p-section u-no-padding--top">
   <hr class="is-fixed-width p-rule">
   <div class="row p-section">
@@ -15,15 +16,12 @@
     </div>
     <div class="col-6 col-medium-3">
       <p class="u-sv2">{{ claim | safe }}</p>
-      {% if fast_track_jobs %}
-        <div class="u-sv-3"></div>
-      {% else %}
-        <a class="p-button--positive" href="/careers/all?filter={{ department.name | safe | urlencode }}">See all {{ department.name }} roles</a>
-        <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-      {% endif %}
+      <a class="p-button--positive" href="/careers/all?filter={{ department.name | safe | urlencode }}">See all {{ department.name }} roles</a>
+      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
     </div>
   </div>
 </section>
+{% endif %}
 
 {% if fast_track_jobs %}
     {% include 'shared/_engineering-fast-track.html' %}

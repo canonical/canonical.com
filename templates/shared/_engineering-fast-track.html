@@ -1,15 +1,28 @@
+<section class="p-section u-no-padding--top">
+  <hr class="is-fixed-width p-rule">
+  <div class="row p-section">
+    <div class="col-6 col-medium-2">
+      <h1 class="p-heading--2"><strong>{{ department.name }}</strong></h1>
+    </div>
+    <div class="col-6 col-medium-4">
+      <p>{{ claim | safe }}</p>
+      <div class="u-sv-3"></div>
+    </div>
+  </div>
+</section>
+
 <section class="p-section">
 	<div class="u-fixed-width">
 		<hr class="p-rule">
 	</div>
 	<div class="row">
-		<div class="col-3 col-medium-3">
+		<div class="col-3 col-medium-2">
 			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Apply based on</h2>
 		</div>
-		<div class="col-6 col-medium-3">
+		<div class="col-6 col-medium-2">
 			<div class="row">
 				<div class="col-6">
-					<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Technology & Field</h2>
+					<h5 class="p-text--large">Technology & Field</h5>
 				</div>
 				<div class="col-3">
 					<a href="/careers/5191982">Microservices</a>
@@ -61,8 +74,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-3 col-medium-3 col-start-medium-4">
-			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Position Level</h2>
+		<div class="col-3 col-medium-2">
+			<h5 class="p-text--large">Position Level</h5>
 			<a href="/careers/5211861">Director</a>
 			<p class="u-no-padding--top"><small>Define strategy and assist teams</small></p>
 			<a href="/careers/5188002">Manager</a>
@@ -79,10 +92,10 @@
 		<hr class="p-rule">
 	</div>
 	<div class="row">
-		<div class="col-3 col-medium-3">
+		<div class="col-3 col-medium-2">
 			<h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
 		</div>
-		<div class="col-6 col-medium-3">
+		<div class="col-6 col-medium-2">
 			{% for job in featured_jobs %}
 				{% if loop.index < 10 %} <p>
 				<a class="p-featured__url p-card--content" href="/careers/{{job.id}}"
@@ -93,8 +106,8 @@
 				{% endif %}
 			{% endfor %}
 		</div>
-		<div class="col-3 col-medium-3 col-start-medium-4">
-			<hr class="u-hide--large" />
+		<div class="col-3 col-medium-2">
+			<hr class="u-hide--medium u-hide--large" />
 			<p class="u-sv-1">
 				{% if formatted_slug %}
 				<a href="/careers/all?filter={{formatted_slug}}">Explore all {{ department.name }} roles</a>
