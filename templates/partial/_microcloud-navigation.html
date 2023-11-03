@@ -1,17 +1,4 @@
-<div id="g-navigation" class="p-navigation is-dark">
-  <div class="p-navigation__row global-nav-row">
-    <div class="p-navigation__banner">
-      <a class="p-navigation__item p-global-nav-anchors" href="/">Canonical</a>
-      <a href="#g-navigation" class="p-navigation__toggle--open p-global-nav-anchors" title="menu">Menu</a>
-      <a href="#g-navigation-closed" class="p-navigation__toggle--close p-global-nav-anchors" title="close menu">Close menu</a>
-    </div>
-    <nav class="p-navigation__nav">
-      <ul class="p-navigation__items"></ul>
-      <ul class="p-navigation__items global-nav"></ul>
-    </nav>
-  </div>
-</div>
-<header id="navigation" class="p-navigation is-dark" style="z-index: 9;">
+<header id="navigation" class="p-navigation is-dark">
   <div class="row microsite-menu">
     <div class="p-navigation__banner col-3">
       <div class="p-navigation__tagged-logo">
@@ -28,16 +15,17 @@
 
     <nav class="p-navigation__nav col-9" aria-label="Main navigation">
       <ul class="p-navigation__items">
-        <li class="p-navigation__item">
+        <li class="p-navigation__item {% if '/resources' in request.path %}is-selected{% endif %}">
           <a href="/microcloud/resources" class="p-navigation__link">Resources</a>
         </li>
-        <li class="p-navigation__item">
+        <li class="p-navigation__item {% if '/roadshow' in request.path %}is-selected{% endif %}">
           <a href="/microcloud/roadshow" class="p-navigation__link">Roadshow</a>
         </li>
         <li class="p-navigation__item">
           <a href="https://canonical-microcloud.readthedocs-hosted.com/en/latest/" class="p-navigation__link">Docs</a>
         </li>
       </ul>
+      <ul class="p-navigation__items global-nav"></ul>
     </nav>
   </div>
 </header>
