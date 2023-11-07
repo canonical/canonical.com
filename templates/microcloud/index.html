@@ -21,7 +21,8 @@
           <p>Straightforward and lightweight, but featureful.<br aria-hidden="true"/>MicroClouds serve compute near consumers, wherever they may be.</p>
         </div>
         <hr>
-        <a class="p-button--positive">Get in touch</a>
+        <a class="p-button--positive"href="/contact-us" aria-controls="microcloud-modal">Get in touch</a>
+        <br class="u-hide--medium u-hide--large" aria-hidden="true"/>
         <a href="https://ubuntu.com/engage/guide-to-micro-clouds">Read our guide to MicroCloud</a>
       </div>
     </div>
@@ -29,7 +30,7 @@
 </section>
 
 <section class="p-section">
-  <div class="row--25-75">
+  <div class="row--25-75 is-split-on-medium">
     <hr class="p-rule"/>
     <div class="col">
       <h2>What is a MicroCloud?</h2>
@@ -50,11 +51,15 @@
   <div class="u-fixed-width">
     <hr class="p-rule"/>
     <h2>Deploy a fully functional cloud in minutes:</h2>
-    <div class="row-cli__commands" aria-hidden="true">
+    <div class="row-cli__commands u-hide--medium u-hide--small" aria-hidden="true">
       <p class="p-heading--2 u-no-padding--top u-no-margin--bottom" style="display: inline-block;">$ </p>
       <span class="row-cli__commands-list typer" id="main"
       data-words="snap install microcloud lxd microceph microovn,microcloud init"
       data-delay="50" data-deletedelay="5000" data-colors="#111111">snap install mic</span>
+    </div>
+    <div class="p-code-snippet u-hide--large">
+      <pre class="p-code-snippet__block--icon is-wrapped"><code>snap install microcloud lxd microceph microovn</code></pre>
+       <pre class="p-code-snippet__block--icon is-wrapped"><code>microcloud init</code></pre>
     </div>
   </div>
 </section>
@@ -62,7 +67,7 @@
 <section class="p-section">
   <div class="row">
     <div class="col-start-large-4 col-9 col-medium-6">
-        <div class="row">
+        <div class="row u-hide--small">
           <div class="col-3 col-medium-2 p-section--shallow">
             {{ 
               image (
@@ -435,9 +440,16 @@
     <div class="p-section--shallow">
       <h2>MicroClouds are low-touch, efficient and reliable.<br aria-hidden="true"/> Do you have a use case in mind? Get in touch with our team.</h2>
     </div>
-        <a class="p-button--positive">Talk to an expert</a>
+        <a class="p-button--positive" href="/microcloud/contact-us">Talk to an expert</a>
     </div>
 </section>
 
 <script src="/static/js/typer.js" defer></script>
+<script src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% with %}
+	{% set returnURL = "https://canonical.com/microcloud#success" %}
+	{% include "microcloud/_microcloud-modal.html" %}
+{% endwith %}
+
 {% endblock content %}
