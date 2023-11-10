@@ -3,7 +3,6 @@
   var lastFocus = null;
   var ignoreFocusChanges = false;
   var focusAfterClose = null;
-  const triggeringHash = "#get-in-touch";
 
   // Traps the focus within the currently open modal dialog
   function trapFocus(event) {
@@ -67,7 +66,6 @@
       }
 
       if (open) {
-        updateHash(triggeringHash);
         currentDialog = modal;
         modal.style.display = "flex";
         focusFirstDescendant(modal);
@@ -102,22 +100,6 @@
 
     return false;
   });
-
-  // Adds triggering hash to URL
-  function updateHash(hash) {
-    var location = window.location;
-    if (location.hash !== hash || hash === "") {
-      if ("pushState" in history) {
-        history.pushState(
-          "",
-          document.title,
-          location.pathname + location.search + hash
-        );
-      } else {
-        location.hash = hash;
-      }
-    }
-  }
 
   // Add handler for closing modals using ESC key.
   document.addEventListener("keydown", function (e) {
