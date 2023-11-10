@@ -103,7 +103,7 @@
     return false;
   });
 
-  // Removes the triggering hash
+  // Adds triggering hash to URL
   function updateHash(hash) {
     var location = window.location;
     if (location.hash !== hash || hash === "") {
