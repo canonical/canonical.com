@@ -241,11 +241,17 @@
   <div class="row">
     <div class="col-12">
       <div class="p-block">
-        <!-- Will be updated with new modal -->
-        <p class="p-heading--2 u-no-margin--bottom">Already have a use case in mind? <a href="/microcloud#get-in-touch">Reach out to us</a> to discuss.</p>
+        <p class="p-heading--2 u-no-margin--bottom">Already have a use case in mind? <a href="/contact-us" aria-controls="microcloud-modal">Reach out to us</a> to discuss.</p>
       </div>
     </div>
   </div>
 </section>
+
+<script src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% with %}
+	{% set returnURL = "https://canonical.com/microcloud#success" %}
+	{% include "microcloud/_microcloud-modal.html" %}
+{% endwith %}
 
 {% endblock content %}
