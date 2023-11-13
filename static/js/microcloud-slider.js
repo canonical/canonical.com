@@ -11,59 +11,66 @@ function threeItemSlider() {
   let windowLimit = windowIndex - (windowIndex - length);
   let totalPages = Math.ceil(length / activeItems);
   let currentPage = index / activeItems + 1;
-  resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+
+  if (resultsCount) {
+    resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+  }
 
   if (index == 0 ) {
     prevBtn.classList.add('is-disabled');
   }
   
   // Handles next button click and disables button if there are no more items to show
-  nextBtn.onclick = (e) => {
-    if (index < length - 1){
-      for (let i = index; i < index + activeItems; i++) {
-        items[i].classList.add('u-hide');
-      }
-  
-      for (let i = index + activeItems; i < (windowLimit); i++) {
-        items[i].classList.remove('u-hide');
-      }
-      index += activeItems;
-      currentPage = index / activeItems + 1;
-  
-      resultsCount.innerHTML = `${(currentPage)} of ${totalPages} `;
-      prevBtn.classList.remove('is-disabled');
-    } 
+  if (nextBtn) {
+    nextBtn.onclick = (e) => {
+      if (index < length - 1){
+        for (let i = index; i < index + activeItems; i++) {
+          items[i].classList.add('u-hide');
+        }
+    
+        for (let i = index + activeItems; i < (windowLimit); i++) {
+          items[i].classList.remove('u-hide');
+        }
+        index += activeItems;
+        currentPage = index / activeItems + 1;
+    
+        resultsCount.innerHTML = `${(currentPage)} of ${totalPages} `;
+        prevBtn.classList.remove('is-disabled');
+      } 
 
-    if (index >= length - 1){
-      nextBtn.classList.add('is-disabled');
-    }  
+      if (index >= length - 1){
+        nextBtn.classList.add('is-disabled');
+      }  
 
-    jumpToTop();
+      jumpToTop();
+    }
   }
 
   // Handles prev button click and disables button if at beginning of list
-  prevBtn.onclick = (e) => {
-    if (index >= activeItems) {
-      for (let i = index; i < (windowLimit); i++) {
-        items[i].classList.add('u-hide');
+  if (prevBtn) {
+    prevBtn.onclick = (e) => {
+      if (index >= activeItems) {
+        for (let i = index; i < (windowLimit); i++) {
+          items[i].classList.add('u-hide');
+        }
+    
+        for (let i = index - activeItems; i < index; i++) {
+          items[i].classList.remove('u-hide');
+        }
+        index -= activeItems;
+        currentPage = index / activeItems + 1;
       }
-  
-      for (let i = index - activeItems; i < index; i++) {
-        items[i].classList.remove('u-hide');
-      }
-      index -= activeItems;
-      currentPage = index / activeItems + 1;
+
+      if (index == 0 ) {
+        prevBtn.classList.add('is-disabled');
+
+        if (length > activeItems) {
+          nextBtn.classList.remove('is-disabled');
+        }
+      } 
+
+      resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
     }
-
-    if (index == 0 ) {
-      prevBtn.classList.add('is-disabled');
-
-      if (length > activeItems) {
-        nextBtn.classList.remove('is-disabled');
-      }
-    } 
-
-    resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
   }
 }
 
