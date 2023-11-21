@@ -107,7 +107,7 @@
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
             {% elif question.type == "multi_value_multi_select" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled">Select...</option>
