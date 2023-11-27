@@ -17,16 +17,18 @@
     <div class="row--25-75 is-split-on-medium">
       <div class="col">
         <div class="p-image-wrapper">
-          
-          {{ image (
-            url="https://assets.ubuntu.com/v1/9e5c7e91-postgre-sql.png",
-            alt="",
-            width="1033",
-            height="744",
-            hi_def=True,
-            loading="lazy"
-            ) | safe
-          }}
+          <a href="https://www.postgresql.org/">
+            {{ 
+              image (
+              url="https://assets.ubuntu.com/v1/0eca4bfa-postgrelogo.png",
+              alt="PostgreSQL",
+              width="199",
+              height="37",
+              hi_def=True,
+              loading="auto"
+              ) | safe
+            }}
+          </a>
         </div>
       </div>
       <div class="col">
@@ -37,7 +39,7 @@
           <p>Secure and automate the deployment, maintenance and upgrades of your PostgreSQL databases across private and public clouds.</p>
         </div>
         <hr>
-        <a class="p-button--positive" aria-controls="data-spark-modal" href="/contact-us">Contact us</a>
+        <a class="p-button--positive" aria-controls="data-relational-dbs-modal" href="/contact-us">Contact us</a>
       </div>
     </div>
   </div>
@@ -240,6 +242,25 @@
   <div class="row--50-50">
     <hr class="p-rule"/>
     <div class="col">
+      <h2>Hardened and supported software packages</h2>
+    </div>
+    <div class="col">
+      <p>We provide 10 years maintenance for our PostgreSQL related artefacts in the format of your choice:</p>
+      <ul class="p-list--divided">
+        <li class="p-list__item is-ticked"><a href="https://ubuntu.com/about/packages">Deb packages</a> for seamless integration with your Ubuntu installations.</li>
+        <li class="p-list__item is-ticked"><a href="https://snapcraft.io/charmed-postgresql">Snaps</a> for added confinement and atomic updates.</li>
+        <li class="p-list__item is-ticked"><a href="https://github.com/canonical/charmed-postgresql-rock">OCI-compliant images</a> for your containerised environments. </li>
+      </ul>
+      <p>You can also get 24/7 support with optional screen sharing for all your PostgreSQL deployments.</p>
+      <a class="p-button" href="https://ubuntu.com/pro/subscribe">Purchase your subscription</a>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50">
+    <hr class="p-rule"/>
+    <div class="col">
       <h2>How it works</h2>
     </div>
     <div class="col">
@@ -307,7 +328,7 @@
 <section class="p-strip is-deep">
   <div class="u-fixed-width">
     <h2>
-      <a>Contact us to know more</a>
+      <a aria-controls="data-relational-dbs-modal" href="/contact-us">Contact us to know more</a>
     </h2>
   </div>
 </section>
@@ -356,5 +377,12 @@
     </div>
   </div>
 </section>
+
+<script src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% with %}
+  {% set returnURL = "https://canonical.com/data/postgresql#success" %}
+  {% include "data/_form-data-relational-dbs.html" %}
+{% endwith %}
 
 {% endblock %}
