@@ -134,6 +134,11 @@ class TestApplicationPageHelpers(VCRTestCase):
         }
         result = _get_employee_directory_data("1234")
         self.assertDictEqual(fake_directory_data, result)
+    
+    def test_invalid_token(self):
+        invalid_token = "asdfqwerty"
+        response = self.client.get(f"/careers/application/{invalid_token}")
+        self.assertEqual(response.status_code, 401)
 
 
 class TestGetGiaFeedback(unittest.TestCase):

@@ -414,7 +414,7 @@ def application_index(token):
     try:
         application = _get_application_from_token(token)
     except InvalidToken:
-        flask.abort(401, "Invalid token")
+        return flask.abort(401, "Invalid token")
 
     if application["status"] != "active" and application["rejection_reason"]:
         if application["rejection_reason"]["type"]["id"] == 2:
