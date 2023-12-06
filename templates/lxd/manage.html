@@ -10,28 +10,33 @@
 
 {% block content %}
 
-<section class="p-strip--whitesuru is-shallow u-no-padding--bottom">
+<section class="p-strip p-suru-top-right-45deg is-shallow u-no-padding--bottom">
   <div class="p-section">
-    <div class="row--25-75">
-      <div class="col">
+    <div class="row">
+      <div class="col-6">
         <div class="p-section--shallow">
           <h1 class="u-no-margin--bottom">Manage LXD</h1>
         </div>
+      </div>
+      <div class="col-6 col-medium-3">
         <div class="p-section--shallow">
           <p>When using LXD, you have several ways to manage your server configuration and your instances: with a simple command line tool, directly through the REST API, through the web UI or by using third-party tools and integrations.</p>
         </div>
-        <div class="p-section--shallow">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/3691c5de-PNG%20Illustration%20LXD%20Isometricx.png",
-            alt="",
-            width="600",
-            height="384",
-            hi_def=True,
-            loading="auto"
-            ) | safe
-          }}
-        </div>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-start-large-4 col-medium-4 col-start-medium-2 p-section--shallow">
+        {{ image (
+          url="https://assets.ubuntu.com/v1/3691c5de-PNG%20Illustration%20LXD%20Isometricx.png",
+          alt="",
+          width="600",
+          height="384",
+          hi_def=True,
+          loading="auto"
+          ) | safe
+        }}
+      </div>
+    </div>
     </div>
   </div>
 </section>
@@ -101,11 +106,11 @@
 </section>
 
 <section class="p-section">
-  <div class="u-fixed-width p-section--shallow">
-		<hr class="p-rule">
-		<h2 class="p-text--small-caps">Try the LXD UI</h2>
-	</div>
+  <hr class="p-rule is-fixed-width">
   <div class="row--25-75 is-split-on-medium">
+    <div class="col">
+      <h2>Try the LXD&nbsp;UI</h2>
+    </div>
     <div class="col">
       <div class="row">
         <div class="col-3">
@@ -147,17 +152,17 @@
 <section class="p-section">
   <hr class="p-rule is-fixed-width">
   <div class="p-section--shallow">
-    <div class="row--50-50">
-      <div class="col">
+    <div class="row">
+      <div class="col-6 col-medium-2 p-section--shallow">
         <h2>Third-party integrations</h2>
       </div>
-      <div class="col">
+      <div class="col-6 col-medium-4">
         <p>Besides using LXD natively, you can also use LXD within external tools. LXD integrations are available for the following tools:</p>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-3">
+    <div class="col-3 col-medium-4 col-start-medium-3">
       <div class="p-side-navigation--raw-html u-paper-bg" id="drawer">
         <nav class="p-side-navigation__drawer" aria-label="Third-party integrations navigation" style="position: static; transform: none; margin-bottom: 1.5rem; background-color: #f3f3f3;">
           <ul class="u-paper-bg">
@@ -185,8 +190,8 @@
     </div>
     <div class="col-9">
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="juju">
-        <div class="col u-sv3">
+      <div class="row question-heading" id="juju">
+        <div class="col-3 col-medium-2">
           {{ image (
             url="https://assets.ubuntu.com/v1/197d5ac5-juju.png",
             alt="Juju",
@@ -197,15 +202,15 @@
             ) | safe
           }}
         </div>
-        <div class="col u-sv3">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://juju.is/">Juju</a> is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.</p>
           <p>Juju can be used to deploy a variety of workloads across many different clouds and virtualisation providers. It supports both deploying workloads against a LXD server or cluster and using LXD on the machines it's deploying to separate otherwise colocated services.</p>
           <p>Access the <a href="https://juju.is/docs/juju/lxd">Step-by-Step Guide for LXD</a>&nbsp;&rsaquo;</a></p>
         </div>
       </div>
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="maas">
-        <div class="col">
+      <div class="row question-heading" id="maas">
+        <div class="col-3 col-medium-2">
           {{ image (
             url="https://assets.ubuntu.com/v1/077ff759-MAAS.png",
             alt="MAAS",
@@ -216,7 +221,7 @@
             ) | safe
           }}
         </div>
-        <div class="col">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://maas.io">MAAS</a> is an open source server provisioning software tool for your data centre.</p>
           <p>Self-service, remote installation of Windows, CentOS, ESXi and Ubuntu on real servers turns your data centre into a bare metal cloud.</p>
           <p>MAAS integrates with LXD to provide easy creation of virtual machines. It can automatically deploy and configure LXD as part of the deployment of a physical machine or can be connected to an existing LXD deployment to dynamically create virtual machines on it.</p>
@@ -224,8 +229,8 @@
         </div>
       </div>
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="ansible">
-        <div class="col u-sv3">
+      <div class="row question-heading" id="ansible">
+        <div class="col-3 col-medium-2 p-image-wrapper">
           {{ image (
             url="https://assets.ubuntu.com/v1/4d9b1b31-Ansible_logo (1) 1.png",
             alt="Ansible",
@@ -236,7 +241,7 @@
             ) | safe
           }}
         </div>
-        <div class="col u-sv3">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://www.ansible.com/">Ansible</a> is an open source software provisioning, configuration management and application-deployment tool.</p>
           <p>The main integrations between Ansible and LXD are:</p>
           <ul class="p-list--divided">
@@ -250,8 +255,8 @@
         </div>
       </div>
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="terraform">
-        <div class="col u-sv3">
+      <div class="row question-heading" id="terraform">
+        <div class="col-3 col-medium-2 p-image-wrapper">
           {{ image (
             url="https://assets.ubuntu.com/v1/fcb28376-terraform.png",
             alt="Terraform",
@@ -262,7 +267,7 @@
             ) | safe
           }}
         </div>
-        <div class="col u-sv3">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://www.terraform.io/">Terraform</a> is an open source infrastructure-as-code software tool for configuration and service management.</p>
           <p>The LXD integration allows Terraform to deploy instances on LXD servers with support for local and remote deployments.</p>
           <p>Take a look at the <a href="https://registry.terraform.io/providers/terraform-lxd/lxd/latest/docs">Terraform documentation on LXD</a> for more information.</p>
@@ -270,8 +275,8 @@
         </div>
       </div>
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="puppet-bolt">
-        <div class="col u-sv3">
+      <div class="row question-heading" id="puppet-bolt">
+        <div class="col-3 col-medium-2 p-image-wrapper">
           {{ image (
             url="https://assets.ubuntu.com/v1/9083ef88-bolt.png",
             alt="Bolt",
@@ -282,7 +287,7 @@
             ) | safe
           }}
         </div>
-        <div class="col u-sv3">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://www.puppet.com/docs/bolt/latest/bolt.html">Bolt</a> is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure.</p>
           <p>The LXD transport allows for interacting with LXD instances.</p>
           <p>For more information, see the <a href="https://www.puppet.com/docs/bolt/latest/bolt_transports_reference.html#lxd">Puppet Bolt Documentation on LXD</a>.</p>
@@ -290,8 +295,8 @@
         </div>
       </div>
       <hr class="p-rule">
-      <div class="row--25-75 question-heading" id="packer">
-        <div class="col u-sv3">
+      <div class="row question-heading" id="packer">
+        <div class="col-3 col-medium-2 p-image-wrapper">
           {{ image (
             url="https://assets.ubuntu.com/v1/91e0050c-packer.png",
             alt="Packer",
@@ -302,7 +307,7 @@
             ) | safe
           }}
         </div>
-        <div class="col u-sv3">
+        <div class="col-6 col-medium-4 p-section--shallow">
           <p><a href="https://www.packer.io/">Packer</a> is an open source tool for creating identical machine images for multiple platforms.</p>
           <p>With Packer's LXD builder, it's possible to re-use your existing cloud image building pipeline and with the LXD builder, build a LXD container image.</p>
           <p>Take a look at the <a href="https://www.packer.io/docs/builders/lxd">Packer documentation on LXD</a> for more information.</p>
