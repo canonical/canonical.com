@@ -18,7 +18,7 @@
       </div>
       <p>Your big data has big ambitions. Stay lean and augment decision-making everywhere with Canonical's open source data fabric and AI solutions.</p>
       <hr/>
-      <a class="p-button--positive" href="/contact-us">Contact Canonical</a>
+      <a class="p-button--positive" href="/contact-us" aria-controls="big-data-ai-modal">Contact Canonical</a>
     </div>
   </div>
   <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
@@ -73,7 +73,7 @@
     </div>
     <div class="col">
       <p>Canonical offers simple pricing per node to get security maintenance and support for all your open source AI and big data tools. Runtimes, database software and MLOps solutions included. </p>
-      <a>Get in touch to kickstart your journey&nbsp;&rsaquo;</a>
+      <a href="/contact-us" aria-controls="big-data-ai-modal">Get in touch to kickstart your journey&nbsp;&rsaquo;</a>
     </div>
   </div>
 </section>
@@ -86,7 +86,7 @@
     </div>
     <div class="col">
       <p>Our data fabric solutions come with advanced features for scaling, security, and observability. Ideal for data teams that want to focus more on business value rather than operations.</p>
-      <a>Learn about Canonical Data Fabric&nbsp;&rsaquo;</a>
+      <a href="/data">Learn about Canonical Data Fabric&nbsp;&rsaquo;</a>
     </div>
   </div>
 </section>
@@ -156,7 +156,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="https://charmed-kubeflow.io/" aria-label="Learn more about Charmed Kubeflow">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="https://charmed-kubeflow.io/" aria-label="Learn more about Charmed Kubeflow">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -170,7 +173,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="/data/spark" aria-label="Learn more about Apache Spark">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="/data/spark" aria-label="Learn more about Apache Spark">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -184,7 +190,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="https://ubuntu.com/ai/mlflow" aria-label="Learn more about MLflow">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="https://ubuntu.com/ai/mlflow" aria-label="Learn more about MLflow">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -198,7 +207,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="/data/opensearch" aria-label="Learn more about OpenSearch">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="/data/opensearch" aria-label="Learn more about OpenSearch">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -212,7 +224,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="/data/kafka" aria-label="Learn more about Apache Kafka">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="/data/kafka" aria-label="Learn more about Apache Kafka">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -226,7 +241,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="/data/mongodb" aria-label="Learn more about MongoDB">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="/data/mongodb" aria-label="Learn more about MongoDB">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
         <div class="p-logo-section__item">
           {{ 
@@ -240,7 +258,10 @@
             attrs={"class": "p-logo-section__logo"}
             ) | safe
           }}
-          <a href="/data/postgresql" aria-label="Learn more about PostgreSQL">Learn more&nbsp;&rsaquo;</a>
+          <hr class="p-rule"/>
+          <p class="u-align-text--left">
+            <a href="/data/postgresql" aria-label="Learn more about PostgreSQL">Learn more&nbsp;&rsaquo;</a>
+          </p>
         </div>
     </div>
   </div>
@@ -333,7 +354,7 @@
         </div>
         <div class="p-card__content p-section--shallow">
           <p class="p-section--shallow">Advanced solutions for high uptime infrastructure at every scale and every area of compute, backed by stringent security and compliance. From private clouds at the edge to large-scale data centres.</p>
-          <a>Build your cloud with Canonical&nbsp;&rsaquo;</a>
+          <a href="/contact-us" aria-controls="big-data-ai-modal">Build your cloud with Canonical&nbsp;&rsaquo;</a>
         </div>
       </div>
     </div>
@@ -380,11 +401,19 @@
         </div>
         <div class="col-4">
           <p>
-            <a>Send us a message to discuss your big data and AI needs</a>
+            <a href="/contact-us" aria-controls="big-data-ai-modal">Send us a message to discuss your big data and AI needs</a>
           </p>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% with %}
+	{% set returnURL = "https://canonical.com/solutions/big-data-ai#success" %}
+	{% include "solutions/_form-big-data-ai.html" %}
+{% endwith %}
+
 {% endblock %}
