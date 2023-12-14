@@ -61,7 +61,7 @@ def _get_job_slug(job):
 
 
 def _add_req_to_content(job):
-    # Add reuisition ID to content
+    # Add requisition ID to content
     if job["requisition_id"]:
         job["content"] = (
             job["content"]
