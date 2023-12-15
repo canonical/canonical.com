@@ -23,14 +23,32 @@
     const urlParams = new URLSearchParams(window.location.search);
     let searchTerm = '';
     const options = {
-      threshold: 0.3,
-      keys: ['title', 'description', 'departments', 'skills']
+      threshold: 0.4,
+      ignoreLocation: true,
+      includeScore: true,
+      shouldSort: true,
+      keys: [{
+        name: 'title',
+        weight: 5
+      }, {
+        name: 'description',
+        weight: 2
+      }, {
+        name: 'departments',
+        weight: 2
+      }, {
+        name: 'skills',
+        weight: 3
+      }, {
+        name: 'location',
+        weight: 3
+      }]
     }
     const vacancies = {{ vacancies | tojson }};
     const fuse = new Fuse(vacancies, options);
     const querySearchText = urlParams.get("search");
     const containerDiv = document.querySelector(".js-job-list");
-    
+
     searchInput.addEventListener('input', e => {
       searchTerm = e.target.value;
       showAutoComplete(searchTerm, vacancies);
@@ -43,8 +61,7 @@
 
 
   function showJobList(containerDiv, searchTerm, vacancies) {
-    let searchResult = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : vacancies
-    let jobs = vacancies.filter( a => searchResult.includes(a) )
+    let jobs = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : vacancies
     containerDiv.innerHTML = ''
     jobs.forEach( job => { 
       const stripDiv = document.createElement('div')
@@ -170,4 +187,3 @@
 
 </script>
 {% endif %}
-
