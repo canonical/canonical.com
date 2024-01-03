@@ -7,7 +7,9 @@
     const filePath = inputElement.value;
     const fileSize = inputElement.files[0].size;
     if (!allowedExtensions.exec(filePath)) {
-      alert("Invalid file format selected. Allowed formats are: pdf, doc, docx, txt, rtf");
+      alert(
+        "Invalid file format selected. Allowed formats are: pdf, doc, docx, txt, rtf"
+      );
       inputElement.value = "";
     }
     if (fileSize >= maxAllowedSize) {

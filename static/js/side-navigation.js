@@ -1,4 +1,3 @@
-
 /**
  * Select all Side Navigation components: ".p-side-navigation" "[class*='p-side-navigation--']"
  *  - Collapse/Expand side navigation using button ".js-drawer-toggle"
@@ -13,7 +12,7 @@
  @param {Boolean} show Whether to show or hide the drawer.
  @param {Boolean} ignoreTogglerFocus when we click on menu there is no redirect, the focus should jump into selected section
  */
- function toggleDrawer(sideNavigation, show, ignoreTogglerFocus = false) {
+function toggleDrawer(sideNavigation, show, ignoreTogglerFocus = false) {
   const toggleButtonOutsideDrawer = sideNavigation.querySelector(
     ".p-side-navigation__toggle"
   );

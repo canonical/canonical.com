@@ -11,7 +11,7 @@ function setSourceField() {
 function setSessionStorage() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const ghsrc = urlParams.get('gh_src');
+  const ghsrc = urlParams.get("gh_src");
 
   if (ghsrc) {
     sessionStorage.setItem("gh_src", ghsrc);

@@ -38,20 +38,24 @@
     updateNumberOfPartners();
 
     if (sideNavButtons) {
-      sideNavButtons.forEach(el => {
-        el.addEventListener("click", function(){toggleSection(el)})
+      sideNavButtons.forEach((el) => {
+        el.addEventListener("click", function () {
+          toggleSection(el);
+        });
       });
     }
 
     if (clearFiltersButton) {
-      clearFiltersButton.addEventListener("click", clearFilters)
+      clearFiltersButton.addEventListener("click", clearFilters);
     }
   }
 
   // Toggle side nav accordions
   function toggleSection(el) {
     if (el) {
-      let targetPanel = el.parentElement.parentElement.querySelector(".p-accordion__panel");
+      let targetPanel = el.parentElement.parentElement.querySelector(
+        ".p-accordion__panel"
+      );
 
       el.ariaExpanded = el.ariaExpanded !== "true";
       targetPanel.ariaHidden = targetPanel.ariaHidden !== "true";
@@ -61,8 +65,8 @@
   // Display no reults message
   function updateNoResultsMessage() {
     let filteredCount = document.querySelectorAll(
-      ".js-find-a-partner__partner.js-searched.js-filtered",
-    ).length
+      ".js-find-a-partner__partner.js-searched.js-filtered"
+    ).length;
 
     if (noResults) {
       if (filteredCount === 0) {
@@ -144,9 +148,9 @@
   // Hide clear filters button if there are no selected filters
   function toggleClearButton() {
     if (filters.length > 0) {
-      clearFiltersButton.classList.remove("u-hide")
+      clearFiltersButton.classList.remove("u-hide");
     } else {
-      clearFiltersButton.classList.add("u-hide")
+      clearFiltersButton.classList.add("u-hide");
     }
   }
 
@@ -184,21 +188,21 @@
     window.history.pushState(
       { search: searchBox.value, filters: filters },
       "",
-      newUrl,
+      newUrl
     );
   }
 
   // Retain checked filters on page load
   function retainCheckedFilters() {
     if (urlParams.has("filters")) {
-      let loadedFilters = urlParams.get("filters").split(',');
+      let loadedFilters = urlParams.get("filters").split(",");
 
-      loadedFilters.forEach(filter => {
-        checkboxes.forEach(box => {
+      loadedFilters.forEach((filter) => {
+        checkboxes.forEach((box) => {
           if (box.name === filter) {
             box.checked = true;
           }
-        })
+        });
       });
     }
   }
@@ -221,8 +225,8 @@
       checkboxes.forEach((checkbox) => {
         if (checkbox.checked) {
           if (filters.includes(checkbox.name)) {
-            let index = filters.indexOf(checkbox.name)
-            filters.splice(index,1)
+            let index = filters.indexOf(checkbox.name);
+            filters.splice(index, 1);
           } else {
             filters.push(checkbox.name);
           }
@@ -234,8 +238,8 @@
   // Clear all applied filters
   function clearFilters() {
     if (checkboxes) {
-      checkboxes.forEach(box => {
-        box.checked = false
+      checkboxes.forEach((box) => {
+        box.checked = false;
       });
     }
     filterHandler();
@@ -265,23 +269,22 @@
 
   // Update number of partners mtachig search and/or filter criteria
   function updateNumberOfPartners() {
-    const partnersCountElement = document.getElementById("partners-count")
-   
-    let filteredCount = document.querySelectorAll(
-      ".js-find-a-partner__partner.js-searched.js-filtered",
-    ).length
+    const partnersCountElement = document.getElementById("partners-count");
 
-    if (filteredCount == partnersLength){
-      partnersCountElement.innerHTML = "All " + filteredCount + " partners"
+    let filteredCount = document.querySelectorAll(
+      ".js-find-a-partner__partner.js-searched.js-filtered"
+    ).length;
+
+    if (filteredCount == partnersLength) {
+      partnersCountElement.innerHTML = "All " + filteredCount + " partners";
     } else if (filteredCount === 1) {
-      partnersCountElement.innerHTML = filteredCount + " partner"
+      partnersCountElement.innerHTML = filteredCount + " partner";
     } else {
-      partnersCountElement.innerHTML = filteredCount + " partners"
-    } 
-    
-    updateNoResultsMessage()
+      partnersCountElement.innerHTML = filteredCount + " partners";
+    }
+
+    updateNoResultsMessage();
   }
-  
 
   init();
 })();

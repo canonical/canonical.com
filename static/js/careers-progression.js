@@ -9,12 +9,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
  * Removes video autoplay if reduced motion is set
  */
 function removeAutoplay() {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
   if (reducedMotion) {
     const videoElement = document.querySelectorAll("video");
-    videoElement.forEach(element => {
+    videoElement.forEach((element) => {
       element.removeAttribute("autoplay");
-    })
+    });
   }
 }
 
@@ -68,7 +70,7 @@ function standardCarousel() {
     if (currentIndex >= totalSlides) {
       currentIndex = 0;
     }
-    goToSlide(currentIndex, ms="0");
+    goToSlide(currentIndex, (ms = "0"));
   }
 
   for (let i = 0; i < slidesContainer.length; i++) {
@@ -98,11 +100,11 @@ function standardCarousel() {
 
   // Go to selected slide
   // Used both for dots and chevron navigation
-  function goToSlide(index, ms="0.75") {
+  function goToSlide(index, ms = "0.75") {
     currentIndex = index;
     for (let i = 0; i < slidesContainer.length; i++) {
       for (let j = 0; j < slidesContainer[i].children.length; j++) {
-        slidesContainer[i].children[j].style.transitionDuration = `${ms}s`
+        slidesContainer[i].children[j].style.transitionDuration = `${ms}s`;
         slidesContainer[i].children[j].style.transform = `translateX(-${
           slidesContainer[i].children[j].offsetWidth * index
         }px)`;
@@ -113,7 +115,7 @@ function standardCarousel() {
     // this will also apply styles
     slideDots.forEach((element) => {
       if (element) {
-        element.setAttribute("aria-current", false)
+        element.setAttribute("aria-current", false);
       }
     });
     slideDots[currentIndex].setAttribute("aria-current", true);
