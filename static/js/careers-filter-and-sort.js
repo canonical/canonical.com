@@ -101,7 +101,7 @@
               jobList
             );
           };
-          inputElement.click();
+          inputElement.checked = true;
         }
       }
     }
@@ -121,7 +121,7 @@
               jobList
             );
           };
-          inputElement.click();
+          inputElement.checked = true;
         }
       }
     }
