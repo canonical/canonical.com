@@ -124,8 +124,7 @@
     hideSearchResult(searchTerm)
     const ul = document.querySelector(".p-search-panel-list");
     const jobContainer = document.querySelector(".p-search-panel");
-    let searchResult = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : [];
-    let jobs = vacancies.filter( a => searchResult.includes(a) )
+    let jobs = searchTerm ? fuse.search(searchTerm).map( a => a.item ) : [];
     ul.innerHTML = ''
     
     if (jobs.length === 0 && !jobContainer.classList.contains("u-hide")){
