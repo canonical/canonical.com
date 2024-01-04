@@ -4,9 +4,9 @@
   const search_input = document.querySelector(".js-careers__search-input");
   const domList = document.querySelector(".js-job-list");
   const departmentFilters = document.querySelectorAll(".js-filter");
+  const locationFilters = document.querySelectorAll(".js-filter--location");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
-  const locationFilters = document.querySelectorAll(".js-filter--location");
   const searchBox = document.querySelector(".js-careers__search-input");
   const showMoreButton = document.querySelector("#show-20-more");
   const showAllButton = document.querySelector("#show-all");
@@ -80,92 +80,43 @@
     }
   }
 
-  function checkUrlFilters(
-    selectedDeptFilters,
-    selectedLocationFilters,
-    jobList
-  ) {
-    if (urlParams.has("filter")) {
+  function checkUrlFilters(jobList) {
+    const loadedDeptFiters = urlParams.getAll("filter");
+    if (loadedDeptFiters) {
       // If the page is loaded with inital URL parameters, change the default form selection and filter the results to reflect this
-      let loadedDeptFiters = urlParams.getAll("filter");
 
       for (let i = 0; i < loadedDeptFiters.length; i++) {
         deptFilter = loadedDeptFiters[i];
         inputElement = document.getElementsByName(deptFilter)[0];
         if (inputElement) {
-          inputElement.onclick = function () {
-            departmentFiltersListener(
-              inputElement,
-              selectedDeptFilters,
-              selectedLocationFilters,
-              jobList
-            );
-          };
-          inputElement.click();
+          inputElement.checked = true;
         }
       }
     }
 
-    if (urlParams.has("location")) {
-      let loadedLocationFilters = urlParams.getAll("location");
-
+    const loadedLocationFilters = urlParams.getAll("location");
+    if (loadedLocationFilters) {
       for (let i = 0; i < loadedLocationFilters.length; i++) {
         locationFilter = loadedLocationFilters[i];
         inputElement = document.getElementsByName(locationFilter)[0];
         if (inputElement) {
-          inputElement.onclick = function () {
-            locationListener(
-              inputElement,
-              selectedDeptFilters,
-              selectedLocationFilters,
-              jobList
-            );
-          };
-          inputElement.click();
+          inputElement.checked = true;
         }
       }
     }
+
+    filterJobs(loadedDeptFiters, loadedLocationFilters, jobList);
   }
 
-  function departmentFiltersListener(
-    el,
-    selectedDeptFilters,
-    selectedLocationFilters,
-    jobList
-  ) {
-    let filterName = el.name;
+  function filtersListener(el, jobList) {
+    if (el.type === "checkbox") {
+      selectedDeptFilters = Array.from(departmentFilters)
+        .filter((el) => el.checked)
+        .map((el) => el.name);
+      selectedLocationFilters = Array.from(locationFilters)
+        .filter((el) => el.checked)
+        .map((el) => el.name);
 
-    if (el.checked) {
-      selectedDeptFilters.push(filterName);
-      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
-    } else {
-      let index = selectedDeptFilters.indexOf(filterName);
-      if (index > -1) {
-        selectedDeptFilters.splice(index, 1);
-      }
-      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
-    }
-  }
-
-  function locationListener(
-    el,
-    selectedDeptFilters,
-    selectedLocationFilters,
-    jobList
-  ) {
-    let locationName = el.name;
-
-    if (el.checked) {
-      selectedLocationFilters.push(locationName);
-      filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
-      updateFilterParams(selectedDeptFilters, selectedLocationFilters);
-    } else {
-      let index = selectedLocationFilters.indexOf(locationName);
-      if (index > -1) {
-        selectedLocationFilters.splice(index, 1);
-      }
       filterJobs(selectedDeptFilters, selectedLocationFilters, jobList);
       updateFilterParams(selectedDeptFilters, selectedLocationFilters);
     }
@@ -184,18 +135,13 @@
 
     if (jobList.length > 0) {
       initShowMore();
-      checkUrlFilters(selectedDeptFilters, selectedLocationFilters, jobList);
+      checkUrlFilters(jobList);
 
       if (departmentFilters) {
         departmentFilters.forEach(
           (el) =>
             (el.onclick = function () {
-              departmentFiltersListener(
-                el,
-                selectedDeptFilters,
-                selectedLocationFilters,
-                jobList
-              );
+              filtersListener(el, jobList);
             })
         );
       }
@@ -204,12 +150,7 @@
         locationFilters.forEach(
           (el) =>
             (el.onclick = function () {
-              locationListener(
-                el,
-                selectedDeptFilters,
-                selectedLocationFilters,
-                jobList
-              );
+              filtersListener(el, jobList);
             })
         );
       }
@@ -295,10 +236,9 @@
     }
   }
 
-  function filterJobs(selectedDeptFilters, localFilters, jobList) {
+  function filterJobs(selectedDeptFilters, selectedLocalFilters, jobList) {
     numberOfJobsDisplayed = domList.childElementCount;
     let jobsToShow = [];
-
     jobList.forEach((job) => {
       let departments = job.departments;
       let jobLocation = job.dataset.location;
@@ -306,28 +246,34 @@
         departments.includes(value)
       );
 
-      if (matchingDepartments.length && localFilters.length) {
-        if (matchingDepartments && parseLocations(jobLocation, localFilters)) {
-          jobsToShow.push(job);
-        }
-      } else {
-        //filter by dept
-        if (matchingDepartments.length) {
-          jobsToShow.push(job);
-        }
-        // filter by location
-        if (localFilters.length > 0) {
+      // check if we are searching based on department
+      if (selectedDeptFilters.length) {
+        // then check if we have department matches and location filters
+        if (matchingDepartments.length && selectedLocalFilters.length) {
+          // filter the department matches based on location
           if (
-            parseLocations(jobLocation, localFilters) &&
-            !jobsToShow.includes(job)
+            matchingDepartments.length &&
+            parseLocations(jobLocation, selectedLocalFilters)
           ) {
             jobsToShow.push(job);
           }
+          // otherwise just filter by department matches
+        } else if (matchingDepartments.length && !selectedLocalFilters.length) {
+          jobsToShow.push(job);
+        }
+        // otherwise filter based only on location
+      } else if (selectedLocalFilters.length) {
+        if (
+          parseLocations(jobLocation, selectedLocalFilters) &&
+          !jobsToShow.includes(job)
+        ) {
+          jobsToShow.push(job);
         }
       }
+      console.log("jobsToShow", jobsToShow.length);
     });
 
-    if (selectedDeptFilters.length || localFilters.length) {
+    if (selectedDeptFilters.length || selectedLocalFilters.length) {
       filteredJobList = jobsToShow;
       showJobs(filteredJobList);
       showButtons(filteredJobList);
