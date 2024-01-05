@@ -474,6 +474,11 @@ def application_withdrawal(token):
     hiring_lead_name = application["hiring_lead"]["name"]
     hiring_lead_email = application["hiring_lead"]["emails"]
 
+    applicant_name = (
+        f"{application['candidate']['first_name']} "
+        f"{application['candidate']['last_name']}"
+    )
+
     application_url = (
         f"https://canonical.greenhouse.io/people/{candidate_id}?"
         f"application_id={payload['application_id']}"
@@ -490,7 +495,7 @@ def application_withdrawal(token):
 
     email_message = flask.render_template(
         "careers/application/_withdrawal_notification-email.html",
-        applicant_name=application["candidate"]["first_name"],
+        applicant_name=applicant_name,
         hiring_lead_name=hiring_lead_name,
         position=application["role_name"],
         hiring_lead=application["hiring_lead"],
