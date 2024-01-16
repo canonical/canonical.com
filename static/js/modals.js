@@ -24,15 +24,13 @@
 
   // Opens the form when the initial hash matches the trigger
   if (window.location.hash === triggeringHash) {
-    toggleModal(document.querySelector('.contact-form'), null, true);
-    updateHash(triggeringHash);
+    toggleModal(document.querySelector('.p-modal'), null, true);
   }
 
   // Listens for hash changes and opens the form if it matches the trigger
   function locationHashChanged() {
     if (window.location.hash === triggeringHash) {
-      toggleModal(document.querySelector('.contact-form'), null, true);
-      updateHash(triggeringHash);
+      toggleModal(document.querySelector('.p-modal'), null, true);
     }
   }
   window.onhashchange = locationHashChanged;
@@ -93,7 +91,6 @@
     @param {Boolean} open If defined as `true` modal will be opened, if `false` modal will be closed, undefined toggles current visibility.
   */
   function toggleModal(modal, sourceEl, open) {
-    console.log(modal, open);
     if (modal && modal.classList.contains("p-modal")) {
       if (typeof open === "undefined") {
         open = modal.style.display === "none";
@@ -102,16 +99,16 @@
       if (open) {
         currentDialog = modal;
         modal.style.display = "flex";
-        focusFirstDescendant(modal);
         focusAfterClose = sourceEl;
         document.addEventListener("focus", trapFocus, true);
+        updateHash(triggeringHash);
       } else {
         modal.style.display = "none";
-        console.log(modal.style.display);
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
         }
         document.removeEventListener("focus", trapFocus, true);
+        updateHash(triggeringHash);
         currentDialog = null;
       }
     }
@@ -130,6 +127,7 @@
     var targetControls = event.target.getAttribute("aria-controls");
     if (targetControls) {
       event.preventDefault();
+      
       toggleModal(document.getElementById(targetControls), event.target)
     }
 
