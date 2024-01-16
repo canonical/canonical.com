@@ -4,6 +4,39 @@
   var ignoreFocusChanges = false;
   var focusAfterClose = null;
 
+  const triggeringHash = "#get-in-touch";
+
+  // Removes the triggering hash
+  function updateHash(hash) {
+    var location = window.location;
+    if (location.hash !== hash || hash === "") {
+      if ("pushState" in history) {
+        history.pushState(
+          "",
+          document.title,
+          location.pathname + location.search + hash
+        );
+      } else {
+        location.hash = hash;
+      }
+    }
+  }
+
+  // Opens the form when the initial hash matches the trigger
+  if (window.location.hash === triggeringHash) {
+    toggleModal(document.querySelector('.contact-form'), null, true);
+    updateHash(triggeringHash);
+  }
+
+  // Listens for hash changes and opens the form if it matches the trigger
+  function locationHashChanged() {
+    if (window.location.hash === triggeringHash) {
+      toggleModal(document.querySelector('.contact-form'), null, true);
+      updateHash(triggeringHash);
+    }
+  }
+  window.onhashchange = locationHashChanged;
+
   // Traps the focus within the currently open modal dialog
   function trapFocus(event) {
     if (ignoreFocusChanges) return;
@@ -60,11 +93,12 @@
     @param {Boolean} open If defined as `true` modal will be opened, if `false` modal will be closed, undefined toggles current visibility.
   */
   function toggleModal(modal, sourceEl, open) {
+    console.log(modal, open);
     if (modal && modal.classList.contains("p-modal")) {
       if (typeof open === "undefined") {
         open = modal.style.display === "none";
       }
-
+      
       if (open) {
         currentDialog = modal;
         modal.style.display = "flex";
@@ -73,6 +107,7 @@
         document.addEventListener("focus", trapFocus, true);
       } else {
         modal.style.display = "none";
+        console.log(modal.style.display);
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
         }
@@ -95,7 +130,7 @@
     var targetControls = event.target.getAttribute("aria-controls");
     if (targetControls) {
       event.preventDefault();
-      toggleModal(document.getElementById(targetControls), event.target);
+      toggleModal(document.getElementById(targetControls), event.target)
     }
 
     return false;
