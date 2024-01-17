@@ -108,7 +108,7 @@
           focusAfterClose.focus();
         }
         document.removeEventListener("focus", trapFocus, true);
-        updateHash(triggeringHash);
+        updateHash("");
         currentDialog = null;
       }
     }
