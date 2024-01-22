@@ -4,6 +4,37 @@
   var ignoreFocusChanges = false;
   var focusAfterClose = null;
 
+  const triggeringHash = "#get-in-touch";
+
+  // Removes the triggering hash
+  function updateHash(hash) {
+    var location = window.location;
+    if (location.hash !== hash || hash === "") {
+      if ("pushState" in history) {
+        history.pushState(
+          "",
+          document.title,
+          location.pathname + location.search + hash
+        );
+      } else {
+        location.hash = hash;
+      }
+    }
+  }
+
+  // Opens the form when the initial hash matches the trigger
+  if (window.location.hash === triggeringHash) {
+    toggleModal(document.querySelector('.p-modal'), null, true);
+  }
+
+  // Listens for hash changes and opens the form if it matches the trigger
+  function locationHashChanged() {
+    if (window.location.hash === triggeringHash) {
+      toggleModal(document.querySelector('.p-modal'), null, true);
+    }
+  }
+  window.onhashchange = locationHashChanged;
+
   // Traps the focus within the currently open modal dialog
   function trapFocus(event) {
     if (ignoreFocusChanges) return;
@@ -64,19 +95,20 @@
       if (typeof open === "undefined") {
         open = modal.style.display === "none";
       }
-
+      
       if (open) {
         currentDialog = modal;
         modal.style.display = "flex";
-        focusFirstDescendant(modal);
         focusAfterClose = sourceEl;
         document.addEventListener("focus", trapFocus, true);
+        updateHash(triggeringHash);
       } else {
         modal.style.display = "none";
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
         }
         document.removeEventListener("focus", trapFocus, true);
+        updateHash("");
         currentDialog = null;
       }
     }
@@ -95,7 +127,8 @@
     var targetControls = event.target.getAttribute("aria-controls");
     if (targetControls) {
       event.preventDefault();
-      toggleModal(document.getElementById(targetControls), event.target);
+      
+      toggleModal(document.getElementById(targetControls), event.target)
     }
 
     return false;
