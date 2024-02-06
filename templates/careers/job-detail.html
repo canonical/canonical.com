@@ -99,7 +99,7 @@
             {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
             {% elif question.type == "long_text" %}
             <textarea id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
             {% elif question.type == "single_select" or question.type == "boolean" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
@@ -107,7 +107,7 @@
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{% if 'a href' in question.description %}{{ question.description | safe }}{% else %}{{ question.description | striptags }}{% endif %}</p>{% endif %}
             {% elif question.type == "multi_value_multi_select" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled">Select...</option>
