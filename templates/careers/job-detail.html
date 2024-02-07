@@ -93,13 +93,13 @@
           <label for="{{ question.name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
             {% if question.type == "short_text" %}
             <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255">
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
             {% elif question.type == "attachment" %}
             <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf">
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
             {% elif question.type == "long_text" %}
             <textarea id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
             {% elif question.type == "single_select" or question.type == "boolean" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
@@ -107,7 +107,7 @@
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
+            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{% if 'a href' in question.description %}{{ question.description | safe }}{% else %}{{ question.description | striptags }}{% endif %}</p>{% endif %}
             {% elif question.type == "multi_value_multi_select" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled">Select...</option>
@@ -120,13 +120,17 @@
           {% endfor %}
         {% endif %}
         <hr style="margin: 1rem 0;" />
-        <p>In submitting this form, I confirm that I have read and agree to Canonical's <a href="https://ubuntu.com/legal/data-privacy/recruitment" target="_blank">Recruitment Privacy Notice</a> and <a href="https://ubuntu.com/legal/data-privacy/" target="_blank">Privacy Policy</a>.</p>
-        <input type="hidden" name="mapped_url_token" value="" id="ghsrc" />
         <input type="submit" class="p-button--positive u-no-margin--bottom" name="submit" value="Submit application">
       </fieldset>
     </form>
   </div>
 </div>
+
+<script defer>
+    document.querySelectorAll('a[href*="legal"]').forEach(function (a) {
+      a.setAttribute('target', '_blank');
+    })
+</script>
 
 <script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
 <script defer src="{{ versioned_static('js/apply-for-jobs.js') }}"></script>
