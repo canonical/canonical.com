@@ -20,10 +20,19 @@
   </div>
 </div>
 {% if current_page and current_page == 1 %}
-    {% if featured_articles %}
-      {% include "blog/featured-articles.html" %}
-    {% endif %}
-  {% include 'blog/newsletter-form.html' %}
+  {% if featured_articles %}
+    {% include "blog/featured-articles.html" %}
+  {% endif %}
+  <div class="row p-section">
+    <hr class="p-rule">
+    <div class="col-3 col-medium-2">
+      <h2>Newsletter <br>signup</h2>
+    </div>
+
+    <div class="col-6 col-medium-4">
+      {% include 'blog/newsletter-form.html' %}
+    </div>
+  </div>
 {% endif %}
 <section class="p-section" id="posts-list">
   <div class="row">
