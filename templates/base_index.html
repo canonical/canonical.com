@@ -121,19 +121,14 @@
 
       (function() {
         // Form submission notification
-        var successElement = "#success";
-        if (location.hash === successElement) {
-          document.querySelector(successElement).classList.remove("u-hide");
-        } else {
-          document.querySelector(successElement).classList.add("u-hide");
-        }
-
-        var newsletterElement = "#newsletter-signup";
-        if (location.hash === newsletterElement) {
-          document.querySelector(newsletterElement).classList.remove("u-hide");
-        } else {
-          document.querySelector(newsletterElement).classList.add("u-hide");
-        }
+        var bannerElements = ['#success', '#newsletter-signup', "#infrastructure-form-success"];
+        bannerElements.forEach(el => {
+          if (location.hash === el) {
+            document.querySelector(el).classList.remove("u-hide");
+          } else {
+            document.querySelector(el).classList.add("u-hide");
+          }
+        })
 
         let params = new URLSearchParams(window.location.search);
         const utm_names = ["campaign", "source", "medium", "content", "term"];
