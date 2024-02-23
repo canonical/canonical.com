@@ -99,6 +99,13 @@
           </div>
       </div>
     </div>
+    <div id="contact-form-success" class="u-hide">
+      <div class="p-notification--positive u-no-margin--bottom">
+          <div class="p-notification__content">
+            <p class="p-notification__message">Thank you for contacting our team. We will be in touch shortly.<a href="#" onclick="document.querySelector('#contact-form-success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a></p>
+          </div>
+      </div>
+    </div>
     <div id="main-content">
       {% include "partial/_navigation.html" %}
       {% block content %}{% endblock content %}
@@ -114,19 +121,14 @@
 
       (function() {
         // Form submission notification
-        var successElement = "#success";
-        if (location.hash === successElement) {
-          document.querySelector(successElement).classList.remove("u-hide");
-        } else {
-          document.querySelector(successElement).classList.add("u-hide");
-        }
-
-        var newsletterElement = "#newsletter-signup";
-        if (location.hash === newsletterElement) {
-          document.querySelector(newsletterElement).classList.remove("u-hide");
-        } else {
-          document.querySelector(newsletterElement).classList.add("u-hide");
-        }
+        var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success"];
+        bannerElements.forEach(el => {
+          if (location.hash === el) {
+            document.querySelector(el).classList.remove("u-hide");
+          } else {
+            document.querySelector(el).classList.add("u-hide");
+          }
+        })
 
         let params = new URLSearchParams(window.location.search);
         const utm_names = ["campaign", "source", "medium", "content", "term"];
