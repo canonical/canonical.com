@@ -9,6 +9,7 @@ from typing import Dict, List, Tuple
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 from requests.exceptions import HTTPError
+import pytz
 
 
 import flask
@@ -18,6 +19,7 @@ from dateutil.parser import parse
 from webapp.greenhouse import Harvest
 from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
+from webapp.google_calendar import CalendarAPI
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -77,6 +79,7 @@ session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
+calendar = CalendarAPI()
 
 directory_api_url = "https://directory.wpe.internal/graphql/"
 directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
@@ -493,6 +496,48 @@ def application_withdrawal(token):
     )
     response.raise_for_status()
 
+    # get all scheduled interviews
+    scheduled_interviews = harvest.get_interviews_scheduled(application["id"])
+    scheduled_interviews = [interview for interview in scheduled_interviews if interview["status"] == "scheduled"]
+    all_cancelation_emails = []
+        
+    for scheduled_interview in scheduled_interviews:
+        # get interviewer information
+        interviewer = scheduled_interview["interviewers"][0]
+        interviewer_timezone = calendar.get_timezone(email=interviewer["email"])
+
+        # convert interview time to interviewer's timezone
+        date_time_str = scheduled_interview["start"]["date_time"]
+        date_time_obj = datetime.fromisoformat(date_time_str.replace("Z", "+00:00"))
+        date_time_obj = date_time_obj.astimezone(pytz.timezone(interviewer_timezone))
+        interview_date = date_time_obj.strftime("%B %d, %Y at %I:%M%p")
+
+        # delete interview event
+        delete_response = calendar.delete_event_from_interview_calendar(event_id=scheduled_interview["external_event_id"])
+
+        # if deletion successful, empty response object is returned
+        if not delete_response:
+            print(f"SUCCESS: Canceled interview between {interviewer['name']} (interviewer) and {applicant_name} (candidate)")
+
+            # send email to interviewer confirming cancelation of their interview
+            interview_canceled_email = flask.render_template(
+                "careers/application/_withdrawal-interview-canceled-email.html",
+                interviewer_name=interviewer["name"],
+                interview_title=scheduled_interview["interview"]["name"],
+                applicant_name=applicant_name,
+                interview_date=interview_date,
+                position=application["role_name"],
+            )
+            all_cancelation_emails.append({ "interviewer": interviewer["email"], "message": interview_canceled_email })
+
+            debug_skip_sending = flask.current_app.debug
+            if not debug_skip_sending:
+                _send_mail(
+                    interviewer["email"],
+                    "Interview Cancelation - Candidate Withdrawal for " + applicant_name,
+                    interview_canceled_email,
+                )
+
     email_message = flask.render_template(
         "careers/application/_withdrawal_notification-email.html",
         applicant_name=applicant_name,
@@ -516,6 +561,7 @@ def application_withdrawal(token):
         debug_skip_sending=debug_skip_sending,
         email_message=email_message,
         hiring_lead_email=hiring_lead_email,
+        all_cancelation_emails=all_cancelation_emails,
     )
 
 
