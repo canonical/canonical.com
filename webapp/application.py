@@ -517,8 +517,6 @@ def application_withdrawal(token):
 
         # if deletion successful, empty response object is returned
         if not delete_response:
-            print(f"SUCCESS: Canceled interview between {interviewer['name']} (interviewer) and {applicant_name} (candidate)")
-
             # send email to interviewer confirming cancelation of their interview
             interview_canceled_email = flask.render_template(
                 "careers/application/_withdrawal-interview-canceled-email.html",
