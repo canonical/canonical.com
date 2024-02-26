@@ -9,8 +9,8 @@ SERVICE_ACCOUNT_INFO = {
     "token_uri": "https://oauth2.googleapis.com/token",
     "client_email": os.environ.get("SERVICE_ACCOUNT_EMAIL"),
     "private_key": os.environ
-                    .get("SERVICE_ACCOUNT_PRIVATE_KEY")
-                    .replace("\\n", "\n"),
+                   .get("SERVICE_ACCOUNT_PRIVATE_KEY")
+                   .replace("\\n", "\n"),
 }
 
 # Workplace Engineering account
@@ -83,7 +83,7 @@ class CalendarAPI:
             )
             .execute()
         )
-    
+
     def get_timezone(self, email):
         calendar = self.service.calendars().get(calendarId=email).execute()
 

@@ -504,7 +504,7 @@ def application_withdrawal(token):
         if interview["status"] == "scheduled"
     ]
     all_cancelation_emails = []
-    
+
     for scheduled_interview in scheduled_interviews:
         # get interviewer information
         interviewer = scheduled_interview["interviewers"][0]
