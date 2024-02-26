@@ -8,7 +8,9 @@ import os
 SERVICE_ACCOUNT_INFO = {
     "token_uri": "https://oauth2.googleapis.com/token",
     "client_email": os.environ.get("SERVICE_ACCOUNT_EMAIL"),
-    "private_key": os.environ.get("SERVICE_ACCOUNT_PRIVATE_KEY").replace("\\n", "\n"),
+    "private_key": os.environ
+                    .get("SERVICE_ACCOUNT_PRIVATE_KEY")
+                    .replace("\\n", "\n"),
 }
 
 # Workplace Engineering account
@@ -16,6 +18,7 @@ WPE_EMAIL = "wpe-data@canonical.com"
 
 # Interview calendar
 INTERVIEW_CALENDAR = "c_0a3348ba0132da2077be501edacc1ba7415ac132612d264f99684232ee4ec491@group.calendar.google.com"
+
 
 class CalendarAPI:
     def __init__(self):
@@ -35,7 +38,7 @@ class CalendarAPI:
             print("An error occurred: %s" % error)
 
         return service
-    
+
     def get_events(self, calendar_id, start, end):
         return (
             self.service.events()
@@ -48,7 +51,7 @@ class CalendarAPI:
             )
             .execute()
         )
-    
+
     def get_single_event(self, calendar_id, event_id):
         return (
             self.service.events()
@@ -58,7 +61,7 @@ class CalendarAPI:
             )
             .execute()
         )
-    
+
     def delete_event(self, calendar_id, event_id):
         return (
             self.service.events()
@@ -69,7 +72,7 @@ class CalendarAPI:
             )
             .execute()
         )
-    
+
     def delete_event_from_interview_calendar(self, event_id):
         return (
             self.service.events()
