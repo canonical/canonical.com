@@ -521,23 +521,27 @@ def application_withdrawal(token):
             # send email to interviewer
             # confirming cancelation of their interview
             interview_canceled_email = flask.render_template(
-                "careers/application/_withdrawal-interview-canceled-email.html",
+                "careers/application/_withdrawal"
+                + "-interview-canceled-email.html",
                 interviewer_name=interviewer["name"],
                 interview_title=scheduled_interview["interview"]["name"],
                 applicant_name=applicant_name,
                 interview_date=interview_date,
                 position=application["role_name"],
             )
-            all_cancelation_emails.append({
-                "interviewer": interviewer["email"],
-                "message": interview_canceled_email
-            })
+            all_cancelation_emails.append(
+                {
+                    "interviewer": interviewer["email"],
+                    "message": interview_canceled_email,
+                }
+            )
 
             debug_skip_sending = flask.current_app.debug
             if not debug_skip_sending:
                 _send_mail(
                     interviewer["email"],
-                    "Interview Cancelation - Candidate Withdrawal for " + applicant_name,
+                    "Interview Cancelation - Candidate Withdrawal for "
+                    + applicant_name,
                     interview_canceled_email,
                 )
 
