@@ -250,7 +250,7 @@ def _get_application(application_id):
             except HTTPError as error:
                 print(error)
 
-            if job_id == 2680006:  # Enterprise Sales Representative
+            if job_id == "2680006":  # Enterprise Sales Representative
                 application["hiring_lead"]["video_src"] = (
                     "https://www.youtube.com/embed/UvDSXgPbpt8"
                 )
