@@ -79,7 +79,6 @@ session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
-calendar = CalendarAPI()
 
 directory_api_url = "https://directory.wpe.internal/graphql/"
 directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
@@ -496,6 +495,7 @@ def application_withdrawal(token):
     ]
     all_cancelation_emails = []
 
+    calendar = CalendarAPI()
     for scheduled_interview in scheduled_interviews:
         # get interviewer information
         interviewer = scheduled_interview["interviewers"][0]
