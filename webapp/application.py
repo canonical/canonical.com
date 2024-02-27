@@ -487,15 +487,6 @@ def application_withdrawal(token):
         f"application_id={payload['application_id']}"
     )
 
-    # call the Harvest API to reject the application
-    response = harvest.reject_application(
-        application["id"],
-        application["hiring_lead"]["id"],
-        withdrawal_reason_id,
-        withdrawal_message,
-    )
-    response.raise_for_status()
-
     # get all scheduled interviews
     scheduled_interviews = harvest.get_interviews_scheduled(application["id"])
     scheduled_interviews = [
@@ -549,6 +540,15 @@ def application_withdrawal(token):
                     "Interview Cancelation - Candidate Withdrawal for " + applicant_name,
                     interview_canceled_email,
                 )
+
+    # call the Harvest API to reject the application
+    response = harvest.reject_application(
+        application["id"],
+        application["hiring_lead"]["id"],
+        withdrawal_reason_id,
+        withdrawal_message,
+    )
+    response.raise_for_status()
 
     email_message = flask.render_template(
         "careers/application/_withdrawal_notification-email.html",
