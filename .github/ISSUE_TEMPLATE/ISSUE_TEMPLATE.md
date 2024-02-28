@@ -4,9 +4,11 @@ about: Issue from anywhere, perhaps from the footer of the site
 title: ''
 labels: ''
 assignees: ''
+
 ---
 
 *Note - filling in this form will file an issue against the canonical.com website*
+*Please provide as many details as possible in order to provide maintainers more context about the issue. Don't skip/remove any of the sections below. If there is no data to provide in one of the sections, please specify it by typing "N/A" or similar. That will help maintainers reproduce the issue and be able to help quickly. Thanks.*
 
 ## Summary
 
@@ -22,7 +24,7 @@ assignees: ''
 
 ## Screenshot
 
-[If relevant, please include a screenshot.]
+[Please include a screenshot.]
 
 ## Browser details
 
