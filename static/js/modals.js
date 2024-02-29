@@ -24,13 +24,13 @@
 
   // Opens the form when the initial hash matches the trigger
   if (window.location.hash === triggeringHash) {
-    toggleModal(document.querySelector('.p-modal'), null, true);
+    toggleModal(document.querySelector(".p-modal"), null, true);
   }
 
   // Listens for hash changes and opens the form if it matches the trigger
   function locationHashChanged() {
     if (window.location.hash === triggeringHash) {
-      toggleModal(document.querySelector('.p-modal'), null, true);
+      toggleModal(document.querySelector(".p-modal"), null, true);
     }
   }
   window.onhashchange = locationHashChanged;
@@ -95,7 +95,7 @@
       if (typeof open === "undefined") {
         open = modal.style.display === "none";
       }
-      
+
       if (open) {
         currentDialog = modal;
         modal.style.display = "flex";
@@ -127,8 +127,8 @@
     var targetControls = event.target.getAttribute("aria-controls");
     if (targetControls) {
       event.preventDefault();
-      
-      toggleModal(document.getElementById(targetControls), event.target)
+
+      toggleModal(document.getElementById(targetControls), event.target);
     }
 
     return false;

@@ -1,4 +1,7 @@
 (function () {
+  const tabListContainers = document.querySelectorAll("[role='tablist']");
+  const buttonContainers = document.querySelectorAll(".js-tab-buttons");
+
   const keys = {
     left: "ArrowLeft",
     right: "ArrowRight",
@@ -88,6 +91,34 @@
         }
 
         setActiveTab(tab, tabs);
+
+        // For pages with multiple tab lists and pagination buttons
+        // toggle buttons state if they exist
+        // and match the target tab list
+        if (buttonContainers) {
+          let targetTablist = tab.parentElement.parentElement;
+
+          buttonContainers.forEach((buttonContainer) => {
+            if (buttonContainer.id === targetTablist.dataset.tablist) {
+              let prevButton = buttonContainer.querySelector(".js-prev-tab");
+              let nextButton = buttonContainer.querySelector(".js-next-tab");
+
+              if (index === 0) {
+                prevButton.disabled = true;
+                nextButton.disabled = false;
+              } else if (
+                index > 0 &&
+                index < targetTablist.children.length - 1
+              ) {
+                prevButton.disabled = false;
+                nextButton.disabled = false;
+              } else {
+                prevButton.disabled = false;
+                nextButton.disabled = true;
+              }
+            }
+          });
+        }
       });
 
       tab.addEventListener("focus", () => {
@@ -96,6 +127,52 @@
 
       tab.index = index;
     });
+
+    // For pages with multiple tab lists and pagination buttons
+    // define the target buttons and attach events to them
+    // matching the tab list data attribute to button container id
+    if (tabListContainers && buttonContainers) {
+      tabListContainers.forEach((tabContainer) => {
+        buttonContainers.forEach((buttonContainer) => {
+          if (buttonContainer.id === tabContainer.dataset.tablist) {
+            let prevButton = buttonContainer.querySelector(".js-prev-tab");
+            let nextButton = buttonContainer.querySelector(".js-next-tab");
+
+            prevButton.addEventListener("click", (e) => {
+              e.preventDefault();
+              const currentTab = tabContainer.querySelector(
+                ".p-tabs__item[aria-selected='true']"
+              );
+              const currentIndex = tabs.indexOf(currentTab);
+              const prevIndex =
+                currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+
+              nextButton.disabled = false;
+              if (currentIndex === 1) {
+                prevButton.disabled = true;
+              }
+              setActiveTab(tabs[prevIndex], tabs);
+            });
+
+            nextButton.addEventListener("click", (e) => {
+              e.preventDefault();
+              const currentTab = tabContainer.querySelector(
+                ".p-tabs__item[aria-selected='true']"
+              );
+              const currentIndex = tabs.indexOf(currentTab);
+              const nextIndex =
+                currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+
+              prevButton.disabled = false;
+              if (currentIndex === tabs.length - 2) {
+                nextButton.disabled = true;
+              }
+              setActiveTab(tabs[nextIndex], tabs);
+            });
+          }
+        });
+      });
+    }
   };
 
   /**
