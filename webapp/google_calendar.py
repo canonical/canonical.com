@@ -28,6 +28,11 @@ class CalendarAPI:
         self.service = self._authenticate()
 
     def _authenticate(self):
+        # don't authenticate in test env since key is a dummy key and will
+        # give an error
+        if os.environ.get("TESTING"): return None
+
+        # authenticate
         SCOPES = ["https://www.googleapis.com/auth/calendar"]
         credentials = service_account.Credentials.from_service_account_info(
             SERVICE_ACCOUNT_INFO, scopes=SCOPES
