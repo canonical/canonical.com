@@ -1,7 +1,7 @@
 import logging
 
 from vcr_unittest import VCRTestCase
-import unittest
+from unittest.mock import patch
 from webapp.app import app
 
 
@@ -151,6 +151,3 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
-
-if __name__ == "__main__":
-    unittest.main()
