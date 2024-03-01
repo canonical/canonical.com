@@ -28,7 +28,7 @@ class CalendarAPI:
         self.service = self._authenticate()
 
     def _authenticate(self):
-        # don't authenticate in test env since key is a dummy key and will
+        # don't authenticate in test env since key is a fake key and will
         # give an error
         if os.environ.get("TESTING"):
             return None
