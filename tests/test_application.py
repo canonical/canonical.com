@@ -329,8 +329,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         )
         self.mock_get_application.return_value = self.fake_application
         self.mock_calendar_api.get_timezone.return_value = self.fake_timezone
-        self.mock_calendar_api.delete_event_from_interview_calendar\
-            .return_value = None
+        self.mock_calendar_api.delete_interview_event.return_value = None
         self.mock_reject_application.return_value = MagicMock(status_code=200)
         self.mock_get_interviews_scheduled.return_value = [
             self.fake_scheduled_interview,
@@ -354,18 +353,16 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             self.fake_application["id"]
         )
 
-        # ensure that delete_event_from_interview_calendar only called once
+        # ensure that delete_interview_event only called once
         # (this asserts that the filtering worked, since only one of the
         # fake interviews has a status of "scheduled")
-        self.mock_calendar_api.delete_event_from_interview_calendar\
-            .assert_called_once()
+        self.mock_calendar_api.delete_interview_event.assert_called_once()
 
-        # ensure that delete_event_from_interview_calendar was called with
+        # ensure that delete_interview_event was called with
         # the correct argument
-        self.mock_calendar_api.delete_event_from_interview_calendar\
-            .assert_called_with(
-                event_id=self.fake_scheduled_interview["external_event_id"]
-            )
+        self.mock_calendar_api.delete_interview_event.assert_called_with(
+            event_id=self.fake_scheduled_interview["external_event_id"]
+        )
 
         # ensure _send_mail is not called (since debug is True)
         self.mock_send_mail.assert_not_called()

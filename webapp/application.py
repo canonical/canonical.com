@@ -512,7 +512,7 @@ def application_withdrawal(token):
         interview_date = date_time_obj.strftime("%B %d, %Y at %I:%M%p")
 
         # delete interview event
-        delete_response = calendar.delete_event_from_interview_calendar(
+        delete_response = calendar.delete_interview_event(
             event_id=scheduled_interview["external_event_id"]
         )
 

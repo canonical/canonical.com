@@ -77,7 +77,7 @@ class CalendarAPI:
             .execute()
         )
 
-    def delete_event_from_interview_calendar(self, event_id):
+    def delete_interview_event(self, event_id):
         return (
             self.service.events()
             .delete(
