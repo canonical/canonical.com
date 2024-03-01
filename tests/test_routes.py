@@ -1,7 +1,6 @@
 import logging
 
 from vcr_unittest import VCRTestCase
-from unittest.mock import patch
 from webapp.app import app
 
 

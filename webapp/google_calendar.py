@@ -30,7 +30,8 @@ class CalendarAPI:
     def _authenticate(self):
         # don't authenticate in test env since key is a dummy key and will
         # give an error
-        if os.environ.get("TESTING"): return None
+        if os.environ.get("TESTING"):
+            return None
 
         # authenticate
         SCOPES = ["https://www.googleapis.com/auth/calendar"]

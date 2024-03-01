@@ -259,68 +259,83 @@ class TestCandidateEmailMatches(unittest.TestCase):
         self.assertTrue(_submitted_email_match("foo@bar.com", application))
         self.assertFalse(_submitted_email_match("a@b.com", application))
 
+
 class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
     def setUp(self):
         # fake constants
         self.fake_application = {
             "id": "123",
             "role_name": "Fake Job",
-            "candidate": {"id": "444", "first_name": "John", "last_name": "Doe"},
-            "hiring_lead": {"id": "777", "name": "Hiring Lead", "emails": "hiring_lead@example.com"},
-            "current_stage": "Fake Stage"
+            "candidate": {
+                "id": "444",
+                "first_name": "John",
+                "last_name": "Doe",
+            },
+            "hiring_lead": {
+                "id": "777",
+                "name": "Hiring Lead",
+                "emails": "hiring_lead@example.com",
+            },
+            "current_stage": "Fake Stage",
         }
         self.fake_timezone = "America/Toronto"
         self.fake_scheduled_interview = {
-            "status": "scheduled", # should remain after filtering
+            "status": "scheduled",  # should remain after filtering
             "interviewers": [
                 {
                     "name": "Fake Interviewer 1",
-                    "email": "fake_interviewer1@email.com"
+                    "email": "fake_interviewer1@email.com",
                 }
             ],
-            "start": {
-                "date_time": "2024-02-29T20:00:00.000Z"
-            },
+            "start": {"date_time": "2024-02-29T20:00:00.000Z"},
             "external_event_id": "fake_event_id_1",
-            "interview": {
-                "name": "Fake Interview 1"
-            }
+            "interview": {"name": "Fake Interview 1"},
         }
         self.fake_completed_interview = {
-            "status": "completed", # should be filtered out
+            "status": "completed",  # should be filtered out
             "interviewers": [
                 {
                     "name": "Fake Interviewer 2",
-                    "email": "fake_interviewer2@email.com"
+                    "email": "fake_interviewer2@email.com",
                 }
             ],
-            "start": {
-                "date_time": "2024-02-27T20:00:00.000Z"
-            },
+            "start": {"date_time": "2024-02-27T20:00:00.000Z"},
             "external_event_id": "fake_event_id_2",
-            "interview": {
-                "name": "Fake Interview 2"
-            }
+            "interview": {"name": "Fake Interview 2"},
         }
         self.fake_withdrawal_reason_id = None
         self.fake_withdrawal_message = None
 
         # functions that we want to mock
         self.mock_decrypt = patch("webapp.application.cipher.decrypt").start()
-        self.mock_get_application = patch("webapp.application._get_application").start()
-        self.mock_render_template = patch("webapp.application.flask.render_template").start()
+        self.mock_get_application = patch(
+            "webapp.application._get_application"
+        ).start()
+        self.mock_render_template = patch(
+            "webapp.application.flask.render_template"
+        ).start()
         self.mock_calendar_api = patch("webapp.application.calendar").start()
-        self.mock_reject_application = patch("webapp.application.harvest.reject_application").start()
-        self.mock_get_interviews_scheduled = patch("webapp.application.harvest.get_interviews_scheduled").start()
+        self.mock_reject_application = patch(
+            "webapp.application.harvest.reject_application"
+        ).start()
+        self.mock_get_interviews_scheduled = patch(
+            "webapp.application.harvest.get_interviews_scheduled"
+        ).start()
         self.mock_send_mail = patch("webapp.application._send_mail").start()
 
         # set return values for mocks
-        self.mock_decrypt.return_value = json.dumps({"application_id": self.fake_application["id"]})
+        self.mock_decrypt.return_value = json.dumps(
+            {"application_id": self.fake_application["id"]}
+        )
         self.mock_get_application.return_value = self.fake_application
         self.mock_calendar_api.get_timezone.return_value = self.fake_timezone
-        self.mock_calendar_api.delete_event_from_interview_calendar.return_value = None
+        self.mock_calendar_api.delete_event_from_interview_calendar\
+            .return_value = None
         self.mock_reject_application.return_value = MagicMock(status_code=200)
-        self.mock_get_interviews_scheduled.return_value = [self.fake_scheduled_interview, self.fake_completed_interview]
+        self.mock_get_interviews_scheduled.return_value = [
+            self.fake_scheduled_interview,
+            self.fake_completed_interview,
+        ]
         self.mock_send_mail.return_value = None
 
         # create test context
@@ -342,30 +357,36 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # ensure that delete_event_from_interview_calendar only called once
         # (this asserts that the filtering worked, since only one of the
         # fake interviews has a status of "scheduled")
-        self.mock_calendar_api.delete_event_from_interview_calendar.assert_called_once()
+        self.mock_calendar_api.delete_event_from_interview_calendar\
+            .assert_called_once()
 
         # ensure that delete_event_from_interview_calendar was called with
         # the correct argument
-        self.mock_calendar_api.delete_event_from_interview_calendar.assert_called_with(event_id=self.fake_scheduled_interview["external_event_id"])
+        self.mock_calendar_api.delete_event_from_interview_calendar\
+            .assert_called_with(
+                event_id=self.fake_scheduled_interview["external_event_id"]
+            )
 
         # ensure _send_mail is not called (since debug is True)
         self.mock_send_mail.assert_not_called()
 
         # ensure get_timezone is called with correct email
-        self.mock_calendar_api.get_timezone.assert_called_with(self.fake_scheduled_interview["interviewers"][0]["email"])
+        self.mock_calendar_api.get_timezone.assert_called_with(
+            self.fake_scheduled_interview["interviewers"][0]["email"]
+        )
 
         # ensure datetime conversion worked
-        expected_datetime = "February 29, 2024 at 03:00PM" # formatted version of fake_scheduled_interview["start"]["date_time"], based on fake_timezone
-        _, kwargs = self.mock_render_template.call_args_list[0] # first call to render_template should be for the interviewer emails which have interview_date passed
+        expected_datetime = "February 29, 2024 at 03:00PM"
+        _, kwargs = self.mock_render_template.call_args_list[0]
         self.assertIn("interview_date", kwargs)
-        self.assertEqual(kwargs['interview_date'], expected_datetime)
+        self.assertEqual(kwargs["interview_date"], expected_datetime)
 
         # ensure that harvest rejection fn is called with correct arguments
         self.mock_reject_application.assert_called_once_with(
             self.fake_application["id"],
             self.fake_application["hiring_lead"]["id"],
             self.fake_withdrawal_reason_id,
-            self.fake_withdrawal_message
+            self.fake_withdrawal_message,
         )
 
     def tearDown(self):
@@ -374,6 +395,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
 
         # pop the test context
         self.ctx.pop()
+
 
 if __name__ == "__main__":
     unittest.main()
