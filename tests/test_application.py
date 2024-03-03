@@ -322,6 +322,9 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             "webapp.application.harvest.get_interviews_scheduled"
         ).start()
         self.mock_send_mail = patch("webapp.application._send_mail").start()
+        self.mock_google_authenticate = patch(
+            "webapp.google_calendar.CalendarAPI._authenticate"
+        ).start()
 
         # set return values for mocks
         self.mock_decrypt.return_value = json.dumps(
@@ -336,6 +339,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             self.fake_completed_interview,
         ]
         self.mock_send_mail.return_value = None
+        self.mock_google_authenticate = None
 
         # create test context
         self.ctx = app.test_request_context()
