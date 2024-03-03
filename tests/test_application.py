@@ -314,7 +314,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         self.mock_render_template = patch(
             "webapp.application.flask.render_template"
         ).start()
-        self.mock_calendar_api = patch("webapp.application.calendar").start()
+        self.mock_cal = patch("webapp.application.CalendarAPI").start()
         self.mock_reject_application = patch(
             "webapp.application.harvest.reject_application"
         ).start()
@@ -331,8 +331,10 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             {"application_id": self.fake_application["id"]}
         )
         self.mock_get_application.return_value = self.fake_application
-        self.mock_calendar_api.get_timezone.return_value = self.fake_timezone
-        self.mock_calendar_api.delete_interview_event.return_value = None
+        self.mock_cal.return_value.get_timezone.return_value = (
+            self.fake_timezone
+        )
+        self.mock_cal.return_value.delete_interview_event.return_value = None
         self.mock_reject_application.return_value = MagicMock(status_code=200)
         self.mock_get_interviews_scheduled.return_value = [
             self.fake_scheduled_interview,
@@ -360,11 +362,11 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # ensure that delete_interview_event only called once
         # (this asserts that the filtering worked, since only one of the
         # fake interviews has a status of "scheduled")
-        self.mock_calendar_api.delete_interview_event.assert_called_once()
+        self.mock_cal.return_value.delete_interview_event.assert_called_once()
 
         # ensure that delete_interview_event was called with
         # the correct argument
-        self.mock_calendar_api.delete_interview_event.assert_called_with(
+        self.mock_cal.return_value.delete_interview_event.assert_called_with(
             event_id=self.fake_scheduled_interview["external_event_id"]
         )
 
@@ -372,7 +374,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         self.mock_send_mail.assert_not_called()
 
         # ensure get_timezone is called with correct email
-        self.mock_calendar_api.get_timezone.assert_called_with(
+        self.mock_cal.return_value.get_timezone.assert_called_with(
             self.fake_scheduled_interview["interviewers"][0]["email"]
         )
 
