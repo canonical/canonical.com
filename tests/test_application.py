@@ -306,7 +306,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         self.fake_withdrawal_reason_id = None
         self.fake_withdrawal_message = None
 
-        # functions that we want to mock
+        # mock functions
         self.mock_decrypt = patch("webapp.application.cipher.decrypt").start()
         self.mock_get_application = patch(
             "webapp.application._get_application"
