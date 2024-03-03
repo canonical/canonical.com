@@ -9,16 +9,20 @@ INTERVIEW_CALENDAR = (
     + "264f99684232ee4ec491@group.calendar.google.com"
 )
 
+
 class TestGoogleCalendar(unittest.TestCase):
-    @patch('webapp.google_calendar.build')
-    @patch('webapp.google_calendar.service_account.Credentials.from_service_account_info')
+    @patch("webapp.google_calendar.build")
+    @patch(
+        "webapp.google_calendar.service_account."
+        + "Credentials.from_service_account_info"
+    )
     def setUp(self, mock_from_service_account_info, mock_build):
         # fake constants
         self.fake_calendar_id = "calendar_id"
         self.fake_event_id = "event_id"
         self.fake_timezone = "America/Toronto"
         self.fake_email = "email@email.com"
-        
+
         # mock functions
         self.mock_service = MagicMock()
         self.mock_events = MagicMock()
@@ -45,13 +49,15 @@ class TestGoogleCalendar(unittest.TestCase):
             timeMin=start.isoformat() + "Z",
             timeMax=end.isoformat() + "Z",
             singleEvents=True,
-            orderBy='startTime',
+            orderBy="startTime",
         )
         self.mock_events.list().execute.assert_called_once()
 
     def test_get_single_event(self):
         # call the get_single_event method
-        self.calendar_api.get_single_event(self.fake_calendar_id, self.fake_event_id)
+        self.calendar_api.get_single_event(
+            self.fake_calendar_id, self.fake_event_id
+        )
 
         # assertions
         self.mock_events.get.assert_called_with(
@@ -59,10 +65,12 @@ class TestGoogleCalendar(unittest.TestCase):
             eventId=self.fake_event_id,
         )
         self.mock_events.get().execute.assert_called_once()
-    
+
     def test_delete_event(self):
         # call the delete_event method
-        self.calendar_api.delete_event(self.fake_calendar_id, self.fake_event_id)
+        self.calendar_api.delete_event(
+            self.fake_calendar_id, self.fake_event_id
+        )
 
         # assertions
         self.mock_events.delete.assert_called_with(
@@ -83,14 +91,16 @@ class TestGoogleCalendar(unittest.TestCase):
             sendUpdates="all",
         )
         self.mock_events.delete().execute.assert_called_once()
-    
+
     def test_get_timezone(self):
         # create a mock_calendars object
         mock_calendars = MagicMock()
 
         # set return values
         self.mock_service.calendars.return_value = mock_calendars
-        mock_calendars.get().execute.return_value = {"timeZone": self.fake_timezone}
+        mock_calendars.get().execute.return_value = {
+            "timeZone": self.fake_timezone
+        }
 
         # call the get_timezone method
         timezone = self.calendar_api.get_timezone(self.fake_email)
