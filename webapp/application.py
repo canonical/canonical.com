@@ -77,7 +77,6 @@ application = flask.Blueprint(
 
 session = talisker.requests.get_session()
 harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
-calendar = CalendarAPI()
 cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
 base_url = "https://harvest.greenhouse.io/v1"
 
@@ -496,6 +495,7 @@ def application_withdrawal(token):
     ]
     all_sent_emails = []
 
+    calendar = CalendarAPI()
     for scheduled_interview in scheduled_interviews:
         # get interviewer information
         interviewer = scheduled_interview["interviewers"][0]
