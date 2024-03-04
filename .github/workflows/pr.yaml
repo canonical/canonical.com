@@ -42,6 +42,9 @@ jobs:
 
       - name: Test site
         run: dotrun & curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost:8002
+        env:
+          SERVICE_ACCOUNT_EMAIL: test_email@email.com
+          SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
 
   lint-scss:
     runs-on: ubuntu-22.04
