@@ -60,7 +60,13 @@
       the reveal of the chosen tab content
       @param {Array} tabs an array of tabs within a container
     */
-  const attachEvents = (tabs, persistURLHash) => {
+  const attachEvents = (
+    tabs,
+    persistURLHash,
+    prevButton,
+    nextButton,
+    tabContainer
+  ) => {
     tabs.forEach(function (tab, index) {
       tab.addEventListener("keyup", function (e) {
         let compatibleKeys = IEKeys;
@@ -92,32 +98,19 @@
 
         setActiveTab(tab, tabs);
 
-        // For pages with multiple tab lists and pagination buttons
-        // toggle buttons state if they exist
-        // and match the target tab list
-        if (buttonContainers) {
-          let targetTablist = tab.parentElement.parentElement;
-
-          buttonContainers.forEach((buttonContainer) => {
-            if (buttonContainer.id === targetTablist.dataset.tablist) {
-              let prevButton = buttonContainer.querySelector(".js-prev-tab");
-              let nextButton = buttonContainer.querySelector(".js-next-tab");
-
-              if (index === 0) {
-                prevButton.disabled = true;
-                nextButton.disabled = false;
-              } else if (
-                index > 0 &&
-                index < targetTablist.children.length - 1
-              ) {
-                prevButton.disabled = false;
-                nextButton.disabled = false;
-              } else {
-                prevButton.disabled = false;
-                nextButton.disabled = true;
-              }
-            }
-          });
+        // For tablist containers with pagination
+        // toggle buttons state on tab click
+        if (prevButton && nextButton) {
+          if (index === 0) {
+            prevButton.disabled = true;
+            nextButton.disabled = false;
+          } else if (index > 0 && index < tabs.length - 1) {
+            prevButton.disabled = false;
+            nextButton.disabled = false;
+          } else {
+            prevButton.disabled = false;
+            nextButton.disabled = true;
+          }
         }
       });
 
@@ -128,49 +121,43 @@
       tab.index = index;
     });
 
-    // For pages with multiple tab lists and pagination buttons
-    // define the target buttons and attach events to them
-    // matching the tab list data attribute to button container id
-    if (tabListContainers && buttonContainers) {
-      tabListContainers.forEach((tabContainer) => {
-        buttonContainers.forEach((buttonContainer) => {
-          if (buttonContainer.id === tabContainer.dataset.tablist) {
-            let prevButton = buttonContainer.querySelector(".js-prev-tab");
-            let nextButton = buttonContainer.querySelector(".js-next-tab");
+    // For tab list containers with pagination buttons
+    // set the active tab on button click
+    if (prevButton && nextButton) {
+      prevButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const currentTab = tabContainer.querySelector(
+          ".p-tabs__item[aria-selected='true']"
+        );
+        const currentIndex = tabs.indexOf(currentTab);
+        const prevIndex =
+          currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
 
-            prevButton.addEventListener("click", (e) => {
-              e.preventDefault();
-              const currentTab = tabContainer.querySelector(
-                ".p-tabs__item[aria-selected='true']"
-              );
-              const currentIndex = tabs.indexOf(currentTab);
-              const prevIndex =
-                currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+        nextButton.disabled = false;
 
-              nextButton.disabled = false;
-              if (currentIndex === 1) {
-                prevButton.disabled = true;
-              }
-              setActiveTab(tabs[prevIndex], tabs);
-            });
+        if (currentIndex === 1) {
+          prevButton.disabled = true;
+        }
 
-            nextButton.addEventListener("click", (e) => {
-              e.preventDefault();
-              const currentTab = tabContainer.querySelector(
-                ".p-tabs__item[aria-selected='true']"
-              );
-              const currentIndex = tabs.indexOf(currentTab);
-              const nextIndex =
-                currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+        setActiveTab(tabs[prevIndex], tabs);
+      });
 
-              prevButton.disabled = false;
-              if (currentIndex === tabs.length - 2) {
-                nextButton.disabled = true;
-              }
-              setActiveTab(tabs[nextIndex], tabs);
-            });
-          }
-        });
+      nextButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const currentTab = tabContainer.querySelector(
+          ".p-tabs__item[aria-selected='true']"
+        );
+        const currentIndex = tabs.indexOf(currentTab);
+        const nextIndex =
+          currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+
+        prevButton.disabled = false;
+
+        if (currentIndex === tabs.length - 2) {
+          nextButton.disabled = true;
+        }
+
+        setActiveTab(tabs[nextIndex], tabs);
       });
     }
   };
@@ -213,11 +200,25 @@
       // is added to the URL, and a particular tab can be directly linked
       var persistURLHash = tabContainer.getAttribute("data-maintain-hash");
       var currentHash = window.location.hash;
+      let prevButton, nextButton;
 
       var tabs = [].slice.call(
         tabContainer.querySelectorAll("[aria-controls]")
       );
-      attachEvents(tabs, persistURLHash);
+
+      // If the tab list container has pagination buttons
+      // define the target buttons by matching the tablist data attribute
+      // to the button container ID
+      if (buttonContainers) {
+        buttonContainers.forEach((buttonContainer) => {
+          if (buttonContainer.id === tabContainer.dataset.tablist) {
+            prevButton = buttonContainer.querySelector(".js-prev-tab");
+            nextButton = buttonContainer.querySelector(".js-next-tab");
+          }
+        });
+      }
+
+      attachEvents(tabs, persistURLHash, prevButton, nextButton, tabContainer);
 
       if (persistURLHash && currentHash) {
         var activeTab = document.querySelector(
