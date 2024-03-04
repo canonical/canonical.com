@@ -486,23 +486,23 @@ def application_withdrawal(token):
         f"application_id={payload['application_id']}"
     )
 
-    # get all candidate interviews from Harvest API
-    scheduled_interviews = harvest.get_interviews_scheduled(application["id"])
-    scheduled_interviews = [
+    # get candidate interviews from Harvest API and filter
+    candidate_interviews = harvest.get_interviews_scheduled(application["id"])
+    candidate_interviews = [
         interview
-        for interview in scheduled_interviews
-        if interview["status"] == "scheduled"
+        for interview in candidate_interviews
+        if interview["status"] in ["scheduled", "awaiting_feedback"]
     ]
     all_sent_emails = []
 
     calendar = CalendarAPI()
-    for scheduled_interview in scheduled_interviews:
+    for interview in candidate_interviews:
         # get interviewer information
-        interviewer = scheduled_interview["interviewers"][0]
+        interviewer = interview["interviewers"][0]
         interviewer_timezone = calendar.get_timezone(interviewer["email"])
 
         # convert interview time to interviewer's timezone
-        date_time_str = scheduled_interview["start"]["date_time"]
+        date_time_str = interview["start"]["date_time"]
         date_time_obj = datetime.fromisoformat(
             date_time_str.replace("Z", "+00:00")
         )
@@ -511,39 +511,51 @@ def application_withdrawal(token):
         )
         interview_date = date_time_obj.strftime("%B %d, %Y at %I:%M%p")
 
-        # delete interview event
-        delete_response = calendar.delete_interview_event(
-            event_id=scheduled_interview["external_event_id"]
-        )
+        if interview["status"] == "scheduled":
+            # if interview still upcoming, delete interview event
+            delete_response = calendar.delete_interview_event(
+                event_id=interview["external_event_id"]
+            )
 
-        # if deletion successful, empty response object is returned
-        if not delete_response:
-            # send email to interviewer
-            # confirming cancelation of their interview
-            interview_canceled_email = flask.render_template(
-                "careers/application/_withdrawal"
-                + "-interview-canceled-email.html",
+            # empty response is returned on successful deletion so raise exception if not empty
+            if delete_response:
+                raise Exception(
+                    "Delete response not empty, error deleting event:\n"
+                    + str(delete_response)
+                )
+            
+            # email template and title for canceled interview
+            email_template = "careers/application/_withdrawal-interview-canceled-email.html"
+            email_title = f"Interview Cancelation - Candidate Withdrawal for {applicant_name}"
+        else:
+            # otherwise, set email template and title for feedback not needed
+            email_template = "careers/application/_withdrawal-feedback-not-needed-email.html"
+            email_title = f"Interview Feedback Not Needed - Candidate Withdrawal for {applicant_name}"
+            
+        # build email to send to interviewer
+        email_for_interviewer = flask.render_template(
+                email_template,
                 interviewer_name=interviewer["name"],
-                interview_title=scheduled_interview["interview"]["name"],
+                interview_title=interview["interview"]["name"],
                 applicant_name=applicant_name,
                 interview_date=interview_date,
                 position=application["role_name"],
             )
-            all_sent_emails.append(
-                {
-                    "interviewer": interviewer["email"],
-                    "message": interview_canceled_email,
-                }
-            )
+        all_sent_emails.append(
+            {
+                "interviewer": interviewer["email"],
+                "message": email_for_interviewer,
+            }
+        )
 
-            debug_skip_sending = flask.current_app.debug
-            if not debug_skip_sending:
-                _send_mail(
-                    interviewer["email"],
-                    "Interview Cancelation - Candidate Withdrawal for "
-                    + applicant_name,
-                    interview_canceled_email,
-                )
+        # send email
+        debug_skip_sending = flask.current_app.debug
+        if not debug_skip_sending:
+            _send_mail(
+                interviewer["email"],
+                email_title,
+                email_for_interviewer,
+            )
 
     # call the Harvest API to reject the application
     response = harvest.reject_application(
