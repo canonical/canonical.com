@@ -517,30 +517,43 @@ def application_withdrawal(token):
                 event_id=interview["external_event_id"]
             )
 
-            # empty response is returned on successful deletion so raise exception if not empty
+            # empty response is returned on successful deletion
+            # so raise exception if not empty
             if delete_response:
                 raise Exception(
                     "Delete response not empty, error deleting event:\n"
                     + str(delete_response)
                 )
-            
+
             # email template and title for canceled interview
-            email_template = "careers/application/_withdrawal-interview-canceled-email.html"
-            email_title = f"Interview Cancelation - Candidate Withdrawal for {applicant_name}"
+            email_template = (
+                "careers/application/_withdrawal"
+                + "-interview-canceled-email.html"
+            )
+            email_title = (
+                "Interview Cancelation - "
+                + f"Candidate Withdrawal for {applicant_name}"
+            )
         else:
             # otherwise, set email template and title for feedback not needed
-            email_template = "careers/application/_withdrawal-feedback-not-needed-email.html"
-            email_title = f"Interview Feedback Not Needed - Candidate Withdrawal for {applicant_name}"
-            
+            email_template = (
+                "careers/application/_withdrawal"
+                + "-feedback-not-needed-email.html"
+            )
+            email_title = (
+                "Interview Feedback Not Needed - "
+                + f"Candidate Withdrawal for {applicant_name}"
+            )
+
         # build email to send to interviewer
         email_for_interviewer = flask.render_template(
-                email_template,
-                interviewer_name=interviewer["name"],
-                interview_title=interview["interview"]["name"],
-                applicant_name=applicant_name,
-                interview_date=interview_date,
-                position=application["role_name"],
-            )
+            email_template,
+            interviewer_name=interviewer["name"],
+            interview_title=interview["interview"]["name"],
+            applicant_name=applicant_name,
+            interview_date=interview_date,
+            position=application["role_name"],
+        )
         all_sent_emails.append(
             {
                 "interviewer": interviewer["email"],
