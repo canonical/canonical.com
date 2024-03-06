@@ -23,7 +23,9 @@
                   <label for="email" class="is-required">Email:</label>
                   <input required id="email" name="email" maxlength="255" type="email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
                 </li>
-                {% include "shared/forms/_country.html" %}
+                {% with required="true" %}
+                  {% include "shared/forms/_country.html" %}
+                {% endwith %}
                 <li class="p-list__item">
                   <label for="phone">Phone number:</label>
                   <input id="phone" name="phone" maxlength="255" type="tel" pattern="[0-9\s]+" />
