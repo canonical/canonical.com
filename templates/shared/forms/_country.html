@@ -1,11 +1,16 @@
 {% if raw != "true" %}
 <li class="p-list__item">
-  <label for="country">{{ country or 'Country' }}:</label>
+  <label for="country"
+    {% if required == "false" %}
+    {% else %}
+      class="is-required"
+    {% endif %}
+  >{{ country or 'Country' }}:</label>
   {% endif %}
   <select
     {% if required == "false" %}
     {% else %}
-    required
+      required
     {% endif %}
     id="country"
     name="country"
