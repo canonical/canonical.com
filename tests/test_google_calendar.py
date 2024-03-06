@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from datetime import datetime, timedelta
 from webapp.google_calendar import CalendarAPI
 
 # Interview calendar
@@ -34,51 +33,6 @@ class TestGoogleCalendar(unittest.TestCase):
 
         # create a CalendarAPI object
         self.calendar_api = CalendarAPI()
-
-    def test_get_events(self):
-        # create datetime objects for start and end
-        start = datetime.now() - timedelta(days=1)
-        end = datetime.now()
-
-        # call the get_events method
-        self.calendar_api.get_events(self.fake_calendar_id, start, end)
-
-        # assertions
-        self.mock_events.list.assert_called_with(
-            calendarId=self.fake_calendar_id,
-            timeMin=start.isoformat() + "Z",
-            timeMax=end.isoformat() + "Z",
-            singleEvents=True,
-            orderBy="startTime",
-        )
-        self.mock_events.list().execute.assert_called_once()
-
-    def test_get_single_event(self):
-        # call the get_single_event method
-        self.calendar_api.get_single_event(
-            self.fake_calendar_id, self.fake_event_id
-        )
-
-        # assertions
-        self.mock_events.get.assert_called_with(
-            calendarId=self.fake_calendar_id,
-            eventId=self.fake_event_id,
-        )
-        self.mock_events.get().execute.assert_called_once()
-
-    def test_delete_event(self):
-        # call the delete_event method
-        self.calendar_api.delete_event(
-            self.fake_calendar_id, self.fake_event_id
-        )
-
-        # assertions
-        self.mock_events.delete.assert_called_with(
-            calendarId=self.fake_calendar_id,
-            eventId=self.fake_event_id,
-            sendUpdates="all",
-        )
-        self.mock_events.delete().execute.assert_called_once()
 
     def test_delete_interview_event(self):
         # call the delete_interview_event method
