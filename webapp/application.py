@@ -502,14 +502,16 @@ def application_withdrawal(token):
         interviewer_timezone = calendar.get_timezone(interviewer["email"])
 
         # convert interview time to interviewer's timezone
-        date_time_str = interview["start"]["date_time"]
-        date_time_obj = datetime.fromisoformat(
-            date_time_str.replace("Z", "+00:00")
+        interview_datetime_str = interview["start"]["date_time"]
+        interview_datetime_obj = datetime.fromisoformat(
+            interview_datetime_str.replace("Z", "+00:00")
         )
-        date_time_obj = date_time_obj.astimezone(
+        interview_datetime_obj = interview_datetime_obj.astimezone(
             pytz.timezone(interviewer_timezone)
         )
-        interview_date = date_time_obj.strftime("%B %d, %Y at %I:%M%p")
+        interview_date = interview_datetime_obj.strftime(
+            "%B %d, %Y at %I:%M%p"
+        )
 
         if interview["status"] == "scheduled":
             # if interview still upcoming, delete interview event
