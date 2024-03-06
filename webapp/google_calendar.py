@@ -43,35 +43,6 @@ class CalendarAPI:
 
         return service
 
-    def get_events(self, calendar_id, start, end):
-        return (
-            self.service.events()
-            .list(
-                calendarId=calendar_id,
-                timeMin=start.isoformat() + "Z",
-                timeMax=end.isoformat() + "Z",
-                singleEvents=True,
-                orderBy="startTime",
-            )
-            .execute()
-        )
-
-    def get_single_event(self, calendar_id, event_id):
-        return (
-            self.service.events()
-            .get(calendarId=calendar_id, eventId=event_id)
-            .execute()
-        )
-
-    def delete_event(self, calendar_id, event_id):
-        return (
-            self.service.events()
-            .delete(
-                calendarId=calendar_id, eventId=event_id, sendUpdates="all"
-            )
-            .execute()
-        )
-
     def delete_interview_event(self, event_id):
         return (
             self.service.events()
