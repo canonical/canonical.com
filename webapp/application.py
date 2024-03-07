@@ -543,7 +543,7 @@ def application_withdrawal(token):
                 + "-feedback-not-needed-email.html"
             )
             email_title = (
-                "Interview Feedback Not Needed - "
+                "Interview Feedback - "
                 + f"Candidate Withdrawal for {applicant_name}"
             )
 
@@ -566,8 +566,10 @@ def application_withdrawal(token):
         # send email
         debug_skip_sending = flask.current_app.debug
         if not debug_skip_sending:
+            # also sending cancelation/feedback email to TS inbox
+            # for tracking from their end.
             _send_mail(
-                interviewer["email"],
+                [interviewer["email"], "talent-mailbox@canonical.com"],
                 email_title,
                 email_for_interviewer,
             )
