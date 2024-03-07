@@ -1,4 +1,7 @@
 (function () {
+  const tabListContainers = document.querySelectorAll("[role='tablist']");
+  const buttonContainers = document.querySelectorAll(".js-tab-buttons");
+
   const keys = {
     left: "ArrowLeft",
     right: "ArrowRight",
@@ -57,7 +60,13 @@
       the reveal of the chosen tab content
       @param {Array} tabs an array of tabs within a container
     */
-  const attachEvents = (tabs, persistURLHash) => {
+  const attachEvents = (
+    tabs,
+    persistURLHash,
+    prevButton,
+    nextButton,
+    tabContainer
+  ) => {
     tabs.forEach(function (tab, index) {
       tab.addEventListener("keyup", function (e) {
         let compatibleKeys = IEKeys;
@@ -88,6 +97,21 @@
         }
 
         setActiveTab(tab, tabs);
+
+        // For tablist containers with pagination
+        // toggle buttons state on tab click
+        if (prevButton && nextButton) {
+          if (index === 0) {
+            prevButton.disabled = true;
+            nextButton.disabled = false;
+          } else if (index > 0 && index < tabs.length - 1) {
+            prevButton.disabled = false;
+            nextButton.disabled = false;
+          } else {
+            prevButton.disabled = false;
+            nextButton.disabled = true;
+          }
+        }
       });
 
       tab.addEventListener("focus", () => {
@@ -96,6 +120,46 @@
 
       tab.index = index;
     });
+
+    // For tab list containers with pagination buttons
+    // set the active tab on button click
+    if (prevButton && nextButton) {
+      prevButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const currentTab = tabContainer.querySelector(
+          ".p-tabs__item[aria-selected='true']"
+        );
+        const currentIndex = tabs.indexOf(currentTab);
+        const prevIndex =
+          currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+
+        nextButton.disabled = false;
+
+        if (currentIndex === 1) {
+          prevButton.disabled = true;
+        }
+
+        setActiveTab(tabs[prevIndex], tabs);
+      });
+
+      nextButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const currentTab = tabContainer.querySelector(
+          ".p-tabs__item[aria-selected='true']"
+        );
+        const currentIndex = tabs.indexOf(currentTab);
+        const nextIndex =
+          currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+
+        prevButton.disabled = false;
+
+        if (currentIndex === tabs.length - 2) {
+          nextButton.disabled = true;
+        }
+
+        setActiveTab(tabs[nextIndex], tabs);
+      });
+    }
   };
 
   /**
@@ -136,11 +200,25 @@
       // is added to the URL, and a particular tab can be directly linked
       var persistURLHash = tabContainer.getAttribute("data-maintain-hash");
       var currentHash = window.location.hash;
+      let prevButton, nextButton;
 
       var tabs = [].slice.call(
         tabContainer.querySelectorAll("[aria-controls]")
       );
-      attachEvents(tabs, persistURLHash);
+
+      // If the tab list container has pagination buttons
+      // define the target buttons by matching the tablist data attribute
+      // to the button container ID
+      if (buttonContainers) {
+        buttonContainers.forEach((buttonContainer) => {
+          if (buttonContainer.id === tabContainer.dataset.tablist) {
+            prevButton = buttonContainer.querySelector(".js-prev-tab");
+            nextButton = buttonContainer.querySelector(".js-next-tab");
+          }
+        });
+      }
+
+      attachEvents(tabs, persistURLHash, prevButton, nextButton, tabContainer);
 
       if (persistURLHash && currentHash) {
         var activeTab = document.querySelector(
