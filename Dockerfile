@@ -1,6 +1,3 @@
-# syntax=docker/dockerfile:experimental
-
-
 # Build stage: Install python dependencies
 # ===
 FROM ubuntu:focal AS python-dependencies
