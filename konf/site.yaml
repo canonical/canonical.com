@@ -142,6 +142,9 @@ staging:
             key: token
             name: directory-api
 
+        - name: FLASK_DEBUG
+          value: True
+
   nginxConfigurationSnippet: |
     more_set_headers "X-Robots-Tag: noindex";
     if ($host != 'staging.canonical.com' ) {
@@ -155,3 +158,6 @@ demo:
       secretKeyRef:
         key: token
         name: directory-api
+
+    - name: FLASK_DEBUG
+      value: True
