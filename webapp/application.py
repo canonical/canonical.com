@@ -10,6 +10,7 @@ from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 from requests.exceptions import HTTPError
 import pytz
+import logging
 
 
 import flask
@@ -522,7 +523,7 @@ def application_withdrawal(token):
             # empty response is returned on successful deletion
             # so raise exception if not empty
             if delete_response:
-                raise Exception(
+                logging.error(
                     "Delete response not empty, error deleting event:\n"
                     + str(delete_response)
                 )
