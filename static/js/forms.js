@@ -18,6 +18,8 @@ function attachLoadingSpinner(submitButton) {
 }
 const form = document.querySelector("form");
 const submitButton = form.querySelector('button[type="submit"]');
-if (submitButton) {
+// Exclude forms that don't need loader
+const cancelLoader = submitButton.classList.contains("no-loader");
+if (submitButton && !cancelLoader) {
   form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
 }
