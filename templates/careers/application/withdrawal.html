@@ -18,6 +18,21 @@
           </div>
         </div>
       </div>
+
+      <!--
+        Similarly for interview canceled/feedback not needed emails
+      -->
+      {% for email in all_sent_emails %}
+        <div class="u-fixed-width">
+          <div class="p-notification--caution">
+            <div class="p-notification__content">
+              <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
+              <p>The following email would have been sent to {{ email["interviewer"] }}:</p>
+              <p><blockquote>{{ email["message"] | safe }}</blockquote></p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     {% endif %}
 </section>
 
