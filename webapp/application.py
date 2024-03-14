@@ -9,8 +9,6 @@ from typing import Dict, List, Tuple
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 from requests.exceptions import HTTPError
-import pytz
-import logging
 
 
 import flask
@@ -20,7 +18,6 @@ from dateutil.parser import parse
 from webapp.greenhouse import Harvest
 from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
-from webapp.google_calendar import CalendarAPI
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -499,84 +496,86 @@ def application_withdrawal(token):
     ]
     all_sent_emails = []
 
-    calendar = CalendarAPI()
-    for interview in candidate_interviews:
-        # get interviewer information
-        interviewer = interview["interviewers"][0]
-        interviewer_timezone = calendar.get_timezone(interviewer["email"])
+    # TODO: commenting out for now because env variables for CalendarAPI
+    #       are not working
+    # calendar = CalendarAPI()
+    # for interview in candidate_interviews:
+    #     # get interviewer information
+    #     interviewer = interview["interviewers"][0]
+    #     interviewer_timezone = calendar.get_timezone(interviewer["email"])
 
-        # convert interview time to interviewer's timezone
-        interview_datetime_str = interview["start"]["date_time"]
-        interview_datetime_obj = datetime.fromisoformat(
-            interview_datetime_str.replace("Z", "+00:00")
-        )
-        interview_datetime_obj = interview_datetime_obj.astimezone(
-            pytz.timezone(interviewer_timezone)
-        )
-        interview_date = interview_datetime_obj.strftime(
-            "%B %d, %Y at %I:%M%p"
-        )
+    #     # convert interview time to interviewer's timezone
+    #     interview_datetime_str = interview["start"]["date_time"]
+    #     interview_datetime_obj = datetime.fromisoformat(
+    #         interview_datetime_str.replace("Z", "+00:00")
+    #     )
+    #     interview_datetime_obj = interview_datetime_obj.astimezone(
+    #         pytz.timezone(interviewer_timezone)
+    #     )
+    #     interview_date = interview_datetime_obj.strftime(
+    #         "%B %d, %Y at %I:%M%p"
+    #     )
 
-        if interview["status"] == "scheduled":
-            # if interview still upcoming, delete interview event
-            delete_response = calendar.delete_interview_event(
-                event_id=interview["external_event_id"]
-            )
+    #     if interview["status"] == "scheduled":
+    #         # if interview still upcoming, delete interview event
+    #         delete_response = calendar.delete_interview_event(
+    #             event_id=interview["external_event_id"]
+    #         )
 
-            # empty response is returned on successful deletion
-            # so raise exception if not empty
-            if delete_response:
-                logging.error(
-                    "Delete response not empty, error deleting event:\n"
-                    + str(delete_response)
-                )
+    #         # empty response is returned on successful deletion
+    #         # so raise exception if not empty
+    #         if delete_response:
+    #             logging.error(
+    #                 "Delete response not empty, error deleting event:\n"
+    #                 + str(delete_response)
+    #             )
 
-            # email template and title for canceled interview
-            email_template = (
-                "careers/application/_withdrawal"
-                + "-interview-canceled-email.html"
-            )
-            email_title = (
-                "Interview Cancelation - "
-                + f"Candidate Withdrawal for {applicant_name}"
-            )
-        else:
-            # otherwise, set email template and title for feedback not needed
-            email_template = (
-                "careers/application/_withdrawal"
-                + "-feedback-not-needed-email.html"
-            )
-            email_title = (
-                "Interview Feedback - "
-                + f"Candidate Withdrawal for {applicant_name}"
-            )
+    #         # email template and title for canceled interview
+    #         email_template = (
+    #             "careers/application/_withdrawal"
+    #             + "-interview-canceled-email.html"
+    #         )
+    #         email_title = (
+    #             "Interview Cancelation - "
+    #             + f"Candidate Withdrawal for {applicant_name}"
+    #         )
+    #     else:
+    #         # otherwise, set email template and title for feedback not needed
+    #         email_template = (
+    #             "careers/application/_withdrawal"
+    #             + "-feedback-not-needed-email.html"
+    #         )
+    #         email_title = (
+    #             "Interview Feedback - "
+    #             + f"Candidate Withdrawal for {applicant_name}"
+    #         )
 
-        # build email to send to interviewer
-        email_for_interviewer = flask.render_template(
-            email_template,
-            interviewer_name=interviewer["name"],
-            interview_title=interview["interview"]["name"],
-            applicant_name=applicant_name,
-            interview_date=interview_date,
-            position=application["role_name"],
-        )
-        all_sent_emails.append(
-            {
-                "interviewer": interviewer["email"],
-                "message": email_for_interviewer,
-            }
-        )
+    #     # build email to send to interviewer
+    #     email_for_interviewer = flask.render_template(
+    #         email_template,
+    #         interviewer_name=interviewer["name"],
+    #         interview_title=interview["interview"]["name"],
+    #         applicant_name=applicant_name,
+    #         interview_date=interview_date,
+    #         position=application["role_name"],
+    #     )
+    #     all_sent_emails.append(
+    #         {
+    #             "interviewer": interviewer["email"],
+    #             "message": email_for_interviewer,
+    #         }
+    #     )
 
-        # send email
-        debug_skip_sending = flask.current_app.debug
-        if not debug_skip_sending:
-            # also sending cancelation/feedback email to TS inbox
-            # for tracking from their end.
-            _send_mail(
-                [interviewer["email"], "talent-mailbox@canonical.com"],
-                email_title,
-                email_for_interviewer,
-            )
+    #     # send email
+    #     debug_skip_sending = flask.current_app.debug
+    #     if not debug_skip_sending:
+    #         # also sending cancelation/feedback email to TS inbox
+    #         # for tracking from their end.
+    #         _send_mail(
+    #             [interviewer["email"], "talent-mailbox@canonical.com"],
+    #             email_title,
+    #             email_for_interviewer,
+    #         )
 
     # call the Harvest API to reject the application
     response = harvest.reject_application(
