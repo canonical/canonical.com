@@ -15,6 +15,7 @@
     "format-prettier": "prettier -w 'static/js/*.{js,jsx,ts,tsx}' 'static/sass/*.scss'",
     "lint-python": "flake8 --extend-ignore=E203 webapp tests && black --check --line-length 79 webapp tests",
     "lint-scss": "stylelint static/**/*.scss",
+    "lint-jinja": "djlint $(git diff --name-only HEAD | xargs) --lint || true",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
     "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
