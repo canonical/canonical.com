@@ -72,6 +72,23 @@ jobs:
       - name: Lint python
         run: yarn lint-python
 
+  lint-jinja:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install node dependencies
+        run: yarn install --immutable
+
+      - name: Install python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          sudo pip3 install djlint
+
+      - name: Lint jinja
+        run: yarn lint-jinja
+
   test-python:
     runs-on: ubuntu-22.04
 
