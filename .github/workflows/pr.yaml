@@ -98,7 +98,7 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           echo "The following files have changed: $CHANGED_FILES"
-          yarn lint-jinja
+          djlint $CHANGED_FILES --lint
 
   test-python:
     runs-on: ubuntu-22.04
