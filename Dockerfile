@@ -46,6 +46,9 @@ RUN rm -rf package.json yarn.lock .babelrc webpack.config.js requirements.txt
 COPY --from=build-css /srv/static/css static/css
 COPY --from=build-js /srv/static/js static/js
 
+# Copy cookie policy
+COPY ./test_modules/cookie-policy.js /srv/static/js/modules/cookie-policy/cookie-policy.js
+
 # Set revision ID
 ARG BUILD_ID
 ENV TALISKER_REVISION_ID "${BUILD_ID}"
