@@ -1,19 +1,21 @@
-const form = document.getElementById("request-assessment-form");
-const input = form.querySelector("#request-assessment-email");
+const requestAssessmentForm = document.getElementById("request-assessment-form");
+const input = requestAssessmentForm.querySelector("#request-assessment-email");
 const inputContainer = input.parentNode;
-const errorMessage = form.querySelector("#exampleInputErrorMessage");
-const buttons = form.querySelectorAll("footer button");
-const loadingIcon = form.querySelector(".p-icon--spinner");
-const submitButton = form.querySelector("#request-assessment-submit");
-const closeModalButton = form.querySelector(".p-modal__close");
+const errorMessage = requestAssessmentForm.querySelector("#exampleInputErrorMessage");
+const buttons = requestAssessmentForm.querySelectorAll("footer button");
+const loadingIcon = requestAssessmentForm.querySelector(".p-icon--spinner");
+const requestAssessmentSubmitButton = requestAssessmentForm.querySelector(
+  "#request-assessment-submit"
+);
+const closeModalButton = requestAssessmentForm.querySelector(".p-modal__close");
 const requestButtonContainer = document.getElementById(
   "reportRequestContainer"
 );
 
-submitButton.addEventListener("click", (e) => {
+requestAssessmentSubmitButton.addEventListener("click", (e) => {
   e.preventDefault();
   runGet();
-  fetch(form.dataset.action, {
+  fetch(requestAssessmentForm.dataset.action, {
     method: "POST",
     headers: {
       Accept: "application/json",
