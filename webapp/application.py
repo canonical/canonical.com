@@ -523,8 +523,10 @@ def application_withdrawal(token):
         if interview["status"] == "scheduled":
             # can only delete interviews which are on the interview calendar
             # so we check this first
-            can_be_deleted = calendar.is_on_interview_calendar(interview["external_event_id"])
-            if (can_be_deleted):
+            can_be_deleted = calendar.is_on_interview_calendar(
+                interview["external_event_id"]
+            )
+            if can_be_deleted:
                 delete_response = calendar.delete_interview_event(
                     event_id=interview["external_event_id"]
                 )
@@ -565,7 +567,7 @@ def application_withdrawal(token):
             applicant_name=applicant_name,
             interview_date=interview_date,
             position=application["role_name"],
-            can_be_deleted=can_be_deleted
+            can_be_deleted=can_be_deleted,
         )
         all_sent_emails.append(
             {
