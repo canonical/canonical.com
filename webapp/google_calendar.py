@@ -58,3 +58,20 @@ class CalendarAPI:
         calendar = self.service.calendars().get(calendarId=email).execute()
 
         return calendar["timeZone"]
+
+    def is_on_interview_calendar(self, event_id):
+        try:
+            # if we can successfully get the event from the interview
+            # calendar, then it exists on the interview calendar
+            self.service.events().get(
+                calendarId=INTERVIEW_CALENDAR, eventId=event_id
+            ).execute()
+            return True
+        except HttpError as error:
+            # otherwise, if getting event gives a 404 not found error,
+            # it does not exist on the interview calendar
+            if error.resp.status == 404:
+                return False
+            else:
+                # re-raise the error if it's not a 404
+                raise error
