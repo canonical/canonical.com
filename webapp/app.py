@@ -805,7 +805,7 @@ data_mysql_k8s_docs.init_app(app)
 data_mongodb_iaas_docs = Docs(
     parser=DocParser(
         api=charmhub_discourse_api,
-        index_topic_id=7663,
+        index_topic_id=12461,
         url_prefix="/data/docs/mongodb/iaas",
     ),
     document_template="/data/docs/mongodb/iaas/document.html",
