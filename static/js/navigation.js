@@ -145,7 +145,9 @@ function addGAContentEvents(target) {
 }
 
 // Careers navigation
-nav.classList.remove("u-hide");
+if (nav) {
+  nav.classList.remove("u-hide");
+}
 
 /**
  * Close rest of navigation (override standard functionality)
