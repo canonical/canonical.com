@@ -10,7 +10,13 @@
     {% endif %}
         <ol class="p-stepped-list">
           <li class="p-stepped-list__item">
-            <p class="p-stepped-list__title u-no-margin--bottom">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.</p>
+            <p class="p-stepped-list__title">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.</p>
+            {% if application["custom_fields"]["written_interview_submitted_at"] %}
+              <p style="padding-left: 2.5rem; grid-column-end: span 12;" class="u-no-margin--bottom">
+                <i class="p-icon--success">Received</i>
+                We've received your submission.
+              </p>
+            {% endif %}
           </li>
           <li class="p-stepped-list__item">
             <p class="p-stepped-list__title">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.</p>
