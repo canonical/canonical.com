@@ -10,10 +10,7 @@
 
 {% set assessment_header_cls = "p-heading--2 p-procesassesment_details_clss-stepped-list__title--stepper-" ~ assessment_stage %}
 
-{% set is_early_stage = "stage_progress" in application 
-    and application["stage_progress"]["assessment"]
-    and application["stage_progress"]["early_stage"]
-%}
+{% set is_early_stage = "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
 
 {% set assessment_details_cls | trim %}
   {% if is_early_stage %}
@@ -24,62 +21,93 @@
 {% endset %}
 
 <li class="p-stepped-list__item" id="assessment">
-  <h3 class="{{ assessment_header_cls }}">
-    Assessment
-  </h3>
+  <h3 class="{{ assessment_header_cls }}">Assessment</h3>
   <div class="p-stepped-list__content">
     {% if is_early_stage %}
       <p>There are several parts to this stage:</p>
-      <a href="" onclick="showProgressDetail('assessment'); event.preventDefault();" class="show-more-assessment">Show more</a>
+      <a href=""
+         onclick="showProgressDetail('assessment'); event.preventDefault();"
+         class="show-more-assessment">Show more</a>
     {% endif %}
     <div class="{{ assessment_details_cls }}">
       <ol class="p-stepped-list">
         <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.</p>
+          <p class="p-stepped-list__title">
+            The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.
+          </p>
           {% if application["custom_fields"]["written_interview_submitted_at"] %}
-            <p style="padding-left: 2.5rem; grid-column-end: span 12;" class="u-no-margin--bottom">
+            <p style="padding-left: 2.5rem;
+                      grid-column-end: span 12"
+               class="u-no-margin--bottom">
               <i class="p-icon--success">Received</i>
               We've received your submission.
             </p>
           {% endif %}
         </li>
         <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.</p>
-          {% if application["gia_feedback"] %}
-          <p style="padding-left: 2.5rem; grid-column-end: span 12;" class="u-no-margin--bottom" id="reportRequestContainer">
-            <button id="showRequestAssessmentModal" aria-controls="request-assessment-modal">Request assessment report</button>
+          <p class="p-stepped-list__title">
+            Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.
           </p>
-          <div class="p-modal" id="request-assessment-modal">
-            <section class="p-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="request-assessment-modal-title" aria-describedby="request-assessment-modal-description">
-              <div data-action="/careers/application/get-report/{{ token }}" method="post" id="request-assessment-form">
-                <header class="p-modal__header">
-                  <h2 class="p-modal__title" id="request-assessment-modal-title">Get the Thomas International candidate report</h2>
-                  <button class="p-modal__close" aria-label="Close active modal" aria-controls="request-assessment-modal">Close</button>
-                </header>
-                <p id="request-assessment-modal-description">For security reasons, we ask you to provide the email address that we are using to communicate with you.</p>
-                <div class="p-form-validation">
-                  <label for="request-assessment-email">Email address</label>
-                  <input class="p-form-validation__input" type="email" id="request-assessment-email" name="request-assessment-email" placeholder="example@canonical.com" autocomplete="email" />
-                  <p class="p-form-validation__message" id="exampleInputErrorMessage"></p>
+          {% if application["gia_feedback"] %}
+            <p style="padding-left: 2.5rem;
+                      grid-column-end: span 12"
+               class="u-no-margin--bottom"
+               id="reportRequestContainer">
+              <button id="showRequestAssessmentModal"
+                      aria-controls="request-assessment-modal">Request assessment report</button>
+            </p>
+            <div class="p-modal" id="request-assessment-modal">
+              <section class="p-modal__dialog"
+                       role="dialog"
+                       aria-modal="true"
+                       aria-labelledby="request-assessment-modal-title"
+                       aria-describedby="request-assessment-modal-description">
+                <div data-action="/careers/application/get-report/{{ token }}"
+                     method="post"
+                     id="request-assessment-form">
+                  <header class="p-modal__header">
+                    <h2 class="p-modal__title" id="request-assessment-modal-title">Get the Thomas International candidate report</h2>
+                    <button class="p-modal__close"
+                            aria-label="Close active modal"
+                            aria-controls="request-assessment-modal">Close</button>
+                  </header>
+                  <p id="request-assessment-modal-description">
+                    For security reasons, we ask you to provide the email address that we are using to communicate with you.
+                  </p>
+                  <div class="p-form-validation">
+                    <label for="request-assessment-email">Email address</label>
+                    <input class="p-form-validation__input"
+                           type="email"
+                           id="request-assessment-email"
+                           name="request-assessment-email"
+                           placeholder="example@canonical.com"
+                           autocomplete="email" />
+                    <p class="p-form-validation__message" id="exampleInputErrorMessage"></p>
+                  </div>
+                  <footer class="p-modal__footer">
+                    <button class="u-no-margin--bottom p-modal__close"
+                            aria-label="Close active modal"
+                            aria-controls="request-assessment-modal">Cancel</button>
+                    <button id="request-assessment-submit" class="p-button u-no-margin--bottom">
+                      <i class="p-icon--spinner u-animation--spin u-hide"></i>
+                      Get Report
+                    </button>
+                  </footer>
                 </div>
-                <footer class="p-modal__footer">
-                  <button class="u-no-margin--bottom p-modal__close" aria-label="Close active modal" aria-controls="request-assessment-modal">Cancel</button>
-                  <button id="request-assessment-submit" class="p-button u-no-margin--bottom">
-                    <i class="p-icon--spinner u-animation--spin u-hide"></i>
-                    Get Report
-                  </button>
-                </footer>
-              </div>
-            </section>
-            <script async src="{{ versioned_static('js/applications/get-report.js') }}"></script>
-          </div>
-          <div class="u-hide">
-            <p style="padding-left: 2.5rem;" class="u-no-margin--bottom"><a href="{{ application['gia_feedback'].url }}" download>Download your GIA feedback document <i class="p-icon--begin-downloading"></i></a></p>
-          </div>
+              </section>
+              <script async src="{{ versioned_static('js/applications/get-report.js') }}"></script>
+            </div>
+            <div class="u-hide">
+              <p style="padding-left: 2.5rem;" class="u-no-margin--bottom">
+                <a href="{{ application['gia_feedback'].url }}" download>Download your GIA feedback document <i class="p-icon--begin-downloading"></i></a>
+              </p>
+            </div>
           {% endif %}
         </li>
         <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title u-no-margin--bottom">Technical tests: Some roles will require a technical assignment to be completed.</p>
+          <p class="p-stepped-list__title u-no-margin--bottom">
+            Technical tests: Some roles will require a technical assignment to be completed.
+          </p>
         </li>
       </ol>
       {% for interview in application["scheduled_interviews"]|reverse %}
@@ -96,7 +124,9 @@
           {% include 'careers/application/_interview-card.html' %}
         {% endif %}
       {% endfor %}
-      <a href="" onclick="hideProgressDetail('assessment'); event.preventDefault();" class="show-less-assessment u-hide">Show less</a>
+      <a href=""
+         onclick="hideProgressDetail('assessment'); event.preventDefault();"
+         class="show-less-assessment u-hide">Show less</a>
     </div>
     <p>
       There are several parts to this stage: a written interview, a psychometric assessment and some roles will require a technical assignment to be completed.
