@@ -8,20 +8,10 @@
   {% endif %}
 {% endset %}
 
-{% set assessment_header_cls = "p-heading--2 p-process-stepped-list__title--stepper-" ~ assessment_stage %}
-
 {% set is_early_stage = "stage_progress" in application and application["stage_progress"]["assessment"] and application["stage_progress"]["early_stage"] %}
 
-{% set assessment_details_cls | trim %}
-  {% if is_early_stage %}
-    progress-detail-assessment u-hide
-  {% else %}
-    progress-detail-assessment
-  {% endif %}
-{% endset %}
-
 <li class="p-stepped-list__item" id="assessment">
-  <h3 class="{{- assessment_header_cls -}}">Assessment</h3>
+  <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{{ assessment_stage }}">Assessment</h3>
   <div class="p-stepped-list__content">
     {% if is_early_stage %}
       <p>There are several parts to this stage:</p>
@@ -29,7 +19,7 @@
          onclick="showProgressDetail('assessment'); event.preventDefault();"
          class="show-more-assessment">Show more</a>
     {% endif %}
-    <div class="{{- assessment_details_cls -}}">
+    <div class="progress-detail-assessment {{ 'u-hide' if is_early_stage }}">
       <ol class="p-stepped-list">
         <li class="p-stepped-list__item">
           <p class="p-stepped-list__title">
