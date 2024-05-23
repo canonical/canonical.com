@@ -1,5 +1,8 @@
 {% if raw != "true" %}
+{% if remove_list %}
+{% else %}
 <li class="p-list__item">
+{% endif %}
   <label for="country"
     {% if required == "false" %}
     {% else %}
@@ -273,5 +276,8 @@
     ><option value="ZW">Zimbabwe</option>
   </select>
   {% if raw != "true" %}
-</li>
+  {% if remove_list %}
+  {% else %}
+  </li>
+  {% endif %}
 {% endif %}
