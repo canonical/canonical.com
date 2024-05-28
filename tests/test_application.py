@@ -139,6 +139,18 @@ class TestApplicationPageHelpers(VCRTestCase):
         result = _get_employee_directory_data("1234")
         self.assertDictEqual(fake_directory_data, result)
 
+    def test_job_post_page(self):
+        """
+        When given the /careers/<id> URL,
+        we should return a 200 status code
+        check requisition id is contained
+        """
+        response = self.client.get("/careers/4754075")
+        self.assertEqual(response.status_code, 200)
+        html_content = response.data.decode("utf-8")
+        # Test Requistion ID is in the page
+        self.assertIn("<p>Requisition ID: 613</p>", html_content)
+
 
 class TestGetGiaFeedback(unittest.TestCase):
     def test_gia_feedback_is_found_correctly(self):
