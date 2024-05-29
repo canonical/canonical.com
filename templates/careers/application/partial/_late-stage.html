@@ -1,28 +1,37 @@
+{% set is_offer_stage = "stage_progress" in application and application["stage_progress"]["offer"] %}
+
 <li class="p-stepped-list__item">
-  <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">Late stage</h3>
+  <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['offer'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['offer'] and application['stage_progress']['late_stage'] %}active{% else %}not-completed{% endif %}">
+    Late stage
+  </h3>
   <div class="p-stepped-list__content">
-    <p>During this stage you will meet with some of our more senior leads and executives who will form part of your management team.</p>
-    {% if "stage_progress" in application and application["stage_progress"]["offer"] %}
-    <a href="" onclick="showProgressDetail('late-stage'); event.preventDefault();" class="show-more-late-stage">Show more</a>
-    <div class="progress-detail-late-stage u-hide">
-    {% else %}
-    <div class="progress-detail-late-stage">
+    <p>
+      During this stage you will meet with some of our more senior leads and executives who will form part of your management team.
+    </p>
+    {% if is_offer_stage %}
+      <a href=""
+         onclick="showProgressDetail('late-stage'); event.preventDefault();"
+         class="show-more-late-stage">Show more</a>
     {% endif %}
-    {% for interview in application["scheduled_interviews"]|reverse %}
+
+    <div class="progress-detail-late-stage {{ 'u-hide' if is_offer_stage }}">
+      {% for interview in application["scheduled_interviews"]|reverse %}
         {% if interview["stage_name"] in ["Late Stage Interviews", "Executive Review"] and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-            <hr />
-            <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past Interviews</h4>
-            {% include 'careers/application/_interview-card-done.html' %}
+          <hr />
+          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past Interviews</h4>
+          {% include 'careers/application/_interview-card-done.html' %}
         {% endif %}
-    {% endfor %}
-    {% for interview in application["scheduled_interviews"] %}
+      {% endfor %}
+      {% for interview in application["scheduled_interviews"] %}
         {% if interview["stage_name"] in ["Late Stage Interviews", "Executive Review"] and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
-            <hr />
-            <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
-            {% include 'careers/application/_interview-card.html' %}
+          <hr />
+          <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
+          {% include 'careers/application/_interview-card.html' %}
         {% endif %}
-    {% endfor %}
-    <a href="" onclick="hideProgressDetail('late-stage'); event.preventDefault();" class="show-less-late-stage u-hide">Show less</a>
+      {% endfor %}
+      <a href=""
+         onclick="hideProgressDetail('late-stage'); event.preventDefault();"
+         class="show-less-late-stage u-hide">Show less</a>
     </div>
   </div>
 </li>
