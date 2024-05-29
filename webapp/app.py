@@ -260,11 +260,17 @@ def careers_rss():
     "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
 )
 def job_details(job_id, job_title):
+    """
+    job_title is not used, but is included in the route to avoid
+    breaking existing links
+    """
     context = {"bleach": bleach}
 
     try:
         # Greenhouse job board API (get_vacancy) doesn't show inactive roles
         context["job"] = harvest.get_job_post(job_id)
+        job_post = greenhouse.get_vacancy(job_id)
+        context["job"]["content"] = job_post.content
     except HTTPError as error:
         if error.response.status_code == 404:
             flask.abort(404)
@@ -287,8 +293,6 @@ def job_details(job_id, job_title):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
-
-        return flask.render_template("/careers/job-detail.html", **context)
 
     return flask.render_template("/careers/job-detail.html", **context)
 
