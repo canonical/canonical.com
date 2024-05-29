@@ -1,174 +1,217 @@
 {% extends '/careers/base_job-details.html' %}
 
-{% block title %}{{ application["candidate"]["first_name"] }}, application for {{ application["role_name"] }}{% endblock %}
-
-{% block extra_metatags %}
-  <meta name="robots" content="noindex">
+{% block title %}
+  {{ application["candidate"]["first_name"] }}, application for {{ application["role_name"] }}
 {% endblock %}
+
+{% block extra_metatags %}<meta name="robots" content="noindex" />{% endblock %}
 
 {% block content %}
   <script>
-   function showProgressDetail(stage) {
-    const showMoreBtn = document.querySelector(`.show-more-${stage}`);
-    const showLessBtn = document.querySelector(`.show-less-${stage}`);
-    const details = document.querySelectorAll(`.progress-detail-${stage}`);
+    function showProgressDetail(stage) {
+      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+      const showLessBtn = document.querySelector(`.show-less-${stage}`);
+      const details = document.querySelectorAll(`.progress-detail-${stage}`);
 
-    [].forEach.call(details, function(detail){
-      if (detail.classList.contains("u-hide")) {
-        detail.classList.remove("u-hide")
-        showMoreBtn.classList.add("u-hide")
-        showLessBtn.classList.remove("u-hide")
-      }
-    })
-  }
+      [].forEach.call(details, function(detail) {
+        if (detail.classList.contains("u-hide")) {
+          detail.classList.remove("u-hide")
+          showMoreBtn.classList.add("u-hide")
+          showLessBtn.classList.remove("u-hide")
+        }
+      })
+    }
 
-  function hideProgressDetail(stage) {
-    const showMoreBtn = document.querySelector(`.show-more-${stage}`);
-    const showLessBtn = document.querySelector(`.show-less-${stage}`);
-    const details = document.querySelectorAll(`.progress-detail-${stage}`);
-    [].forEach.call(details, function(detail){
-      if (!detail.classList.contains("u-hide")) {
-        detail.classList.add("u-hide")
-        showMoreBtn.classList.remove("u-hide")
-        showLessBtn.classList.add("u-hide")
-      }
-    })
-  };
-
+    function hideProgressDetail(stage) {
+      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+      const showLessBtn = document.querySelector(`.show-less-${stage}`);
+      const details = document.querySelectorAll(`.progress-detail-${stage}`);
+      [].forEach.call(details, function(detail) {
+        if (!detail.classList.contains("u-hide")) {
+          detail.classList.add("u-hide")
+          showMoreBtn.classList.remove("u-hide")
+          showLessBtn.classList.add("u-hide")
+        }
+      })
+    };
   </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <!-- Start of thank you for applying section -->
-    <section class="p-strip--image is-dark is-deep" style="background-position: 100% 0; background-size: 150vw; background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
+    <section class="p-strip--image is-dark is-deep"
+             style="background-position: 100% 0;
+                    background-size: 150vw;
+                    background-image:url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg')">
       {% if withdrawal_requested %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
             <div class="p-notification__content">
               <h5 class="p-notification__title">You have requested to withdraw this application</h5>
-              <p class="p-notification__message">Your application will remain active until you click on the link we have sent you via email.</p>
+              <p class="p-notification__message">
+                Your application will remain active until you click on the link we have sent you via email.
+              </p>
             </div>
           </div>
         </div>
-      {% if debug_skip_sending %}
-        <!--
-          We want to make it very clear when sending has been skipped, so we don't accidentally
-          end up skipping sending the email in production in a silent way that nobody notices.
-        -->
+        {% if debug_skip_sending %}
+          <!--
+            We want to make it very clear when sending has been skipped, so we don't accidentally
+            end up skipping sending the email in production in a silent way that nobody notices. 
+          -->
 
+          <div class="u-fixed-width">
+            <div class="p-notification--caution">
+              <div class="p-notification__content">
+                <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
+                <p>The following email would have been sent to {{ candidate_email }}:</p>
+                <p>
+                  <blockquote>
+                    {{ email_message | safe }}
+                  </blockquote>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if wrong_email %}
         <div class="u-fixed-width">
           <div class="p-notification--caution">
             <div class="p-notification__content">
-              <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
-              <p>The following email would have been sent to {{ candidate_email }}:</p>
-              <p><blockquote>{{ email_message | safe }}</blockquote></p>
+              <h5 class="p-notification__title">We could not withdraw your application.</h5>
+              <p class="p-notification__message">
+                The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.
+              </p>
             </div>
           </div>
         </div>
       {% endif %}
-    {% endif %}
-
-    {% if wrong_email %}
-      <div class="u-fixed-width">
-        <div class="p-notification--caution">
-          <div class="p-notification__content">
-            <h5 class="p-notification__title">We could not withdraw your application.</h5>
-            <p class="p-notification__message">The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
-          </div>
-        </div>
-      </div>
-    {% endif %}
 
       <div class="row">
         <div class="col-12">
-          <h1 class="p-heading--2 u-sv2"><strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong><br>Application for {{ application["role_name"] }}</h1>
+          <h1 class="p-heading--2 u-sv2">
+            <strong>{{ application["candidate"]["first_name"] }} {{ application["candidate"]["last_name"] }}</strong>
+            <br />
+            Application for {{ application["role_name"] }}
+          </h1>
           {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 and application['job_post_id'] %}
-            <p class="u-no-margin--bottom"><a href="/careers/{{ application['job_post_id'] }}" class="p-link--inverted">Read more about this role&nbsp;&rsaquo;</a></p>
+            <p class="u-no-margin--bottom">
+              <a href="/careers/{{ application['job_post_id'] }}"
+                 class="p-link--inverted">Read more about this role&nbsp;&rsaquo;</a>
+            </p>
           </div>
-          {% endif %}
-        </div>
-      </section>
+        {% endif %}
+      </div>
+    </section>
 
-      {% if application["candidate"]["application_ids"]|length >= 2 %}
+    {% if application["candidate"]["application_ids"]|length >= 2 %}
       <section class="p-strip--light is-shallow">
         <div class="u-fixed-width">
           <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
           <ul class="p-inline-list--middot u-no-margin--bottom">
-          {% for app in application["candidate"]["applications"] %}
-            {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 %}
-            <li class="p-inline-list__item"><a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a></li>
-            {% endif %}
-          {% endfor %}
+            {% for app in application["candidate"]["applications"] %}
+              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 %}
+                <li class="p-inline-list__item">
+                  <a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
           </ul>
         </div>
       </section>
-      {% endif %}
+    {% endif %}
     <!-- End thank you for applying section. -->
 
     {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
-    <!-- Hiring lead section. -->
-    <section class="p-strip">
-      <div class="row">
-        <div class="col-5">
-          <h2>Your Hiring Lead is <br>{{ application["hiring_lead"]["name"] }}.</h2>
-        </div>
-        <div class="col-1">
-        {% if application['hiring_lead']['name'] and application['hiring_lead']['avatar'] %}
-          <img alt="Profile photo of {{ application['hiring_lead']['name'] }}." src="{{ application['hiring_lead']['avatar'] }}" class="hiring-lead-image"/>
-        {% endif %}
-        </div>
-        <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
+      <!-- Hiring lead section. -->
+      <section class="p-strip">
+        <div class="row">
+          <div class="col-5">
+            <h2>
+              Your Hiring Lead is
+              <br />
+              {{ application["hiring_lead"]["name"] }}.
+            </h2>
+          </div>
+          <div class="col-1">
+            {% if application['hiring_lead']['name'] and application['hiring_lead']['avatar'] %}
+              <img alt="Profile photo of {{ application['hiring_lead']['name'] }}."
+                   src="{{ application['hiring_lead']['avatar'] }}"
+                   class="hiring-lead-image" />
+            {% endif %}
+          </div>
+          <div class="col-6{% if 'stage_progress' in application and not application['stage_progress']['assessment'] %} hide-divider{% endif %}">
             {% if application['hiring_lead']['video_src'] %}
-            <div class="u-embedded-media">
-              <iframe class="u-embedded-media__element" src="{{ application['hiring_lead']['video_src'] }}" width="560" height="315" frameborder="0" title="About the {{ application['role_name'] }} role"></iframe>
-            </div>
-            {% include 'careers/application/partial/_feedback.html' %}
+              <div class="u-embedded-media">
+                <iframe class="u-embedded-media__element"
+                        src="{{ application['hiring_lead']['video_src'] }}"
+                        width="560"
+                        height="315"
+                        frameborder="0"
+                        title="About the {{ application['role_name'] }} role"></iframe>
+              </div>
+              {% include 'careers/application/partial/_feedback.html' %}
             {% endif %}
             {% if application['hiring_lead']["bio"] %}
               <p>{{ application['hiring_lead']["bio"][0] | safe }}</p>
-              <a href="" onclick="showProgressDetail('hiring-lead'); event.preventDefault();" class="show-more-hiring-lead">Show more</a>
+              <a href=""
+                 onclick="showProgressDetail('hiring-lead'); event.preventDefault();"
+                 class="show-more-hiring-lead">Show more</a>
               <div class="progress-detail-hiring-lead u-hide">
                 {% for bio in application['hiring_lead']["bio"] %}
-                  {% if loop.index != 1 %}
-                    <p>{{ bio | safe }}</p>
-                  {% endif %}
+                  {% if loop.index != 1 %}<p>{{ bio | safe }}</p>{% endif %}
                 {% endfor %}
               </div>
-            <a href="" onclick="hideProgressDetail('hiring-lead'); event.preventDefault();" class="show-less-hiring-lead u-hide">Show less</a>
+              <a href=""
+                 onclick="hideProgressDetail('hiring-lead'); event.preventDefault();"
+                 class="show-less-hiring-lead u-hide">Show less</a>
             {% endif %}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     {% endif %}
 
-    {% if "stage_progress" in application and not application["stage_progress"]["early_stage"]  %}
-    <hr class="is-fixed-width">
-    <section class="p-strip is-deep u-no-padding--top" id="ceo-video">
-      <div class="row">
-        <div class="col-6">
-          <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
-          <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
-          {% include 'careers/application/partial/_feedback.html' %}
+    {% if "stage_progress" in application and not application["stage_progress"]["early_stage"] %}
+      <hr class="is-fixed-width" />
+      <section class="p-strip is-deep u-no-padding--top" id="ceo-video">
+        <div class="row">
+          <div class="col-6">
+            <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
+            <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+            {% include 'careers/application/partial/_feedback.html' %}
+          </div>
+          <div class="col-6 u-embedded-media">
+            <iframe class="u-embedded-media__element"
+                    src="https://youtube.com/embed/ik8AXTjUbS4"
+                    width="560"
+                    height="315"
+                    frameborder="0"
+                    title="How we hire at Canonical"></iframe>
+          </div>
         </div>
-        <div class="col-6 u-embedded-media">
-          <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
-        </div>
-      </div>
-    </section>
+      </section>
     {% endif %}
 
-    <hr class="is-fixed-width">
+    <hr class="is-fixed-width" />
     <section class="p-strip u-no-padding--top">
       <div class="u-fixed-width p-strip is-shallow u-no-padding--top">
         <h2 class="p-text--x-small-capitalised">Your application process</h2>
-        {% if "stage_progress" in application and application["stage_progress"]["early_stage"]  %}
-          <p><a href="#ceo-video">Listen to how we hire at Canonical</a></p>
+        {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+          <p>
+            <a href="#ceo-video">Listen to how we hire at Canonical</a>
+          </p>
         {% endif %}
       </div>
 
       <div class="u-fixed-width">
         <ol class="p-process-stepped-list--detailed">
           <li class="p-stepped-list__item">
-            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">Application review</h3>
-            <p class="p-stepped-list__content">An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.</p>
+            <h3 class="p-heading--2 p-process-stepped-list__title--stepper-{% if 'stage_progress' in application and application['stage_progress']['assessment'] %}complete{% elif 'stage_progress' in application and not application['stage_progress']['assessment'] and application['stage_progress']['application'] %}active{% else %}not-completed{% endif %}">
+              Application review
+            </h3>
+            <p class="p-stepped-list__content">
+              An experienced Hiring Lead from our business will review your CV submission against the job criteria set for this role.
+            </p>
           </li>
           {% include 'careers/application/partial/_assessment.html' %}
           {% include 'careers/application/partial/_early-stage.html' %}
@@ -177,30 +220,40 @@
       </div>
     </section>
 
-    {% if "stage_progress" in application and application["stage_progress"]["early_stage"]  %}
-    <section class="p-strip--light" id="ceo-video">
-      <div class="row">
-        <div class="col-6">
-          <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
-          <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
-          {% include 'careers/application/partial/_feedback.html' %}
+    {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
+      <section class="p-strip--light" id="ceo-video">
+        <div class="row">
+          <div class="col-6">
+            <h2 class="p-text--x-small-capitalised ">Hiring at Canonical</h2>
+            <h3 class="p-heading--2">Listen to our CEO and Global Head of Talent talk about how we hire at Canonical.</h3>
+            {% include 'careers/application/partial/_feedback.html' %}
+          </div>
+          <div class="col-6 u-embedded-media u-no-margin--bottom">
+            <iframe class="u-embedded-media__element"
+                    src="https://youtube.com/embed/ik8AXTjUbS4"
+                    width="560"
+                    height="315"
+                    frameborder="0"
+                    title="How we hire at Canonical"></iframe>
+          </div>
         </div>
-        <div class="col-6 u-embedded-media u-no-margin--bottom">
-          <iframe class="u-embedded-media__element" src="https://youtube.com/embed/ik8AXTjUbS4" width="560" height="315" frameborder="0" title="How we hire at Canonical"></iframe>
-        </div>
-      </div>
-    </section>
-    <section class="p-strip">
+      </section>
+      <section class="p-strip">
+      </section>
     {% else %}
-    <section class="p-strip is-deep u-no-padding--top">
+      <section class="p-strip is-deep u-no-padding--top">
+      </section>
     {% endif %}
-    </section>
 
-    <hr class="is-fixed-width">
+    <hr class="is-fixed-width" />
     <section class="p-strip is-deep u-no-padding--top">
       <div class="row">
         <div class="col-6">
-          <h2>Any questions about hiring <br />at Canonical?</h2>
+          <h2>
+            Any questions about hiring
+            <br />
+            at Canonical?
+          </h2>
         </div>
         <div class="col-6">
           <p>Learn more about the process or working at Canonical.</p>
@@ -211,42 +264,48 @@
     </section>
 
     {% if application["status"] == "active" %}
-    <hr class="is-fixed-width">
-    <section class="p-strip is-deep">
-      {% if withdrawal_requested %}
-      <div class="row">
-        <div class="col-6">
-          <h2>You have requested to withdraw this application.</h2>
-        </div>
-        <div class="col-6">
-          <p>Your application will remain active until you click on the link we have sent you via email.</p>
-          <p>If you experience any issues please contact your Hiring Lead.</p>
-        </div>
-      </div>
-      {% elif not withdrawal_requested and wrong_email %}
-      <div class="row">
-        <div class="col-6">
-          <h2>We could not withdraw your application.</h2>
-        </div>
-        <div class="col-6">
-          <p>The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.</p>
-          <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
-        </div>
-      </div>
-      {% include "careers/application/_withdrawal-form.html" %}
-      {% else %}
-      <div class="row">
-        <div class="col-6">
-          <h2>Do you wish to withdraw <br> your application?</h2>
-        </div>
-        <div class="col-6">
-          <p>You will be asked for confirmation in the next steps.</p>
-          <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
-        </div>
-      </div>
-      {% include "careers/application/_withdrawal-form.html" %}
-      {% endif %}
-    </section>
+      <hr class="is-fixed-width" />
+      <section class="p-strip is-deep">
+        {% if withdrawal_requested %}
+          <div class="row">
+            <div class="col-6">
+              <h2>You have requested to withdraw this application.</h2>
+            </div>
+            <div class="col-6">
+              <p>Your application will remain active until you click on the link we have sent you via email.</p>
+              <p>If you experience any issues please contact your Hiring Lead.</p>
+            </div>
+          </div>
+        {% elif not withdrawal_requested and wrong_email %}
+          <div class="row">
+            <div class="col-6">
+              <h2>We could not withdraw your application.</h2>
+            </div>
+            <div class="col-6">
+              <p>
+                The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.
+              </p>
+              <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
+            </div>
+          </div>
+          {% include "careers/application/_withdrawal-form.html" %}
+        {% else %}
+          <div class="row">
+            <div class="col-6">
+              <h2>
+                Do you wish to withdraw
+                <br />
+                your application?
+              </h2>
+            </div>
+            <div class="col-6">
+              <p>You will be asked for confirmation in the next steps.</p>
+              <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
+            </div>
+          </div>
+          {% include "careers/application/_withdrawal-form.html" %}
+        {% endif %}
+      </section>
     {% endif %}
 
   {% elif application["status"] == "hired" %}
@@ -258,148 +317,150 @@
         </p>
       </div>
     </section>
-    {% elif withdrawn %}
+  {% elif withdrawn %}
     <section class="p-strip--light is-deep">
       <div class="row">
         <h1>Your application has been withdrawn</h1>
-        <p>Thank you for the time you have spent on this application. <br/> Check out <a href="https://canonical.com/careers">our career page</a> to find other roles that match your skills.</p>
+        <p>
+          Thank you for the time you have spent on this application.
+          <br />
+          Check out <a href="https://canonical.com/careers">our career page</a> to find other roles that match your skills.
+        </p>
       </div>
     </section>
   {% endif %}
 
-
-
-<script>
-  function showInput() {
-    const selectValue = document.getElementById('withdrawal-reason').value;
-    const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
-    const otherInput = document.querySelector('.other-input')
-    if (selectValue === "33") {
-      otherInput.style.display = "block";
-      withdrawalReasonOther.setAttribute("required", "true")
-    } else{
-      otherInput.style.display = "none";
-      withdrawalReasonOther.removeAttribute("required")
-    }
-  }
-
-  (function () {
-
-    var currentDialog = null;
-    var lastFocus = null;
-    var ignoreFocusChanges = false;
-    var focusAfterClose = null;
-
-    // Traps the focus within the currently open modal dialog
-    function trapFocus(event) {
-      if (ignoreFocusChanges) return;
-
-      if (currentDialog.contains(event.target)) {
-        lastFocus = event.target;
+  <script>
+    function showInput() {
+      const selectValue = document.getElementById('withdrawal-reason').value;
+      const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
+      const otherInput = document.querySelector('.other-input')
+      if (selectValue === "33") {
+        otherInput.style.display = "block";
+        withdrawalReasonOther.setAttribute("required", "true")
       } else {
-        focusFirstDescendant(currentDialog);
-        if (lastFocus == document.activeElement) {
-          focusLastDescendant(currentDialog);
-        }
-        lastFocus = document.activeElement;
+        otherInput.style.display = "none";
+        withdrawalReasonOther.removeAttribute("required")
       }
     }
 
-    // Attempts to focus given element
-    function attemptFocus(child) {
-      if (child.focus) {
-        ignoreFocusChanges = true;
-        child.focus();
-        ignoreFocusChanges = false;
-        return document.activeElement === child;
-      }
+    (function() {
 
-      return false;
-    }
+      var currentDialog = null;
+      var lastFocus = null;
+      var ignoreFocusChanges = false;
+      var focusAfterClose = null;
 
-    // Focuses first child element
-    function focusFirstDescendant(element) {
-      for (var i = 0; i < element.childNodes.length; i++) {
-        var child = element.childNodes[i];
-        if (attemptFocus(child) || focusFirstDescendant(child)) {
-          return true;
-        }
-      }
-      return false;
-    }
+      // Traps the focus within the currently open modal dialog
+      function trapFocus(event) {
+        if (ignoreFocusChanges) return;
 
-    // Focuses last child element
-    function focusLastDescendant(element) {
-      for (var i = element.childNodes.length - 1; i >= 0; i--) {
-        var child = element.childNodes[i];
-        if (attemptFocus(child) || focusLastDescendant(child)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    /**
-      Toggles visibility of modal dialog.
-      @param {HTMLElement} modal Modal dialog to show or hide.
-      @param {HTMLElement} sourceEl Element that triggered toggling modal
-      @param {Boolean} open If defined as `true` modal will be opened, if `false` modal will be closed, undefined toggles current visibility.
-    */
-    function toggleModal(modal, sourceEl, open) {
-      if (modal && modal.classList.contains("p-modal")) {
-        if (typeof open === 'undefined') {
-          open = modal.style.display === 'none';
-        }
-
-        if (open) {
-          currentDialog = modal;
-          modal.style.display = 'flex';
-          focusFirstDescendant(modal);
-          focusAfterClose = sourceEl;
-          document.addEventListener('focus', trapFocus, true);
+        if (currentDialog.contains(event.target)) {
+          lastFocus = event.target;
         } else {
-          modal.style.display = 'none';
-          if (focusAfterClose && focusAfterClose.focus) {
-            focusAfterClose.focus();
+          focusFirstDescendant(currentDialog);
+          if (lastFocus == document.activeElement) {
+            focusLastDescendant(currentDialog);
           }
-          document.removeEventListener('focus', trapFocus, true);
-          currentDialog = null;
+          lastFocus = document.activeElement;
         }
       }
-    }
 
-    // Find and hide all modals on the page
-    function closeModals() {
-      var modals = [].slice.apply(document.querySelectorAll('.p-withdrawal-modal'));
-      modals.forEach(function (modal) {
-        toggleModal(modal, false, false);
+      // Attempts to focus given element
+      function attemptFocus(child) {
+        if (child.focus) {
+          ignoreFocusChanges = true;
+          child.focus();
+          ignoreFocusChanges = false;
+          return document.activeElement === child;
+        }
+
+        return false;
+      }
+
+      // Focuses first child element
+      function focusFirstDescendant(element) {
+        for (var i = 0; i < element.childNodes.length; i++) {
+          var child = element.childNodes[i];
+          if (attemptFocus(child) || focusFirstDescendant(child)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      // Focuses last child element
+      function focusLastDescendant(element) {
+        for (var i = element.childNodes.length - 1; i >= 0; i--) {
+          var child = element.childNodes[i];
+          if (attemptFocus(child) || focusLastDescendant(child)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      /**
+        Toggles visibility of modal dialog.
+        @param {HTMLElement} modal Modal dialog to show or hide.
+        @param {HTMLElement} sourceEl Element that triggered toggling modal
+        @param {Boolean} open If defined as `true` modal will be opened, if `false` modal will be closed, undefined toggles current visibility.
+      */
+      function toggleModal(modal, sourceEl, open) {
+        if (modal && modal.classList.contains("p-modal")) {
+          if (typeof open === 'undefined') {
+            open = modal.style.display === 'none';
+          }
+
+          if (open) {
+            currentDialog = modal;
+            modal.style.display = 'flex';
+            focusFirstDescendant(modal);
+            focusAfterClose = sourceEl;
+            document.addEventListener('focus', trapFocus, true);
+          } else {
+            modal.style.display = 'none';
+            if (focusAfterClose && focusAfterClose.focus) {
+              focusAfterClose.focus();
+            }
+            document.removeEventListener('focus', trapFocus, true);
+            currentDialog = null;
+          }
+        }
+      }
+
+      // Find and hide all modals on the page
+      function closeModals() {
+        var modals = [].slice.apply(document.querySelectorAll('.p-withdrawal-modal'));
+        modals.forEach(function(modal) {
+          toggleModal(modal, false, false);
+        });
+      }
+
+      // Add click handler for clicks on elements with aria-controls
+      document.addEventListener('click', function(event) {
+        var targetControls = event.target.getAttribute('aria-controls');
+        if (targetControls) {
+          toggleModal(document.getElementById(targetControls), event.target);
+        }
       });
-    }
 
-    // Add click handler for clicks on elements with aria-controls
-    document.addEventListener('click', function (event) {
-      var targetControls = event.target.getAttribute('aria-controls');
-      if (targetControls) {
-        toggleModal(document.getElementById(targetControls), event.target);
-      }
-    });
+      // Add handler for closing modals using ESC key.
+      document.addEventListener('keydown', function(e) {
+        e = e || window.event;
 
-    // Add handler for closing modals using ESC key.
-    document.addEventListener('keydown', function (e) {
-      e = e || window.event;
+        if (e.code === 'Escape') {
+          closeModals();
+        } else if (e.keyCode === 27) {
+          closeModals();
+        }
+      });
 
-      if (e.code === 'Escape') {
-        closeModals();
-      } else if (e.keyCode === 27) {
-        closeModals();
-      }
-    });
-
-    // init the dialog that is initially opened in the example
-    const modals = document.querySelectorAll(".p-modal");
-    modals.forEach(modal => {
-      toggleModal(modal, document.querySelector(`[aria-controls=${modal.id}]`), false);
-    });
-  })();
+      // init the dialog that is initially opened in the example
+      const modals = document.querySelectorAll(".p-modal");
+      modals.forEach(modal => {
+        toggleModal(modal, document.querySelector(`[aria-controls=${modal.id}]`), false);
+      });
+    })();
   </script>
 {% endblock %}
