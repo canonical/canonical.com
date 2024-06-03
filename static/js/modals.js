@@ -97,12 +97,14 @@
       }
 
       if (open) {
+        document.body.style.overflow = 'hidden';
         currentDialog = modal;
         modal.style.display = "flex";
         focusAfterClose = sourceEl;
         document.addEventListener("focus", trapFocus, true);
         updateHash(triggeringHash);
       } else {
+        document.body.style.overflow = 'scroll';
         modal.style.display = "none";
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
