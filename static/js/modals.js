@@ -104,7 +104,7 @@
         document.addEventListener("focus", trapFocus, true);
         updateHash(triggeringHash);
       } else {
-        document.body.style.overflow = 'scroll';
+        document.body.style.overflow = 'auto';
         modal.style.display = "none";
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
