@@ -1,4 +1,4 @@
-<div class="p-modal is-dark-modal contact-form"
+<div class="p-modal contact-form"
      style="display: none"
      id="homepage-modal">
   <div class="p-modal__dialog"
@@ -194,5 +194,14 @@
     </div>
   </div>
 </div>
+
+<script>
+  const modalClasses = document.getElementById('homepage-modal').classList
+  if (Object.values(document.body.classList).includes("is-dark")) {
+    modalClasses.add('is-dark-modal');
+  } else {
+    modalClasses.remove('is-dark-modal');
+  }
+</script>
 
 <script async src="{{ versioned_static('js/modals.js') }}"></script>
