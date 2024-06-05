@@ -1,788 +1,850 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %} https://docs.google.com/document/d/1mrvhkrVjCCJE39h96CPG_b_ZHWVN0GHzZ_6TdoudeYs {%
-endblock meta_copydoc %}
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1mrvhkrVjCCJE39h96CPG_b_ZHWVN0GHzZ_6TdoudeYs {%
+  endblock meta_copydoc %}
 
-{% block title %}Get secure open source from Canonical{% endblock %}
+  {% block title %}Get secure open source from Canonical{% endblock %}
 
-{% block meta_description %}Get a standard and secure open source supply chain from the publisher of Ubuntu. Ideal to stay secure and compliant with  high-performance apps, cloud infrastructure, and systems.{% endblock %}
+  {% block meta_description %}
+    Get a standard and secure open source supply chain from the publisher of Ubuntu. Ideal to stay secure and compliant with  high-performance apps, cloud infrastructure, and systems.
+  {% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+  {% block body_class %}
+    is-paper
+  {% endblock body_class %}
 
-{% block content %}
+  {% block content %}
 
-<section class="p-suru--25-75">
-  <div class="row--25-75">
-    <div class="col">
-      <h1>Standardise your software supply chain with secure open source</h1>
-      <p>Consume secure open source that's got the same set of guarantees across the stack, from the same vendor. Simplify vulnerability management to unlock developer productivity and gain full compliance with industry standards.</p>
-      <hr class="is-muted" />
-      <a class="p-button--positive" href="/contact-us" aria-controls="secure-open-source-modal">Contact Canonical</a>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Why Canonical?</h2>
-    </div>
-    <div class="col">
-      <ul class="p-list--divided">
-        <li class="p-list__item is-ticked">Benefit from our 20-year track record of reliability with Ubuntu LTS releases
-        </li>
-        <li class="p-list__item is-ticked">Drive productivity with integration into leading security vendors and cloud
-          platforms</li>
-        <li class="p-list__item is-ticked">Get fixes for critical vulnerabilities in under 24 hours</li>
-        <li class="p-list__item is-ticked">Make your compliance efforts faster and easier</li>
-        <li class="p-list__item is-ticked">Up to 12 years of security and support</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Start with Ubuntu,<br /> get trusted open source across your stack</h2>
-    </div>
-    <div class="col">
-      <div class="u-embedded-media">
-        <iframe class="u-embedded-media__element" width="560" height="315"
-          src="https://www.youtube.com/embed/tNECRG5r2sg?si=dZi99aoASw8-Q-mX" title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen></iframe>
-      </div>
-      <p>Build your next project with confidence on a trusted platform. Get all the open source you need to innovate
-        securely, from the kernel to applications.</p>
-      <p>Canonical offers long term support and security maintenance on the vastest open source library.</p>
-      <p>We offer a simple, convenient subscription for security, support and compliance.</p>
-      <hr class="p-rule is-muted" />
-      <p>
-        <a href="https://ubuntu.com/pro">Learn about Ubuntu Pro&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Simplify vulnerability management to drive developer productivity</h2>
-    </div>
-    <div class="col">
-      <p>Reduce your CVE exposure from 98 days to 1 on average.*</p>
-      <p>Let us patch and fix the CVEs so your developers can be more productive and focus on value-added work.</p>
-      <p>We maintain and apply timely security patches on all the software in the Ubuntu ecosystem. We then backport and test the fixes on all supported Ubuntu versions, making it very easy to stay up to date and secure.</p>
-      <p>*<a href="https://go.snyk.io/state-of-open-source-security-report-2022-dwn-typ.html">According to Snyk</a> organisations need 97.8 days on average to fix a vulnerability. With Ubuntu Pro, the currently measured average time to fix for critical CVE vulnerabilities is less than 24 hours.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="p-rule is-fixed-width" />
-
-<section class="p-strip is-deep">
-  <div class="u-fixed-width">
-    <h2>
-      <a href="https://ubuntu.com/engage/vulnerability-management">Download our guide to open source vulnerability
-        management&nbsp;&rsaquo;</a>
-    </h2>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Stay secure and supported<br /> on any cloud</h2>
-    </div>
-    <div class="col">
-      <p>Ubuntu is integrated with the largest public clouds and collaborates closely with leading security vendors,
-        like Tenable.</p>
-      <hr class="p-rule is-muted" />
-      <p>
-        <a href="https://ubuntu.com/cloud/public-cloud">Learn how Ubuntu works across all clouds&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </div>
-  <div class="u-fixed-width">
-    <div class="p-logo-section u-realign-logos">
-      <div class="p-logo-section__items">
-        <div class="p-logo-section__item">
-          {{
-          image (
-          url="https://assets.ubuntu.com/v1/a5b8bc4f-aws-logo.png",
-          alt="AWS",
-          width="187",
-          height="384",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{
-          image (
-          url="https://assets.ubuntu.com/v1/55ef5a98-google-cloud-logo.png",
-          alt="Google Cloud",
-          width="595",
-          height="384",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{
-          image (
-          url="https://assets.ubuntu.com/v1/7c4a4785-microsoft-azure-logo.png",
-          alt="Microsoft Azure",
-          width="335",
-          height="384",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-no--margin-right">
-          {{
-          image (
-          url="https://assets.ubuntu.com/v1/4678094b-oracle-cloud-logo.png",
-          alt="Oracle",
-          width="478",
-          height="384",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{
-          image (
-          url="https://assets.ubuntu.com/v1/145d9c5d-ibm-cloud-logo.png",
-          alt="IBM Cloud",
-          width="538",
-          height="384",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50 p-section--shallow">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Pull all your software from a secure source</h2>
-    </div>
-    <div class="col">
-      <p>Deb packages, containers, snaps and Canonical-maintained charms (Juju-based software operators) &mdash; consume the packaging format of your choice in a secure way.</p>
-    </div>
-  </div>
-  <div class="u-fixed-width">
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/c2cd0bc4-php-logo.png",
-          alt="PHP",
-          width="160",
-          height="252",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class":"p-logo-section__logo"},
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/2ad3b2ba-python logo.png",
-          alt="Python",
-          width="252",
-          height="253",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/93af6c88-rust logo.png",
-          alt="Rust",
-          width="120",
-          height="252",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/35e5c439-puppet logo.png",
-          alt="Puppet",
-          width="236",
-          height="253",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/3b69f369-ruby-logo.png",
-          alt="Ruby",
-          width="104",
-          height="252",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/bedc5d63-rabbitmq-logo.png",
-          alt="RabbitMQ",
-          width="248",
-          height="257",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/8279fc01-go logo.png",
-          alt="Golang",
-          width="168",
-          height="253",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/86fdc1d7-openssl-logo.png",
-          alt="OpenSSL",
-          width="172",
-          height="252",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/dc653552-java-logo.png",
-            alt="Java",
-            width="106",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{
-            image (
-            url="https://assets.ubuntu.com/v1/f1779d86-apache-spark-logo.png",
-            alt="Apache Spark",
-            width="197",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/7f680712-net-logo.png",
-            alt=".Net",
-            width="159",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{
-            image (
-            url="https://assets.ubuntu.com/v1/913372cb-kubeflow-logo.png",
-            alt="Kubeflow",
-            width="379",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{
-            image (
-            url="https://assets.ubuntu.com/v1/797287f7-grafana-logo.png",
-            alt="Grafana",
-            width="173",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-          url="https://assets.ubuntu.com/v1/56d8741e-node-logo.png",
-          alt="Node.js",
-          width="196",
-          height="253",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-logo-section__logo"}
-          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/253100b3-traefik-logo.png",
-            alt="Traefik",
-            width="160",
-            height="384",
-            hi_def=True,
-            loading="auto",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{
-            image (
-            url="https://assets.ubuntu.com/v1/6abe939c-kafka-logo.png",
-            alt="Kafka",
-            width="294",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item u-sv1">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/88043445-prometheus logo.png",
-            alt="Prometheus",
-            width="125",
-            height="384",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Build with minimal but mighty, secure containers</h2>
-    </div>
-    <div class="col">
-      <p>Experience secure, and long-term supported container images built from the world's most popular cloud OS.
-        Secure, stable and seamless to use, Ubuntu containers are made for resource efficiency.</p>
-      <p>Chiselled Ubuntu containers trim up to 80% of your containers' attack surface, while their ultra-small image size saves on storage and network costs.</p>
-      <hr class="p-rule is-muted" />
-      <p>
-        <a href="https://ubuntu.com/containers">Learn about Ubuntu containers&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2>Meet your compliance requirements faster</h2>
-    </div>
-    <div class="col">
-      <p>Build your apps and systems on a stack that simplifies compliance.</p>
-      <p>Ubuntu Pro includes automation tooling and packages for FIPS 140, CIS and DISA-STIG hardening.</p>
-      <p>Ubuntu also has an EAL2 certification recognised by EU members of SOGIS, a platform that harmonises security
-        certification across Europe.</p>
-      <p>Meet the most rigorous standards:</p>
-      <hr class="p-rule is-muted" />
-      <ul class="p-list--divided">
-        <li class="p-list__item is-ticked">Defense Information Systems Agency (DISA-STIG)</li>
-        <li class="p-list__item is-ticked">FedRamp</li>
-        <li class="p-list__item is-ticked">NIST</li>
-        <li class="p-list__item is-ticked">HIPAA</li>
-        <li class="p-list__item is-ticked">FISMA</li>
-        <li class="p-list__item is-ticked">Center for Internet Security (CIS)</li>
-        <li class="p-list__item is-ticked">FIPS 140</li>
-        <li class="p-list__item is-ticked">Cyber Essentials</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row--50-50">
-    <div class="col">
-      <h2>Patching automation included</h2>
-    </div>
-    <div class="col p-section--shallow">
-      <p>
-        Canonical provides turnkey security patching solutions that lay the groundwork for a truly secure open source
-        environment. Our patching automation solutions enable your team to save time and avoid unplanned work.
-      </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-9 col-start-large-4 col-medium-5 col-start-medium-2">
-      <hr class="p-rule is-muted" />
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Manage, monitor, secure and audit with Landscape</h3>
-        </div>
-        <div class="col-6 col-medium-3">
+    <section class="p-suru--25-75">
+      <div class="row--25-75">
+        <div class="col">
+          <h1>Standardise your software supply chain with secure open source</h1>
           <p>
-            Remotely monitor, update and upgrade machines with a clearly defined rollout policy, even in airgapped
-            environments.
+            Consume secure open source that's got the same set of guarantees across the stack, from the same vendor. Simplify vulnerability management to unlock developer productivity and gain full compliance with industry standards.
           </p>
-          <p>Landscape reduces the cost of managing open source:</p>
+          <hr class="is-muted" />
+          <a class="p-button--positive"
+             href="/contact-us"
+             aria-controls="secure-open-source-modal">Contact Canonical</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>Why Canonical?</h2>
+        </div>
+        <div class="col">
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Benefit from our 20-year track record of reliability with Ubuntu LTS releases</li>
+            <li class="p-list__item is-ticked">
+              Drive productivity with integration into leading security vendors and cloud
+              platforms
+            </li>
+            <li class="p-list__item is-ticked">Get fixes for critical vulnerabilities in under 24 hours</li>
+            <li class="p-list__item is-ticked">Make your compliance efforts faster and easier</li>
+            <li class="p-list__item is-ticked">Up to 12 years of security and support</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>
+            Start with Ubuntu,
+            <br />
+            get trusted open source across your stack
+          </h2>
+        </div>
+        <div class="col">
+          <div class="u-embedded-media">
+            <iframe class="u-embedded-media__element"
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/tNECRG5r2sg?si=dZi99aoASw8-Q-mX"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+          </div>
+          <p>
+            Build your next project with confidence on a trusted platform. Get all the open source you need to innovate
+            securely, from the kernel to applications.
+          </p>
+          <p>Canonical offers long term support and security maintenance on the vastest open source library.</p>
+          <p>We offer a simple, convenient subscription for security, support and compliance.</p>
+          <hr class="p-rule is-muted" />
+          <p>
+            <a href="https://ubuntu.com/pro">Learn about Ubuntu Pro&nbsp;&rsaquo;</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>Simplify vulnerability management to drive developer productivity</h2>
+        </div>
+        <div class="col">
+          <p>Reduce your CVE exposure from 98 days to 1 on average.*</p>
+          <p>Let us patch and fix the CVEs so your developers can be more productive and focus on value-added work.</p>
+          <p>
+            We maintain and apply timely security patches on all the software in the Ubuntu ecosystem. We then backport and test the fixes on all supported Ubuntu versions, making it very easy to stay up to date and secure.
+          </p>
+          <p>
+            *<a href="https://go.snyk.io/state-of-open-source-security-report-2022-dwn-typ.html">According to Snyk</a> organisations need 97.8 days on average to fix a vulnerability. With Ubuntu Pro, the currently measured average time to fix for critical CVE vulnerabilities is less than 24 hours.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="p-rule is-fixed-width" />
+
+    <section class="p-strip is-deep">
+      <div class="u-fixed-width">
+        <h2>
+          <a href="https://ubuntu.com/engage/vulnerability-management">Download our guide to open source vulnerability
+          management&nbsp;&rsaquo;</a>
+        </h2>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>
+            Stay secure and supported
+            <br />
+            on any cloud
+          </h2>
+        </div>
+        <div class="col">
+          <p>
+            Ubuntu is integrated with the largest public clouds and collaborates closely with leading security vendors,
+            like Tenable.
+          </p>
+          <hr class="p-rule is-muted" />
+          <p>
+            <a href="https://ubuntu.com/cloud/public-cloud">Learn how Ubuntu works across all clouds&nbsp;&rsaquo;</a>
+          </p>
+        </div>
+      </div>
+      <div class="u-fixed-width">
+        <div class="p-logo-section u-realign-logos">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/a5b8bc4f-aws-logo.png",
+              alt="AWS",
+              width="187",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/55ef5a98-google-cloud-logo.png",
+              alt="Google Cloud",
+              width="595",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/7c4a4785-microsoft-azure-logo.png",
+              alt="Microsoft Azure",
+              width="335",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-no--margin-right">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/4678094b-oracle-cloud-logo.png",
+              alt="Oracle",
+              width="478",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/145d9c5d-ibm-cloud-logo.png",
+              alt="IBM Cloud",
+              width="538",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50 p-section--shallow">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>Pull all your software from a secure source</h2>
+        </div>
+        <div class="col">
+          <p>
+            Deb packages, containers, snaps and Canonical-maintained charms (Juju-based software operators) &mdash; consume the packaging format of your choice in a secure way.
+          </p>
+        </div>
+      </div>
+      <div class="u-fixed-width">
+        <div class="p-logo-section">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/c2cd0bc4-php-logo.png",
+              alt="PHP",
+              width="160",
+              height="252",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class":"p-logo-section__logo"},
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/2ad3b2ba-python logo.png",
+              alt="Python",
+              width="252",
+              height="253",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/93af6c88-rust logo.png",
+              alt="Rust",
+              width="120",
+              height="252",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/35e5c439-puppet logo.png",
+              alt="Puppet",
+              width="236",
+              height="253",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/3b69f369-ruby-logo.png",
+              alt="Ruby",
+              width="104",
+              height="252",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/bedc5d63-rabbitmq-logo.png",
+              alt="RabbitMQ",
+              width="248",
+              height="257",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/8279fc01-go logo.png",
+              alt="Golang",
+              width="168",
+              height="253",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/86fdc1d7-openssl-logo.png",
+              alt="OpenSSL",
+              width="172",
+              height="252",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/dc653552-java-logo.png",
+              alt="Java",
+              width="106",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/f1779d86-apache-spark-logo.png",
+              alt="Apache Spark",
+              width="197",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/7f680712-net-logo.png",
+              alt=".Net",
+              width="159",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/913372cb-kubeflow-logo.png",
+              alt="Kubeflow",
+              width="379",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/797287f7-grafana-logo.png",
+              alt="Grafana",
+              width="173",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/56d8741e-node-logo.png",
+              alt="Node.js",
+              width="196",
+              height="253",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/253100b3-traefik-logo.png",
+              alt="Traefik",
+              width="160",
+              height="384",
+              hi_def=True,
+              loading="auto",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{
+              image (
+              url="https://assets.ubuntu.com/v1/6abe939c-kafka-logo.png",
+              alt="Kafka",
+              width="294",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item u-sv1">
+              {{ image (
+              url="https://assets.ubuntu.com/v1/88043445-prometheus logo.png",
+              alt="Prometheus",
+              width="125",
+              height="384",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-logo-section__logo"}
+              ) | safe
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>Build with minimal but mighty, secure containers</h2>
+        </div>
+        <div class="col">
+          <p>
+            Experience secure, and long-term supported container images built from the world's most popular cloud OS.
+            Secure, stable and seamless to use, Ubuntu containers are made for resource efficiency.
+          </p>
+          <p>
+            Chiselled Ubuntu containers trim up to 80% of your containers' attack surface, while their ultra-small image size saves on storage and network costs.
+          </p>
+          <hr class="p-rule is-muted" />
+          <p>
+            <a href="https://ubuntu.com/containers">Learn about Ubuntu containers&nbsp;&rsaquo;</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <div class="row--50-50">
+        <hr class="p-rule" />
+        <div class="col">
+          <h2>Meet your compliance requirements faster</h2>
+        </div>
+        <div class="col">
+          <p>Build your apps and systems on a stack that simplifies compliance.</p>
+          <p>Ubuntu Pro includes automation tooling and packages for FIPS 140, CIS and DISA-STIG hardening.</p>
+          <p>
+            Ubuntu also has an EAL2 certification recognised by EU members of SOGIS, a platform that harmonises security
+            certification across Europe.
+          </p>
+          <p>Meet the most rigorous standards:</p>
           <hr class="p-rule is-muted" />
           <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">Get a single pane of glass for managing any Ubuntu instances including system containers, virtual machines, and physical nodes</li>
-            <li class="p-list__item is-ticked">Scan packages automatically for vulnerable versions, and create reports for any cross-section of your Ubuntu estate</li>
-            <li class="p-list__item is-ticked">Perform hardening and auditing at scale in air-gapped environments</li>
+            <li class="p-list__item is-ticked">Defense Information Systems Agency (DISA-STIG)</li>
+            <li class="p-list__item is-ticked">FedRamp</li>
+            <li class="p-list__item is-ticked">NIST</li>
+            <li class="p-list__item is-ticked">HIPAA</li>
+            <li class="p-list__item is-ticked">FISMA</li>
+            <li class="p-list__item is-ticked">Center for Internet Security (CIS)</li>
+            <li class="p-list__item is-ticked">FIPS 140</li>
+            <li class="p-list__item is-ticked">Cyber Essentials</li>
           </ul>
-          <hr class="p-rule is-muted" />
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <hr class="p-rule is-fixed-width" />
+      <div class="row--50-50">
+        <div class="col">
+          <h2>Patching automation included</h2>
+        </div>
+        <div class="col p-section--shallow">
           <p>
-            <a href="https://ubuntu.com/landscape">Discover Landscape&nbsp;&rsaquo;</a>
+            Canonical provides turnkey security patching solutions that lay the groundwork for a truly secure open source
+            environment. Our patching automation solutions enable your team to save time and avoid unplanned work.
           </p>
         </div>
       </div>
-
-      <hr class="p-rule is-muted" />
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Patch your systems automatically and without downtime with Livepatch</h3>
-        </div>
-        <div class="col-6 col-medium-3">
-          <div class="p-media-container u-aspect-ratio--16-9 u-background--fade u-align--center u-vertically-center">
-            {{ image (
-              url="https://assets.ubuntu.com/v1/498e1472-Livepatching+at-a-glance-diagram-1.png",
-              alt="Livepatching automation diagram",
-              width="600",
-              height="378",
-              hi_def=True,
-              loading="lazy"
-              ) | safe
-            }}
-          </div>
-          <p>Livepatch eliminates the need for unplanned maintenance windows for high and critical severity kernel vulnerabilities by patching the Linux kernel while the system runs. Reduce fire drills while keeping uninterrupted service with the Ubuntu Livepatch service for up to 10 years.</p>
+      <div class="row">
+        <div class="col-9 col-start-large-4 col-medium-5 col-start-medium-2">
           <hr class="p-rule is-muted" />
-          <p>
-            <a href="https://ubuntu.com/security/livepatch">Learn more about Livepatch&nbsp;&rsaquo;</a>
-          </p>
+          <div class="row p-section--shallow">
+            <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">Manage, monitor, secure and audit with Landscape</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Remotely monitor, update and upgrade machines with a clearly defined rollout policy, even in airgapped
+                environments.
+              </p>
+              <p>Landscape reduces the cost of managing open source:</p>
+              <hr class="p-rule is-muted" />
+              <ul class="p-list--divided">
+                <li class="p-list__item is-ticked">
+                  Get a single pane of glass for managing any Ubuntu instances including system containers, virtual machines, and physical nodes
+                </li>
+                <li class="p-list__item is-ticked">
+                  Scan packages automatically for vulnerable versions, and create reports for any cross-section of your Ubuntu estate
+                </li>
+                <li class="p-list__item is-ticked">Perform hardening and auditing at scale in air-gapped environments</li>
+              </ul>
+              <hr class="p-rule is-muted" />
+              <p>
+                <a href="https://ubuntu.com/landscape">Discover Landscape&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+
+          <hr class="p-rule is-muted" />
+          <div class="row p-section--shallow">
+            <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">Patch your systems automatically and without downtime with Livepatch</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <div class="p-media-container u-aspect-ratio--16-9 u-background--fade u-align--center u-vertically-center">
+                {{ image (
+                url="https://assets.ubuntu.com/v1/498e1472-Livepatching+at-a-glance-diagram-1.png",
+                alt="Livepatching automation diagram",
+                width="600",
+                height="378",
+                hi_def=True,
+                loading="lazy"
+                ) | safe
+                }}
+              </div>
+              <p>
+                Livepatch eliminates the need for unplanned maintenance windows for high and critical severity kernel vulnerabilities by patching the Linux kernel while the system runs. Reduce fire drills while keeping uninterrupted service with the Ubuntu Livepatch service for up to 10 years.
+              </p>
+              <hr class="p-rule is-muted" />
+              <p>
+                <a href="https://ubuntu.com/security/livepatch">Learn more about Livepatch&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="p-section">
-  <div class="u-fixed-width">
-    <h2 class="p-text--small-caps">What customers say</h2>
-  </div>
-  <div class="row">
-    <hr class="p-rule" />
-    <div class="col-3 col-medium-2 p-image-wrapper p-section">
-      {{ image (
-      url="https://assets.ubuntu.com/v1/c830d547-GMO-Pepabo-logo.svg",
-      alt="GMO Pepabo",
-      width="100",
-      height="23",
-      hi_def=True,
-      loading="lazy"
-      ) | safe
-      }}
-    </div>
-    <div class="col-9 col-medium-4">
-      <blockquote class="p-pull-quote u-no-margin u-no-padding">
-        <div class="p-section--shallow">
-          <p class="p-heading--4">
-            <i>"Manually migrating virtual machines, applying kernel updates, and rebooting [used to take] more than
-              2,500 hours of work. Now it is much easier for us to deliver the high levels of security and availability
-              that our customers have come to expect."</i>
-          </p>
-        </div>
-        <hr class="p-rule is-muted u-hide--small" />
-        <cite class="row p-section--shallow">
-          <div class="col-3">
-            <span class="p-heading--5">Shinya Tsunematsu</span>
-          </div>
-          <div class="col-6">
-            <span>Senior Engineering Lead of Tech Division, GMO Pepabo</span>
-          </div>
-        </cite>
-      </blockquote>
-    </div>
-  </div>
-  <div class="row">
-    <hr class="p-rule" />
-    <div class="col-3 col-medium-2 p-image-wrapper p-section">
-      {{
-      image (
-      url="https://assets.ubuntu.com/v1/3e31f0f5-ITstrategen+logo.svg",
-      alt="IT Strategen",
-      width="100",
-      height="23",
-      hi_def=True,
-      loading="lazy"
-      ) | safe
-      }}
-    </div>
-    <div class="col-9 col-medium-4">
-      <blockquote class="p-pull-quote u-no-margin u-no-padding">
-        <div class="p-section--shallow">
-          <p class="p-heading--4">
-            <i>"When we discovered that Canonical was offering a new, extended support package, we didn't hesitate to
-              sign up. Expanded Security Maintenance (ESM) effectively rendered the security problem a non-issue. [It]
-              has taken the pressure off us and our clients."</i>
-          </p>
-        </div>
+    <section class="p-section">
+      <div class="u-fixed-width">
+        <h2 class="p-text--small-caps">What customers say</h2>
+      </div>
+      <div class="row">
         <hr class="p-rule" />
-        <cite class="row p-section--shallow">
-          <div class="col-3">
-            <span class="p-heading--5">Thomas Reinhold</span>
+        <div class="col-3 col-medium-2 p-image-wrapper p-section">
+          {{ image (
+          url="https://assets.ubuntu.com/v1/c830d547-GMO-Pepabo-logo.svg",
+          alt="GMO Pepabo",
+          width="100",
+          height="23",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+          }}
+        </div>
+        <div class="col-9 col-medium-4">
+          <blockquote class="p-pull-quote u-no-margin u-no-padding">
+            <div class="p-section--shallow">
+              <p class="p-heading--4">
+                <i>"Manually migrating virtual machines, applying kernel updates, and rebooting [used to take] more than
+                  2,500 hours of work. Now it is much easier for us to deliver the high levels of security and availability
+                that our customers have come to expect."</i>
+              </p>
+            </div>
+            <hr class="p-rule is-muted u-hide--small" />
+            <cite class="row p-section--shallow">
+              <div class="col-3">
+                <span class="p-heading--5">Shinya Tsunematsu</span>
+              </div>
+              <div class="col-6">
+                <span>Senior Engineering Lead of Tech Division, GMO Pepabo</span>
+              </div>
+            </cite>
+          </blockquote>
+        </div>
+      </div>
+      <div class="row">
+        <hr class="p-rule" />
+        <div class="col-3 col-medium-2 p-image-wrapper p-section">
+          {{
+          image (
+          url="https://assets.ubuntu.com/v1/3e31f0f5-ITstrategen+logo.svg",
+          alt="IT Strategen",
+          width="100",
+          height="23",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+          }}
+        </div>
+        <div class="col-9 col-medium-4">
+          <blockquote class="p-pull-quote u-no-margin u-no-padding">
+            <div class="p-section--shallow">
+              <p class="p-heading--4">
+                <i>"When we discovered that Canonical was offering a new, extended support package, we didn't hesitate to
+                  sign up. Expanded Security Maintenance (ESM) effectively rendered the security problem a non-issue. [It]
+                has taken the pressure off us and our clients."</i>
+              </p>
+            </div>
+            <hr class="p-rule" />
+            <cite class="row p-section--shallow">
+              <div class="col-3">
+                <span class="p-heading--5">Thomas Reinhold</span>
+              </div>
+              <div class="col-6">
+                <span>Managing Director, ITstrategen</span>
+              </div>
+            </cite>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <hr class="p-rule is-fixed-width" />
+      <div class="row--50-50">
+        <div class="col">
+          <h2>
+            One subscription.
+            <br />
+            Up to 12 years of peace of mind.
+          </h2>
+        </div>
+        <div class="col">
+          <p>Everything in our portfolio is covered under Ubuntu Pro for security maintenance and support.</p>
+          <hr class="is-muted" />
+          <a class="p-button" href="https://ubuntu.com/pro">Get Ubuntu Pro</a>
+        </div>
+      </div>
+      <div class="u-fixed-width" style="padding: 1.5rem">
+        <div class="p-media-container u-background--fade u-align--center u-vertically-center u-hide--small">
+          {{ image (
+          url="https://assets.ubuntu.com/v1/651b761d-secure-open-source-diagram.svg",
+          alt="Secure open source diagram",
+          width="1232",
+          height="524",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+          }}
+        </div>
+      </div>
+    </section>
+
+    <section class="p-section">
+      <hr class="p-rule is-fixed-width" />
+      <div class="row--50-50 p-section--shallow">
+        <div class="col">
+          <h2>For enterprise clouds with secure open source foundations</h2>
+        </div>
+        <div class="col">
+          <p>
+            Get secure open source at your infrastructure and application layers with one subscription. Focus on app development and let us handle security maintenance.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9 col-start-large-4 col-medium-5 col-start-medium-2">
+          <hr class="p-rule is-muted" />
+          <div class="row p-section--shallow">
+            <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                {{ image (
+                url="https://assets.ubuntu.com/v1/c71f8d79-kubernetes-logo.png",
+                alt="Canonical Kubernetes",
+                width="151",
+                height="48",
+                hi_def=True,
+                loading="lazy"
+                ) | safe
+                }}
+              </h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Benefit from the latest upstream features with the security guarantees you need. Use features like strict confinement to ensure that vulnerabilities remain isolated to a single application, with seamless remote resolution.
+              </p>
+              <hr class="p-rule is-muted" />
+              <p>
+                <a href="https://ubuntu.com/kubernetes">Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
+              </p>
+            </div>
           </div>
-          <div class="col-6">
-            <span>Managing Director, ITstrategen</span>
+
+          <hr class="p-rule is-muted" />
+          <div class="row p-section--shallow">
+            <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                {{ image (
+                url="https://assets.ubuntu.com/v1/f44db0fe-openstack.png",
+                alt="Canonical OpenStack",
+                width="151",
+                height="48",
+                hi_def=True,
+                loading="lazy"
+                ) | safe
+                }}
+              </h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Build your enterprise private cloud with Canonical OpenStack. Get 10 years of security updates, cloud hardening options and meet your compliance requirements.
+              </p>
+              <hr class="p-rule is-muted" />
+              <p>
+                <a href="https://ubuntu.com/openstack/features">Read about Canonical OpenStack&nbsp;&rsaquo;</a>
+              </p>
+            </div>
           </div>
-        </cite>
-      </blockquote>
-    </div>
-  </div>
-</section>
 
-<section class="p-section">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row--50-50">
-    <div class="col">
-      <h2>One subscription.<br />Up to 12 years of peace of mind.</h2>
-    </div>
-    <div class="col">
-      <p>
-        Everything in our portfolio is covered under Ubuntu Pro for security maintenance and support.
-      </p>
-      <hr class="is-muted" />
-      <a class="p-button" href="https://ubuntu.com/pro">Get Ubuntu Pro</a>
-    </div>
-  </div>
-  <div class="u-fixed-width" style="padding: 1.5rem">
-    <div class="p-media-container u-background--fade u-align--center u-vertically-center u-hide--small">
-      {{ image (
-        url="https://assets.ubuntu.com/v1/651b761d-secure-open-source-diagram.svg",
-        alt="Secure open source diagram",
-        width="1232",
-        height="524",
-        hi_def=True,
-        loading="lazy"
-        ) | safe
-      }}
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row--50-50 p-section--shallow">
-    <div class="col">
-      <h2>For enterprise clouds with secure open source foundations</h2>
-    </div>
-    <div class="col">
-      <p>Get secure open source at your infrastructure and application layers with one subscription. Focus on app development and let us handle security maintenance.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-9 col-start-large-4 col-medium-5 col-start-medium-2">
-      <hr class="p-rule is-muted" />
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">
-            {{ image (
-              url="https://assets.ubuntu.com/v1/c71f8d79-kubernetes-logo.png",
-              alt="Canonical Kubernetes",
-              width="151",
-              height="48",
-              hi_def=True,
-              loading="lazy"
-              ) | safe
-            }}
-          </h3>
-        </div>
-        <div class="col-6 col-medium-3">
-          <p>Benefit from the latest upstream features with the security guarantees you need. Use features like strict confinement to ensure that vulnerabilities remain isolated to a single application, with seamless remote resolution.</p>
           <hr class="p-rule is-muted" />
-          <p>
-            <a href="https://ubuntu.com/kubernetes">Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
-          </p>
+          <div class="row p-section--shallow">
+            <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                {{ image (
+                url="https://assets.ubuntu.com/v1/0df04c5b-Microlcoud-logo.png",
+                alt="Microcloud",
+                width="151",
+                height="48",
+                hi_def=True,
+                loading="lazy"
+                ) | safe
+                }}
+              </h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>Ideal for small, low-footprint clouds with an extra layer of isolation and worry-free updates.</p>
+              <hr class="p-rule is-muted" />
+              <p>
+                <a href="/microcloud">Discover MicroCloud&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <hr class="p-rule is-muted" />
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">
-            {{ image (
-              url="https://assets.ubuntu.com/v1/f44db0fe-openstack.png",
-              alt="Canonical OpenStack",
-              width="151",
-              height="48",
-              hi_def=True,
-              loading="lazy"
-              ) | safe
-            }}
-          </h3>
+    <section class="p-section">
+      <hr class="p-rule is-fixed-width" />
+      <div class="row--50-50">
+        <div class="col">
+          <h2>For resilient and compliant IoT device deployments</h2>
         </div>
-        <div class="col-6 col-medium-3">
-          <p>Build your enterprise private cloud with Canonical OpenStack. Get 10 years of security updates, cloud hardening options and meet your compliance requirements.</p>
+        <div class="col">
+          <p>
+            With Ubuntu Pro all your software is security-maintained from the moment you install it, no matter where you install it.
+          </p>
+          <p>
+            Ubuntu Pro for Devices simplifies security and compliance for IoT device deployments, providing 10 years of peace of mind for Ubuntu and thousands of open source packages, including popular robotics frameworks like ROS.
+          </p>
+          <p>
+            Pro for Devices can be combined with <a href="https://ubuntu.com/certified">Ubuntu Certified Hardware</a> to offer a best in class Ubuntu experience on devices out-of-the-box.
+          </p>
+          <hr class="is-muted" />
+          <a href="https://canonical.com/blog/ubuntu-pro-for-devices">Learn more about Ubuntu Pro for Devices&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="p-rule is-fixed-width" />
+
+    <section class="p-strip is-deep">
+      <div class="u-fixed-width">
+        <h2>
+          Get a decade of peace of mind.
+          <br />
+          <a href="/contact-us" aria-controls="secure-open-source-modal">Contact our team&nbsp;&rsaquo;</a>
+        </h2>
+      </div>
+    </section>
+
+    <section class="p-section--deep">
+      <hr class="p-rule is-fixed-width" />
+      <div class="row--50-50">
+        <div class="col">
+          <h2>
+            Build a secure open source
+            <br class="u-hide--small" />
+            supply chain
+          </h2>
+        </div>
+        <div class="col">
+          <div class="p-section--shallow">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/blog/running-openssl-1-1-1-after-eol-with-ubuntu-pro">Running OpenSSL 1.1.1 securely after EoL</a>
+            </h3>
+            <p>Learn how to run OpenSSL 1.1.1 securely even after its EOL support, with Ubuntu Pro.</p>
+          </div>
           <hr class="p-rule is-muted" />
-          <p>
-            <a href="https://ubuntu.com/openstack/features">Read about Canonical OpenStack&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-
-      <hr class="p-rule is-muted" />
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">
-            {{ image (
-              url="https://assets.ubuntu.com/v1/0df04c5b-Microlcoud-logo.png",
-              alt="Microcloud",
-              width="151",
-              height="48",
-              hi_def=True,
-              loading="lazy"
-              ) | safe
-            }}
-          </h3>
-        </div>
-        <div class="col-6 col-medium-3">
-          <p>Ideal for small, low-footprint clouds with an extra layer of isolation and worry-free updates.</p>
+          <div class="p-section--shallow">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/blog/security-maintenance-vs-support-whats-the-difference">Security maintenance vs support: what's the difference?</a>
+            </h3>
+            <p>Get the answer to one of our most commonly asked security questions.</p>
+          </div>
           <hr class="p-rule is-muted" />
-          <p>
-            <a href="/microcloud">Discover MicroCloud&nbsp;&rsaquo;</a>
-          </p>
+          <div class="p-section--shallow">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/blog/big-data-security-foundations-in-five-steps">Big data security foundations in five steps</a>
+            </h3>
+            <p>
+              Get a comprehensive guide to approaching and implementing a secure big data foundation, with this intensive guide to data security.
+            </p>
+          </div>
+          <hr class="p-rule is-muted" />
+          <div class="p-section--shallow">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/blog/linux-security-frequently-asked-questions">Linux security: your questions, answered</a>
+            </h3>
+            <p>Got Linux security questions? We have answers. Get them in this extended Q&A.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="p-section">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row--50-50">
-    <div class="col">
-      <h2>For resilient and compliant IoT device deployments</h2>
-    </div>
-    <div class="col">
-      <p>
-        With Ubuntu Pro all your software is security-maintained from the moment you install it, no matter where you install it. 
-      </p>
-      <p>Ubuntu Pro for Devices simplifies security and compliance for IoT device deployments, providing 10 years of peace of mind for Ubuntu and thousands of open source packages, including popular robotics frameworks like ROS.</p>
-      <p>Pro for Devices can be combined with <a href="https://ubuntu.com/certified">Ubuntu Certified Hardware</a> to offer a best in class Ubuntu experience on devices out-of-the-box.</p>
-      <hr class="is-muted" />
-      <a href="https://canonical.com/blog/ubuntu-pro-for-devices">Learn more about Ubuntu Pro for Devices&nbsp;&rsaquo;</a>
-    </div>
-  </div>
-</section>
+    <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-<hr class="p-rule is-fixed-width" />
+    {% with %}
+      {% set returnURL = "https://canonical.com/solutions/secure-open-source#contact-form-success" %}
+      {% include "solutions/secure-open-source/_form-secure-open-source.html" %}
+    {% endwith %}
 
-<section class="p-strip is-deep">
-  <div class="u-fixed-width">
-    <h2>
-      Get a decade of peace of mind.<br />
-      <a href="/contact-us" aria-controls="secure-open-source-modal">Contact our team&nbsp;&rsaquo;</a>
-    </h2>
-  </div>
-</section>
-
-<section class="p-section--deep">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row--50-50">
-    <div class="col">
-      <h2>Build a secure open source <br class="u-hide--small" />supply chain</h2>
-    </div>
-    <div class="col">
-      <div class="p-section--shallow">
-        <h3 class="p-heading--5">
-          <a href="https://ubuntu.com/blog/running-openssl-1-1-1-after-eol-with-ubuntu-pro">Running OpenSSL 1.1.1 securely after EoL</a>
-        </h3>
-        <p>Learn how to run OpenSSL 1.1.1 securely even after its EOL support, with Ubuntu Pro.</p>
-      </div>
-      <hr class="p-rule is-muted" />
-      <div class="p-section--shallow">
-        <h3 class="p-heading--5">
-          <a href="https://ubuntu.com/blog/security-maintenance-vs-support-whats-the-difference">Security maintenance vs support: what's the difference?</a>
-        </h3>
-        <p>Get the answer to one of our most commonly asked security questions.</p>
-      </div>
-      <hr class="p-rule is-muted" />
-      <div class="p-section--shallow">
-        <h3 class="p-heading--5">
-          <a href="https://ubuntu.com/blog/big-data-security-foundations-in-five-steps">Big data security foundations in five steps</a>
-        </h3>
-        <p>Get a comprehensive guide to approaching and implementing a secure big data foundation, with this intensive guide to data security.</p>
-      </div>
-      <hr class="p-rule is-muted" />
-      <div class="p-section--shallow">
-        <h3 class="p-heading--5">
-          <a href="https://ubuntu.com/blog/linux-security-frequently-asked-questions">Linux security: your questions, answered</a>
-        </h3>
-        <p>Got Linux security questions? We have answers. Get them in this extended Q&A.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-{% with %}
-{% set returnURL = "https://canonical.com/solutions/secure-open-source#contact-form-success" %}
-{% include "solutions/secure-open-source/_form-secure-open-source.html" %}
-{% endwith %}
-
-{% endblock %}
+  {% endblock %}
