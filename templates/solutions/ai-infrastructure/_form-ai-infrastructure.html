@@ -8,10 +8,9 @@
             <p>Fill in this form and a member of our team will be in touch shortly.</p>
           </div>
           <div class="col">
-            <button class="p-modal__close p-modal-close-button "
+            <button class="p-modal__close p-modal-close-button u-no-margin--top"
                     aria-controls="ai-infrastructure-modal"
-                    aria-label="Close active modal"
-                    style="margin-top: 0">Close</button>
+                    aria-label="Close active modal">Close</button>
             <form action="https://ubuntu.com/marketo/submit"
                   method="post"
                   class="modal-form">
@@ -33,8 +32,9 @@
                        pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
               </div>
               <div class="p-section--shallow">
-                <label for="country">Country:</label>
-                <input id="country" name="country" maxlength="255" type="text" />
+                {% with required="false", remove_list=True %}
+                  {% include "shared/forms/_country.html" %}
+                {% endwith %}
               </div>
               <div class="p-section--shallow">
                 <label for="phone">Phone number:</label>
