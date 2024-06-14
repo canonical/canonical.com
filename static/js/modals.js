@@ -188,7 +188,6 @@ function getCustomFields(event) {
     Who is responsible for tracking, testing and applying CVE patches in a timely manner?: ${getCheckboxItemsAsCSV(responsibleForTracking)}.\n
     What advice are you looking for: ${document.getElementById("advice")?.value}.\n
   `
-  console.log(data);
   const inputs = howManyMachinesFieldset?.querySelectorAll("input[name='how-many-machines-do-you-have']")
   inputs.forEach(function (input) {
       input.removeAttribute("name");
