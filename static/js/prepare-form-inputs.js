@@ -1,4 +1,4 @@
-import * as intlTelInput from "intl-tel-input";
+import intlTelInput from "intl-tel-input";
 
 /**
  * Initializes phone input field with intlTelInput and pre-fills the country input based on the user's timezone.
@@ -45,7 +45,7 @@ export function setupIntlTelInput(countryCode, phoneInput) {
   phoneInput.removeAttribute("name"); // Ensure only the hidden input is submitted.
 
   intlTelInput(phoneInput, {
-    utilsScript: "/static/js/dist/utils.js",
+    utilsScript: "/static/js/modules/intl-tel-input/utils.js",
     separateDialCode: true,
     hiddenInput: phoneInput.name,
     initialCountry: countryCode,

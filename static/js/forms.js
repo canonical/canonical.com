@@ -1,4 +1,4 @@
-import { prepareInputFields } from "./prepare-form-inputs.js";
+import { prepareInputFields } from "./prepare-form-inputs";
 
 /**
  *
