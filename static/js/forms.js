@@ -1,3 +1,5 @@
+import { prepareInputFields } from "./prepare-form-inputs.js";
+
 /**
  *
  * @param {Node} submitButton
@@ -23,3 +25,7 @@ const cancelLoader = submitButton.classList.contains("no-loader");
 if (submitButton && !cancelLoader) {
   form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
 }
+
+const phoneNumberInput = document.querySelector("input#phone");
+const countryInput = document.querySelector("select#country");
+prepareInputFields(phoneNumberInput, countryInput);

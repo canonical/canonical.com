@@ -1,4 +1,5 @@
 # Standard library
+import json
 import datetime
 import calendar
 import os
@@ -988,3 +989,36 @@ def unauthorized_error(error):
         flask.render_template("401.html", message=error.description),
         500,
     )
+
+def get_user_country_by_tz():
+    """
+    Get user country by timezone using ISO 3166 country codes.
+    We store the country codes and timezones as static JSON files in the
+    static/files directory.
+
+    Eventually we plan to merge this function with the one below, once we
+    are confident that takeovers won't be broken.
+    """
+    APP_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    timezone = flask.request.args.get("tz")
+
+    with open(
+        os.path.join(APP_ROOT, "static/files/timezones.json"), "r"
+    ) as file:
+        timezones = json.load(file)
+
+    with open(
+        os.path.join(APP_ROOT, "static/files/countries.json"), "r"
+    ) as file:
+        countries = json.load(file)
+
+    _country = timezones[timezone]["c"][0]
+    country = countries[_country]
+    return flask.jsonify(
+        {
+            "country": country,
+            "country_code": _country,
+        }
+    )
+
+app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
