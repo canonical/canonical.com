@@ -990,6 +990,7 @@ def unauthorized_error(error):
         500,
     )
 
+
 def get_user_country_by_tz():
     """
     Get user country by timezone using ISO 3166 country codes.
@@ -1020,5 +1021,6 @@ def get_user_country_by_tz():
             "country_code": _country,
         }
     )
+
 
 app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
