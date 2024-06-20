@@ -1,7 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Skill } from "../../../types";
 
-const SelectableCard = ({ skill, selectionComplete, onChange }) => {
+interface SelectableCardProps {
+  skill: Skill;
+  selectionComplete: boolean;
+  onChange: (value: number) => void;
+}
+
+const SelectableCard = ({ skill, selectionComplete, onChange }: SelectableCardProps) => {
   const [selected, setSelected] = useState(false);
 
   const onChangeHandler = () => {
@@ -27,7 +33,7 @@ const SelectableCard = ({ skill, selectionComplete, onChange }) => {
       <label className="p-checkbox">
         <input
           type="checkbox"
-          id={skill.id}
+          id={String(skill.id)}
           name="skill"
           className="p-checkbox__input"
           onChange={() => onChangeHandler()}

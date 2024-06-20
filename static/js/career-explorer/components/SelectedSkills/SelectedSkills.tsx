@@ -1,7 +1,12 @@
 import React from "react";
 import { Skill } from "../../../types";
 
-export default function SelectedSkills({ selectedSkills, skillsData }) {
+interface SelectedSkillsProps {
+  selectedSkills: number[];
+  skillsData: Skill[];
+}
+
+export default function SelectedSkills({ selectedSkills, skillsData }: SelectedSkillsProps) {
   const getSkillDetail = (id: number): Skill | undefined => {
     return skillsData.find((skill: Skill) => skill.id === id);
   };

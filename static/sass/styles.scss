@@ -3,6 +3,9 @@
 // import cookie policy
 @import "@canonical/cookie-policy/build/css/cookie-policy";
 
+// import dial-code dropdown
+@import "intl-tel-input/build/css/intlTelInput";
+
 $color-brand: #7c355d;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
@@ -82,6 +85,26 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .is-sticky {
   position: sticky;
   top: 0;
+}
+
+// Overide the path to flags for dial codes
+.iti__flag {
+  background-image: url("#{$assets-path}21572c97-flags.png");
+}
+// stylelint-disable-next-line media-feature-name-no-vendor-prefix
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {
+    background-image: url("#{$assets-path}d6f84371-flags%402x.png");
+  }
+}
+
+.iti {
+  width: 100%;
+}
+
+.iti__country-list {
+  background-color: $colors--theme--background-default;
+  border: $colors--theme--border-default;
 }
 
 // Override h2 in job descriptions to look like h3

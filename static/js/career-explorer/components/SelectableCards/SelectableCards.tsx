@@ -2,7 +2,13 @@ import React from "react";
 import { Skill } from "../../../types";
 import SelectableCard from "../SelectableCard/SelectableCard";
 
-function SelectableCards({ selectionComplete, onChange, skillsData }) {
+interface SelectableCardsProps {
+  selectionComplete: boolean;
+  onChange: (value: number) => void;
+  skillsData: Skill[];
+}
+
+function SelectableCards({ selectionComplete, onChange, skillsData }: SelectableCardsProps) {
   return (
     <div className="row">
       {skillsData.map((skill: Skill) => {
