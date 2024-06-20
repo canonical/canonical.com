@@ -64,7 +64,7 @@ function createErrorMessage() {
   const errorElement = document.createElement("div");
   errorElement.id = "invalid-number-message";
   errorElement.className = "p-form-validation__message";
-  errorElement.style.marginTop = "1rem";
+  errorElement.style.marginTop = ".5rem";
   errorElement.textContent = "Please enter a valid number.";
   errorElement.setAttribute("role", "alert");
   return errorElement;
@@ -102,7 +102,7 @@ function isValidNumber(number) {
  */
 function resetErrorState(errorElement, phoneInput) {
   phoneInput.parentNode.parentNode.classList.remove("is-error");
-  if (errorElement.parentNode) {
+  if (errorElement?.parentNode) {
     errorElement.remove();
   }
 }
@@ -124,13 +124,6 @@ function addInputValidation(phoneInput) {
   );
   phoneInput.addEventListener("change", () => resetErrorState(errorElement));
   phoneInput.addEventListener("keyup", () => resetErrorState(errorElement));
-}
-
-// This block checks for the presence of 'phone number' and 'country' input fields on the page. If either input field exists, it triggers the `prepareInputFields` function to set them up. Note: In a modal form scenario, these inputs are not present at page load and thus, `prepareInputFields` is not invoked here. Instead, the function is imported and executed within `dynamic-forms.js` when the modal is opened.
-const phoneNumberInput = document.querySelector("input#phone");
-const countryInput = document.querySelector("select#country");
-if (phoneNumberInput || countryInput) {
-  prepareInputFields(phoneNumberInput, countryInput);
 }
 
 export default {
