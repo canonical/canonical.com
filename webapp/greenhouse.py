@@ -10,7 +10,6 @@ def _get_metadata(job, name):
     metadata_map = {
         "management": 186225,
         "employment": 149021,
-        "departments": 2739136,
         "skills": 675557,
         "description": 2739137,
         "employment_type": 149021,
@@ -22,6 +21,16 @@ def _get_metadata(job, name):
         if data["id"] == metadata_map[name]:
             return data["value"]
     return None
+
+
+def _get_vacancy_departments(departments):
+    vacancy_departments = []
+    
+    for department in departments:
+        if department["name"] != "test":
+            vacancy_departments.append(department["name"])
+    
+    return vacancy_departments
 
 
 def _get_meta_title(job):
@@ -110,10 +119,9 @@ class Vacancy:
         self.departments: list = list(
             map(
                 lambda d: Department(d),
-                _get_metadata(job, "departments") or [],
+                _get_vacancy_departments(job["departments"])
             )
         )
-
         self.management: str = _get_metadata(job, "management")
         self.office: str = job["offices"][0]["name"]
         self.description: str = _get_metadata(job, "description")
@@ -175,10 +183,9 @@ class Greenhouse:
         feed = self.session.get(f"{self.base_url}?content=true").json()
 
         vacancies = []
-
         for job in feed["jobs"]:
             # Filter out those without departments or offices
-            if _get_metadata(job, "departments") and job["offices"]:
+            if job["departments"] and job["offices"]:
                 vacancies.append(Vacancy(job))
 
         return vacancies
@@ -279,14 +286,14 @@ class Harvest:
 
     def get_departments(self):
         response = self.session.get(
-            f"{self.base_url}custom_field/155450",
+            f"{self.base_url}departments",
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-        departments = json.loads(response.text)["custom_field_options"]
-
+        departments = json.loads(response.text)
+        
         return sorted(
-            [Department(department["name"]) for department in departments],
+            [Department(department["name"]) for department in departments if department["name"] != "Test"],
             key=lambda dept: dept.name,
         )
 

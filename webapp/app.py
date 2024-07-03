@@ -70,7 +70,6 @@ def _group_by_department(vacancies):
     vacancies_by_department = {}
 
     departments_by_slug = {}
-
     for department in all_departments:
         departments_by_slug[department.slug] = department
 
@@ -97,25 +96,7 @@ def _group_by_department(vacancies):
 def _get_sorted_departments():
     departments = _group_by_department(greenhouse.get_vacancies())
 
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
+    sorted_departments = dict(sorted(departments.items()))
 
     return sorted_departments
 
