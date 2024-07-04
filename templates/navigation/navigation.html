@@ -1,6 +1,6 @@
-{% set page_group = get_secondary_navigation(request.path).page_group %}
+{% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
 <header id="navigation"
-        class="p-navigation--{% if page_group %}reduced{% endif %} is-dark">
+        class="p-navigation--{% if page_bubble %}reduced{% endif %} is-dark">
   <div class="p-navigation__row--25-75">
     <div class="p-navigation__banner">
       <div class="p-navigation__tagged-logo">
@@ -79,7 +79,7 @@
   </div>
 </header>
 
-{% if page_group %}
+{% if page_bubble %}
   {% include 'navigation/secondary-navigation.html' %}
 {% endif %}
 

@@ -3,23 +3,22 @@ import yaml
 
 # Read secondary-navigation.yaml
 with open("secondary-navigation.yaml") as navigation_file:
-    nav_sections = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
+    navigation_data = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
 
 
-def get_secondary_navigation(path):
+def get_current_page_bubble(path):
     """
-    Set "nav_sections" and "breadcrumbs" dictionaries
-    as global template variables
+    Create the "page_bubble" dictionary containing information about the current page and its child pages from secondary-navigation.yaml (if it exists). This dictionary is made globally available to all templates.
     """
-    page_group = {}
+    current_page_bubble = {}
 
-    sections = copy.deepcopy(nav_sections)
+    page_bubbles = copy.deepcopy(navigation_data)
 
-    for nav_section_name, nav_section in sections.items():
-        if path.startswith(nav_section["path"]):
-            page_group = nav_section
-            for page in nav_section["children"]:
+    for page_bubble_name, page_bubble in page_bubbles.items():
+        if path.startswith(page_bubble["path"]):
+            current_page_bubble = page_bubble
+            for page in page_bubble["children"]:
                 if page["path"] == path:
                     page["active"] = True
 
-    return {"page_group": page_group}
+    return {"page_bubble": current_page_bubble}
