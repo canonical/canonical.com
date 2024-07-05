@@ -24,6 +24,14 @@ const secondaryNavToggle = document.querySelector(
 secondaryNavToggle?.addEventListener("click", toggleSecondaryNavigation);
 
 /**
+ * Add event listener to search overlay, to close all on click
+ */
+const overlayList = document.querySelectorAll(".js-search-overlay");
+if (overlayList.length > 0) {
+  overlayList.forEach((overlay) => overlay.addEventListener("click", closeAll));
+}
+
+/**
  * Handle the state of the secondary navigation dropdown
  */
 function toggleSecondaryNavigation(e) {
@@ -52,7 +60,7 @@ function openSecondaryNavigation() {
 }
 
 /**
- * Toggle the state of the search with 'True' being open and 'False' being close. If no value is passed, swap the state.
+ * Handle the state of the search
  */
 function toggleSearch() {
   const isOpen = navigationContainer.classList.contains("has-search-open");
@@ -63,14 +71,6 @@ function toggleSearch() {
   } else {
     closeAll();
   }
-}
-
-/**
- * Add event listener to search overlay, to close all on click
- */
-const overlayList = document.querySelectorAll(".js-search-overlay");
-if (overlayList.length > 0) {
-  overlayList.forEach((overlay) => overlay.addEventListener("click", closeAll));
 }
 
 /**
