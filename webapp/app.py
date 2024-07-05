@@ -661,7 +661,7 @@ def context():
         "descending_years": descending_years,
         "months_list": months_list,
         "month_name": month_name,
-        "get_current_page_bubble": get_current_page_bubble
+        "get_current_page_bubble": get_current_page_bubble,
     }
 
 

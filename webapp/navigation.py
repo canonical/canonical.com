@@ -8,7 +8,10 @@ with open("secondary-navigation.yaml") as navigation_file:
 
 def get_current_page_bubble(path):
     """
-    Create the "page_bubble" dictionary containing information about the current page and its child pages from secondary-navigation.yaml (if it exists). This dictionary is made globally available to all templates.
+    Create the "page_bubble" dictionary containing information
+    about the current page and its child pages from
+    secondary-navigation.yaml (if it exists). This dictionary is
+    made globally available to all templates.
     """
     current_page_bubble = {}
 
