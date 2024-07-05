@@ -1,3 +1,109 @@
+/**
+ * Add event delegation handler to navigation container
+ */
+const navigationContainer = document.querySelector(
+  ".p-navigation, .p-navigation--reduced"
+);
+navigationContainer.addEventListener("click", (e) => {
+  e.preventDefault();
+  const target = e.target;
+
+  if (target.matches(".js-search-button")) {
+    toggleSearch();
+  }
+});
+
+/**
+ * Add event listener for the secondary nav dropdown
+ * (only applicable on mobile view)
+ */
+const secondaryNav = document.querySelector(".p-navigation.is-secondary");
+const secondaryNavToggle = document.querySelector(
+  ".js-secondary-menu-toggle-button"
+);
+secondaryNavToggle?.addEventListener("click", toggleSecondaryNavigation);
+
+/**
+ * Handle the state of the secondary navigation dropdown
+ */
+function toggleSecondaryNavigation(e) {
+  e.preventDefault();
+  const isOpen = secondaryNav.classList.contains("has-menu-open");
+  if (!isOpen) {
+    closeAll();
+    openSecondaryNavigation();
+  } else {
+    closeSecondaryNavigation();
+  }
+}
+
+/**
+ * Reset the state of the secondary navigation
+ */
+function closeSecondaryNavigation() {
+  secondaryNav.classList.remove("has-menu-open");
+}
+
+/**
+ * Open the secondary navigation
+ */
+function openSecondaryNavigation() {
+  secondaryNav.classList.add("has-menu-open");
+}
+
+/**
+ * Toggle the state of the search with 'True' being open and 'False' being close. If no value is passed, swap the state.
+ */
+function toggleSearch() {
+  const isOpen = navigationContainer.classList.contains("has-search-open");
+
+  if (!isOpen) {
+    closeAll();
+    openSearch();
+  } else {
+    closeAll();
+  }
+}
+
+/**
+ * Add event listener to search overlay, to close all on click
+ */
+const overlayList = document.querySelectorAll(".js-search-overlay");
+if (overlayList.length > 0) {
+  overlayList.forEach((overlay) => overlay.addEventListener("click", closeAll));
+}
+
+/**
+ * Resets the state of the search bar
+ */
+function closeSearch() {
+  const searchToggle = document.querySelector(".js-search-button");
+  searchToggle.removeAttribute("aria-pressed");
+  navigationContainer.classList.remove("has-search-open");
+  secondaryNav?.classList.remove("has-search-open");
+}
+
+/**
+ * Opens the search
+ */
+function openSearch() {
+  const searchToggle = document.querySelector(".js-search-button");
+  const isReduced = navigationContainer.classList.contains(
+    "p-navigation--reduced"
+  );
+  searchToggle.setAttribute("aria-pressed", "true");
+  secondaryNav?.classList.add("has-search-open");
+  navigationContainer.classList.add("has-search-open");
+}
+
+/**
+ * Reset the state of everything
+ */
+function closeAll() {
+  closeSearch();
+  closeSecondaryNavigation();
+}
+
 // // Careers meganav variables
 // const nav = document.querySelector(".js-show-nav");
 // const dropdownWindow = document.querySelector(".dropdown-window");

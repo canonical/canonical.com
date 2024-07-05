@@ -1,6 +1,6 @@
 {% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
 <header id="navigation"
-        class="p-navigation--{% if page_bubble %}reduced{% endif %} is-dark">
+        class="p-navigation{% if page_bubble %}--reduced{% endif %} is-dark">
   <div class="p-navigation__row--25-75">
     <div class="p-navigation__banner">
       <div class="p-navigation__tagged-logo">
@@ -75,8 +75,27 @@
              aria-label="Toggle search"></a>
         </li>
       </ul>
+      {% if not page_bubble %}
+        <div class="p-navigation__search">
+          <form class="p-search-box">
+            <input type="search"
+                   class="p-search-box__input"
+                   name="q"
+                   placeholder="Search our sites"
+                   required=""
+                   aria-label="Search our sites" />
+            <button type="reset" class="p-search-box__reset">
+              <i class="p-icon--close"></i>
+            </button>
+            <button type="submit" class="p-search-box__button">
+              <i class="p-icon--search"></i>
+            </button>
+          </form>
+        </div>
+      {% endif %}
     </nav>
   </div>
+  {% if not page_bubble %}<div class="js-search-overlay p-navigation__search-overlay"></div>{% endif %}
 </header>
 
 {% if page_bubble %}
