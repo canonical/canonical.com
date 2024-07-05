@@ -84,16 +84,19 @@ function closeSearch() {
 }
 
 /**
- * Opens the search
+ * Opens the search.
+ * It searchs for the input in the normal nav; if not found, checks
+ * the secondary nav, as reduced nav is currently rendered.
  */
 function openSearch() {
   const searchToggle = document.querySelector(".js-search-button");
-  const isReduced = navigationContainer.classList.contains(
-    "p-navigation--reduced"
-  );
+  const searchInput =
+    navigationContainer.querySelector(".p-search-box__input") ||
+    secondaryNav.querySelector(".p-search-box__input");
   searchToggle.setAttribute("aria-pressed", "true");
   secondaryNav?.classList.add("has-search-open");
   navigationContainer.classList.add("has-search-open");
+  searchInput.focus();
 }
 
 /**
