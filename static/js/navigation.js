@@ -1,269 +1,108 @@
-// Careers meganav variables
-const nav = document.querySelector(".js-show-nav");
-const dropdownWindow = document.querySelector(".dropdown-window");
-const overlay = document.querySelector(".p-navigation__overlay");
-const navDropdowns = [].slice.call(
-  document.querySelectorAll(".dropdown-toggle")
+/**
+ * Add event delegation handler to navigation container
+ */
+const navigationContainer = document.querySelector(
+  ".p-navigation, .p-navigation--reduced"
 );
+navigationContainer.addEventListener("click", (e) => {
+  e.preventDefault();
+  const target = e.target;
 
-function toggleDropdown(toggle, open) {
-  var parentElement = toggle.parentNode;
-  var dropdown = document.getElementById(toggle.getAttribute("aria-controls"));
-  dropdown.setAttribute("aria-hidden", !open);
-  closeAllMeganavs();
-
-  if (open) {
-    parentElement.classList.add("is-active");
-    if (overlay) {
-      overlay.classList.add("is-applied");
-    }
-  } else {
-    parentElement.classList.remove("is-active");
-    if (overlay) {
-      overlay.classList.remove("is-applied");
-    }
+  if (target.matches(".js-search-button")) {
+    toggleSearch();
   }
-}
-
-function closeAllDropdowns(toggles) {
-  toggles.forEach(function (toggle) {
-    toggleDropdown(toggle, false);
-  });
-}
-
-function handleClickOutside(toggles, containerClass) {
-  document.addEventListener("click", function (event) {
-    var target = event.target;
-    // PRevent this function from overriding meganav menus' functionality
-    var meganavDropdowns =
-      target.parentElement.classList.contains("dropdown-toggle");
-
-    if (target.closest && !meganavDropdowns) {
-      if (!target.closest(containerClass)) {
-        closeAllDropdowns(toggles);
-        // closeAllMeganavs();
-        if (overlay) {
-          overlay.classList.remove("is-applied");
-        }
-      }
-    }
-  });
-}
-
-function initNavDropdowns(containerClass) {
-  const toggles = [].slice.call(
-    document.querySelectorAll(containerClass + " [aria-controls]")
-  );
-  handleClickOutside(toggles, containerClass);
-
-  toggles.forEach(function (toggle) {
-    toggle.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const shouldOpen = !toggle.parentNode.classList.contains("is-active");
-      closeAllDropdowns(toggles);
-      toggleDropdown(toggle, shouldOpen);
-      toggleDropdownOnEsc(toggles);
-    });
-  });
-}
-
-function initDropdowItems(itemClass) {
-  if (window.location.pathname != "/") {
-    var items = [].slice.call(document.querySelectorAll(itemClass));
-    items.forEach((item) => {
-      if (item.pathname && item.pathname === window.location.pathname) {
-        item.classList.add("is-selected");
-      } else {
-        item.classList.remove("is-selected");
-      }
-    });
-  }
-}
-
-function toggleDropdownOnEsc(toggles) {
-  document.addEventListener("keydown", function (e) {
-    if (e.code === "Escape") {
-      closeAllDropdowns(toggles);
-      closeAllMeganavs();
-    }
-  });
-}
-
-initNavDropdowns(".p-navigation__item--dropdown-toggle");
-initDropdowItems(".p-navigation__dropdown-item");
-
-// Init GA tracking
-addGANavEvents("#products-nav", "canonical.com-nav-products");
-addGANavEvents("#company-nav", "canonical.com-nav-company");
-addGANavEvents("#partners-nav", "canonical.com-nav-partners");
-addGANavEvents("#careers-nav", "canonical.com-nav-careers");
-
-function addGANavEvents(target, category) {
-  var t = document.querySelector(target);
-  if (t) {
-    t.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        dataLayer.push({
-          event: "GAEvent",
-          eventCategory: category,
-          eventAction: `from:${origin} to:${a.href}`,
-          eventLabel: a.text,
-          eventValue: undefined,
-        });
-      });
-    });
-  }
-}
-
-addGAContentEvents("#main-content");
-
-function addGAContentEvents(target) {
-  var t = document.querySelector(target);
-  if (t) {
-    t.querySelectorAll("a").forEach(function (a) {
-      if (a.className.includes("p-button--positive")) {
-        var category = "canonical.com-content-cta-0";
-      } else if (a.className.includes("p-button")) {
-        var category = "canonical.com-content-cta-1";
-      } else {
-        var category = "canonical.com-content-link";
-      }
-      if (!a.href.startsWith("#")) {
-        a.addEventListener("click", function () {
-          dataLayer.push({
-            event: "GAEvent",
-            eventCategory: category,
-            eventAction: `from:${origin} to:${a.href}`,
-            eventLabel: a.text,
-            eventValue: undefined,
-          });
-        });
-      }
-    });
-  }
-}
-
-// Careers navigation
-if (nav) {
-  nav.classList.remove("u-hide");
-}
-
-/**
- * Close rest of navigation (override standard functionality)
- * if in the future we change rest of nav into meganavs
- * remove this function
- */
-function closeAllSimpleNavigation() {
-  const containers = document.querySelectorAll(
-    ".p-navigation__item--dropdown-toggle"
-  );
-  containers.forEach((item) => {
-    item.classList.remove("is-active");
-    const dropdown = item.querySelector(".p-navigation__dropdown");
-    dropdown.setAttribute("aria-hidden", "true");
-    if (overlay) {
-      overlay.classList.remove("is-applied");
-    }
-  });
-}
-
-/**
- * Close all meganavs
- */
-function closeAllMeganavs() {
-  navDropdowns.forEach((item) => {
-    if (item.classList.contains("is-active")) {
-      item.classList.remove("is-active");
-      dropdownWindow.classList.add("u-animation--slide-dropdown");
-      if (overlay) {
-        overlay.classList.remove("is-applied");
-      }
-    }
-  });
-}
-
-// This is in place to extend future c.com meganavs
-navDropdowns.forEach(function (dropdown) {
-  dropdown.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    var clickedDropdown = this;
-
-    dropdownWindow.classList.remove("u-animation--slide-dropdown");
-    if (overlay && overlay.classList.contains("is-applied")) {
-      overlay.classList.remove("is-applied");
-    }
-
-    navDropdowns.forEach(function (dropdown) {
-      if (dropdown === clickedDropdown) {
-        if (dropdown.classList.contains("is-active")) {
-          closeMenu(dropdown);
-        } else {
-          closeAllSimpleNavigation();
-          dropdown.classList.add("is-active");
-          if (overlay) {
-            overlay.classList.add("is-applied");
-          }
-        }
-      } else {
-        dropdown.classList.remove("is-active");
-        overlay.classList.remove("is-applied");
-      }
-    });
-  });
 });
 
-if (overlay) {
-  overlay.addEventListener("click", () => {
-    navDropdowns.forEach((dropdown) => {
-      if (dropdown.classList.contains("is-active")) {
-        closeMenu(dropdown);
-      }
-    });
-  });
+/**
+ * Add event listener for the secondary nav dropdown
+ * (only applicable on mobile view)
+ */
+const secondaryNav = document.querySelector(".p-navigation.is-secondary");
+const secondaryNavToggle = document.querySelector(
+  ".js-secondary-menu-toggle-button"
+);
+secondaryNavToggle?.addEventListener("click", toggleSecondaryNavigation);
+
+/**
+ * Add event listener to search overlay, to close all on click
+ */
+const overlayList = document.querySelectorAll(".js-search-overlay");
+if (overlayList.length > 0) {
+  overlayList.forEach((overlay) => overlay.addEventListener("click", closeAll));
 }
 
-function closeMenu(dropdown) {
-  dropdown.classList.remove("is-active");
-  dropdownWindow.classList.add("u-animation--slide-dropdown");
-  if (overlay) {
-    overlay.classList.remove("is-applied");
+/**
+ * Handle the state of the secondary navigation dropdown
+ */
+function toggleSecondaryNavigation(e) {
+  e.preventDefault();
+  const isOpen = secondaryNav.classList.contains("has-menu-open");
+  if (!isOpen) {
+    closeAll();
+    openSecondaryNavigation();
+  } else {
+    closeSecondaryNavigation();
   }
 }
 
-function fetchDropdown(id) {
-  const meganavDropdown = document.querySelector(`#${id}`);
+/**
+ * Reset the state of the secondary navigation
+ */
+function closeSecondaryNavigation() {
+  secondaryNav?.classList.remove("has-menu-open");
+}
 
-  if (meganavDropdown.classList.contains("u-hide")) {
-    meganavDropdown.classList.remove("u-hide");
+/**
+ * Open the secondary navigation
+ */
+function openSecondaryNavigation() {
+  secondaryNav.classList.add("has-menu-open");
+}
+
+/**
+ * Handle the state of the search
+ */
+function toggleSearch() {
+  const isOpen = navigationContainer.classList.contains("has-search-open");
+
+  if (!isOpen) {
+    closeAll();
+    openSearch();
+  } else {
+    closeAll();
   }
+}
 
-  meganavDropdown.setAttribute("aria-hidden", "false");
-  dropdownWindow.classList.remove("u-animation--slide-dropdown");
-  if (overlay) {
-    overlay.classList.add("is-applied");
-  }
+/**
+ * Resets the state of the search bar
+ */
+function closeSearch() {
+  const searchToggle = document.querySelector(".js-search-button");
+  searchToggle.removeAttribute("aria-pressed");
+  navigationContainer.classList.remove("has-search-open");
+  secondaryNav?.classList.remove("has-search-open");
+}
 
-  fetch("/careers/roles.json")
-    .then((response) => response.json())
-    .then((departments) => {
-      // Match data-slug in the HTML element
-      // then add only available roles data
-      // This is mainly to avoid breaking navigation
-      // and potentially (in the event that user clicks on careers)
-      // entire site because every page has it,
-      // if GH is down
-      departments.forEach((dpt) => {
-        const departmentElement = meganavDropdown.querySelector(
-          `[data-slug='${dpt.slug}']`
-        );
-        departmentElement.innerText = `${dpt.count} roles`;
-        departmentElement.classList.add("u-animation--slide-from-top");
-      });
-    })
-    .catch((error) => {
-      // in case of error just show careers navigation without roles
-      console.error(`Unable to load careers navigation roles: ${error}`);
-    });
+/**
+ * Opens the search.
+ * It searchs for the input in the normal nav; if not found, checks
+ * the secondary nav, as reduced nav is currently rendered.
+ */
+function openSearch() {
+  const searchToggle = document.querySelector(".js-search-button");
+  const searchInput =
+    navigationContainer.querySelector(".p-search-box__input") ||
+    secondaryNav.querySelector(".p-search-box__input");
+  searchToggle.setAttribute("aria-pressed", "true");
+  secondaryNav?.classList.add("has-search-open");
+  navigationContainer.classList.add("has-search-open");
+  searchInput.focus();
+}
+
+/**
+ * Reset the state of everything
+ */
+function closeAll() {
+  closeSearch();
+  closeSecondaryNavigation();
 }
