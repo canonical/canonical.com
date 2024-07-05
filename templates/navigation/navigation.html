@@ -1,0 +1,109 @@
+{% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
+<header id="navigation"
+        class="p-navigation{% if page_bubble %}--reduced{% endif %} is-dark">
+  <div class="p-navigation__row--25-75">
+    <div class="p-navigation__banner">
+      <div class="p-navigation__tagged-logo">
+        <a class="p-navigation__link" href="/">
+          <div class="p-navigation__logo-tag">
+            <img class="p-navigation__logo-icon"
+                 src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg"
+                 alt="Canonical" />
+          </div>
+          <span class="p-navigation__logo-title">Canonical</span>
+        </a>
+      </div>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item">
+          <a href="/search"
+             class="js-search-button p-navigation__link--search-toggle"
+             aria-label="Search"></a>
+        </li>
+        <li class="p-navigation__item">
+          <a href="/navigation" class="js-menu-button p-navigation__link">Menu</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="p-navigation__nav js-show-nav" aria-label="Categories">
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="products">
+          <a class="p-navigation__link"
+             href="#"
+             aria-controls="products-content"
+             tabindex="0">Products</a>
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="use-case">
+          <a class="p-navigation__link"
+             href="#"
+             aria-controls="use-case-content"
+             tabindex="0">Solutions</a>
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="support">
+          <a class="p-navigation__link"
+             href="#"
+             aria-controls="support-content"
+             tabindex="0">Partners</a>
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="community">
+          <a class="p-navigation__link"
+             href="#"
+             aria-controls="community-content"
+             tabindex="0">Careers</a>
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="get-ubuntu">
+          <a class="p-navigation__link"
+             href="#"
+             aria-controls="get-ubuntu-content"
+             tabindex="0">Company</a>
+        </li>
+        <li class="p-navigation__item--dropdown-toggle is-right-shifted global-nav-mobile global-nav"
+            role="menuitem"
+            id="all-canonical"></li>
+        <li class="p-navigation__item">
+          <a href="#"
+             class="js-search-button p-navigation__link--search-toggle"
+             aria-label="Toggle search"></a>
+        </li>
+      </ul>
+      {% if not page_bubble %}
+        <div class="p-navigation__search">
+          <form class="p-search-box">
+            <input type="search"
+                   class="p-search-box__input"
+                   name="q"
+                   placeholder="Search our sites"
+                   required=""
+                   aria-label="Search our sites" />
+            <button type="reset" class="p-search-box__reset">
+              <i class="p-icon--close"></i>
+            </button>
+            <button type="submit" class="p-search-box__button">
+              <i class="p-icon--search"></i>
+            </button>
+          </form>
+        </div>
+      {% endif %}
+    </nav>
+  </div>
+  {% if not page_bubble %}<div class="js-search-overlay p-navigation__search-overlay"></div>{% endif %}
+</header>
+
+{% if page_bubble %}
+  {% include 'navigation/secondary-navigation.html' %}
+{% endif %}
+
+<script>
+  canonicalGlobalNav.createNav({
+    breakpoint: 1036
+  })
+</script>
