@@ -49,7 +49,7 @@ function toggleSecondaryNavigation(e) {
  * Reset the state of the secondary navigation
  */
 function closeSecondaryNavigation() {
-  secondaryNav.classList.remove("has-menu-open");
+  secondaryNav?.classList.remove("has-menu-open");
 }
 
 /**
