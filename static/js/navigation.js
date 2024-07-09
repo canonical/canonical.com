@@ -10,6 +10,8 @@ navigationContainer.addEventListener("click", (e) => {
 
   if (target.matches(".js-search-button")) {
     toggleSearch();
+  } else if (target.closest("a")) {
+    window.location.href = target.href || "/";
   }
 });
 
@@ -26,9 +28,9 @@ secondaryNavToggle?.addEventListener("click", toggleSecondaryNavigation);
 /**
  * Add event listener to search overlay, to close all on click
  */
-const overlayList = document.querySelectorAll(".js-search-overlay");
-if (overlayList.length > 0) {
-  overlayList.forEach((overlay) => overlay.addEventListener("click", closeAll));
+const overlay = document.querySelector(".js-search-overlay");
+if (overlay) {
+  overlay.addEventListener("click", closeAll);
 }
 
 /**
@@ -90,9 +92,7 @@ function closeSearch() {
  */
 function openSearch() {
   const searchToggle = document.querySelector(".js-search-button");
-  const searchInput =
-    navigationContainer.querySelector(".p-search-box__input") ||
-    secondaryNav.querySelector(".p-search-box__input");
+  const searchInput = navigationContainer.querySelector(".p-search-box__input");
   searchToggle.setAttribute("aria-pressed", "true");
   secondaryNav?.classList.add("has-search-open");
   navigationContainer.classList.add("has-search-open");
