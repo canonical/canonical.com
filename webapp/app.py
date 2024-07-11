@@ -204,6 +204,7 @@ def home_sitemap():
 
     return response
 
+
 app.add_url_rule(
     "/search",
     "search",
@@ -214,6 +215,7 @@ app.add_url_rule(
         request_limit="2000/day",
     ),
 )
+
 
 @app.route("/secure-boot-master-ca.crl")
 def secure_boot():
