@@ -10,6 +10,7 @@ def _get_metadata(job, name):
     metadata_map = {
         "management": 186225,
         "employment": 149021,
+        "departments": 2739136,
         "skills": 675557,
         "description": 2739137,
         "employment_type": 149021,
@@ -120,6 +121,12 @@ class Vacancy:
             map(
                 lambda d: Department(d),
                 _get_vacancy_departments(job["departments"])
+            )
+        )
+        self.web_departments: list = list(
+            map(
+                lambda d: Department(d),
+                _get_metadata(job, "departments")
             )
         )
         self.management: str = _get_metadata(job, "management")
@@ -294,6 +301,19 @@ class Harvest:
         
         return sorted(
             [Department(department["name"]) for department in departments if department["name"] != "Test"],
+            key=lambda dept: dept.name,
+        )
+    
+    def get_web_departments(self):
+        response = self.session.get(
+            f"{self.base_url}custom_field/155450",
+            headers={"Authorization": f"Basic {self.base64_key}"},
+        )
+        response.raise_for_status()
+        departments = json.loads(response.text)["custom_field_options"]
+        
+        return sorted(
+            [Department(department["name"]) for department in departments],
             key=lambda dept: dept.name,
         )
 
