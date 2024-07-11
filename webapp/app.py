@@ -32,6 +32,9 @@ from webapp.navigation import get_current_page_bubble
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
 CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
 
+# Web tribe websites custom search ID
+search_engine_id = "adb2397a224a1fe55"
+
 app = FlaskBase(
     __name__,
     "canonical.com",
@@ -201,6 +204,16 @@ def home_sitemap():
 
     return response
 
+app.add_url_rule(
+    "/search",
+    "search",
+    build_search_view(
+        session=session,
+        template_path="search.html",
+        search_engine_id=search_engine_id,
+        request_limit="2000/day",
+    ),
+)
 
 @app.route("/secure-boot-master-ca.crl")
 def secure_boot():
