@@ -463,8 +463,8 @@ def department_group(department_slug):
     setattr(department, "dept_filters", [])
     true_departments = harvest.get_departments()
 
-    import ipdb
-    ipdb.set_trace()
+    # import ipdb
+    # ipdb.set_trace()
     
     comm_opps_depts = ["finance", "project management", "legal", "administration"]
 
@@ -480,7 +480,6 @@ def department_group(department_slug):
         department.dept_filters.append("Commercial Opperations")
     elif department_slug == "sales":
         department.dept_filters.extend("Sales", "Alliances")
-        # targ_strs = ["Sales", "Alliances"]
     elif department_slug == "web design":
         department.dept_filters.append("Web Engineering")
 
