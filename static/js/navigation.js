@@ -5,13 +5,11 @@ const navigationContainer = document.querySelector(
   ".p-navigation, .p-navigation--reduced"
 );
 navigationContainer.addEventListener("click", (e) => {
-  e.preventDefault();
   const target = e.target;
 
   if (target.matches(".js-search-button")) {
+    e.preventDefault();
     toggleSearch();
-  } else if (target.closest("a")) {
-    window.location.href = target.href || "/";
   }
 });
 
