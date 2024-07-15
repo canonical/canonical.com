@@ -21,6 +21,7 @@ from webapp.greenhouse import Harvest
 from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
+from webapp.utils.constants import ONE_WEEK_IN_MINUTES
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -312,7 +313,8 @@ def _get_application(application_id):
             time_after_rejection = int(
                 (now - rejection_time).total_seconds() / 60
             )
-            if time_after_rejection < 2880:
+            # candidate page should expire one week after rejection
+            if time_after_rejection < ONE_WEEK_IN_MINUTES:
                 application["to_be_rejected"] = True
             else:
                 flask.abort(404)
