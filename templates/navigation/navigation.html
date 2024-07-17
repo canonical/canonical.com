@@ -1,6 +1,7 @@
+{% from "navigation/_dropdown.jinja" import dropdown %}
 {% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
 <header id="navigation"
-        class="p-navigation{% if page_bubble %}--reduced{% endif %} is-dark">
+        class="p-navigation{% if page_bubble %}--reduced{% else %}--sliding{% endif %} is-dark">
   <div class="p-navigation__row--25-75">
     <div class="p-navigation__banner">
       <div class="p-navigation__tagged-logo">
@@ -33,38 +34,43 @@
              href="#"
              aria-controls="products-content"
              tabindex="0">Products</a>
+             {{ dropdown('products-content', 'Products') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
-            id="use-case">
+            id="solutions">
           <a class="p-navigation__link"
              href="#"
-             aria-controls="use-case-content"
+             aria-controls="solutions-content"
              tabindex="0">Solutions</a>
+             {{ dropdown('solutions-content', 'Solutions') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
-            id="support">
+            id="partner">
           <a class="p-navigation__link"
              href="#"
-             aria-controls="support-content"
+             aria-controls="partner-content"
              tabindex="0">Partners</a>
+             {{ dropdown('partner-content', 'Partners') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
-            id="community">
+            id="careers">
           <a class="p-navigation__link"
              href="#"
-             aria-controls="community-content"
+             aria-controls="careers-content"
              tabindex="0">Careers</a>
+             {{ dropdown('careers-content', 'Careers') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
-            id="get-ubuntu">
+            id="company">
           <a class="p-navigation__link"
              href="#"
-             aria-controls="get-ubuntu-content"
+             aria-controls="company-content"
              tabindex="0">Company</a>
+             {{ dropdown('company-content', 'Company') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle is-right-shifted global-nav-mobile global-nav"
             role="menuitem"
