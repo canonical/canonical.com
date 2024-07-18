@@ -14,6 +14,12 @@ with open("navigation.yaml") as meganav_file:
     meganav_data = yaml.load(meganav_file.read(), Loader=yaml.FullLoader)
 
 
+# Read meganav.yaml
+with open("navigation.yaml") as meganav_file:
+    meganav_data = yaml.load(meganav_file.read(), Loader=yaml.FullLoader)
+
+print(meganav_data)
+
 def get_current_page_bubble(path):
     """
     Create the "page_bubble" dictionary containing information
