@@ -1,17 +1,18 @@
 import copy
 import yaml
-from flask import Flask, render_template_string, Markup
+from flask import render_template_string, Markup
 
 # Read secondary-navigation.yaml
 with open("secondary-navigation.yaml") as navigation_file:
-    secondary_navigation_data = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
+    secondary_navigation_data = yaml.load(
+        navigation_file.read(), Loader=yaml.FullLoader
+    )
 
 
 # Read meganav.yaml
 with open("navigation.yaml") as meganav_file:
     meganav_data = yaml.load(meganav_file.read(), Loader=yaml.FullLoader)
 
-print(meganav_data)
 
 def get_current_page_bubble(path):
     """
@@ -36,5 +37,10 @@ def get_current_page_bubble(path):
 
 def build_navigation(id, title):
     meganav_section = meganav_data[id]
-    html_string =  render_template_string('{% include "navigation/_dropdown.jinja" %}', id=id, title=title, section=meganav_section)
+    html_string = render_template_string(
+        '{% include "navigation/_dropdown.jinja" %}',
+        id=id,
+        title=title,
+        section=meganav_section,
+    )
     return Markup(html_string)

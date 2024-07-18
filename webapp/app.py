@@ -677,7 +677,7 @@ def context():
         "months_list": months_list,
         "month_name": month_name,
         "get_current_page_bubble": get_current_page_bubble,
-        "build_navigation": build_navigation
+        "build_navigation": build_navigation,
     }
 
 
