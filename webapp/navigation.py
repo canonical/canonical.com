@@ -36,5 +36,5 @@ def get_current_page_bubble(path):
 
 def build_navigation(id, title):
     meganav_section = meganav_data[id]
-    html_string =  render_template_string('{% include "navigation/_dropdown.html" %}', id=id, title=title, section=meganav_section)
+    html_string =  render_template_string('{% include "navigation/_dropdown.jinja" %}', id=id, title=title, section=meganav_section)
     return Markup(html_string)
