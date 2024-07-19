@@ -114,7 +114,7 @@ function handleMainToggles(toggle) {
 }
 
 /**
- * Sets tabindex for appropriate navigation items to allow keybaord navigation
+ * Sets tabindex for appropriate navigation items to allow keyboard navigation
  * @param {HTMLElement} target - the click target
  */
 function setFocusable(target) {

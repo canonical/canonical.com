@@ -6,13 +6,11 @@ import closeAllNavigationItems from "./main";
  * Handle the state of the search
  */
 export function toggleSearch() {
-  const isOpen = navigation.classList.contains("has-search-open");
+  closeAllNavigationItems();
 
+  const isOpen = navigation.classList.contains("has-search-open");
   if (!isOpen) {
-    closeAllNavigationItems();
     openSearch();
-  } else {
-    closeAllNavigationItems();
   }
 }
 
