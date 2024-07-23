@@ -1,17 +1,11 @@
-import { navigation, secondaryNavigation } from "./elements";
+import { navigation, secondaryNavigation, toggles } from "./elements";
 
 import { closeSearch, toggleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
+import setFocusable from "./keyboard-navigation";
+import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
 
-const dropdowns = document.querySelectorAll("ul.p-navigation__dropdown");
-const lists = [...dropdowns];
-const mainList = dropdowns[0]?.parentNode?.parentNode;
-if (mainList) {
-  lists.push(mainList);
-}
-const mainToggles = document.querySelectorAll(
-  ".p-navigation__nav .p-navigation__link[aria-controls]:not(.js-back)"
-);
+const ANIMATION_SNAP_DURATION = 100;
 
 /**
  * Add event delegation handler to navigation container.
@@ -20,11 +14,14 @@ const mainToggles = document.querySelectorAll(
 navigation.addEventListener("click", (e) => {
   e.preventDefault();
   const target = e.target;
-
-  if (target.parentNode.getAttribute("role") === "menuitem") {
-    handleMainToggles(target);
+  if (target.matches(".js-dropdown-button")) {
+    handleToggle(target);
   } else if (target.matches(".js-search-button")) {
     toggleSearch();
+  } else if (target.matches(".js-menu-button")) {
+    toggleMenu();
+  } else if (target.matches(".js-back-button")) {
+    goBackOneLevel(e.target);
   } else if (target.closest("a")) {
     window.location.href = target.href || "/";
   }
@@ -39,108 +36,156 @@ if (overlay) {
 }
 
 /**
- * Add event listener to document, to reset dropdown toggle if you click
- * outide the navigation
+ * Add event listener to document, to close all navigation items if user
+ * clicks outside the navigation
  */
-document.addEventListener("click", function (e) {
-  const target = e.target;
+document.addEventListener("click", function (event) {
+  const target = event.target;
   if (target.closest) {
-    if (!target.closest(".p-navigation--sliding, .p-navigation--reduced")) {
-      resetMainToggles(e);
-      navigation.classList.remove("has-menu-open");
+    if (
+      !target.closest(
+        ".p-navigation--sliding, .p-navigation--reduced, .p-navigation.is-secondary"
+      )
+    ) {
+      closeAllNavigationItems();
     }
   }
 });
 
 /**
- * Resets top level toggles back to their original state
- * @param {HTMLElement} excludedToggle - A toggle to ignore
+ * Handles when any toggle is clicked by reseting the other toggles and
+ * managing whether the animation should run
+ * @param {HTMLElement} toggle - The clicked toggle
  */
-function resetMainToggles(excludedToggle) {
-  mainToggles.forEach(function (toggle) {
+function handleToggle(toggle) {
+  const target = document.getElementById(toggle.getAttribute("aria-controls"));
+  if (target) {
+    // check if the toggled dropdown is child of another dropdown
+    const isNested = !!target.parentNode.closest(".p-navigation__dropdown");
+    if (!isNested) {
+      resetToggles(target);
+    }
+    if (target.getAttribute("aria-hidden") === "true") {
+      // only animate the dropdown if menu is not open, otherwise just switch the visible one
+      expandDropdown(
+        toggle,
+        target,
+        !navigation.classList.contains("has-menu-open")
+      );
+      navigation.classList.add("has-menu-open");
+    } else {
+      collapseDropdown(toggle, target, true);
+      navigation.classList.remove("has-menu-open");
+    }
+  }
+}
+
+/**
+ * Resets all toggles to there base state, unless an exception is passed
+ * then this toggle is ignored
+ * @param {HTMLElement} exception - The toggle to ignore
+ */
+const resetToggles = (exception) => {
+  toggles.forEach(function (toggle) {
     const target = document.getElementById(
       toggle.getAttribute("aria-controls")
     );
-    if (!target || target === excludedToggle) {
+    if (!target || target === exception) {
       return;
     }
-    target.setAttribute("aria-hidden", "true");
-    target.classList.add("is-collapsed");
-    toggle.parentNode.classList.remove("is-active");
-    toggle.parentNode.parentNode.classList.remove("is-active");
+    collapseDropdown(toggle, target);
   });
-}
+};
 
 /**
- * A function that handles toggle clicks by setting their state and
- * managing animations
- * @param {HTMLElement} toggle - The toggle clicked
+ * Closing a specific dropdown and updates the state, effects both mobile
+ * and desktop
+ * @param {HTMLElement} dropdownToggleButton - The toggle clicked
+ * @param {HTMLElement} targetDropdown - The effected dropdown list
+ * @param {Bool} animated - Whether to anitmate it
  */
-function handleMainToggles(toggle) {
-  const target = document.getElementById(toggle.getAttribute("aria-controls"));
+const collapseDropdown = (
+  dropdownToggleButton,
+  targetDropdown,
+  animated = false
+) => {
+  const closeHandler = () => {
+    targetDropdown.setAttribute("aria-hidden", "true");
+    dropdownToggleButton.parentNode.classList.remove("is-active");
+    dropdownToggleButton.parentNode.parentNode.classList.remove("is-active");
+  };
 
-  const isNested = !target.closest(".p-navigation__dropdown");
-  if (!isNested) {
-    resetMainToggles(target);
+  targetDropdown.classList.add("is-collapsed");
+  if (animated) {
+    setTimeout(closeHandler, ANIMATION_SNAP_DURATION);
+  } else {
+    closeHandler();
   }
-
-  const toggleIsActive = target.getAttribute("aria-hidden") === "false";
-  if (!toggleIsActive) {
-    toggle.parentNode.classList.add("is-active");
-    toggle.parentNode.parentNode.classList.add("is-active");
-    target.setAttribute("aria-hidden", "false");
-
-    const menuIsOpen = navigation.classList.contains("has-menu-open");
-    if (!menuIsOpen) {
-      // trigger the CSS transition
-      requestAnimationFrame(() => {
-        target.classList.remove("is-collapsed");
-      });
-    } else {
-      // make it appear immediately
-      target.classList.remove("is-collapsed");
-    }
-    navigation.classList.add("has-menu-open");
-    setFocusable(target);
-  } else if (toggleIsActive) {
-    target.classList.add("is-collapsed");
-    setTimeout(() => {
-      target.setAttribute("aria-hidden", "true");
-      toggle.parentNode.classList.remove("is-active");
-      toggle.parentNode.parentNode.classList.remove("is-active");
-      navigation.classList.remove("has-menu-open");
-    }, 100);
-  }
-}
+};
 
 /**
- * Sets tabindex for appropriate navigation items to allow keyboard navigation
- * @param {HTMLElement} target - the click target
+ * Open a specific dropdown and updates the state, effects both mobile
+ * and desktop
+ * @param {HTMLElement} dropdownToggleButton - The toggle clicked
+ * @param {HTMLElement} targetDropdown - The effected dropdown list
+ * @param {Bool} animated - Whether to anitmate it
  */
-function setFocusable(target) {
-  lists.forEach(function (list) {
-    const elements = list.querySelectorAll("ul > li > a, ul > li > button");
-    elements.forEach(function (element) {
-      element.setAttribute("tabindex", "-1");
+const expandDropdown = (
+  dropdownToggleButton,
+  targetDropdown,
+  animated = false
+) => {
+  dropdownToggleButton.parentNode.classList.add("is-active");
+  dropdownToggleButton.parentNode.parentNode.classList.add("is-active");
+  targetDropdown.setAttribute("aria-hidden", "false");
+  if (animated) {
+    // trigger the CSS transition
+    requestAnimationFrame(() => {
+      targetDropdown.classList.remove("is-collapsed");
     });
-  });
-  if (target) {
-    target.querySelectorAll("li").forEach(function (element) {
-      if (element.parentNode === target) {
-        element.children[0].setAttribute("tabindex", "0");
-      }
-    });
+  } else {
+    // make it appear immediately
+    targetDropdown.classList.remove("is-collapsed");
   }
-}
+
+  setFocusable(targetDropdown);
+};
 
 /**
  * Reset the state of everything in the navigation
+ * @param {Object} options - Options for the function
+ * @param {String} options.exception - The navigation item to ignore
  */
-function closeAllNavigationItems() {
-  closeSearch();
-  closeSecondaryNavigation();
-  resetMainToggles();
-  navigation.classList.remove("has-menu-open");
+function closeAllNavigationItems({ exception } = {}) {
+  // prettier-ignore
+  const actions = {
+    "search": closeSearch,
+    "secondary-navigation": closeSecondaryNavigation,
+    "main-toggles": resetToggles,
+    "menu": closeMenu,
+  };
+
+  for (const key in actions) {
+    if (key !== exception) {
+      actions[key]();
+    }
+  }
 }
+
+// throttle util (for window resize event)
+var throttle = function (fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this,
+      args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+};
+
+// hide side navigation drawer when screen is resized
+window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
 
 export default closeAllNavigationItems;
