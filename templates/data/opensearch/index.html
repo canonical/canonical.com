@@ -17,60 +17,58 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-strip is-shallow u-no-padding--bottom">
-    <div class="p-section">
-      <div class="row">
-        <div class="col-3 col-medium-2">
-          <div class="u-hide--small u-vertically-center u-aspect-ratio--16-9 u-align--center"
-               style="margin-top: -55px">
-            {{ image (
-            url="https://assets.ubuntu.com/v1/6deb3921-opensearch-logo.png",
-            alt="Opensearch",
-            width="198",
-            height="186",
-            hi_def=True,
-            loading="auto"
-            ) | safe
-            }}
-          </div>
+  <section class="p-section--hero">
+    <div class="row">
+      <div class="col-3 col-medium-2">
+        <div class="u-hide--small u-vertically-center u-aspect-ratio--16-9"
+             style="margin-top: -55px">
+          {{ image (
+          url="https://assets.ubuntu.com/v1/6deb3921-opensearch-logo.png",
+          alt="OpenSearch",
+          width="198",
+          height="186",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+          }}
         </div>
-        <div class="col-9 col-medium-4">
-          <div class="p-section--shallow">
-            <h1>OpenSearch for the enterprise</h1>
-            <p>
-              Secure and automate the deployment, maintenance and upgrades of your search and analytics suite across private and public clouds.
-            </p>
-          </div>
-          <hr />
-          <a class="p-button--positive"
-             href="/contact-us"
-             aria-controls="data-spark-modal">Contact us</a>
-          <a class="p-button"
-             href="https://assets.ubuntu.com/v1/6dc3440a-Charmed%20OpenSearch%20-%20Datasheet%20-%20amended%2004%2006%202024.pdf">Datasheet</a>
+      </div>
+      <div class="col-9 col-medium-4">
+        <div class="p-section--shallow">
+          <h1>OpenSearch for the enterprise</h1>
+          <p>
+            Secure and automate the deployment, maintenance and upgrades of your search and analytics suite across private and public clouds.
+          </p>
         </div>
+        <hr />
+        <a class="p-button--positive"
+           href="/contact-us"
+           aria-controls="data-spark-modal">Contact us<span class="u-off-screen">about OpenSearch for the enterprise</span></a>
+        <a class="p-button"
+           href="https://assets.ubuntu.com/v1/6dc3440a-Charmed%20OpenSearch%20-%20Datasheet%20-%20amended%2004%2006%202024.pdf"><span class="u-off-screen">Download the Charmed OpenSearch</span>Datasheet</a>
       </div>
     </div>
   </section>
 
   <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
     <div class="row">
+      <hr />
       <div class="col-3 col-medium-2">
-        <h2 class="p-text--small-caps highlight">Why choose Canonical's enterprise-grade OpenSearch?</h2>
+        <h2 class="p-text--small-caps">Why choose Canonical's enterprise-grade OpenSearch?</h2>
       </div>
       <div class="col-9 col-medium-4">
         <ul class="p-list--divided">
           <li class="p-list__item">
-            <h2>10 years security maintenance and support</h2>
+            <p class="p-heading--2">10 years security maintenance and support</p>
           </li>
           <li class="p-list__item">
-            <h2>Open source</h2>
+            <p class="p-heading--2">Open source</p>
           </li>
           <li class="p-list__item">
-            <h2>Simple per node subscription</h2>
+            <p class="p-heading--2">Simple per node subscription</p>
           </li>
           <li class="p-list__item">
-            <h2>Hybrid, multi-cloud ready</h2>
+            <p class="p-heading--2">Hybrid, multi-cloud ready</p>
           </li>
         </ul>
       </div>
@@ -79,7 +77,7 @@
 
   <section class="p-section">
     <div class="row--50-50">
-      <hr class="p-rule" />
+      <hr />
       <div class="col">
         <h2 class="p-text--small-caps">Run OpenSearch on any public, private or hybrid cloud</h2>
       </div>
@@ -88,7 +86,7 @@
           When you use Canonical’s OpenSearch, you get the benefit of running on top of an operating system image that’s optimised for every cloud. Run your OpenSearch on Azure, GCP, AWS, on Kubernetes or your private data centre, with OpenStack, Microcloud and VMWare.
         </p>
       </div>
-      <div class="p-logo-section u-hide--small">
+      <div class="p-logo-section">
         <div class="p-logo-section__items">
           <div class="p-logo-section__item">
             {{ image (
@@ -157,6 +155,7 @@
             width="394",
             height="312",
             hi_def=True,
+            loading="lazy",
             attrs={"class": "p-logo-section__logo"}
             ) | safe
             }}
@@ -166,10 +165,9 @@
     </div>
   </section>
 
-  <hr class="p-rule is-fixed-width" />
-
   <section class="p-section">
     <div class="row--50-50">
+      <hr />
       <div class="col">
         <h2>Easy to deploy and manage OpenSearch</h2>
       </div>
@@ -183,7 +181,7 @@
             height="1015",
             hi_def=True,
             attrs={"class": "p-image-container__image"},
-            loading="auto|lazy"
+            loading="lazy"
             ) | safe
             }}
           </div>
@@ -191,7 +189,7 @@
         <p>
           Operating and supporting a production-grade OpenSearch solution can be complex and challenging. Canonical's Charmed OpenSearch automates operational tasks so you can spend more time on value-driving activities.
         </p>
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="p-section--shallow">
           <ul class="p-list--divided">
             <li class="p-list__item is-ticked">Automated security and configuration best practices built in</li>
@@ -210,7 +208,7 @@
   </section>
 
   <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
+    <hr class="is-fixed-width" />
     <div class="row--50-50">
       <div class="col">
         <h2>OpenSearch security</h2>
@@ -225,7 +223,7 @@
             height="1015",
             hi_def=True,
             attrs={"class": "p-image-container__image"},
-            loading="auto|lazy"
+            loading="lazy"
             ) | safe
             }}
           </div>
@@ -242,7 +240,7 @@
   </section>
 
   <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
+    <hr class="is-fixed-width" />
     <div class="row--50-50">
       <div class="col">
         <h2>OpenSearch support</h2>
@@ -257,7 +255,7 @@
             height="1015",
             hi_def=True,
             attrs={"class": "p-image-container__image"},
-            loading="auto|lazy"
+            loading="lazy"
             ) | safe
             }}
           </div>
@@ -274,7 +272,7 @@
   </section>
 
   <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
+    <hr class="is-fixed-width" />
     <div class="row--50-50">
       <div class="col">
         <h2>
@@ -293,7 +291,7 @@
             height="1014",
             hi_def=True,
             attrs={"class": "p-image-container__image"},
-            loading="auto|lazy"
+            loading="lazy"
             ) | safe
             }}
           </div>
@@ -334,7 +332,7 @@
   </section>
 
   <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
+    <hr class="is-fixed-width" />
     <div class="row">
       <div class="col-6 col-medium-3">
         <h2>Charmed OpenSearch services</h2>
@@ -359,7 +357,7 @@
           <p>
             Get there faster. Let us deploy and operate your OpenSearch cluster, in your cloud tenancy or in your data centre.
           </p>
-          <hr class="p-rule is-muted" />
+          <hr class="is-muted" />
           <div class="p-section--shallow  u-no-margin--bottom">
             <ul class="p-list--divided">
               <li class="p-list__item is-ticked">Backed by an SLA</li>
@@ -387,7 +385,7 @@
           <p>
             24/7, weekday or advanced fire-fighting support for OpenSearch from Canonical for up to 10 years per release track.
           </p>
-          <hr class="p-rule is-muted" />
+          <hr class="is-muted" />
           <div class="p-section--shallow  u-no-margin--bottom">
             <ul class="p-list--divided">
               <li class="p-list__item is-ticked">Expert troubleshooting on hand</li>
@@ -402,7 +400,7 @@
 
   <section class="p-section">
     <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
+      <hr />
       <div class="col">
         <h2>OpenSearch use cases</h2>
       </div>
@@ -416,9 +414,9 @@
         </p>
       </div>
     </div>
-    <div class="row--25-75 is-split-on-medium">
+    <div class="row--25-75">
       <div class="col">
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="row">
           <div class="col-3">
             <h3 class="p-heading--5">Search</h3>
@@ -429,7 +427,7 @@
             </p>
           </div>
         </div>
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="row">
           <div class="col-3">
             <h3 class="p-heading--5">Analytics and machine learning</h3>
@@ -440,7 +438,7 @@
             </p>
           </div>
         </div>
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="row">
           <div class="col-3">
             <h3 class="p-heading--5">Observability and reporting</h3>
@@ -451,7 +449,7 @@
             </p>
           </div>
         </div>
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="row">
           <div class="col-3">
             <h3 class="p-heading--5">Vector databases</h3>
@@ -478,7 +476,7 @@
 
   <section class="p-section--shallow">
     <div class="row--50-50">
-      <hr class="p-rule" />
+      <hr />
       <div class="col">
         <h2>Learn more about Opensearch</h2>
       </div>
@@ -491,14 +489,14 @@
             Retrieval-augmented generation (RAG) is a method that enables users to converse with data repositories. It can improve data retrieval, enhance knowledge sharing, and enrich the results of your LLMs to give more contextually relevant, insightful responses.
           </p>
         </div>
-        <hr class="p-rule is-muted" />
+        <hr class="is-muted" />
         <div class="p-section--shallow">
           <h3 class="p-heading--5 u-no-margin--bottom">
             <a href="https://ubuntu.com/engage/vector-databases-generative-ai">Vector databases for generative AI applications</a>
           </h3>
           <p>Improving the relevance of your LLM application by leveraging Charmed Opensearch’s vector database</p>
         </div>
-        <hr class="p-rule" />
+        <hr class="is-muted"/>
         <div class="p-section--shallow">
           <h3 class="p-heading--5 u-no-margin--bottom">
             <a href="/data/opensearch#get-in-touch">Discuss your needs with our team</a>
@@ -511,7 +509,7 @@
 
   <section class="p-section">
     <div class="row">
-      <hr class="p-rule" />
+      <hr />
       <div class="col-6 col-start-large-7">
         <p>
           OpenSearch is a registered trademark of Amazon Web Services. Other trademarks are property of their respective owners. Charmed OpenSearch is not sponsored, endorsed, or affiliated with Amazon Web Services.
