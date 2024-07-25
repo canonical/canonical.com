@@ -110,9 +110,9 @@ const collapseDropdown = (
   animated = false
 ) => {
   const closeHandler = () => {
-    targetDropdown.setAttribute("aria-hidden", "true");
     dropdownToggleButton.parentNode.classList.remove("is-active");
     dropdownToggleButton.parentNode.parentNode.classList.remove("is-active");
+    targetDropdown.setAttribute("aria-hidden", "true");
   };
 
   targetDropdown.classList.add("is-collapsed");
@@ -135,9 +135,13 @@ const expandDropdown = (
   targetDropdown,
   animated = false
 ) => {
-  dropdownToggleButton.parentNode.classList.add("is-active");
-  dropdownToggleButton.parentNode.parentNode.classList.add("is-active");
+  dropdownToggleButton.closest(".js-dropdown-list").classList.add("is-active");
   targetDropdown.setAttribute("aria-hidden", "false");
+  if (targetDropdown.classList.contains("js-dropdown-list")) {
+    targetDropdown.classList.add("is-active");
+  } else {
+    dropdownToggleButton.parentNode.classList.add("is-active");
+  }
   if (animated) {
     // trigger the CSS transition
     requestAnimationFrame(() => {
