@@ -1,5 +1,5 @@
-{% from "navigation/_dropdown.jinja" import dropdown %}
 {% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
+
 <header id="navigation"
         class="p-navigation{% if page_bubble %}--reduced{% else %}--sliding{% endif %} is-dark">
   <div class="p-navigation__row--25-75">
@@ -34,7 +34,7 @@
              href="#"
              aria-controls="products-content"
              tabindex="0">Products</a>
-             {{ dropdown('products-content', 'Products') }}
+             {{ build_navigation('products', 'Products') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
@@ -43,7 +43,7 @@
              href="#"
              aria-controls="solutions-content"
              tabindex="0">Solutions</a>
-             {{ dropdown('solutions-content', 'Solutions') }}
+             {{ build_navigation('solutions', 'Solutions') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
@@ -52,7 +52,7 @@
              href="#"
              aria-controls="partner-content"
              tabindex="0">Partners</a>
-             {{ dropdown('partner-content', 'Partners') }}
+             {{ build_navigation('partners', 'Partners') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
@@ -61,7 +61,7 @@
              href="#"
              aria-controls="careers-content"
              tabindex="0">Careers</a>
-             {{ dropdown('careers-content', 'Careers') }}
+             {{ build_navigation('careers', 'Careers') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle"
             role="menuitem"
@@ -70,7 +70,7 @@
              href="#"
              aria-controls="company-content"
              tabindex="0">Company</a>
-             {{ dropdown('company-content', 'Company') }}
+             {{ build_navigation('company', 'Company') }}
         </li>
         <li class="p-navigation__item--dropdown-toggle is-right-shifted global-nav-mobile global-nav"
             role="menuitem"
