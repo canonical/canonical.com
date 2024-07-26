@@ -27,7 +27,7 @@ from webapp.application import application, harvest
 from webapp.greenhouse import Greenhouse
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
-from webapp.navigation import get_current_page_bubble, build_navigation
+from webapp.navigation import get_current_page_bubble, build_navigation, split_list
 
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
 CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
@@ -678,6 +678,7 @@ def context():
         "month_name": month_name,
         "get_current_page_bubble": get_current_page_bubble,
         "build_navigation": build_navigation,
+        "split_list": split_list,
     }
 
 

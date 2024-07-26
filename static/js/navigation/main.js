@@ -155,6 +155,42 @@ const expandDropdown = (
   setFocusable(targetDropdown);
 };
 
+navigation.querySelectorAll(".js-navigation-tab").forEach((tab) => {
+  tab.addEventListener("click", toggleSection);
+});
+// Attaches to tab items in desktop dropdown and updates them,
+// also applies the same update to the mobile dropdown.
+// Is attached via HTML onclick attribute.
+// I CAN MAKE THIS WAAYYYY MORE EFFECIANT
+function toggleSection(e) {
+  console.log("click");
+  e.preventDefault();
+  const targetId = e.target.getAttribute("aria-controls");
+  const el = document.querySelector(`.js-dropdown-window #${targetId}`);
+  console.log("el", el);
+  const currTabWindow = e.target.closest(".js-dropdown-window");
+  const tabLinks = currTabWindow.querySelectorAll(".p-side-navigation__link");
+  tabLinks.forEach((tabLink) => {
+    const tabId = tabLink.getAttribute("aria-controls");
+    const tabWindow = currTabWindow.querySelector(`#${tabId}`);
+    if (tabId === targetId) {
+      el.removeAttribute("hidden");
+      tabLink.setAttribute("aria-selected", true);
+      tabLink.classList.add("is-active");
+    } else {
+      tabWindow.setAttribute("hidden", true);
+      tabLink.setAttribute("aria-selected", false);
+      tabLink.classList.remove("is-active");
+    }
+  });
+
+  const firstLink = el.querySelector("a");
+  setTimeout(function () {
+    toggleIsActiveState(el, true);
+    firstLink.focus();
+  }, 1);
+}
+
 /**
  * Reset the state of everything in the navigation
  * @param {Object} options - Options for the function

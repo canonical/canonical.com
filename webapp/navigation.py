@@ -1,5 +1,7 @@
 import copy
 import yaml
+import numpy
+
 from flask import render_template_string, Markup
 
 # Read secondary-navigation.yaml
@@ -36,6 +38,11 @@ def get_current_page_bubble(path):
 
 
 def build_navigation(id, title):
+    """
+    Takes an id and title and returns the assosiate dropdown data.
+    This function is made globally avaiable and then called from the
+    jinja template '_dropdown.html'
+    """
     meganav_section = meganav_data[id]
     html_string = render_template_string(
         '{% include "navigation/_dropdown.html" %}',
@@ -44,3 +51,7 @@ def build_navigation(id, title):
         section=meganav_section,
     )
     return Markup(html_string)
+
+# I think we can use something else here than numpy
+def split_list(array, parts):
+    return numpy.array_split(array, parts)

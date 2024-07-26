@@ -11,7 +11,7 @@
            data-level="1">Back</a>
       </li>
       {% if "side_nav_sections" in section %}
-      <!-- Loop through the side nav tab sections -->
+        <!-- Loop through the side nav tab sections -->
         {% for nav_section in section.side_nav_sections %}
           <li class="p-navigation__item--dropdown-toggle"
               id="{{ nav_section.title | slug }}-content">
@@ -64,7 +64,7 @@
         {% endfor %}
       {% endif %}
       {% if section.cta and section.cta_link %}
-      <!-- Check for CTA link -->
+        <!-- Check for CTA link -->
         <li>
           <a class="p-navigation__dropdown-item p-heading--2"
              style="margin-bottom:0"
@@ -73,21 +73,25 @@
         </li>
       {% endif %}
       {% if section.main_lists %}
-      <!-- Loop through each of the main lists -->
+        <!-- Loop through each of the main lists -->
         {% for main_list in section.main_lists %}
           <li class="p-navigation--list-heading">
             <h2 class="p-muted-heading" data-level="1">{{ main_list.title }}</h2>
           </li>
           {% for link in main_list.link_list %}
             <li>
-              <a class="p-navigation__dropdown-item" href="{{ link.url }}" data-level="1">{{ link.title }}</a>
+              <a class="p-navigation__dropdown-item"
+                 href="{{ link.url }}"
+                 data-level="1">{{ link.title }}</a>
             </li>
           {% endfor %}
         {% endfor %}
       {% elif section.primary_links %}
         {% for link in section.primary_links.links %}
           <li>
-            <a class="p-navigation__dropdown-item" href="{{ link.url }}" data-level="1">
+            <a class="p-navigation__dropdown-item"
+               href="{{ link.url }}"
+               data-level="1">
               {% if id == "careers" %}
                 <strong>{{ link.title }}</strong>
                 <br />
@@ -120,88 +124,134 @@
       {% endif %}
     </ul>
   </div>
-  <div class="p-navigation__dropdown-content--full-width">
+  
+  <div class="p-navigation__dropdown-content js-dropdown-window"
+       id="{{ id }}">
     <div class="p-strip is-shallow">
-      <div class="row">
-        <div class="col-9">
-          <p class="p-muted-heading">{{ title }}</p>
-          <div class="row  u-no-margin u-no-padding">
-            <div class="col-3">
-              <ul class="p-list--divided">
-                <li class="p-list__item">
-                  {{ title }} 1
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 2
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 3
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-              </ul>
-            </div>
-            <div class="col-3">
-              <ul class="p-list--divided">
-                <li class="p-list__item">
-                  {{ title }} 3
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 4
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 5
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-              </ul>
-            </div>
-            <div class="col-3">
-              <ul class="p-list--divided">
-                <li class="p-list__item">
-                  {{ title }} 7
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 8
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-                <li class="p-list__item">
-                  {{ title }} 9
-                  <br />
-                  <small class="u-text--muted">Subtitle...</small>
-                </li>
-              </ul>
+      <div class="row--25-75">
+        {% if "side_nav_sections" in section %}
+          <div class="dropdown-window__tab-panel col">
+            <div class="p-side-navigation is-dark">
+              <div class="p-side-navigation__drawer">
+                <ul class="p-side-navigation__list js-tabs u-no-margin--bottom"
+                    role="tablist"
+                    aria-label="Categories">
+                  {% for side_nav_section in section.side_nav_sections %}
+                    <li class="p-side-navigation__item"
+                        data-id="{{ id }}-{{ side_nav_section.title | slug }}">
+                      <a href="#"
+                         class="p-side-navigation__link{{ ' is-active' if loop.index == 1 }} js-navigation-tab"
+                         id="{{ id }}-{{ side_nav_section.title | slug }}-tab"
+                         aria-controls="{{ id }}-{{ side_nav_section.title | slug }}-tab-content"
+                         role="tab"
+                         aria-selected="{{ 'true' if loop.index == 1 else 'false' }}">{{ side_nav_section.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-3">
-          <p class="p-muted-heading">Quick links</p>
-          <ul class="p-list">
-            <li class="p-list__item">
-              <a href="#">Quick link 1</a>
-            </li>
-            <li class="p-list__item">
-              <a href="#">Quick link 2</a>
-            </li>
-            <li class="p-list__item">
-              <a href="#">Quick link 3</a>
-            </li>
-            <li class="p-list__item">
-              <a href="#">Quick link 4</a>
-            </li>
-          </ul>
-        </div>
+
+          <div class="col u-no-padding">
+            {% for side_nav_section in section.side_nav_sections %}
+              <div class="dropdown-window__sidenav-content"
+                   {% if loop.index != 1 %}hidden="true"{% endif %}
+                   id="{{ id }}-{{ side_nav_section.title | slug }}-tab-content"
+                   tabindex="-1"
+                   role="tabpanel"
+                   aria-labelledby="{{ id }}-{{ side_nav_section.title | slug }}-tab">
+                <div class="row u-no-padding">
+                  <div class="col-{% if side_nav_section.secondary_links %}6{% else %}9{% endif %} dropdown-window__main-panel">
+                    {% for links_section in side_nav_section.primary_links %}
+                      {% if links_section.title %}<p class="p-muted-heading">{{ links_section.title }}</p>{% endif %}
+
+                      <div class="row">
+                        {% if side_nav_section.secondary_links %}
+                          {% set split_links_list = split_list(links_section.links, 2) %}
+                        {% else %}
+                          {% set split_links_list = split_list(links_section.links, 3) %}
+                        {% endif %}
+
+                        <div class="{% if side_nav_section.secondary_links %}col-4{% else %}col-3{% endif %}">
+                          <ul class="p-list">
+                            {% for link in split_links_list[0] %}
+                              {% with
+                                url = link.url,
+                                title = link.title,
+                                description = link.description,
+                                secondary_cta_url = link.secondary_cta_url,
+                                secondary_cta_title = link.secondary_cta_title
+                                %}
+                                {% include "navigation/_list-item.html" %}
+                              {% endwith %}
+                            {% endfor %}
+                          </ul>
+                        </div>
+
+                        <div class="{% if side_nav_section.secondary_links %}col-4{% else %}col-3{% endif %}">
+                          <ul class="p-list">
+                            {% for link in split_links_list[1] %}
+                              {% with
+                                url = link.url,
+                                title = link.title,
+                                description = link.description
+                                %}
+                                {% include "navigation/_list-item.html" %}
+                              {% endwith %}
+                            {% endfor %}
+                          </ul>
+                        </div>
+
+                        {% if secondary_links not in side_nav_section %}
+                          <div class="col-3">
+                            <ul class="p-list">
+                              {% for link in split_links_list[2] %}
+                                {% with
+                                  url = link.url,
+                                  title = link.title,
+                                  description = link.description
+                                  %}
+                                  {% include "navigation/_list-item.html" %}
+                                {% endwith %}
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  </div>
+
+                  {% if side_nav_section.secondary_links %}
+                    <div class="col-3 dropdown-window__side-panel">
+                      {% for links_section in side_nav_section.secondary_links %}
+                        <p class="p-muted-heading">{{ links_section.title }}</p>
+
+                        <ul class="p-list">
+                          {% for link in links_section.links %}
+                            <li class="p-list__item">
+                              <a class="dropdown-window__side-panel-link" href="{{ link.url }}">{{ link.title }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                {% if side_nav_section.section_footer %}
+                  <div class="col">
+                    {% if "copy" in side_nav_section.section_footer %}<p>{{ side_nav_section.section_footer['copy'] }}</p>{% endif %}
+
+                    <a href="{{ side_nav_section.section_footer['cta_url'] }}"
+                       class="p-button is-dark">{{ side_nav_section.section_footer['cta_title'] }}</a>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% elif "primary_links" in sections %}
+          <h1>OOGLY BOOGLY</h1>
+        {% endif %}
       </div>
     </div>
   </div>
