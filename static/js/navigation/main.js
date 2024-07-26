@@ -61,7 +61,7 @@ function handleToggle(toggle) {
   const target = document.getElementById(toggle.getAttribute("aria-controls"));
   if (target) {
     // check if the toggled dropdown is child of another dropdown
-    const isNested = !!target.parentNode.closest(".p-navigation__dropdown");
+    const isNested = target.parentNode.closest(".p-navigation__dropdown");
     if (!isNested) {
       resetToggles(target);
     }
