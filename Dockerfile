@@ -3,8 +3,7 @@
 FROM ubuntu:focal AS python-dependencies
 RUN apt-get update && apt-get install --no-install-recommends --yes python3-pip python3-setuptools
 ADD requirements.txt /tmp/requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip pip3 install setuptools==68.1.0
-RUN --mount=type=cache,target=/root/.cache/pip pip3 install --user --requirement /tmp/requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip3 install setuptools==68.1.0 --user --requirement /tmp/requirements.txt
 
 
 # Build stage: Install yarn dependencies
