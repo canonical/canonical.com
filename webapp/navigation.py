@@ -1,6 +1,5 @@
 import copy
 import yaml
-import numpy
 
 from flask import render_template_string, Markup
 
@@ -52,6 +51,20 @@ def build_navigation(id, title):
     )
     return Markup(html_string)
 
-# I think we can use something else here than numpy
+
 def split_list(array, parts):
-    return numpy.array_split(array, parts)
+    """
+    Split an array into multiple sub-arrays of approximately equal size.
+
+    Parameters:
+    array (list): The array to be split.
+    parts (int): The number of parts to split the array into.
+
+    Returns:
+    list: A list of sub-arrays.
+    """
+    if parts <= 0:
+        raise ValueError("Number of parts must be a positive integer")
+    
+    k, m = divmod(len(array), parts)
+    return [array[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(parts)]

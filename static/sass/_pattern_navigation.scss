@@ -1,8 +1,8 @@
-@mixin canonical-p-navigation {
-  $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
-  $navigation-background: #2d2d2d;
-  $navigation-heading-color: #FFFFFF99;
-  
+$dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
+$navigation-background: #2d2d2d;
+$navigation-heading-color: #FFFFFF99;
+
+@mixin canonical-p-navigation-tab-panel {  
   // Adds background colour and positioning to the dropdown tab panel
   .p-navigation__tab-panel {
     padding: 2rem 0;
@@ -39,7 +39,9 @@
   .p-navigation__tab-panel .p-side-navigation__item:last-of-type .p-side-navigation__link {
     border-bottom: none;
   }
+}
 
+@mixin canonical-p-navigation-dropdown-content {
   .p-navigation__dropdown-content-mobile,
   .p-navigation__content-panel--full-width,
   .p-navigation__content-panel {
@@ -69,18 +71,13 @@
       margin-left: -0.5rem;
     }
 
-    .p-navigation__dropdown-item {
+    li:first-of-type .p-navigation__dropdown-item,
+    li:not(:last-of-type) .p-navigation__dropdown-item {
       border-bottom: $dropdown-border;
+    }
+
+    .p-navigation__dropdown-item {
       padding: .25rem .5rem;
-
-      &:last-of-type {
-        border-bottom: none;
-      }
-
-      // for the case where the list only contains one item
-      &:first-of-type {
-        border-bottom: $dropdown-border;
-      }
     }
   }
 
