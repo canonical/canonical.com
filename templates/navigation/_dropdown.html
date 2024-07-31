@@ -10,8 +10,8 @@
            href="#{{ id }}-content-back"
            data-level="1">Back</a>
       </li>
+      
       {% if "side_nav_sections" in section %}
-        <!-- Loop through the side nav tab sections -->
         {% for nav_section in section.side_nav_sections %}
           <li class="p-navigation__item--dropdown-toggle"
               id="{{ nav_section.title | slug }}-content">
@@ -29,42 +29,31 @@
                    href="#{{ nav_section.title | slug }}-content-back"
                    data-level="2">Back</a>
               </li>
-              {% for links_section in nav_section.primary_links %}
-                {% if links_section.title %}
-                  <li class="p-navigation--list-heading">
-                    <h2 class="p-muted-heading" data-level="2">{{ links_section.title }}</h2>
-                  </li>
-                {% endif %}
-                {% for link in links_section.links %}
-                  <li>
-                    <a href="{{ link.url }}"
-                       class="p-navigation__dropdown-item"
-                       data-level="2">
-                      <strong>{{ link.title }}</strong>
-                      <br />
-                      <small class="u-text--muted">{{ link.description }}</small>
-                    </a>
-                  </li>
+              {% if nav_section.primary_links %}
+                {% for link in nav_section.primary_links.links %}
+                  {% with link = link, data_level = "2" %}
+                    {% include "navigation/partials/_list-item.html" %}
+                  {% endwith %}
                 {% endfor %}
-              {% endfor %}
+              {% endif %}
               {% if nav_section.secondary_links %}
-                {% for links_section in nav_section.secondary_links %}
-                  <li class="p-navigation--list-heading">
-                    <h2 class="p-muted-heading is-muted" data-level="2">{{ links_section.title }}</h2>
+                {% if nav_section.secondary_links.title %}
+                <li class="p-navigation--list-heading">
+                  <h2 class="p-muted-heading is-muted" data-level="2">{{ nav_section.secondary_links.title }}</h2>
+                </li>
+                {% endif %}
+                {% for link in nav_section.secondary_links.links %}
+                  <li>
+                    <a class="p-navigation--list-link" href="{{ link.url }}" data-level="2">{{ link.title }}</a>
                   </li>
-                  {% for link in links_section.links %}
-                    <li>
-                      <a class="p-navigation--list-link" href="{{ link.url }}" data-level="2">{{ link.title }}</a>
-                    </li>
-                  {% endfor %}
                 {% endfor %}
               {% endif %}
             </ul>
           </li>
         {% endfor %}
       {% endif %}
+
       {% if section.cta and section.cta_link %}
-        <!-- Check for CTA link -->
         <li>
           <a class="p-navigation__dropdown-item p-heading--2"
              style="margin-bottom:0"
@@ -72,37 +61,26 @@
              data-level="1">{{ section.cta }}</a>
         </li>
       {% endif %}
+
       {% if section.main_lists %}
-        <!-- Loop through each of the main lists -->
-        {% for main_list in section.main_lists %}
+        {% for list in section.main_lists %}
           <li class="p-navigation--list-heading">
-            <h2 class="p-muted-heading" data-level="1">{{ main_list.title }}</h2>
+            <h2 class="p-muted-heading" data-level="1">{{ list.link_list.title }}</h2>
           </li>
-          {% for link in main_list.link_list %}
-            <li>
-              <a class="p-navigation__dropdown-item"
-                 href="{{ link.url }}"
-                 data-level="1">{{ link.title }}</a>
-            </li>
+          {% for link in list.link_list.links %}
+            {% with link = link, data_level = "1" %}
+              {% include "navigation/partials/_list-item.html" %}
+            {% endwith %}
           {% endfor %}
         {% endfor %}
       {% elif section.primary_links %}
         {% for link in section.primary_links.links %}
-          <li>
-            <a class="p-navigation__dropdown-item"
-               href="{{ link.url }}"
-               data-level="1">
-              {% if id == "careers" %}
-                <strong>{{ link.title }}</strong>
-                <br />
-                <span class="is-muted js-available-roles" data-id="{{ link.title | slug }}"><i class="p-icon--spinner u-animation--spin"></i></span>
-              {% else %}
-                {{ link.title }}
-              {% endif %}
-            </a>
-          </li>
+          {% with link = link, data_level = "1" %}
+            {% include "navigation/partials/_list-item.html" %}
+          {% endwith %}
         {% endfor %}
       {% endif %}
+
       {% if section.secondary_links %}
         <li class="p-navigation--list-heading">
           <h2 class="p-muted-heading" data-level="1">{{ section.secondary_links.title }}</h2>

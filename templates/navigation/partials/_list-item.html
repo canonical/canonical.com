@@ -1,14 +1,14 @@
-<li class="p-navigation__dropdown-item">
-  <a href="{{ url }}"
-     class="p-link--inverted"
+<li>
+  <a href="{{ link.url }}"
+     class="p-navigation__dropdown-item"
      onclick="event.stopPropagation()"
-     tabindex="{% if tabindex %}{{ tabindex }}{% else %}0{% endif %}">
-    <span>{{ title }}</span>
+     {% if data_level %}data-level="{{ data_level }}"{% endif %}>
+    <span>{{ link.title }}</span>
     <br />
     {% if id == "careers" %}
-    <small>1 millions roles</small>
-    {% else %}
-    <small class="is-muted">{{ description }}</small>
+    <span class="is-muted js-available-roles" data-id="{{ link.title | slug }}"><i class="p-icon--spinner u-animation--spin"></i></span>
+    {% elif link.description %}
+    <small class="is-muted">{{ link.description }}</small>
     {% endif %}
   </a>
 </li>
