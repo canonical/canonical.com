@@ -2,6 +2,20 @@ $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
 $navigation-background: #2d2d2d;
 $navigation-heading-color: #fff9;
 
+@mixin canonical-p-navigation-mobile {
+  .p-navigation--list-heading h2,
+  .p-navigation--list-link {
+    padding-left: 2.69rem;
+    @media screen and (min-width: $breakpoint-small) {
+      padding-left: 3.19rem;
+    }
+  }
+
+  li:has(> .p-navigation--list-link) {
+    margin-bottom: 0.5rem;
+  }
+}
+
 @mixin canonical-p-navigation-tab-panel {
   // Adds background colour and positioning to the dropdown tab panel
   .p-navigation__tab-panel {
@@ -76,7 +90,7 @@ $navigation-heading-color: #fff9;
     .p-navigation__dropdown-item {
       padding: 0.25rem 0.5rem;
     }
-    
+
     li:first-of-type .p-navigation__dropdown-item,
     li:not(:last-of-type) .p-navigation__dropdown-item {
       border-bottom: $dropdown-border;

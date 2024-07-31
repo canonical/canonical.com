@@ -161,13 +161,10 @@ navigation.querySelectorAll(".js-navigation-tab").forEach((tab) => {
 // Attaches to tab items in desktop dropdown and updates them,
 // also applies the same update to the mobile dropdown.
 // Is attached via HTML onclick attribute.
-// I CAN MAKE THIS WAAYYYY MORE EFFECIANT
 function toggleSection(e) {
-  console.log("click");
   e.preventDefault();
   const targetId = e.target.getAttribute("aria-controls");
   const el = document.querySelector(`.js-dropdown-window #${targetId}`);
-  console.log("el", el);
   const currTabWindow = e.target.closest(".js-dropdown-window");
   const tabLinks = currTabWindow.querySelectorAll(".p-side-navigation__link");
   tabLinks.forEach((tabLink) => {
