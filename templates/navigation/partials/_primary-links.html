@@ -1,0 +1,24 @@
+<div class="p-navigation__main-links">
+  {% if primary_links.title %}
+  <h2 class="p-navigation--list-heading">{{ primary_links.title }}</h2>
+  {% endif %}
+  <div class="row u-no-padding">
+    {% set split_links_lists = split_list(primary_links.links, 3) %}
+    {% for links_list in split_links_lists %}
+      <div class="col-3">
+        <ul class="p-list">
+          {% for link in links_list %}
+            {% with
+              url = link.url,
+              title = link.title,
+              description = link.description,
+              id = id
+              %}
+              {% include "navigation/partials/_list-item.html" %}
+            {% endwith %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+</div>

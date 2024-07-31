@@ -1,0 +1,21 @@
+<div class="p-navigation__tab-panel col">
+  <div class="p-side-navigation is-dark">
+    <div class="p-side-navigation__drawer">
+      <ul class="p-side-navigation__list js-tabs u-no-margin--bottom"
+          role="tablist"
+          aria-label="Categories">
+        {% for nav_section in side_nav_sections %}
+          <li class="p-side-navigation__item"
+              data-id="{{ id }}-{{ nav_section.title | slug }}">
+            <a href="#"
+               class="p-side-navigation__link {% if loop.index == 1 %}is-active{% endif %} js-navigation-tab"
+               id="{{ id }}-{{ nav_section.title | slug }}-tab"
+               aria-controls="{{ id }}-{{ nav_section.title | slug }}-tab-content"
+               role="tab"
+               aria-selected="{% if loop.index == 1 %}true{% endif %}">{{ nav_section.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
