@@ -65,6 +65,9 @@ def split_list(array, parts):
     """
     if parts <= 0:
         raise ValueError("Number of parts must be a positive integer")
-    
+
     k, m = divmod(len(array), parts)
-    return [array[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(parts)]
+    return [
+        array[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)]
+        for i in range(parts)
+    ]

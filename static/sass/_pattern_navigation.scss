@@ -1,15 +1,15 @@
 $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
 $navigation-background: #2d2d2d;
-$navigation-heading-color: #FFFFFF99;
+$navigation-heading-color: #fff9;
 
-@mixin canonical-p-navigation-tab-panel {  
+@mixin canonical-p-navigation-tab-panel {
   // Adds background colour and positioning to the dropdown tab panel
   .p-navigation__tab-panel {
     padding: 2rem 0;
     background: $colors--dark-theme--background-default;
     position: relative;
-  
-    &:after {
+
+    &::after {
       content: "";
       position: absolute;
       top: 0;
@@ -20,23 +20,25 @@ $navigation-heading-color: #FFFFFF99;
       z-index: -1;
     }
   }
-  
+
   // Colours the links in the dropdown tab panel
   .p-navigation__tab-panel .p-side-navigation__link {
     border-bottom: $dropdown-border;
-    padding: .25rem 1rem .25rem .5rem;
+    padding: 0.25rem 1rem 0.25rem 0.5rem;
 
     &.is-active {
       background-color: $navigation-background;
-  
-      &:before {
+
+      &::before {
         content: none;
       }
     }
   }
 
   // remove the border from the final tab item
-  .p-navigation__tab-panel .p-side-navigation__item:last-of-type .p-side-navigation__link {
+  .p-navigation__tab-panel
+    .p-side-navigation__item:last-of-type
+    .p-side-navigation__link {
     border-bottom: none;
   }
 }
@@ -71,13 +73,13 @@ $navigation-heading-color: #FFFFFF99;
       margin-left: -0.5rem;
     }
 
+    .p-navigation__dropdown-item {
+      padding: 0.25rem 0.5rem;
+    }
+    
     li:first-of-type .p-navigation__dropdown-item,
     li:not(:last-of-type) .p-navigation__dropdown-item {
       border-bottom: $dropdown-border;
-    }
-
-    .p-navigation__dropdown-item {
-      padding: .25rem .5rem;
     }
   }
 
@@ -88,7 +90,6 @@ $navigation-heading-color: #FFFFFF99;
       .p-navigation--list-heading {
         margin-left: 1rem;
       }
-
     }
 
     .p-navigation__link-list {
@@ -103,7 +104,7 @@ $navigation-heading-color: #FFFFFF99;
     height: 276px;
     background: black;
   }
-  
+
   .p-navigation__footer {
     border-top: $dropdown-border;
     margin-left: -0.5rem;
@@ -112,9 +113,12 @@ $navigation-heading-color: #FFFFFF99;
     justify-content: space-between;
   }
 
-  .p-navigation--reduced .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content,
-  .p-navigation--sliding .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content {
+  .p-navigation--reduced
+    .p-navigation__dropdown.is-full-width
+    .p-navigation__dropdown-content,
+  .p-navigation--sliding
+    .p-navigation__dropdown.is-full-width
+    .p-navigation__dropdown-content {
     background-color: $navigation-background;
   }
 }
-
