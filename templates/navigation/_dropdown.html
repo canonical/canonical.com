@@ -2,37 +2,44 @@
      data-level="1"
      id="{{ id }}-content"
      aria-hidden="true">
-  <div class="p-navigation__dropdown-content-mobile">
-    <ul class="p-list u-no-margin">
+  <div class="p-navigation__dropdown-content--sliding">
+    <ul class="p-list u-no-margin js-dropdown-list">
       <li class="p-navigation__item--dropdown-close" id="{{ id }}-content-back">
         <a class="p-navigation__link js-back-button"
-           aria-controls="{{ id }}-content">Back</a>
+           aria-controls="{{ id }}-content"
+           href="#{{ id }}-content-back"
+           data-level="1">Back</a>
       </li>
-      <!-- Loop through the side nav tab sections -->
       {% if "side_nav_sections" in section %}
+      <!-- Loop through the side nav tab sections -->
         {% for nav_section in section.side_nav_sections %}
           <li class="p-navigation__item--dropdown-toggle"
               id="{{ nav_section.title | slug }}-content">
             <a class="p-navigation__link js-dropdown-button"
-               href="{{ nav_section.title | slug }}-menu"
-               aria-controls="{{ nav_section.title | slug }}-menu">{{ nav_section.title }}</a>
-            <ul class="p-navigation__dropdown"
+               href="#{{ nav_section.title | slug }}-menu"
+               aria-controls="{{ nav_section.title | slug }}-menu"
+               data-level="1">{{ nav_section.title }}</a>
+            <ul class="p-navigation__dropdown js-dropdown-list"
                 id="{{ nav_section.title | slug }}-menu"
                 aria-hidden="true">
               <li class="p-navigation__item--dropdown-close"
                   id="{{ nav_section.title | slug }}-content-back">
                 <a class="p-navigation__link js-back-button"
-                   aria-controls="{{ nav_section.title | slug }}-content">Back</a>
+                   aria-controls="{{ nav_section.title | slug }}-content"
+                   href="#{{ nav_section.title | slug }}-content-back"
+                   data-level="2">Back</a>
               </li>
               {% for links_section in nav_section.primary_links %}
                 {% if links_section.title %}
                   <li class="p-navigation--list-heading">
-                    <h2 class="p-muted-heading">{{ links_section.title }}</h2>
+                    <h2 class="p-muted-heading" data-level="2">{{ links_section.title }}</h2>
                   </li>
                 {% endif %}
                 {% for link in links_section.links %}
                   <li>
-                    <a href="{{ link.url }}" class="p-navigation__dropdown-item" data-level="2">
+                    <a href="{{ link.url }}"
+                       class="p-navigation__dropdown-item"
+                       data-level="2">
                       <strong>{{ link.title }}</strong>
                       <br />
                       <small class="u-text--muted">{{ link.description }}</small>
@@ -43,11 +50,11 @@
               {% if nav_section.secondary_links %}
                 {% for links_section in nav_section.secondary_links %}
                   <li class="p-navigation--list-heading">
-                    <h2 class="p-muted-heading is-muted">{{ links_section.title }}</h2>
+                    <h2 class="p-muted-heading is-muted" data-level="2">{{ links_section.title }}</h2>
                   </li>
                   {% for link in links_section.links %}
                     <li>
-                      <a class="p-navigation--list-link" href="{{ link.url }}">{{ link.title }}</a>
+                      <a class="p-navigation--list-link" href="{{ link.url }}" data-level="2">{{ link.title }}</a>
                     </li>
                   {% endfor %}
                 {% endfor %}
@@ -56,145 +63,146 @@
           </li>
         {% endfor %}
       {% endif %}
-      <!-- Check for CTA link -->
       {% if section.cta and section.cta_link %}
+      <!-- Check for CTA link -->
         <li>
           <a class="p-navigation__dropdown-item p-heading--2"
              style="margin-bottom:0"
-             href="{{ section.cta_link }}">{{ section.cta }}</a>
+             href="{{ section.cta_link }}"
+             data-level="1">{{ section.cta }}</a>
         </li>
       {% endif %}
-      <!-- Loop through each of the main lists -->
       {% if section.main_lists %}
+      <!-- Loop through each of the main lists -->
         {% for main_list in section.main_lists %}
           <li class="p-navigation--list-heading">
-            <h2 class="p-muted-heading">{{ main_list.title }}</h2>
+            <h2 class="p-muted-heading" data-level="1">{{ main_list.title }}</h2>
           </li>
           {% for link in main_list.link_list %}
             <li>
-              <a class="p-navigation__dropdown-item" href="{{ link.url }}">{{ link.title }}</a>
+              <a class="p-navigation__dropdown-item" href="{{ link.url }}" data-level="1">{{ link.title }}</a>
             </li>
           {% endfor %}
         {% endfor %}
       {% elif section.primary_links %}
         {% for link in section.primary_links.links %}
           <li>
-            <a class="p-navigation__dropdown-item" href="{{ link.url }}">
+            <a class="p-navigation__dropdown-item" href="{{ link.url }}" data-level="1">
               {% if id == "careers" %}
                 <strong>{{ link.title }}</strong>
                 <br />
                 <span class="is-muted js-available-roles" data-id="{{ link.title | slug }}"><i class="p-icon--spinner u-animation--spin"></i></span>
-            {% else %}
-              {{ link.title }}
-            {% endif %}
-          </a>
+              {% else %}
+                {{ link.title }}
+              {% endif %}
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
+      {% if section.secondary_links %}
+        <li class="p-navigation--list-heading">
+          <h2 class="p-muted-heading" data-level="1">{{ section.secondary_links.title }}</h2>
         </li>
-      {% endfor %}
-    {% endif %}
-    {% if section.secondary_links %}
-      <li class="p-navigation--list-heading">
-        <h2 class="p-muted-heading">{{ section.secondary_links.title }}</h2>
-      </li>
-      {% for link in section.secondary_links.links %}
-        <li>
-          <a class="p-navigation--list-link" href="{{ link.url }}">{{ link.title }}</a>
+        {% for link in section.secondary_links.links %}
+          <li>
+            <a class="p-navigation--list-link" href="{{ link.url }}" data-level="1">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      {% elif section.preview_secondary_links %}
+        <li class="p-navigation--list-heading">
+          <h2 class="p-muted-heading" data-level="1">(WAITING ON DESIGN) {{ section.preview_secondary_links.title }}</h2>
         </li>
-      {% endfor %}
-    {% elif section.preview_secondary_links %}
-      <li class="p-navigation--list-heading">
-        <h2 class="p-muted-heading">(WAITING ON DESIGN) {{ section.preview_secondary_links.title }}</h2>
-      </li>
-      {% for link in section.preview_secondary_links.links %}
-        <li>
-          <a class="p-navigation--list-link" href="{{ link.url }}">(WAITING ON DESIGN) {{ link.description }}</a>
-        </li>
-      {% endfor %}
-    {% endif %}
-  </ul>
-</div>
-<div class="p-navigation__dropdown-content">
-  <div class="p-strip is-shallow">
-    <div class="row">
-      <div class="col-9">
-        <p class="p-muted-heading">{{ title }}</p>
-        <div class="row  u-no-margin u-no-padding">
-          <div class="col-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item">
-                {{ title }} 1
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 2
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 3
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-            </ul>
-          </div>
-          <div class="col-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item">
-                {{ title }} 3
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 4
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 5
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-            </ul>
-          </div>
-          <div class="col-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item">
-                {{ title }} 7
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 8
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-              <li class="p-list__item">
-                {{ title }} 9
-                <br />
-                <small class="u-text--muted">Subtitle...</small>
-              </li>
-            </ul>
+        {% for link in section.preview_secondary_links.links %}
+          <li>
+            <a class="p-navigation--list-link" href="{{ link.url }}" data-level="1">(WAITING ON DESIGN) {{ link.description }}</a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+  <div class="p-navigation__dropdown-content--full-width">
+    <div class="p-strip is-shallow">
+      <div class="row">
+        <div class="col-9">
+          <p class="p-muted-heading">{{ title }}</p>
+          <div class="row  u-no-margin u-no-padding">
+            <div class="col-3">
+              <ul class="p-list--divided">
+                <li class="p-list__item">
+                  {{ title }} 1
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 2
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 3
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+              </ul>
+            </div>
+            <div class="col-3">
+              <ul class="p-list--divided">
+                <li class="p-list__item">
+                  {{ title }} 3
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 4
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 5
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+              </ul>
+            </div>
+            <div class="col-3">
+              <ul class="p-list--divided">
+                <li class="p-list__item">
+                  {{ title }} 7
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 8
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+                <li class="p-list__item">
+                  {{ title }} 9
+                  <br />
+                  <small class="u-text--muted">Subtitle...</small>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-3">
-        <p class="p-muted-heading">Quick links</p>
-        <ul class="p-list">
-          <li class="p-list__item">
-            <a href="#">Quick link 1</a>
-          </li>
-          <li class="p-list__item">
-            <a href="#">Quick link 2</a>
-          </li>
-          <li class="p-list__item">
-            <a href="#">Quick link 3</a>
-          </li>
-          <li class="p-list__item">
-            <a href="#">Quick link 4</a>
-          </li>
-        </ul>
+        <div class="col-3">
+          <p class="p-muted-heading">Quick links</p>
+          <ul class="p-list">
+            <li class="p-list__item">
+              <a href="#">Quick link 1</a>
+            </li>
+            <li class="p-list__item">
+              <a href="#">Quick link 2</a>
+            </li>
+            <li class="p-list__item">
+              <a href="#">Quick link 3</a>
+            </li>
+            <li class="p-list__item">
+              <a href="#">Quick link 4</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
