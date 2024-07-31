@@ -1,34 +1,55 @@
 @mixin canonical-p-navigation {
-  // Style for main navigation
-  .p-navigation__dropdown a.is-selected {
-    border-left: 4px solid white;
-    color: white !important;
+  $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
+  $navigation-background: #2d2d2d;
+  
+  // Adds background colour and positioning to the dropdown tab panel
+  .p-navigation__tab-panel {
+    padding-top: 2rem;
+    background: $colors--dark-theme--background-default;
+    position: relative;
+  
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100vw;
+      right: 0;
+      bottom: 0;
+      background-color: $colors--dark-theme--background-default;
+      z-index: -1;
+    }
+  }
+  
+  // Colours the links in the dropdown tab panel
+  .p-navigation__tab-panel .p-side-navigation__link {
+    border-bottom: $dropdown-border;
+    padding-left: 1.69rem; // $navigation-logo-padding in vanilla
+
+    &.is-active {
+      background-color: $navigation-background;
+  
+      &:before {
+        content: none;
+      }
+    }
+  }
+  
+  .p-navigation__content-panel {
+    background-color: $navigation-background;
+    padding-top: 1.5rem;
+    margin-left: -1rem;
+  }
+  
+  .p-navigation__footer {
+    border-top: $dropdown-border;
+    margin: 0 0 1rem 1rem;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .p-navigation--sliding .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content {
+    background-color: $navigation-background;
   }
 }
 
-// Meganav
-.dropdown-window-overlay {
-  background-color: rgb(17 17 17 / 40%);
-  height: 100%;
-  opacity: 1;
-  position: fixed;
-  top: 0;
-  transition: opacity 0.5s ease-in-out;
-  width: 100%;
-  z-index: 1;
-}
-
-.dropdown-window {
-  @include vf-transition(all, brisk, out);
-
-  background-color: $color-accent-background;
-  position: absolute;
-  width: 100%;
-  z-index: 3;
-}
-
-// To use same styles with a different class
-// because it's manipulated by JS script
-.dropdown-toggle {
-  @extend .p-navigation__item--dropdown-toggle;
-}
