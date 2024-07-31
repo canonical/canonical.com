@@ -3,12 +3,11 @@ import { navigation, secondaryNavigation } from "./elements";
 import closeAllNavigationItems from "./main";
 
 /**
- * Handle the state of the search
+ * Toggle the state of the search
  */
 export function toggleSearch() {
-  closeAllNavigationItems();
-
   const isOpen = navigation.classList.contains("has-search-open");
+  closeAllNavigationItems();
   if (!isOpen) {
     openSearch();
   }
