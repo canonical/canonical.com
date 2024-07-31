@@ -129,11 +129,9 @@
        id="{{ id }}">
     <div class="row--25-75">
       {% if "side_nav_sections" in section %}
-
         {% with side_nav_sections=section.side_nav_sections %}
           {% include "navigation/partials/_tab-panel.html" %}
         {% endwith %}
-
         <div class=" col">
           {% for nav_section in section.side_nav_sections %}
             <div class="p-navigation__content-panel"
@@ -142,50 +140,25 @@
                  tabindex="-1"
                  role="tabpanel"
                  aria-labelledby="{{ id }}-{{ nav_section.title | slug }}-tab">
-
               <div class="row u-no-padding">
                 <div class="col-{% if nav_section.secondary_links %}6{% else %}9{% endif %}">
-                  <div class="p-navigation__main-links">
-                    {% for links_section in nav_section.primary_links %}
-                      <div class="row u-no-padding">
-                        {% if nav_section.secondary_links %}
-                          {% set split_links_list = split_list(links_section.links, 2) %}
-                        {% else %}
-                          {% set split_links_list = split_list(links_section.links, 3) %}
-                        {% endif %}
-
-                        {% for links_link in split_links_list %}
-                        <div class="{% if nav_section.secondary_links %}col-4{% else %}col-3{% endif %}">
-                          <ul class="p-list">
-                            {% for link in links_link %}
-                              {% with
-                                url = link.url,
-                                title = link.title,
-                                description = link.description
-                                %}
-                                {% include "navigation/partials/_list-item.html" %}
-                              {% endwith %}
-                            {% endfor %}
-                          </ul>
-                        </div>
-                        {% endfor %}
-                      </div>
-                    {% endfor %}
-                  </div>
-                </div>
-
-                {% if nav_section.secondary_links %}
-                  {% with secondary_links=nav_section.secondary_links %}
-                    {% include "navigation/partials/_secondary-list.html" %}
+                  {% set columns = 2 if nav_section.secondary_links else 3 %}
+                  {% with primary_links=nav_section.primary_links, columns=columns %}
+                    {% include "navigation/partials/_primary-links.html" %}
                   {% endwith %}
+                </div>
+                {% if nav_section.secondary_links %}
+                  <div class="col-3">
+                    {% with secondary_links=nav_section.secondary_links %}
+                      {% include "navigation/partials/_secondary-list.html" %}
+                    {% endwith %}
+                  </div>
                 {% endif %}
               </div>
-
               {% if nav_section.section_footer %}
                 <div class="p-navigation__footer">
                   <p>{{ nav_section.section_footer['copy'] }}</p>
-                  <a href="{{ nav_section.section_footer['cta_url'] }}"
-                     class="p-button">{{ nav_section.section_footer['cta_title'] }}</a>
+                  <a href="{{ nav_section.section_footer['cta_url'] }}" class="p-button">{{ nav_section.section_footer['cta_title'] }}</a>
                 </div>
               {% endif %}
             </div>
@@ -205,42 +178,23 @@
           <div class="p-section--shallow">
             <hr />
             {% if section.primary_links %}
-            <div class="row u-no-padding">
-              <div class="col-9">
-                <div class="p-navigation__main-links">
-                  {% if section.primary_links.title %}
-                  <h2 class="p-navigation--list-heading">{{ section.primary_links.title }}</h2>
-                  {% endif %}
-                  <div class="row u-no-padding">
-                    {% set split_links_lists = split_list(section.primary_links.links, 3) %}
-                    {% for links_list in split_links_lists %}
-                      <div class="col-3">
-                        <ul class="p-list">
-                          {% for link in links_list %}
-                            {% with
-                              url = link.url,
-                              title = link.title,
-                              description = link.description,
-                              id = id
-                              %}
-                              {% include "navigation/partials/_list-item.html" %}
-                            {% endwith %}
-                          {% endfor %}
-                        </ul>
-                      </div>
-                    {% endfor %}
-                  </div>
+              <div class="row u-no-padding">
+                <div class="col-9">
+                  {% with primary_links=section.primary_links, columns=3 %}
+                    {% include "navigation/partials/_primary-links.html" %}
+                  {% endwith %}
                 </div>
+                {% if section.secondary_links %}
+                  <div class="col-3">
+                    {% with secondary_links=section.secondary_links %}
+                      {% include "navigation/partials/_secondary-list.html" %}
+                    {% endwith %}
+                  </div>
+                {% endif %}
               </div>
-              {% if section.secondary_links %}
-                {% with secondary_links=section.secondary_links %}
-                  {% include "navigation/partials/_secondary-list.html" %}
-                {% endwith %}
-              {% endif %}
-            </div>
-          {% endif %}
-        </div>
-      {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
-</div>
