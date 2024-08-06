@@ -4,6 +4,7 @@ import { closeSearch, toggleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
 import setFocusable from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
+import populateCareersRoles from "./careers/populate-careers-roles";
 
 const ANIMATION_SNAP_DURATION = 100;
 
@@ -204,35 +205,12 @@ function closeAllNavigationItems({ exception } = {}) {
 }
 
 /**
- * Fetch careers roles data uses a web worker and populate the fields
+ * Throttle util (for window resize event)
+ * @param {Function} fn
+ * @param {Int} delay
  */
-function populateCareersRoles() {
-  if (window.Worker) {
-    const worker = new Worker("static/js/navigation/fetch-careers-roles.js");
-    // trigger the web worker by calling it with an empty string
-    worker.postMessage("");
-    // once it has the data back populate the fields
-    worker.onmessage = function (e) {
-      const departments = e.data;
-      departments.forEach((dpt) => {
-        const departmentElements = navigation.querySelectorAll(
-          `[data-id="${dpt.slug}"]`
-        );
-        departmentElements.forEach((element) => {
-          element.innerText = `${dpt.count} roles`;
-          element.classList.add("u-animation--slide-from-top");
-        });
-      });
-    };
-  } else {
-    console.error(
-      "Unable to fetch roles. Your browser doesn't support web workers."
-    );
-  }
-}
-populateCareersRoles();
 
-// throttle util (for window resize event)
+//
 var throttle = function (fn, delay) {
   var timer = null;
   return function () {
@@ -247,5 +225,8 @@ var throttle = function (fn, delay) {
 
 // hide side navigation drawer when screen is resized
 window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
+
+// Update careers dropdown with latest avaiable roles
+populateCareersRoles();
 
 export default closeAllNavigationItems;
