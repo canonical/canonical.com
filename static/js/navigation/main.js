@@ -23,7 +23,7 @@ navigation.addEventListener("click", (e) => {
   } else if (target.matches(".js-back-button")) {
     goBackOneLevel(e.target);
   } else if (target.closest("a")) {
-    window.location.href = target.href || "/";
+    window.location.href = target.closest("a").href || "/";
   }
 });
 
