@@ -2,7 +2,7 @@
      data-level="1"
      id="{{ id }}-content"
      aria-hidden="true">
-  <div class="p-navigation__dropdown-content--sliding">
+  <div class="p-navigation__dropdown-content-mobile">
     <ul class="p-list u-no-margin js-dropdown-list">
       <li class="p-navigation__item--dropdown-close" id="{{ id }}-content-back">
         <a class="p-navigation__link js-back-button"
@@ -62,12 +62,12 @@
         </li>
       {% endif %}
 
-      {% if section.main_lists %}
-        {% for list in section.main_lists %}
+      {% if section.sibling_lists %}
+        {% for list in section.sibling_lists %}
           <li class="p-navigation--list-heading">
-            <h2 class="p-muted-heading" data-level="1">{{ list.link_list.title }}</h2>
+            <h2 class="p-muted-heading" data-level="1">{{ list.title }}</h2>
           </li>
-          {% for link in list.link_list.links %}
+          {% for link in list.links %}
             {% with link = link, data_level = "1" %}
               {% include "navigation/partials/_list-item.html" %}
             {% endwith %}
@@ -127,7 +127,7 @@
                 </div>
                 {% if nav_section.secondary_links %}
                   <div class="col-3">
-                    {% with link_list=nav_section.secondary_links %}
+                    {% with list=nav_section.secondary_links %}
                       {% include "navigation/partials/_link-list.html" %}
                     {% endwith %}
                   </div>
@@ -164,17 +164,17 @@
                 </div>
                 {% if section.secondary_links %}
                   <div class="col-3">
-                    {% with link_list=section.secondary_links %}
+                    {% with list=section.secondary_links %}
                       {% include "navigation/partials/_link-list.html" %}
                     {% endwith %}
                   </div>
                 {% endif %}
               </div>
-            {% elif section.main_lists %}
+            {% elif section.sibling_lists %}
               <div class="row u-no-padding">
-                {% for list in section.main_lists %}
+                {% for list in section.sibling_lists %}
                   <div class="col-3">
-                    {% with link_list=list.link_list, inverted_links=true %}
+                    {% with list=list, inverted_links=true %}
                       {% include "navigation/partials/_link-list.html" %}
                     {% endwith %}
                   </div>
