@@ -40,11 +40,11 @@ def build_navigation(id, title):
     """
     Takes an id and title and returns the assosiate dropdown data.
     This function is made globally avaiable and then called from the
-    jinja template '_dropdown.html'
+    jinja template 'dropdown.html'
     """
     meganav_section = meganav_data[id]
     html_string = render_template_string(
-        '{% include "navigation/_dropdown.html" %}',
+        '{% include "navigation/dropdown.html" %}',
         id=id,
         title=title,
         section=meganav_section,

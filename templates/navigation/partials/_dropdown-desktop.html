@@ -1,0 +1,90 @@
+<div class="p-navigation__dropdown-content--full-width js-dropdown-window"
+id="{{ id }}">
+<div class="row--25-75">
+{% if "side_nav_sections" in section %}
+ {% with side_nav_sections=section.side_nav_sections %}
+   {% include "navigation/partials/_tab-panel.html" %}
+ {% endwith %}
+ <div class=" col">
+   {% for nav_section in section.side_nav_sections %}
+     <div class="p-navigation__content-panel"
+          {% if loop.index != 1 %}hidden="true"{% endif %}
+          id="{{ id }}-{{ nav_section.title | slug }}-tab-content"
+          tabindex="-1"
+          role="tabpanel"
+          aria-labelledby="{{ id }}-{{ nav_section.title | slug }}-tab">
+       <div class="row u-no-padding">
+         <div class="col-{% if nav_section.secondary_links %}6{% else %}9{% endif %}">
+           {% set columns = 2 if nav_section.secondary_links else 3 %}
+           {% with primary_links=nav_section.primary_links, columns=columns %}
+             {% include "navigation/partials/_primary-links.html" %}
+           {% endwith %}
+         </div>
+         {% if nav_section.secondary_links %}
+           <div class="col-3">
+             {% with list=nav_section.secondary_links %}
+               {% include "navigation/partials/_link-list.html" %}
+             {% endwith %}
+           </div>
+         {% endif %}
+       </div>
+       {% if nav_section.section_footer %}
+         <div class="p-navigation__footer">
+           <p>{{ nav_section.section_footer['copy'] }}</p>
+           <a href="{{ nav_section.section_footer['cta_url'] }}" class="p-button">{{ nav_section.section_footer['cta_title'] }}</a>
+         </div>
+       {% endif %}
+     </div>
+   {% endfor %}
+ </div>
+{% elif section.cta %}
+ <div class="p-navigation__content-panel--full-width">
+   <div class="p-strip">
+     {% if section.cta_link %}
+       <p class="p-heading--2">
+         <a href="{{ section.cta_link }}">{{ section.cta }}&nbsp;&rsaquo;</a>
+       </p>
+     {% else %}
+       <p class="p-heading--2">{{ section.cta }}</p>
+     {% endif %}
+   </div>
+   <div class="p-section--shallow">
+     <hr />
+     {% if section.primary_links %}
+       <div class="row u-no-padding">
+         <div class="col-9">
+           {% with primary_links=section.primary_links, columns=3 %}
+             {% include "navigation/partials/_primary-links.html" %}
+           {% endwith %}
+         </div>
+         {% if section.secondary_links %}
+           <div class="col-3">
+             {% with list=section.secondary_links %}
+               {% include "navigation/partials/_link-list.html" %}
+             {% endwith %}
+           </div>
+         {% endif %}
+       </div>
+     {% elif section.sibling_lists %}
+       <div class="row u-no-padding">
+         {% for list in section.sibling_lists %}
+           <div class="col-3">
+             {% with list=list, inverted_links=true %}
+               {% include "navigation/partials/_link-list.html" %}
+             {% endwith %}
+           </div>
+         {% endfor %}
+         {% if section.preview_secondary_links %}
+           <div class="col-6">
+             {% with preview_secondary_links=section.preview_secondary_links %}
+               {% include "navigation/partials/_preview-links.html" %}
+             {% endwith %}
+           </div>
+         {% endif %}
+       </div>
+     {% endif %}
+   </div>
+ </div>
+{% endif %}
+</div>
+</div>
