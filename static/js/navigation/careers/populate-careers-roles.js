@@ -21,7 +21,7 @@ function updateHtmlWithRoles(departments, target) {
  */
 function fecthAvailableRolesWithWebWorkers() {
   const worker = new Worker(
-    "static/js/navigation/careers-roles/Worker_populate-careers.js"
+    "static/js/navigation/careers/Worker_populate-careers.js"
   );
   // trigger the web worker by calling it with an empty string
   worker.postMessage("");
