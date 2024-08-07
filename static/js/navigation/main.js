@@ -4,6 +4,7 @@ import { closeSearch, toggleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
 import setFocusable from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
+import populateCareersRoles from "./careers/populate-careers-roles";
 
 const ANIMATION_SNAP_DURATION = 100;
 
@@ -180,12 +181,6 @@ function toggleSection(e) {
       tabLink.classList.remove("is-active");
     }
   });
-
-  const firstLink = el.querySelector("a");
-  setTimeout(function () {
-    toggleIsActiveState(el, true);
-    firstLink.focus();
-  }, 1);
 }
 
 /**
@@ -209,7 +204,13 @@ function closeAllNavigationItems({ exception } = {}) {
   }
 }
 
-// throttle util (for window resize event)
+/**
+ * Throttle util (for window resize event)
+ * @param {Function} fn
+ * @param {Int} delay
+ */
+
+//
 var throttle = function (fn, delay) {
   var timer = null;
   return function () {
@@ -224,5 +225,8 @@ var throttle = function (fn, delay) {
 
 // hide side navigation drawer when screen is resized
 window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
+
+// Update careers dropdown with latest avaiable roles
+populateCareersRoles();
 
 export default closeAllNavigationItems;
