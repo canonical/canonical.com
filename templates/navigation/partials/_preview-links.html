@@ -7,7 +7,9 @@
       <div class="col-2">
         <a class="p-link--inverted" href="https://ubuntu.com/engage/sicredi-openstack-case-study">
           <div class="p-navigation--image-wrapper">
-            <!-- <img src="{% if link.image_url == '/PLACE-HOLDER' %}https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png?w=1000&h=667&crop=1{% endif %}" alt="" /> -->
+            {% if link.image_url != '/PLACE-HOLDER' %}
+            <img src="{{ link.image_url }}" alt="" />
+            {% endif %}
           </div>
           <p>{{ link.description }}</p>
         </a>
