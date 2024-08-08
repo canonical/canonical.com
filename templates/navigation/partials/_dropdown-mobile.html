@@ -33,13 +33,15 @@
             {% endif %}
             {% if nav_section.secondary_links %}
               {% if nav_section.secondary_links.title %}
-              <li class="p-navigation--list-heading">
-                <h2 class="p-muted-heading is-muted" data-level="2">{{ nav_section.secondary_links.title }}</h2>
-              </li>
+                {% with title=nav_section.secondary_links.title, data_level=2 %}
+                  {% include "navigation/partials/_list-heading.html" %}
+                {% endwith %}
               {% endif %}
               {% for link in nav_section.secondary_links.links %}
-                <li>
-                  <a class="p-navigation--list-link" href="{{ link.url }}" data-level="2">{{ link.title }}</a>
+                <li class="p-navigation--list-link">
+                  <span class="p-navigation__dropdown-item">
+                    <a href="{{ link.url }}" data-level="2">{{ link.title }}</a>
+                  </span>
                 </li>
               {% endfor %}
             {% endif %}
@@ -48,20 +50,25 @@
       {% endfor %}
     {% endif %}
 
-    {% if section.cta and section.cta_link %}
-      <li>
-        <a class="p-navigation__dropdown-item p-heading--2"
-           style="margin-bottom:0"
-           href="{{ section.cta_link }}"
-           data-level="1">{{ section.cta }}</a>
+    {% if section.cta %}
+      <li class="p-navigation--cta">
+        <span class="p-navigation__dropdown-item">
+          {% if section.cta_link %}
+            <a href="{{ section.cta_link }}" data-level="1">{{ section.cta }}&nbsp;&rsaquo;</a>
+          {% else %}
+            {{ section.cta }}
+          {% endif %}
+        </span>
       </li>
     {% endif %}
 
     {% if section.sibling_lists %}
       {% for list in section.sibling_lists %}
-        <li class="p-navigation--list-heading">
-          <h2 class="p-muted-heading" data-level="1">{{ list.title }}</h2>
-        </li>
+        {% if list.title %}
+          {% with title= list.title , data_level=1 %}
+            {% include "navigation/partials/_list-heading.html" %}
+          {% endwith %}
+        {% endif %}
         {% for link in list.links %}
           {% with link = link, data_level = "1" %}
             {% include "navigation/partials/_list-item.html" %}
@@ -69,6 +76,11 @@
         {% endfor %}
       {% endfor %}
     {% elif section.primary_links %}
+      {% if section.primary_links.title %}
+        {% with title=section.primary_links.title, data_level=1 %}
+          {% include "navigation/partials/_list-heading.html" %}
+        {% endwith %}
+      {% endif %}
       {% for link in section.primary_links.links %}
         {% with link = link, data_level = "1" %}
           {% include "navigation/partials/_list-item.html" %}
@@ -77,23 +89,29 @@
     {% endif %}
 
     {% if section.secondary_links %}
-      <li class="p-navigation--list-heading">
-        <h2 class="p-muted-heading" data-level="1">{{ section.secondary_links.title }}</h2>
-      </li>
+      {% if section.secondary_links.title %}
+        {% with title=section.secondary_links.title, data_level=1 %}
+          {% include "navigation/partials/_list-heading.html" %}
+        {% endwith %}
+      {% endif %}
       {% for link in section.secondary_links.links %}
-        <li>
-          <a class="p-navigation--list-link" href="{{ link.url }}" data-level="1">{{ link.title }}</a>
+        <li class="p-navigation--list-link">
+          <span class="p-navigation__dropdown-item">
+            <a href="{{ link.url }}" data-level="1">{{ link.title }}</a>
+          </span>
         </li>
       {% endfor %}
     {% elif section.preview_secondary_links %}
-      <li class="p-navigation--list-heading">
-        <h2 class="p-muted-heading" data-level="1">(WAITING ON DESIGN) {{ section.preview_secondary_links.title }}</h2>
-      </li>
-      {% for link in section.preview_secondary_links.links %}
-        <li>
-          <a class="p-navigation--list-link" href="{{ link.url }}" data-level="1">(WAITING ON DESIGN) {{ link.description }}</a>
+      {% if section.preview_secondary_links.title and section.preview_secondary_links.title_url %}
+        <li class="p-navigation--list-heading">
+          <span class="p-navigation__dropdown-item">
+            <h2 class="p-text--small-caps u-no-margin"
+                {% if data_level %}data-level="{{ data_level }}"{% endif %}>
+              <a href="{{ section.preview_secondary_links.title_url }}">{{ section.preview_secondary_links.title }}&nbsp;&rsaquo;</a>
+            </h2>
+          </span>
         </li>
-      {% endfor %}
+      {% endif %}
     {% endif %}
   </ul>
 </div>

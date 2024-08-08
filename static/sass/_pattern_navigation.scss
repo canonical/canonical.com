@@ -2,17 +2,152 @@ $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
 $navigation-background: #2d2d2d;
 $navigation-heading-color: #fff9;
 
-@mixin canonical-p-navigation-mobile {
-  .p-navigation--list-heading h2,
-  .p-navigation--list-link {
-    padding-left: 2.69rem;
-    @media screen and (min-width: $breakpoint-small) {
-      padding-left: 3.19rem;
+@mixin canonical-p-navigation-mobile {  
+  // This is a hack to allow clicking regular links under `p-navigation__dropdown-item`
+  .p-navigation--cta,
+  .p-navigation--list-link,
+  .p-navigation--list-heading {
+    .p-navigation__dropdown-item {      
+      &:hover {
+        background: var(--vf-color-background-default);
+      }
+      
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &:visited {
+          color: var(--vf-color-link-default);
+        }
+      }
     }
   }
 
-  li:has(> .p-navigation--list-link) {
-    margin-bottom: 0.5rem;
+  // Remove the border on items directly below a heading
+  .p-navigation--list-heading + li > .p-navigation__dropdown-item::before {
+    content: none;
+  }
+
+  // Some style is repeated here and in the desktop mixin for clarity
+  .p-navigation__dropdown-content--sliding {
+    a {
+      display: block;
+      font-weight: 400;
+      white-space: normal;
+      text-decoration: none;
+    }
+
+    .p-navigation__dropdown-item small {
+      color: #aaa;
+    }
+
+    .p-navigation__dropdown-item {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    // Remove line breaks and adjust padding for default link lists
+    .p-navigation--list-link > .p-navigation__dropdown-item {
+      width: fit-content;
+      padding-bottom: 0.25rem;
+      padding-top: 0.25rem;
+      
+      &:before {
+        content: none;
+      }
+    }
+
+    .p-navigation--list-heading {
+      color: $navigation-heading-color;
+      padding-top: 0;
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+
+      .p-navigation__dropdown-item {
+        color: $navigation-heading-color;
+        width: fit-content;
+    
+        &::before {
+          content: none;
+        }
+      }
+    }
+  }
+}
+
+@mixin canonical-p-navigation-dropdown-content {
+  .p-navigation__content-panel--full-width {
+    a {
+      display: block;
+      font-weight: 400;
+      white-space: normal;
+      text-decoration: none;
+    }
+
+    .p-navigation__dropdown-item small {
+      color: #aaa;
+    }
+
+    .p-navigation--list-heading {
+      color: $navigation-heading-color;
+      padding-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .p-navigation__main-links {
+      margin-left: -1rem;
+
+      .p-navigation--list-heading {
+        margin-left: 1rem;
+      }
+    }
+
+    .p-navigation__link-list {
+      .p-list__item:first-of-type {
+        padding-top: 0.75rem;
+      }
+    }
+  }
+
+  .p-navigation__content-panel {
+    background-color: $navigation-background;
+    padding-top: 2rem;
+
+    .p-navigation__main-links {
+      margin-left: -0.5rem;
+    }
+
+    .p-navigation__dropdown-item {
+      padding: 0.25rem 0.5rem;
+    }
+
+    li:first-of-type .p-navigation__dropdown-item,
+    li:not(:last-of-type) .p-navigation__dropdown-item {
+      border-bottom: $dropdown-border;
+    }
+  }
+
+  .p-navigation--image-wrapper {
+    margin-top: 1rem;
+    height: 276px;
+    background: black;
+  }
+
+  .p-navigation__footer {
+    border-top: $dropdown-border;
+    margin-left: -0.5rem;
+    padding: 1rem 0 1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .p-navigation--reduced,
+  .p-navigation--sliding {
+    .p-navigation__dropdown.is-full-width
+    .p-navigation__dropdown-content--full-width {
+      background-color: $navigation-background;
+    }
   }
 }
 
@@ -54,83 +189,5 @@ $navigation-heading-color: #fff9;
     .p-side-navigation__item:last-of-type
     .p-side-navigation__link {
     border-bottom: none;
-  }
-}
-
-@mixin canonical-p-navigation-dropdown-content {
-  .p-navigation__dropdown-content--sliding,
-  .p-navigation__content-panel--full-width {
-    a {
-      display: block;
-      font-weight: 400;
-      white-space: normal;
-      text-decoration: none;
-    }
-
-    small {
-      color: #aaa;
-    }
-
-    .p-navigation--list-heading {
-      @extend .p-text--small-caps;
-      color: $navigation-heading-color;
-      padding-top: 0;
-    }
-  }
-
-  .p-navigation__content-panel {
-    background-color: $navigation-background;
-    padding-top: 2rem;
-
-    .p-navigation__main-links {
-      margin-left: -0.5rem;
-    }
-
-    .p-navigation__dropdown-item {
-      padding: 0.25rem 0.5rem;
-    }
-
-    li:first-of-type .p-navigation__dropdown-item,
-    li:not(:last-of-type) .p-navigation__dropdown-item {
-      border-bottom: $dropdown-border;
-    }
-  }
-
-  .p-navigation__content-panel--full-width {
-    .p-navigation__main-links {
-      margin-left: -1rem;
-
-      .p-navigation--list-heading {
-        margin-left: 1rem;
-      }
-    }
-
-    .p-navigation__link-list {
-      .p-list__item:first-of-type {
-        padding-top: 0.75rem;
-      }
-    }
-  }
-
-  .p-navigation--image-wrapper {
-    margin-top: 1rem;
-    height: 276px;
-    background: black;
-  }
-
-  .p-navigation__footer {
-    border-top: $dropdown-border;
-    margin-left: -0.5rem;
-    padding: 1rem 0 1rem 0.5rem;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .p-navigation--reduced,
-  .p-navigation--sliding {
-    .p-navigation__dropdown.is-full-width
-    .p-navigation__dropdown-content--full-width {
-      background-color: $navigation-background;
-    }
   }
 }
