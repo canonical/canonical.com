@@ -4,6 +4,7 @@ import { closeSearch, toggleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
 import setFocusable from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
+import populateCareersRoles from "./careers/populate-careers-roles";
 
 const ANIMATION_SNAP_DURATION = 100;
 
@@ -23,7 +24,7 @@ navigation.addEventListener("click", (e) => {
   } else if (target.matches(".js-back-button")) {
     goBackOneLevel(e.target);
   } else if (target.closest("a")) {
-    window.location.href = target.href || "/";
+    window.location.href = target.closest("a").href || "/";
   }
 });
 
@@ -155,6 +156,33 @@ const expandDropdown = (
   setFocusable(targetDropdown);
 };
 
+navigation.querySelectorAll(".js-navigation-tab").forEach((tab) => {
+  tab.addEventListener("click", toggleSection);
+});
+// Attaches to tab items in desktop dropdown and updates them,
+// also applies the same update to the mobile dropdown.
+// Is attached via HTML onclick attribute.
+function toggleSection(e) {
+  e.preventDefault();
+  const targetId = e.target.getAttribute("aria-controls");
+  const el = document.querySelector(`.js-dropdown-window #${targetId}`);
+  const currTabWindow = e.target.closest(".js-dropdown-window");
+  const tabLinks = currTabWindow.querySelectorAll(".p-side-navigation__link");
+  tabLinks.forEach((tabLink) => {
+    const tabId = tabLink.getAttribute("aria-controls");
+    const tabWindow = currTabWindow.querySelector(`#${tabId}`);
+    if (tabId === targetId) {
+      el.removeAttribute("hidden");
+      tabLink.setAttribute("aria-selected", true);
+      tabLink.classList.add("is-active");
+    } else {
+      tabWindow.setAttribute("hidden", true);
+      tabLink.setAttribute("aria-selected", false);
+      tabLink.classList.remove("is-active");
+    }
+  });
+}
+
 /**
  * Reset the state of everything in the navigation
  * @param {Object} options - Options for the function
@@ -176,7 +204,13 @@ function closeAllNavigationItems({ exception } = {}) {
   }
 }
 
-// throttle util (for window resize event)
+/**
+ * Throttle util (for window resize event)
+ * @param {Function} fn
+ * @param {Int} delay
+ */
+
+//
 var throttle = function (fn, delay) {
   var timer = null;
   return function () {
@@ -191,5 +225,8 @@ var throttle = function (fn, delay) {
 
 // hide side navigation drawer when screen is resized
 window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
+
+// Update careers dropdown with latest avaiable roles
+populateCareersRoles();
 
 export default closeAllNavigationItems;

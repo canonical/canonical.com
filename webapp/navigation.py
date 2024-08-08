@@ -1,5 +1,6 @@
 import copy
 import yaml
+
 from flask import render_template_string, Markup
 
 # Read secondary-navigation.yaml
@@ -36,6 +37,11 @@ def get_current_page_bubble(path):
 
 
 def build_navigation(id, title):
+    """
+    Takes an id and title and returns the assosiate dropdown data.
+    This function is made globally avaiable and then called from the
+    jinja template '_dropdown.html'
+    """
     meganav_section = meganav_data[id]
     html_string = render_template_string(
         '{% include "navigation/_dropdown.html" %}',
@@ -44,3 +50,24 @@ def build_navigation(id, title):
         section=meganav_section,
     )
     return Markup(html_string)
+
+
+def split_list(array, parts):
+    """
+    Split an array into multiple sub-arrays of approximately equal size.
+
+    Parameters:
+    array (list): The array to be split.
+    parts (int): The number of parts to split the array into.
+
+    Returns:
+    list: A list of sub-arrays.
+    """
+    if parts <= 0:
+        raise ValueError("Number of parts must be a positive integer")
+
+    k, m = divmod(len(array), parts)
+    return [
+        array[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)]
+        for i in range(parts)
+    ]

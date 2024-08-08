@@ -219,7 +219,7 @@ function getCustomFields(event) {
       document.getElementById("advice")?.value
     }.\n
   `;
-  
+
   const inputs = howManyMachinesFieldset?.querySelectorAll(
     "input[name='how-many-machines-do-you-have']"
   );

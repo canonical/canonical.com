@@ -34,7 +34,6 @@ function preFormatCountry(countryCode, countryInput) {
   countryInput.value = countryCode;
 }
 
-
 /**
  * Configures intlTelInput.
  *
@@ -129,4 +128,3 @@ export default {
   prepareInputFields,
   setupIntlTelInput,
 };
-

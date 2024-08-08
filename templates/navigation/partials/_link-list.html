@@ -1,0 +1,12 @@
+<div class="p-navigation__link-list">
+  {% if list.title %}
+  <p class="p-navigation--list-heading">{{ list.title }}</p>
+  {% endif %}
+  <ul class="p-list">
+    {% for link in list.links %}
+      <li class="p-list__item">
+        <a {% if inverted_links %}class="p-link--inverted"{% endif %} href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
