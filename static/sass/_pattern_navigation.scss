@@ -2,7 +2,7 @@ $dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
 $navigation-background: #2d2d2d;
 $navigation-heading-color: #fff9;
 
-@mixin canonical-p-navigation-mobile {  
+@mixin canonical-p-navigation-mobile {
   // Remove the border on items directly below a heading
   .p-navigation--list-heading + li > .p-navigation__dropdown-item::before {
     content: none;
@@ -10,32 +10,11 @@ $navigation-heading-color: #fff9;
 
   // Some style is repeated here and in the desktop mixin for clarity
   .p-navigation__dropdown-content--sliding {
-    // This is a hack to allow clicking regular links under `p-navigation__dropdown-item`
-    .p-navigation--cta,
-    .p-navigation--list-link,
-    .p-navigation--list-heading {
-      .p-navigation__dropdown-item {      
-        &:hover {
-          background: var(--vf-color-background-default);
-        }
-        
-        a {
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-
     a {
       display: block;
       font-weight: 400;
       white-space: normal;
       text-decoration: none;
-    }
-
-    .p-navigation__dropdown-item small {
-      color: #aaa;
     }
 
     .p-navigation__dropdown-item {
@@ -48,8 +27,8 @@ $navigation-heading-color: #fff9;
       width: fit-content;
       padding-bottom: 0.25rem;
       padding-top: 0.25rem;
-      
-      &:before {
+
+      &::before {
         content: none;
       }
     }
@@ -63,11 +42,32 @@ $navigation-heading-color: #fff9;
       .p-navigation__dropdown-item {
         color: $navigation-heading-color;
         width: fit-content;
-    
+
         &::before {
           content: none;
         }
       }
+    }
+
+    // This is a hack to allow clicking regular links under `p-navigation__dropdown-item`
+    .p-navigation--cta,
+    .p-navigation--list-link,
+    .p-navigation--list-heading {
+      .p-navigation__dropdown-item {
+        &:hover {
+          background: var(--vf-color-background-default);
+        }
+
+        a {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .p-navigation__dropdown-item small {
+      color: #aaa;
     }
   }
 }
@@ -118,7 +118,7 @@ $navigation-heading-color: #fff9;
       a:not(.p-link--inverted) {
         &:hover {
           text-decoration: underline;
-        } 
+        }
       }
 
       a.p-link--inverted {
@@ -164,7 +164,7 @@ $navigation-heading-color: #fff9;
   .p-navigation--reduced,
   .p-navigation--sliding {
     .p-navigation__dropdown.is-full-width
-    .p-navigation__dropdown-content--full-width {
+      .p-navigation__dropdown-content--full-width {
       background-color: $navigation-background;
     }
   }
