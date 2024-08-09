@@ -1,0 +1,42 @@
+<div id="secondary-navigation"
+     class="p-navigation is-sticky is-secondary is-dark">
+  <div class="p-navigation__row--25-75">
+    <div class="p-navigation__banner">
+      <div class="p-navigation__tagged-logo">
+        <a class="p-navigation__link" href="{{ page_bubble.path }}">
+          <div class="p-navigation__logo-tag">
+            <img class="p-navigation__logo-icon"
+                 src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg"
+                 alt="" />
+          </div>
+          <span class="p-navigation__logo-title">{{ page_bubble.title | replace(' ', '&nbsp;') | safe }}</span>
+        </a>
+      </div>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item">
+          <button class="js-secondary-menu-toggle-button p-navigation__link--menu-toggle"
+                  aria-controls="secondary-navigation"
+                  title="Toggle navigation"
+                  aria-label="Toggle navigation"></button>
+        </li>
+      </ul>
+    </div>
+    <nav class="p-navigation__nav"
+         aria-label="{{ page_bubble.title | replace(' ', '&nbsp;') | safe }}">
+      {% if page_bubble %}
+        <ul class="p-navigation__items">
+          {% for page in page_bubble.children %}
+            {% if page.title != "Overview" %}
+              <li class="p-navigation__item {% if page.active %}is-selected{% endif %}">
+                <a class="p-navigation__link"
+                   href="{{ page.path }}"
+                   {% if page.active %}aria-current="page"{% endif %}>{{
+                page.title }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>

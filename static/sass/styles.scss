@@ -1,4 +1,4 @@
-@import "../../node_modules/vanilla-framework";
+@import "vanilla-framework";
 
 // import cookie policy
 @import "@canonical/cookie-policy/build/css/cookie-policy";
@@ -49,6 +49,9 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-careers-progression;
 @include canonical-p-global-nav;
 @include canonical-p-tabs;
+@include canonical-p-navigation-tab-panel;
+@include canonical-p-navigation-dropdown-content;
+@include canonical-p-navigation-mobile;
 
 .js-find-a-partner__partner {
   // find-a-partner search
@@ -125,56 +128,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   p:empty,
   br + br {
     display: none;
-  }
-}
-
-// Style for main navigation
-.p-navigation__dropdown a.is-selected {
-  border-left: 4px solid white;
-  color: white !important;
-}
-
-.p-navigation__dropdown .p-navigation__dropdown-item {
-  color: #eeedeb !important;
-  position: relative;
-}
-
-.p-navigation__dropdown
-  > li:not(:first-child)
-  > .p-navigation__dropdown-item::before {
-  @media (min-width: $breakpoint-navigation-threshold) {
-    background: rgba(255 255 255 / 10%);
-    bottom: 0;
-    content: "";
-    height: 1px;
-    left: 1rem;
-    position: absolute;
-    right: 0;
-  }
-}
-
-.p-navigation__sub-list {
-  @extend .p-navigation__item;
-
-  margin-left: 0;
-  padding-left: 0;
-}
-
-.p-navigation__sub-list > li {
-  > a {
-    @media (min-width: $breakpoint-navigation-threshold) {
-      padding-left: 2rem;
-
-      &::before {
-        background: rgba(255 255 255 / 10%);
-        bottom: 0;
-        content: "";
-        height: 1px;
-        left: 2rem;
-        position: absolute;
-        right: 0;
-      }
-    }
   }
 }
 
@@ -862,3 +815,5 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .u-background--fade {
   background-color: rgb(0 0 0 / 3%);
 }
+
+// Custom styles for meganav
