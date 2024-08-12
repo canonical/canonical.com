@@ -1,6 +1,6 @@
 import { navigation, secondaryNavigation, toggles } from "./elements";
 
-import { closeSearch, toggleSearch } from "./search";
+import { closeSearch, handleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
 import setFocusable from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
@@ -14,15 +14,17 @@ const ANIMATION_SNAP_DURATION = 100;
  */
 navigation.addEventListener("click", (e) => {
   e.preventDefault();
-  const target = e.target;
-  if (target.matches(".js-dropdown-button")) {
-    handleToggle(target);
+  const target = e.target.closest("a, button");
+  if (!target) {
+    return;
+  } else if (target.matches(".js-dropdown-button")) {
+    toggleDropdown(target);
   } else if (target.matches(".js-search-button")) {
-    toggleSearch();
+    handleSearch(target);
   } else if (target.matches(".js-menu-button")) {
     toggleMenu();
   } else if (target.matches(".js-back-button")) {
-    goBackOneLevel(e.target);
+    goBackOneLevel(target);
   } else if (target.closest("a")) {
     window.location.href = target.closest("a").href || "/";
   }
@@ -58,7 +60,7 @@ document.addEventListener("click", function (event) {
  * managing whether the animation should run
  * @param {HTMLElement} toggle - The clicked toggle
  */
-function handleToggle(toggle) {
+function toggleDropdown(toggle) {
   const target = document.getElementById(toggle.getAttribute("aria-controls"));
   if (target) {
     // check if the toggled dropdown is child of another dropdown
