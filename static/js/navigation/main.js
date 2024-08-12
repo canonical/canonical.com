@@ -2,7 +2,7 @@ import { navigation, secondaryNavigation, toggles } from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
-import setFocusable from "./keyboard-navigation";
+import { setFocusable } from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
 import populateCareersRoles from "./careers/populate-careers-roles";
 

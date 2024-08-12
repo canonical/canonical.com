@@ -1,5 +1,5 @@
 import { navigation, secondaryNavigation } from "./elements";
-
+import { handleSearchKeyboardControls } from "./keyboard-navigation";
 import closeAllNavigationItems from "./main";
 
 /**
@@ -45,6 +45,7 @@ export function closeSearch() {
   searchToggle.removeAttribute("aria-pressed");
   navigation.classList.remove("has-search-open");
   secondaryNavigation?.classList.remove("has-search-open");
+  document.removeEventListener("keydown", handleSearchKeyboardControls);
 }
 
 /**
@@ -59,4 +60,5 @@ function openSearch() {
   secondaryNavigation?.classList.add("has-search-open");
   navigation.classList.add("has-search-open");
   searchInput.focus();
+  document.addEventListener("keydown", handleSearchKeyboardControls);
 }

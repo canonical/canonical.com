@@ -1,6 +1,9 @@
 import { navigation, topLevelNavigationItems } from "./elements";
 
-import setFocusable from "./keyboard-navigation";
+import {
+  setFocusable,
+  handleMobileKeyboardEvents,
+} from "./keyboard-navigation";
 import closeAllNavigationItems from "./main";
 /**
  * Toggle the state of the menu
@@ -10,6 +13,7 @@ export function toggleMenu() {
   closeAllNavigationItems();
   if (!isOpen) {
     openMenu();
+    navigation.addEventListener("keydown", handleMobileKeyboardEvents);
   }
 }
 
@@ -26,6 +30,7 @@ export function openMenu() {
  */
 export function closeMenu() {
   navigation.classList.remove("has-menu-open");
+  navigation.removeEventListener("keydown", handleMobileKeyboardEvents);
 }
 
 /**
