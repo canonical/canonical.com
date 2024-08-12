@@ -14,6 +14,4 @@ export const topLevelNavigationItems =
 
 export const toggles = document.querySelectorAll(".js-dropdown-button");
 
-export const lists = navigation.querySelectorAll(
-  "ul.p-navigation__dropdown, ul.p-list"
-);
+export const lists = navigation.querySelectorAll(".js-dropdown-list");

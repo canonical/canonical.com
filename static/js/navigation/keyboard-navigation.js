@@ -11,9 +11,7 @@ export default function setFocusable(target) {
   }
 
   lists.forEach(function (list) {
-    const elements = list.querySelectorAll(
-      "ul > li > a, ul > li > button, ul > li > h2"
-    );
+    const elements = list.querySelectorAll("ul > li .js-focus-target");
     elements.forEach(function (element) {
       element.setAttribute("tabindex", "-1");
     });
@@ -21,7 +19,9 @@ export default function setFocusable(target) {
   if (target) {
     target.querySelectorAll("li").forEach(function (element) {
       if (element.parentNode === target) {
-        element.children[0].setAttribute("tabindex", "0");
+        element
+          .querySelector(".js-focus-target")
+          ?.setAttribute("tabindex", "0");
       }
     });
   }
