@@ -13,6 +13,7 @@ import {
 } from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
 import populateCareersRoles from "./careers/populate-careers-roles";
+import initGATracking from "./ga-tracking";
 
 const ANIMATION_SNAP_DURATION = 100;
 
@@ -223,8 +224,6 @@ function closeAllNavigationItems({ exception } = {}) {
  * @param {Function} fn
  * @param {Int} delay
  */
-
-//
 var throttle = function (fn, delay) {
   var timer = null;
   return function () {
@@ -237,10 +236,13 @@ var throttle = function (fn, delay) {
   };
 };
 
-// hide side navigation drawer when screen is resized
+// hide navigation when screen is resized
 window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
 
 // Update careers dropdown with latest avaiable roles
 populateCareersRoles();
+
+// Init GA tracking
+initGATracking();
 
 export default closeAllNavigationItems;
