@@ -207,7 +207,7 @@ function closeAllNavigationItems({ exception } = {}) {
     "secondary-navigation": closeSecondaryNavigation,
     "main-toggles": resetToggles,
     "menu": closeMenu,
-    "set-focus": setFocusable(topLevelNavigationItems)
+    "set-focus": setFocusable,
   };
 
   for (const key in actions) {

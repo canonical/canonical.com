@@ -6,6 +6,9 @@ import closeAllNavigationItems from "./main";
  * @param {HTMLElement} target - The ul to target
  */
 export function setFocusable(target) {
+  if (!target) {
+    target = topLevelNavigationItems;
+  }
   const isList = target.classList.contains("js-dropdown-list");
   if (!isList) {
     target = target.querySelector(".js-dropdown-list");
@@ -96,7 +99,7 @@ function returnFocusToMenuItems(e) {
   e.preventDefault();
   const currentActiveDropdown =
     topLevelNavigationItems.querySelector(".is-active > a");
-  currentActiveDropdown.focus();
+  currentActiveDropdown?.focus();
   closeAllNavigationItems();
 }
 
