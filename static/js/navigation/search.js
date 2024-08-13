@@ -1,11 +1,35 @@
 import { navigation, secondaryNavigation } from "./elements";
-
+import { handleSearchKeyboardControls } from "./keyboard-navigation";
 import closeAllNavigationItems from "./main";
+
+/**
+ * Handle clicks relating to search functionality
+ * @param {HTMLElement} element - The element that triggered the event.
+ */
+export function handleSearch(element) {
+  if (element.type === "submit") {
+    const form = element.closest("form");
+    if (form) {
+      form.submit();
+    } else {
+      console.error("No form found to submit");
+    }
+  } else if (element.type === "reset") {
+    const form = element.closest("form");
+    if (form) {
+      form.reset();
+    } else {
+      console.error("No form found to reset");
+    }
+  } else {
+    toggleSearch();
+  }
+}
 
 /**
  * Toggle the state of the search
  */
-export function toggleSearch() {
+function toggleSearch() {
   const isOpen = navigation.classList.contains("has-search-open");
   closeAllNavigationItems();
   if (!isOpen) {
@@ -21,6 +45,7 @@ export function closeSearch() {
   searchToggle.removeAttribute("aria-pressed");
   navigation.classList.remove("has-search-open");
   secondaryNavigation?.classList.remove("has-search-open");
+  document.removeEventListener("keydown", handleSearchKeyboardControls);
 }
 
 /**
@@ -35,4 +60,5 @@ function openSearch() {
   secondaryNavigation?.classList.add("has-search-open");
   navigation.classList.add("has-search-open");
   searchInput.focus();
+  document.addEventListener("keydown", handleSearchKeyboardControls);
 }
