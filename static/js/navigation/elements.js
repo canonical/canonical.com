@@ -9,8 +9,9 @@ export const secondaryNavigation = document.querySelector(
   ".p-navigation.is-secondary"
 );
 
-export const topLevelNavigationItems =
-  document.querySelector(".js-show-nav > ul");
+export const topLevelNavigationItems = document.querySelector(
+  ".js-show-nav > .js-dropdown-list"
+);
 
 export const toggles = document.querySelectorAll(".js-dropdown-button");
 

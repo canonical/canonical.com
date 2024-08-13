@@ -1,8 +1,16 @@
-import { navigation, secondaryNavigation, toggles } from "./elements";
+import {
+  navigation,
+  secondaryNavigation,
+  toggles,
+  topLevelNavigationItems,
+} from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
 import closeSecondaryNavigation from "./secondary-navigation";
-import { setFocusable } from "./keyboard-navigation";
+import {
+  setFocusable,
+  handleDesktopKeyboardEvents,
+} from "./keyboard-navigation";
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
 import populateCareersRoles from "./careers/populate-careers-roles";
 
@@ -76,9 +84,11 @@ function toggleDropdown(toggle) {
         !navigation.classList.contains("has-menu-open")
       );
       navigation.classList.add("has-menu-open");
+      navigation.addEventListener("keydown", handleDesktopKeyboardEvents);
     } else {
       collapseDropdown(toggle, target, true);
       navigation.classList.remove("has-menu-open");
+      navigation.removeEventListener("keydown", handleDesktopKeyboardEvents);
     }
   }
 }
@@ -197,6 +207,7 @@ function closeAllNavigationItems({ exception } = {}) {
     "secondary-navigation": closeSecondaryNavigation,
     "main-toggles": resetToggles,
     "menu": closeMenu,
+    "set-focus": setFocusable(topLevelNavigationItems)
   };
 
   for (const key in actions) {
