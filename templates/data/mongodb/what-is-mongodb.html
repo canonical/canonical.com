@@ -1,0 +1,60 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1XjFTw--fDl7ZpI6LI--UBKkAV4Yiz-gEoo2gcLuVdeA/edit
+{% endblock meta_copydoc %}
+
+{% block title %}MongoDB support from Canonical{% endblock %}
+
+{% block meta_description %}
+  Get support for MongoDB, from Canonical. 24/7 or weekday support and up to ten years security patching per release track.
+{% endblock %}
+
+{% block canonical_url %}{{ request.host_url }}data/mongodb/support{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  <section class="p-section--hero is-shallow u-no-padding--bottom">
+    <div class="p-section">
+      <div class="row--50-50">
+        <div class="col">
+          <div class="p-section--shallow">
+            <h1>MongoDB support</h1>
+            <p>
+              Draw on Canonical's expertise and run MongoDB securely and efficiently in your enterprise. Get 24/7 phone/ticket support for your critical data infrastructure with <a href="https://ubuntu.com/pro">Ubuntu Pro</a> + Support.
+            </p>
+          </div>
+          <hr class="is-muted" />
+          <a class="p-button--positive"
+             href="/contact-us"
+             aria-controls="data-mongodb-modal">Get MongoDB Support</a>
+        </div>
+        <div class="col">
+          <div class="u-hide--small u-vertically-center u-aspect-ratio--16-9"
+               style="margin-top: -35px">
+            {{ image(url="https://assets.ubuntu.com/v1/36aaa31f-MongoDB_Logo_FullColorBlack_RGB.svg",
+                        alt="",
+                        width="150",
+                        height="41",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% with %}
+    {% set formid = "4903" %}
+    {% set returnURL = "https://canonical.com/data/mongodb#success" %}
+    {% include "data/_form-data-mongodb.html" %}
+  {% endwith %}
+
+{% endblock %}
