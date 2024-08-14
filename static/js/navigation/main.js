@@ -236,8 +236,18 @@ var throttle = function (fn, delay) {
   };
 };
 
-// hide navigation when screen is resized
-window.addEventListener("resize", throttle(closeAllNavigationItems, 10));
+// Hide navigation when screen is horizontally resized
+let previousWidth = window.innerWidth;
+window.addEventListener(
+  "resize",
+  throttle(function () {
+    const currentWidth = window.innerWidth;
+    if (currentWidth !== previousWidth) {
+      closeAllNavigationItems();
+      previousWidth = currentWidth;
+    }
+  }, 10)
+);
 
 // Update careers dropdown with latest avaiable roles
 populateCareersRoles();
