@@ -1,3 +1,5 @@
+import throttle from "../utils/throttle";
+
 import {
   navigation,
   secondaryNavigation,
@@ -218,23 +220,6 @@ function closeAllNavigationItems({ exception } = {}) {
     }
   }
 }
-
-/**
- * Throttle util (for window resize event)
- * @param {Function} fn
- * @param {Int} delay
- */
-var throttle = function (fn, delay) {
-  var timer = null;
-  return function () {
-    var context = this,
-      args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      fn.apply(context, args);
-    }, delay);
-  };
-};
 
 // Hide navigation when screen is horizontally resized
 let previousWidth = window.innerWidth;
