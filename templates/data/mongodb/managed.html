@@ -1,0 +1,30 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1hET-ylqXq96mOfj4hovqilX5Nl0J8FLw1gkRMJkIjp8/edit
+{% endblock meta_copydoc %}
+
+{% block title %}What is MongoDB?{% endblock %}
+
+{% block meta_description %}
+  MongoDB is a NoSQL database management application. Organisations use MongoDB because it aligns with modern application development needs, offering flexibility, scalability and high performance. It has a rich set of features that support complex and evolving business requirements.
+{% endblock %}
+
+{% block canonical_url %}{{ request.host_url }}data/mongodb/what-is-opensearch{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+
+<script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% with %}
+  {% set formid = "4903" %}
+  {% set returnURL = "https://canonical.com/data/mongodb#success" %}
+  {% include "data/_form-data-mongodb.html" %}
+{% endwith %}
+
+{% endblock %}
