@@ -1,0 +1,13 @@
+<li>
+  <a href="{{ link.url }}"
+     class="p-navigation__dropdown-item {% if not desktop %}js-focus-target{% endif %}"
+     {% if data_level %}data-level="{{ data_level }}"{% endif %}>
+    <span>{{ link.title }}</span>
+    <br />
+    {% if id == "careers" %}
+      <small class="js-available-roles" data-id="{{ link.slug }}"><i class="p-icon--spinner u-animation--spin"></i></small>
+    {% elif link.description %}
+      <small>{{ link.description }}</small>
+    {% endif %}
+  </a>
+</li>

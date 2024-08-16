@@ -1,0 +1,111 @@
+{% set page_bubble = get_current_page_bubble(request.path).page_bubble %}
+
+<header id="navigation"
+        class="p-navigation{% if page_bubble %}--reduced{% else %}--sliding{% endif %} is-dark">
+  <div class="p-navigation__row--25-75">
+    <div class="p-navigation__banner">
+      <div class="p-navigation__tagged-logo">
+        <a class="p-navigation__link" href="/">
+          <div class="p-navigation__logo-tag">
+            <img class="p-navigation__logo-icon"
+                 src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg"
+                 alt="Canonical" />
+          </div>
+          <span class="p-navigation__logo-title">Canonical</span>
+        </a>
+      </div>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item">
+          <a href="/search"
+             class="js-search-button p-navigation__link--search-toggle"
+             aria-label="Search"></a>
+        </li>
+        <li class="p-navigation__item">
+          <a href="/navigation" class="js-menu-button p-navigation__link">Menu</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="p-navigation__nav js-show-nav" aria-label="Categories">
+      <ul class="p-navigation__items js-dropdown-list">
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="products-nav">
+          <a class="p-navigation__link js-dropdown-button"
+             href="#"
+             aria-controls="products-content"
+             tabindex="0"
+             data-level="0">Products</a>
+             {{ build_navigation('products', 'Products') }}
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="solutions-nav">
+          <a class="p-navigation__link js-dropdown-button"
+             href="#"
+             aria-controls="solutions-content"
+             tabindex="0"
+             data-level="0">Solutions</a>
+             {{ build_navigation('solutions', 'Solutions') }}
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="partners-nav">
+          <a class="p-navigation__link js-dropdown-button"
+             href="#"
+             aria-controls="partners-content"
+             tabindex="0"
+             data-level="0">Partners</a>
+             {{ build_navigation('partners', 'Partners') }}
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="careers-nav">
+          <a class="p-navigation__link js-dropdown-button"
+             href="#"
+             aria-controls="careers-content"
+             tabindex="0"
+             data-level="0">Careers</a>
+             {{ build_navigation('careers', 'Careers') }}
+        </li>
+        <li class="p-navigation__item--dropdown-toggle"
+            role="menuitem"
+            id="company-nav">
+          <a class="p-navigation__link js-dropdown-button"
+             href="#"
+             aria-controls="company-content"
+             tabindex="0"
+             data-level="0">Company</a>
+             {{ build_navigation('company', 'Company') }}
+        </li>
+        <li class="p-navigation__item is-right-shifted">
+          <a href="#"
+             class="js-search-button p-navigation__link--search-toggle"
+             aria-label="Toggle search"></a>
+        </li>
+      </ul>
+      <div class="p-navigation__search">
+        <form action="/search" class="p-search-box">
+        <label for="navigation-search" class="u-off-screen">Search</label>
+          <input type="search"
+                  id="navigation-search"
+                  class="p-search-box__input"
+                  name="q"
+                  placeholder="Search our sites"
+                  required
+                  aria-label="Search our sites" />
+          <button type="reset" class="p-search-box__reset js-search-button">
+            <i class="p-icon--close"></i>
+          </button>
+          <button type="submit" class="p-search-box__button js-search-button">
+            <i class="p-icon--search"></i>
+          </button>
+        </form>
+      </div>
+    </nav>
+  </div>
+  <div class="js-search-overlay p-navigation__search-overlay"></div>
+</header>
+
+{% if page_bubble %}
+  {% include 'navigation/secondary-navigation.html' %}
+{% endif %}

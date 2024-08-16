@@ -1,34 +1,222 @@
-@mixin canonical-p-navigation {
-  // Style for main navigation
-  .p-navigation__dropdown a.is-selected {
-    border-left: 4px solid white;
-    color: white !important;
+$dropdown-border: 1px solid $colors--dark-theme--border-low-contrast;
+$navigation-background: #2d2d2d;
+$navigation-heading-color: #fff9;
+
+@mixin canonical-p-navigation-mobile {
+  // Remove the border on items directly below a heading
+  .p-navigation--list-heading + li > .p-navigation__dropdown-item::before {
+    content: none;
+  }
+
+  // Some style is repeated here and in the desktop mixin for clarity
+  .p-navigation__dropdown-content--sliding {
+    a {
+      display: block;
+      font-weight: 400;
+      white-space: normal;
+      text-decoration: none;
+    }
+
+    .p-navigation__dropdown-item {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    // Remove line breaks and adjust padding for default link lists
+    .p-navigation--list-link > .p-navigation__dropdown-item {
+      width: fit-content;
+      padding-bottom: 0.25rem;
+      padding-top: 0.25rem;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    .p-navigation--list-heading {
+      color: $navigation-heading-color;
+      padding-top: 0;
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+
+      .p-navigation__dropdown-item {
+        color: $navigation-heading-color;
+        width: fit-content;
+
+        a {
+          color: inherit;
+          font-weight: inherit;
+        }
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+
+    // This is a hack to allow clicking regular links under `p-navigation__dropdown-item`
+    .p-navigation--cta,
+    .p-navigation--list-link,
+    .p-navigation--list-heading {
+      .p-navigation__dropdown-item {
+        &:hover {
+          background: var(--vf-color-background-default);
+        }
+
+        a {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .p-navigation__dropdown-item small {
+      color: #aaa;
+    }
   }
 }
 
-// Meganav
-.dropdown-window-overlay {
-  background-color: rgb(17 17 17 / 40%);
-  height: 100%;
-  opacity: 1;
-  position: fixed;
-  top: 0;
-  transition: opacity 0.5s ease-in-out;
-  width: 100%;
-  z-index: 1;
+@mixin canonical-p-navigation-dropdown-content {
+  .p-navigation__content-panel--full-width {
+    a {
+      display: block;
+      font-weight: 400;
+      white-space: normal;
+      text-decoration: none;
+    }
+
+    .p-navigation__dropdown-item small,
+    .p-navigation__dropdown-item small:visited {
+      color: #aaa;
+    }
+
+    .p-navigation--cta {
+      @extend .p-heading--2;
+
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .p-navigation--list-heading {
+      color: $navigation-heading-color;
+      padding-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .p-navigation__main-links {
+      margin-left: -1rem;
+
+      .p-navigation--list-heading {
+        margin-left: 1rem;
+      }
+    }
+
+    .p-navigation__link-list {
+      .p-list__item:first-of-type {
+        padding-top: 0.75rem;
+      }
+
+      a:not(.p-link--inverted) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      a.p-link--inverted {
+        &:hover {
+          color: var(--vf-color-text-muted);
+        }
+      }
+    }
+  }
+
+  .p-navigation__content-panel {
+    background-color: $navigation-background;
+    padding-top: 2rem;
+
+    .p-navigation__main-links {
+      margin-left: -0.5rem;
+    }
+
+    .p-navigation__dropdown-item {
+      padding: 0.25rem 0.5rem;
+    }
+
+    li:first-of-type .p-navigation__dropdown-item,
+    li:not(:last-of-type) .p-navigation__dropdown-item {
+      border-bottom: $dropdown-border;
+    }
+  }
+
+  .p-navigation__preview-link--image {
+    margin-top: 1rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .p-navigation__preview-link:hover .p-navigation__preview-link--description {
+    text-decoration: underline;
+  }
+  
+  .p-navigation__footer {
+    border-top: $dropdown-border;
+    margin-left: -0.5rem;
+    padding: 1rem 0 1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .p-navigation--reduced,
+  .p-navigation--sliding {
+    .p-navigation__dropdown.is-full-width
+      .p-navigation__dropdown-content--full-width {
+      background-color: $navigation-background;
+    }
+  }
 }
 
-.dropdown-window {
-  @include vf-transition(all, brisk, out);
+@mixin canonical-p-navigation-tab-panel {
+  // Adds background colour and positioning to the dropdown tab panel
+  .p-navigation__tab-panel {
+    padding: 2rem 0;
+    background: $colors--dark-theme--background-default;
+    position: relative;
 
-  background-color: $color-accent-background;
-  position: absolute;
-  width: 100%;
-  z-index: 3;
-}
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100vw;
+      right: 0;
+      bottom: 0;
+      background-color: $colors--dark-theme--background-default;
+      z-index: -1;
+    }
+  }
 
-// To use same styles with a different class
-// because it's manipulated by JS script
-.dropdown-toggle {
-  @extend .p-navigation__item--dropdown-toggle;
+  // Colours the links in the dropdown tab panel
+  .p-navigation__tab-panel .p-side-navigation__link {
+    border-bottom: $dropdown-border;
+    padding: 0.25rem 1rem 0.25rem 0.5rem;
+
+    &.is-active {
+      background-color: $navigation-background;
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  // remove the border from the final tab item
+  .p-navigation__tab-panel
+    .p-side-navigation__item:last-of-type
+    .p-side-navigation__link {
+    border-bottom: none;
+  }
 }
