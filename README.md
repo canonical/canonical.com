@@ -1,4 +1,4 @@
-# ![Canonical](https://assets.ubuntu.com/v1/9ce5bce5-canonical-logo3.png?h=32 "Canonical")&nbsp;canonical.com
+# ![Canonical](https://assets.ubuntu.com/v1/9ce5bce5-canonical-logo3.png?h=32 "Canonical")&nbsp;canonical.com.
 
 **The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/).**
 
