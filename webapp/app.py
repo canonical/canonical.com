@@ -66,7 +66,7 @@ charmhub_discourse_api = DiscourseAPI(
 app.register_blueprint(application, url_prefix="/careers/application")
 
 
-def _group_by_department(vacancies):
+def _group_by_department(vacancies, departments, is_web):
     """
     Return a dictionary of departments by slug,
     where each department will have a new
@@ -78,12 +78,16 @@ def _group_by_department(vacancies):
     vacancies_by_department = {}
 
     departments_by_slug = {}
-
-    for department in all_departments:
+    for department in departments:
         departments_by_slug[department.slug] = department
 
     for vacancy in vacancies:
-        for department in vacancy.departments:
+        if is_web:
+            vacancy_departments =  vacancy.web_departments
+        else:
+            vacancy_departments = vacancy.departments
+        
+        for department in vacancy_departments:
             slug = department.slug
 
             if slug not in vacancies_by_department:
@@ -102,28 +106,16 @@ def _group_by_department(vacancies):
     return vacancies_by_department
 
 
-def _get_sorted_departments():
-    departments = _group_by_department(greenhouse.get_vacancies())
+def _get_sorted_departments(is_web):
 
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-    ]
+    if is_web:
+        base_departments = harvest.get_web_departments()
+    else:
+        base_departments = harvest.get_departments()
+    
+    departments = _group_by_department(greenhouse.get_vacancies(), base_departments, is_web)
 
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
+    sorted_departments = dict(sorted(departments.items()))
 
     return sorted_departments
 
@@ -132,7 +124,11 @@ def _get_all_departments() -> tuple:
     """
     Refactor for careers search section
     """
-    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+    true_departments = harvest.get_departments()
+    web_departments= harvest.get_web_departments()
+    vacancies = greenhouse.get_vacancies()
+
+    all_departments = (_group_by_department(vacancies, web_departments, True))
 
     dept_list = [
         {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
@@ -156,29 +152,31 @@ def _get_all_departments() -> tuple:
     ]
 
     departments_overview = []
-
+    
+    # import ipdb
+    # ipdb.set_trace()
+    
     for vacancy in all_departments:
         for dept in dept_list:
-            if vacancy[dept["slug"]]:
-                if vacancy[dept["slug"]].vacancies:
-                    count = len(vacancy[dept["slug"]].vacancies)
-                else:
-                    count = 0
-                name = vacancy[dept["slug"]].name
-                slug = vacancy[dept["slug"]].slug
-                icon = dept["icon"]
+            if vacancy == dept["slug"]:
+                name = vacancy
+                slug = vacancy
 
                 departments_overview.append(
                     {
                         "name": name,
-                        "count": count,
                         "slug": slug,
-                        "icon": icon,
                     }
                 )
 
     return all_departments, departments_overview
 
+def _get_grouped_departments():
+    """
+    Get combo of needed old departments and new departments.
+    """
+
+    return
 
 @app.route("/")
 def index():
@@ -355,7 +353,7 @@ def careers_index():
 
 @app.route("/careers/all")
 def all_careers():
-    sorted_departments = _get_sorted_departments()
+    sorted_departments = _get_sorted_departments(False)
 
     return flask.render_template(
         "/careers/all.html",
@@ -473,12 +471,38 @@ def working_here_pages():
 
 @app.route("/careers/<department_slug>")
 def department_group(department_slug):
-    departments = _get_sorted_departments()
+    
+    departments = _get_sorted_departments(True)
 
     if department_slug not in departments:
         flask.abort(404)
 
     department = departments[department_slug]
+     
+    # Get filters based on TRUE departments
+    setattr(department, "dept_filters", [])
+    true_departments = harvest.get_departments()
+
+    # import ipdb
+    # ipdb.set_trace()
+    
+    comm_opps_depts = ["finance", "project management", "legal", "administration"]
+
+    if department_slug == "engineering":
+        targ_strs = ["Engineering", "Systems", "Managed"]
+
+        for d in true_departments:
+            for target in targ_strs:
+                if target in d.name and d.name != "Web Engineering":
+                    department.dept_filters.append(d.name)
+
+    elif department_slug in comm_opps_depts:
+        department.dept_filters.append("Commercial Opperations")
+    elif department_slug == "sales":
+        department.dept_filters.extend("Sales", "Alliances")
+    elif department_slug == "web design":
+        department.dept_filters.append("Web Engineering")
+
 
     # format edge case slugs
     formatted_slug = ""
