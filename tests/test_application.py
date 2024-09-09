@@ -14,6 +14,7 @@ from webapp.application import (
     application_withdrawal,
 )
 from webapp.greenhouse import Harvest
+from webapp.utils.cipher import Cipher
 
 all_stages = [
     {"name": "Application Review"},
@@ -320,7 +321,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         self.fake_withdrawal_message = None
 
         # mock functions
-        self.mock_decrypt = patch("webapp.application.cipher.decrypt").start()
+        self.mock_get_cipher = patch("webapp.application._get_cipher").start()
         self.mock_get_application = patch(
             "webapp.application._get_application"
         ).start()
@@ -334,9 +335,11 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         ).start()
 
         # set return values for mocks
-        self.mock_decrypt.return_value = json.dumps(
+        mock_cipher = MagicMock(spec=Cipher)
+        mock_cipher.decrypt.return_value = json.dumps(
             {"application_id": self.fake_application["id"]}
         )
+        self.mock_get_cipher.return_value = mock_cipher
         self.mock_get_application.return_value = self.fake_application
         self.mock_cal.return_value.get_timezone.return_value = (
             self.fake_timezone

@@ -77,7 +77,6 @@ application = flask.Blueprint(
     static_folder="/dist",
 )
 
-cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY", ""))
 base_url = "https://harvest.greenhouse.io/v1"
 
 directory_api_url = "https://directory.wpe.internal/graphql/"
@@ -85,6 +84,11 @@ directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
 
 # Helpers
 # ===
+
+
+def _get_cipher():
+    cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY", ""))
+    return cipher
 
 
 def _get_employee_directory_data(employee_id: str):
@@ -321,6 +325,7 @@ def _get_application(harvest, application_id):
 
 
 def _get_application_from_token(harvest, token):
+    cipher = _get_cipher()
     token_application_id = cipher.decrypt(token)
 
     return _get_application(harvest, token_application_id)
@@ -347,6 +352,7 @@ def _submitted_email_match(submitted_email, application):
 def _confirmation_token(
     email, withdrawal_reason_id, withdrawal_message, application_id
 ):
+    cipher = _get_cipher()
     payload = {
         "email": email,
         "withdrawal_reason_id": withdrawal_reason_id,
@@ -485,6 +491,7 @@ def handle_application_withdrawal(token):
 
 def application_withdrawal(harvest, token):
     try:
+        cipher = _get_cipher()
         payload = json.loads(cipher.decrypt(token))
     except InvalidToken:
         flask.abort(401, "Invalid token")
