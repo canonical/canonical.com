@@ -13,6 +13,7 @@ from webapp.application import (
     _submitted_email_match,
     application_withdrawal,
 )
+from webapp.greenhouse import Harvest
 
 all_stages = [
     {"name": "Application Review"},
@@ -327,12 +328,6 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             "webapp.application.flask.render_template"
         ).start()
         self.mock_cal = patch("webapp.application.CalendarAPI").start()
-        self.mock_reject_application = patch(
-            "webapp.application.harvest.reject_application"
-        ).start()
-        self.mock_get_interviews_scheduled = patch(
-            "webapp.application.harvest.get_interviews_scheduled"
-        ).start()
         self.mock_send_mail = patch("webapp.application._send_mail").start()
         self.mock_google_authenticate = patch(
             "webapp.google_calendar.CalendarAPI._authenticate"
@@ -348,11 +343,6 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         )
         self.mock_cal.return_value.delete_interview_event.return_value = None
         self.mock_cal.return_value.is_on_interview_calendar.return_value = True
-        self.mock_reject_application.return_value = MagicMock(status_code=200)
-        self.mock_get_interviews_scheduled.return_value = [
-            self.fake_scheduled_interview,
-            self.fake_completed_interview,
-        ]
         self.mock_send_mail.return_value = None
         self.mock_google_authenticate = None
 
@@ -365,10 +355,18 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
 
     def test_candidate_withdrawal_process(self):
         # call application_withdrawal function with a fake token
-        application_withdrawal("fake_token")
+        mock_harvest = MagicMock(spec=Harvest)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=200
+        )
+        mock_harvest.get_interviews_scheduled.return_value = [
+            self.fake_scheduled_interview,
+            self.fake_completed_interview,
+        ]
+        application_withdrawal(mock_harvest, "fake_token")
 
         # ensure that get_interviews_scheduled was called with the right id
-        self.mock_get_interviews_scheduled.assert_called_once_with(
+        mock_harvest.get_interviews_scheduled.assert_called_once_with(
             self.fake_application["id"]
         )
 
@@ -398,7 +396,7 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         self.assertEqual(kwargs["interview_date"], expected_datetime)
 
         # ensure that harvest rejection fn is called with correct arguments
-        self.mock_reject_application.assert_called_once_with(
+        mock_harvest.reject_application.assert_called_once_with(
             self.fake_application["id"],
             self.fake_application["hiring_lead"]["id"],
             self.fake_withdrawal_reason_id,

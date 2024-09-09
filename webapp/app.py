@@ -4,13 +4,11 @@ import datetime
 import calendar
 import os
 import re
-import requests
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import bleach
 import flask
 import markdown
-import talisker.requests
 
 # Packages
 from canonicalwebteam import image_template
@@ -23,8 +21,8 @@ from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
-from webapp.application import application, harvest
-from webapp.greenhouse import Greenhouse
+from webapp.application import application
+from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
 from webapp.navigation import (
@@ -32,6 +30,7 @@ from webapp.navigation import (
     build_navigation,
     split_list,
 )
+from webapp.requests_session import get_requests_session
 
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
 CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
@@ -47,26 +46,20 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
-session = talisker.requests.get_session()
-greenhouse = Greenhouse(
-    session=session, api_key=os.environ.get("GREENHOUSE_API_KEY")
-)
-partners_api = Partners(session)
 
-charmhub_session = requests.Session()
-talisker.requests.configure(charmhub_session)
 charmhub_discourse_api = DiscourseAPI(
     base_url="https://discourse.charmhub.io/",
-    session=charmhub_session,
+    session=get_requests_session(),
     api_key=CHARMHUB_DISCOURSE_API_KEY,
     api_username=CHARMHUB_DISCOURSE_API_USERNAME,
     get_topics_query_id=2,
 )
+search_session = get_requests_session()
 
 app.register_blueprint(application, url_prefix="/careers/application")
 
 
-def _group_by_department(vacancies):
+def _group_by_department(harvest, vacancies):
     """
     Return a dictionary of departments by slug,
     where each department will have a new
@@ -102,8 +95,8 @@ def _group_by_department(vacancies):
     return vacancies_by_department
 
 
-def _get_sorted_departments():
-    departments = _group_by_department(greenhouse.get_vacancies())
+def _get_sorted_departments(greenhouse, harvest):
+    departments = _group_by_department(harvest, greenhouse.get_vacancies())
 
     sort_order = [
         "engineering",
@@ -128,11 +121,13 @@ def _get_sorted_departments():
     return sorted_departments
 
 
-def _get_all_departments() -> tuple:
+def _get_all_departments(greenhouse, harvest) -> tuple:
     """
     Refactor for careers search section
     """
-    all_departments = (_group_by_department(greenhouse.get_vacancies()),)
+    all_departments = (
+        _group_by_department(harvest, greenhouse.get_vacancies()),
+    )
 
     dept_list = [
         {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
@@ -213,7 +208,7 @@ app.add_url_rule(
     "/search",
     "search",
     build_search_view(
-        session=session,
+        session=search_session,
         template_path="search.html",
         search_engine_id=search_engine_id,
         request_limit="2000/day",
@@ -230,15 +225,24 @@ def secure_boot():
 
 # Career departments
 @app.route("/careers/results")
-def results():
+def handle_careers_results():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return careers_results(greenhouse, harvest)
+
+
+def careers_results(greenhouse, harvest):
     vacancies = []
 
     core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
-    vacancies_by_department = _group_by_department(vacancies)
+    vacancies_by_department = _group_by_department(harvest, vacancies)
 
     context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies()),
+        "all_departments": _group_by_department(
+            harvest, greenhouse.get_vacancies()
+        ),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
     }
@@ -247,7 +251,14 @@ def results():
 
 
 @app.route("/careers/sitemap.xml")
-def careers_sitemap():
+def handle_careers_sitemap():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return careers_sitemap(greenhouse, harvest)
+
+
+def careers_sitemap(greenhouse, harvest):
     context = {
         "vacancies": greenhouse.get_vacancies(),
         "departments": harvest.get_departments(),
@@ -262,7 +273,13 @@ def careers_sitemap():
 
 
 @app.route("/careers/feed")
-def careers_rss():
+def handle_careers_rss():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        return careers_rss(greenhouse)
+
+
+def careers_rss(greenhouse):
     context = {"vacancies": greenhouse.get_vacancies()}
 
     xml_sitemap = flask.render_template("careers/rss.xml", **context)
@@ -280,11 +297,18 @@ def careers_rss():
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
 )
-def job_details(job_id, job_title):
+def handle_job_details(job_id, job_title):
     """
     job_title is not used, but is included in the route to avoid
     breaking existing links
     """
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return job_details(greenhouse, harvest, job_id)
+
+
+def job_details(greenhouse, harvest, job_id):
     context = {"bleach": bleach}
 
     try:
@@ -324,24 +348,40 @@ def start_career():
 
 
 @app.route("/careers/roles.json")
-def roles():
+def handle_roles():
     """
     API endpoint for _navigation to consume
     roles by department section with the up to date roles.
     """
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return roles(greenhouse, harvest)
 
-    all_departments, departments_overview = _get_all_departments()
+
+def roles(greenhouse, harvest):
+    all_departments, departments_overview = _get_all_departments(
+        greenhouse, harvest
+    )
     return flask.jsonify(departments_overview)
 
 
 @app.route("/careers")
-def careers_index():
+def handle_careers_index():
     """
     Create a dictionary containing number of roles, slug
     and department name for a given department
     """
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return careers_index(greenhouse, harvest)
 
-    all_departments, departments_overview = _get_all_departments()
+
+def careers_index(greenhouse, harvest):
+    all_departments, departments_overview = _get_all_departments(
+        greenhouse, harvest
+    )
 
     return flask.render_template(
         "/careers/index.html",
@@ -354,8 +394,15 @@ def careers_index():
 
 
 @app.route("/careers/all")
-def all_careers():
-    sorted_departments = _get_sorted_departments()
+def handle_all_careers():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return all_careers(greenhouse, harvest)
+
+
+def all_careers(greenhouse, harvest):
+    sorted_departments = _get_sorted_departments(greenhouse, harvest)
 
     return flask.render_template(
         "/careers/all.html",
@@ -373,8 +420,17 @@ def culture():
 
 
 @app.route("/careers/company-culture/progression")
-def careers_progression():
-    all_departments, departments_overview = _get_all_departments()
+def handle_careers_progression():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return careers_progression(greenhouse, harvest)
+
+
+def careers_progression(greenhouse, harvest):
+    all_departments, departments_overview = _get_all_departments(
+        greenhouse, harvest
+    )
 
     return flask.render_template(
         "/careers/company-culture/progression.html",
@@ -387,9 +443,18 @@ def careers_progression():
 
 
 @app.route("/careers/company-culture/diversity")
-def diversity():
+def handle_diversity():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return diversity(greenhouse, harvest)
+
+
+def diversity(greenhouse, harvest):
     context = {
-        "all_departments": _group_by_department(greenhouse.get_vacancies())
+        "all_departments": _group_by_department(
+            harvest, greenhouse.get_vacancies()
+        )
     }
     context["department"] = None
     return flask.render_template(
@@ -399,7 +464,13 @@ def diversity():
 
 @app.route("/careers/company-culture/remote-work")
 @app.route("/careers/company-culture/sustainability")
-def working_here_pages():
+def handle_working_here_pages():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        return working_here_pages(greenhouse)
+
+
+def working_here_pages(greenhouse):
     sprint_locations = [
         [{"lat": 51.53910042435768, "lng": -0.1416575585467801}, "London"],
         [{"lat": -33.876169534561576, "lng": 18.382182743342554}, "Cape Town"],
@@ -472,8 +543,15 @@ def working_here_pages():
 
 
 @app.route("/careers/<department_slug>")
-def department_group(department_slug):
-    departments = _get_sorted_departments()
+def handle_department_group(department_slug):
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        harvest = Harvest.from_session(session)
+        return department_group(greenhouse, harvest, department_slug)
+
+
+def department_group(greenhouse, harvest, department_slug):
+    departments = _get_sorted_departments(greenhouse, harvest)
 
     if department_slug not in departments:
         flask.abort(404)
@@ -512,7 +590,13 @@ def department_group(department_slug):
 
 # Partners
 @app.route("/partners/find-a-partner")
-def find_a_partner():
+def handle_find_a_partner():
+    with get_requests_session() as session:
+        partners_api = Partners(session)
+        return find_a_partner(partners_api)
+
+
+def find_a_partner(partners_api):
     partners = sorted(
         partners_api.get_partner_list(), key=lambda item: item["name"]
     )
@@ -534,7 +618,13 @@ def find_a_partner():
 @app.route("/partners/iot-device")
 @app.route("/partners/silicon")
 @app.route("/partners/devices-and-iot")
-def partner_details():
+def handle_partner_details():
+    with get_requests_session() as session:
+        partners_api = Partners(session)
+        return partner_details(partners_api)
+
+
+def partner_details(partners_api):
     partners = partners_api._get(
         partners_api.partner_page_map[flask.request.path.split("/")[2]]
     )
@@ -574,40 +664,45 @@ class PressCentre(BlogView):
 
 class BlogSitemapIndex(BlogView):
     def dispatch_request(self):
-        response = session.get(
-            "https://admin.insights.ubuntu.com/sitemap_index.xml"
-        )
+        with get_requests_session() as session:
+            response = session.get(
+                "https://admin.insights.ubuntu.com/sitemap_index.xml"
+            )
 
-        xml = response.text.replace(
-            "https://admin.insights.ubuntu.com/",
-            "https://canonical.com/blog/sitemap/",
-        )
-        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+            xml = response.text.replace(
+                "https://admin.insights.ubuntu.com/",
+                "https://canonical.com/blog/sitemap/",
+            )
+            xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
 
-        response = flask.make_response(xml)
-        response.headers["Content-Type"] = "application/xml"
-        return response
+            response = flask.make_response(xml)
+            response.headers["Content-Type"] = "application/xml"
+            return response
 
 
 class BlogSitemapPage(BlogView):
     def dispatch_request(self, slug):
-        response = session.get(f"https://admin.insights.ubuntu.com/{slug}.xml")
+        with get_requests_session() as session:
+            response = session.get(
+                f"https://admin.insights.ubuntu.com/{slug}.xml"
+            )
 
-        if response.status_code == 404:
-            return flask.abort(404)
+            if response.status_code == 404:
+                return flask.abort(404)
 
-        xml = response.text.replace(
-            "https://admin.insights.ubuntu.com/", "https://canonical.com/blog/"
-        )
-        xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
+            xml = response.text.replace(
+                "https://admin.insights.ubuntu.com/",
+                "https://canonical.com/blog/",
+            )
+            xml = re.sub(r"<\?xml-stylesheet.*\?>", "", xml)
 
-        response = flask.make_response(xml)
-        response.headers["Content-Type"] = "application/xml"
-        return response
+            response = flask.make_response(xml)
+            response.headers["Content-Type"] = "application/xml"
+            return response
 
 
 blog_views = BlogViews(
-    api=BlogAPI(session=session),
+    api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
     per_page=11,
 )
@@ -778,7 +873,7 @@ app.add_url_rule(
     "/data/docs/spark/k8s/search",
     "data-docs-spark-k8s-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/spark/k8s",
         template_path="/data/docs/spark/k8s/search-results.html",
     ),
@@ -800,7 +895,7 @@ app.add_url_rule(
     "/data/docs/mysql/iaas/search",
     "data-docs-mysql-iaas-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/mysql/iaas",
         template_path="/data/docs/mysql/iaas/search-results.html",
     ),
@@ -822,7 +917,7 @@ app.add_url_rule(
     "/data/docs/mysql/k8s/search",
     "data-docs-mysql-k8s-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/mysql/k8s",
         template_path="/data/docs/mysql/k8s/search-results.html",
     ),
@@ -844,7 +939,7 @@ app.add_url_rule(
     "/data/docs/mongodb/iaas/search",
     "data-docs-mongodb-vm-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/mongodb/iaas",
         template_path="/data/docs/mongodb/iaas/search-results.html",
     ),
@@ -866,7 +961,7 @@ app.add_url_rule(
     "/data/docs/mongodb/k8s/search",
     "data-docs-mongodb-k8s-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/mongodb/k8s",
         template_path="/data/docs/mongodb/k8s/search-results.html",
     ),
@@ -888,7 +983,7 @@ app.add_url_rule(
     "/data/docs/postgresql/k8s/search",
     "data-docs-postgresql-k8s-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/postgresql/k8s",
         template_path="/data/docs/postgresql/k8s/search-results.html",
     ),
@@ -910,7 +1005,7 @@ app.add_url_rule(
     "/data/docs/postgresql/iaas/search",
     "data-docs-postgresql-iaas-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/postgresql/iaas",
         template_path="/data/docs/postgresql/iaas/search-results.html",
     ),
@@ -932,7 +1027,7 @@ app.add_url_rule(
     "/data/docs/opensearch/iaas/search",
     "data-docs-opensearch-iaas-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/opensearch/iaas",
         template_path="/data/docs/opensearch/iaas/search-results.html",
     ),
@@ -954,7 +1049,7 @@ app.add_url_rule(
     "/data/docs/kafka/iaas/search",
     "data-docs-kafka-iaas-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/kafka/iaas",
         template_path="/data/docs/kafka/iaas/search-results.html",
     ),
@@ -976,7 +1071,7 @@ app.add_url_rule(
     "/data/docs/kafka/k8s/search",
     "data-docs-kafka-k8s-search",
     build_search_view(
-        session=session,
+        session=search_session,
         site="canonical.com/data/docs/kafka/k8s",
         template_path="/data/docs/kafka/k8s/search-results.html",
     ),

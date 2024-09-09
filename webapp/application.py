@@ -14,7 +14,6 @@ import logging
 
 
 import flask
-import talisker.requests
 from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
@@ -22,6 +21,7 @@ from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
 from webapp.utils.constants import ONE_WEEK_IN_MINUTES
+from webapp.requests_session import get_requests_session
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -77,9 +77,7 @@ application = flask.Blueprint(
     static_folder="/dist",
 )
 
-session = talisker.requests.get_session()
-harvest = Harvest(session=session, api_key=os.environ.get("HARVEST_API_KEY"))
-cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY"))
+cipher = Cipher(os.environ.get("APPLICATION_CRYPTO_SECRET_KEY", ""))
 base_url = "https://harvest.greenhouse.io/v1"
 
 directory_api_url = "https://directory.wpe.internal/graphql/"
@@ -217,7 +215,7 @@ def _calculate_job_title(application):
         return application["jobs"][0]["name"]
 
 
-def _get_application(application_id):
+def _get_application(harvest, application_id):
     application = harvest.get_application(int(application_id))
     job_post_id = application["job_post_id"]
     application["job_post"] = (
@@ -322,10 +320,10 @@ def _get_application(application_id):
     return application
 
 
-def _get_application_from_token(token):
+def _get_application_from_token(harvest, token):
     token_application_id = cipher.decrypt(token)
 
-    return _get_application(token_application_id)
+    return _get_application(harvest, token_application_id)
 
 
 def _get_gia_feedback(attachments):
@@ -416,11 +414,17 @@ def application_access_denied():
 
 
 @application.route("/<string:token>")
-def application_index(token):
+def handle_application_index(token):
+    with get_requests_session() as session:
+        harvest = Harvest.from_session(session)
+        return application_index(harvest, token)
+
+
+def application_index(harvest, token):
     withdrawn = False
 
     try:
-        application = _get_application_from_token(token)
+        application = _get_application_from_token(harvest, token)
     except InvalidToken:
         flask.abort(401, "Invalid token")
 
@@ -443,9 +447,15 @@ def application_index(token):
 
 
 @application.route("/get-report/<string:token>", methods=["POST"])
-def application_report(token):
+def handle_application_report(token):
+    with get_requests_session() as session:
+        harvest = Harvest.from_session(session)
+        return application_report(harvest, token)
+
+
+def application_report(harvest, token):
     try:
-        application = _get_application_from_token(token)
+        application = _get_application_from_token(harvest, token)
     except InvalidToken:
         return flask.jsonify(
             {"status": "error", "message": "Could not find application"}
@@ -467,13 +477,19 @@ def application_report(token):
 
 
 @application.route("/withdraw/<string:token>")
-def application_withdrawal(token):
+def handle_application_withdrawal(token):
+    with get_requests_session() as session:
+        harvest = Harvest.from_session(session)
+        return application_withdrawal(harvest, token)
+
+
+def application_withdrawal(harvest, token):
     try:
         payload = json.loads(cipher.decrypt(token))
     except InvalidToken:
         flask.abort(401, "Invalid token")
 
-    application = _get_application(payload["application_id"])
+    application = _get_application(harvest, payload["application_id"])
     withdrawal_reason_id = payload.get("withdrawal_reason_id")
     withdrawal_message = payload.get("withdrawal_message")
 
@@ -626,9 +642,15 @@ def application_withdrawal(token):
 
 
 @application.route("/<string:token>", methods=["POST"])
-def request_withdrawal(token):
+def handle_request_withdrawal(token):
+    with get_requests_session() as session:
+        harvest = Harvest.from_session(session)
+        return request_withdrawal(harvest, token)
+
+
+def request_withdrawal(harvest, token):
     try:
-        application = _get_application_from_token(token)
+        application = _get_application_from_token(harvest, token)
     except InvalidToken:
         flask.abort(401, "Invalid token")
 
@@ -654,7 +676,7 @@ def request_withdrawal(token):
             wrong_email=True,
             token=token,
             withdrawal_reasons=withdrawal_reasons,
-            application=_get_application_from_token(token),
+            application=_get_application_from_token(harvest, token),
         )
 
     email_message = flask.render_template(
@@ -696,7 +718,7 @@ def request_withdrawal(token):
         token=token,
         withdrawal_requested=True,
         withdrawal_reasons=withdrawal_reasons,
-        application=_get_application_from_token(token),
+        application=_get_application_from_token(harvest, token),
     )
 
 
