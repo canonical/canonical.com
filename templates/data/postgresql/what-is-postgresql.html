@@ -16,20 +16,18 @@
 
 {% block content %}
 
-  <section class="p-strip is-shallow u-no-padding--bottom">
-    <div class="p-section--deep">
-      <div class="row--50-50-on-large">
-        <div class="col">
-          <h1>What is PostgreSQL?</h1>
-        </div>
-        <div class="col">
-          <p>
-            PostgreSQL, or just Postgres, is an open-source database management system (DBMS). It is known for its excellent support of the SQL standard, its extensibility and its enterprise-grade features &ndash; including procedural languages, extensive index types and comprehensive security.
-          </p>
-          <p>
-            PostgreSQL has been successfully used for more than three decades in all IT sectors. Its maturity and its vibrant community consistently make it a first choice database among developers.
-          </p>
-        </div>
+  <section class="p-section--hero">
+    <div class="row--50-50-on-large">
+      <div class="col">
+        <h1>What is PostgreSQL?</h1>
+      </div>
+      <div class="col">
+        <p>
+          PostgreSQL, or just Postgres, is an open-source database management system (DBMS). It is known for its excellent support of the SQL standard, its extensibility and its enterprise-grade features &ndash; including procedural languages, extensive index types and comprehensive security.
+        </p>
+        <p>
+          PostgreSQL has been successfully used for more than three decades in all IT sectors. Its maturity and its vibrant community consistently make it a first choice database among developers.
+        </p>
       </div>
     </div>
   </section>
@@ -64,7 +62,7 @@
     <div class="row">
       <div class="col-start-large-4 col-9 col-medium-6">
         <hr class="is-muted" />
-        <div class="row p-section--shallow">
+        <div class="row">
           <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">Open source and open ecosystem</h3>
           </div>
@@ -75,7 +73,7 @@
           </div>
         </div>
         <hr class="is-muted" />
-        <div class="row p-section--shallow">
+        <div class="row">
           <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">Enterprise-grade features</h3>
           </div>
@@ -86,7 +84,7 @@
           </div>
         </div>
         <hr class="is-muted" />
-        <div class="row p-section">
+        <div class="row p-section--shallow">
           <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">Loved by developers</h3>
           </div>
@@ -96,8 +94,8 @@
         </div>
       </div>
     </div>
-    <hr class="is-muted is-fixed-width" />
     <div class="row">
+      <hr class="is-muted" />
       <div class="col-6 col-start-large-7">
         <p>
           <a href="/contact-us" aria-controls="data-relational-dbs-modal">Contact us for all of your PostgreSQL needs&nbsp;&rsaquo;</a>
@@ -189,7 +187,15 @@
       </div>
       <div class="col">
         <div class="p-section--shallow">
-          <div class="p-image-container is-highlighted u-hide--small"></div>
+          <div class="p-image-container is-highlighted u-hide--small">
+            {{ image(url="https://assets.ubuntu.com/v1/e524b755-PostgreSQL-diagram.png",
+                        alt="Diagram depicting an overview of the PostgreSQL architecture",
+                        width="600",
+                        height="654",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
         </div>
         <p>
           The diagram depicts an overview of the PostgreSQL architecture. It illustrates the processes, memory areas and some of their associated parameters. PostgreSQL adopts the following database design patterns:
