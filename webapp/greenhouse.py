@@ -1,6 +1,7 @@
 # Standard library
 import json
 from base64 import b64encode
+import os
 
 # Packages
 from html import unescape
@@ -166,12 +167,19 @@ class Greenhouse:
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
 
-    """
-    Get all jobs from the API and parse them into vacancies
-    Filter out vacancies without an office and a department
-    """
+    @staticmethod
+    def from_session(session):
+        greenhouse = Greenhouse(
+            session=session,
+            api_key=os.environ.get("GREENHOUSE_API_KEY"),
+        )
+        return greenhouse
 
     def get_vacancies(self):
+        """
+        Get all jobs from the API and parse them into vacancies
+        Filter out vacancies without an office and a department
+        """
         feed = self.session.get(f"{self.base_url}?content=true").json()
 
         vacancies = []
@@ -183,11 +191,10 @@ class Greenhouse:
 
         return vacancies
 
-    """
-    Get vacancies where the department matches a given department slug
-    """
-
     def get_vacancies_by_department_slug(self, department_slug):
+        """
+        Get vacancies where the department matches a given department slug
+        """
         vacancies = self.get_vacancies()
 
         def department_filter(vacancy):
@@ -198,12 +205,11 @@ class Greenhouse:
 
         return list(filter(department_filter, vacancies))
 
-    """
-    Get vacancies containing any of a given list of skills
-    Order by the number of matching skills, most first
-    """
-
     def get_vacancies_by_skills(self, skills: list):
+        """
+        Get vacancies containing any of a given list of skills
+        Order by the number of matching skills, most first
+        """
         vacancies = self.get_vacancies()
 
         # Remove non-matching jobs
@@ -220,25 +226,23 @@ class Greenhouse:
 
         return sorted_vacancies
 
-    """
-    Retrieve a single job from Greenhouse by ID
-    convert it to a Vacancy and return it
-    """
-
     def get_vacancy(self, job_id):
+        """
+        Retrieve a single job from Greenhouse by ID
+        convert it to a Vacancy and return it
+        """
         response = self.session.get(f"{self.base_url}/{job_id}?questions=true")
 
         response.raise_for_status()
 
         return Vacancy(response.json())
 
-    """
-    Default Job ID (1658196) is used below to submit CV without applying
-    for a specific job
-    https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196
-    """
-
     def submit_application(self, form_data, form_files, job_id="1658196"):
+        """
+        Default Job ID (1658196) is used below to submit CV without applying
+        for a specific job
+        https://boards-api.greenhouse.io/v1/boards/Canonical/jobs/1658196
+        """
         # Create payload for api submission
         payload = form_data.to_dict()
 
@@ -277,6 +281,14 @@ class Harvest:
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
 
+    @staticmethod
+    def from_session(session):
+        harvest = Harvest(
+            session=session,
+            api_key=os.environ.get("HARVEST_API_KEY"),
+        )
+        return harvest
+
     def get_departments(self):
         response = self.session.get(
             f"{self.base_url}custom_field/155450",
@@ -308,8 +320,12 @@ class Harvest:
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-
-        return response.json()
+        response_json = response.json()
+        response_id = response_json["id"]
+        assert str(response_id) == str(
+            application_id
+        ), f"assert {application_id=} {response_id=}"
+        return response_json
 
     def get_job_post(self, job_post_id):
         response = self.session.get(
@@ -317,8 +333,12 @@ class Harvest:
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-
-        return response.json()
+        response_json = response.json()
+        response_id = response_json["id"]
+        assert str(response_id) == str(
+            job_post_id
+        ), f"assert {job_post_id=} {response_id=}"
+        return response_json
 
     def get_candidate(self, candidate_id):
         response = self.session.get(
@@ -326,8 +346,12 @@ class Harvest:
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-
-        return response.json()
+        response_json = response.json()
+        response_id = response_json["id"]
+        assert str(response_id) == str(
+            candidate_id
+        ), f"assert {candidate_id=} {response_id=}"
+        return response_json
 
     def get_job(self, job_id):
         response = self.session.get(
@@ -335,8 +359,12 @@ class Harvest:
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-
-        return response.json()
+        response_json = response.json()
+        response_id = response_json["id"]
+        assert str(response_id) == str(
+            job_id
+        ), f"assert {job_id=} {response_id=}"
+        return response_json
 
     def get_stages(self, job_id):
         response = self.session.get(
@@ -352,8 +380,12 @@ class Harvest:
             headers={"Authorization": f"Basic {self.base64_key}"},
         )
         response.raise_for_status()
-
-        return response.json()
+        response_json = response.json()
+        response_id = response_json["id"]
+        assert str(response_id) == str(
+            user_id
+        ), f"assert {user_id=} {response_id=}"
+        return response_json
 
     def reject_application(
         self, application_id, user_id, rejection_reason_id, notes
