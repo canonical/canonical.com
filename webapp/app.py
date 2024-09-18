@@ -413,6 +413,11 @@ def all_careers(greenhouse, harvest):
     )
 
 
+@app.route("/careers/hiring-process")
+def hiring_process():
+    return flask.render_template("careers/hiring-process/index.html")
+
+
 # Company culture pages
 @app.route("/careers/company-culture")
 def culture():

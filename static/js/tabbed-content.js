@@ -98,6 +98,13 @@
 
         setActiveTab(tab, tabs);
 
+        // Add focus to the tab panel on tab click
+        const tabPanel = document.getElementById(tab.id + "-tab")
+
+        if (tabPanel) {
+          tabPanel.focus({ preventScroll: true });
+        }
+
         // For tablist containers with pagination
         // toggle buttons state on tab click
         if (prevButton && nextButton) {
@@ -233,6 +240,28 @@
       }
     });
   };
+
+  (function () {
+    // Toggles show board based on selection on small screens
+  
+    const boards = document.querySelectorAll(`[role=tabpanel]`);
+    const dropdownSelect = document.getElementById("boardSelect");
+  
+    dropdownSelect?.addEventListener("change", (event) => {
+      selectBoard();
+    });
+  
+    function selectBoard() {
+      boards.forEach((board) => {
+        if (board.id === dropdownSelect.value) {
+          board.classList.remove("u-hide");
+          board.focus();
+        } else {
+          board.classList.add("u-hide");
+        }
+      });
+    }
+  })();
 
   document.addEventListener("DOMContentLoaded", () => {
     initTabs(".js-tabbed-content");
