@@ -98,6 +98,13 @@
 
         setActiveTab(tab, tabs);
 
+        // Add focus to the tab panel on tab click
+        const tabPanel = document.getElementById(tab.id + "-tab")
+
+        if (tabPanel) {
+          tabPanel.focus({ preventScroll: true });
+        }
+
         // For tablist containers with pagination
         // toggle buttons state on tab click
         if (prevButton && nextButton) {
