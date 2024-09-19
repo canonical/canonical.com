@@ -208,10 +208,11 @@ app.add_url_rule(
     "/search",
     "search",
     build_search_view(
+        app=app,
         session=search_session,
         template_path="search.html",
         search_engine_id=search_engine_id,
-        request_limit="2000/day",
+        request_limit="1/day",
     ),
 )
 
@@ -878,6 +879,7 @@ app.add_url_rule(
     "/data/docs/spark/k8s/search",
     "data-docs-spark-k8s-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/spark/k8s",
         template_path="/data/docs/spark/k8s/search-results.html",
@@ -900,6 +902,7 @@ app.add_url_rule(
     "/data/docs/mysql/iaas/search",
     "data-docs-mysql-iaas-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/mysql/iaas",
         template_path="/data/docs/mysql/iaas/search-results.html",
@@ -922,6 +925,7 @@ app.add_url_rule(
     "/data/docs/mysql/k8s/search",
     "data-docs-mysql-k8s-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/mysql/k8s",
         template_path="/data/docs/mysql/k8s/search-results.html",
@@ -944,6 +948,7 @@ app.add_url_rule(
     "/data/docs/mongodb/iaas/search",
     "data-docs-mongodb-vm-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/mongodb/iaas",
         template_path="/data/docs/mongodb/iaas/search-results.html",
@@ -966,6 +971,7 @@ app.add_url_rule(
     "/data/docs/mongodb/k8s/search",
     "data-docs-mongodb-k8s-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/mongodb/k8s",
         template_path="/data/docs/mongodb/k8s/search-results.html",
@@ -988,6 +994,7 @@ app.add_url_rule(
     "/data/docs/postgresql/k8s/search",
     "data-docs-postgresql-k8s-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/postgresql/k8s",
         template_path="/data/docs/postgresql/k8s/search-results.html",
@@ -1010,6 +1017,7 @@ app.add_url_rule(
     "/data/docs/postgresql/iaas/search",
     "data-docs-postgresql-iaas-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/postgresql/iaas",
         template_path="/data/docs/postgresql/iaas/search-results.html",
@@ -1032,6 +1040,7 @@ app.add_url_rule(
     "/data/docs/opensearch/iaas/search",
     "data-docs-opensearch-iaas-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/opensearch/iaas",
         template_path="/data/docs/opensearch/iaas/search-results.html",
@@ -1054,6 +1063,7 @@ app.add_url_rule(
     "/data/docs/kafka/iaas/search",
     "data-docs-kafka-iaas-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/kafka/iaas",
         template_path="/data/docs/kafka/iaas/search-results.html",
@@ -1076,6 +1086,7 @@ app.add_url_rule(
     "/data/docs/kafka/k8s/search",
     "data-docs-kafka-k8s-search",
     build_search_view(
+        app=app,
         session=search_session,
         site="canonical.com/data/docs/kafka/k8s",
         template_path="/data/docs/kafka/k8s/search-results.html",
