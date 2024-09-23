@@ -63,7 +63,7 @@
     const educationInput = document.createElement("div");
     educationInput.setAttribute("data-education", n);
     educationInput.innerHTML = `
-      <hr/>
+      <hr class="p-rule--muted" />
       <a href="#" class="js-remove-education">
         <i class="p-icon--close" style="float: right;"></i>
       </a>

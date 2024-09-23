@@ -1,7 +1,7 @@
 <section>
   <div class="u-fixed-width">
     <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
-    <hr class="u-no-margin--bottom">
+    <hr class="p-rule--muted" />
   </div>
   <div class="p-featured row u-sv2">
     {% for job in featured_jobs %}
@@ -9,7 +9,11 @@
         <div class="col-small-4 col-medium-3 col-4">
           <div class="p-featured__item u-no-padding--left u-no-padding--right">
             <div class="p-card p-featured__role u-no-margin--bottom">
-              <p><a class="p-featured__url p-card--content" href="/careers/{{job.id}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a></p>
+              <p>
+                <a class="p-featured__url p-card--content"
+                   href="/careers/{{ job.id }}"
+                   onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a>
+              </p>
             </div>
           </div>
         </div>
@@ -18,9 +22,11 @@
   </div>
   <div class="u-fixed-width">
     {% if formatted_slug %}
-      <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{formatted_slug}}">See all {{ department.name }} roles</a>
+      <a class="p-button u-no-margin--bottom"
+         href="/careers/all?filter={{ formatted_slug }}">See all {{ department.name }} roles</a>
     {% else %}
-      <a class="p-button u-no-margin--bottom" href="/careers/all?filter={{department.slug.capitalize()}}">See all {{ department.name }} roles</a>
+      <a class="p-button u-no-margin--bottom"
+         href="/careers/all?filter={{ department.slug.capitalize() }}">See all {{ department.name }} roles</a>
     {% endif %}
   </div>
 </section>
