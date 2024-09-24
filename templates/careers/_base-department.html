@@ -1,98 +1,94 @@
 <div class="u-fixed-width">
   <nav class="p-breadcrumbs" aria-label="Breadcrumbs">
     <ol class="p-breadcrumbs__items p-text--x-small-capitalised">
-        <li class="p-breadcrumbs__item "><a href="/careers/">Careers</a></li>
-        <li class="p-breadcrumbs__item ">{{ department.name }}</li>
+      <li class="p-breadcrumbs__item ">
+        <a href="/careers/">Careers</a>
+      </li>
+      <li class="p-breadcrumbs__item ">{{ department.name }}</li>
     </ol>
   </nav>
   <h1 class="p-text--x-small-capitalised u-hide">Careers</h1>
 </div>
 {% if not fast_track_jobs %}
-<section class="p-section u-no-padding--top">
-  <hr class="is-fixed-width p-rule">
-  <div class="row p-section">
-    <div class="col-6 col-medium-3">
-      <h1 class="p-heading--2"><strong>{{ department.name }}</strong></h1>
+  <section class="p-section u-no-padding--top">
+    <hr class="is-fixed-width p-rule" />
+    <div class="row p-section">
+      <div class="col-6 col-medium-3">
+        <h1 class="p-heading--2">
+          <strong>{{ department.name }}</strong>
+        </h1>
+      </div>
+      <div class="col-6 col-medium-3">
+        <p class="u-sv2">{{ claim | safe }}</p>
+        <a class="p-button--positive"
+           href="/careers/all?filter={{ department.name | safe | urlencode }}">See all {{ department.name }} roles</a>
+        <a class="p-button" href="/careers/career-explorer">Career explorer</a>
+      </div>
     </div>
-    <div class="col-6 col-medium-3">
-      <p class="u-sv2">{{ claim | safe }}</p>
-      <a class="p-button--positive" href="/careers/all?filter={{ department.name | safe | urlencode }}">See all {{ department.name }} roles</a>
-      <a class="p-button" href="/careers/career-explorer">Career explorer</a>
-    </div>
-  </div>
-</section>
+  </section>
 {% endif %}
 
 {% if fast_track_jobs %}
-    {% include 'shared/_engineering-fast-track.html' %}
+  {% include 'shared/_engineering-fast-track.html' %}
 {% endif %}
 
 {% if featured_jobs and not fast_track_jobs %}
-    {% include "shared/_promoted_roles.html" %}
+  {% include "shared/_promoted_roles.html" %}
 {% endif %}
 
 <section class="p-section">
-  <hr class="is-fixed-width p-rule">
+  <hr class="is-fixed-width p-rule" />
   <div class="row u-extra-space">
     <div class="col-6 col-medium-3">
       <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
       <h3 class="p-heading--2">{{ block_1_subheading }}</h3>
     </div>
     <div class="col-6 col-medium-3">
-      {% for paragraph in block_1_text %}
-      <p>{{ paragraph | safe }}</p>
-      {% endfor %}
+      {% for paragraph in block_1_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
     </div>
   </div>
   <div class="p-block">
     <div class="u-fixed-width u-hide--small u-hide--medium">
-    {{
-      image(
-        url=image_url,
-        alt="",
-        width=image_width,
-        height=image_height,
-        hi_def=True,
-        loading="auto",
-        ) | safe
-    }}
+      {{ image(url=image_url,
+            alt="",
+            width=image_width,
+            height=image_height,
+            hi_def=True,
+            loading="auto",) | safe
+      }}
     </div>
   </div>
 </section>
 {% if block_2_text | length > 0 %}
-<section class="p-section u-no-padding--top">
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
-  </div>
-  <div class="row">
-    <div class="col-6 col-medium-3">
-      <h3 class="p-heading--2">{{ block_2_heading }}</h3>
+  <section class="p-section u-no-padding--top">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
     </div>
-    <div class="col-6 col-medium-3">
-      {% for paragraph in block_2_text %}
-      <p>{{ paragraph | safe }}</p>
-      {% endfor %}
+    <div class="row">
+      <div class="col-6 col-medium-3">
+        <h3 class="p-heading--2">{{ block_2_heading }}</h3>
+      </div>
+      <div class="col-6 col-medium-3">
+        {% for paragraph in block_2_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 {% endif %}
 
 <section class="p-section">
-  <hr class="p-rule is-fixed-width">
+  <hr class="p-rule is-fixed-width" />
   <div class="row">
     <div class="col-6 col-medium-3">
       <h3 class="p-heading--2">{{ block_3_subheading }}</h3>
     </div>
     <div class="col-6 col-medium-3">
-      {% for paragraph in block_3_text %}
-      <p>{{ paragraph | safe  }}</p>
-      {% endfor %}
+      {% for paragraph in block_3_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
     </div>
   </div>
 </section>
 
 <section class="p-section u-no-padding--top">
-  <hr class="is-fixed-width p-rule">
+  <hr class="is-fixed-width p-rule" />
   <div class="u-fixed-width">
     <h2>See for yourself the work we're doing</h2>
   </div>
@@ -100,69 +96,83 @@
     <div class="col-6 col-medium-3 col-start-large-7 col-start-medium-4">
       <ul class="p-inline-list is-inlined-with-h2">
         <li class="p-inline-list__item">
-            <a class="p-icon--github" href="https://github.com/canonical" data-size="large" aria-label="Follow @canonical on GitHub"></a>
+          <a class="p-icon--github"
+             href="https://github.com/canonical"
+             data-size="large"
+             aria-label="Follow @canonical on GitHub"></a>
         </li>
         <li class="p-inline-list__item">
-            <a href="https://www.linkedin.com/company/234280" class="p-icon--linkedin">LinkedIn</a>
+          <a href="https://www.linkedin.com/company/234280"
+             class="p-icon--linkedin">LinkedIn</a>
         </li>
         <li class="p-inline-list__item">
-            <a href="https://twitter.com/Canonical" class="p-icon--twitter">Twitter</a>
+          <a href="https://twitter.com/Canonical" class="p-icon--twitter">Twitter</a>
         </li>
         <li class="p-inline-list__item">
-            <a href="https://www.youtube.com/user/celebrateubuntu" class="p-icon--youtube">YouTube</a>
+          <a href="https://www.youtube.com/user/celebrateubuntu"
+             class="p-icon--youtube">YouTube</a>
         </li>
       </ul>
     </div>
   </div>
 </section>
 
-
 {% with section_classes='p-strip', heading_topic=blog_heading_topic, tag_id=blog_tag_id, limit="3" %}
-<noscript>
-  <section class="p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-strip{% endif %}" data-js="latest-news">
-    <div class="row">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default p-rule">Blogs</h2>
-      <h3 class="p-heading--2">Find out more about <a href="/blog/tag/{{ department.name }}">{{ heading_topic }}</h3>
-    </div>
-  </section>
-</noscript>
+  <noscript>
+    <section class="p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-strip{% endif %}"
+             data-js="latest-news">
+      <div class="row">
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default p-rule">Blogs</h2>
+        <h3 class="p-heading--2">
+          Find out more about <a href="/blog/tag/{{ department.name }}">{{ heading_topic }}
+        </h3>
+      </div>
+    </section>
+  </noscript>
 
-<section class="u-no-padding--top p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-section{% endif %}" data-js="latest-news">
-  <hr class="is-fixed-width p-rule">
-  <div class="row">
-    <div class="col-6 col-medium-3">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Blogs</h2>
-      <h5 class="p-heading--2">Find out more about <br class="u-hide--small"/> {{ heading_topic }}</h5>
-    </div>
-    <div id="latest-articles" class="col-6 col-medium-3" style="padding-top: 0.5rem">
-      <div style="min-height: 9.1rem">
-        <i class="p-icon--spinner u-animation--spin">Loading...</i>
-      </div>
-    </div>
-  </div>
-  <template style="display:none" id="articles-template">
-    <article class="u-extra-space">
-      <div class="blog-p-card__content">
-        <hr class="p-rule">
-        <h5 class="p-rule">
-          <a class="article-link article-title" href=""></a>
+  <section class="u-no-padding--top p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-section{% endif %}"
+           data-js="latest-news">
+    <hr class="is-fixed-width p-rule" />
+    <div class="row">
+      <div class="col-6 col-medium-3">
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Blogs</h2>
+        <h5 class="p-heading--2">
+          Find out more about
+          <br class="u-hide--small" />
+          {{ heading_topic }}
         </h5>
-        <p class="article-excerpt"></p>
       </div>
-    </article>
-  </template>
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-  <script>
-    canonicalLatestNews.fetchLatestNews(
-      {
-        articlesContainerSelector: "#latest-articles",
-        articleTemplateSelector: "#articles-template",
-        hostname: "canonical.com",
-        {% if tag_id %}tagId: "{{ blog_tag_id }}",{% endif %}
-        {% if limit %}limit: "3",{% endif %}
-      }
-    )
-  </script>
-</section>
+      <div id="latest-articles"
+           class="col-6 col-medium-3"
+           style="padding-top: 0.5rem">
+        <div style="min-height: 9.1rem">
+          <i class="p-icon--spinner u-animation--spin">Loading...</i>
+        </div>
+      </div>
+    </div>
+    <template style="display:none" id="articles-template">
+      <article class="u-extra-space">
+        <div class="blog-p-card__content">
+          <hr class="p-rule" />
+          <h5 class="p-rule">
+            <a class="article-link article-title" href=""></a>
+          </h5>
+          <p class="article-excerpt"></p>
+        </div>
+      </article>
+    </template>
+    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+    <script>
+      canonicalLatestNews.fetchLatestNews(
+        {
+          articlesContainerSelector: "#latest-articles",
+          articleTemplateSelector: "#articles-template",
+          hostname: "canonical.com",
+          {% if tag_id %}tagId: "{{ blog_tag_id }}",{% endif %}
+          {% if limit %}limit: "3",{% endif %}
+        }
+      )
+    </script>
+  </section>
 {% endwith %}
 <script async defer src="https://buttons.github.io/buttons.js"></script>
