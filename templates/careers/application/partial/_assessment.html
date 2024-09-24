@@ -102,14 +102,14 @@
       </ol>
       {% for interview in application["scheduled_interviews"]|reverse %}
         {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") > interview["start"]["datetime"].strftime('%Y%m%d') %}
-          <hr />
+          <hr class="p-rule--muted" />
           <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Past interview</h4>
           {% include 'careers/application/_interview-card-done.html' %}
         {% endif %}
       {% endfor %}
       {% for interview in application["scheduled_interviews"] %}
         {% if interview["stage_name"] == "Meet & Greet" and now("%Y%m%d") <= interview["start"]["datetime"].strftime('%Y%m%d') %}
-          <hr />
+          <hr class="p-rule--muted" />
           <h4 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Next interview</h4>
           {% include 'careers/application/_interview-card.html' %}
         {% endif %}

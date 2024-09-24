@@ -1,221 +1,257 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %}https://docs.google.com/document/d/1LKlXAc39dy69dSCc7PE6WqV2qkCSeXmicKGS4lFicDE/edit{% endblock meta_copydoc %}
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1LKlXAc39dy69dSCc7PE6WqV2qkCSeXmicKGS4lFicDE/edit
+{% endblock meta_copydoc %}
 
 {% block title %}Install LXD{% endblock %}
 
 {% block meta_description %}Run system containers with LXD{% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
 {% block content %}
 
-<section class="p-strip is-shallow u-no-padding--bottom">
-  <div class="p-section">
-    <div class="row--25-75 is-split-on-medium">
-      <div class="col">
-        <div class="p-section--shallow">
-          <h1 class="u-no-margin--bottom">Install LXD</h1>
+  <section class="p-strip is-shallow u-no-padding--bottom">
+    <div class="p-section">
+      <div class="row--25-75 is-split-on-medium">
+        <div class="col">
+          <div class="p-section--shallow">
+            <h1 class="u-no-margin--bottom">Install LXD</h1>
+          </div>
+        </div>
+        <div class="col">
+          <p>
+            Try LXD on your laptop, workstation or server. Set up a single instance LXD for testing and development, or
+            run it in a clustering mode for highly-available production environments.
+          </p>
+          <p>Looking for help running LXD?</p>
+          <p>
+            <a class="p-button--positive"
+               href="/contact-us"
+               aria-controls="lxd-install-modal">Get in touch</a>
+          </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--25-75">
+      <div class="col p-section--shallow">
+        <h2>Why choose LXD?</h2>
+      </div>
       <div class="col">
-        <p>Try LXD on your laptop, workstation or server. Set up a single instance LXD for testing and development, or
-          run it in a clustering mode for highly-available production environments.</p>
-        <p>Looking for help running LXD?</p>
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">1.&ensp;Install LXD as a snap</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <div class="p-section--shallow">
+              <p>To install LXD as a snap, just run:</p>
+              <pre>snap install lxd</pre>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">2.&ensp;Configure LXD</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <div class="p-section--shallow">
+              <p>Run the following command and either accept the defaults or choose different options when prompted:</p>
+              <pre>lxd init</pre>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">3.&ensp;Install the OS you'd like to use in your container or VM</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <div class="p-tabs">
+              <div class="p-tabs__list js-tabbed-content"
+                   role="tablist"
+                   aria-label="Install the OS">
+                <div class="p-tabs__item">
+                  <button class="p-tabs__link"
+                          role="tab"
+                          aria-selected="true"
+                          aria-controls="container-tab"
+                          id="olm">Container</button>
+                </div>
+                <div class="p-tabs__item">
+                  <button class="p-tabs__link"
+                          role="tab"
+                          aria-selected="false"
+                          aria-controls="vm-tab"
+                          id="vm"
+                          tabindex="-1">VM</button>
+                </div>
+              </div>
+            </div>
+            <div tabindex="0"
+                 role="tabpanel"
+                 id="container-tab"
+                 aria-labelledby="Container">
+              <p>Command:</p>
+              <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}}</pre>
+              <p>Example:</p>
+              <pre>lxc launch ubuntu:22.04 ubuntu-container</pre>
+              <p>
+                Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
+              </p>
+            </div>
+            <div tabindex="0"
+                 role="tabpanel"
+                 id="vm-tab"
+                 aria-hidden="true"
+                 aria-labelledby="VM">
+              <p>Command:</p>
+              <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}} --vm</pre>
+              <p>Example:</p>
+              <pre>lxc launch ubuntu:22.04 ubuntu-container --vm</pre>
+              <p>
+                Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="row p-section--shallow">
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">4.&ensp;Run commands</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <p>
+              You now have your instance up and running! You're all set to experiment with any
+              commands you need.
+            </p>
+            <p>Command:</p>
+            <pre>lxc exec {{"<instance_name> -- <command />"}}</pre>
+            <p>Example:</p>
+            <pre>lxc exec ubuntu-container -- apt-get update</pre>
+            <p>For a list of available commands and options, just run</p>
+            <pre>lxc</pre>
+          </div>
+        </div>
+        <hr class="p-rule u-hide--small" />
         <p>
-          <a class="p-button--positive" href="/contact-us" aria-controls="lxd-install-modal">Get in touch</a>
+          For other installation options, please <a href="https://documentation.ubuntu.com/lxd/en/latest/installing/">check our documentation</a>.
         </p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <hr class="p-rule is-fixed-width">
-  <div class="row--25-75">
-    <div class="col p-section--shallow">
-      <h2>Why choose LXD?</h2>
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--25-75 is-split-on-medium">
+      <div class="col">
+        <div class="p-section--shallow">
+          <h2>Firewall issues</h2>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-6 col-medium-4">
+            <p>
+              You might see issues with your firewall blocking network access for your instances, or connectivity issues because you run LXD and Docker on the same host.
+            </p>
+            <p>
+              <a href="https://canonical-lxd.readthedocs-hosted.com/en/latest/howto/network_bridge_firewalld/#network-bridge-firewall">Access documentation about how to resolve these issues&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+          <div class="col-3 u-hide--small u-hide--medium u-aspect-ratio--3-2 p-image-wrapper u-vertically-center">
+            {{ image(url="https://assets.ubuntu.com/v1/9c80823b-confinement.svg",
+                        alt="",
+                        width="263",
+                        height="150",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">1.&ensp;Install LXD as a snap</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <div class="p-section--shallow">
-            <p>To install LXD as a snap, just run:</p>
-            <pre>snap install lxd</pre>
+  </section>
+
+  <section class="p-section">
+    <div class="p-section--shallow u-fixed-width">
+      <hr class="p-rule" />
+      <h2>Familiarise yourself with&nbsp;the&nbsp;basics</h2>
+    </div>
+    <div class="row--25-75">
+      <div class="col">
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">Instances</h3>
           </div>
-        </div>
-      </div>
-      <hr class="p-rule">
-      <div class="row">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">2.&ensp;Configure LXD</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <div class="p-section--shallow">
-            <p>Run the following command and either accept the defaults or choose different options when prompted:</p>
-            <pre>lxd init</pre>
+          <div class="col-6 col-medium-4">
+            <p>LXD supports two types of instances: system containers and virtual machines.</p>
+            <p>
+              <a href="https://documentation.ubuntu.com/lxd/en/latest/explanation/containers_and_vms/">Learn more about containers and VMs&nbsp;&rsaquo;</a>
+            </p>
           </div>
-        </div>
-      </div>
-      <hr class="p-rule">
-      <div class="row">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">3.&ensp;Install the OS you'd like to use in your container or VM</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <div class="p-tabs">
-            <div class="p-tabs__list js-tabbed-content" role="tablist" aria-label="Install the OS">
-              <div class="p-tabs__item">
-                <button class="p-tabs__link" role="tab" aria-selected="true" aria-controls="container-tab"
-                  id="olm">Container</button>
-              </div>
-              <div class="p-tabs__item">
-                <button class="p-tabs__link" role="tab" aria-selected="false" aria-controls="vm-tab" id="vm"
-                  tabindex="-1">VM</button>
-              </div>
+          <hr class="p-rule col-9 col-medium-6" />
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">Security</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <p>
+              Security is at the forefront of everything we do and there are various things to consider to keep your LXD installation secure.
+            </p>
+            <p>
+              <a href="https://documentation.ubuntu.com/lxd/en/latest/explanation/containers_and_vms/">Learn more about LXD and security&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+          <hr class="p-rule col-9 col-medium-6" />
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">Images</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <p>LXD uses an image-based workflow, providing images for a large number of Linux distributions.</p>
+            <p>
+              <a href="https://documentation.ubuntu.com/lxd/en/latest/image-handling/">Learn more about common operations with images&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+          <hr class="p-rule col-9 col-medium-6" />
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">Contribute</h3>
+          </div>
+          <div class="col-6 col-medium-4">
+            <p>We welcome and value contributions from the community.</p>
+            <div class="p-strip--shallow">
+              <p>
+                <a href="https://documentation.ubuntu.com/lxd/en/latest/contributing">How to contribute to LXD&nbsp;&rsaquo;</a>
+              </p>
             </div>
           </div>
-          <div tabindex="0" role="tabpanel" id="container-tab" aria-labelledby="Container">
-            <p>Command:</p>
-            <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}}</pre>
-            <p>Example:</p>
-            <pre>lxc launch ubuntu:22.04 ubuntu-container</pre>
-            <p>Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
-            </p>
-          </div>
-          <div tabindex="0" role="tabpanel" id="vm-tab" aria-hidden="true" aria-labelledby="VM">
-            <p>Command:</p>
-            <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}} --vm</pre>
-            <p>Example:</p>
-            <pre>lxc launch ubuntu:22.04 ubuntu-container --vm</pre>
-            <p>Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
-            </p>
-          </div>
-        </div>
-      </div>
-      <hr class="p-rule">
-      <div class="row p-section--shallow">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">4.&ensp;Run commands</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <p>You now have your instance up and running! You're all set to experiment with any
-            commands you need.</p>
-          <p>Command:</p>
-          <pre>lxc exec {{"<instance_name> -- <command>"}}</pre>
-          <p>Example:</p>
-          <pre>lxc exec ubuntu-container -- apt-get update</pre>
-          <p>For a list of available commands and options, just run</p>
-          <pre>lxc</pre>
-        </div>
-      </div>
-      <hr class="p-rule u-hide--small">
-      <p>For other installation options, please <a href="https://documentation.ubuntu.com/lxd/en/latest/installing/">check our documentation</a>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <hr class="p-rule is-fixed-width">
-  <div class="row--25-75 is-split-on-medium">
-    <div class="col">
-      <div class="p-section--shallow">
-        <h2>Firewall issues</h2>
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-6 col-medium-4">
-          <p>You might see issues with your firewall blocking network access for your instances, or connectivity issues because you run LXD and Docker on the same host.</p>
-          <p><a href="https://canonical-lxd.readthedocs-hosted.com/en/latest/howto/network_bridge_firewalld/#network-bridge-firewall">Access documentation about how to resolve these issues&nbsp;&rsaquo;</a></p>
-        </div>
-        <div class="col-3 u-hide--small u-hide--medium u-aspect-ratio--3-2 p-image-wrapper u-vertically-center">
-          {{ image (
-            url="https://assets.ubuntu.com/v1/9c80823b-confinement.svg",
-            alt="",
-            width="263",
-            height="150",
-            hi_def=True,
-            loading="lazy"
-            ) | safe
-          }}
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="p-section--shallow u-fixed-width">
-    <hr class="p-rule">
-    <h2>Familiarise yourself with&nbsp;the&nbsp;basics</h2>
-  </div>
-  <div class="row--25-75">
-    <div class="col">
-      <div class="row">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Instances</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <p>LXD supports two types of instances: system containers and virtual machines.</p>
-          <p>
-            <a href="https://documentation.ubuntu.com/lxd/en/latest/explanation/containers_and_vms/">Learn more about containers and VMs&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-        <hr class="p-rule col-9 col-medium-6">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Security</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <p>Security is at the forefront of everything we do and there are various things to consider to keep your LXD installation secure.</p>
-          <p>
-            <a href="https://documentation.ubuntu.com/lxd/en/latest/explanation/containers_and_vms/">Learn more about LXD and security&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-        <hr class="p-rule col-9 col-medium-6">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Images</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <p>LXD uses an image-based workflow, providing images for a large number of Linux distributions.</p>
-          <p>
-            <a href="https://documentation.ubuntu.com/lxd/en/latest/image-handling/">Learn more about common operations with images&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-        <hr class="p-rule col-9 col-medium-6">
-        <div class="col-3 col-medium-2">
-          <h3 class="p-heading--5">Contribute</h3>
-        </div>
-        <div class="col-6 col-medium-4">
-          <p>We welcome and value contributions from the community.</p>
-          <div class="p-strip--shallow">
-            <p>
-              <a href="https://documentation.ubuntu.com/lxd/en/latest/contributing">How to contribute to LXD&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
+  <section class="p-strip--white is-deep">
+    <div class="row">
+      <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
+        <h2>
+          <a href="/contact-us" aria-controls="lxd-install-modal">Talk to our LXD experts&nbsp;&rsaquo;</a>
+        </h2>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-strip--white is-deep">
-  <div class="row">
-    <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
-      <h2><a href="/contact-us" aria-controls="lxd-install-modal">Talk to our LXD experts&nbsp;&rsaquo;</a></h2>
-    </div>
-  </div>
-</section>
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
-<script defer src="{{ versioned_static('js/modals.js') }}"></script>
-<script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
-
-{% with %}
-  {% set returnURL = "https://canonical.com/lxd/install#success" %}
-  {% include "lxd/_form-lxd-install.html" %}
-{% endwith %}
+  {% with %}
+    {% set returnURL = "https://canonical.com/lxd/install#success" %}
+    {% include "lxd/_form-lxd-install.html" %}
+  {% endwith %}
 
 {% endblock %}
