@@ -21,9 +21,9 @@
   citation_source_title_text="",
   citation_source_organisation_text="",
   is_shallow=False
-) -%}
+  ) -%}
   {% set heading_link_content = caller('heading_link') %}
-  {% set has_heading_link =  heading_link_content|trim|length > 0 %}
+  {% set has_heading_link = heading_link_content|trim|length > 0 %}
   {% set has_title = title_text|length > 0 %}
   {% set has_heading_row = has_title or has_heading_link %}
   {% set signpost_image_content = caller('signpost_image') %}
@@ -64,7 +64,7 @@
           <strong>{{ citation_source_name_text }}</strong>
           {% if has_citation_source_title or has_citation_source_organisation -%}
             <!--If the citation name is followed by title and/or organisation, add a line break-->
-            <br>
+            <br />
           {% endif -%}
         {% endif -%}
         {% if has_citation_source_title or has_citation_source_organisation -%}
@@ -75,7 +75,7 @@
               {{ citation_source_title_text }}
               {%- if has_citation_source_organisation %}
                 <!--Add a line break between the title and org if both are present-->
-                <br>
+                <br />
               {%- endif %}
             {% endif %}
             {%- if has_citation_source_organisation -%}
@@ -92,7 +92,7 @@
     {% if has_heading_row -%}
       <!--Optional heading -->
       <div class="p-section--shallow">
-        <hr class="is-highlighted is-fixed-width">
+        <hr class="is-highlighted is-fixed-width" />
         <div class="row">
           {%- if has_title %}
             <!--Optional heading text-->
@@ -107,9 +107,7 @@
             <!--Optional heading link -->
             <div class="col-3 col-medium-3 col-start-large-10 col-start-medium-5">
               <div class="p-section--shallow">
-                <p class="p-text--default">
-                  {{ heading_link_content }}
-                </p>
+                <p class="p-text--default">{{ heading_link_content }}</p>
               </div>
             </div>
           {% endif -%}
@@ -125,23 +123,19 @@
         <!--Optional signpost image-->
         <div class="col">
           <div class="row">
-            <div class="col-2 col-medium-2 col-small-2">
-              {{ signpost_image_content }}
-            </div>
+            <div class="col-2 col-medium-2 col-small-2">{{ signpost_image_content }}</div>
           </div>
         </div>
       {% endif -%}
       {#- Skip to fourth column if the signpost_image (which takes up first three columns) is missing -#}
       <div class="col">
-        <hr class="u-hide--medium u-hide--small is-muted">
+        <hr class="u-hide--medium u-hide--small is-muted" />
         {% if has_citation -%}
           <!-- When a citation is present, wrap the quote and citation in a nested grid to space them properly -->
           <div class="row">
-            <div class="col-6">
-              {{ _quote_body() }}
-            </div>
+            <div class="col-6">{{ _quote_body() }}</div>
             <div class="col-3">
-              <hr class="u-hide--large is-muted">
+              <hr class="u-hide--large is-muted" />
               {{ _citation_block() }}
             </div>
           </div>
@@ -156,9 +150,7 @@
             <div class="row">
               {%- if has_cta %}
                 <!-- Optional CTA block-->
-                <div class="p-cta-block">
-                  {{ cta_content }}
-                </div>
+                <div class="p-cta-block">{{ cta_content }}</div>
               {% endif -%}
 
               {% if has_image -%}
