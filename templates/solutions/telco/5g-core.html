@@ -7,6 +7,8 @@
 {% block meta_copydoc %}https://docs.google.com/document/d/1h5A07aTGTZl5VfoiX2UwIpb-bHtFr7gBVUejN-uAf-Q/edit{% endblock meta_copydoc %}
 {% block body_class %}is-paper{% endblock %}
 
+{% from "macros/quote_wrapper.jinja" import quote_wrapper %}
+
 {% block content %}
 
   <div class="p-section--hero">
@@ -54,99 +56,59 @@
     </div>
   </div>
 
-  <div class="p-section">
+  <div>
     <div class="row">
       <div class="p-section--shallow">
         <hr class="p-rule--highlight" />
         <h2 class="p-text--small-caps">Trusted by leading telco providers</h2>
       </div>
     </div>
-    <div class="p-section">
-      <div class="row--25-75">
-        <div class="col">
-          <div class="row">
-            <div class="col-2 col-medium-2 col-small-2">
-              {{ image(url="https://assets.ubuntu.com/v1/9901ac68-Qualcomm-Logo@2x.png",
-                      alt="BT",
-                      width="252",
-                      height="101",
-                      hi_def=True,
-                      loading="lazy") | safe}}
-            </div>
-          </div>
-          </div>
-        <div class="col">
-          <div class="row">
-            <hr class="p-rule--muted" />
-            <div class="p-section--shallow col-6">
-              <p>
-                <i>
-                  “In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical”.
-                </i>
-              </p>
-            </div>
-            <div class="col-3">
-              <p>
-                <strong>Gary Roberts</strong>
-                <br />
-                <span class="u-text--muted">
-                  Director, Network Cloud
-                  <br />
-                  BT Group
-                </span>
-              </p>
-            </div>
-            <hr class="p-rule--muted" />
-            <a href="/blog/bt-group-and-canonical-deliver-5g-to-uk-stadiums">Read the story&nbsp;&rsaquo;</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="p-section">
-      <div class="row--25-75">
-        <div class="col">
-          <div class="row">
-            <div class="col-2 col-medium-2 col-small-2">
-              {{ image(url="https://assets.ubuntu.com/v1/40993863-DFI-Logo@2x.png",
-                        alt="Nayatel",
+    {%- call(slot) quote_wrapper(
+      quote_text="In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical.",
+      quote_size="small",
+      citation_source_name_text="Gary Roberts",
+      citation_source_title_text="Director, Network Cloud",
+      citation_source_organisation_text="BT Group",
+      is_shallow="true"
+        )
+      %}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/9901ac68-Qualcomm-Logo@2x.png",
+                        alt="BT",
                         width="252",
                         height="101",
                         hi_def=True,
                         loading="lazy") | safe
-              }}
-            </div>
-          </div>
-          </div>
-        <div class="col">
-          <div class="row">
-            <hr class="p-rule--muted" />
-            <div class="p-section--shallow col-6">
-              <p>
-                <i>
-                  “We wanted to ensure that we wouldn’t be bogged down with licence fees long-term. 
-                  Most of the open source vendors we looked at charged steep per core or per server licence fees, 
-                  which would have meant escalating costs as we scaled up. Canonical was the exception.”
-                </i>
-              </p>
-            </div>
-            <div class="col-3">
-              <p>
-                <strong>Jahanzeb Arshad</strong>
-                <br />
-                <span class="u-text--muted">
-                  VP Operations
-                  <br />
-                  Nayatel
-                </span>
-              </p>
-            </div>
-            <hr class="p-rule--muted" />
-            <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Nayatel+Case+study.pdf">Read the case study&nbsp;&rsaquo;</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+        }}
+      {% endif %}
+      {% if slot == "cta" %}
+        <a href="/blog/bt-group-and-canonical-deliver-5g-to-uk-stadiums">Read the story&nbsp;&rsaquo;</a>
+      {% endif %}
+    {%- endcall %}
+
+    {%- call(slot) quote_wrapper(
+        quote_text="We wanted to ensure that we wouldn’t be bogged down with licence fees long-term. 
+                    Most of the open source vendors we looked at charged steep per core or per server licence fees, 
+                    which would have meant escalating costs as we scaled up. Canonical was the exception.",
+        quote_size="small",
+        citation_source_name_text="Jahanzeb Arshad",
+        citation_source_title_text="VP Operations",
+        citation_source_organisation_text="Nayatel"
+        )
+      %}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/40993863-DFI-Logo@2x.png",
+              alt="Nayatel",
+              width="252",
+              height="101",
+              hi_def=True,
+              loading="lazy") | safe
+        }}
+      {% endif %}
+      {% if slot == "cta" %}
+        <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Nayatel+Case+study.pdf">Read the case study&nbsp;&rsaquo;</a>
+      {% endif %}
+    {%- endcall %}
   </div>
 
   <div class="p-section">
