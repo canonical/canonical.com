@@ -105,7 +105,9 @@ const requiredFieldset = document.querySelectorAll(
   "fieldset.js-required-checkbox",
 );
 
-if(requiredFieldset) document.querySelector(".js-submit-button").disabled = true;
+const form = document.querySelector("form");
+const submitButton = form.querySelector('button[type="submit"]');
+if(requiredFieldset) submitButton.disabled = true;
 
 requiredFieldset?.forEach((fieldset) => {
   fieldset.addEventListener("change", function (event) {
@@ -113,8 +115,6 @@ requiredFieldset?.forEach((fieldset) => {
   });
 });
 
-const form = document.querySelector("form");
-const submitButton = form.querySelector('button[type="submit"]');
 // Exclude forms that don't need loader
 const cancelLoader = submitButton.classList.contains("no-loader");
 if (submitButton && !cancelLoader) {
