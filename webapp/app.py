@@ -321,7 +321,9 @@ def job_details(greenhouse, harvest, job_id):
         context["job"]["content"] = job_post.content
     except HTTPError as error:
         if error.response.status_code == 404:
-            logger.exception(f"requesting details for non-existing job post {job_id=}")
+            logger.exception(
+                f"requesting details for non-existing job post {job_id=}"
+            )
             flask.abort(404)
         else:
             raise error
@@ -334,7 +336,9 @@ def job_details(greenhouse, harvest, job_id):
             return flask.render_template("/careers/thank-you.html", **context)
 
         else:
-            logger.error(f"submit application error {response.status_code=} {job_id=}")
+            logger.error(
+                f"submit application error {response.status_code=} {job_id=}"
+            )
             context["message"] = {
                 "type": "negative",
                 "title": f"Error {response.status_code}",
