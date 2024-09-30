@@ -1,6 +1,6 @@
 <section class="p-section">
   <form {% if isModal %}class="js-modal-form"{% endif %}
-        action="/marketo/submit"
+        action="https://ubuntu.com/marketo/submit"
         method="post"
         id="mktoForm_{{ formData.formId }}"
         onsubmit="getCustomFields(event)">
@@ -26,8 +26,7 @@
                       {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
                         <label {% if field.isRequired %}class="is-required"{% endif %}
                                for="{{ field.id }}">
-                          {{ field.label
-                          }}:
+                          {{ field.label }}:
                         </label>
                         <input {% if field.isRequired %}required{% endif %}
                                id="{{ field.id }}"
@@ -37,7 +36,7 @@
                                {% if field.type=="email" %}pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"{% endif %} />
                       {% elif field.type == "long-text" %}
                         <textarea {% if fieldset.isRequired %}required{% endif %}
-                                  id="{{field.id}}"
+                                  id="{{ field.id }}"
                                   rows="5"
                                   maxlength="2000"></textarea>
                       {% elif field.type == "radio" %}
@@ -63,8 +62,7 @@
                           <strong>{{ field.fieldTitle }}</strong>
                           {% for option in field.options %}
                             <label class="p-checkbox">
-                              <input {% if field.fieldTitle=="Other" %} class="p-checkbox__input js-checkbox-visibility__other" {%
-                                else %} class="p-checkbox__input js-checkbox-visibility" {% endif %} type="checkbox"
+                              <input class="p-checkbox__input js-checkbox-visibility{% if field.fieldTitle=='Other' %}__other{% endif %}" type="checkbox"
                                 aria-labelledby="{{ option.label }}" value="{{ option.value }}" />
                                 <span class="p-checkbox__label" id="{{ option.id }}">{{ option.label }}</span>
                               </label>
@@ -73,8 +71,7 @@
                         {% elif field.type == "select" %}
                           <label {% if fieldset.isRequired %}class="is-required"{% endif %}
                                  for="{{ field.id }}">
-                            {{ field.label
-                            }}:
+                            {{ field.label }}:
                           </label>
                           <select id="{{ field.id }}" {% if field.isRequired %}required{% endif %}>
                             {% for option in field.options %}<option value="{{ option.value }}">{{ option.label }}</option>{% endfor %}
