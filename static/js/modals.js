@@ -167,66 +167,92 @@ function getRadioItemValue(fieldset) {
 }
 
 function getCheckboxItemsAsCSV(fieldset) {
-  const checkboxes = Array.from(
-    fieldset.querySelectorAll("input[class='p-checkbox__input']")
-  );
-  return checkboxes
-    .filter((item) => item.checked)
-    .map((item) => item.value)
-    .join(", ");
+  if (fieldset) {
+    const checkboxes = Array.from(
+      fieldset.querySelectorAll("input[class='p-checkbox__input']")
+    );
+    return checkboxes
+      .filter((item) => item.checked)
+      .map((item) => item.value)
+      .join(", ");
+  }
 }
 
 function getCustomFields(event) {
-  // If you use Ubuntu, which version(s) are you using?
-  const ubuntuVersionsFieldset = document.getElementById("ubuntu-versions");
-  // What kind of device are you using?
-  const deviceUsedFieldset = document.getElementById("kind-of-device");
-  // How many machines?
-  const howManyMachinesFieldset = document.getElementById("how-many-machines");
-  // How do you consume open source?
-  const consumeOpenSourceFieldset = document.getElementById(
-    "how-do-you-consume-open-source"
-  );
-  // Do you have specific compliance or hardening requirements?
-  const hardeningRequirementsFieldset = document.getElementById(
-    "hardening-requirements"
-  );
-  // Who is responsible for tracking, testing and applying CVE patches in a timely manner?
-  const responsibleForTracking = document.getElementById(
-    "responsible-for-tracking"
-  );
+  var message = "";
 
-  const data = `Tell us about your project: ${
-    document.getElementById("about-your-project")?.value
-  }.\n
-    If you use Ubuntu, which version(s) are you using?: ${getCheckboxItemsAsCSV(
-      ubuntuVersionsFieldset
-    )}.\n
-    What kind of device are you using?: ${getCheckboxItemsAsCSV(
-      deviceUsedFieldset
-    )}.\n
-    How many devices?: ${getRadioItemValue(howManyMachinesFieldset)}.\n
-    How do you consume open source?: ${getCheckboxItemsAsCSV(
-      consumeOpenSourceFieldset
-    )}.\n
-    Do you have specific compliance or hardening requirements?: ${getCheckboxItemsAsCSV(
-      hardeningRequirementsFieldset
-    )}.\n
-    Who is responsible for tracking, testing and applying CVE patches in a timely manner?: ${getCheckboxItemsAsCSV(
-      responsibleForTracking
-    )}.\n
-    What advice are you looking for: ${
-      document.getElementById("advice")?.value
-    }.\n
-  `;
+  document.querySelectorAll('fieldset').forEach(function (formField) {
+    var comma = ",";
+    var fieldsetForm = formField.querySelector(".js-formfield-title");
+    var fieldTitle = "";
+    if (fieldsetForm) {
+      fieldTitle = fieldsetForm;
+    } else {
+      fieldTitle =
+        formField.querySelector(".p-heading--5") ??
+        formField.querySelector(".p-modal__question-heading");
+    }
+    var inputs = formField.querySelectorAll("input, textarea, select");
+    if (fieldTitle) {
+      message += fieldTitle.innerText + "\r\n";
+    }
 
-  const inputs = howManyMachinesFieldset?.querySelectorAll(
-    "input[name='how-many-machines-do-you-have']"
-  );
-  inputs.forEach(function (input) {
-    input.removeAttribute("name");
+    inputs.forEach(function (input) {
+      switch (input.type) {
+        case "select-one":
+          message +=
+            input.options[input.selectedIndex]?.textContent +
+            comma +
+            " ";
+          break;
+        case "radio":
+          if (input.checked) {
+            message += input.value + comma + " ";
+          }
+          break;
+        case "checkbox":
+          if (input.checked) {
+            if (fieldsetForm) {
+              message += input.value + comma + " ";
+            } else {
+              // Forms that have column separation
+              var subSectionText = "";
+              if (
+                input.closest('[class*="col-"]') &&
+                input
+                  .closest('[class*="col-"]')
+                  .querySelector(".js-sub-section")
+              ) {
+                var subSection = input
+                  .closest('[class*="col-"]')
+                  .querySelector(".js-sub-section");
+                subSectionText = subSection.innerText + ": ";
+              }
+
+              var label = formField.querySelector(
+                "span#" + input.getAttribute("aria-labelledby"),
+              );
+
+              if (label) {
+                label = subSectionText + label.innerText;
+              } else {
+                label = input.getAttribute("aria-labelledby");
+              }
+              message += label + comma + "\r\n\r\n";
+            }
+          }
+          break;
+        case "text":
+        case "number":
+        case "textarea":
+          if (input.value !== "") {
+            message += input.value + comma + " ";
+          }
+          break;
+      }
+    });
+    message += "\r\n\r\n";
   });
-
   const textarea = document.getElementById("Comments_from_lead__c");
-  textarea.value = data;
+  textarea.value = message;
 }
