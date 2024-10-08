@@ -26,9 +26,17 @@ def get_current_page_bubble(path):
 
     page_bubbles = copy.deepcopy(secondary_navigation_data)
 
+    parent = None
     for page_bubble_name, page_bubble in page_bubbles.items():
         if path.startswith(page_bubble["path"]):
             current_page_bubble = page_bubble
+            if parent is None:
+                parent = page_bubble.get("parent", None)
+
+            if parent:
+                current_page_bubble["parent_title"] = parent[0]["title"]
+                current_page_bubble["parent_path"] = parent[1]["path"]
+
             for page in page_bubble["children"]:
                 if page["path"] == path:
                     page["active"] = True
