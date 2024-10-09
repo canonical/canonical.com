@@ -35,8 +35,16 @@
               </li>
             {% endif %}
           {% endfor %}
+        </ul>
+        {% if page_bubble.parent_title and page_bubble.parent_path %}
+          <ul class="p-navigation__items">
+            <li class="p-navigation__item"></li>
+              <li class="p-navigation__item">
+                <a class="p-navigation__link" href={{ page_bubble.parent_path }}>{{ page_bubble.parent_title }}</a>
+              </li>
+          </ul>
         {% endif %}
-      </ul>
+      {% endif %}
     </nav>
   </div>
 </div>
