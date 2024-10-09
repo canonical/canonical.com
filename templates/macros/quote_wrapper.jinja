@@ -21,7 +21,7 @@
   citation_source_title_text="",
   citation_source_organisation_text="",
   is_shallow=False
-  ) -%}
+) -%}
   {% set heading_link_content = caller('heading_link') %}
   {% set has_heading_link = heading_link_content|trim|length > 0 %}
   {% set has_title = title_text|length > 0 %}
@@ -48,7 +48,8 @@
   {% endif %}
 
   {%- macro _quote_body() -%}
-    <div class="p-section--shallow">
+    {#- Only use shallow section spacing if a another block follows -#}
+    <div {% if has_cta or has_image %} class="p-section--shallow"{% endif %}>
       <p class="p-heading--{{ quote_heading_level }}">
         <i>
           &#8220;{{ quote_text }}&#8221;
@@ -92,7 +93,7 @@
 
   {%- macro _heading_block() %}
     {% if has_heading_row -%}
-      {#- Optional heading  -#}
+      {#- Optional heading -#}
       <div class="p-section--shallow">
         <hr class="p-rule--highlight is-fixed-width" />
         <div class="row">
@@ -106,7 +107,9 @@
           {%- if has_heading_link %}
             {#- Optional heading link  -#}
             <div class="col-3 col-medium-4 col-start-large-10 col-start-medium-3">
-              <p class="p-text--default">{{ heading_link_content }}</p>
+              <p class="p-text--default">
+                {{ heading_link_content }}
+              </p>
             </div>
           {% endif -%}
         </div>
@@ -120,7 +123,9 @@
       {% if has_signpost_image -%}
         {#- Optional signpost image -#}
         <div class="col-3 col-medium-2">
-          <div class="p-section--shallow">{{ signpost_image_content }}</div>
+          <div class="p-section--shallow">
+            {{ signpost_image_content }}
+          </div>
         </div>
       {% endif -%}
       {#- Skip to fourth column if the signpost_image (which takes up first three columns) is missing -#}
@@ -129,7 +134,9 @@
         {% if has_citation -%}
           {#-  When a citation is present, wrap the quote and citation in a nested grid to space them properly  -#}
           <div class="row">
-            <div class="col-6">{{ _quote_body() }}</div>
+            <div class="col-6">
+              {{ _quote_body() }}
+            </div>
             <div class="col-3">
               <hr class="p-rule--muted u-hide--large" />
               {{ _citation_block() }}
@@ -142,19 +149,17 @@
 
         {%- if has_cta or has_image -%}
           {#-  Optional CTA and/or image block  -#}
-          <div class="p-section--shallow">
-            <div class="row">
-              {%- if has_cta %}
-                {#-  Optional CTA block -#}
-                <div class="p-cta-block">{{ cta_content }}</div>
-              {% endif -%}
-
-              {% if has_image -%}
-                {#-  Optional image block  -#}
-                {{ image_content }}
-              {% endif -%}
+          {%- if has_cta %}
+            {#-  Optional CTA block -#}
+            <div class="p-cta-block">
+              {{ cta_content }}
             </div>
-          </div>
+          {% endif -%}
+
+          {% if has_image -%}
+            {#-  Optional image block  -#}
+            {{ image_content }}
+          {% endif -%}
         {% endif -%}
       </div>
     </div>
