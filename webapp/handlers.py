@@ -56,9 +56,6 @@ CSP = {
         "'self'",
         "'unsafe-inline'",
     ],
-    "media-src": [
-        "'self'",
-    ],
 }
 
 
