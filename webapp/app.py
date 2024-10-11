@@ -23,6 +23,7 @@ from slugify import slugify
 
 # Local
 from webapp.application import application
+from webapp.handlers import init_handlers
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
@@ -49,6 +50,8 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+init_handlers(app)
 
 charmhub_discourse_api = DiscourseAPI(
     base_url="https://discourse.charmhub.io/",
