@@ -1,4 +1,3 @@
-
 CSP = {
     "default-src": ["'self'"],
     "img-src": [
@@ -99,4 +98,3 @@ def init_handlers(app):
         response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
         return response
-
