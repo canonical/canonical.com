@@ -7,10 +7,11 @@
     {% for fieldset in fieldsets %}
       <div class="p-section">
         <hr class="is-fixed-width" />
-        <fieldset class="p-fieldset-section {% if fieldset.id=='ubuntu-versions' %} js-toggle-checkbox-visibility {% elif fieldset.isRequired and fieldset.fields[0].type=='checkbox' %} js-required-checkbox {% endif %}"
+        <fieldset class="p-fieldset-section{% if fieldset.id=='ubuntu-versions' %} js-toggle-checkbox-visibility {% elif fieldset.isRequired and fieldset.fields[0].type=='checkbox' %} js-required-checkbox {% endif %}"
                   id="{{ fieldset.id }}"
                   aria-labelledby="{{ fieldset.id }}"
-                  style="border: none;">
+                  {% if fieldset.id == 'about-you' %} style="overflow: unset;"{% endif %}
+                  >
           <div class="row--50-50 {% if not fieldset.noCommentsFromLead %}js-formfield{% endif %}">
             <div class="col">
               <legend class="p-heading--2 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
@@ -21,6 +22,16 @@
                 {% for field in fieldset.fields %}
                   {% if field.type == "country" %}
                     {% include "shared/forms/_country.html" %}
+                  {% elif field.type == "radio" %}
+                    <label class="p-radio">
+                      <input {% if fieldset.isRequired %}required{% endif %}
+                             class="p-radio__input"
+                             type="radio"
+                             aria-labelledby="{{ field.id }}"
+                             name="{{ fieldset.inputName }}"
+                             value="{{ field.value }}" />
+                      <span class="p-radio__label" id="{{ field.id }}">{{ field.label }}</span>
+                    </label>
                   {% else %}
                     <li class="p-list__item">
                       {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
@@ -39,16 +50,6 @@
                                   id="{{ field.id }}"
                                   rows="5"
                                   maxlength="2000"></textarea>
-                      {% elif field.type == "radio" %}
-                        <label class="p-radio">
-                          <input {% if fieldset.isRequired %}required{% endif %}
-                                 class="p-radio__input"
-                                 type="radio"
-                                 aria-labelledby="{{ field.id }}"
-                                 name="{{ fieldset.inputName }}"
-                                 value="{{ field.value }}" />
-                          <span class="p-radio__label" id="{{ field.id }}">{{ field.label }}</span>
-                        </label>
                       {% elif field.type == "checkbox" %}
                         <label class="p-checkbox">
                           <input class="p-checkbox__input js-checkbox-visibility"
@@ -140,7 +141,7 @@
                        aria-hidden="true"
                        aria-label="hidden field"
                        name="returnURL"
-                       value="{{ formData.returnURL }}" />
+                       value="{{ formData.returnUrl }}" />
                 <input type="hidden"
                        aria-hidden="true"
                        aria-label="hidden field"
