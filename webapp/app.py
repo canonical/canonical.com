@@ -1,6 +1,7 @@
 # Standard library
 import logging
 import json
+from functools import wraps
 import datetime
 import calendar
 import os
@@ -1181,3 +1182,29 @@ def get_user_country_by_tz():
 
 
 app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
+
+
+def render_form(form):
+    @wraps(render_form)
+    def wrapper_func():
+        with app.app_context() and app.test_request_context():
+            return flask.render_template(
+                form["templatePath"],
+                fieldsets=form["fieldsets"],
+                formData=form["formData"],
+                isModal=form.get("isModal"),
+                modalId=form.get("modalId"),
+            )
+
+    return wrapper_func
+
+
+def set_form_rules():
+    filename = os.path.join(app.static_folder, "files", "forms-data.json")
+    with open(filename) as forms:
+        data = json.load(forms)
+        for path, form in data["forms"].items():
+            app.add_url_rule(path, view_func=render_form(form), endpoint=path)
+
+
+set_form_rules()

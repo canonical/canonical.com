@@ -120,8 +120,8 @@ function addInputValidation(phoneInput) {
   phoneInput.addEventListener("blur", () =>
     validateInput(phoneInput, errorElement)
   );
-  phoneInput.addEventListener("change", () => resetErrorState(errorElement));
-  phoneInput.addEventListener("keyup", () => resetErrorState(errorElement));
+  phoneInput.addEventListener("change", () => resetErrorState(errorElement, phoneInput));
+  phoneInput.addEventListener("keyup", () => resetErrorState(errorElement, phoneInput));
 }
 
 export default {
