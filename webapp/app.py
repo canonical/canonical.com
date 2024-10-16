@@ -1119,7 +1119,7 @@ data_docs.init_app(app)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix):]
+        message = str(e)[len(prefix) :]
     return flask.render_template("502.html", message=message), 502
 
 
@@ -1204,9 +1204,7 @@ def set_form_rules():
     with open(filename) as forms:
         data = json.load(forms)
         for path, form in data["forms"].items():
-            app.add_url_rule(path,
-                             view_func=render_form(form),
-                             endpoint=path)
+            app.add_url_rule(path, view_func=render_form(form), endpoint=path)
 
 
 set_form_rules()
