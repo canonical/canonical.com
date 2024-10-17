@@ -1207,4 +1207,7 @@ def set_form_rules():
             app.add_url_rule(path, view_func=render_form(form), endpoint=path)
 
 
-set_form_rules()
+# this causes secondary navigation to dissapear
+# on /data/opensearch and /data/postresql
+# see: https://github.com/canonical/canonical.com/issues/1399
+# set_form_rules()
