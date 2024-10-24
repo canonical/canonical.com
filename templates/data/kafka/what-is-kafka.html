@@ -1,0 +1,523 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1bfo97XdFdKlzrMcMoRxiTdzt_bPVndx6j55IPsapuAE/edit
+{% endblock meta_copydoc %}
+
+{% block title %}Learn about Apache Kafka, an open source event streaming platform.{% endblock %}
+
+{% block meta_description %}
+  Apache Kafka is a free, open source event streaming platform that enables you to continuously process data at web scale.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+<section class="p-section--hero">
+  <div class="row--25-75">
+    <div class="col">
+      {{ image(
+        url="https://assets.ubuntu.com/v1/aac8b924-kafka-logo.png",
+        alt="",
+        width="861",
+        height="198",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
+    </div>
+    <div class="col">
+      <div class="p-section--shallow">
+        <h1>What is Kafka?</h1>
+      </div>
+      <div class="p-section--shallow">
+        <p>Apache Kafka is a free, open source event streaming platform that enables you to create queues for data buffering.</p>
+        <p>Kafka is typically used to help build streaming data pipelines for distributed applications that continuously process data. It offers functionality for storing, processing and exposing event data streams.</p>
+      </div>
+      <div class="p-cta-block">
+        <a class="p-button--positive" href="https://ubuntu.com/engage/kafka-reference-architecture">Download the Kafka reference architecture guide</a>
+        <a href="https://ubuntu.com/blog/what-is-apache-kafka">Learn more more about Apache Kafka&nbsp;&rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50 p-section--shallow">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>The benefits of Kafka</h2>
+    </div>
+    <div class="col">
+      <p>Kafka provides critical functionality within modern distributed systems engineering:</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <div class="p-equal-height-row">
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/6f171362-produce%20and%20consume.png",
+                alt="",
+                width="852",
+                height="1279",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <p class="p-heading--5">Produce and consume streams of event data</p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/27ee6de4-hold%20event%20data.png",
+                alt="",
+                width="852",
+                height="1279",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <p class="p-heading--5">Hold event data in the order in which it was produced</p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/916f92fd-process%20continuous.png",
+                alt="",
+                width="852",
+                height="1279",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <p class="p-heading--5">Process continuous event data streams</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--25-75">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2 class="p-text--small-caps">Why choose Kafka?</h2>
+    </div>
+    <div class="col">
+      <ul class="p-list--divided">
+        <li class="p-list__item u-no-padding">
+          <p class="p-heading--2">Clustered for resilience</p>
+        </li>
+        <li class="p-list__item u-no-padding">
+          <p class="p-heading--2">Scale out for capacity</p>
+        </li>
+        <li class="p-list__item u-no-padding">
+          <p class="p-heading--2">Broad ecosystem of tools</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule" />
+    <div class="p-section--shallow">
+      <h2>Why do companies use Kafka?</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <div class="p-section--shallow">
+        <div class="p-image-container is-highlighted">
+          {{ image(
+            url="https://assets.ubuntu.com/v1/c8351e9c-benefits%20of%20kafka.png",
+            alt="",
+            width="2748",
+            height="1146",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"},) | safe
+          }}
+        </div>
+      </div>
+      <hr class="p-rule--muted is-fixed-width u-hide--medium u-hide--small" />
+      <div class="p-equal-height-row">
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Proven solution</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              Apache Kafka has been battle tested in real world deployments around the globe.
+            </p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Massive scalability</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              Kafka is designed to run at web scale &ndash; with horizontal scaling capabilities built in.
+            </p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Large user community</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              Kafka is a mature, actively developed project and has a vast user community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule" />
+    <h2>How do companies use Kafka?</h2>
+  </div>
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <div class="p-equal-height-row">
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/d1512d3c-streaming%20data.png",
+                alt="",
+                width="568",
+                height="853",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Streaming data</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              You can use Kafka to buffer and distribute continuous data streams, for example to distribute  web clickstream to downstream applications like databases, storage archives and reporting applications.
+            </p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/14521afd-microservices.png",
+                alt="",
+                width="568",
+                height="853",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Microservices</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              Kafka is a popular choice for enabling microservices architectures, acting as a reliable channel for distributed, inter-process communications.
+            </p>
+          </div>
+        </div>
+        <div class="p-equal-height-row__col">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(
+                url="https://assets.ubuntu.com/v1/af44c0de-analytics.png",
+                alt="",
+                width="568",
+                height="853",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"},) | safe
+              }}
+            </div>
+            <hr class="p-rule--highlight u-hide--medium u-hide--small">
+          </div>
+          <div class="p-equal-height-row__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">Analytics</h3>
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              With Kafka, you can integrate analytics processing directly into your data streams, enabling live insights and reporting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>How does Kafka work?</h2>
+    </div>
+    <div class="col">
+      <p>Kafka enables you to group events with a common theme into a logical structure called a topic. Topics are ordered sequences of event data records. Topics are usually replicated across Kafka broker servers in order to ensure event data durability and availability.</p>
+      <div class="p-image-container is-highlighted">
+        {{ image(
+          url="https://assets.ubuntu.com/v1/9f542c46-how-does-kafka-work.png",
+          alt="",
+          width="1200",
+          height="676",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"},) | safe
+        }}
+      </div>
+      <p>Producers publish events to a given topic. Consumers subscribe to a topic and read the events that have been published to the topic. Many producers can publish events to a given topic.</p>
+      <p>Likewise, many consumers can consume from a given topic. Kafka will track their read position in the sequence. Multiple consumer processes can be deployed to operate in a coordinated, parallel manner in order to scale reading from a topic by using Kafka's consumer groups feature.</p>
+      <p>In addition to the core functionality, Kafka includes the Kafka Streams API, which enables users to develop data processing and analytics applications that run directly on the Kafka brokers. The Kafka ecosystem also includes Kafka Connect, an integration system for connecting all kinds of technologies to Kafka, from relational databases and other messaging technologies, to object storage systems.</p>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule" />
+    <div class="p-section--shallow">
+      <h2>Feature breakdown</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5">Horizontally scalable</h3>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Kafka clusters can be scaled to increase processing capacity by adding additional servers, a huge improvement over the vertical scalability limitations of other message brokers.</p>
+        </div>
+      </div>
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5">Distributed processing</h3>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Kafka workloads are distributed across many servers, which can massively improve performance by spreading concurrent client requests across the cluster.</p>
+        </div>
+      </div>
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5">Durable</h3>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Kafka is designed to replicate copies of your event data across the cluster, so that data loss is minimised when a server goes offline.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>Installing Kafka</h2>
+    </div>
+    <div class="col">
+      <p>Kafka is a distributed system developed in Java, designed for computers running Ubuntu and other Linux distributions.</p>
+      <div class="p-image-container is-highlighted">
+        {{ image(
+          url="https://assets.ubuntu.com/v1/106d7c58-installing%20kafka.png",
+          alt="",
+          width="1200",
+          height="676",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"},) | safe
+        }}
+      </div>
+      <p>You can use Canonical's Charmed Kafka solution to deploy a fully supported Kafka service on cloud servers, Kubernetes, or even on your laptop.</p>
+      <div class="p-cta-block u-no-padding--bottom">
+        <a class="p-button--positive" href="/data/docs/kafka/iaas">Try Charmed Kafka</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>Kafka security</h2>
+    </div>
+    <div class="col">
+      <p>Apache Kafka includes mature information security controls like TLS wire encryption, authentication and authorisation and access logging.</p>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50 p-section--shallow">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>Canonical's Charmed Kafka</h2>
+    </div>
+    <div class="col">
+      <p>Charmed Kafka delivers up to 10 years of support and security maintenance for Apache Kafka as an integrated, turnkey solution with advanced management features.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-start-large-4 col-9">
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5 u-no-margin--bottom">Charmed Kafka</h3>
+          <p class="u-text--muted u-no-padding--top">Included in Ubuntu Pro + Support</p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>When you purchase an Ubuntu Pro + Support plan, you also get support for the full Charmed Kafka solution.</p>
+          <hr class="p-rule--muted u-no-margin--bottom" />
+          <ul class="p-list--divided u-no-margin--bottom">
+            <li class="p-list__item has-bullet">Up to 10 years of Kafka support per release track</li>
+            <li class="p-list__item has-bullet">24/7 or weekday phone and ticket support</li>
+            <li class="p-list__item has-bullet">Up to 10 years of security maintenance for Kafka covering critical and high severity CVEs</li>
+          </ul>
+          <p>Charmed Kafka allows you to automate deployment and operation of Kafka at web scale in the environment of your choice &ndash; on the cloud or in your data centre. Supports deployment to most popular clouds or to CNCF conformant Kubernetes.</p>
+          <div class="p-section--shallow">
+            <div class="p-cta-block">
+              <a href="/data/kafka">Learn more about Apache Kafka&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5 u-no-margin--bottom">Kafka Rock container image</h3>
+          <p class="u-text--muted u-no-padding--top">Included in Ubuntu Pro + Support</p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Also included in Ubuntu Pro + Support, you get support for Canonical's container image for Kafka in Docker Hub and Amazon ECR public &ndash; the slimmest, fastest, niftiest Kafka container image on the market, based on Ubuntu LTS. So solid and secure, we call it a Rock.</p>
+          <hr class="p-rule--muted u-no-margin--bottom" />
+          <ul class="p-list--divided u-no-margin--bottom">
+            <li class="p-list__item has-bullet">Up to 10 years of support per release track</li>
+            <li class="p-list__item has-bullet">Same 24/7 or weekday phone and ticket support commitment</li>
+            <li class="p-list__item has-bullet">Same 10 years of security maintenance covering critical and high severity CVEs in the image</li>
+          </ul>
+          <div class="p-section--shallow">
+            <div class="p-cta-block">
+              <a href="https://hub.docker.com/r/ubuntu/kafka">Try out the Rock&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="p-rule--muted" />
+      <div class="row">
+        <div class="col-3 col-medium-3">
+          <h3 class="p-heading--5 u-no-margin--bottom">Kafka consultancy and support</h3>
+          <p class="u-text--muted u-no-padding--top">Advanced professional services for Kafka, when you need them</p>
+        </div>
+        <div class="col-6 col-medium-3">
+          <p>Get help designing, planning and building and even operating a hyper automated production Kafka service that perfectly fits your needs, with Canonical's expert services.</p>
+          <hr class="p-rule--muted u-no-margin--bottom" />
+          <ul class="p-list--divided u-no-margin--bottom">
+            <li class="p-list__item has-bullet">Help with design and build of both production and non-production Kafka environments with Charmed Kafka</li>
+            <li class="p-list__item has-bullet">Managed services for Kafka in your cloud tenancy or data centre, backed by an SLA</li>
+            <li class="p-list__item has-bullet">Firefighting support with a Kafka operations expert, who works alongside your team when crisis hits</li>
+          </ul>
+          <div class="p-cta-block">
+            <a href="/data/kafka#get-in-touch">Contact us&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="row--50-50">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>Learn more about Kafka</h2>
+    </div>
+    <div class="col">
+      <div class="p-section--shallow">
+        {{ image(
+          url="https://assets.ubuntu.com/v1/6e06aca1-intro-to-apache-kafka.png",
+          alt="",
+          width="1200",
+          height="677",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+        }}
+      </div>
+      <p>Apache Kafka is more than just a buzzword in the tech community; it's a critical tool for data processing and management. Learn more in our webinar</p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/kafka-introduction">Access our webinar&nbsp;&rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section--deep">
+  <div class="row--50-50">
+    <hr class="p-rule" />
+    <div class="col">
+      <h2>Kafka resources</h2>
+    </div>
+    <div class="col">
+      <ul class="p-list--divided u-no-margin--bottom">
+        <li class="p-list__item">
+          <a class="p-heading--5" href="https://ubuntu.com/engage/kafka-reference-architecture">Charmed Kafka reference architecture guide</a>
+          <p>Read the reference architecture guide for Charmed Kafka.</p>
+        </li>
+        <li class="p-list__item">
+          <a class="p-heading--5" href="https://ubuntu.com/engage/open-source-big-data-ai">Make better decisions with open source Big Data and AI solutions</a>
+          <p>Learn how to build a smarter enterprise with a secure, integrated open source stack.</p>
+        </li>
+        <li class="p-list__item">
+          <a class="p-heading--5" href="https://ubuntu.com/engage/migrate-kafka-workloads-from-rhel-to-ubuntu">Migrating enterprise Kafka workloads from RHEL to the Ubuntu Platform</a>
+          <p>Many organisations are considering moving core server workloads like Apache Kafka away from Red Hat Enterprise Linux. For those looking for an alternative, supported Linux distribution, Ubuntu is a compelling choice.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
