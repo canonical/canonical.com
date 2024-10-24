@@ -33,8 +33,9 @@
                        pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
               </div>
               <div class="p-section--shallow">
-                <label for="country">Country:</label>
-                <input id="country" name="country" maxlength="255" type="text" />
+                {% with required="false", remove_list=True %}
+                  {% include "shared/forms/_country.html" %}
+                {% endwith %}
               </div>
               <div class="p-section--shallow">
                 <label for="phone">Phone number:</label>
