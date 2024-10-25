@@ -1,10 +1,13 @@
 function initMap() {
-  const map = new google.maps.Map(document.getElementById("sprint-map"), {
+  const center = isSprintMap
+    ? { lat: 38.44079856183539, lng: -32.13058355540764 }
+    : { lat: 40.5074, lng: 30.1278 };
+  const map = new google.maps.Map(document.getElementById("locations-map"), {
     zoom: 3,
-    center: { lat: 38.44079856183539, lng: -32.13058355540764 },
+    center,
   });
 
-  const mapDiv = document.getElementById("sprint-map");
+  const mapDiv = document.getElementById("locations-map");
   mapDiv.style.height = "25rem";
 
   // Change map center for smaller screens
@@ -25,7 +28,7 @@ function initMap() {
   const infoWindow = new google.maps.InfoWindow();
 
   // Create the markers.
-  sprintLocations.forEach(([position, title], i) => {
+  locations.forEach(([position, title], i) => {
     const marker = new google.maps.Marker({
       position,
       map,

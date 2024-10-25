@@ -84,7 +84,7 @@
   <!-- map goes here -->
   <div class="row">
     <figure>
-      <div id="sprint-map">
+      <div id="locations-map">
         <noscript>
           <div class="p-strip is-shallow u-no-padding--top">
             <div class="row">
@@ -175,7 +175,7 @@
   </div>
 </section>
 
-<script>const sprintLocations = {{ sprint_locations|tojson }}</script>
-<script defer src="{{ versioned_static('js/sprint-map.js') }}"></script>
+<script>const locations = {{ sprint_locations|tojson }}; const isSprintMap = true;</script>
+<script defer src="{{ versioned_static('js/locations-map.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly" defer></script>
 {% endblock %}
