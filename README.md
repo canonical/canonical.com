@@ -1,36 +1,56 @@
-# ![Canonical](https://assets.ubuntu.com/v1/9ce5bce5-canonical-logo3.png?h=32 "Canonical")&nbsp;canonical.com
+# ![Canonical](https://assets.ubuntu.com/v1/9ce5bce5-canonical-logo3.png?h=32 "Canonical")&nbsp;[Canonical.com](https://canonical.com)
 
-**The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/).**
+### **The Next-Gen Codebase for Canonical's Official Website**
 
-[![CircleCI build status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=shield)](https://circleci.com/gh/canonical-web-and-design/canonical.com)
-[![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
+[![Build Status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=shield)](https://circleci.com/gh/canonical-web-and-design/canonical.com)
+[![Code Coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
 
-This is the repository for the canonical.com website.
+Welcome to the repository for Canonical's new **canonical.com** website—built with a focus on performance, scalability, and ease of development.
 
-## Architecture overview
+---
 
-This website is written with the help of the [flask](http://flask.pocoo.org/) framework. In order to use functionalities that multiple of our websites here at Canonical share, we import the [base-flask-extension](https://github.com/canonical-web-and-design/canonicalwebteam.flask-base) module.
+## 🏗️ Architecture Overview
 
-## Development
+This site is powered by the lightweight, yet robust [Flask](http://flask.pocoo.org/) framework. To leverage features shared across Canonical sites, we integrate the [base-flask-extension](https://github.com/canonical-web-and-design/canonicalwebteam.flask-base) module, making the codebase modular and maintainable.
 
-The simplest way to run the site is with [the `dotrun` snap](https://github.com/canonical-web-and-design/dotrun/):
+---
+
+## 🛠️ Development Setup
+
+### Quick Start with `dotrun`
+
+For an easy setup, run the website locally with [`dotrun`](https://github.com/canonical-web-and-design/dotrun/):
 
 ```bash
 dotrun
 ```
 
-Afterwards the website will be available at <http://localhost:8002>.
+After running the server, the website will be accessible at <http://localhost:8002>. 
 
-When you start changing files, the server should reload and make the changes available immediately.
+Once you start modifying files, the server will automatically reload, making the changes available for immediate preview.
 
-## Greenhouse API
+---
 
-To work locally on the `/careers` section of the site, you will need to add a `HARVEST_API_KEY` environment variable to `.env` file. You can find this via the [Greenhouse admin panel](https://canonical.greenhouse.io/configure/dev_center/credentials).
+## 🌱 Greenhouse API Integration
 
-# Deploy
+To work locally on the **/careers** section, you’ll need to set up an environment variable for the Greenhouse API:
 
-You can find the deployment config in the deploy folder.
+1. Add `HARVEST_API_KEY` to your `.env` file.
+2. Retrieve your API key from the [Greenhouse admin panel](https://canonical.greenhouse.io/configure/dev_center/credentials).
 
-# License
+With this setup, you’ll have full access to the careers data when developing locally.
 
-The content of this project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/), and the underlying code used to format and display that content is licensed under the [LGPLv3](https://opensource.org/license/lgpl-3-0/) by [Canonical Ltd](http://www.canonical.com/).
+---
+
+## 🚀 Deployment
+
+Deployment configurations are ready in the `deploy` folder for efficient production deployment.
+
+---
+
+## 📄 License
+
+- **Content License:** This project’s content is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/).
+- **Code License:** The underlying code that formats and displays the content is licensed under [LGPLv3](https://opensource.org/license/lgpl-3-0/), courtesy of [Canonical Ltd](http://www.canonical.com/).
+
+--- 
