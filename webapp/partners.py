@@ -21,9 +21,9 @@ class Partners:
 
     def _get(self, query=""):
         if query:
-            return self.session.get(f"{self.base_url}?{query}").json()[:10]
+            return self.session.get(f"{self.base_url}?{query}", timeout=15).json()[:10]
         else:
-            return self.session.get(self.base_url).json()
+            return self.session.get(self.base_url, timeout=15).json()
 
     def get_partner_list(self):
         return self._get()

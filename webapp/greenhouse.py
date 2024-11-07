@@ -180,7 +180,7 @@ class Greenhouse:
         Get all jobs from the API and parse them into vacancies
         Filter out vacancies without an office and a department
         """
-        feed = self.session.get(f"{self.base_url}?content=true").json()
+        feed = self.session.get(f"{self.base_url}?content=true", timeout=15).json()
 
         vacancies = []
 
@@ -231,7 +231,7 @@ class Greenhouse:
         Retrieve a single job from Greenhouse by ID
         convert it to a Vacancy and return it
         """
-        response = self.session.get(f"{self.base_url}/{job_id}?questions=true")
+        response = self.session.get(f"{self.base_url}/{job_id}?questions=true", timeout=15)
 
         response.raise_for_status()
 
@@ -270,6 +270,7 @@ class Greenhouse:
                 "Content-Type": "application/json",
                 "Authorization": f"Basic {self.base64_key}",
             },
+            timeout=30,
         )
 
 
@@ -293,6 +294,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}custom_field/155450",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         departments = json.loads(response.text)["custom_field_options"]
@@ -309,6 +311,7 @@ class Harvest:
                 f"/{application_id}/scheduled_interviews"
             ),
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
 
@@ -318,6 +321,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}applications/{application_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         response_json = response.json()
@@ -331,6 +335,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}job_posts/{job_post_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         response_json = response.json()
@@ -344,6 +349,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}candidates/{candidate_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         response_json = response.json()
@@ -357,6 +363,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}jobs/{job_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         response_json = response.json()
@@ -370,6 +377,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}jobs/{job_id}/stages",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         return response.json()
@@ -378,6 +386,7 @@ class Harvest:
         response = self.session.get(
             f"{self.base_url}users/{user_id}",
             headers={"Authorization": f"Basic {self.base64_key}"},
+            timeout=15,
         )
         response.raise_for_status()
         response_json = response.json()
@@ -412,6 +421,7 @@ class Harvest:
                 "On-Behalf-Of": f"{user_id}",
                 "Authorization": f"Basic {self.base64_key}",
             },
+            timeout=30,
         )
 
         return response

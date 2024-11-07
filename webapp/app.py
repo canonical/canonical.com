@@ -678,7 +678,8 @@ class BlogSitemapIndex(BlogView):
     def dispatch_request(self):
         with get_requests_session() as session:
             response = session.get(
-                "https://admin.insights.ubuntu.com/sitemap_index.xml"
+                "https://admin.insights.ubuntu.com/sitemap_index.xml",
+                timeout=15,
             )
 
             xml = response.text.replace(
@@ -696,7 +697,8 @@ class BlogSitemapPage(BlogView):
     def dispatch_request(self, slug):
         with get_requests_session() as session:
             response = session.get(
-                f"https://admin.insights.ubuntu.com/{slug}.xml"
+                f"https://admin.insights.ubuntu.com/{slug}.xml",
+                timeout=15,
             )
 
             if response.status_code == 404:

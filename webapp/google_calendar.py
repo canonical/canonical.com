@@ -1,5 +1,7 @@
 import os
+import httplib2
 
+from google_auth_httplib2 import AuthorizedHttp
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -35,8 +37,10 @@ class CalendarAPI:
         )
         try:
             delegated_credentials = credentials.with_subject(WPE_EMAIL)
+            http = httplib2.Http(timeout=15)
+            authed_http = AuthorizedHttp(delegated_credentials, http=http)
             service = build(
-                "calendar", "v3", credentials=delegated_credentials
+                "calendar", "v3", http=authed_http
             )
         except HttpError as error:
             print("An error occurred: %s" % error)
