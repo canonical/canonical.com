@@ -180,7 +180,9 @@ class Greenhouse:
         Get all jobs from the API and parse them into vacancies
         Filter out vacancies without an office and a department
         """
-        feed = self.session.get(f"{self.base_url}?content=true", timeout=15).json()
+        feed = self.session.get(
+            f"{self.base_url}?content=true", timeout=15
+        ).json()
 
         vacancies = []
 
@@ -231,7 +233,9 @@ class Greenhouse:
         Retrieve a single job from Greenhouse by ID
         convert it to a Vacancy and return it
         """
-        response = self.session.get(f"{self.base_url}/{job_id}?questions=true", timeout=15)
+        response = self.session.get(
+            f"{self.base_url}/{job_id}?questions=true", timeout=15
+        )
 
         response.raise_for_status()
 

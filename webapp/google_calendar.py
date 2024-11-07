@@ -39,9 +39,7 @@ class CalendarAPI:
             delegated_credentials = credentials.with_subject(WPE_EMAIL)
             http = httplib2.Http(timeout=15)
             authed_http = AuthorizedHttp(delegated_credentials, http=http)
-            service = build(
-                "calendar", "v3", http=authed_http
-            )
+            service = build("calendar", "v3", http=authed_http)
         except HttpError as error:
             print("An error occurred: %s" % error)
 
