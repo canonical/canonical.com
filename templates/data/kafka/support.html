@@ -27,7 +27,9 @@
           </p>
         </div>
         <div class="p-cta-block">
-          <a class="p-button--positive" href="/data/kafka#get-in-touch">Get Kafka support</a>
+          <a class="p-button--positive"
+             aria-controls="data-kafka-modal"
+             href="/contact-us">Get Kafka support</a>
           <a href="https://ubuntu.com/engage/migrate-kafka-workloads-from-rhel-to-ubuntu">Migrating enterprise Kafka workloads to Ubuntu&nbsp;&rsaquo;</a>
         </div>
       </div>
@@ -373,7 +375,7 @@
               Get hands-on training with Kafka and Charmed Kafka, Canonical's distribution of Apache Kafka, in a three day workshop delivered remotely or on-site.
             </p>
             <div class="p-cta-block">
-              <a class="p-button" href="/data/kafka#get-in-touch">Get in touch</a>
+              <a class="p-button" aria-controls="data-kafka-modal" href="/contact-us">Get in touch</a>
             </div>
           </div>
         </div>
@@ -385,7 +387,7 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
-        <a href="/data/kafka#get-in-touch">Contact us to get support for Kafka&nbsp;&rsaquo;</a>
+        <a aria-controls="data-kafka-modal" href="/contact-us">Contact us to get support for Kafka&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
@@ -550,7 +552,9 @@
             <p>Watch recent webinars delivered by our Kafka product and services teams</p>
           </li>
           <li class="p-list__item">
-            <a class="p-heading--5" href="/data/kafka#get-in-touch">Discuss your needs with our team</a>
+            <a class="p-heading--5"
+               aria-controls="data-kafka-modal"
+               href="/contact-us">Discuss your needs with our team</a>
             <p>Contact sales and make an appointment to meet with our Kafka solutions team to explain your needs in full</p>
           </li>
         </ul>
@@ -568,4 +572,11 @@
       </div>
     </div>
   </section>
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% with %}
+    {% set returnURL = "https://canonical.com/data/kafka#success" %}
+    {% include "data/_form-data-kafka.html" %}
+  {% endwith %}
 {% endblock %}

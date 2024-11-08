@@ -56,7 +56,11 @@
           <h2>The benefits of Kafka</h2>
         </div>
         <div class="col">
-          <p>Kafka provides critical functionality within modern<br /> distributed systems engineering:</p>
+          <p>
+            Kafka provides critical functionality within modern
+            <br />
+            distributed systems engineering:
+          </p>
         </div>
       </div>
     </div>
@@ -293,12 +297,12 @@
         <div class="p-section--shallow">
           <div class="p-image-container is-highlighted">
             {{ image(url="https://assets.ubuntu.com/v1/9f542c46-how-does-kafka-work.png",
-                      alt="",
-                      width="1200",
-                      height="676",
-                      hi_def=True,
-                      loading="lazy",
-                      attrs={"class": "p-image-container__image"},) | safe
+                        alt="",
+                        width="1200",
+                        height="676",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"},) | safe
             }}
           </div>
         </div>
@@ -374,12 +378,12 @@
         <div class="p-section--shallow">
           <div class="p-image-container is-highlighted">
             {{ image(url="https://assets.ubuntu.com/v1/106d7c58-installing%20kafka.png",
-                      alt="",
-                      width="1200",
-                      height="676",
-                      hi_def=True,
-                      loading="lazy",
-                      attrs={"class": "p-image-container__image"},) | safe
+                        alt="",
+                        width="1200",
+                        height="676",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"},) | safe
             }}
           </div>
         </div>
@@ -503,7 +507,7 @@
               </ul>
             </div>
             <div class="p-cta-block">
-              <a href="/data/kafka#get-in-touch">Contact us&nbsp;&rsaquo;</a>
+              <a aria-controls="data-kafka-modal" href="/contact-us">Contact us&nbsp;&rsaquo;</a>
             </div>
           </div>
         </div>
@@ -567,4 +571,10 @@
     </div>
   </section>
 
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% with %}
+    {% set returnURL = "https://canonical.com/data/kafka#success" %}
+    {% include "data/_form-data-kafka.html" %}
+  {% endwith %}
 {% endblock %}
