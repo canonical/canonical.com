@@ -1,4 +1,5 @@
 {% extends 'base_index.html' %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
 {% block title %}MicroCloud &mdash; low-touch open source cloud solution{% endblock %}
 
@@ -15,10 +16,10 @@
     <div class="row">
       <div class="col-start-large-4 col-9">
         <div class="p-section--shallow">
-          <h1>The power of cloud<br aria-hidden="true"/>anywhere you need it</h1>
+          <h1>Open source scalable<br aria-hidden="true"/>cloud infrastructure</h1>
         </div>
         <div class="p-section--shallow">
-          <p>Straightforward and lightweight, but featureful.<br aria-hidden="true"/>MicroClouds serve compute near consumers, wherever they may be.</p>
+          <p>Straightforward, lightweight, and featureful.<br aria-hidden="true"/>MicroClouds serve compute near consumers, wherever they may be.</p>
         </div>
         <hr class="p-rule--muted" />
         <a class="p-button--positive" href="/contact-us" aria-controls="microcloud-modal">Get in touch</a>
@@ -39,7 +40,7 @@
       <div class="row">
         <div class="col-6">
           <div class="u-embedded-media">
-            <iframe class="u-embedded-media__element" title="What is a MicroCloud?" width="560" height="315" src="https://www.youtube.com/embed/FnzUcGg60Qk?si=CdadVAcSZGLHLi6S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe class="u-embedded-media__element" title="What is a MicroCloud?" width="560" height="315" src="https://www.youtube.com/embed/PZdJiH0bUxY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -47,19 +48,49 @@
   </div>
 </section>
 
+
+
+
+{% call(slot) vf_quote_wrapper(
+  title_text="<h2>Fast and scalable cloud infrastructure</h2>",
+  quote_text="Currently we have 200 students; we’re aiming to grow to 2,000 in 
+  4 or 5 years. I think MicroCloud is a great opportunity for us, as it can 
+  scale very easily for our goals.
+  <br><br>
+  We are only three or four guys inside the Infrastructure team. What we wanted
+   was a single interface to manage everything, so that even one person can do 
+   this work. It was also very, very, very important for us that the solution 
+   would be compatible with the hardware we got in the past. And that’s why we 
+   moved onto MicroCloud.",
+  citation_source_name_text="Hugo Adjamagbo",
+  citation_source_title_text="IT Infrastructure and Security Architect",
+  citation_source_organisation_text="Université de l’Ontario Français"
+) -%}
+
+{%- if slot == 'cta' -%}
+  <a
+    class="p-button--positive"
+    href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">
+    Access the case study
+  </a>
+{%- endif -%}
+
+
+{% endcall -%}
 <section class="p-section">
   <div class="u-fixed-width">
     <hr class="p-rule"/>
-    <h2>Deploy a fully functional cloud in minutes:</h2>
+    <h2>Deploy a fully functional, scalable cloud in minutes:</h2>
     <div class="row-cli__commands u-hide--medium u-hide--small" aria-hidden="true">
       <p class="p-heading--2 u-no-padding--top u-no-margin--bottom" style="display: inline-block;">$ </p>
       <span class="row-cli__commands-list typer" id="main"
-      data-words="snap install microcloud lxd microceph microovn,microcloud init"
+      data-words="snap install microcloud lxd microceph microovn,microcloud init,microcloud join"
       data-delay="50" data-deletedelay="5000" data-colors="#111111">snap install mic</span>
     </div>
     <div class="p-code-snippet u-hide--large">
       <pre class="p-code-snippet__block--icon is-wrapped"><code>snap install microcloud lxd microceph microovn</code></pre>
-       <pre class="p-code-snippet__block--icon is-wrapped"><code>microcloud init</code></pre>
+      <pre class="p-code-snippet__block--icon is-wrapped"><code>microcloud init</code></pre>
+      <pre class="p-code-snippet__block--icon is-wrapped"><code>microcloud join</code></pre>
     </div>
   </div>
 </section>
@@ -108,7 +139,7 @@
           </div>
           <div class="col-3 col-medium-2 p-section--shallow">
             <h3 class="p-heading--5">Cost and resource efficient </h3>
-            <p>In addition to standard Ubuntu Server or Desktop, MicroClouds can also be run on Ubuntu Core &ndash; a lightweight OS optimised for the edge. Combined with Ubuntu Core, users get a truly lightweight cloud, giving you resource efficiency without compromising on performance, while keeping costs at bay.</p>
+            <p>In addition to standard Ubuntu Server or Desktop, MicroClouds can also be run on Ubuntu Core &ndash; a lightweight OS optimized for the edge. Combined with Ubuntu Core, users get a truly lightweight cloud, giving you resource efficiency without compromising on performance, while keeping costs at bay.</p>
           </div>
         </div>
         <hr class="p-rule--muted" />
@@ -126,8 +157,8 @@
     <div class="col">
       <div class="row">
         <div class="col-3">
-          <p>MicroClouds are highly available by default, so a minimum of three systems are needed.</p>
-          <p>They can easily extend in site size and scale from a small three-node to larger 50-node clusters.</p>
+          <p>MicroClouds start with a single node, but at least 3 nodes are recommended for high availability.</p>
+          <p>They can easily extend in site size and scale from a single node to larger 50-node clusters.</p>
         </div>
         <div class="col-3 p-image-wrapper u-align--center">
           {{ image(url="https://assets.ubuntu.com/v1/23cbb344-Design.png",
@@ -208,7 +239,7 @@
         <li class="p-list__item is-ticked">Highly available cluster deploys in minutes.</li>
         <li class="p-list__item is-ticked">Automatic security updates and streamlined upgrades.</li>
         <li class="p-list__item is-ticked">Runs virtual machines, or system containers for higher density.</li>
-        <li class="p-list__item is-ticked">Remote authentication, RBAC, projects and multi-user setup.</li>
+        <li class="p-list__item is-ticked">Remote authentication, fine grained access control, projects and multi-user setup.</li>
         <li class="p-list__item is-ticked">Easily replicated at scale.</li>
         <li class="p-list__item is-ticked">Fully open-source, commercial support available with <a href="https://ubuntu.com/pro">Ubuntu Pro</a>.</li>
       </ul>
@@ -252,7 +283,7 @@
     <hr class="p-rule"/>
     <div class="col">
       <div class="p-section--shallow">
-        <h3 class="p-heading--2">Scalable private clouds</h3>
+        <h3 class="p-heading--2">Scalable cloud infrastructure</h3>
       </div>
     </div>
     <div class="col">
@@ -307,7 +338,7 @@
     <div class="p-logo-section">
       <div class="p-logo-section__items">
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/196ce367-arm-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/3fe5b9a1-arm-logo.png",
                     alt="Arm",
                     width="189",
                     height="385",
@@ -317,7 +348,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/ddad56d7-intel-new-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/e7500aef-intel-new-logo.png",
                     alt="Intel",
                     width="199",
                     height="385",
@@ -327,7 +358,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/c09728c9-hp-enterprise-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/854d87a4-hp-enterprise-logo.png",
                     alt="HP Enterprise",
                     width="315",
                     height="385",
@@ -337,7 +368,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/43635925-dell-technologies-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/fa3697a9-dell-logo.png",
                     alt="Dell",
                     width="172",
                     height="312",
@@ -347,7 +378,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/82d19288-hp-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/bcc0bd30-hp-logo.png",
                     alt="HP",
                     width="164",
                     height="385",
@@ -357,7 +388,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/39f3b77f-lenovo-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/73036e15-lenovo-logo.png",
                     alt="Lenovo",
                     width="278",
                     height="385",
@@ -367,7 +398,7 @@
           }}
         </div>
         <div class="p-logo-section__item">
-          {{ image(url="https://assets.ubuntu.com/v1/f593eb4b-cisco-logo.png",
+          {{ image(url="https://assets.ubuntu.com/v1/4f63ebdc-cisco-logo.png",
                     alt="Cisco",
                     width="233",
                     height="385",
@@ -385,7 +416,7 @@
   <div class="u-fixed-width">
     <hr class="p-rule"/>
     <div class="p-section">
-      <p class="p-text--small-caps">All the benefits of a cloud, but localised</p>
+      <p class="p-text--small-caps">All the benefits of a cloud, but localized</p>
     </div>
     <div class="p-section--shallow">
       <h2>MicroClouds are low-touch, efficient and reliable.<br aria-hidden="true"/> Do you have a use case in mind? Get in touch with our team.</h2>
