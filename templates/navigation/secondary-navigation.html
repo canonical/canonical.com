@@ -6,7 +6,7 @@
         <a class="p-navigation__link" href="{{ page_bubble.path }}">
           <div class="p-navigation__logo-tag">
             <img class="p-navigation__logo-icon"
-                 src="{{ page_bubble.get("icon", "https://assets.ubuntu.com/v1/82818827-CoF_white.svg")}}"
+                 src="{{ page_bubble.get('icon', 'https://assets.ubuntu.com/v1/82818827-CoF_white.svg') }}"
                  alt="" />
           </div>
           <span class="p-navigation__logo-title">{{ page_bubble.title | replace(' ', '&nbsp;') | safe }}</span>
@@ -39,9 +39,9 @@
         {% if page_bubble.parent_title and page_bubble.parent_path %}
           <ul class="p-navigation__items">
             <li class="p-navigation__item"></li>
-              <li class="p-navigation__item">
-                <a class="p-navigation__link" href={{ page_bubble.parent_path }}>{{ page_bubble.parent_title }}</a>
-              </li>
+            <li class="p-navigation__item">
+              <a class="p-navigation__link" href={{ page_bubble.parent_path }}>{{ page_bubble.parent_title }}</a>
+            </li>
           </ul>
         {% endif %}
       {% endif %}
