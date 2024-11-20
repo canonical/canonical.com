@@ -31,7 +31,7 @@
         </div>
         <div class="p-cta-block">
           <a href="https://microstack.run/docs/single-node"
-             class="p-button--positive">Try Canonical OepnStack</a>
+             class="p-button--positive">Try Canonical OpenStack</a>
           <a href="https://ubuntu.com/engage/openstack-ebook-beginners"
              class="p-button">Download the OpenStack e-book</a>
         </div>
@@ -84,7 +84,9 @@
           Transform your data centre into a fully functional and professional cloud environment. Take advantage of cloud-based operations, while retaining all the benefits of owning your computing infrastructure.
         </p>
         <div class="p-cta-block">
-          <a class="p-button--positive">Get in touch</a>
+          <a class="p-button--positive"
+             href="/contact-us"
+             aria-controls="openstack-modal">Get in touch</a>
         </div>
       </div>
     </div>
@@ -466,5 +468,12 @@
       </div>
     </div>
   </section>
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% with %}
+    {% set returnURL = "https://canonical.com/openstack#success" %}
+    {% include "openstack/_form-openstack.html" %}
+  {% endwith %}
 
 {% endblock content %}
