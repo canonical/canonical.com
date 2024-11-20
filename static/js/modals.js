@@ -84,6 +84,13 @@
     return false;
   }
 
+  // Handle click outside modal
+  function handleModalClick(e) {
+    if (!e.target.closest(".js-modal-content")) {
+      closeModals();
+    }
+  }
+
   /**
     Toggles visibility of modal dialog.
     @param {HTMLElement} modal Modal dialog to show or hide.
@@ -102,6 +109,7 @@
         modal.style.display = "flex";
         focusAfterClose = sourceEl;
         document.addEventListener("focus", trapFocus, true);
+        document.addEventListener("click", handleModalClick);
         updateHash(triggeringHash);
       } else {
         document.body.style.overflow = "auto";
@@ -110,6 +118,7 @@
           focusAfterClose.focus();
         }
         document.removeEventListener("focus", trapFocus, true);
+        document.removeEventListener("click", handleModalClick);
         updateHash("");
         currentDialog = null;
       }

@@ -92,38 +92,41 @@ function requiredCheckbox(fieldset, target) {
     submitButton.disabled = disableSubmit;
   }
 }
-// Add event listeners to toggle checkbox visibility
-const ubuntuVersionCheckboxes = document.querySelector(
-  "fieldset.js-toggle-checkbox-visibility",
-);
-ubuntuVersionCheckboxes?.addEventListener("change", function (event) {
-  toggleCheckboxVisibility(ubuntuVersionCheckboxes, event.target);
-});
 
-// Add event listeners to required fieldset
-const requiredFieldset = document.querySelectorAll(
-  "fieldset.js-required-checkbox",
-);
-
-const form = document.querySelector("form");
-const submitButton = form.querySelector('button[type="submit"]');
-if(requiredFieldset) submitButton.disabled = true;
-
-requiredFieldset?.forEach((fieldset) => {
-  fieldset.addEventListener("change", function (event) {
-    requiredCheckbox(fieldset, event.target);
+const forms = document.querySelectorAll("form");
+forms.forEach(form => {
+  // Add event listeners to toggle checkbox visibility
+  const ubuntuVersionCheckboxes = document.querySelector(
+    "fieldset.js-toggle-checkbox-visibility",
+  );
+  ubuntuVersionCheckboxes?.addEventListener("change", function (event) {
+    toggleCheckboxVisibility(ubuntuVersionCheckboxes, event.target);
   });
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  const requiredFieldset = form.querySelectorAll(
+    "fieldset.js-required-checkbox",
+  );
+  // By default we disable the button, until the required fields are selected
+  if (requiredFieldset.length) submitButton.disabled = true;
+
+  // Add event listeners to required fieldset
+  requiredFieldset?.forEach((fieldset) => {
+    fieldset.addEventListener("change", function (event) {
+      requiredCheckbox(fieldset, event.target);
+    });
+  });
+
+  // Exclude forms that don't need loader
+  const cancelLoader = submitButton.classList.contains("no-loader");
+  if (submitButton && !cancelLoader) {
+    form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
+  }
+
+  // This block checks for the presence of 'phone number' and 'country' input fields on the page. If either input field exists, it triggers the `prepareInputFields` function to set them up. Note: In a modal form scenario, these inputs are not present at page load and thus, `prepareInputFields` is not invoked here. Instead, the function is imported and executed within `dynamic-forms.js` when the modal is opened.
+  const phoneNumberInput = form.querySelector("input#phone");
+  const countryInput = form.querySelector("select#country");
+  if (phoneNumberInput || countryInput) {
+    prepareInputFields(phoneNumberInput, countryInput);
+  }
 });
-
-// Exclude forms that don't need loader
-const cancelLoader = submitButton.classList.contains("no-loader");
-if (submitButton && !cancelLoader) {
-  form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
-}
-
-// This block checks for the presence of 'phone number' and 'country' input fields on the page. If either input field exists, it triggers the `prepareInputFields` function to set them up. Note: In a modal form scenario, these inputs are not present at page load and thus, `prepareInputFields` is not invoked here. Instead, the function is imported and executed within `dynamic-forms.js` when the modal is opened.
-const phoneNumberInput = document.querySelector("input#phone");
-const countryInput = document.querySelector("select#country");
-if (phoneNumberInput || countryInput) {
-  prepareInputFields(phoneNumberInput, countryInput);
-}
