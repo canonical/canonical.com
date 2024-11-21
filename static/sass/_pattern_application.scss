@@ -25,6 +25,8 @@
     }
 
     .p-stepped-list__item {
+      counter-increment: list-item;
+
       p.p-stepped-list__content,
       div.p-stepped-list__content {
         margin-left: 0 !important;
@@ -32,6 +34,18 @@
 
       &:first-child::after {
         content: none;
+      }
+    }
+
+    .p-stepped-list {
+      counter-reset: inner-list;
+
+      .p-stepped-list__item {
+        counter-increment: inner-list;
+      }
+
+      .p-stepped-list__title::before {
+        content: counter(inner-list) ".";
       }
     }
 
