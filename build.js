@@ -8,6 +8,7 @@ let entries = {
   "forms": "./static/js/forms.js",
   "prepare-form-inputs": "./static/js/prepare-form-inputs.js",
   "navigation": "./static/js/navigation/main.js",
+  "osselector": "./static/js/osselector.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
