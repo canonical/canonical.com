@@ -1121,7 +1121,7 @@ microstack_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.ubuntu.com/",
-            session=get_requests_session(),
+            session=search_session,
         ),
         index_topic_id=18212,
         url_prefix="/microstack/docs",
@@ -1129,6 +1129,17 @@ microstack_docs = Docs(
     document_template="/microstack/docs/document.html",
     url_prefix="/microstack/docs",
     blueprint_name="microstack_docs",
+)
+
+app.add_url_rule(
+    "/microstack/docs/search",
+    "microstack-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/microstack/docs",
+        template_path="/microstack/docs/search-results.html",
+    ),
 )
 
 microstack_docs.init_app(app)
