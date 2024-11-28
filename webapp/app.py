@@ -53,6 +53,18 @@ app = FlaskBase(
     template_500="500.html",
 )
 
+# Jinja macros
+# ChoiceLoader attempts loading templates from each path in successive order
+loader = ChoiceLoader(
+    [
+        FileSystemLoader("templates"),
+        FileSystemLoader("node_modules/vanilla-framework/templates/"),
+    ]
+)
+
+# Loader supplied to jinja_loader overwrites default jinja_loader
+app.jinja_loader = loader
+
 charmhub_discourse_api = DiscourseAPI(
     base_url="https://discourse.charmhub.io/",
     session=get_requests_session(),
@@ -1240,15 +1252,3 @@ def set_form_rules():
 # on /data/opensearch and /data/postresql
 # see: https://github.com/canonical/canonical.com/issues/1399
 # set_form_rules()
-
-# Jinja macros
-# ChoiceLoader attempts loading templates from each path in successive order
-loader = ChoiceLoader(
-    [
-        FileSystemLoader("templates"),
-        FileSystemLoader("node_modules/vanilla-framework/templates/"),
-    ]
-)
-
-# Loader supplied to jinja_loader overwrites default jinja_loader
-app.jinja_loader = loader
