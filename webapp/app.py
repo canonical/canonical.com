@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 import bleach
 import flask
 import markdown
+import jinja2
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 # Packages
