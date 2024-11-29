@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 import bleach
 import flask
 import markdown
+from jinja2 import ChoiceLoader, FileSystemLoader
 
 # Packages
 from canonicalwebteam import image_template
@@ -50,6 +51,18 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Jinja macros
+# ChoiceLoader attempts loading templates from each path in successive order
+loader = ChoiceLoader(
+    [
+        FileSystemLoader("templates"),
+        FileSystemLoader("node_modules/vanilla-framework/templates/"),
+    ]
+)
+
+# Loader supplied to jinja_loader overwrites default jinja_loader
+app.jinja_loader = loader
 
 charmhub_discourse_api = DiscourseAPI(
     base_url="https://discourse.charmhub.io/",
