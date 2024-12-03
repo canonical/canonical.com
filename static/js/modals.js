@@ -190,7 +190,7 @@ function getCheckboxItemsAsCSV(fieldset) {
 function getCustomFields(event) {
   var message = "";
 
-  document.querySelectorAll('fieldset').forEach(function (formField) {
+  document.querySelectorAll('fieldset:not(#about-you)').forEach(function (formField) {
     var comma = ",";
     var fieldsetForm = formField.querySelector(".js-formfield-title");
     var fieldTitle = "";
@@ -264,12 +264,14 @@ function getCustomFields(event) {
   });
 
   const howManyMachinesFieldset = document.getElementById("how-many-machines");
-  const machinesInputs = howManyMachinesFieldset?.querySelectorAll(
-    "input[name='how-many-machines-do-you-have']"
-  );
-  machinesInputs.forEach((input) => {
-    input.removeAttribute("name");
-  });
+  if (howManyMachinesFieldset?.length > 0) {
+    const machinesInputs = howManyMachinesFieldset.querySelectorAll(
+      "input[name='how-many-machines-do-you-have']"
+    );
+    machinesInputs.forEach((input) => {
+      input.removeAttribute("name");
+    });
+  }
 
   const textarea = document.getElementById("Comments_from_lead__c");
   textarea.value = message;
