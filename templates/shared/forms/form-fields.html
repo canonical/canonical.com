@@ -49,7 +49,9 @@
                         <textarea {% if fieldset.isRequired %}required{% endif %}
                                   id="{{ field.id }}"
                                   rows="5"
-                                  maxlength="2000"></textarea>
+                                  maxlength="2000"
+                                  {% if field.ariaLabel %}aria-label="{{ field.ariaLabel }}"{% endif %}
+                                  {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}></textarea>
                       {% elif field.type == "checkbox" %}
                         <label class="p-checkbox">
                           <input class="p-checkbox__input js-checkbox-visibility"
