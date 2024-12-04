@@ -1293,7 +1293,7 @@ def osredirect(osname):
 
 @app.after_request
 def no_cache(response):
-    if flask.request.path == "/static/files/latest-release.json":
+    if flask.request.path == "/static/files/latest-multipass-release.json":
         response.cache_control.max_age = None
         response.cache_control.no_store = True
         response.cache_control.public = False
