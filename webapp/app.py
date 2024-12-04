@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 import bleach
 import flask
 import markdown
+from jinja2 import ChoiceLoader, FileSystemLoader
 
 # Packages
 from canonicalwebteam import image_template
@@ -50,6 +51,18 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Jinja macros
+# ChoiceLoader attempts loading templates from each path in successive order
+loader = ChoiceLoader(
+    [
+        FileSystemLoader("templates"),
+        FileSystemLoader("node_modules/vanilla-framework/templates/"),
+    ]
+)
+
+# Loader supplied to jinja_loader overwrites default jinja_loader
+app.jinja_loader = loader
 
 charmhub_discourse_api = DiscourseAPI(
     base_url="https://discourse.charmhub.io/",
@@ -872,6 +885,31 @@ def allow_src(tag, name, value):
     return False
 
 
+# Multipass docs
+multipass_docs = Docs(
+    parser=DocParser(
+        api=DiscourseAPI(
+            base_url="https://discourse.ubuntu.com/", session=search_session
+        ),
+        index_topic_id=8294,
+        url_prefix="/multipass/docs",
+    ),
+    document_template="/multipass/docs/document.html",
+    url_prefix="/multipass/docs",
+    blueprint_name="multipass-docs",
+)
+app.add_url_rule(
+    "/multipass/docs/search",
+    "multipass-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/multipass/docs",
+        template_path="/multipass/docs/search-results.html",
+    ),
+)
+multipass_docs.init_app(app)
+
 # Data Platform Spark on K8s docs
 data_spark_k8s_docs = Docs(
     parser=DocParser(
@@ -1241,3 +1279,23 @@ def set_form_rules():
 # on /data/opensearch and /data/postresql
 # see: https://github.com/canonical/canonical.com/issues/1399
 # set_form_rules()
+
+
+@app.route("/multipass/download/<regex('windows|macos'):osname>")
+def osredirect(osname):
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_path = os.path.join(
+        SITE_ROOT, "../static/files/latest-multipass-releases.json"
+    )
+    release = json.load(open(json_path))
+    return flask.redirect(release["installer_urls"][osname], code=302)
+
+
+@app.after_request
+def no_cache(response):
+    if flask.request.path == "/static/files/latest-multipass-release.json":
+        response.cache_control.max_age = None
+        response.cache_control.no_store = True
+        response.cache_control.public = False
+
+    return response
