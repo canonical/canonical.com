@@ -1279,3 +1279,23 @@ def set_form_rules():
 # on /data/opensearch and /data/postresql
 # see: https://github.com/canonical/canonical.com/issues/1399
 # set_form_rules()
+
+
+@app.route("/multipass/download/<regex('windows|macos'):osname>")
+def osredirect(osname):
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_path = os.path.join(
+        SITE_ROOT, "../static/files/latest-multipass-releases.json"
+    )
+    release = json.load(open(json_path))
+    return flask.redirect(release["installer_urls"][osname], code=302)
+
+
+@app.after_request
+def no_cache(response):
+    if flask.request.path == "/static/files/latest-release.json":
+        response.cache_control.max_age = None
+        response.cache_control.no_store = True
+        response.cache_control.public = False
+
+    return response
