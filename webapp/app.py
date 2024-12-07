@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 import bleach
 import flask
 import markdown
+import jinja2
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 # Packages
@@ -1252,10 +1253,11 @@ def get_user_country_by_tz():
 app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
 
 
+# Form template
 def render_form(form):
     @wraps(render_form)
     def wrapper_func():
-        with app.app_context() and app.test_request_context():
+        try:
             return flask.render_template(
                 form["templatePath"],
                 fieldsets=form["fieldsets"],
@@ -1263,22 +1265,30 @@ def render_form(form):
                 isModal=form.get("isModal"),
                 modalId=form.get("modalId"),
             )
+        except jinja2.exceptions.TemplateNotFound:
+            flask.abort(
+                404, description=f"Template {form['templatePath']} not found."
+            )
 
     return wrapper_func
 
 
 def set_form_rules():
-    filename = os.path.join(app.static_folder, "files", "forms-data.json")
-    with open(filename) as forms:
-        data = json.load(forms)
+    file_path = os.path.join(app.static_folder, "files", "forms-data.json")
+    with open(file_path) as forms_json:
+        data = json.load(forms_json)
         for path, form in data["forms"].items():
-            app.add_url_rule(path, view_func=render_form(form), endpoint=path)
+            try:
+                app.add_url_rule(
+                    path, view_func=render_form(form), endpoint=path
+                )
+            except AssertionError:
+                app.logger.error(
+                    f"Error setting form rules for {path} \n", AssertionError
+                )
 
 
-# this causes secondary navigation to dissapear
-# on /data/opensearch and /data/postresql
-# see: https://github.com/canonical/canonical.com/issues/1399
-# set_form_rules()
+set_form_rules()
 
 
 @app.route("/multipass/download/<regex('windows|macos'):osname>")

@@ -1,5 +1,5 @@
 {% if isModal %}
-  <div class="p-modal js-modal-ready" style="display: none;" id="{{ modalId }}">
+  <div class="p-modal" style="display: none;" id="{{ modalId }}">
     <div class="p-modal__dialog js-modal-content is-wide-modal"
          role="dialog"
          aria-labelledby="modal-title"
@@ -7,7 +7,8 @@
       <header class="p-modal__header"
               style="display: block;
                      border-bottom: 0;
-                     overflow: auto">
+                     overflow: auto;
+                     padding-top: 1rem;">
         <button class="p-modal__close p-modal-close-button"
                 style="position: relative"
                 aria-controls="{{ modalId }}"
@@ -16,10 +17,12 @@
           <h3>{{ formData.title }}</h3>
         </div>
       </header>
-      <div class="p-section u-fixed-width">
-        <hr />
-        {{ formData.introText }}
-      </div>
+      {% if formData.introText %}
+        <div class="p-section u-fixed-width">
+          <hr />
+          {{ formData.introText }}
+        </div>
+      {% endif %}
       {% include "/shared/forms/form-fields.html" %}
     </div>
   </div>
