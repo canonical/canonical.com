@@ -9,7 +9,7 @@ env:
 
 jobs:
   run-image:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost
 
   run-dotrun:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +44,7 @@ jobs:
         run: dotrun & curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost:8002
 
   lint-scss:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -56,7 +56,7 @@ jobs:
         run: yarn lint-scss
 
   lint-python:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
         run: yarn lint-python
 
   lint-jinja:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -88,7 +88,7 @@ jobs:
 
       - name: Get changed HTML files in the templates folder
         id: changed-files
-        uses: tj-actions/changed-files@v43
+        uses: tj-actions/changed-files@v45
         with:
           files: templates/**
 
@@ -101,7 +101,7 @@ jobs:
           djlint $CHANGED_FILES --lint
 
   test-python:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -126,7 +126,7 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -cF python
 
   test-javascript:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -138,7 +138,7 @@ jobs:
         run: yarn test-js
 
   inclusive-naming-check:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
