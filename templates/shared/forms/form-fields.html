@@ -5,15 +5,12 @@
         id="mktoForm_{{ formData.formId }}"
         onsubmit="getCustomFields(event)">
     {% for fieldset in fieldsets %}
-      <div class="p-section--shallow">
-        <hr class="is-fixed-width" />
-        <fieldset class="p-fieldset-section{% if fieldset.id == 'ubuntu-versions' %} js-toggle-checkbox-visibility 
-                        {% elif fieldset.isRequired and fieldset.fields[0].type == 'checkbox' %} js-required-checkbox 
-                        {% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %}"
+      <div class="p-section">
+        <hr class="p-rule is-fixed-width" />
+        <fieldset class="p-fieldset-section u-no-padding{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility {% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox {% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %}"
                   id="{{ fieldset.id }}"
                   aria-labelledby="{{ fieldset.id }}"
-                  {% if fieldset.id == 'about-you' %} style="overflow: unset;"{% endif %}
-                  >
+                  {% if fieldset.id == 'about-you' %}style="overflow: unset;"{% endif %}>
           <div class="row--50-50 {% if fieldset.noCommentsFromLead != True %}js-formfield{% endif %}">
             <div class="col">
               <legend class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
@@ -38,9 +35,7 @@
                     <li class="p-list__item">
                       {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
                         <label {% if field.isRequired %}class="is-required"{% endif %}
-                               for="{{ field.id }}">
-                          {{ field.label }}:
-                        </label>
+                               for="{{ field.id }}">{{ field.label }}:</label>
                         <input {% if field.isRequired %}required{% endif %}
                                id="{{ field.id }}"
                                name="{{ field.id }}"
@@ -66,24 +61,24 @@
                           <strong>{{ field.fieldTitle }}</strong>
                           {% for option in field.options %}
                             <label class="p-checkbox">
-                              <input class="p-checkbox__input js-checkbox-visibility{% if field.fieldTitle=='Other' %}__other{% endif %}" type="checkbox"
-                                aria-labelledby="{{ option.label }}" value="{{ option.value }}" />
-                                <span class="p-checkbox__label" id="{{ option.id }}">{{ option.label }}</span>
-                              </label>
-                            {% endfor %}
-                          </div>
-                        {% elif field.type == "select" %}
-                          <label {% if fieldset.isRequired %}class="is-required"{% endif %}
-                                 for="{{ field.id }}">
-                            {{ field.label }}:
-                          </label>
-                          <select id="{{ field.id }}" {% if field.isRequired %}required{% endif %}>
-                            {% for option in field.options %}<option value="{{ option.value }}">{{ option.label }}</option>{% endfor %}
-                          </select>
-                        {% endif %}
-                      </li>
-                    {% endif %}
-                  {% endfor %}
+                              <input class="p-checkbox__input js-checkbox-visibility{% if field.fieldTitle=='Other' %}__other{% endif %}"
+                                     type="checkbox"
+                                     aria-labelledby="{{ option.label }}"
+                                     value="{{ option.value }}" />
+                              <span class="p-checkbox__label" id="{{ option.id }}">{{ option.label }}</span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                      {% elif field.type == "select" %}
+                        <label {% if fieldset.isRequired %}class="is-required"{% endif %}
+                               for="{{ field.id }}">{{ field.label }}:</label>
+                        <select id="{{ field.id }}" {% if field.isRequired %}required{% endif %}>
+                          {% for option in field.options %}<option value="{{ option.value }}">{{ option.label }}</option>{% endfor %}
+                        </select>
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
               {% if loop.index == fieldsets|length %}
                 <ul class="p-list">
@@ -135,11 +130,11 @@
                               maxlength="2000"></textarea>
                   </label>
                 </div>
-              <input type="hidden"
-                     aria-hidden="true"
-                     aria-label="hidden field"
-                     name="formid"
-                     value="{{ formData.formId }}" />
+                <input type="hidden"
+                       aria-hidden="true"
+                       aria-label="hidden field"
+                       name="formid"
+                       value="{{ formData.formId }}" />
                 <input type="hidden"
                        aria-hidden="true"
                        aria-label="hidden field"
