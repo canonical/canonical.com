@@ -79,7 +79,7 @@
   <div class="col-6">
     <hr class="p-rule"/>
     <h3 class="p-heading--5">Apply for this role</h3>
-    <form action="{{ request.path }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
+    <form id="job-apply-form" action="/careers/{{ job.id }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
           'event': 'GAEvent',
           'eventCategory': 'Form',
           'eventAction': 'job application: {{ job.id }}',
@@ -120,11 +120,24 @@
           {% endfor %}
         {% endif %}
         <hr style="margin: 1rem 0;" />
-        <input type="submit" class="p-button--positive u-no-margin--bottom js-submit-button" name="submit" value="Submit application"/>
+        <input type="submit" class="p-button--positive u-no-margin--bottom js-submit-button" name="submit_button" value="Submit application"/>
+        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
       </fieldset>
     </form>
   </div>
 </div>
+
+<script>
+  const formEl = document.getElementById("job-apply-form");
+  formEl.addEventListener('submit', (event) => {
+    event.preventDefault();
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute("{{ recaptcha_site_key }}", {action: "JOB_APPLY"});
+      document.getElementById("recaptcha_token").value = token;
+      formEl.submit();
+    });
+  });
+</script>
 
 <script defer>
     document.querySelectorAll('a[href*="legal"]').forEach(function (a) {

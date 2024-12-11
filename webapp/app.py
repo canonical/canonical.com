@@ -34,11 +34,16 @@ from webapp.navigation import (
     split_list,
 )
 from webapp.requests_session import get_requests_session
+from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
 
 logger = logging.getLogger(__name__)
 
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
 CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
+
+RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
+if not RECAPTCHA_SITE_KEY:
+    logger.error("RECAPTCHA_SITE_KEY is missing!")
 
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
@@ -262,6 +267,7 @@ def careers_results(greenhouse, harvest):
         ),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
+        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
     }
 
     return flask.render_template("careers/results.html", **context)
@@ -322,11 +328,14 @@ def handle_job_details(job_id, job_title):
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
         harvest = Harvest.from_session(session)
-        return job_details(greenhouse, harvest, job_id)
+        return job_details(session, greenhouse, harvest, job_id)
 
 
-def job_details(greenhouse, harvest, job_id):
-    context = {"bleach": bleach}
+def job_details(session, greenhouse, harvest, job_id):
+    context = {
+        "bleach": bleach,
+        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
+    }
 
     try:
         # Greenhouse job board API (get_vacancy) doesn't show inactive roles
@@ -343,6 +352,20 @@ def job_details(greenhouse, harvest, job_id):
             raise error
 
     if flask.request.method == "POST":
+        recaptcha_token = flask.request.form.get("recaptcha_token")
+        recaptcha_passed = verify_recaptcha(
+            session, recaptcha_token, "JOB_APPLY"
+        )
+        if not recaptcha_passed:
+            context["message"] = {
+                "type": "negative",
+                "title": "Verification failed",
+                "text": (
+                    "Oops! We couldn't verify you're human. Please try again."
+                ),
+            }
+            return flask.render_template("/careers/job-detail.html", **context)
+
         response = greenhouse.submit_application(
             flask.request.form, flask.request.files, job_id
         )
@@ -364,7 +387,10 @@ def job_details(greenhouse, harvest, job_id):
 
 @app.route("/careers/career-explorer")
 def start_career():
-    return flask.render_template("/careers/career-explorer.html")
+    return flask.render_template(
+        "/careers/career-explorer.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
 
 
 @app.route("/careers/roles.json")
@@ -410,6 +436,7 @@ def careers_index(greenhouse, harvest):
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
         departments_overview=departments_overview,
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -430,18 +457,25 @@ def all_careers(greenhouse, harvest):
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
 @app.route("/careers/hiring-process")
 def hiring_process():
-    return flask.render_template("careers/hiring-process/index.html")
+    return flask.render_template(
+        "careers/hiring-process/index.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
 
 
 # Company culture pages
 @app.route("/careers/company-culture")
 def culture():
-    return flask.render_template("careers/company-culture/index.html")
+    return flask.render_template(
+        "careers/company-culture/index.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
 
 
 @app.route("/careers/company-culture/progression")
@@ -464,6 +498,7 @@ def careers_progression(greenhouse, harvest):
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
         departments_overview=departments_overview,
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -479,7 +514,8 @@ def diversity(greenhouse, harvest):
     context = {
         "all_departments": _group_by_department(
             harvest, greenhouse.get_vacancies()
-        )
+        ),
+        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
     }
     context["department"] = None
     return flask.render_template(
@@ -564,6 +600,7 @@ def working_here_pages(greenhouse):
         vacancies=[
             vacancy.to_dict() for vacancy in greenhouse.get_vacancies()
         ],
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -610,6 +647,7 @@ def department_group(greenhouse, harvest, department_slug):
         fast_track_jobs=fast_track_jobs,
         formatted_slug=formatted_slug,
         templates=templates,
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
