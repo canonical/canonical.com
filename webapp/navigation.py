@@ -25,7 +25,7 @@ def get_current_page_bubble(path):
     current_page_bubble = {}
 
     # Remove '/docs' from the path if it exists
-    normalized_path = path.replace('/docs', '')
+    normalized_path = path.replace("/docs", "")
 
     page_bubbles = copy.deepcopy(secondary_navigation_data)
 
