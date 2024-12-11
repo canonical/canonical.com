@@ -24,10 +24,13 @@ def get_current_page_bubble(path):
     """
     current_page_bubble = {}
 
+    # Remove '/docs' from the path if it exists
+    normalized_path = path.replace('/docs', '')
+
     page_bubbles = copy.deepcopy(secondary_navigation_data)
 
     for page_bubble_name, page_bubble in page_bubbles.items():
-        if path.startswith(page_bubble["path"]):
+        if normalized_path.startswith(page_bubble["path"]):
             current_page_bubble = page_bubble
             parent = page_bubble.get("parent", None)
 
