@@ -69,6 +69,23 @@ env:
       key: scheduler_account_private_key
       name: greenhouse-credentials
 
+  - name: RECAPTCHA_ENABLED
+    value: "false"
+
+  - name: RECAPTCHA_SITE_KEY
+    value: "6LcOo40qAAAAAKN6mBrlbr-npUv1zyWSxJknU959"
+
+  - name: RECAPTCHA_PROJECT_ID
+    value: "site-canonical-c-1732626873862"
+
+  - name: RECAPTCHA_API_KEY
+    secretKeyRef:
+      key: api-key
+      name: canonical-com-gcloud
+
+  - name: RECAPTCHA_SCORE_THRESHOLD
+    value: "0.5"
+
 extraHosts:
   - domain: blog.canonical.com
   - domain: design.canonical.com
@@ -154,6 +171,9 @@ staging:
 
         - name: FLASK_DEBUG
           value: True
+        
+        - name: GREENHOUSE_DEBUG
+          value: "true"
 
         - name: SERVICE_ACCOUNT_EMAIL
           secretKeyRef:
@@ -181,3 +201,6 @@ demo:
 
     - name: FLASK_DEBUG
       value: True
+
+    - name: GREENHOUSE_DEBUG
+      value: "true"
