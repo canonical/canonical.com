@@ -1,25 +1,31 @@
 {% if isModal %}
-  <div class="p-modal js-modal-ready" style="display: none;" id="{{ modalId }}">
+  <div class="p-modal" style="display: none;" id="{{ modalId }}">
     <div class="p-modal__dialog js-modal-content is-wide-modal"
          role="dialog"
          aria-labelledby="modal-title"
          aria-describedby="modal-description">
-      <header class="p-modal__header"
-              style="display: block;
-                     border-bottom: 0;
-                     overflow: auto">
-        <button class="p-modal__close p-modal-close-button"
-                style="position: relative"
-                aria-controls="{{ modalId }}"
-                aria-label="Close active modal">Close</button>
-        <div class="u-fixed-width">
-          <h3>{{ formData.title }}</h3>
+        <header class="p-modal__header"
+                style="display: block;
+                        border-bottom: 0;
+                        overflow: auto;
+                        padding-left: 1.5rem;
+                        padding-top: 1rem;">
+          <button class="p-modal__close js-close"
+                  aria-controls="{{ modalId }}"
+                  aria-label="Close active modal"
+                  style="margin-left: -1rem">Close</button>
+          <h3 id="modal-title">{{ formData.title }}</h3>
+        </header>
+      {% if formData.introText %}
+        <div class="p-section u-sv-3">
+          <hr class="p-rule is-fixed-width" />
+          <div class="row">
+            <div class="col">
+              {{ formData.introText }}
+            </div>
+          </div>
         </div>
-      </header>
-      <div class="p-section u-fixed-width">
-        <hr />
-        {{ formData.introText }}
-      </div>
+      {% endif %}
       {% include "/shared/forms/form-fields.html" %}
     </div>
   </div>
