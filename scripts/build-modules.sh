@@ -15,3 +15,6 @@ cp node_modules/@canonical/global-nav/dist/global-nav.js static/js/modules/globa
 
 mkdir -p static/js/modules/intl-tel-input
 cp node_modules/intl-tel-input/build/js/utils.js static/js/modules/intl-tel-input
+
+mkdir -p static/js/modules/discourse-rad-parser
+cp node_modules/@canonical/discourse-rad-parser/build/js/discourse-rad-parser.js static/js/modules/discourse-rad-parser
