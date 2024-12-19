@@ -2,9 +2,21 @@
 import json
 from base64 import b64encode
 import os
+import logging
 
 # Packages
 from html import unescape
+import requests
+
+
+logger = logging.getLogger(__name__)
+
+
+GREENHOUSE_DEBUG = (
+    os.environ.get("GREENHOUSE_DEBUG", "false").lower() != "false"
+)
+if GREENHOUSE_DEBUG:
+    logger.warning(f"{GREENHOUSE_DEBUG=}")
 
 
 def _get_metadata(job, name):
@@ -162,16 +174,19 @@ class Greenhouse:
         session,
         api_key,
         base_url="https://boards-api.greenhouse.io/v1/boards/Canonical/jobs",
+        debug=False,
     ):
         self.session = session
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
+        self.debug = debug
 
     @staticmethod
     def from_session(session):
         greenhouse = Greenhouse(
             session=session,
             api_key=os.environ.get("GREENHOUSE_API_KEY"),
+            debug=GREENHOUSE_DEBUG,
         )
         return greenhouse
 
@@ -267,6 +282,19 @@ class Greenhouse:
                 "cover_letter"
             ].filename
 
+        if self.debug:
+            resume_filename = payload.get("resume_content_filename")
+            cover_letter_filename = payload.get(
+                "cover_letter_content_filename"
+            )
+            logger.info(
+                "SKIP submit_application "
+                f"{job_id} {resume_filename} {cover_letter_filename}"
+            )
+            response = requests.Response()
+            response.status_code = 200
+            return response
+
         return self.session.post(
             f"{self.base_url}/{job_id}",
             data=json.dumps(payload),
@@ -280,17 +308,23 @@ class Greenhouse:
 
 class Harvest:
     def __init__(
-        self, session, api_key, base_url="https://harvest.greenhouse.io/v1/"
+        self,
+        session,
+        api_key,
+        base_url="https://harvest.greenhouse.io/v1/",
+        debug=False,
     ):
         self.session = session
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
+        self.debug = debug
 
     @staticmethod
     def from_session(session):
         harvest = Harvest(
             session=session,
             api_key=os.environ.get("HARVEST_API_KEY"),
+            debug=GREENHOUSE_DEBUG,
         )
         return harvest
 
@@ -417,6 +451,16 @@ class Harvest:
             "notes": notes,
             "rejection_email": {"email_template_id": 348528},
         }
+
+        if self.debug:
+            logger.info(
+                "SKIP reject_application "
+                f"{application_id} {user_id} {rejection_reason_id}"
+            )
+            response = requests.Response()
+            response.status_code = 200
+            return response
+
         response = self.session.post(
             f"{self.base_url}applications/{application_id}/reject",
             json=payload,
