@@ -102,7 +102,7 @@
         </nav>
       </aside>
 
-      <main class="col-9">
+      <main class="col-6">
         {% if not disable_title %}<h1>{{ document.title }}</h1>{% endif %}
 
         {{ document.body_html | safe }}
@@ -173,6 +173,23 @@
 
         </div>
       </main>
+      
+      <div class="col-3">
+        <nav class="p-table-of-contents__nav" aria-label="Table of contents">
+          <ul class="p-table-of-contents__list">
+            {% for heading in document.headings_map %}
+              <li class="p-table-of-contents__item"><a class="p-table-of-contents__link" href="#{{ heading.heading_slug }}">{{ heading.heading_text }}</a></li>
+              {% if heading.children %}
+                <ul class="p-table-of-contents__list">
+                {% for child in heading.children %}
+                  <li class="p-table-of-contents__item"><a class="p-table-of-contents__link" href="#{{ child.heading_slug }}">{{ child.heading_text }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 
