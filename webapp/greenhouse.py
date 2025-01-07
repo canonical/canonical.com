@@ -174,11 +174,15 @@ class Greenhouse:
         session,
         api_key,
         base_url="https://boards-api.greenhouse.io/v1/boards/Canonical/jobs",
+        canonicaljobs_url=(
+            "https://boards-api.greenhouse.io/v1/boards/Canonicaljobs/jobs"
+        ),
         debug=False,
     ):
         self.session = session
         self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
+        self.canonicaljobs_url = canonicaljobs_url
         self.debug = debug
 
     @staticmethod
@@ -246,15 +250,28 @@ class Greenhouse:
     def get_vacancy(self, job_id):
         """
         Retrieve a single job from Greenhouse by ID
-        convert it to a Vacancy and return it
+        convert it to a Vacancy and return it.
+        Tries the main board first, falls back to canonicaljobs board if
+        not found.
         """
-        response = self.session.get(
-            f"{self.base_url}/{job_id}?questions=true", timeout=15
-        )
-
-        response.raise_for_status()
-
-        return Vacancy(response.json())
+        # try main board first
+        try:
+            response = self.session.get(
+                f"{self.base_url}/{job_id}?questions=true", timeout=15
+            )
+            response.raise_for_status()
+            return Vacancy(response.json())
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 404:
+                # try canonicaljobs board as fallback
+                response = self.session.get(
+                    f"{self.canonicaljobs_url}/{job_id}?questions=true",
+                    timeout=15,
+                )
+                response.raise_for_status()
+                return Vacancy(response.json())
+            # re-raise any other HTTP errors
+            raise
 
     def submit_application(self, form_data, form_files, job_id="1658196"):
         """
