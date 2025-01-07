@@ -12,47 +12,46 @@
   Innovate quickly, securely, and cost-effectively with open source AI for the enterprise &mdash; all on a single stack.
 {% endblock %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block body_class %}is-paper{% endblock %}
 
 {% block content %}
-  <section class="p-section--hero">
-    <div class="row--50-50">
-      <div class="col">
-        <h1 class="p-section--shallow">
-          Enterprise AI solutions
-          <br />
-          built with trusted open source
-        </h1>
-        <p>
-          Innovate at speed with compliant open source – from workstations to clouds and smart devices. Get all the enterprise AI solutions you need from a trusted partner at a predictable cost.
-        </p>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="/contact-us"
-           aria-controls="ai-modal">Contact Canonical</a>
+  {% call(slot) vf_hero(
+    title_text='Enterprise AI solutions <br /> built with trusted open source',
+    layout='50/50',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Innovate at speed with compliant open source – from workstations to clouds and smart devices. Get all the enterprise AI solutions you need from a trusted partner at a predictable cost.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive"
+         href="/contact-us"
+         aria-controls="ai-modal">Contact Canonical</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <iframe class="u-embedded-media__element"
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/yerW2pOczvA?si=arG1DJW8pqHzmVNU"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen=""></iframe>
       </div>
-      <div class="col">
-        <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/yerW2pOczvA?si=arG1DJW8pqHzmVNU"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen=""></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
+    {%- endif -%}
+  {% endcall -%}
   <section class="p-section">
     <div class="row--50-50">
       <hr class="p-rule" />
       <div class="col">
         <h2>
           Why Canonical
-          <br />
+          <br class="u-hide--small" />
           for enterprise AI?
         </h2>
       </div>
@@ -91,7 +90,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -111,7 +110,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -131,7 +130,7 @@
                         width="852",
                         height="480",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -151,7 +150,7 @@
                         width="852",
                         height="480",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -171,7 +170,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -191,7 +190,7 @@
                         width="852",
                         height="480",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -211,7 +210,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -231,7 +230,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -242,7 +241,6 @@
       </a>
     </div>
   </section>
-
   <section class="p-section">
     <div class="row--50-50">
       <hr class="p-rule" />
@@ -261,7 +259,9 @@
           Upskill your team and lay the groundwork for your projects with a 5-day MLOps workshop, work with us to build a PoC, or completely offload the AI operational burden with managed services.
         </p>
         <hr class="p-rule--muted" />
-        <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Datasheet%20for%20MLOps%20workshop.pdf?version=0">Download the AI workshop datasheet&nbsp;&rsaquo;</a>
+        <div class="p-cta-block">
+          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Datasheet%20for%20MLOps%20workshop.pdf?version=0">Download the AI workshop datasheet&nbsp;&rsaquo;</a>
+        </div>
       </div>
     </div>
   </section>
@@ -274,7 +274,7 @@
                 width="3696",
                 height="1541",
                 hi_def=True,
-                loading="auto",
+                loading="lazy",
                 attrs={"class": "p-image-container__image"},) | safe
         }}
       </div>
@@ -302,10 +302,12 @@
         <h2>Run on any cloud</h2>
       </div>
       <div class="col">
-        <p>Run your workloads anywhere, including hybrid and multi-cloud environments.</p>
-        <p>
-          Choose the ideal infrastructure for your use cases – start quickly with no risk and low investment on public cloud, then move workloads to your own data center as you scale. Benefit from a consistent, optimized OS, tooling and GPU support throughout your entire AI journey.
-        </p>
+        <div class="p-section--shallow">
+          <p>Run your workloads anywhere, including hybrid and multi-cloud environments.</p>
+          <p>
+            Choose the ideal infrastructure for your use cases – start quickly with no risk and low investment on public cloud, then move workloads to your own data center as you scale. Benefit from a consistent, optimized OS, tooling and GPU support throughout your entire AI journey.
+          </p>
+        </div>
         <hr class="p-rule--muted" />
         <div class="u-fixed-width">
           <div class="p-logo-section">
@@ -370,9 +372,9 @@
           </style>
         </div>
         <hr class="p-rule--muted" />
-        <p>
+        <div class="p-cta-block">
           <a href="https://ubuntu.com/engage/run-ai-at-scale">Discover full-stack AI infrastructure&nbsp;&rsaquo;</a>
-        </p>
+        </div>
       </div>
     </div>
   </section>
@@ -411,9 +413,9 @@
               Ubuntu is the OS of choice for data scientists. Develop machine learning models on Ubuntu workstations and deploy to Ubuntu servers. Continue with the same familiar Ubuntu experience throughout the AI lifecycle, across clouds and all the way to the edge.
             </p>
             <hr class="p-rule--muted" />
-            <p>
+            <div class="p-cta-block">
               <a href="https://ubuntu.com/ai">Learn more about Ubuntu for AI&nbsp;&rsaquo;</a>
-            </p>
+            </div>
           </div>
         </div>
         <hr class="p-rule--muted" />
@@ -426,9 +428,9 @@
               Data is at the heart of every AI project, which is why our stack includes a suite of leading open source data solutions enhanced with enterprise features. Automate and scale while enjoying predictable pricing and 10 years of enterprise-grade security and support.
             </p>
             <hr class="p-rule--muted" />
-            <p>
+            <div class="p-cta-block">
               <a href="/data">Explore our data solutions&nbsp;&rsaquo;</a>
-            </p>
+            </div>
           </div>
         </div>
         <hr class="p-rule--muted" />
@@ -440,9 +442,11 @@
             <p>
               Simplify workflow processes and automate machine learning deployments at any scale with our modular MLOps solutions. Our supported Kubeflow distribution, integrated with a growing ecosystem of AI and data tooling, brings scalability, portability and reproducibility to your machine learning operations.
             </p>
-            <p>
+            <hr class="p-rule--muted" />
+            <div class="p-cta-block">
               <a href="https://ubuntu.com/engage/mlops-guide">Access our guide to MLOps&nbsp;&rsaquo;</a>
-            </p>
+
+            </div>
           </div>
         </div>
         <hr class="p-rule--muted" />
@@ -454,9 +458,10 @@
             <p>
               AI is set to transform our factories, our cars, and our homes. We enable the innovators behind that transformation. From compute to device management, we provide the tools to power your edge AI use cases while preserving security, and compliance.
             </p>
-            <p>
+            <hr class="p-rule--muted" />
+            <div class="p-cta-block">
               <a href="/solutions/ai/edge">Find out more about edge AI&nbsp;&rsaquo;</a>
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -464,29 +469,33 @@
   </section>
 
   <section class="p-section">
-    <div class="row--50-50 p-section">
+    <div class="row--50-50">
       <hr class="p-rule" />
       <div class="col">
         <div class="p-section--shallow">
           <h2>Security – never an afterthought</h2>
         </div>
         <div class="p-section--shallow">
-          <div class="p-section">
+          <div class="p-section--shallow">
             <h5>Confidential AI protects your models and data</h5>
             <p>
               Your models and sensitive data need to be secured at every stage of the ML lifecycle. With confidential AI on Ubuntu, you can protect your data and model at run-time with a hardware-rooted execution environment. Strengthen your compliance posture and safely fine-tune your model with your enterprise data.
             </p>
             <hr class="p-rule--muted" />
-            <a href="https://ubuntu.com/confidential-computing/ai">Discover confidential AI&nbsp;&rsaquo;</a>
+            <div class="p-cta-block">
+              <a href="https://ubuntu.com/confidential-computing/ai">Discover confidential AI&nbsp;&rsaquo;</a>
+            </div>
           </div>
-          <div class="p-section">
+          <div class="p-section--shallow">
             <hr class="p-rule--muted" />
             <h5>Fast-track compliance with trusted AI software</h5>
             <p>
               Rapidly access all the open source software you need for AI, and run it with peace of mind. We maintain and support all of the key open source software in the AI lifecycle so you don’t have to. Leave the CVE fixes to us, so you can fast-track compliance and focus on your AI models.
             </p>
             <hr class="p-rule--muted" />
-            <a href="https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS">Get the full case study&nbsp;&rsaquo;</a>
+            <div class="p-cta-block">
+              <a href="https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS">Get the full case study&nbsp;&rsaquo;</a>
+            </div>
           </div>
         </div>
       </div>
@@ -498,7 +507,7 @@
                         width="1800",
                         height="2701",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -537,10 +546,9 @@
 
         </div>
         <div class="col-3">
-          <p>
-
+          <div class="p-cta-block">
             <a href="https://ubuntu.com/engage/ai-ml-casestudy-tasmania">Get the full case study&nbsp;›</a>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -566,9 +574,9 @@
 
         </div>
         <div class="col-3">
-          <p>
+          <div class="p-cta-block">
             <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Get the full case study&nbsp;›</a>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -592,7 +600,7 @@
                         width="349",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -612,7 +620,7 @@
                         width="222",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -632,7 +640,7 @@
                         width="240",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -652,7 +660,7 @@
                         width="330",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -672,7 +680,7 @@
                         width="294",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -692,7 +700,7 @@
                         width="413",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -712,7 +720,7 @@
                         width="432",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -732,7 +740,7 @@
                         width="852",
                         height="481",
                         hi_def=True,
-                        loading="auto",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
           </div>
@@ -783,9 +791,7 @@
     </div>
   </section>
 
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
-  </div>
+  <hr class="p-rule is-fixed-width" />
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
