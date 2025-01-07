@@ -16,9 +16,12 @@
 
 {% block content %}
 
-  {% with parent_name="Partners", parent_href="/partners", title="Intel" %}
-    {% include '/partial/_breadcrumbs.html' %}
-  {% endwith %}
+  {% set breadcrumbs = [
+    {"name": "Partners", "href": "/partners"},
+    {"name": "Silicon", "href": "/partners/silicon"},
+    {"name": "Intel"}
+  ] %}
+  {% include '/partial/_breadcrumbs.html' %}
 
   {% call(slot) vf_hero(
     title_text='Choose optimized Linux for Intel',

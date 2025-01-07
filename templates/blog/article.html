@@ -1,8 +1,13 @@
 {% extends "base_index.html" %}
 
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
+
 {% block meta_description %}{{ article.excerpt.raw }}{% endblock %}
-{% block body_class %}is-paper blog-article{% endblock body_class %}
+
+{% block body_class %}
+  is-paper blog-article
+{% endblock body_class %}
+
 {% block meta_image %}{{ article.image.source_url }}{% endblock %}
 
 {%- block canonical_url -%}
@@ -21,127 +26,140 @@
 
 {% block extra_metatags %}
 
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@id": "https://canonical.com/#article",
-    "@type": "Article",
-    "name": "{{ article.title.renderered|safe }}",
-    "headline": "{{ article.excerpt.raw }}",
-    "author": {
-       "@type": "Person",
-       "name": "{{ article.author.name }}"
-    },
-    "datePublished": "{{ article.date_gmt }}",
-    {% if article.image and article.image.source_url %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@id": "https://canonical.com/#article",
+      "@type": "Article",
+      "name": "{{ article.title.renderered|safe }}",
+      "headline": "{{ article.excerpt.raw }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ article.author.name }}"
+      },
+      "datePublished": "{{ article.date_gmt }}",
+      {
+        %
+        if article.image and article.image.source_url %
+      }
       "image": "{{ article.image.source_url }}",
-    {% endif %}
-    "url": "{{ request.url }}",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Ubuntu"
+      {
+        %
+        endif %
+      }
+      "url": "{{ request.url }}",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ubuntu"
+      }
     }
-  }
   </script>
 {% endblock %}
 
 {% block content %}
 
-{% with parent_name="Blog", parent_href="/blog", title="Article" %}
+  {% set breadcrumbs = [{"name": "Blog", "href": "/blog"}, {"name": "Article"}] %}
   {% include '/partial/_breadcrumbs.html' %}
-{% endwith %}
 
-<article class="p-block">
-  <header class="row">
-    <div class="aside col-3 col-medium-2">
-      <div class="p-media-object">
-        {% if article.author %}
-          {% if article.author and article.author.id == 217 %}
-            <img src="https://assets.ubuntu.com/v1/f16c40d0-Favicon+-+CoF.svg" class="p-media-object__image" alt="" style="align-self: center;">
-          {% else %}
-            <img src="{{ article.author.avatar_urls['96'] }}" class="p-media-object__image is-round" alt="" style="align-self: center;">
+  <article class="p-block">
+    <header class="row">
+      <div class="aside col-3 col-medium-2">
+        <div class="p-media-object">
+          {% if article.author %}
+            {% if article.author and article.author.id == 217 %}
+              <img src="https://assets.ubuntu.com/v1/f16c40d0-Favicon+-+CoF.svg"
+                   class="p-media-object__image"
+                   alt=""
+                   style="align-self: center" />
+            {% else %}
+              <img src="{{ article.author.avatar_urls['96'] }}"
+                   class="p-media-object__image is-round"
+                   alt=""
+                   style="align-self: center" />
+            {% endif %}
           {% endif %}
+
+          <div class="p-media-object__details">
+            <p class="u-no-margin--bottom">
+              {% if article.author %}
+                <span class="p-heading--5">
+                  <a href="/blog/author/{{ article.author.slug }}"
+                     title="More about {{ article.author.name }}">{{ article.author.name }}</a>
+                </span>
+                <br />
+              {% endif %}
+              <span>on {{ article.date }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="p-block col-9 col-medium-4">
+        <div class="p-block">
+          <h1>{{ article.title.rendered|safe }}</h1>
+        </div>
+
+        {% if tags %}
+          <div class="p-block">
+            {% for tag in tags %}
+              <a class="p-chip--information" href="/blog/tag/{{ tag.slug }}">
+                <span class="p-chip__value">{{ tag.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
         {% endif %}
 
-        <div class="p-media-object__details">
-          <p class="u-no-margin--bottom">
-          {% if article.author %}
-            <span class="p-heading--5">
-              <a href="/blog/author/{{ article.author.slug }}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>
-            </span>
-            <br>
-            {% endif %}
-            <span>on {{ article.date }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="p-block col-9 col-medium-4">
-      <div class="p-block">
-        <h1>{{ article.title.rendered|safe }}</h1>
-      </div>
-
-      {% if tags %}
-        <div class="p-block">
-          {% for tag in tags %}
-            <a class="p-chip--information" href="/blog/tag/{{ tag.slug }}">
-              <span class="p-chip__value">
-                {{ tag.name }}
-              </span>
+        <ul class="p-inline-list">
+          <span class="p-text--default">Share on:</span>
+          <li class="p-inline-list__item">
+            <a class="p-icon--facebook"
+               title="Share on Facebook"
+               href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+              Facebook
             </a>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <ul class="p-inline-list">
-        <li class="p-inline-list__item">
-          <span class="p-text--default">
-            Share on:
-          </span>
-        <li class="p-inline-list__item">
-          <a class="p-icon--facebook" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
-            Facebook
-          </a>
-        </li>
-        <li class="p-inline-list__item">
-          <a class="p-icon--twitter" title="Share on Twitter" href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
-            Twitter
-          </a>
-        </li>
-        <li class="p-inline-list__item">
-          <a class="p-icon--linkedin" title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
-            LinkedIn
-          </a>
-        </li>
-      </ul>
-    </div>
-  </header>
-  <hr class="p-rule is-fixed-width">
-  <div class="row">
-    <aside class="aside col-3 col-medium-2">
-      <div class="p-section">
-        <div class="p-block">
-          <hr class="p-rule u-hide--medium u-hide--large">
-          <h2 class="p-muted-heading">Newsletter signup</h2>
-        </div>
-      {% include 'blog/newsletter-form.html' %}
+          </li>
+          <li class="p-inline-list__item">
+            <a class="p-icon--twitter"
+               title="Share on Twitter"
+               href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
+              Twitter
+            </a>
+          </li>
+          <li class="p-inline-list__item">
+            <a class="p-icon--linkedin"
+               title="Share on LinkedIn"
+               href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
+              LinkedIn
+            </a>
+          </li>
+        </ul>
       </div>
-  </aside>
-    <section class="p-section col-6 col-medium-4">
-      {{ article.content.rendered|safe }}
-    </section>
-  </div>
-</article>
-
-{% if related_articles %}
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <h4 class="p-muted-heading">Related posts</h4>
+    </header>
+    <hr class="p-rule is-fixed-width" />
+    <div class="row">
+      <aside class="aside col-3 col-medium-2">
+        <div class="p-section">
+          <div class="p-block">
+            <hr class="p-rule u-hide--medium u-hide--large" />
+            <h2 class="p-muted-heading">Newsletter signup</h2>
+          </div>
+          {% include 'blog/newsletter-form.html' %}
+        </div>
+      </aside>
+      <section class="p-section col-6 col-medium-4">
+        {{ article.content.rendered|safe }}
+      </section>
     </div>
-    {% for article in related_articles %}
-      {% include 'blog/blog-card.html' %}
-    {% endfor %}
-  </section>
-{% endif %}
+  </article>
+
+  {% if related_articles %}
+    <section class="p-section">
+      <div class="u-fixed-width">
+        <h4 class="p-muted-heading">Related posts</h4>
+      </div>
+      {% for article in related_articles %}
+        {% include 'blog/blog-card.html' %}
+      {% endfor %}
+    </section>
+  {% endif %}
 
 {% endblock %}

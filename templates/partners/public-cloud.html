@@ -4,54 +4,77 @@
 
 {% block title %}Public Cloud Programme{% endblock %}
 
-{% block meta_description %}Ubuntu is the most popular guest OS on both public and private clouds, thanks to its security, versatility and continually updated features.{% endblock %}
+{% block meta_description %}
+  Ubuntu is the most popular guest OS on both public and private clouds, thanks to its security, versatility and continually updated features.
+{% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
 {% block content %}
 
-{% with parent_name="Partners", parent_href="/partners", title="Public cloud programme" %}
+  {% set breadcrumbs = [{"name": "Partners", "href": "/partners"}, {"name": "Public cloud programme"}] %}
   {% include '/partial/_breadcrumbs.html' %}
-{% endwith %}
 
-<section class="p-section">
-  <div class="row--50-50">
-    <div class="col">
-      <h1>Public Cloud<br class="u-hide--small"> Programme</h1>
-    </div>
-    <div class="col">
-      <div class="p-block">
-        <p>Ubuntu is enormously popular with providers delivering public cloud services today. Significant developer mindshare, a favourable licensing model and a policy of regular updates have made Ubuntu the number one platform for cloud guests, the world over.</p>
-        <p>Canonical engages with public cloud companies to ensure Ubuntu images are performant, provide a consistent experience, secure, up to date and available for a range of product offerings. The programme provides eligibility to resell Ubuntu Pro or attach Canonical&rsquo;s enterprise support, services and management tools.</p>
+  <section class="p-section">
+    <div class="row--50-50">
+      <div class="col">
+        <h1>
+          Public Cloud
+          <br class="u-hide--small" />
+          Programme
+        </h1>
       </div>
-      <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
+      <div class="col">
+        <div class="p-block">
+          <p>
+            Ubuntu is enormously popular with providers delivering public cloud services today. Significant developer mindshare, a favourable licensing model and a policy of regular updates have made Ubuntu the number one platform for cloud guests, the world over.
+          </p>
+          <p>
+            Canonical engages with public cloud companies to ensure Ubuntu images are performant, provide a consistent experience, secure, up to date and available for a range of product offerings. The programme provides eligibility to resell Ubuntu Pro or attach Canonical&rsquo;s enterprise support, services and management tools.
+          </p>
+        </div>
+        <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{% with title="A selection of our Public Cloud partners", link_text="See all partners", link_href="/partners/find-a-partner" %}
-  {% include '/partners/partial/_partners-logos.html' %}
-{% endwith %}
+  {% with title="A selection of our Public Cloud partners", link_text="See all partners", link_href="/partners/find-a-partner" %}
+    {% include '/partners/partial/_partners-logos.html' %}
+  {% endwith %}
 
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule">
-    <div class="col">
-      <h2>Benefits of the Public Cloud partner programme</h2>
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Benefits of the Public Cloud partner programme</h2>
+      </div>
+      <div class="col">
+        <ul class="p-list--divided u-no-margin--bottom">
+          <li class="p-list__item is-ticked">
+            Ubuntu images including Ubuntu Pro are tuned and tested for each cloud to ensure optimal performance
+          </li>
+          <li class="p-list__item is-ticked">
+            Automated publication across all cloud availability zones for facilitated operations
+          </li>
+          <li class="p-list__item is-ticked">
+            Be featured as a Public Cloud Programme partner on the Canonical website, including the ability to use our trademarks and logos
+          </li>
+          <li class="p-list__item is-ticked">
+            Regular and automated refresh of Ubuntu images for enhanced user experience and increased security
+          </li>
+          <li class="p-list__item is-ticked">
+            Automated publication across all cloud availability zones for more efficient operations
+          </li>
+          <li class="p-list__item is-ticked">
+            Joint marketing opportunities, including revenue-sharing for support, services and management tools delivered under <a href="https://ubuntu.com/pro">Ubuntu Pro</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="col">
-      <ul class="p-list--divided u-no-margin--bottom">
-        <li class="p-list__item is-ticked">Ubuntu images including Ubuntu Pro are tuned and tested for each cloud to ensure optimal performance</li>
-        <li class="p-list__item is-ticked">Automated publication across all cloud availability zones for facilitated operations</li>
-        <li class="p-list__item is-ticked">Be featured as a Public Cloud Programme partner on the Canonical website, including the ability to use our trademarks and logos</li>
-        <li class="p-list__item is-ticked">Regular and automated refresh of Ubuntu images for enhanced user experience and increased security</li>
-        <li class="p-list__item is-ticked">Automated publication across all cloud availability zones for more efficient operations</li>
-        <li class="p-list__item is-ticked">Joint marketing opportunities, including revenue-sharing for support, services and management tools delivered under <a href="https://ubuntu.com/pro">Ubuntu Pro</a></li>
-      </ul>
-    </div>
-  </div>
-</section>
+  </section>
 
-{% include '/partners/partial/_footer.html' %}
+  {% include '/partners/partial/_footer.html' %}
 
 {% endblock %}
