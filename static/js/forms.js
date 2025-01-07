@@ -118,7 +118,7 @@ forms.forEach(form => {
   });
 
   // Exclude forms that don't need loader
-  const cancelLoader = submitButton.classList.contains("no-loader");
+  const cancelLoader = submitButton?.classList.contains("no-loader");
   if (submitButton && !cancelLoader) {
     form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
   }
