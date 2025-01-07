@@ -125,6 +125,7 @@ class TestRoutes(VCRTestCase):
             self.client.get("/partners/public-cloud").status_code, 200
         )
         self.assertEqual(self.client.get("/partners/silicon").status_code, 200)
+        self.assertEqual(self.client.get("/partners/silicon/intel").status_code, 200)
         self.assertEqual(
             self.client.get("/partners/become-a-partner").status_code, 200
         )
