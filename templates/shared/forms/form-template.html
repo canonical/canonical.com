@@ -1,5 +1,5 @@
 {% if isModal %}
-  <div class="p-modal" style="display: none;" id="{{ modalId }}">
+  <div class="p-modal" style="display: none;" id="{{ modal_id }}">
     <div class="p-modal__dialog js-modal-content is-wide-modal"
          role="dialog"
          aria-labelledby="modal-title"
@@ -11,7 +11,7 @@
                         padding-left: 1.5rem;
                         padding-top: 1rem;">
           <button class="p-modal__close js-close"
-                  aria-controls="{{ modalId }}"
+                  aria-controls="{{ modal_id }}"
                   aria-label="Close active modal"
                   style="margin-left: -1rem">Close</button>
           <h3 id="modal-title">{{ formData.title }}</h3>
@@ -21,7 +21,17 @@
           <hr class="p-rule is-fixed-width" />
           <div class="row">
             <div class="col">
-              {{ formData.introText }}
+              <span>
+                {% if formData.introText is string %}
+                or here
+                  {{ formData.introText }}
+                {% elif formData.introText is iterable and not formData.introText is string %}
+                  {% for text in formData.introText %}
+                    {{ text }}
+                    <br>
+                  {% endfor %}
+                {% endif %}
+              </span>
             </div>
           </div>
         </div>
@@ -37,7 +47,13 @@
         <h1>{{ formData.title }}</h1>
       </div>
       <div class="col">
-        <p>{{ formData.introText }}</p>
+        {% if formData.introText is string %}
+          <p>{{ formData.introText }}</p>
+        {% elif formData.introText is iterable and not formData.introText is string %}
+          {% for text in formData.introText %}
+            <p>{{ text }}</p>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </section>
