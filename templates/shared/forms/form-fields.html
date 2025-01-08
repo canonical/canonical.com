@@ -6,7 +6,6 @@
         onsubmit="getCustomFields(event)">
     {% for fieldset in fieldsets %}
 
-      <!-- fallback values -->
       {% if fieldset.id %}
         {% set fieldset_id = fieldset.id %}
       {% else %}
@@ -34,7 +33,6 @@
               <ul class="p-list">
                 {% for field in fieldset.fields %}
 
-                  <!-- fallback values -->
                   {% if field.id %}
                     {% set field_id = field.id %}
                   {% else %}
@@ -57,12 +55,15 @@
                   {% elif field.type == "radio" %}
                     <label class="p-radio">
                       <input {% if fieldset.isRequired %}required{% endif %}
-                             class="p-radio__input"
-                             type="radio"
-                             aria-labelledby="{{ field_id }}"
-                             name="{{ fieldset_inputName }}"
-                             value="{{ field_value }}" />
+                            class="p-radio__input"
+                            type="radio"
+                            aria-labelledby="{{ field_id }}"
+                            name="{{ fieldset_inputName }}"
+                            value="{{ field_value }}" />
                       <span class="p-radio__label" id="{{ field_id }}">{{ field.label }}</span>
+                      {% if field.hasTextarea %}
+                        <textarea id="{{ field_id }}-textarea" rows="2" style="margin-top: 0.5rem;"></textarea>
+                      {% endif %}
                     </label>
                   {% else %}
                     <li class="p-list__item">
