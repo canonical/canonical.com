@@ -6,6 +6,7 @@ import datetime
 import calendar
 import os
 import re
+import glob
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import bleach
@@ -724,13 +725,11 @@ app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 
 
 @app.context_processor
-def inject_today_date():
-    return {"current_year": datetime.date.today().year}
-
-
-@app.context_processor
 def utility_processor():
-    return {"image": image_template}
+    return {
+        "current_year": datetime.date.today().year,
+        "image": image_template,
+    }
 
 
 # Blog pagination
@@ -1252,30 +1251,23 @@ def render_form(form, template_path, child=False):
 
 
 def set_form_rules():
-    file_path = os.path.join(app.static_folder, "files", "forms-data.json")
-    with open(file_path) as forms_json:
-        data = json.load(forms_json)
-        for path, form in data["forms"].items():
-            try:
+    templates_folder = os.path.abspath(os.path.join(app.root_path, "..", "templates"))
+    for file_path in glob.iglob(os.path.join(templates_folder, "**", "form-data.json"), recursive=True):
+        with open(file_path) as forms_json:
+            data = json.load(forms_json)
+            for path, form in data["form"].items():
                 if "childrenPaths" in form:
                     for child_path in form["childrenPaths"]:
                         app.add_url_rule(
                             child_path,
-                            view_func=render_form(
-                                form, child_path, child=True
-                            ),
+                            view_func=render_form(form, child_path, child=True),
                             endpoint=child_path,
                         )
+                print("building form for", path)    
                 app.add_url_rule(
                     path,
-                    view_func=render_form(
-                        form, form["templatePath"].split(".")[0]
-                    ),
+                    view_func=render_form(form, form["templatePath"].split(".")[0]),
                     endpoint=path,
-                )
-            except AssertionError:
-                app.logger.error(
-                    f"Error setting form rules for {path} \n", AssertionError
                 )
 
 
