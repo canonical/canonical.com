@@ -35,7 +35,7 @@
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <!-- This needs to be updated after creation of new form -->
-      <a href="/contact-us" class="p-button--positive">Get in touch</a>
+      <a href="/contact-us" aria-controls="partners-silicon-intel-modal" class="p-button--positive">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--3-2 is-highlighted is-cover u-hide--small">
@@ -642,5 +642,9 @@
       </div>
     </div>
   </section>
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% include "/shared/forms/form-template.html" %}
 
 {% endblock %}
