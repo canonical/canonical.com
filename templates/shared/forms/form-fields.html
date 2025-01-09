@@ -20,7 +20,12 @@
               <ul class="p-list">
                 {% for field in fieldset.fields %}
                   {% if field.type == "country" %}
-                    {% include "shared/forms/_country.html" %}
+                    {% with %}
+                      {% if not field.isRequired %}
+                        {% set required = false %}
+                        {% endif %}
+                      {% include "shared/forms/_country.html" %}
+                    {% endwith %}
                   {% elif field.type == "radio" %}
                     <label class="p-radio">
                       <input {% if fieldset.isRequired %}required{% endif %}

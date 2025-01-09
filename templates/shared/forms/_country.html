@@ -4,9 +4,9 @@
     <li class="p-list__item">
     {% endif %}
     <label for="country"
-           {% if required == "false" %} {% else %} class="is-required" {% endif %}>{{ country or 'Country' }}:</label>
+           {% if required %}class="is-required" {% endif %}>{{ country or 'Country' }}:</label>
   {% endif %}
-  <select {% if required == "false" %} {% else %} required {% endif %}
+  <select {% if required %}required {% endif %}
           id="country"
           name="country">
     <option value="">Select...</option>
