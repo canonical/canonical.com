@@ -1269,7 +1269,6 @@ def set_form_rules():
                             ),
                             endpoint=child_path,
                         )
-                print("building form for", path)
                 app.add_url_rule(
                     path,
                     view_func=render_form(
