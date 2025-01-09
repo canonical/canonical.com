@@ -190,9 +190,9 @@ function getCheckboxItemsAsCSV(fieldset) {
 function getCustomFields(event) {
   var message = "";
 
-  document.querySelectorAll('fieldset').forEach(function (formField) {
+  document.querySelectorAll("fieldset").forEach(function (formField) {
     // Only include form fields in the message payload that have the class js-formfield
-    if (formField.querySelector('.js-formfield')) {
+    if (formField.querySelector(".js-formfield")) {
       const includeFormField = formField.querySelector(".js-formfield");
       var comma = ",";
       var fieldsetForm = formField.querySelector(".js-formfield-title");
@@ -213,9 +213,7 @@ function getCustomFields(event) {
         switch (input.type) {
           case "select-one":
             message +=
-              input.options[input.selectedIndex]?.textContent +
-              comma +
-              " ";
+              input.options[input.selectedIndex]?.textContent + comma + " ";
             break;
           case "radio":
             if (input.checked) {
@@ -242,7 +240,7 @@ function getCustomFields(event) {
                 }
 
                 var label = formField.querySelector(
-                  "span#" + input.getAttribute("aria-labelledby"),
+                  "span#" + input.getAttribute("aria-labelledby")
                 );
 
                 if (label) {
@@ -267,14 +265,10 @@ function getCustomFields(event) {
     }
   });
 
-  const radioFieldsets = document.querySelectorAll(
-    ".js-remove-radio-names",
-  );
+  const radioFieldsets = document.querySelectorAll(".js-remove-radio-names");
   if (radioFieldsets.length > 0) {
     radioFieldsets.forEach((radioFieldset) => {
-      const radioInputs = radioFieldset.querySelectorAll(
-        "input[type='radio']",
-      );
+      const radioInputs = radioFieldset.querySelectorAll("input[type='radio']");
       radioInputs.forEach((radioInput) => {
         radioInput.removeAttribute("name");
       });

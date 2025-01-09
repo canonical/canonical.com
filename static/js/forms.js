@@ -32,11 +32,9 @@ function attachLoadingSpinner(submitButton) {
 function toggleCheckboxVisibility(fieldset, checklistItem) {
   const checkboxes = fieldset.querySelectorAll(".js-checkbox-visibility");
   const otherCheckboxes = fieldset.querySelectorAll(
-    ".js-checkbox-visibility__other",
+    ".js-checkbox-visibility__other"
   );
-  const isVisible = checklistItem.classList.contains(
-    "js-checkbox-visibility",
-  );
+  const isVisible = checklistItem.classList.contains("js-checkbox-visibility");
 
   if (checklistItem.checked) {
     if (isVisible) {
@@ -94,10 +92,10 @@ function requiredCheckbox(fieldset, target) {
 }
 
 const forms = document.querySelectorAll("form");
-forms.forEach(form => {
+forms.forEach((form) => {
   // Add event listeners to toggle checkbox visibility
   const ubuntuVersionCheckboxes = document.querySelector(
-    "fieldset.js-toggle-checkbox-visibility",
+    "fieldset.js-toggle-checkbox-visibility"
   );
   ubuntuVersionCheckboxes?.addEventListener("change", function (event) {
     toggleCheckboxVisibility(ubuntuVersionCheckboxes, event.target);
@@ -105,7 +103,7 @@ forms.forEach(form => {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const requiredFieldset = form.querySelectorAll(
-    "fieldset.js-required-checkbox",
+    "fieldset.js-required-checkbox"
   );
   // By default we disable the button, until the required fields are selected
   if (requiredFieldset.length) submitButton.disabled = true;
