@@ -124,6 +124,20 @@ function addInputValidation(phoneInput) {
   phoneInput.addEventListener("keyup", () => resetErrorState(errorElement, phoneInput));
 }
 
+/**
+ * Initializes 'other' inputs textareas, so that when they are updated the value is passed to the input and attached to the payload.
+ */
+function setupOtherInputs() {
+  const otherTextarea = document.querySelectorAll(".js-other-input-textarea");
+  otherTextarea.forEach((textarea) => {
+    const triggerInput = document.querySelector(`#${textarea.dataset.inputId}`);
+    textarea.addEventListener("input", () => {
+      triggerInput.value = textarea.value;
+    });
+  });
+}
+setupOtherInputs();
+
 export default {
   prepareInputFields,
   setupIntlTelInput,

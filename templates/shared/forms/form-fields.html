@@ -56,15 +56,16 @@
                     <label class="p-radio">
                       <input {% if fieldset.isRequired %}required{% endif %}
                             class="p-radio__input"
+                            id="{{ field_id }}"
                             type="radio"
                             aria-labelledby="{{ field_id }}"
                             name="{{ fieldset_inputName }}"
                             value="{{ field_value }}" />
-                      <span class="p-radio__label" id="{{ field_id }}">{{ field.label }}</span>
-                      {% if field.hasTextarea %}
-                        <textarea id="{{ field_id }}-textarea" rows="2" style="margin-top: 0.5rem;"></textarea>
-                      {% endif %}
+                      <span class="p-radio__label">{{ field.label }}</span>
                     </label>
+                    {% if field.hasTextarea %}
+                      <textarea class="js-other-input-textarea" data-input-id="{{ field_id }}" id="{{ field_id }}-textarea"></textarea>
+                    {% endif %}
                   {% else %}
                     <li class="p-list__item">
                       {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
