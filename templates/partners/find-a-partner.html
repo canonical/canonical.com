@@ -12,9 +12,8 @@
 
 {% block content %}
 
-  {% with parent_name="Partners", parent_href="/partners", title="Find a partner" %}
-    {% include '/partial/_breadcrumbs.html' %}
-  {% endwith %}
+  {% set breadcrumbs = [{"name": "Partners", "href": "/partners"}, {"name": "Find a partner"}] %}
+  {% include '/partial/_breadcrumbs.html' %}
 
   <section class="p-section">
     <div class="row">
@@ -207,7 +206,11 @@
   </section>
 
   <script>
-    const partnersLength = {{ partners_length }}
+    const partnersLength = {
+      {
+        partners_length
+      }
+    }
   </script>
 
   <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
