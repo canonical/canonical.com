@@ -725,9 +725,13 @@ app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
 
 
 @app.context_processor
+def inject_today_date():
+    return {"current_year": datetime.date.today().year}
+
+
+@app.context_processor
 def utility_processor():
     return {
-        "current_year": datetime.date.today().year,
         "image": image_template,
     }
 
