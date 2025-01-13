@@ -204,7 +204,7 @@ function getCustomFields(event) {
           formField.querySelector(".p-heading--5") ??
           formField.querySelector(".p-modal__question-heading");
       }
-      var inputs = formField.querySelectorAll("input, textarea, select");
+      var inputs = formField.querySelectorAll("input, textarea:not(.js-other-input), select");
       if (fieldTitle) {
         message += fieldTitle.innerText + "\r\n";
       }

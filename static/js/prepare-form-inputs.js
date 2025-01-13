@@ -129,14 +129,23 @@ function addInputValidation(phoneInput) {
 }
 
 /**
- * Initializes 'other' inputs textareas, so that when they are updated the value is passed to the input and attached to the payload.
+ * Initializes 'other' inputs. Where selecting the input triggers a textarea to appear.
  */
 function setupOtherInputs() {
-  const otherTextarea = document.querySelectorAll(".js-other-input-textarea");
+  const otherTextarea = document.querySelectorAll(".js-other-input");
   otherTextarea.forEach((textarea) => {
-    const triggerInput = document.querySelector(`#${textarea.dataset.inputId}`);
+    const triggerInputEle = document.querySelector(`#${textarea.dataset.inputId}`);
+    document.querySelectorAll(`[name=${triggerInputEle.name}]`).forEach((input) => {
+      input.onclick = () => {
+        if (input == triggerInputEle) {
+          textarea.classList.remove("u-hide");
+        } else {
+          textarea.classList.add("u-hide");
+        }
+      }
+    });
     textarea.addEventListener("input", () => {
-      triggerInput.value = textarea.value;
+      triggerInputEle.value = textarea.value;
     });
   });
 }
