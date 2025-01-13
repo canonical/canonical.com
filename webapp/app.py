@@ -6,7 +6,6 @@ import datetime
 import calendar
 import os
 import re
-import glob
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import bleach
@@ -14,6 +13,7 @@ import flask
 import markdown
 import jinja2
 from jinja2 import ChoiceLoader, FileSystemLoader
+from pathlib import Path
 
 # Packages
 from canonicalwebteam import image_template
@@ -1251,12 +1251,8 @@ def render_form(form, template_path, child=False):
 
 
 def set_form_rules():
-    templates_folder = os.path.abspath(
-        os.path.join(app.root_path, "..", "templates")
-    )
-    for file_path in glob.iglob(
-        os.path.join(templates_folder, "**", "form-data.json"), recursive=True
-    ):
+    templates_folder = Path(app.root_path).parent / "templates"
+    for file_path in templates_folder.rglob("form-data.json"):
         with open(file_path) as forms_json:
             data = json.load(forms_json)
             for path, form in data["form"].items():
