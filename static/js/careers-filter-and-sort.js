@@ -140,18 +140,18 @@
       if (departmentFilters) {
         departmentFilters.forEach(
           (el) =>
-          (el.onclick = function () {
-            filtersListener(el, jobList);
-          })
+            (el.onclick = function () {
+              filtersListener(el, jobList);
+            })
         );
       }
 
       if (locationFilters) {
         locationFilters.forEach(
           (el) =>
-          (el.onclick = function () {
-            filtersListener(el, jobList);
-          })
+            (el.onclick = function () {
+              filtersListener(el, jobList);
+            })
         );
       }
     } else {

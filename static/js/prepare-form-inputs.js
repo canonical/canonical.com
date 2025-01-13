@@ -134,16 +134,20 @@ function addInputValidation(phoneInput) {
 function setupOtherInputs() {
   const otherTextarea = document.querySelectorAll(".js-other-input");
   otherTextarea.forEach((textarea) => {
-    const triggerInputEle = document.querySelector(`#${textarea.dataset.inputId}`);
-    document.querySelectorAll(`[name=${triggerInputEle.name}]`).forEach((input) => {
-      input.onclick = () => {
-        if (input == triggerInputEle) {
-          textarea.classList.remove("u-hide");
-        } else {
-          textarea.classList.add("u-hide");
-        }
-      }
-    });
+    const triggerInputEle = document.querySelector(
+      `#${textarea.dataset.inputId}`
+    );
+    document
+      .querySelectorAll(`[name=${triggerInputEle.name}]`)
+      .forEach((input) => {
+        input.onclick = () => {
+          if (input == triggerInputEle) {
+            textarea.classList.remove("u-hide");
+          } else {
+            textarea.classList.add("u-hide");
+          }
+        };
+      });
     textarea.addEventListener("input", () => {
       triggerInputEle.value = textarea.value;
     });
