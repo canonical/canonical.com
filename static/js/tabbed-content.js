@@ -99,7 +99,7 @@
         setActiveTab(tab, tabs);
 
         // Add focus to the tab panel on tab click
-        const tabPanel = document.getElementById(tab.id + "-tab")
+        const tabPanel = document.getElementById(tab.id + "-tab");
 
         if (tabPanel) {
           tabPanel.focus({ preventScroll: true });
@@ -243,14 +243,14 @@
 
   (function () {
     // Toggles show board based on selection on small screens
-  
+
     const boards = document.querySelectorAll(`[role=tabpanel]`);
     const dropdownSelect = document.getElementById("boardSelect");
-  
+
     dropdownSelect?.addEventListener("change", (event) => {
       selectBoard();
     });
-  
+
     function selectBoard() {
       boards.forEach((board) => {
         if (board.id === dropdownSelect.value) {

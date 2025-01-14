@@ -120,9 +120,40 @@ function addInputValidation(phoneInput) {
   phoneInput.addEventListener("blur", () =>
     validateInput(phoneInput, errorElement)
   );
-  phoneInput.addEventListener("change", () => resetErrorState(errorElement, phoneInput));
-  phoneInput.addEventListener("keyup", () => resetErrorState(errorElement, phoneInput));
+  phoneInput.addEventListener("change", () =>
+    resetErrorState(errorElement, phoneInput)
+  );
+  phoneInput.addEventListener("keyup", () =>
+    resetErrorState(errorElement, phoneInput)
+  );
 }
+
+/**
+ * Initializes 'other' inputs. Where selecting the input triggers a textarea to appear.
+ */
+function setupOtherInputs() {
+  const otherTextarea = document.querySelectorAll(".js-other-input");
+  otherTextarea.forEach((textarea) => {
+    const triggerInputEle = document.querySelector(
+      `#${textarea.dataset.inputId}`
+    );
+    document
+      .querySelectorAll(`[name=${triggerInputEle.name}]`)
+      .forEach((input) => {
+        input.onclick = () => {
+          if (input == triggerInputEle) {
+            textarea.classList.remove("u-hide");
+          } else {
+            textarea.classList.add("u-hide");
+          }
+        };
+      });
+    textarea.addEventListener("input", () => {
+      triggerInputEle.value = textarea.value;
+    });
+  });
+}
+setupOtherInputs();
 
 export default {
   prepareInputFields,
