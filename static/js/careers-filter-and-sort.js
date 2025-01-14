@@ -270,7 +270,6 @@
           jobsToShow.push(job);
         }
       }
-      console.log("jobsToShow", jobsToShow.length);
     });
 
     if (selectedDeptFilters.length || selectedLocalFilters.length) {

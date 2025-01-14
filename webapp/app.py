@@ -13,6 +13,7 @@ import flask
 import markdown
 import jinja2
 from jinja2 import ChoiceLoader, FileSystemLoader
+from pathlib import Path
 
 # Packages
 from canonicalwebteam import image_template
@@ -627,29 +628,6 @@ def find_a_partner(partners_api):
     )
 
 
-@app.route("/partners/channel-and-reseller")
-@app.route("/partners/desktop")
-@app.route("/partners/gsi")
-@app.route("/partners/ihv-and-oem")
-@app.route("/partners/public-cloud")
-@app.route("/partners/iot-device")
-@app.route("/partners/silicon")
-@app.route("/partners/devices-and-iot")
-def handle_partner_details():
-    with get_requests_session() as session:
-        partners_api = Partners(session)
-        return partner_details(partners_api)
-
-
-def partner_details(partners_api):
-    partners = partners_api._get(
-        partners_api.partner_page_map[flask.request.path.split("/")[2]]
-    )
-    return flask.render_template(
-        f"{flask.request.path}.html", partners=partners
-    )
-
-
 @app.route("/partners/sitemap.xml")
 def partners_sitemap():
     xml_sitemap = flask.render_template("partners/sitemap.xml")
@@ -753,7 +731,9 @@ def inject_today_date():
 
 @app.context_processor
 def utility_processor():
-    return {"image": image_template}
+    return {
+        "image": image_template,
+    }
 
 
 # Blog pagination
@@ -1275,11 +1255,11 @@ def render_form(form, template_path, child=False):
 
 
 def set_form_rules():
-    file_path = os.path.join(app.static_folder, "files", "forms-data.json")
-    with open(file_path) as forms_json:
-        data = json.load(forms_json)
-        for path, form in data["forms"].items():
-            try:
+    templates_folder = Path(app.root_path).parent / "templates"
+    for file_path in templates_folder.rglob("form-data.json"):
+        with open(file_path) as forms_json:
+            data = json.load(forms_json)
+            for path, form in data["form"].items():
                 if "childrenPaths" in form:
                     for child_path in form["childrenPaths"]:
                         app.add_url_rule(
@@ -1295,10 +1275,6 @@ def set_form_rules():
                         form, form["templatePath"].split(".")[0]
                     ),
                     endpoint=path,
-                )
-            except AssertionError:
-                app.logger.error(
-                    f"Error setting form rules for {path} \n", AssertionError
                 )
 
 

@@ -21,7 +21,16 @@
           <hr class="p-rule is-fixed-width" />
           <div class="row">
             <div class="col">
-              {{ formData.introText }}
+              <span>
+                {% if formData.introText is string %}
+                  {{ formData.introText }}
+                {% elif formData.introText is iterable and not formData.introText is string %}
+                  {% for text in formData.introText %}
+                    {{ text }}
+                    <br>
+                  {% endfor %}
+                {% endif %}
+              </span>
             </div>
           </div>
         </div>
@@ -37,7 +46,13 @@
         <h1>{{ formData.title }}</h1>
       </div>
       <div class="col">
-        <p>{{ formData.introText }}</p>
+        {% if formData.introText is string %}
+          <p>{{ formData.introText }}</p>
+        {% elif formData.introText is iterable and not formData.introText is string %}
+          {% for text in formData.introText %}
+            <p>{{ text }}</p>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </section>

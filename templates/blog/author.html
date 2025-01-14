@@ -2,68 +2,76 @@
 
 {% block title %}Blog posts written by {{ author.name }}{% endblock %}
 
-{% block description %}{% if author.id == 217 %}Canonical produces Ubuntu, provides commercial services for Ubuntu's users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% else %}{{ author.description|safe }}{% endif %}{% endblock %}
+{% block description %}
+  {% if author.id == 217 %}
+    Canonical produces Ubuntu, provides commercial services for Ubuntu's users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.
+  {% else %}
+    {{ author.description|safe }}
+  {% endif %}
+{% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
 {% block content %}
 
-{% with parent_name="Blog", parent_href="/blog", title=author.name %}
+  {% set breadcrumbs = [
+      {"name": "Blog", "href": "/blog"},
+      {"name": author.name}
+    ] %}
   {% include '/partial/_breadcrumbs.html' %}
-{% endwith %}
 
-<section class="p-strip">
-  <div class="row p-section">
-    <div class="col-3 col-medium-2 u-hide--small">
-      <div class="p-image-wrapper">
-        {% if author.id != 217 %}
-          <img src="{{ author.avatar_urls['96'] }}" alt="{{ author.name }}">
+  <section class="p-strip">
+    <div class="row p-section">
+      <div class="col-3 col-medium-2 u-hide--small">
+        <div class="p-image-wrapper">
+          {% if author.id != 217 %}<img src="{{ author.avatar_urls['96'] }}" alt="{{ author.name }}" />{% endif %}
+        </div>
+      </div>
+      <div class="col-6 col-start-large-4 col-medium-4 col-start-medium-3 col-small-4">
+        <h1>{{ author.name }}</h1>
+        <p class="p-muted-heading">{{ total_posts }} posts</p>
+
+        {% if author.user_job_title %}<h2>{{ author.user_job_title }}</h2>{% endif %}
+
+        {% if author.id == 217 %}
+          <p>
+            Canonical produces Ubuntu, provides commercial services for Ubuntu's users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.
+          </p>
+        {% elif author.description %}
+          <p>{{ author.description | safe }}</p>
         {% endif %}
+
+        <ul class="p-inline-list u-no-margin--bottom">
+          {% if author.user_twitter %}
+            <li class="p-inline-list__item">
+              <a href="https://twitter.com/{{ author.user_twitter }}"><i class="p-icon--twitter"></i></a>
+            </li>
+          {% endif %}
+
+          {% if author.user_facebook %}
+            <li class="p-inline-list__item">
+              <a href="https://www.facebook.com/{{ author.user_facebook }}"><i class="p-icon--facebook"></i></a>
+            </li>
+          {% endif %}
+        </ul>
       </div>
     </div>
-    <div class="col-6 col-start-large-4 col-medium-4 col-start-medium-3 col-small-4">
-      <h1>{{ author.name }}</h1>
-      <p class="p-muted-heading">{{ total_posts }} posts </p>
+  </section>
 
-      {% if author.user_job_title %}
-        <h2>{{ author.user_job_title }}</h2>
-      {% endif %}
+  <section class="p-section">
+    {% for article in articles %}
+      {% include 'blog/blog-card.html' %}
+    {% endfor %}
+  </section>
 
-      {% if author.id == 217 %}
-        <p>Canonical produces Ubuntu, provides commercial services for Ubuntu's users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.</p>
-      {% elif author.description %}
-        <p>{{ author.description | safe }}</p>
-      {% endif %}
-
-      <ul class="p-inline-list u-no-margin--bottom">
-        {% if author.user_twitter %}
-        <li class="p-inline-list__item">
-          <a href="https://twitter.com/{{ author.user_twitter }}"><i class="p-icon--twitter"></i></a>
-        </li>
-        {% endif %}
-        
-        {% if author.user_facebook %}
-        <li class="p-inline-list__item">
-          <a href="https://www.facebook.com/{{ author.user_facebook }}"><i class="p-icon--facebook"></i></a>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  {% for article in articles %}
-    {% include 'blog/blog-card.html' %}
-  {% endfor %}
-</section>
-
-<section class="p-section">
-{% with %}
-  {% set total_pages = total_pages %}
-  {% set current_page = current_page %}
-  {% include "shared/_pagination.html" %}
-{% endwith %}
-</section>
+  <section class="p-section">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
 
 {% endblock %}
