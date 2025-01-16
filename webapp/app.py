@@ -14,13 +14,14 @@ import markdown
 import jinja2
 from jinja2 import ChoiceLoader, FileSystemLoader
 from pathlib import Path
+import math
 
 # Packages
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.discourse import DiscourseAPI, Docs, DocParser
+from canonicalwebteam.discourse import DiscourseAPI, Docs, DocParser, EngagePages
 from canonicalwebteam.search import build_search_view
 from requests.exceptions import HTTPError
 from slugify import slugify
@@ -1299,3 +1300,60 @@ def no_cache(response):
         response.cache_control.public = False
 
     return response
+
+
+def build_case_study_index(engage_docs):
+    def case_study_index():
+        page = flask.request.args.get("page", default=1, type=int)
+        preview = flask.request.args.get("preview")
+        language = flask.request.args.get("language", default=None, type=str)
+        tag = flask.request.args.get("tag", default=None, type=str)
+        limit = 20  # adjust as needed
+        offset = (page - 1) * limit
+
+        (
+            metadata,
+            count,
+            active_count,
+            current_total,
+        ) = engage_docs.get_index(
+            limit, offset, key="type", value="case study"
+        )
+
+        tags_list = engage_docs.get_engage_pages_tags()
+        total_pages = math.ceil(current_total / limit)
+
+        return flask.render_template(
+            "case-study/index.html",
+            forum_url=engage_docs.api.base_url,
+            metadata=metadata,
+            page=page,
+            preview=preview,
+            language=language,
+            tags=tags_list,
+            posts_per_page=limit,
+            total_pages=total_pages,
+            current_page=page,
+        )
+
+    return case_study_index
+
+# Case study
+DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
+DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
+engage_pages_discourse_api = DiscourseAPI(
+    base_url="https://discourse.ubuntu.com/",
+    session=get_requests_session(),
+    get_topics_query_id=14,
+    api_key=DISCOURSE_API_KEY,
+    api_username=DISCOURSE_API_USERNAME,
+)
+case_study_path = "/case-study"
+case_studies = EngagePages(
+    api=engage_pages_discourse_api,
+    category_id=51,
+    page_type="engage-pages",
+    exclude_topics=[17229, 18033, 17250],
+)
+
+app.add_url_rule(case_study_path, view_func=build_case_study_index(case_studies))
