@@ -1323,6 +1323,12 @@ def build_case_study_index(engage_docs):
         tags_list = engage_docs.get_engage_pages_tags()
         total_pages = math.ceil(current_total / limit)
 
+        for case_study in metadata:
+            path = case_study["path"]
+            if path.startswith("/engage"):
+                case_study["path"] = "https://ubuntu.com" + path
+
+
         return flask.render_template(
             "case-study/index.html",
             forum_url=engage_docs.api.base_url,
