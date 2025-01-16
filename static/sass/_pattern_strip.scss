@@ -3,7 +3,8 @@
   @include canonical-p-strip-suru-topped;
   @include canonical-p-strip-suru-top;
   @include canonical-p-strip-suru-background;
-  @include ubuntu-p-strip-whitesuru;
+  @include canonical-p-strip-whitesuru;
+  @include canonical-p-strip-suru-blog-header;
 
   .p-strip--light {
     &.is-x-shallow {
@@ -230,7 +231,7 @@
   }
 }
 
-@mixin ubuntu-p-strip-whitesuru {
+@mixin canonical-p-strip-whitesuru {
   .p-strip--whitesuru {
     @extend %vf-strip;
 
@@ -249,5 +250,58 @@
       background-repeat: no-repeat;
       background-size: 80vw;
     }
+  }
+}
+
+@mixin canonical-p-strip-suru-blog-header {
+  .p-strip--suru-blog-header {
+    @extend %vf-strip;
+
+    background-blend-mode: multiply, multiply, normal;
+    background-image: linear-gradient(
+        150deg,
+        rgba(228, 228, 228, 0.54) 0%,
+        rgba(228, 228, 228, 0.54) 54.9%,
+        rgba(228, 228, 228, 0) 55%,
+        rgba(228, 228, 228, 0) 100%
+      ),
+      linear-gradient(
+        to bottom left,
+        rgba(216, 216, 216, 0.54) 0%,
+        rgba(216, 216, 216, 0.54) 49.9%,
+        rgba(216, 216, 216, 0) 50%,
+        rgba(216, 216, 216, 0) 100%
+      ),
+      linear-gradient(-89deg, #e95420 0%, #772953 42%, #2c001e 94%);
+    @supports not (background-blend-mode: multiply) {
+      background-image: linear-gradient(
+          150deg,
+          rgba(228, 228, 228, 0.14) 0%,
+          rgba(228, 228, 228, 0.14) 54.9%,
+          rgba(228, 228, 228, 0) 55%,
+          rgba(228, 228, 228, 0) 100%
+        ),
+        linear-gradient(
+          to bottom left,
+          rgba(216, 216, 216, 0.14) 0%,
+          rgba(216, 216, 216, 0.14) 49.9%,
+          rgba(216, 216, 216, 0) 50%,
+          rgba(216, 216, 216, 0) 100%
+        ),
+        linear-gradient(-89deg, #e95420 0%, #772953 42%, #2c001e 94%);
+    }
+
+    background-position:
+      bottom left,
+      bottom 0 right,
+      0% 0%;
+    background-repeat: no-repeat;
+    background-size:
+      100% 100%,
+      60% 100%,
+      auto;
+    color: $color-x-light;
+    overflow: hidden;
+    position: relative;
   }
 }
