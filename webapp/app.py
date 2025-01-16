@@ -21,7 +21,12 @@ from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.flask_base.app import FlaskBase
 from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.discourse import DiscourseAPI, Docs, DocParser, EngagePages
+from canonicalwebteam.discourse import (
+    DiscourseAPI,
+    Docs,
+    DocParser,
+    EngagePages,
+)
 from canonicalwebteam.search import build_search_view
 from requests.exceptions import HTTPError
 from slugify import slugify
@@ -1307,7 +1312,7 @@ def build_case_study_index(engage_docs):
         page = flask.request.args.get("page", default=1, type=int)
         preview = flask.request.args.get("preview")
         language = flask.request.args.get("language", default=None, type=str)
-        tag = flask.request.args.get("tag", default=None, type=str)
+        # tag = flask.request.args.get("tag", default=None, type=str)
         limit = 20  # adjust as needed
         offset = (page - 1) * limit
 
@@ -1328,7 +1333,6 @@ def build_case_study_index(engage_docs):
             if path.startswith("/engage"):
                 case_study["path"] = "https://ubuntu.com" + path
 
-
         return flask.render_template(
             "case-study/index.html",
             forum_url=engage_docs.api.base_url,
@@ -1343,6 +1347,7 @@ def build_case_study_index(engage_docs):
         )
 
     return case_study_index
+
 
 # Case study
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
@@ -1362,4 +1367,6 @@ case_studies = EngagePages(
     exclude_topics=[17229, 18033, 17250],
 )
 
-app.add_url_rule(case_study_path, view_func=build_case_study_index(case_studies))
+app.add_url_rule(
+    case_study_path, view_func=build_case_study_index(case_studies)
+)
