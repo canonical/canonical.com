@@ -27,16 +27,16 @@
   {% endif %}
 
   {% block inner_content %}{% endblock %}
-
-  <!-- Hide footer on index page -->
-  {% if hide_wrapper != True %}
-    {{ cta(title="Contact us", link="/contact-us", has_modal="true") }}
-
-    <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-    {% with %}
-      {% set returnURL = "https://canonical.com/case-study#success" %}
-      {% include "case-study/_case-study-modal.html" %}
-    {% endwith %}
-  {% endif %}
-
+    
+  {% block cta_content %}
+    <!-- Hide footer on index page -->
+    {% if hide_wrapper != True %}
+      {{ cta(title="Contact us", link="/contact-us", has_modal="true") }}
+    {% endif %}
+  {% endblock %}
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {% with %}
+    {% set returnURL = "https://canonical.com/case-study#success" %}
+    {% include "case-study/_case-study-modal.html" %}
+  {% endwith %}
 {% endblock %}
