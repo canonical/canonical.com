@@ -86,6 +86,20 @@
     {%- endif -%}
   {%- endcall -%}
 
+  <!-- TODO: Remove before merging -->
+  {%- call(slot) image_wrapper(caption="Screenshot of the EpiSensor Edge interface showing how snaps are integrated into the software.", right_align="true") -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/26633280-edge screenshot 1.png",
+                alt="",
+                width="2748",
+                height="1408",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
   <!-- Continue reusing macros to build the case study -->
   {%- call(slot) text(title="Challenge") -%}
     {%- if slot == 'content' -%}

@@ -1,23 +1,26 @@
 # Params
 # caption (optional): Caption for image
+# right_align (optional): Right alignment of image
 # Slots
 # image_content (required): Slot for image content, the image must have the class 'p-image-container__image'.
 
-{%- macro image_wrapper(caption="") -%}
+{%- macro image_wrapper(caption="", right_align="") -%}
   {%- set image_content = caller('image_content') -%}
   {%- set has_image = image_content|trim|length>0 -%}
   <section class="p-section">
     <div class="row">
+      {% if right_align %}<div class="col-start-large-4 col-9">{% endif %}
       {% if has_image %}
         <div class="p-image-container u-align--center u-vertically-center u-no-padding--bottom">
           {{ image_content }}
-        </div>
+        </div>      
       {% endif %}
       {% if caption %}
-        <div class="col-start-large-4 col-9">
-          <small class="u-text--muted">{{ caption }}</small>
-        </div>
+      <div class="col-start-large-4 col-9">
+        <p class="u-text--muted u-no-max-width">{{ caption }}</p>
+      </div>
       {% endif %}
+      {% if right_align %}</div>{% endif %}
     </div>
   </section>
 {%- endmacro -%}
