@@ -16,12 +16,20 @@
 
 <section class="p-strip is-shallow" id="posts-list">
   <div class="row u-equal-height">
-    {% for case_study in case_study_info %}
-      {% with title=case_study.title, title_link=case_study.file_path, description=case_study.meta_description %}
+    {% for case_study in metadata %}
+      {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
         {% include "case-study/_case-study-card.html" %}
       {% endwith %}
     {% endfor %}
-</div>
+  </div>  
+</section>
+
+<section class="p-strip is-shallow">
+  {% with %}
+    {% set total_pages = total_pages %}
+    {% set current_page = current_page %}
+    {% include "shared/_pagination.html" %}
+  {% endwith %}
 </section>
 {% endblock %}
 
