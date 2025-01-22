@@ -14,6 +14,36 @@
   </div>
 </section>
 
+<section class="p-strip is-shallow">
+  <form action="/">
+  <div class="row">
+    <div class="col-3">
+      <div class="p-form__group">
+        <label for="language-selector">Select language:</label>
+        <select name="language-selector" id="language-selector" class="u-no-margin--bottom">
+          <option value="all">All languages</option>
+          <option value="zh-TW">Chinese (Traditional)</option>
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+          <option value="es">Espa&ntilde;ol</option>
+          <option value="fr">Fran&ccedil;ais</option>
+          <option value="it">Italiano</option>
+          <option value="kr">Korean</option>
+          <option value="pt">Portugu&ecirc;s</option>
+          <option value="ru">Русс&#1082;&#1080;&#1081;</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-9 u-align--right" style="display: flex; align-items: flex-end; justify-content: flex-end;">
+      <div class="u-hide u-show--small" >
+        <br /><br />
+      </div>
+      <button id="clear-filters" class="u-no-margin--bottom" onclick="clearFilters()" type="reset" disabled>Clear filters</button>
+    </div>
+  </div>
+  </form>
+</section>
+
 <section class="p-strip is-shallow" id="posts-list">
   <div class="row u-equal-height">
     {% for case_study in metadata %}
@@ -31,5 +61,62 @@
     {% include "shared/_pagination.html" %}
   {% endwith %}
 </section>
+
+<script>
+  function clearFilters() {
+    const clearFiltersButton = document.getElementById("clear-filters");
+    window.location.assign("/case-study");
+  }
+  (function() {
+    const languageSelector = document.getElementById("language-selector");
+    const clearFiltersButton = document.getElementById("clear-filters");
+    const urlObj = new URL(window.location);
+  
+    if (urlObj.search !== "") {
+      clearFiltersButton.removeAttribute("disabled");
+    }
+  
+    // Disable other fields if a filter is already applied
+    /** const searchParams = new URLSearchParams(urlObj.search);
+    for (const [key, value] of searchParams) {
+      if (key === "language") {
+        resourceSelector.setAttribute("disabled", true);
+        tagSelector.setAttribute("disabled", true);
+      } else if (key === "tag") {
+        languageSelector.setAttribute("disabled", true);
+        resourceSelector.setAttribute("disabled", true);
+      }
+    } 
+      */
+  
+    function handleFilter(key, el, url) {
+      if (!el) {
+        return;
+      }
+  
+      if (url.searchParams.has(key)) {
+        el.value = url.searchParams.get(key);
+      }
+  
+      el.addEventListener("change", function(e) {
+        const value = e.target.value;
+        const selectFields = document.querySelectorAll("select:checked")
+  
+        // Reset filters, data explorer query can't search multiple fields
+        // at the same time
+        url.search = "";
+  
+        if (value !== "all") {
+          url.searchParams.append(key, value);
+        }
+        window.location = url;
+      });
+    }
+  
+    handleFilter("language", languageSelector, urlObj);
+    handleFilter("tag", tagSelector, urlObj);
+  })()
+  </script>
+  
 {% endblock %}
 

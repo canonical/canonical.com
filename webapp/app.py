@@ -1316,16 +1316,29 @@ def build_case_study_index(engage_docs):
         limit = 20  # adjust as needed
         offset = (page - 1) * limit
 
-        (
-            metadata,
-            count,
-            active_count,
-            current_total,
-        ) = engage_docs.get_index(
-            limit, offset, key="type", value="case study"
-        )
-
-        tags_list = engage_docs.get_engage_pages_tags()
+        if language:
+            (
+                metadata,
+                count,
+                active_count,
+                current_total,
+            ) = engage_docs.get_index(
+                limit,
+                offset,
+                key="type",
+                value="case study",
+                second_key="language",
+                second_value=language,
+            )
+        else:
+            (
+                metadata,
+                count,
+                active_count,
+                current_total,
+            ) = engage_docs.get_index(
+                limit, offset, key="type", value="case study"
+            )
         total_pages = math.ceil(current_total / limit)
 
         for case_study in metadata:
@@ -1340,7 +1353,6 @@ def build_case_study_index(engage_docs):
             page=page,
             preview=preview,
             language=language,
-            tags=tags_list,
             posts_per_page=limit,
             total_pages=total_pages,
             current_page=page,
