@@ -46,21 +46,29 @@
 
 <section class="p-strip is-shallow" id="posts-list">
   <div class="row u-equal-height">
-    {% for case_study in metadata %}
-      {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
-        {% include "case-study/_case-study-card.html" %}
-      {% endwith %}
-    {% endfor %}
-  </div>  
+  {% if metadata %}
+      {% for case_study in metadata %}
+        {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
+          {% include "case-study/_case-study-card.html" %}
+        {% endwith %}
+      {% endfor %}
+    {% else %}
+    <p>
+      No case studies found for the selected filter.
+    </p>
+    {% endif %}
+    </div>  
 </section>
 
-<section class="p-strip is-shallow">
-  {% with %}
-    {% set total_pages = total_pages %}
-    {% set current_page = current_page %}
-    {% include "shared/_pagination.html" %}
-  {% endwith %}
-</section>
+{% if total_pages > 1 %}
+  <section class="p-strip is-shallow">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
+{% endif %}
 
 <script>
   function clearFilters() {
@@ -75,20 +83,7 @@
     if (urlObj.search !== "") {
       clearFiltersButton.removeAttribute("disabled");
     }
-  
-    // Disable other fields if a filter is already applied
-    /** const searchParams = new URLSearchParams(urlObj.search);
-    for (const [key, value] of searchParams) {
-      if (key === "language") {
-        resourceSelector.setAttribute("disabled", true);
-        tagSelector.setAttribute("disabled", true);
-      } else if (key === "tag") {
-        languageSelector.setAttribute("disabled", true);
-        resourceSelector.setAttribute("disabled", true);
-      }
-    } 
-      */
-  
+
     function handleFilter(key, el, url) {
       if (!el) {
         return;
@@ -114,7 +109,6 @@
     }
   
     handleFilter("language", languageSelector, urlObj);
-    handleFilter("tag", tagSelector, urlObj);
   })()
   </script>
   
