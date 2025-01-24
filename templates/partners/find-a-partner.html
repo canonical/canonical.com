@@ -18,33 +18,31 @@
   <section class="p-section">
     <div class="row">
       <div class="col-start-large-4 col-6">
-        <div class="row">
-          <div class="p-block">
-            <h1>Find a Canonical partner</h1>
-          </div>
-          <p>
-            Canonical's partner network spans the full range of our product suite, from Ubuntu to private cloud, open source applications and IoT solutions. We work with public clouds, silicon vendors, IHVs/OEMs, PC manufacturers, channel/resellers and global systems integrators to bring open source to enterprises and consumers.
-          </p>
-          <form class="p-search-box">
-            <label class="u-off-screen" for="search">Search</label>
-            <input class="p-search-box__input js-find-a-partner__search-input"
-                   name="search"
-                   id="search"
-                   placeholder="Search"
-                   required=""
-                   type="search" />
-            <button type="reset"
-                    class="p-search-box__reset u-no-margin--right"
-                    alt="reset">
-              <i class="p-icon--close"></i>
-            </button>
-            <button type="submit"
-                    class="p-search-box__button js-submit-button"
-                    alt="search">
-              <i class="p-icon--search"></i>
-            </button>
-          </form>
+        <div class="p-section--shallow">
+          <h1>Find a Canonical partner</h1>
         </div>
+        <p>
+          Canonical's partner network spans the full range of our product suite, from Ubuntu to private cloud, open source applications and IoT solutions. We work with public clouds, silicon vendors, IHVs/OEMs, PC manufacturers, channel/resellers and global systems integrators to bring open source to enterprises and consumers.
+        </p>
+        <form class="p-search-box">
+          <label class="u-off-screen" for="search">Search</label>
+          <input class="p-search-box__input js-find-a-partner__search-input"
+                  name="search"
+                  id="search"
+                  placeholder="Search"
+                  required=""
+                  type="search" />
+          <button type="reset"
+                  class="p-search-box__reset u-no-margin--right"
+                  alt="reset">
+            <i class="p-icon--close"></i>
+          </button>
+          <button type="submit"
+                  class="p-search-box__button js-submit-button"
+                  alt="search">
+            <i class="p-icon--search"></i>
+          </button>
+        </form>
       </div>
     </div>
     <!-- Start moble side nav -->
@@ -135,20 +133,28 @@
       <hr class="p-rule" />
       <div class="col-3">
         <div class="row u-hide--small" id="filters">
-          <div class="p-section col-3">
-            <h2 class="p-muted-heading">Filters</h2>
+          <div class="col-3">
+            <div class="p-section--shallow">
+              <h2 class="p-muted-heading">Filters</h2>
+            </div>
           </div>
-          <div class="col-medium-2 col-3 p-block">
-            <h3 class="p-heading--5">Programme</h3>
-            {% include '/partners/partial/_partner-filters/_programme-filters.html' %}
+          <div class="col-medium-2 col-3">
+            <div class="p-section--shallow">
+              <h3 class="p-heading--5">Programme</h3>
+              {% include '/partners/partial/_partner-filters/_programme-filters.html' %}
+            </div>
           </div>
-          <div class="col-medium-2 col-3 p-block">
-            <h3 class="p-heading--5">Technology</h3>
-            {% include '/partners/partial/_partner-filters/_technology-filters.html' %}
+          <div class="col-medium-2 col-3">
+            <div class="p-section--shallow">
+              <h3 class="p-heading--5">Technology</h3>
+              {% include '/partners/partial/_partner-filters/_technology-filters.html' %}
+            </div>
           </div>
-          <div class="col-medium-2 col-3 p-block">
-            <h3 class="p-heading--5">Services offered</h3>
-            {% include '/partners/partial/_partner-filters/_services-filters.html' %}
+          <div class="col-medium-2 col-3">
+            <div class="p-section--shallow">
+              <h3 class="p-heading--5">Services offered</h3>
+              {% include '/partners/partial/_partner-filters/_services-filters.html' %}
+            </div>
           </div>
         </div>
       </div>
@@ -169,32 +175,34 @@
           </div>
           {% if partners %}
             {% for partner in partners %}
-              <div class="p-block js-find-a-partner__partner"
+              <div class="js-find-a-partner__partner"
                    id="{{ partner['slug'] }}"
                    data-searchText="{{ partner['name'] }} {{ partner['short_description'] }} {% for tag in partner['tags'] %}{{ tag['fields']['tag'] }}{% endfor %}"
                    data-filter="{% for technology in partner['technology'] %}{{ technology['name']|slug }} {% endfor %}{% for programme in partner['programme'] %}{{ programme['name']|slug }} {% endfor %}{% for service_offered in partner['service_offered'] %}{{ service_offered['name']|slug }}{% endfor %}">
                 <hr class="p-rule" />
-                <div class="row">
-                  <div class="col-6 col-medium-4 col-small-3">
-                    <p class="p-heading--2">
-                      {% if partner['partner_website'] %}
-                        <a title="{{ partner['name'] }} website"
-                           href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a>
-                      {% else %}
-                        <a href="/{{ partner['slug'] }}">{{ partner['name'] }}</a>
+                <div class="p-section--shallow">
+                  <div class="row">
+                    <div class="col-6 col-medium-4 col-small-3">
+                      <p class="p-heading--2">
+                        {% if partner['partner_website'] %}
+                          <a title="{{ partner['name'] }} website"
+                             href="{{ partner['partner_website'] }}">{{ partner['name'] }}</a>
+                        {% else %}
+                          <a href="/{{ partner['slug'] }}">{{ partner['name'] }}</a>
+                        {% endif %}
+                      </p>
+                      <p>{{ partner['short_description']|markup|safe }}</p>
+                    </div>
+                    <div class="col-2 col-start-large-8 col-medium-2 col-small-1">
+                      {% if partner['logo'] %}
+                        <div class="p-image-wrapper">
+                          <img src="{{ partner['logo'] }}"
+                               class="partners-logo"
+                               alt=""
+                               loading="lazy" />
+                        </div>
                       {% endif %}
-                    </p>
-                    <p>{{ partner['short_description']|markup|safe }}</p>
-                  </div>
-                  <div class="col-2 col-start-large-8 col-medium-2 col-small-1">
-                    {% if partner['logo'] %}
-                      <div class="p-image-wrapper">
-                        <img src="{{ partner['logo'] }}"
-                             class="partners-logo"
-                             alt=""
-                             loading="lazy" />
-                      </div>
-                    {% endif %}
+                    </div>
                   </div>
                 </div>
               </div>
