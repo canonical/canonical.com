@@ -29,7 +29,8 @@
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <a href="/contact-us"
-         class="p-button--positive" aria-controls="embedding-modal">Get in touch</a>
+         class="p-button--positive"
+         aria-controls="embedding-modal">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-cover">
@@ -85,7 +86,9 @@
           <li class="p-list__item is-ticked">Transparent pricing model per instance and use-case</li>
         </ul>
         <div class="p-cta-block">
-          <a href="/contact-us" class="p-button--positive" aria-controls="embedding-modal">Contact us to learn more</a>
+          <a href="/contact-us"
+             class="p-button--positive"
+             aria-controls="embedding-modal">Contact us to learn more</a>
         </div>
       </div>
     </div>
@@ -189,18 +192,14 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>Ready for the next step?</h2>
-      <a href="/contact-us" class="p-heading--2" aria-controls="embedding-modal">Join the Canonical Embedding program&nbsp;&rsaquo;</a>
+      <a href="/contact-us"
+         class="p-heading--2"
+         aria-controls="embedding-modal">Join the Canonical Embedding program&nbsp;&rsaquo;</a>
     </div>
   </section>
 
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/embedding#success" %}
-    {% set formid = "4482" %}
-
-    {% include "embedding/_embedding-modal.html" %}
-
-  {% endwith %}
+  {% include "/shared/forms/form-template.html" %}
 
 {% endblock content %}
