@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block meta_copydoc %}
 	https://docs.google.com/document/d/1SMYf92QesxoUN6GLMiM0qWmLPMpTl6CYC3852fFA0Xo/edit
 {% endblock meta_copydoc %}
@@ -18,34 +20,31 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--50-50">
-      <div class="col">
-        <h1>What is Data streaming?</h1>
-      </div>
-      <div class="col p-section--shallow">
-        <div class="p-section--shallow">
-					<p>
-						Data streaming is the continuous processing of data as it is generated. It is also known as event processing or stream processing. The benefit of data streaming is that analytics, insights and actions can occur immediately. Data streaming is used across industries like financial services, retail, media and entertainment, and telecommunications.
-					</p>
-        </div>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="#" class="p-button--positive">Download the white paper</a>
-        </p>
-      </div>
-      <div class="p-image-container--cinematic is-highlighted u-hide--small">
+	{% call(slot) vf_hero(
+		title_text='What is Data streaming?',
+		layout='50/50-full-width-image'
+		) -%}
+		{%- if slot == 'description' -%}
+			<p>
+				Data streaming is the continuous processing of data as it is generated. It is also known as event processing or stream processing. The benefit of data streaming is that analytics, insights and actions can occur immediately. Data streaming is used across industries like financial services, retail, media and entertainment, and telecommunications.
+			</p>
+		{%- endif -%}
+		{%- if slot == 'cta' -%}
+			<a href="#" class="p-button--positive">Download the white paper</a>
+		{%- endif -%}
+		{%- if slot == 'image' -%}
+			<div class="p-image-container--cinematic is-cover">
 				{{ image(url="https://assets.ubuntu.com/v1/bca3146e-hero-img-updated.png",
-										alt="",
-										width="2464",
-										height="1027",
-										hi_def=True,
-										loading="lazy",
-										attrs={"class": "p-image-container__image"}) | safe
+								alt="",
+								width="2464",
+								height="1027",
+								hi_def=True,
+								loading="lazy",
+								attrs={"class": "p-image-container__image"}) | safe
 				}}
-      </div>
-    </div>
-  </section>
+			</div>
+		{% endif -%}
+	{% endcall -%}
 
   <section class="p-section">
     <div class="row--50-50">
