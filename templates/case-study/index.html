@@ -45,7 +45,9 @@
 </section>
 
 <section class="p-strip is-shallow" id="posts-list">
-  <div id="loading-message" class="u-fixed-width" style="display: none;">Loading case studies...</div>
+  <div id="loading-message" class="u-fixed-width u-vertically-center u-align--center u-hide">
+    <i class="p-icon--spinner u-animation--spin"></i>
+  </div>
   <div class="row u-equal-height" id="posts-content">
     {% if metadata %}
       {% for case_study in metadata %}
@@ -110,8 +112,8 @@
         }
 
         // Show loading message
-        postsContent.style.display = "none";
-        loadingMessage.style.display = "block";
+        loadingMessage.classList.remove("u-hide");
+        postsContent.classList.add("u-hide");
 
         window.location = url;
       });
