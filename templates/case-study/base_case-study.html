@@ -1,0 +1,40 @@
+{% extends 'base_index.html' %}
+
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  <!-- Hide breadcrumbs on index page -->
+  {% if hide_wrapper != True %}
+    <div class="u-fixed-width">
+      <nav class="p-breadcrumbs u-no-margin--bottom" aria-label="Breadcrumbs">
+        <ol class="p-breadcrumbs__items">
+          <li class="p-breadcrumbs__item p-text--small-caps">
+            <a href="/case-study/">Case Study</a>
+          </li>
+          <li class="p-breadcrumbs__item p-text--small-caps">
+
+            {% block meta_company_name %}Default Company{% endblock %}
+          </li>
+        </ol>
+      </nav>
+      <h1 class="p-text--small-caps u-hide">Case Studies</h1>
+    </div>
+    <hr class="is-fixed-width p-rule u-no-margin--bottom" />
+  {% endif %}
+
+  {% block inner_content %}{% endblock %}
+    
+  {% block cta_content %}
+    <!-- Hide footer on index page -->
+    {% if hide_wrapper != True %}
+      {{ cta(title="Contact us", link="/contact-us", has_modal="true") }}
+    {% endif %}
+  {% endblock %}
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {% include "case-study/_case-study-modal.html" %}
+{% endblock %}

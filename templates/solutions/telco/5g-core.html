@@ -12,7 +12,7 @@
 
 {% block body_class %}is-paper{% endblock %}
 
-{% from "macros/quote_wrapper.jinja" import quote_wrapper %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
 {% block content %}
 
@@ -78,7 +78,8 @@
       <h2 class="p-text--small-caps">Trusted by leading telco providers</h2>
     </div>
   </div>
-  {%- call(slot) quote_wrapper(
+
+  {%- call(slot) vf_quote_wrapper(
     quote_text="In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical.",
     quote_size="small",
     citation_source_name_text="Gary Roberts",
@@ -102,7 +103,7 @@
     {% endif %}
   {%- endcall %}
 
-  {%- call(slot) quote_wrapper(
+  {%- call(slot) vf_quote_wrapper(
     quote_text="We wanted to ensure that we wouldn’t be bogged down with licence fees long-term.
     Most of the open source vendors we looked at charged steep per core or per server licence fees,
     which would have meant escalating costs as we scaled up. Canonical was the exception.",
