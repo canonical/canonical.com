@@ -128,6 +128,7 @@
   // Find and hide all modals on the page
   function closeModals() {
     var modals = [].slice.apply(document.querySelectorAll(".p-modal"));
+    setState(1);
     modals.forEach(function (modal) {
       toggleModal(modal, false, false);
     });
@@ -143,6 +144,54 @@
     }
 
     return false;
+  });
+
+  // Handle Pagination
+  let contactIndex = 1;
+  const contactModal = document.querySelector(".p-modal");
+  const modalPaginationButtons = contactModal.querySelectorAll(".pagination a");
+  const paginationContent = contactModal.querySelectorAll(".js-pagination");
+
+  function setState(index) {
+    contactIndex = index;
+    render();
+  }
+
+  function render() {
+    if (paginationContent.length) {
+      const currentContent = contactModal.querySelector(
+        ".js-pagination--" + contactIndex
+      );
+      paginationContent.forEach(function (content) {
+        content.classList.add("u-hide");
+      });
+      currentContent.classList.remove("u-hide");
+    }
+  }
+
+  modalPaginationButtons.forEach(function (modalPaginationButton) {
+    modalPaginationButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      const button = e.target.closest("a");
+      let index = contactIndex;
+      if (button.classList.contains("pagination__link--previous")) {
+        index = index - 1;
+        setState(index);
+        dataLayer.push({
+          event: "interactive-forms",
+          action: "goto:" + index,
+          path: window.location.pathname,
+        });
+      } else {
+        index = index + 1;
+        setState(index);
+        dataLayer.push({
+          event: "interactive-forms",
+          action: "goto:" + index,
+          path: window.location.pathname,
+        });
+      }
+    });
   });
 
   // Add handler for closing modals using ESC key.
@@ -189,82 +238,84 @@ function getCheckboxItemsAsCSV(fieldset) {
 
 function getCustomFields(event) {
   var message = "";
+  var formFields = document.querySelectorAll(".js-formfield");
 
-  document.querySelectorAll("fieldset").forEach(function (formField) {
+  formFields.forEach(function (formField) {
     // Only include form fields in the message payload that have the class js-formfield
-    if (formField.querySelector(".js-formfield")) {
-      const includeFormField = formField.querySelector(".js-formfield");
-      var comma = ",";
-      var fieldsetForm = formField.querySelector(".js-formfield-title");
-      var fieldTitle = "";
-      if (fieldsetForm) {
-        fieldTitle = fieldsetForm;
-      } else {
-        fieldTitle =
-          formField.querySelector(".p-heading--5") ??
-          formField.querySelector(".p-modal__question-heading");
-      }
-      var inputs = formField.querySelectorAll(
-        "input, textarea:not(.js-other-input), select"
-      );
-      if (fieldTitle) {
-        message += fieldTitle.innerText + "\r\n";
-      }
-
-      inputs.forEach(function (input) {
-        switch (input.type) {
-          case "select-one":
-            message +=
-              input.options[input.selectedIndex]?.textContent + comma + " ";
-            break;
-          case "radio":
-            if (input.checked) {
-              message += input.value + comma + " ";
-            }
-            break;
-          case "checkbox":
-            if (input.checked) {
-              if (fieldsetForm) {
-                message += input.value + comma + " ";
-              } else {
-                // Forms that have column separation
-                var subSectionText = "";
-                if (
-                  input.closest('[class*="col-"]') &&
-                  input
-                    .closest('[class*="col-"]')
-                    .querySelector(".js-sub-section")
-                ) {
-                  var subSection = input
-                    .closest('[class*="col-"]')
-                    .querySelector(".js-sub-section");
-                  subSectionText = subSection.innerText + ": ";
-                }
-
-                var label = formField.querySelector(
-                  "span#" + input.getAttribute("aria-labelledby")
-                );
-
-                if (label) {
-                  label = subSectionText + label.innerText;
-                } else {
-                  label = input.getAttribute("aria-labelledby");
-                }
-                message += label + comma + "\r\n\r\n";
-              }
-            }
-            break;
-          case "text":
-          case "number":
-          case "textarea":
-            if (input.value !== "") {
-              message += input.value + comma + " ";
-            }
-            break;
-        }
-      });
-      message += "\r\n\r\n";
+    const includeFormField = formField.querySelector(".js-formfield");
+    var comma = ",";
+    var fieldsetForm = formField.querySelector(".js-formfield-title");
+    var fieldTitle = "";
+    if (fieldsetForm) {
+      fieldTitle = fieldsetForm;
+    } else {
+      fieldTitle =
+        formField.querySelector(".p-heading--5") ??
+        formField.querySelector(".p-modal__question-heading");
     }
+    var inputs = formField.querySelectorAll(
+      "input, textarea:not(.js-other-input), select"
+    );
+    if (fieldTitle) {
+      message += fieldTitle.innerText + "\r\n";
+    }
+
+    inputs.forEach(function (input) {
+      switch (input.type) {
+        case "select-one":
+          message +=
+            input.options[input.selectedIndex]?.textContent + comma + " ";
+          break;
+        case "radio":
+          if (input.checked) {
+            message += input.value + comma + " ";
+          }
+          break;
+        case "checkbox":
+          if (input.checked) {
+            if (fieldsetForm) {
+              var labelId = input.getAttribute("aria-labelledby");
+              var span = document.getElementById(labelId);
+              var labelText = span ? span.innerText : "";
+              message += input.value + "-" + labelText + comma + " ";
+            } else {
+              // Forms that have column separation
+              var subSectionText = "";
+              if (
+                input.closest('[class*="col-"]') &&
+                input
+                  .closest('[class*="col-"]')
+                  .querySelector(".js-sub-section")
+              ) {
+                var subSection = input
+                  .closest('[class*="col-"]')
+                  .querySelector(".js-sub-section");
+                subSectionText = subSection.innerText + ": ";
+              }
+
+              var label = formField.querySelector(
+                "span#" + input.getAttribute("aria-labelledby")
+              );
+
+              if (label) {
+                label = subSectionText + label.innerText;
+              } else {
+                label = input.getAttribute("aria-labelledby");
+              }
+              message += label + comma + "\r\n\r\n";
+            }
+          }
+          break;
+        case "text":
+        case "number":
+        case "textarea":
+          if (input.value !== "") {
+            message += input.value + comma + " ";
+          }
+          break;
+      }
+    });
+    message += "\r\n\r\n";
   });
 
   const radioFieldsets = document.querySelectorAll(".js-remove-radio-names");
