@@ -1,9 +1,11 @@
 <div class="p-section">
   <div class="row">
-    <hr class="p-rule">
+    <hr class="p-rule" />
     <div class="col-3 col-medium-2">
-      <p><a href="/blog/author/{{article.author.slug}}">{{ article.author.name }}</a>
-        <br>{{ article.date }}
+      <p>
+        <a href="/blog/author/{{ article.author.slug }}">{{ article.author.name }}</a>
+        <br />
+        {{ article.date }}
       </p>
     </div>
 
@@ -15,15 +17,15 @@
               <a href="/blog/{{ article.slug }}">{{ article.title.rendered|safe }}</a>
             </h3>
           </div>
-          
+
           <span class="p-chip--information">
             <span class="p-chip__value">
-            {% if request.path == "topic/blog/cloud-and-server" %}
-                  Cloud and Server
+              {% if request.path == "topic/blog/cloud-and-server" %}
+                Cloud and Server
               {% elif request.path == "topic/blog/desktop" %}
-                  Desktop
+                Desktop
               {% elif request.path == "topic/blog/internet-of-things" %}
-                  Internet of Things
+                Internet of Things
               {% else %}
                 {% if article.group %}
                   {{ article.group.name }}
@@ -34,14 +36,10 @@
             </span>
           </span>
           <span class="p-chip--information">
-            <span class="p-chip__value">
-              {% include 'blog/singular-category.html' %}
-            </span>
+            <span class="p-chip__value">{% include 'blog/singular-category.html' %}</span>
           </span>
-      
-          <p class="u-hide--small">
-            {{ article.excerpt.raw.replace("[…]", "")|truncate(1000) }}...
-          </p>
+
+          <p class="u-hide--small">{{ article.excerpt.raw.replace('[…]', '') |truncate(1000) }}...</p>
         </div>
         <div class="col-3 col-start-large-7 u-hide--medium u-hide--small">
           {% if article.image and article.image.source_url %}

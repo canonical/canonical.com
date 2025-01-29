@@ -1,46 +1,50 @@
 <section class="p-section">
   {% if featured_jobs %}
-  <div class="u-fixed-width">
-    <hr class="p-rule">
-  </div>
-  <div class="row--25-75">
-    <div class="col-3 col-medium-3">
-      <div class="p-section--shallow">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
-      </div>
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
     </div>
-    <div class="col-9 col-medium-3">
-      <div class="row">
-      {% for job in featured_jobs %}
-      {% if loop.index < 10 %}
-        <div class="col-3">
-          {% if loop.index < 4 %}
-            <hr class="p-rule u-hide--large {% if loop.index == 1 %}u-hide--medium{% endif %}">
-          {% else %}
-            <hr class="p-rule">
-          {% endif %}
-          <p><a class="p-featured__url p-card--content" href="/careers/{{job.id}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a></p>
+    <div class="row--25-75">
+      <div class="col-3 col-medium-3">
+        <div class="p-section--shallow">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
         </div>
-      {% endif %}
-      {% endfor %}
       </div>
-      <br />
-      <div class="row" style="text-align: right">
-        <div class="col">
-          <hr class="p-rule">
-          {% if formatted_slug %}
-            <p class="u-no-max-width">
-              <a href="/careers/all?filter={{formatted_slug}}">See all {{ department.name }} roles</a>
-            </p>
-          {% else %}
-          <p class="u-no-max-width">
-            <a href="/careers/all?filter={{department.slug.capitalize()}}">See all {{ department.name }} roles</a>
-          </p>
-          {% endif %}
+      <div class="col-9 col-medium-3">
+        <div class="row">
+          {% for job in featured_jobs %}
+            {% if loop.index < 10 %}
+              <div class="col-3">
+                {% if loop.index < 4 %}
+                  <hr class="p-rule u-hide--large {% if loop.index == 1 %}u-hide--medium{% endif %}" />
+                {% else %}
+                  <hr class="p-rule" />
+                {% endif %}
+                <p>
+                  <a class="p-featured__url p-card--content"
+                     href="/careers/{{ job.id }}"
+                     onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">{{ job.title }}</a>
+                </p>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
+        <br />
+        <div class="row" style="text-align: right">
+          <div class="col">
+            <hr class="p-rule" />
+            {% if formatted_slug %}
+              <p class="u-no-max-width">
+                <a href="/careers/all?filter={{ formatted_slug }}">See all {{ department.name }} roles</a>
+              </p>
+            {% else %}
+              <p class="u-no-max-width">
+                <a href="/careers/all?filter={{ department.slug.capitalize() }}">See all {{ department.name }} roles</a>
+              </p>
+            {% endif %}
+          </div>
 
+        </div>
       </div>
     </div>
-  </div>
   {% endif %}
 </section>
