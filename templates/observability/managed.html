@@ -1,6 +1,7 @@
 {% extends "base_index.html" %}
 
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
 
 {% block title %}Managed Open Source Observability{% endblock %}
 
@@ -20,40 +21,33 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--50-50-on-large">
-      <div class="col">
-        <h1>
-          Managed
-          <br class="u-hide--small u-hide--medium" />
-          Open Source Observability
-        </h1>
-      </div>
-      <div class="col">
-        <h2>You focus on your business, we run the monitoring tools for you</h2>
-        <div class="u-sv3 u-hide--medium u-hide--small"></div>
-        <div class="p-section--shallow">
-          <p>
-            Uptime for monitoring tools is quintessential for your business. Without reliable monitoring tools, you cannot know what else is not working right. 81% of CIOs are planning to increase their observability budgets, you could be using yours more efficiently.
-          </p>
-          <p>
-            Focus on driving your unique business, and we will run the best-in-class open source monitoring tools you need for the observability of your applications.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a href="/observability/contact-us"
-             class="p-button--positive"
-             aria-controls="observability-managed-modal">Contact us</a>
-          <a href="https://ubuntu.com/engage/managed-services-overcoming-cio-challenges-2021">Read the CIO guide to managed services&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Managed
+    <br class="u-hide--small u-hide--medium" />
+    Open Source Observability',
+    subtitle_text='You focus on your business, we run the monitoring tools for you',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Uptime for monitoring tools is quintessential for your business. Without reliable monitoring tools, you cannot know what else is not working right. 81% of CIOs are planning to increase their observability budgets, you could be using yours more efficiently.
+      </p>
+      <p>
+        Focus on driving your unique business, and we will run the best-in-class open source monitoring tools you need for the observability of your applications.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/observability/contact-us"
+         class="p-button--positive"
+         aria-controls="observability-managed-modal">Contact us</a>
+      <a href="https://ubuntu.com/engage/managed-services-overcoming-cio-challenges-2021">Read the CIO guide to managed services&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section">
     <div class="u-fixed-width">
       <hr class="p-rule" />
-      <h2 class="p-heading--5 p-text--small-caps">We manage clouds for world leaders</h2>
+      <h2 class="p-text--small-caps">We manage clouds for world leaders</h2>
       <div class="p-logo-section">
         <div class="p-logo-section__items">
           <div class="p-logo-section__item">
@@ -176,7 +170,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-start-large-4">
+      <div class="col-start-large-4 col-9">
         <div class="p-image-container">
           {{ image(url="https://assets.ubuntu.com/v1/6397a865-never-miss-another-outage-updated.png",
                     alt="",
@@ -274,62 +268,62 @@
         </div>
       </div>
     </div>
-
-    <div class="row u-sv4">
-      <div class="col-start-large-4">
-        <div class="row">
-          <div class="col-4 col-medium-2">
-            <div class="p-image-container--3-2 is-highlighted">
-              {{ image(url="https://assets.ubuntu.com/v1/ef45a16a-prometheus.png",
-                            alt="",
-                            width="852",
-                            height="481",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-              }}
+    <div class="p-section--shallow">
+      <div class="row">
+        <div class="col-start-large-4 col-9">
+          <div class="row">
+            <div class="col-3 col-medium-2">
+              <div class="p-image-container--3-2 is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/ef45a16a-prometheus.png",
+                                alt="",
+                                width="852",
+                                height="481",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <h3 class="p-heading--5 p-equal-height-row__item">HA-ready Prometheus and AlertManager instances</h3>
             </div>
-            <h3 class="p-heading--5 p-equal-height-row__item">HA-ready Prometheus and AlertManager instances</h3>
-          </div>
-          <div class="col-4 col-medium-2">
-            <div class="p-image-container--3-2 is-highlighted">
-              {{ image(url="https://assets.ubuntu.com/v1/db5ebb13-grafana.png",
-                            alt="",
-                            width="852",
-                            height="481",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-              }}
+            <div class="col-3 col-medium-2">
+              <div class="p-image-container--3-2 is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/db5ebb13-grafana.png",
+                                alt="",
+                                width="852",
+                                height="481",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <h3 class="p-heading--5 p-equal-height-row__item">
+                Transparency with dynamic
+                <br />
+                dashboards
+              </h3>
             </div>
-            <h3 class="p-heading--5 p-equal-height-row__item">
-              Transparency with dynamic
-              <br />
-              dashboards
-            </h3>
-          </div>
-          <div class="col-4 col-medium-2">
-            <div class="p-image-container--3-2 is-highlighted">
-              {{ image(url="https://assets.ubuntu.com/v1/4a1bf081-graylog.png",
-                            alt="",
-                            width="852",
-                            height="481",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-              }}
+            <div class="col-3 col-medium-2">
+              <div class="p-image-container--3-2 is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/4a1bf081-graylog.png",
+                                alt="",
+                                width="852",
+                                height="481",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <h3 class="p-heading--5 p-equal-height-row__item">Large scale log analytics</h3>
             </div>
-            <h3 class="p-heading--5 p-equal-height-row__item">Large scale log analytics</h3>
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-start-large-4">
+      <div class="col-start-large-7 col-6">
         <div class="row">
-          <div class="col-4 col-medium-2"></div>
-          <div class="col-4 col-medium-2">
+          <div class="col-3 col-medium-2">
             <div class="p-image-container--3-2 is-highlighted">
               {{ image(url="https://assets.ubuntu.com/v1/81e851c2-influxdb.png",
                             alt="",
@@ -342,7 +336,7 @@
             </div>
             <h3 class="p-heading--5 p-equal-height-row__item">Active management of time-series database, storage</h3>
           </div>
-          <div class="col-4 col-medium-2">
+          <div class="col-3 col-medium-2">
             <div class="p-image-container--3-2 is-highlighted">
               {{ image(url="https://assets.ubuntu.com/v1/7fba7c31-elastic.png",
                             alt="",
@@ -535,8 +529,10 @@
           <br class="u-hide--small" />
           is constantly evolving and expanding.
         </p>
-        <a aria-controls="observability-managed-modal"
-           href="/observability/contact-us">Contact us about your unique requirements&nbsp;&rsaquo;</a>
+        <div class="p-cta-block">
+          <a aria-controls="observability-managed-modal"
+             href="/observability/contact-us">Contact us about your unique requirements&nbsp;&rsaquo;</a>
+        </div>
       </div>
     </div>
   </section>
