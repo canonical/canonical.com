@@ -14,6 +14,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 @import "pattern_animations";
 @import "pattern_application";
+@import "pattern_blog-card";
 @import "pattern_cards";
 @import "pattern_careers-modal";
 @import "pattern_footer";
@@ -36,6 +37,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
 @include canonical-p-card;
+@include canonical-p-blog-card;
 @include canonical-p-careers-modal;
 @include canonical-p-lists;
 @include canonical-p-feedback;
@@ -188,12 +190,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 // Makes side-navigation fit with the custom top-navigation of c.com
 .p-side-navigation {
   &--raw-html.is-sticky {
-    top: 4.5rem;
-    z-index: 5; // make sure it's higher than 2, that is used by some components (like the rules)
-  }
-
-  &__drawer {
-    top: 48px;
+    z-index: 102;
   }
 }
 
