@@ -1,0 +1,40 @@
+name: Update PR Description with Demo Link
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  update-pr-description:
+    if: github.event.comment.user.login == 'webteam-app'  # Ensure only webteam-app triggers this
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Extract Demo Link from Comment
+        id: extract_link
+        run: |
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          if [[ "$COMMENT_BODY" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
+            echo "DEMO_LINK=${BASH_REMATCH[0]}" >> $GITHUB_ENV
+          else
+            echo "No matching demo link found. Exiting."
+            exit 1
+          fi
+      - name: Get PR Description
+        id: get_pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.issue.number }}
+          PR_BODY=$(gh pr view $PR_NUMBER --json body -q .body)
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "$PR_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Update PR Description (Replace All Instances)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          UPDATED_BODY=$(echo "${{ env.PR_BODY }}" | sed "s|DEMO_LINK|${{ env.DEMO_LINK }}|g")
+          PR_NUMBER=${{ github.event.issue.number }}
+          gh pr edit $PR_NUMBER --body "$UPDATED_BODY"
