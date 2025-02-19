@@ -274,10 +274,7 @@ function getCustomFields(event) {
         case "checkbox":
           if (input.checked) {
             if (fieldsetForm) {
-              var labelId = input.getAttribute("aria-labelledby");
-              var span = document.getElementById(labelId);
-              var labelText = span ? span.innerText : "";
-              message += input.value + "-" + labelText + comma + " ";
+              message += input.value + comma + " ";
             } else {
               // Forms that have column separation
               var subSectionText = "";
