@@ -217,25 +217,6 @@ function validateCheckbox(event, fieldsetId) {
   }
 }
 
-function getRadioItemValue(fieldset) {
-  const selectedRadio = fieldset.querySelector(
-    "input[name='how-many-machines-do-you-have']:checked"
-  );
-  return selectedRadio ? selectedRadio.value : "";
-}
-
-function getCheckboxItemsAsCSV(fieldset) {
-  if (fieldset) {
-    const checkboxes = Array.from(
-      fieldset.querySelectorAll("input[class='p-checkbox__input']")
-    );
-    return checkboxes
-      .filter((item) => item.checked)
-      .map((item) => item.value)
-      .join(", ");
-  }
-}
-
 function getCustomFields(event) {
   var message = "";
   var formFields = document.querySelectorAll(".js-formfield");
