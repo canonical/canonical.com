@@ -41,7 +41,7 @@
         <hr class="p-rule--muted" />
         <a class="p-button--positive"
            href="/contact-us"
-           aria-controls="data-relational-dbs-modal">Get in touch<span class="u-off-screen">about MySQL for the enterprise</span></a>
+           aria-controls="data-mysql-modal">Get in touch<span class="u-off-screen">about MySQL for the enterprise</span></a>
         <a class="p-button"
            href="https://drive.google.com/file/d/1vQamR5wOA9E-FTIJG2c9xCWLpB_1QcA3/view?usp=sharing"><span class="u-off-screen">Download the Canonical's guide to MySQL</span>Get started</a>
       </div>
@@ -315,7 +315,7 @@
         </p>
         <hr class="p-rule--muted" />
         <p>
-          <a href="/contact-us" aria-controls="data-relational-dbs-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
+          <a href="/contact-us" aria-controls="data-mysql-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
         </p>
       </div>
     </div>
@@ -550,9 +550,8 @@
 
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/mysql#success" %}
-    {% include "data/_form-data-relational-dbs.html" %}
-  {% endwith %}
+{% with formId=5477 %}
+  {% include "/shared/forms/form-template.html" %}
+{% endwith %}
 
 {% endblock %}
