@@ -1268,7 +1268,7 @@ def set_form_rules():
             for path, form in data["form"].items():
                 if "childrenPaths" in form:
                     for child_path in form["childrenPaths"]:
-                         # If the child path ends with 'index', remove it for
+                        # If the child path ends with 'index', remove it for
                         # the path
                         path_split = child_path.strip("/").split("/")
                         if path_split[-1] == "index":
