@@ -1,0 +1,55 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block title %}Canonical Embedding program{% endblock %}
+
+{% block meta_description %}
+  Ubuntu Embedding Programme offers the optimal technical, commercial and legal framework to deploy your products and solutions with Canonical offerings.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1evAFIXbNztOd5yZee-uV8_OM-s6o27P46yXFaaeEhy0/edit#
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Nest test',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Our Embedding program offers the optimal technical, commercial and legal framework to deploy your products and solutions with Canonical offerings, including cost-effective support across the lifecycle of your product.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive"
+         aria-controls="embedding-modal">Get in touch</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/580a82f9-hero-img.png",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {% with formId=4482 %}
+    {% include "/shared/forms/form-template.html" %}
+  {% endwith %}
+
+{% endblock content %}
