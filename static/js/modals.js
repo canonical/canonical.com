@@ -309,3 +309,26 @@ function getCustomFields(event) {
   const textarea = document.getElementById("Comments_from_lead__c");
   textarea.value = message;
 }
+
+// Fix Tab and modal js conflicts
+(function () {
+  document.querySelectorAll(".p-tabs__link").forEach((tab) => {
+    tab.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      document.querySelectorAll(".p-tabs__link").forEach((t) => {
+        t.setAttribute("aria-selected", "false");
+        t.setAttribute("tabindex", "-1");
+      });
+      this.setAttribute("aria-selected", "true");
+      this.removeAttribute("tabindex");
+
+      document
+        .querySelectorAll("[role='tabpanel']")
+        .forEach((panel) => (panel.style.display = "none"));
+      document.getElementById(
+        this.getAttribute("aria-controls")
+      ).style.display = "block";
+    });
+  });
+})();
