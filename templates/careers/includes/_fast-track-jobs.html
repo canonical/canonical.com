@@ -13,6 +13,12 @@
   </div>
 </section>
 
+{% if custom_categories_section %}
+
+  {% include custom_categories_section %}
+
+{% else %}
+
 <section class="p-section">
 
   <div class="u-fixed-width">
@@ -173,6 +179,8 @@
   </div>
 </section>
 
+{% endif %}
+
 <section class="p-section">
 
   {% if featured_jobs %}
@@ -185,13 +193,13 @@
 
     <div class="row">
 
-      <div class="col-3 col-medium-2">
+      <div class="{% if custom_categories_section %}col-6 col-medium-3{% else %}col-3 col-medium-2{% endif %} ">
 
         <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
 
       </div>
 
-      <div class="col-6 col-medium-2">
+      <div class="{% if custom_categories_section %}col-3 col-medium-3{% else %}col-6 col-medium-2{% endif %}">
 
         {% for job in featured_jobs %}
 
@@ -212,9 +220,9 @@
 
       </div>
 
-      <div class="col-3 col-medium-2">
+      <div class="col-3 col-medium-2 {% if custom_categories_section %}col-start-medium-4{% endif %}">
 
-        <hr class="p-rule u-hide--medium u-hide--large" />
+        <hr class="p-rule--muted u-hide--large" />
 
         <p class="u-sv-1">
 
