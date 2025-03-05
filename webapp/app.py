@@ -141,6 +141,7 @@ def _get_sorted_departments(greenhouse, harvest):
         "people",
         "administration",
         "legal",
+        "alliances",
     ]
 
     sorted = {slug: departments[slug] for slug in sort_order}
@@ -178,6 +179,7 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
         {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
         {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
         {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
+        {"slug": "alliances", "icon": "80374755-alliances.svg"},
     ]
 
     departments_overview = []

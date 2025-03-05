@@ -45,9 +45,9 @@
         <div class="p-section--shallow">
           <div class="p-section">
             <h2 class="u-no-margin--bottom">
-              <strong>Passionate about open source? So are we.</strong>
-              <br class="u-hide--small u-hide--medium" />
-              <span>Be where the cutting edge is established.</span>
+              <strong>Passionate about open source? </strong>
+              <br class="u-hide--small" />
+              <span>So are we. Be where the cutting edge is established.</span>
             </h2>
           </div>
 
@@ -79,23 +79,25 @@
         <div class="col-12 col-medium-4">
           <div class="row">
             {% for dept in departments_overview %}
-              <div class="col-2 col-medium-12 col-small-12 p-department-cards__container">
-                <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
-                  <div class="p-department-cards__card">
-                    <div class="p-department-cards__image-container">
-                      <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
-                           class="p-department-cards__image"
-                           alt="" />
-                      <strong class="p-department-cards__link">{{ dept.name }}</strong>
-                      <br />
+              {% if dept.count > 0 %}
+                <div class="col-3 col-medium-12 col-small-12 p-department-cards__container">
+                  <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
+                    <div class="p-department-cards__card">
+                      <div class="p-department-cards__image-container">
+                        <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
+                             class="p-department-cards__image"
+                             alt="" />
+                        <strong class="p-department-cards__link">{{ dept.name }}</strong>
+                        <br />
+                      </div>
+                      <div>
+                        <span>{{ dept.count }} roles</span>
+                      </div>
                     </div>
-                    <div>
-                      <span>{{ dept.count }} roles</span>
-                    </div>
-                  </div>
-                  {% if not loop.last %}<hr class="p-rule u-hide--large" />{% endif %}
-                </a>
-              </div>
+                    {% if not loop.last %}<hr class="p-rule u-hide--large" />{% endif %}
+                  </a>
+                </div>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -141,7 +143,7 @@
     </div>
   </section>
 
-  <section class="p-section">
+  <section class="p-section--deep">
     <div class="u-fixed-width">
       <hr class="p-rule" />
     </div>
