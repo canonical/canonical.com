@@ -38,17 +38,19 @@
 
 <section class="p-section">
   <hr class="is-fixed-width p-rule" />
-  <div class="row u-extra-space">
-    <div class="col-6 col-medium-3">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-      <h3 class="p-heading--2">{{ block_1_subheading }}</h3>
-    </div>
-    <div class="col-6 col-medium-3">
-      {% for paragraph in block_1_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
+  <div class="p-section--shallow">
+    <div class="row">
+      <div class="col-6 col-medium-3">
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin">Working here</h2>
+        <h3 class="p-heading--2">{{ block_1_subheading }}</h3>
+      </div>
+      <div class="col-6 col-medium-3">
+        {% for paragraph in block_1_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
+      </div>
     </div>
   </div>
   <div class="p-section--shallow">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
+    <div class="u-fixed-width">
       {{ image(url=image_url,
             alt="",
             width=image_width,
