@@ -1,14 +1,21 @@
 <section class="p-section u-no-padding--top">
   <hr class="is-fixed-width p-rule" />
-  <div class="row p-section">
+  <div class="row">
     <div class="col-6 col-medium-2">
       <h1 class="p-heading--2">
         <strong>{{ department.name }}</strong>
       </h1>
     </div>
     <div class="col-6 col-medium-4">
-      <p>{{ claim | safe }}</p>
-      <div class="u-sv-3"></div>
+      <div class="p-section--shallow">
+        <p>{{ claim | safe }}</p>
+      </div>
+      {% if custom_categories_section %}
+        <div class="p-cta-block">
+          <a href="/careers/all?filter={{ department.name | safe | urlencode }}" class="p-button--positive">Explore all {{ department.name }} roles</a>
+          <a href="/careers/career-explorer">Career explorer&nbsp;&rsaquo;</a>
+        </div>
+      {% endif %}
     </div>
   </div>
 </section>
