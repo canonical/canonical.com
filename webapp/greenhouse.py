@@ -102,7 +102,10 @@ class Department(object):
                 "slug": "commercial-operations",
             },
             "admin": {"name": "Administration", "slug": "administration"},
-            "alliances" : {"name": "Alliances and Channels", "slug": "alliances"}
+            "alliances": {
+                "name": "Alliances and Channels",
+                "slug": "alliances",
+            },
         }
 
         if self.slug in renames:
@@ -356,7 +359,7 @@ class Harvest:
         departments = json.loads(response.text)["custom_field_options"]
 
         # Temporary fix until we move to new department list
-        departments.append({'id': 82559, 'name': 'Alliances'})
+        departments.append({"id": 82559, "name": "Alliances"})
 
         return sorted(
             [Department(department["name"]) for department in departments],

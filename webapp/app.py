@@ -141,7 +141,7 @@ def _get_sorted_departments(greenhouse, harvest):
         "people",
         "administration",
         "legal",
-        "alliances"
+        "alliances",
     ]
 
     sorted = {slug: departments[slug] for slug in sort_order}
