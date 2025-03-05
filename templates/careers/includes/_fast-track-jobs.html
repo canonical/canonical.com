@@ -11,7 +11,7 @@
         <p>{{ claim | safe }}</p>
       </div>
       {% if custom_categories_section %}
-        <div class="p-cta-block">
+        <div class="p-cta-block u-no-padding--bottom">
           <a href="/careers/all?filter={{ department.name | safe | urlencode }}" class="p-button--positive">Explore all {{ department.name }} roles</a>
           <a href="/careers/career-explorer">Career explorer&nbsp;&rsaquo;</a>
         </div>
@@ -227,9 +227,9 @@
 
       </div>
 
-      <div class="col-3 col-medium-2 {% if custom_categories_section %}col-start-medium-4{% endif %}">
+      <div class="col-3 {% if custom_categories_section %}col-medium-3 col-start-medium-4{% else %} col-medium-2{% endif %}">
 
-        <hr class="p-rule--muted u-hide--large" />
+        <hr class="p-rule--muted u-hide--large {% if not custom_categories_section %}u-hide--medium{% endif %}" />
 
         <p class="u-sv-1">
 
