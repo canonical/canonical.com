@@ -355,7 +355,8 @@ class Harvest:
         departments = json.loads(response.text)["custom_field_options"]
 
         # Temporary fix until we move to new department list
-        departments.append({"id": 82559, "name": "Alliances"})
+        if not any(item['name'].lower() == 'alliances' for item in departments):
+            departments.append({"id": 82559, "name": "Alliances"})
 
         return sorted(
             [Department(department["name"]) for department in departments],
