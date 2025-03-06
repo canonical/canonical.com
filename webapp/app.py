@@ -26,7 +26,7 @@ from canonicalwebteam.discourse import (
     EngagePages,
 )
 from canonicalwebteam.search import build_search_view
-from canonicalwebteam.parser import scan_directory
+from canonicalwebteam.sitemaps_parser import scan_directory
 from requests.exceptions import HTTPError
 from slugify import slugify
 
