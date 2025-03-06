@@ -1320,7 +1320,7 @@ app.add_url_rule(
 
 def get_sitemaps_tree():
     try:
-        tree = scan_directory("/home/ubuntu/canonical-com/templates")
+        tree = scan_directory(os.getcwd() + "/templates")
     except Exception as e:
         raise Exception(f"Error scanning directory: {e}")
     return tree
