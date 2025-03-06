@@ -26,10 +26,7 @@ from canonicalwebteam.discourse import (
     EngagePages,
 )
 from canonicalwebteam.search import build_search_view
-from canonicalwebteam.directory_parser import (
-    scan_directory,
-    generate_sitemap,
-)
+from canonicalwebteam.sitemaps_parser import scan_directory
 from requests.exceptions import HTTPError
 from slugify import slugify
 
