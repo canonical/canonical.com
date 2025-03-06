@@ -26,6 +26,7 @@ from canonicalwebteam.discourse import (
     EngagePages,
 )
 from canonicalwebteam.search import build_search_view
+from canonicalwebteam.parser import scan_directory
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -1315,3 +1316,18 @@ case_studies = EngagePages(
 app.add_url_rule(
     case_study_path, view_func=build_case_study_index(case_studies)
 )
+
+
+def get_sitemaps_tree():
+    try:
+        tree = scan_directory("/home/ubuntu/canonical-com/templates")
+    except Exception as e:
+        raise Exception(f"Error scanning directory: {e}")
+    return tree
+
+
+get_sitemaps_tree()
+
+
+# TODO: Endpoint for testing and QA purposes only
+app.add_url_rule("/sitemaps_parser", view_func=get_sitemaps_tree)
