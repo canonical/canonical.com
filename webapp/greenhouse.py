@@ -102,6 +102,10 @@ class Department(object):
                 "slug": "commercial-operations",
             },
             "admin": {"name": "Administration", "slug": "administration"},
+            "alliances": {
+                "name": "Alliances & Channels",
+                "slug": "alliances",
+            },
         }
 
         if self.slug in renames:
