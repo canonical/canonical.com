@@ -104,7 +104,7 @@ class Department(object):
             "admin": {"name": "Administration", "slug": "administration"},
             "alliances": {
                 "name": "Alliances & Channels",
-                "slug": "alliances",
+                "slug": "alliances-and-channels",
             },
         }
 
