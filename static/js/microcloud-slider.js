@@ -23,6 +23,7 @@ function threeItemSlider() {
   // Handles next button click and disables button if there are no more items to show
   if (nextBtn) {
     nextBtn.onclick = (e) => {
+      console.log(index, windowIndex, windowLimit );
       if (index < length - 1) {
         for (let i = index; i < index + activeItems; i++) {
           items[i].classList.add("u-hide");
