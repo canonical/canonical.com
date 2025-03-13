@@ -28,7 +28,10 @@ from canonicalwebteam.discourse import (
     EngagePages,
 )
 from canonicalwebteam.search import build_search_view
-from canonicalwebteam.sitemaps_parser import scan_directory
+from canonicalwebteam.directory_parser import (
+    scan_directory,
+    generate_sitemap,
+)
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -1392,6 +1395,7 @@ app.add_url_rule(
 )
 
 
+# TODO: Endpoint for testing and QA purposes only
 def get_sitemaps_tree():
     try:
         tree = scan_directory(os.getcwd() + "/templates")
@@ -1401,7 +1405,39 @@ def get_sitemaps_tree():
 
 
 get_sitemaps_tree()
+app.add_url_rule("/sitemap_parser", view_func=get_sitemaps_tree)
 
 
-# TODO: Endpoint for testing and QA purposes only
-app.add_url_rule("/sitemaps_parser", view_func=get_sitemaps_tree)
+def serve_sitemap():
+    try:
+        sitemap_path = os.getcwd() + "/static/files/sitemap_tree.xml"
+
+        if not os.path.exists(sitemap_path):
+            directory_path = os.getcwd() + "/templates"
+            base_url = "https://canonical.com"
+            xml_sitemap = generate_sitemap(directory_path, base_url)
+
+            if xml_sitemap:
+                with open(sitemap_path, "w") as f:
+                    f.write(xml_sitemap)
+                print(f"Sitemap saved to {sitemap_path}")
+            else:
+                raise Exception("Error generating sitemap")
+        else:
+            # Use GH actions to update the lastmod dates of sitemaps
+            print("Sitemap already exists, update")
+
+        with open(sitemap_path, "r") as f:
+            xml_sitemap = f.read()
+
+        response = flask.make_response(xml_sitemap)
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+    except Exception as e:
+        return f"Error generating sitemap: {e}", 500
+
+
+# Build sitemap on app startup
+serve_sitemap()
+app.add_url_rule("/sitemap_tree.xml", view_func=serve_sitemap)
