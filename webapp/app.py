@@ -29,8 +29,8 @@ from canonicalwebteam.discourse import (
 )
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.directory_parser import (
-  scan_directory,
-  generate_sitemap,
+    scan_directory,
+    generate_sitemap,
 )
 from requests.exceptions import HTTPError
 from slugify import slugify
