@@ -4,9 +4,7 @@
     {% if node["last_modified"] != None %}<lastmod>{{ child["last_modified"] }}</lastmod>{% endif %}
     <changefreq>monthly</changefreq>
   </url>
-  {% if child["children"]|length > 0 %}
-    {% with children=child["children"]%}
-      {% include "sitemap_children.xml" %}
-    {% endwith %}
-  {% endif %}
+  {%- if child["children"]|length > 0 -%}
+    {% with children=child["children"]%}{% include "sitemap_children.xml" %}{% endwith %}
+  {%- endif -%}
 {% endfor %}
