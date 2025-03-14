@@ -1,81 +1,93 @@
 // Slider that shows 3 resource items at a time
 function threeItemSlider() {
-  const nextBtn = document.querySelector(".js-slider--next");
-  const prevBtn = document.querySelector(".js-slider--prev");
-  const items = document.querySelector(".js-slider--items").children;
-  let resultsCount = document.getElementById("js-results-count");
-  
+  let activePages = [];
   const activeItems = 3;
-  const length = items.length;
-  let totalPages = Math.ceil(length / activeItems);
-  let currentPage = 1;
+  let sliders = document.querySelectorAll(".js-slider");
+  for(let i=0;i<sliders.length;i++){
+    let slider = sliders[i];
+    console.log(slider);
+    let items = slider.querySelector(".js-slider--items").children;
+    console.log(items);
+    let resultsCount = slider.querySelector(".js-results-count");
+    console.log(resultsCount);
+    let length = items.length;
+    let totalPages = Math.ceil(length / activeItems);
+    activePages.push(1);
+    if (resultsCount) {
+      resultsCount.innerHTML = `1 of ${totalPages} `;
+    }
+    let nextBtn = slider.querySelector(".js-slider--next");
+    let prevBtn = slider.querySelector(".js-slider--prev");
+    let currentPage = activePages[i];
+    
+    if (totalPages>1) {
+      nextBtn.classList.remove("is-disabled");
+    }
+    if (currentPage == 1) {
+      prevBtn.classList.add("is-disabled");
+    }
 
+    for(let i=0;i<length;i++){
+      if(i>=activeItems){
+        items[i].classList.add("u-hide");
+      }
+    }
 
-  if (resultsCount) {
-    resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-  }
-
-  if (currentPage == 1) {
-    prevBtn.classList.add("is-disabled");
-  }
-
-  // Handles next button click and disables button if there are no more items to show
-  if (nextBtn) {
-    nextBtn.onclick = (e) => {
-      console.log(currentPage);
-      if (currentPage < totalPages) {
-        for (let i = (currentPage-1)*activeItems; i < currentPage * activeItems; i++) {
-          items[i].classList.add("u-hide");
+    if (nextBtn){
+      nextBtn.onclick = (e) => {
+        if (currentPage < totalPages) {
+          for (let i = (currentPage-1)*activeItems; i < currentPage * activeItems; i++) {
+            items[i].classList.add("u-hide");
+          }
+  
+          let windowLimit = Math.min(length, (currentPage+1) * activeItems);
+  
+          for (let i = currentPage*activeItems; i < windowLimit; i++) {
+            items[i].classList.remove("u-hide");
+          }
+          
+          currentPage += 1;
+  
+          resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+          prevBtn.classList.remove("is-disabled");
         }
-
-        let windowLimit = Math.min(length, (currentPage+1) * activeItems);
-
-        for (let i = currentPage*activeItems; i < windowLimit; i++) {
-          items[i].classList.remove("u-hide");
+  
+        if (currentPage==totalPages) {
+          nextBtn.classList.add("is-disabled");
         }
-        
-        currentPage += 1;
+  
+        jumpToTop();
+      };
+    }
 
+    if (prevBtn) {
+      prevBtn.onclick = (e) => {
+  
+        if (currentPage > 1) {
+  
+          let windowLimit = Math.min(length, currentPage * activeItems);
+          for (let i = (currentPage-1)*activeItems; i < windowLimit; i++) {
+            items[i].classList.add("u-hide");
+          }
+          currentPage -= 1;
+  
+          for (let i = (currentPage-1)*activeItems; i < currentPage * activeItems; i++) {
+            items[i].classList.remove("u-hide");
+          }
+  
+        }
+  
+        if (currentPage == 1) {
+          prevBtn.classList.add("is-disabled");
+  
+          if (length > activeItems) {
+            nextBtn.classList.remove("is-disabled");
+          }
+        }
+  
         resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-        prevBtn.classList.remove("is-disabled");
-      }
-
-      if (currentPage==totalPages) {
-        nextBtn.classList.add("is-disabled");
-      }
-
-      jumpToTop();
-    };
-  }
-
-  // Handles prev button click and disables button if at beginning of list
-  if (prevBtn) {
-    prevBtn.onclick = (e) => {
-
-      if (currentPage > 1) {
-
-        let windowLimit = Math.min(length, currentPage * activeItems);
-        for (let i = (currentPage-1)*activeItems; i < windowLimit; i++) {
-          items[i].classList.add("u-hide");
-        }
-        currentPage -= 1;
-
-        for (let i = (currentPage-1)*activeItems; i < currentPage * activeItems; i++) {
-          items[i].classList.remove("u-hide");
-        }
-
-      }
-
-      if (currentPage == 1) {
-        prevBtn.classList.add("is-disabled");
-
-        if (length > activeItems) {
-          nextBtn.classList.remove("is-disabled");
-        }
-      }
-
-      resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-    };
+      };
+    }
   }
 }
 
