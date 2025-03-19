@@ -103,7 +103,7 @@
             {% elif question.type == "single_select" or question.type == "boolean" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
-              {% for answer_option in question.get("values",[])|reverse %}
+              {% for answer_option in question.get("values",[]) %}
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
