@@ -28,8 +28,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Install dotrun
         run: sudo pip3 install dotrun requests==2.31.0
@@ -79,6 +77,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install node dependencies
         run: yarn install --immutable
@@ -91,7 +91,7 @@ jobs:
       - name: Get changed HTML files in the templates folder
         id: changed-files
         run: |
-          TARGET_SHA=$(git rev-parse $GITHUB_BASE_REF)
+          TARGET_SHA=$(git rev-parse origin/$GITHUB_BASE_REF)
           CHANGED_FILES=$(git diff --name-only $TARGET_SHA $GITHUB_SHA -- 'templates/**.html' | tr '\n' ' ')
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
 
