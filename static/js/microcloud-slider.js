@@ -55,9 +55,6 @@ function threeItemSlider() {
         if (currentPage==totalPages) {
           nextBtn.classList.add("is-disabled");
         }
-        if(window.screen.width<1036){
-          nextBtn.scrollIntoView(false);
-        }
       };
     }
 
@@ -75,21 +72,16 @@ function threeItemSlider() {
           for (let i = (currentPage-1)*activeItems; i < currentPage * activeItems; i++) {
             items[i].classList.remove("u-hide");
           }
-  
+          
         }
-  
+        
+        resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+        nextBtn.classList.remove("is-disabled");
+        
         if (currentPage == 1) {
           prevBtn.classList.add("is-disabled");
-  
-          if (length > activeItems) {
-            nextBtn.classList.remove("is-disabled");
-          }
         }
-  
-        resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-        if(window.screen.width<1036){
-          prevBtn.scrollIntoView(false);
-        }
+
       };
     }
   }
