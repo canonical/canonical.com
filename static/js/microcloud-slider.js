@@ -55,8 +55,9 @@ function threeItemSlider() {
         if (currentPage==totalPages) {
           nextBtn.classList.add("is-disabled");
         }
-  
-        jumpToTop();
+        if(window.screen.width<1036){
+          nextBtn.scrollIntoView(false);
+        }
       };
     }
 
@@ -86,15 +87,11 @@ function threeItemSlider() {
         }
   
         resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
+        if(window.screen.width<1036){
+          prevBtn.scrollIntoView(false);
+        }
       };
     }
-  }
-}
-
-// Scrolls to top of section on tablet/mobile
-function jumpToTop() {
-  if (window.screen.width < 1036) {
-    document.getElementById("videos-and-webinars").scrollIntoView();
   }
 }
 
