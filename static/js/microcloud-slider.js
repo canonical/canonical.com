@@ -5,11 +5,8 @@ function threeItemSlider() {
   let sliders = document.querySelectorAll(".js-slider");
   for (let i = 0; i < sliders.length; i++) {
     let slider = sliders[i];
-    console.log(slider);
     let items = slider.querySelector(".js-slider--items").children;
-    console.log(items);
     let resultsCount = slider.querySelector(".js-results-count");
-    console.log(resultsCount);
     let length = items.length;
     let totalPages = Math.ceil(length / activeItems);
     activePages.push(1);
