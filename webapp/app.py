@@ -1263,11 +1263,11 @@ def build_case_study_index(engage_docs):
         page = flask.request.args.get("page", default=1, type=int)
         preview = flask.request.args.get("preview")
         language = flask.request.args.get("language", default=None, type=str)
-        # tag = flask.request.args.get("tag", default=None, type=str)
-        limit = 20  # adjust as needed
+        tag = flask.request.args.get("tag", default=None, type=str)
+        limit = 21
         offset = (page - 1) * limit
 
-        if language:
+        if tag or language:
             (
                 metadata,
                 count,
@@ -1276,6 +1276,7 @@ def build_case_study_index(engage_docs):
             ) = engage_docs.get_index(
                 limit,
                 offset,
+                tag_value=tag,
                 key="type",
                 value="case study",
                 second_key="language",
@@ -1297,6 +1298,10 @@ def build_case_study_index(engage_docs):
             if path.startswith("/engage"):
                 case_study["path"] = "https://ubuntu.com" + path
 
+        tags = engage_docs.get_engage_pages_tags()
+        # strip whitespace & remove dupes
+        processed_tags = {tag.strip() for tag in tags if tag.strip()}
+
         return flask.render_template(
             "case-study/index.html",
             forum_url=engage_docs.api.base_url,
@@ -1307,6 +1312,7 @@ def build_case_study_index(engage_docs):
             posts_per_page=limit,
             total_pages=total_pages,
             current_page=page,
+            tags=processed_tags,
         )
 
     return case_study_index
