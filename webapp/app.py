@@ -870,6 +870,7 @@ def allow_src(tag, name, value):
         return (not p.netloc) or p.netloc in allowed_sources
     return False
 
+
 # Data Platform Spark on K8s docs
 data_spark_k8s_docs = Docs(
     parser=DocParser(
