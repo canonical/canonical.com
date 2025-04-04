@@ -871,31 +871,6 @@ def allow_src(tag, name, value):
     return False
 
 
-# Multipass docs
-multipass_docs = Docs(
-    parser=DocParser(
-        api=DiscourseAPI(
-            base_url="https://discourse.ubuntu.com/", session=search_session
-        ),
-        index_topic_id=8294,
-        url_prefix="/multipass/docs",
-    ),
-    document_template="/multipass/docs/document.html",
-    url_prefix="/multipass/docs",
-    blueprint_name="multipass-docs",
-)
-app.add_url_rule(
-    "/multipass/docs/search",
-    "multipass-docs-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/multipass/docs",
-        template_path="/multipass/docs/search-results.html",
-    ),
-)
-multipass_docs.init_app(app)
-
 # Data Platform Spark on K8s docs
 data_spark_k8s_docs = Docs(
     parser=DocParser(
