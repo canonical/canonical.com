@@ -30,6 +30,12 @@ To work locally on the `/careers` section of the site, you will need to add a `H
 # Deploy
 
 You can find the deployment config in the deploy folder.
+An optional gevent worker has been included, which can be used to handle SIGINT and SIGTERM gracefully, by closing all client connections and logging the stacktrace before exiting.
+
+To use it, specify the worker type when running the server:
+```
+talisker.gunicorn.gevent webapp.app:app -k webapp.worker.LogWorker
+```
 
 # License
 
