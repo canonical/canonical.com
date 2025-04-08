@@ -102,6 +102,10 @@ class Department(object):
                 "slug": "commercial-operations",
             },
             "admin": {"name": "Administration", "slug": "administration"},
+            "alliances": {
+                "name": "Alliances & Channels",
+                "slug": "alliances-and-channels",
+            },
         }
 
         if self.slug in renames:
@@ -353,6 +357,12 @@ class Harvest:
         )
         response.raise_for_status()
         departments = json.loads(response.text)["custom_field_options"]
+
+        # Temporary fix until we move to new department list
+        if not any(
+            item["name"].lower() == "alliances" for item in departments
+        ):
+            departments.append({"id": 82559, "name": "Alliances"})
 
         return sorted(
             [Department(department["name"]) for department in departments],

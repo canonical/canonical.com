@@ -180,6 +180,7 @@ navigation.querySelectorAll(".js-navigation-tab").forEach((tab) => {
 // Is attached via HTML onclick attribute.
 function toggleSection(e) {
   e.preventDefault();
+  e.stopPropagation();
   const targetId = e.target.getAttribute("aria-controls");
   const el = document.querySelector(`.js-dropdown-window #${targetId}`);
   const currTabWindow = e.target.closest(".js-dropdown-window");
