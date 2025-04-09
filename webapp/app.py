@@ -26,10 +26,7 @@ from canonicalwebteam.discourse import (
     EngagePages,
 )
 from canonicalwebteam.search import build_search_view
-from canonicalwebteam.directory_parser import (
-    scan_directory,
-    generate_sitemap,
-)
+from canonicalwebteam.directory_parser import scan_directory, generate_sitemap
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -54,6 +51,14 @@ CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
 RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
 if not RECAPTCHA_SITE_KEY:
     logger.error("RECAPTCHA_SITE_KEY is missing!")
+
+# Sitemaps that are already generated and don't need to be updated.
+# Can be seen on sitemap_index.xml
+DYNAMIC_SITEMAPS = [
+    "careers",
+    "partners",
+    "blog",
+]
 
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
@@ -1320,49 +1325,85 @@ app.add_url_rule(
 )
 
 
-# TODO: Endpoint for testing and QA purposes only
+# Sitemap parser
+def build_sitemap_tree(exclude_paths=None):
+    def serve_sitemap():
+        """
+        Generate and serve the sitemap_tree.xml file.
+        This sitemap tracks changes in the template files and is generated
+        dynamically on every new push to main.
+        """
+        try:
+            sitemap_path = os.getcwd() + "/templates/sitemap_tree.xml"
+            directory_path = os.getcwd() + "/templates"
+            base_url = "https://canonical.com"
+
+            # Validate the secret if its a POST request
+            if flask.request.method == "POST":
+                expected_secret = os.getenv("SITEMAP_SECRET")
+                provided_secret = flask.request.headers.get(
+                    "Authorization", ""
+                ).replace("Bearer ", "")
+
+                if provided_secret != expected_secret:
+                    logging.warning("Invalid secret provided")
+                    return {"error": "Unauthorized"}, 401
+
+            # Generate sitemap if update request or if it doesn't exist
+            if flask.request.method == "POST" or not os.path.exists(
+                sitemap_path
+            ):
+                try:
+                    xml_sitemap = generate_sitemap(
+                        directory_path, base_url, exclude_paths=exclude_paths
+                    )
+                    if xml_sitemap:
+                        with open(sitemap_path, "w") as f:
+                            f.write(xml_sitemap)
+                        logging.info(f"Sitemap saved to {sitemap_path}")
+                    else:
+                        logging.warning("Sitemap is empty")
+
+                except Exception as e:
+                    logging.error(f"Error generating sitemap: {e}")
+                    return f"Generate_sitemap error: {e}", 500
+
+                if flask.request.method == "POST":
+                    return {
+                        "message": (
+                            f"Sitemap successfully generated at {sitemap_path}"
+                        )
+                    }, 200
+
+            # Serve the existing sitemap
+            with open(sitemap_path, "r") as f:
+                xml_sitemap = f.read()
+
+            response = flask.make_response(xml_sitemap)
+            response.headers["Content-Type"] = "application/xml"
+            return response
+
+        except Exception as e:
+            logging.error(f"Error in serving sitemap: {e}")
+            return f"Error generating sitemap: {e}", 500
+
+    return serve_sitemap
+
+
+# Endpoint for retrieving parsed directory tree
 def get_sitemaps_tree():
     try:
-        tree = scan_directory(os.getcwd() + "/templates")
+        tree = scan_directory(
+            os.getcwd() + "/templates", exclude_paths=DYNAMIC_SITEMAPS
+        )
     except Exception as e:
-        raise Exception(f"Error scanning directory: {e}")
+        return {"Error:": str(e)}, 500
     return tree
 
 
-get_sitemaps_tree()
 app.add_url_rule("/sitemap_parser", view_func=get_sitemaps_tree)
-
-
-def serve_sitemap():
-    try:
-        sitemap_path = os.getcwd() + "/static/files/sitemap_tree.xml"
-
-        if not os.path.exists(sitemap_path):
-            directory_path = os.getcwd() + "/templates"
-            base_url = "https://canonical.com"
-            xml_sitemap = generate_sitemap(directory_path, base_url)
-
-            if xml_sitemap:
-                with open(sitemap_path, "w") as f:
-                    f.write(xml_sitemap)
-                print(f"Sitemap saved to {sitemap_path}")
-            else:
-                raise Exception("Error generating sitemap")
-        else:
-            # Use GH actions to update the lastmod dates of sitemaps
-            print("Sitemap already exists, update")
-
-        with open(sitemap_path, "r") as f:
-            xml_sitemap = f.read()
-
-        response = flask.make_response(xml_sitemap)
-        response.headers["Content-Type"] = "application/xml"
-        return response
-
-    except Exception as e:
-        return f"Error generating sitemap: {e}", 500
-
-
-# Build sitemap on app startup
-serve_sitemap()
-app.add_url_rule("/sitemap_tree.xml", view_func=serve_sitemap)
+app.add_url_rule(
+    "/sitemap_tree.xml",
+    view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
+    methods=["GET", "POST"],
+)
