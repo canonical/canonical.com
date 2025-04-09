@@ -1314,3 +1314,13 @@ case_studies = EngagePages(
 app.add_url_rule(
     case_study_path, view_func=build_case_study_index(case_studies)
 )
+
+
+@app.route("/test/long_running")
+def long_running_request():
+    import requests
+
+    # Simulate a long-running request that blocks IO for at least 6 seconds
+    url = "https://httpbin.org/delay/100"
+    response = requests.get(url, timeout=100)
+    return response.text
