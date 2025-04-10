@@ -88,7 +88,8 @@ app.register_blueprint(application, url_prefix="/careers/application")
 
 
 # Prepare forms
-form_loader = FormGenerator(app)
+form_template_path = "shared/forms/form-template.html"
+form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
 
