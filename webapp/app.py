@@ -1322,5 +1322,5 @@ def long_running_request():
 
     # Simulate a long-running request that blocks IO for at least 6 seconds
     url = "https://httpbin.org/delay/100"
-    response = requests.get(url, timeout=100)
+    response = requests.get(url, timeout=1000)
     return response.text
