@@ -18,3 +18,5 @@ cp node_modules/intl-tel-input/build/js/utils.js static/js/modules/intl-tel-inpu
 
 mkdir -p static/js/modules/discourse-rad-parser
 cp node_modules/@canonical/discourse-rad-parser/build/js/discourse-rad-parser.js static/js/modules/discourse-rad-parser
+
+partytown copylib static/js/dist/~partytown
