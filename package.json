@@ -6,7 +6,7 @@
     "watch-js": "watch -p 'static/js/**/!(*.test)*.{jsx,ts,tsx}' -c 'node build.js'",
     "build": "yarn run build-css && yarn run build-js",
     "build-css": "sass static/sass/styles.scss static/css/styles.css --load-path=node_modules --style=compressed && postcss --map false --use autoprefixer --replace 'static/css/**/*.css'",
-    "build-js": "./scripts/build-modules.sh && yarn run partytown && node build.js",
+    "build-js": "./scripts/build-modules.sh && node build.js",
     "format-python": "black --line-length 79 webapp tests",
     "format-prettier": "prettier -w 'static/js/*.{js,jsx,ts,tsx}' 'static/sass/*.scss'",
     "lint-python": "flake8 --extend-ignore=E203 webapp tests && black --check --line-length 79 webapp tests",
@@ -17,8 +17,7 @@
     "test-python": "python3 -m unittest discover tests",
     "test-js": "jest --env=jsdom",
     "cypress:run": "cypress run --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/",
-    "cypress:open": "cypress open --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/",
-    "partytown": "partytown copylib static/js/dist/~partytown"
+    "cypress:open": "cypress open --config-file tests/cypress/cypress.json --config baseUrl=http://0.0.0.0:${PORT:-8002}/"
   },
   "dependencies": {
     "@canonical/cookie-policy": "^3.6.4",
