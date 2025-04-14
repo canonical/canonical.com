@@ -130,7 +130,7 @@
           <script src="https://assets.ubuntu.com/v1/703e23c9-lazysizes+noscript+native-loading.5.1.2.min.js"
                   defer></script>
 
-          <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/styles.css") }}" />
+          <link rel="stylesheet" type="text/css" href="{{ versioned_static('css/styles.css') }}" media="print" onload="this.media='all'" />
         </head>
 
         <body class=" 
@@ -216,6 +216,12 @@
           <!-- Cookie policy -->
           <script src="{{ versioned_static('js/modules/cookie-policy/cookie-policy.js') }}"></script>
           <script>
+            // window.addEventListener('load', function(){
+            //   setTimeout(function(){
+            //     cpNs.cookiePolicy();
+            //     console.log("hiii there");
+            //   }, 1200);
+            // });
             cpNs.cookiePolicy();
           </script>
 
