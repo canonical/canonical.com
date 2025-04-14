@@ -1,0 +1,1320 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1vdnlbFSCidiNBXZ1zVKHWNIv1kl6C0vMmQAMYfz3yhU/edit?tab=t.0
+{% endblock %}
+
+{% block title %}Canonical - open source solutions{% endblock %}
+
+{% block meta_description %}
+  Discover Canonical's open source solutions. Cost-effective, composable, and completely under your control. From the OS to AI applications and MLOps.
+{% endblock %}
+
+{% block body_class %}is-dark{% endblock %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Enterprise AI solutions <br /> built with trusted open source',
+    layout='50/50',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Innovate at speed with compliant open source – from workstations to clouds and smart devices. Get all the enterprise AI solutions you need from a trusted partner at a predictable cost.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive"
+         href="/contact-us"
+         aria-controls="ai-modal">Contact Canonical</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <iframe class="u-embedded-media__element"
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/yerW2pOczvA?si=arG1DJW8pqHzmVNU"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen=""></iframe>
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <aside class="col-3 u-hide--medium u-hide--small">
+        <div class="p-side-navigation is-sticky" style="top: 4rem;" id="drawer">
+          <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link is-active" href="#ubuntu-platform">Ubuntu platform</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#cloud-infrastructure">Cloud infrastructure</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#cloud-native-applications">Cloud-native applications</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#data-and-ai">Data and AI</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#devices-and-iot">Devices and IoT</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#open-source-security">Open source security</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#managed-solutions">Managed Solutions</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+      <main class="col-9 col-medium-6">
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="ubuntu-platform__label"
+                aria-controls="ubuntu-platform__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Ubuntu platform</span>
+        </button>
+        <div id="ubuntu-platform__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="ubuntu-platform__label">
+          <div class="p-section section-head" id="ubuntu-platform">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="cloud-infrastructure__label"
+                aria-controls="cloud-infrastructure__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Cloud infrastructure</span>
+        </button>
+        <div id="cloud-infrastructure__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="cloud-infrastructure__label">
+          <div class="p-section section-head" id="cloud-infrastructure">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="cloud-native-applications__label"
+                aria-controls="cloud-native-applications__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Cloud-native applications</span>
+        </button>
+        <div id="cloud-native-applications__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="cloud-native-applications__label">
+          <div class="p-section section-head" id="cloud-native-applications">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="data-and-ai__label"
+                aria-controls="data-and-ai__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Data and AI</span>
+        </button>
+        <div id="data-and-ai__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="data-and-ai__label">
+          <div class="p-section section-head" id="data-and-ai">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="devices-and-iot__label"
+                aria-controls="devices-and-iot__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Devices and IOT</span>
+        </button>
+        <div id="devices-and-iot__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="devices-and-iot__label">
+          <div class="p-section section-head" id="devices-and-iot">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="open-source-security__label"
+                aria-controls="open-source-security__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Open source security</span>
+        </button>
+        <div id="open-source-security__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="open-source-security__label">
+          <div class="p-section section-head" id="open-source-security">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <button type="button"
+                class="p-accordion__tab u-hide--large"
+                id="managed-solutions__label"
+                aria-controls="managed-solutions__section"
+                aria-expanded="false">
+          <span class="u-default-max-width">Managed Solutions</span>
+        </button>
+        <div id="managed-solutions__section"
+             aria-hidden="false"
+             class="p-accordion__section"
+             aria-labelledby="managed-solutions__label">
+          <div class="p-section section-head" id="managed-solutions">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/c55ce9f5-ubuntu platform.png",
+                                alt="",
+                                width="2748",
+                                height="1146",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"},) | safe
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <h2>
+                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                </h2>
+                <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
+              </div>
+              <div class="col-3">
+                <ul class="p-list--divided row">
+                  <li class="p-list__item col-3 col-medium-3 u-no-padding--top">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="">Desktop</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Server</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Iot</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Public clouds</a>
+                  </li>
+                  <li class="p-list__item col-3 col-medium-3">
+                    <a href="">Containers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="u-fixed-width">
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <h3 class="p-text--small-caps">Available on</h3>
+                <div class="p-logo-section">
+                  <div class="p-logo-section__items">
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_232,h_208/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_464,h_416/https://assets.ubuntu.com/v1/7436adb0-canonical-logo.png 2x"
+                           alt="Canonical"
+                           width="232"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_228,h_208/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_456,h_416/https://assets.ubuntu.com/v1/1836af83-microsoft-logo.png 2x"
+                           alt="Microsoft"
+                           width="228"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_101,h_208/https://assets.ubuntu.com/v1/0162459c-logo-3.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_202,h_416/https://assets.ubuntu.com/v1/0162459c-logo-3.png 2x"
+                           alt="Mozilla Thunderbird"
+                           width="101"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_113,h_208/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_226,h_416/https://assets.ubuntu.com/v1/e9bdc747-logo-4.png 2x"
+                           alt="Asahi Linux"
+                           width="113"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_93,h_208/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_186,h_416/https://assets.ubuntu.com/v1/4eae0ce4-intel-new-logo.png 2x"
+                           alt="Intel"
+                           width="93"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_155,h_208/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png"
+                           srcset="https://res.cloudinary.com/canonical/image/fetch/c_limit,f_auto,q_auto,fl_sanitize,w_310,h_416/https://assets.ubuntu.com/v1/40240055-ubports-Logo.png 2x"
+                           alt="Ubports"
+                           width="155"
+                           height="208"
+                           loading="lazy"
+                           class="p-logo-section__logo" />
+                    </div>
+                  </div>
+                </div>
+                <a>Browse more&nbsp;&rsaquo;</a>
+              </div>
+              <div class="p-section--shallow">
+                <hr class="p-rule--muted" />
+                <div class="row">
+                  <div class="col-3">
+                    <div class="p-image-container">
+                      {{ image(url="https://assets.ubuntu.com/v1/305580f8-launchdarkly-logo.png",
+                                            alt="",
+                                            width="488",
+                                            height="79",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-image-container__image"},) | safe
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+
+                    <p class="p-heading--4">
+                      <i>“It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them”.</i>
+                    </p>
+                    <hr class="p-rule--muted" />
+                    <div class="row">
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="p-heading--5">Patrick Kaeding</p>
+                      </div>
+                      <div class="col-3 col-medium-3 col-small-2">
+                        <p class="u-text--muted">
+                          Staff Security Engineer
+                          <br />
+                          LaunchDarkly
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="p-rule--muted" />
+                    <a href="">Read the story&nbsp;&rsaquo;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+      </main>
+    </div>
+  </section>
+  <script>
+    function setUpDynamicSideNav() {
+      const sections = Array.prototype.slice.call(
+        document.querySelectorAll(".section-head"),
+      );
+      const navigationLinks = Array.prototype.slice.call(
+        document.querySelectorAll(".p-side-navigation__link"),
+      );
+
+      sections.forEach(function(section) {
+        console.log("section", section);
+        const observer = new IntersectionObserver(
+          function(entry) {
+            if (entry[0].isIntersecting) {
+              console.log("entry", entry);
+              const sectionId = entry[0].target.id;
+              navigationLinks.forEach(function(link) {
+                if (link.getAttribute("href") === `#${sectionId}`) {
+                  link.classList.add("is-active");
+                } else {
+                  link.classList.remove("is-active");
+                }
+              });
+            }
+          }, {
+            rootMargin: "-5% 0px -87% 0px",
+            threshold: 0,
+          },
+        );
+
+        observer.observe(section);
+      });
+    }
+
+    setUpDynamicSideNav();
+
+
+    /**
+Toggles the necessary aria- attributes' values on the accordion panels
+and handles to show or hide them.
+@param {HTMLElement} element The tab that acts as the handles.
+@param {Boolean} show Whether to show or hide the accordion panel.
+*/
+    function toggleExpanded(element, show) {
+      var target = document.getElementById(element.getAttribute('aria-controls'));
+      if (target) {
+        element.setAttribute('aria-expanded', show);
+        target.setAttribute('aria-hidden', !show);
+        target.hidden = !show;
+      }
+    }
+
+
+    function toggleAriaHiddenForAccordionSections() {
+      const sections = document.querySelectorAll('.p-accordion__section');
+      const isSmallOrMedium = window.innerWidth <= 1036; // Adjust breakpoint as needed
+
+      sections.forEach(section => {
+        if (isSmallOrMedium) {
+          section.setAttribute('aria-hidden', 'true');
+          section.hidden = true; // visually and accessibly hidden
+        } else {
+          section.setAttribute('aria-hidden', 'false');
+          section.hidden = false;
+        }
+      });
+    }
+    toggleAriaHiddenForAccordionSections();
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(toggleAriaHiddenForAccordionSections, 10); // adjust delay as needed
+    });
+    // Run on load
+
+    let accordionButtonArray = document.querySelectorAll('.p-accordion__tab');
+    accordionButtonArray = [...accordionButtonArray];
+    console.log('accordionButtonArray', accordionButtonArray);
+    accordionButtonArray.forEach((acdButton) => {
+      acdButton.addEventListener('click', function(event) {
+        console.log('Accordion button clicked');
+        let isAccordianOpen = acdButton.getAttribute('aria-expanded') === 'true';
+        toggleExpanded(acdButton, !isAccordianOpen);
+      })
+    });
+  </script>
+
+{% endblock content %}
+
+/**
+Attaches event listeners for the accordion open and close click events.
+@param {HTMLElement} accordionContainer The accordion container element.
+*/
+function setupAccordion(accordionContainer) {
+// Finds any open panels within the container and closes them.
+function closeAllPanels() {
+var openPanels = accordionContainer.querySelectorAll('[aria-expanded=true]');
+
+for (var i = 0, l = openPanels.length; i < l; i++) {
+toggleExpanded(openPanels[i], false);
+}
+}
+
+// Set up an event listener on the container so that panels can be added
+// and removed and events do not need to be managed separately.
+accordionContainer.addEventListener('click', function(event) {
+var target = event.target;
+
+if (target.closest) {
+target = target.closest('[class*="p-accordion__tab"]');
+}
+
+if (target) {
+var isTargetOpen = target.getAttribute('aria-expanded') === 'true';
+closeAllPanels();
+
+// Toggle visibility of the target panel.
+toggleExpanded(target, !isTargetOpen);
+}
+});
+}
+
+// Setup all accordions on the page.
+var accordions = document.querySelectorAll('.p-accordion');
+
+for (var i = 0, l = accordions.length; i < l; i++) {
+setupAccordion(accordions[i]);
+}
