@@ -42,7 +42,7 @@ WORKDIR /srv
 
 # COPY necessary all files but remove those that are not required
 COPY . .
-RUN rm -rf package.json yarn.lock .babelrc webpack.config.js requirements.txt
+RUN rm -rf package.json yarn.lock .babelrc webpack.config.js requirements.txt postcss.config.js
 COPY --from=build-css /srv/static/css static/css
 COPY --from=build-js /srv/static/js static/js
 COPY --from=build-js /srv/node_modules/vanilla-framework/templates node_modules/vanilla-framework/templates
