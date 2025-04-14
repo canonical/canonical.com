@@ -10,7 +10,7 @@ let config = {
 };
 
 // Only purge in production
-if (!isDev) {
+// if (!isDev) {
   config.plugins.push(
     purgeCSSPlugin({
       content: [
@@ -21,7 +21,7 @@ if (!isDev) {
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
     })
   );
-}
+// }
 // let purgeConfig = {};
 // // Only purge in production
 // if (!isDev) {
