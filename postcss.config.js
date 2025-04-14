@@ -22,13 +22,5 @@ let config = {
     })
   );
 // }
-// let purgeConfig = {};
-// // Only purge in production
-// if (!isDev) {
-//   purgeConfig = {
-//     content: ["templates/**/*.html", "static/js/**/*.js", "webapp/js/**/*.py"],
-//     defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
-//   };
-// }
 
 module.exports = config;
