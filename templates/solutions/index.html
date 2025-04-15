@@ -15,34 +15,18 @@
 {% block body_class %}is-dark{% endblock %}
 
 {% block content %}
-  {% call(slot) vf_hero(
-    title_text='Enterprise AI solutions <br /> built with trusted open source',
-    layout='50/50',
-    is_split_on_medium=true
-    ) -%}
-    {%- if slot == 'description' -%}
-      <p>
-        Innovate at speed with compliant open source – from workstations to clouds and smart devices. Get all the enterprise AI solutions you need from a trusted partner at a predictable cost.
-      </p>
-    {%- endif -%}
-    {%- if slot == 'cta' -%}
-      <a class="p-button--positive"
-         href="/contact-us"
-         aria-controls="ai-modal">Contact Canonical</a>
-    {%- endif -%}
-    {%- if slot == 'image' -%}
-      <div class="u-embedded-media">
-        <iframe class="u-embedded-media__element"
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/yerW2pOczvA?si=arG1DJW8pqHzmVNU"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen=""></iframe>
+
+  <section class="p-section--hero">
+    <div class="p-suru--25-75">
+      <div class="row--25-75">
+        <div class="col">
+          <h1>Bring your vision and your hardware. We’ll help you with the rest.</h1>
+          <p>Deliver innovation at speed with trusted open source solutions.</p>
+          <a href="" class="p-button--positive">Get in touch</a>
+        </div>
       </div>
-    {%- endif -%}
-  {% endcall -%}
+    </div>
+  </section>
 
   <section class="p-section">
     <div class="row">
@@ -260,7 +244,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Cloud infrastructure&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -419,7 +403,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Cloud-native applications&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -578,7 +562,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Data and AI&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -737,7 +721,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Devices and IOT&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -896,7 +880,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Open source security&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -1055,7 +1039,7 @@
             <div class="row">
               <div class="col-6">
                 <h2>
-                  <a href="">Ubuntu platform&nbsp;&rsaquo;</a>
+                  <a href="">Managed Solutions&nbsp;&rsaquo;</a>
                 </h2>
                 <p>Built for simplicity, resilience, and longevity, Ubuntu is your launchpad for innovation.</p>
               </div>
@@ -1191,6 +1175,7 @@
     </div>
   </section>
   <script>
+
     function setUpDynamicSideNav() {
       const sections = Array.prototype.slice.call(
         document.querySelectorAll(".section-head"),
@@ -1200,7 +1185,6 @@
       );
 
       sections.forEach(function(section) {
-        console.log("section", section);
         const observer = new IntersectionObserver(
           function(entry) {
             if (entry[0].isIntersecting) {
@@ -1243,6 +1227,19 @@ and handles to show or hide them.
     }
 
 
+
+    // Run on load
+
+    let accordionButtonArray = document.querySelectorAll('.p-accordion__tab');
+    accordionButtonArray = [...accordionButtonArray];
+    accordionButtonArray.forEach((acdButton) => {
+      acdButton.addEventListener('click', function(event) {
+        console.log('Accordion button clicked');
+        let isAccordianOpen = acdButton.getAttribute('aria-expanded') === 'true';
+        toggleExpanded(acdButton, !isAccordianOpen);
+      })
+    });
+
     function toggleAriaHiddenForAccordionSections() {
       const sections = document.querySelectorAll('.p-accordion__section');
       const isSmallOrMedium = window.innerWidth <= 1036; // Adjust breakpoint as needed
@@ -1256,65 +1253,15 @@ and handles to show or hide them.
           section.hidden = false;
         }
       });
+      document.querySelector("#ubuntu-platform__label").click();
     }
     toggleAriaHiddenForAccordionSections();
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(toggleAriaHiddenForAccordionSections, 10); // adjust delay as needed
-    });
-    // Run on load
-
-    let accordionButtonArray = document.querySelectorAll('.p-accordion__tab');
-    accordionButtonArray = [...accordionButtonArray];
-    console.log('accordionButtonArray', accordionButtonArray);
-    accordionButtonArray.forEach((acdButton) => {
-      acdButton.addEventListener('click', function(event) {
-        console.log('Accordion button clicked');
-        let isAccordianOpen = acdButton.getAttribute('aria-expanded') === 'true';
-        toggleExpanded(acdButton, !isAccordianOpen);
-      })
+      console.log("resize event triggered");
+      resizeTimer = setTimeout(toggleAriaHiddenForAccordionSections, 10);
     });
   </script>
 
 {% endblock content %}
-
-/**
-Attaches event listeners for the accordion open and close click events.
-@param {HTMLElement} accordionContainer The accordion container element.
-*/
-function setupAccordion(accordionContainer) {
-// Finds any open panels within the container and closes them.
-function closeAllPanels() {
-var openPanels = accordionContainer.querySelectorAll('[aria-expanded=true]');
-
-for (var i = 0, l = openPanels.length; i < l; i++) {
-toggleExpanded(openPanels[i], false);
-}
-}
-
-// Set up an event listener on the container so that panels can be added
-// and removed and events do not need to be managed separately.
-accordionContainer.addEventListener('click', function(event) {
-var target = event.target;
-
-if (target.closest) {
-target = target.closest('[class*="p-accordion__tab"]');
-}
-
-if (target) {
-var isTargetOpen = target.getAttribute('aria-expanded') === 'true';
-closeAllPanels();
-
-// Toggle visibility of the target panel.
-toggleExpanded(target, !isTargetOpen);
-}
-});
-}
-
-// Setup all accordions on the page.
-var accordions = document.querySelectorAll('.p-accordion');
-
-for (var i = 0, l = accordions.length; i < l; i++) {
-setupAccordion(accordions[i]);
-}
