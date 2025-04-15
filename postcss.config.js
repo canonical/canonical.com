@@ -1,26 +1,19 @@
-// const { purgeCSSPlugin } = require("@fullhuman/postcss-purgecss");
 const purgeCSSPlugin = require("@fullhuman/postcss-purgecss");
-
-const isDev = process && process.env && process.env.NODE_ENV === "development";
-console.log("🚀 ~ isDev:", isDev);
 
 /** @type {import('postcss-load-config').Config} */
 let config = {
-  plugins: [require("autoprefixer")],
-};
-
-// Only purge in production
-// if (!isDev) {
-  config.plugins.push(
+  plugins: [
+    require("autoprefixer"),
     purgeCSSPlugin({
       content: [
         "templates/**/*.html",
+        "templates/**/*.jinja",
         "static/js/**/*.js",
         "webapp/js/**/*.py",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
-    })
-  );
-// }
+    }),
+  ],
+};
 
 module.exports = config;
