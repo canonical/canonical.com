@@ -1354,9 +1354,7 @@ def build_sitemap_tree(exclude_paths=None):
                 return {"error": "Unauthorized"}, 401
 
         # Generate sitemap if update request or if it doesn't exist
-        if flask.request.method == "POST" or not os.path.exists(
-            sitemap_path
-        ):
+        if flask.request.method == "POST" or not os.path.exists(sitemap_path):
             try:
                 xml_sitemap = directory_parser.generate_sitemap(
                     directory_path, base_url, exclude_paths=exclude_paths
