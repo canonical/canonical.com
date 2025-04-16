@@ -22,7 +22,9 @@
         <div class="col">
           <h1>Bring your vision and your hardware. We’ll help you with the rest.</h1>
           <p>Deliver innovation at speed with trusted open source solutions.</p>
-          <a href="/contact-us" aria-controls="solutions-modal" class="p-button--positive">Get in touch</a>
+          <a href="/contact-us"
+             aria-controls="solutions-modal"
+             class="p-button--positive">Get in touch</a>
         </div>
       </div>
     </div>
@@ -118,10 +120,10 @@
                   <div class="p-logo-section__items">
                     <div class="p-logo-section__item">
 
-                      {{ image(url="https://assets.ubuntu.com/v1/576bce69-aws-logo.png",
-                                            alt="AWS",
-                                            width="151",
-                                            height="313",
+                      {{ image(url="https://assets.ubuntu.com/v1/65b9c4c9-aws-logo.svg",
+                                            alt="",
+                                            width="51",
+                                            height="105",
                                             hi_def=True,
                                             loading="lazy",
                                             attrs={"class": "p-image-container__image"},) | safe
@@ -895,12 +897,12 @@
                 }}
               </div>
             </div>
-          
-                <h2>
-                  <a href="https://ubuntu.com/managed">Managed Solutions&nbsp;&rsaquo;</a>
-                </h2>
-                <p>Let us handle the complexity while you focus on innovation. </p>
-              
+
+            <h2>
+              <a href="https://ubuntu.com/managed">Managed Solutions&nbsp;&rsaquo;</a>
+            </h2>
+            <p>Let us handle the complexity while you focus on innovation.</p>
+
             <div class="u-fixed-width">
               <div class="p-section--shallow">
                 <hr class="p-rule--muted" />
@@ -1056,7 +1058,7 @@
     </div>
   </section>
 
-  {% include "/shared/forms/form-template.html" %}
+  {{ load_form("/solutions") | safe }}
 
   <script>
     function setUpDynamicSideNav() {
@@ -1146,6 +1148,5 @@ and handles to show or hide them.
       resizeTimer = setTimeout(toggleAriaHiddenForAccordionSections, 10);
     });
   </script>
-
 
 {% endblock content %}
