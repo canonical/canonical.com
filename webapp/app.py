@@ -1373,9 +1373,9 @@ def build_sitemap_tree(exclude_paths=None):
 
             xml_sitemap = create_sitemap(sitemap_path)
             return {
-                    "message": (
-                        f"Sitemap successfully generated at {sitemap_path}"
-                    )
+                "message": (
+                    f"Sitemap successfully generated at {sitemap_path}"
+                )
             }, 200
 
         # Generate sitemap if it does not exist
