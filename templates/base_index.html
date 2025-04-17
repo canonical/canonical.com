@@ -104,13 +104,17 @@
           <script src="https://assets.ubuntu.com/v1/703e23c9-lazysizes+noscript+native-loading.5.1.2.min.js"
                   defer></script>
 
-          <!-- Optimized CSS Loading -->
+          <!-- Critical CSS -->
+          <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/critical.css") }}" />
+
+          <!-- Non-critical CSS -->
           <link rel="preload" href="{{ versioned_static("css/styles.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
           <noscript><link rel="stylesheet" href="{{ versioned_static("css/styles.css") }}"></noscript>
           <script>
             /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
             !function(e){"use strict";var n=function(n,t,r){function o(e){return i.body?e():void setTimeout(function(){o(e)})}function l(){d.addEventListener&&d.removeEventListener("load",l),d.media=r||"all"}var i=e.document,d=e.document.createElement("link"),a=t||i.getElementsByTagName("script")[0];d.rel="stylesheet",d.href=n,d.media="only x",o(function(){a.parentNode.insertBefore(d,a)})};e.loadCSS=n}("undefined"!=typeof global?global:this);
           </script>
+
         </head>
 
         <body class=" 
