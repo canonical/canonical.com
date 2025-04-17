@@ -1332,6 +1332,26 @@ app.add_url_rule(
 
 # Sitemap parser
 def build_sitemap_tree(exclude_paths=None):
+    def create_sitemap(sitemap_path):
+        directory_path = os.getcwd() + "/templates"
+        base_url = "https://canonical.com"
+        try:
+            xml_sitemap = directory_parser.generate_sitemap(
+                directory_path, base_url, exclude_paths=exclude_paths
+            )
+            if xml_sitemap:
+                with open(sitemap_path, "w") as f:
+                    f.write(xml_sitemap)
+                logging.info(f"Sitemap saved to {sitemap_path}")
+
+                return xml_sitemap
+            else:
+                logging.warning("Sitemap is empty")
+
+        except Exception as e:
+            logging.error(f"Error generating sitemap: {e}")
+            return f"Generate_sitemap error: {e}", 500
+
     def serve_sitemap():
         """
         Generate and serve the sitemap_tree.xml file.
@@ -1339,10 +1359,8 @@ def build_sitemap_tree(exclude_paths=None):
         dynamically on every new push to main.
         """
         sitemap_path = os.getcwd() + "/templates/sitemap_tree.xml"
-        directory_path = os.getcwd() + "/templates"
-        base_url = "https://canonical.com"
 
-        # Validate the secret if its a POST request
+        # Update sitemap with POST request
         if flask.request.method == "POST":
             expected_secret = os.getenv("SITEMAP_SECRET")
             provided_secret = flask.request.headers.get(
@@ -1353,29 +1371,16 @@ def build_sitemap_tree(exclude_paths=None):
                 logging.warning("Invalid secret provided")
                 return {"error": "Unauthorized"}, 401
 
-        # Generate sitemap if update request or if it doesn't exist
-        if flask.request.method == "POST" or not os.path.exists(sitemap_path):
-            try:
-                xml_sitemap = directory_parser.generate_sitemap(
-                    directory_path, base_url, exclude_paths=exclude_paths
-                )
-                if xml_sitemap:
-                    with open(sitemap_path, "w") as f:
-                        f.write(xml_sitemap)
-                    logging.info(f"Sitemap saved to {sitemap_path}")
-                else:
-                    logging.warning("Sitemap is empty")
-
-            except Exception as e:
-                logging.error(f"Error generating sitemap: {e}")
-                return f"Generate_sitemap error: {e}", 500
-
-            if flask.request.method == "POST":
-                return {
+            xml_sitemap = create_sitemap(sitemap_path)
+            return {
                     "message": (
                         f"Sitemap successfully generated at {sitemap_path}"
                     )
-                }, 200
+            }, 200
+
+        # Generate sitemap if it does not exist
+        if not os.path.exists(sitemap_path):
+            xml_sitemap = create_sitemap(sitemap_path)
 
         # Serve the existing sitemap
         with open(sitemap_path, "r") as f:
