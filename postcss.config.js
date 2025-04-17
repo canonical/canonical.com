@@ -25,21 +25,21 @@ let config = {
         standard: [
           /^cookie-policy/,
           /^form/,
-          /^p-/, // Preserve form related classes
-          /^u-/, // Utility classes
-          /^js-/, // JavaScript-related classes
+          /^p-/,  // Preserve form related classes
+          /^u-/,  // Utility classes
+          /^js-/  // JavaScript-related classes
         ],
         greedy: [
           /^iti/,
-          /^mktoForm/, // Marketo forms
-          /^cc-/, // Cookie consent related
-          /^optanon/, // Cookie consent related
-          /^has-/, // State-related classes
+          /^mktoForm/,  // Marketo forms
+          /^cc-/,      // Cookie consent related
+          /^optanon/,  // Cookie consent related
+          /^has-/      // State-related classes
         ],
-        deep: [/form-.+/],
-        keyframes: true,
-        variables: true,
-      },
+        deep: [/form-.+/], // Classes that start with form- and have more segments
+        keyframes: true,    // Preserve all keyframe animations
+        variables: true     // Preserve CSS variables
+      }
     }),
   ],
 };
