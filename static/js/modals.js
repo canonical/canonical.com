@@ -135,14 +135,15 @@
   }
 
   // Add click handler for clicks on elements with aria-controls
-  document.addEventListener("click", function (event) {
-    var targetControls = event.target.getAttribute("aria-controls");
-    if (targetControls) {
-      event.preventDefault();
+  document.addEventListener("click", function (e) {
+    const isModalTrigger = e.target.closest(".js-invoke-modal");
+    const isCloseButton = e.target.closest(".p-modal-close-button");
+    if (isModalTrigger || isCloseButton) {
+      e.preventDefault();
 
-      toggleModal(document.getElementById(targetControls), event.target);
+      const targetControls = e.target.getAttribute("aria-controls");
+      toggleModal(document.getElementById(targetControls), e.target, isModalTrigger ? true : false);
     }
-
     return false;
   });
 

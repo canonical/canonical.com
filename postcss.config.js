@@ -12,6 +12,11 @@ let config = {
         "webapp/js/**/*.py",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+      safelist: {
+        greedy: [
+            /^iti/
+        ],
+      }
     }),
   ],
 };
