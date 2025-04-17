@@ -73,7 +73,6 @@ app = FlaskBase(
     template_500="500.html",
 )
 
-# Jinja macros
 # ChoiceLoader attempts loading templates from each path in successive order
 directory_parser_templates = (
     Path(directory_parser.__file__).parent / "templates"
