@@ -8,15 +8,38 @@ let config = {
       content: [
         "templates/**/*.html",
         "templates/**/*.jinja",
-        "static/js/**/*.js",
-        "webapp/js/**/*.py",
+        "static/**/*.js",
+        "static/**/*.tsx",
+        "webapp/**/*.py",
+        "templates/**/*.md",
+        "templates/**/*.py",
+        "templates/**/*.xml",
+        "static/*.js",
+        "static/*.jsx",
+        "static/*.md",
+        "static/*.tsx",
+        "static/*.xml",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
-        greedy: [
-            /^iti/
+        standard: [
+          /^cookie-policy/,
+          /^form/,
+          /^p-/, // Preserve form related classes
+          /^u-/, // Utility classes
+          /^js-/, // JavaScript-related classes
         ],
-      }
+        greedy: [
+          /^iti/,
+          /^mktoForm/, // Marketo forms
+          /^cc-/, // Cookie consent related
+          /^optanon/, // Cookie consent related
+          /^has-/, // State-related classes
+        ],
+        deep: [/form-.+/],
+        keyframes: true,
+        variables: true,
+      },
     }),
   ],
 };
