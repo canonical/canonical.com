@@ -105,7 +105,9 @@
                   defer></script>
 
           <!-- Critical CSS -->
-          <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/critical.css") }}" />
+          <!-- <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/critical.css") }}" /> -->
+
+          <style>{{ inline_critical_css|safe }}</style>
 
           <!-- Non-critical CSS -->
           <link rel="preload" href="{{ versioned_static("css/styles.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
