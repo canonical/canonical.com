@@ -28,6 +28,7 @@ let config2 = {
 
         // base index html
         "templates/base_index.html",
+        "templates/index.html",
         // navigation files
         "templates/navigation/*.html",
         
