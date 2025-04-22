@@ -12,6 +12,7 @@ import flask
 import markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 import math
+import requests
 
 # Packages
 from canonicalwebteam import image_template
@@ -1149,7 +1150,7 @@ microstack_docs.init_app(app)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
@@ -1222,6 +1223,18 @@ def osredirect(osname):
     )
     release = json.load(open(json_path))
     return flask.redirect(release["installer_urls"][osname], code=302)
+
+
+@app.route('/proxy/<path:path>')
+def proxy(path):
+    # Reconstruct the full URL
+    # Path includes the full URL path, e.g., /munchkin.marketo.net/munchkin-beta.js
+    url = f"https:/{path}"
+    try:
+        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+        return flask.Response(resp.content, resp.status_code, mimetype=resp.headers.get('content-type'))
+    except Exception as e:
+        return f"Proxy error: {str(e)}", 500
 
 
 @app.after_request
