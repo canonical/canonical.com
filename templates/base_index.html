@@ -71,6 +71,28 @@
             });
           </script> -->
           <script type="text/partytown" src="https://www.googletagmanager.com/gtm.js?id=GTM-M5BPGQ6"></script>
+
+          <script>
+            // Fallback to load GA page view if GTM doesn't fire within 2 seconds
+            setTimeout(function() {
+              if (!window.google_tag_manager || !window.google_tag_manager['GTM-M5BPGQ6']) {
+                (function(w, d, s, l, i) {
+                  w[l] = w[l] || [];
+                  w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                  });
+                  var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                  j.async = true;
+                  j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                  f.parentNode.insertBefore(j, f);
+                })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
+              }
+            }, 2000);
+          </script>
           
           <title>
 
