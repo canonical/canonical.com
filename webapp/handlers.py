@@ -44,6 +44,7 @@ CSP = {
         "www.tfaforms.com",
         "api.usabilla.com",
         "*.cloudfront.net",
+        "maps.googleapis.com",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -89,6 +90,7 @@ CSP = {
         "google.com",
         "fonts.google.com",
         "api.text.com",
+        "maps.googleapis.com",
     ],
     "frame-src": [
         "'self'",
