@@ -1229,7 +1229,10 @@ def osredirect(osname):
 def proxy(path):
     # Reconstruct the full URL
     # Path includes the full URL path, e.g., /munchkin.marketo.net/munchkin-beta.js
-    url = f"https:/{path}"
+    # url = f"https:/{path}"
+    url = f"https://www.googletagmanager.com/{path}"
+    # resp = requests.get(url)
+    # return flask.Response(resp.content, resp.status_code, mimetype=resp.headers['content-type'])
     try:
         resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
         return flask.Response(resp.content, resp.status_code, mimetype=resp.headers.get('content-type'))
