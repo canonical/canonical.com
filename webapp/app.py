@@ -1149,7 +1149,7 @@ microstack_docs.init_app(app)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix):]
+        message = str(e)[len(prefix) :]
     return flask.render_template("502.html", message=message), 502
 
 
