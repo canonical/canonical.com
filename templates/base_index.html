@@ -105,6 +105,11 @@
                   defer></script>
 
           <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/styles.css") }}" />
+
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+          </script>
         </head>
 
         <body class=" 
@@ -194,7 +199,7 @@
           </script>
 
            <!-- Google Tag Manager -->
-          <script>
+          <!-- <script>
             window.addEventListener('load', function(){
               setTimeout(function(){
                 (function(w, d, s, l, i) {
@@ -212,10 +217,39 @@
                 })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
               }, 0);
             });
+          </script> -->
+
+          <script>
+            function loadGTM() {
+              var gtmScript = document.createElement('script');
+              gtmScript.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-M5BPGQ6';
+              gtmScript.async = true;
+              document.body.appendChild(gtmScript);
+            }
+
+            // Flag to prevent double-loading
+            let gtmLoaded = false;
+
+            function loadGTMHandler() {
+              if (!gtmLoaded) {
+                gtmLoaded = true;
+                loadGTM();
+              }
+            }
+
+            // Load GTM after DOMContentLoaded, with a fallback
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+              loadGTMHandler();
+            } else {
+              document.addEventListener('DOMContentLoaded', loadGTMHandler);
+            }
+
+            // Fallback: Load GTM after 2 seconds if DOMContentLoaded doesn't fire
+            setTimeout(loadGTMHandler, 2000);
           </script>
           <!-- <script>
-            document.addEventListener('load', () => {
-              /** init gtm after 3500 seconds - this could be adjusted */
+            document.addEventListener('DOMContentLoaded', () => {
+              /** init gtm after 1 second - this could be adjusted */
               setTimeout(initGTM, 1000);
             });
             document.addEventListener('scroll', initGTMOnEvent);
