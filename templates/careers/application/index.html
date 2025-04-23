@@ -110,7 +110,7 @@
           <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
           <ul class="p-inline-list--middot u-no-margin--bottom">
             {% for app in application["candidate"]["applications"] %}
-              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 %}
+              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 and app["jobs"][0]["id"] != second_look_req_id %}
                 <li class="p-inline-list__item">
                   <a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a>
                 </li>
