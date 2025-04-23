@@ -236,12 +236,15 @@
                 loadGTM();
               }
             }
+            console.log("🚀 ~ document.readyState:", document.readyState)
 
             // Load GTM after DOMContentLoaded, with a fallback
             if (document.readyState === 'complete' || document.readyState === 'interactive') {
-              loadGTMHandler();
+              setTimeout(loadGTMHandler, 100);
             } else {
-              document.addEventListener('DOMContentLoaded', loadGTMHandler);
+              document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(loadGTMHandler, 100);
+              });
             }
 
             // Fallback: Load GTM after 2 seconds if DOMContentLoaded doesn't fire
