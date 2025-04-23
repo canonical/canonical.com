@@ -246,9 +246,9 @@
             setTimeout(loadGTMHandler, 2000);
           </script> -->
           <script>
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('load', () => {
               /** init gtm after 2 seconds - this could be adjusted */
-              setTimeout(initGTM, 2000);
+              setTimeout(initGTM, 0);
             });
             document.addEventListener('scroll', initGTMOnEvent);
             document.addEventListener('mousemove', initGTMOnEvent);
@@ -264,7 +264,7 @@
                 return false;
               }
               window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-              
+
               (function(w, d, s, l, i) {
                 w[l] = w[l] || [];
                 w[l].push({
