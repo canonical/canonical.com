@@ -13,6 +13,7 @@ import markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 import math
 import requests
+import urllib.parse
 
 # Packages
 from canonicalwebteam import image_template
@@ -1230,14 +1231,39 @@ def proxy(path):
     # Reconstruct the full URL
     # Path includes the full URL path, e.g., /munchkin.marketo.net/munchkin-beta.js
     # url = f"https:/{path}"
-    url = f"https://www.googletagmanager.com/{path}"
-    # resp = requests.get(url)
-    # return flask.Response(resp.content, resp.status_code, mimetype=resp.headers['content-type'])
+
     try:
-        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+        # Log the incoming request details
+        logger.debug(
+            f"Incoming request: {flask.request.method} {flask.request.url}")
+        logger.debug(f"Headers: {flask.request.headers}")
+        logger.debug(f"Path: {path}")
+
+        # Get the query string from the incoming flask.request
+        query_string = flask.request.query_string.decode('utf-8')
+        logger.debug(f"Query string: {query_string}")
+
+        # Reconstruct the full URL with query string
+        # full_url = f"https://www.googletagmanager.com/{path}"
+        full_url = f"https://{path}"
+        if query_string:
+            full_url = f"{full_url}?{query_string}"
+        logger.debug(f"Proxying to: {full_url}")
+
+        # Make the request to the external URL
+        resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'})
+        logger.debug(f"Response status: {resp.status_code}")
+
+        # full_url = f"https://www.googletagmanager.com/{path}"
+
         return flask.Response(resp.content, resp.status_code, mimetype=resp.headers.get('content-type'))
-    except Exception as e:
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request error: {str(e)}")
         return f"Proxy error: {str(e)}", 500
+    except Exception as e:
+        logger.error(f"Unexpected error: {str(e)}")
+        return f"Unexpected error: {str(e)}", 500
 
 
 @app.after_request
