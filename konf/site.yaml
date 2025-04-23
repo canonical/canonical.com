@@ -135,6 +135,11 @@ production:
             key: scheduler_account_private_key
             name: greenhouse-credentials
 
+        - name: SITEMAP_SECRET
+          secretKeyRef:
+            key: secret
+            name: sitemaps
+
   nginxConfigurationSnippet: |
     if ($host = 'blog.canonical.com' ) {
       rewrite ^ https://canonical.com/blog$request_uri? permanent;
