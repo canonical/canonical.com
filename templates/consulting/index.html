@@ -1,3 +1,5 @@
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% extends 'base_index.html' %}
 
 {% block meta_copydoc %}
@@ -12,3 +14,76 @@
     is-paper
 {% endblock body_class %}
 
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Open source consulting',
+    layout='50/50-full-width-image'
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Let Canonical’s delivery experts design and deploy the ideal open source solution for your use case. With a fixed cost and guaranteed outcome on every project, you pay for results rather than hours.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="#" class="p-button--positive">Contact us</a>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+      {{ image(url="https://assets.ubuntu.com/v1/7f56d2f2-consulting-hero.jpg",
+        alt="",
+        width="2464",
+        height="1027",
+        hi_def=True,
+        loading="auto"
+        ) | safe
+      }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <section class="u-fixed-width">
+    <hr class="p-rule--muted"/>
+    <div class="p-section--shallow">
+      <h2>
+        Why choose Canonical’s open source consulting services?
+      </h2>
+    </div>
+
+    <div class="row--25-75-on-large">
+      <div class="col">
+  
+      </div>
+      <div class="col">
+        <div class="p-equal-height-row">
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We guarantee the outcome with a fixed price
+            </p>
+            <p class="p-equal-height-row__item">
+              A fixed price and fixed outcome on every engagement guarantees you an enterprise grade solution with no uncertainties and no hidden costs. You can rely on consistent, reliable results.
+            </p>
+          </div>
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We knowthe technologies inside-out
+            </p>
+            <p class="p-equal-height-row__item">
+              If you choose Canonical's open source technologies, you can rest assured in our delivery as we know them best. We distribute, package and secure our own products. We are the true authority in delivering them to our customers.
+            </p>
+          </div>
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We bring proven delivery expertise
+            </p>
+            <p class="p-equal-height-row__item">
+              We have been delivering open source infrastructure and applications for over 20 years, supporting thousands of customers across the full compute spectrum.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
