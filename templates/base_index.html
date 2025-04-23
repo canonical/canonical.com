@@ -194,95 +194,9 @@
           </script>
 
            <!-- Google Tag Manager -->
-          <!-- <script>
-            window.addEventListener('load', function(){
-              setTimeout(function(){
-                (function(w, d, s, l, i) {
-                  w[l] = w[l] || [];
-                  w[l].push({
-                    'gtm.start': new Date().getTime(),
-                    event: 'gtm.js'
-                  });
-                  var f = d.getElementsByTagName(s)[0],
-                  j = d.createElement(s),
-                  dl = l != 'dataLayer' ? '&l=' + l : '';
-                  j.async = true;
-                  j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                  f.parentNode.insertBefore(j, f);
-                })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
-              }, 0);
-            });
-          </script> -->
-
-          <!-- <script>
-            function loadGTM() {
-              var gtmScript = document.createElement('script');
-              gtmScript.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-M5BPGQ6';
-              gtmScript.async = true;
-              document.body.appendChild(gtmScript);
-            }
-
-            // Flag to prevent double-loading
-            let gtmLoaded = false;
-
-            function loadGTMHandler() {
-              if (!gtmLoaded) {
-                gtmLoaded = true;
-                loadGTM();
-              }
-            }
-            console.log("🚀 ~ document.readyState:", document.readyState)
-
-            // Load GTM after DOMContentLoaded, with a fallback
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-              setTimeout(loadGTMHandler, 100);
-            } else {
-              document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(loadGTMHandler, 100);
-              });
-            }
-
-            // Fallback: Load GTM after 2 seconds if DOMContentLoaded doesn't fire
-            setTimeout(loadGTMHandler, 2000);
-          </script> -->
           <script>
-            document.addEventListener('load', () => {
-              /** init gtm after 2 seconds - this could be adjusted */
-              setTimeout(initGTM, 0);
-            });
-            document.addEventListener('scroll', initGTMOnEvent);
-            document.addEventListener('mousemove', initGTMOnEvent);
-            document.addEventListener('touchstart', initGTMOnEvent);
-
-            function initGTMOnEvent(event) {
-              initGTM();
-              event.currentTarget.removeEventListener(event.type, initGTMOnEvent); // remove the event listener that got triggered
-            }
-            
-            function initGTM() {
-              if (window.gtmDidInit) {
-                return false;
-              }
-              window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-
-              (function(w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({
-                  'gtm.start': new Date().getTime(),
-                  event: 'gtm.js'
-                });
-                var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-              })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
-            }
-          </script>
-          <!-- <script>
             document.addEventListener('DOMContentLoaded', () => {
-              /** init gtm after 2 seconds - this could be adjusted */
+              /** init gtm after 2 seconds - can be adjusted */
               setTimeout(initGTM, 2000);
             });
             document.addEventListener('scroll', initGTMOnEvent);
@@ -299,17 +213,22 @@
                 return false;
               }
               window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-              const script = document.createElement('script');
-              script.type = 'text/javascript';
-              script.async = true;
-              // ensure PageViews is always tracked (on script load)
-              script.onload = () => {
-                dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime(), 'gtm.uniqueEventId': 0 });
-              };
-              script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-M5BPGQ6';
-              document.head.appendChild(script);
+              
+              (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                  'gtm.start': new Date().getTime(),
+                  event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+              })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
             }
-          </script> -->
+          </script>
 
         </body>
 
