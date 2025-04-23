@@ -1,0 +1,37 @@
+<script>
+    // This script is used to handle the toggling of the sidebar menu in the consulting template.
+    // It sets up event listeners for the toggle buttons and manages the aria-expanded attributes.
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabButtons = document.querySelectorAll('[role="tab"]');
+        tabButtons.forEach(button => {
+            console.log("Setting up button:", button);
+            buttonControl = button.getAttribute("aria-controls");
+            button.addEventListener("click", toggleContent);
+        });
+    });
+    
+    function toggleContent(event) {
+        const button = event.currentTarget;
+        tabButtons = document.querySelectorAll('[role="tab"]');
+        tabButtons.forEach(btn => {
+            btn.removeAttribute("aria-current");
+        });
+        button.setAttribute("aria-current", "page");
+
+
+        const openedTab = button.getAttribute("aria-controls");
+        const tabContents = document.querySelectorAll('[role="tabpanel"]');
+        tabContents.forEach(content => {
+            console.log(content.getAttribute("id"));
+            if (content.getAttribute("id") === openedTab) {
+                content.setAttribute("aria-hidden", "false");
+                content.removeAttribute("hidden");
+            } else {
+                content.setAttribute("aria-hidden", "true");
+                content.setAttribute("hidden", "true");
+            }
+        });
+    }
+    
+</script>
