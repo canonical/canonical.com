@@ -20,7 +20,7 @@ from webapp.greenhouse import Harvest
 from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
-from webapp.utils.constants import ONE_WEEK_IN_MINUTES
+from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
 from webapp.requests_session import get_requests_session
 
 withdrawal_reasons = {
@@ -449,6 +449,7 @@ def application_index(harvest, token):
         application=application,
         candidate=application["candidate"],
         withdrawn=withdrawn,
+        second_look_req_id=SECOND_LOOK_REQ_ID,
     )
 
 
