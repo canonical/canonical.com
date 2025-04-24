@@ -34,6 +34,7 @@ from slugify import slugify
 # Local
 from webapp.application import application
 from webapp.greenhouse import Greenhouse, Harvest
+from webapp.handlers import init_handlers
 from webapp.partners import Partners
 from webapp.static_data import homepage_featured_products
 from webapp.navigation import (
@@ -225,6 +226,11 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
                 )
 
     return all_departments, departments_overview
+
+
+sentry = app.extensions["sentry"]
+
+init_handlers(app, sentry)
 
 
 @app.route("/")
