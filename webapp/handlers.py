@@ -48,6 +48,7 @@ CSP = {
         "'self'",
         "www.google.com",
         "ubuntu.com",
+        "canonical.com",
         "analytics.google.com",
         "www.googletagmanager.com",
         "sentry.is.canonical.com",
