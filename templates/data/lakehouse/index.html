@@ -38,7 +38,7 @@
                class="p-button--positive">Access the whitepaper</a>
         {%- endif -%}
         {%- if slot == 'image' -%}
-            <div class="p-image-container--cinematic is-cover">
+            <div class="p-image-container--cinematic is-cover u-hide--small">
                 {{ image(url="https://assets.ubuntu.com/v1/8c9080ed-hero-img.jpg",
                                 alt="",
                                 width="2464",
@@ -190,7 +190,11 @@
         <div class="p-section--shallow">
             <div class="row--50-50">
                 <div class="col">
-                    <h2>Data lakehouse vs. data lake vs. data warehouse</h2>
+                    <h2>
+                        Data lakehouse vs. data lake
+                        <br />
+                        vs. data warehouse
+                    </h2>
                 </div>
                 <div class="col">
                     <p>
@@ -201,7 +205,8 @@
         </div>
 
         <div class="u-fixed-width">
-            <table>
+            <table aria-label="Datalakes vs data warehouses vs data lakehouses comparisons"
+                   class="p-table--mobile-card">
                 <thead>
                     <tr>
                         <th>Feature</th>
@@ -212,34 +217,38 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
+                        <td data-heading="Feature">
                             <b>Data format</b>
                         </td>
-                        <td>Stores unprocessed data in its original format.</td>
-                        <td>Stores preprocessed structured data.</td>
-                        <td>
+                        <td data-heading="Data Lake" class="has-overflow">Stores unprocessed data in its original format.</td>
+                        <td data-heading="Data Warehouse" class="has-overflow">Stores preprocessed structured data.</td>
+                        <td data-heading="Data Lakehouse" class="has-overflow">
                             Combines both capabilities, allowing heterogeneous data to be stored and processed directly within the environment.
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td data-heading="Feature" class="has-overflow">
                             <b>Cost effectiveness</b>
                         </td>
-                        <td>
+                        <td data-heading="Data Lake" class="has-overflow">
                             Generally cost effective. Avoids the expense associated with structuring data during ingestion, and offers high scalability to handle growing volumes of data.
                         </td>
-                        <td>
+                        <td data-heading="Data Warehouse" class="has-overflow">
                             Tends to be more expensive because of processing requirements, which results in more limited scalability than data lakes.
                         </td>
-                        <td>Balances cost and scalability, offering affordable storage for raw data with advanced analytics capabilities.</td>
+                        <td data-heading="Data Lakehouse" class="has-overflow">
+                            Balances cost and scalability, offering affordable storage for raw data with advanced analytics capabilities.
+                        </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td data-heading="Feature">
                             <b>Use cases</b>
                         </td>
-                        <td>Ideal for exploratory analysis on heterogeneous data.</td>
-                        <td>Optimized for business intelligence.</td>
-                        <td>Enables governance and advanced analytics on different types of data.</td>
+                        <td data-heading="Data Lake" class="has-overflow">Ideal for exploratory analysis on heterogeneous data.</td>
+                        <td data-heading="Data Warehouse" class="has-overflow">Optimized for business intelligence.</td>
+                        <td data-heading="Data Lakehouse" class="has-overflow">
+                            Enables governance and advanced analytics on different types of data.
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -279,13 +288,13 @@
                 <h2 class="p-muted-heading u-text--muted">Canonical solutions for data lakehouses</h2>
             </div>
         </div>
-        <hr class="p-rule--muted is-fixed-width" />
+        <hr class="p-rule--muted is-fixed-width u-hide--medium u-hide--small" />
         <div class="p-equal-height-row p-equal-height-row-50-50">
             <div class="p-equal-height-row__col">
                 <div class="p-equal-height-row__item">
-                    <h2>
+                    <h3 class="p-heading--2">
                         Apache Spark<sup>&reg;</sup>
-                    </h2>
+                    </h3>
                 </div>
                 <p class="p-equal-height-row__item">
                     Canonical offers a sophisticated solution for
@@ -302,9 +311,9 @@
             </div>
             <div class="p-equal-height-row__col">
                 <div class="p-equal-height-row__item">
-                    <h2>
+                    <h3 class="p-heading--2">
                         Apache Kafka<sup>&reg;</sup>
-                    </h2>
+                    </h3>
                 </div>
                 <p class="p-equal-height-row__item">
                     Canonical offers an advanced solution for deploying and operating Apache Kafka, a free and open source event data processing hub developed by the Apache Software Foundation.
@@ -407,5 +416,11 @@
     </section>
 
     {{ load_form("/data/lakehouse") | safe }}
+
+    <style>
+      .p-table--mobile-card td.has-overflow {
+        text-wrap: auto;
+      }
+    </style>
 
 {% endblock %}
