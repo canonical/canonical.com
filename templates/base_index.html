@@ -21,32 +21,6 @@
           <meta property="og:type" content="website" />
           <meta property="og:url" content="{{ request.url }}" />
           <meta property="og:site_name" content="Canonical" />
-
-          <script>
-            partytown = {
-              forward: ["dataLayer.push"],
-              lib: "/static/js/dist/~partytown/",
-            };
-          </script>
-          <script type="text/javascript" src="/static/js/dist/~partytown/partytown.js"></script>
-
-          <!-- Google Tag Manager -->
-          <script type="text/partytown">
-            (function(w, d, s, l, i) {
-              w[l] = w[l] || [];
-              w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-              });
-              var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-              j.async = true;
-              j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-              f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
-          </script>
           
           <title>
 
@@ -217,6 +191,43 @@
           <script src="{{ versioned_static('js/modules/cookie-policy/cookie-policy.js') }}"></script>
           <script>
             cpNs.cookiePolicy();
+          </script>
+
+           <!-- Google Tag Manager -->
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              /** init gtm after 2 seconds - can be adjusted */
+              setTimeout(initGTM, 2000);
+            });
+            document.addEventListener('scroll', initGTMOnEvent);
+            document.addEventListener('mousemove', initGTMOnEvent);
+            document.addEventListener('touchstart', initGTMOnEvent);
+
+            function initGTMOnEvent(event) {
+              initGTM();
+              event.currentTarget.removeEventListener(event.type, initGTMOnEvent); // remove the event listener that got triggered
+            }
+            
+            function initGTM() {
+              if (window.gtmDidInit) {
+                return false;
+              }
+              window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
+              
+              (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                  'gtm.start': new Date().getTime(),
+                  event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+              })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
+            }
           </script>
 
         </body>
