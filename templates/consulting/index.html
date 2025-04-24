@@ -29,7 +29,7 @@
       </p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
-      <a aria-controls="contact-consulting" a class="js-invoke-modal p-button--positive">Contact us</a>
+      <a aria-controls="consulting-modal" a class="js-invoke-modal p-button--positive">Contact us</a>
     {%- endif -%}
 
     {%- if slot == 'image' -%}
@@ -444,7 +444,7 @@
   <section class="p-section u-fixed-width">
     <hr class="p-rule--muted" />
     <div class="p-strip">
-      <a aria-controls="contact-consulting" class="js-invoke-modal">
+      <a aria-controls="consulting-modal" class="js-invoke-modal">
         <h2>
           Get in touch to discuss your consulting needs ›
         </h2>
@@ -452,7 +452,8 @@
     </div>
   </section>
 
-{% include 'consulting/sidebar-tabs.html' %}
-{{ load_form("/consulting/index") | safe }}
+  {{ load_form('/consulting') | safe }}
 
+  {% include 'consulting/sidebar-tabs.html' %}
+  
 {% endblock %}

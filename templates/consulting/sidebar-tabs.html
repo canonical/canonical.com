@@ -5,7 +5,6 @@
     document.addEventListener("DOMContentLoaded", function() {
         const tabButtons = document.querySelectorAll('[role="tab"]');
         tabButtons.forEach(button => {
-            console.log("Setting up button:", button);
             buttonControl = button.getAttribute("aria-controls");
             button.addEventListener("click", toggleContent);
         });
@@ -23,7 +22,6 @@
         const openedTab = button.getAttribute("aria-controls");
         const tabContents = document.querySelectorAll('[role="tabpanel"]');
         tabContents.forEach(content => {
-            console.log(content.getAttribute("id"));
             if (content.getAttribute("id") === openedTab) {
                 content.setAttribute("aria-hidden", "false");
                 content.removeAttribute("hidden");
