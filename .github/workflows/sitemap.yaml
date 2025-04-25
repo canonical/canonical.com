@@ -15,11 +15,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Call sitemap generation endpoint
-        env:
-          SITEMAP_SECRET: ${{ secrets.SITEMAP_SECRET }}
         run: |
           curl -X POST "https://canonical.com/sitemap_tree.xml" \
-          -H "Authorization: Bearer $SITEMAP_SECRET"
+          -H "Authorization: Bearer ${{ secrets.SITEMAP_SECRET }}" \
 
 
       - name: Send message on failure
