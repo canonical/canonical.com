@@ -96,6 +96,11 @@ env:
   - name: RECAPTCHA_SCORE_THRESHOLD
     value: "0.5"
 
+  - name: SITEMAP_SECRET
+    secretKeyRef:
+      key: secret
+      name: sitemaps
+
 extraHosts:
   - domain: blog.canonical.com
   - domain: design.canonical.com
@@ -133,12 +138,7 @@ production:
         - name: SERVICE_ACCOUNT_PRIVATE_KEY
           secretKeyRef:
             key: scheduler_account_private_key
-            name: greenhouse-credentials
-
-        - name: SITEMAP_SECRET
-          secretKeyRef:
-            key: secret
-            name: sitemaps
+            name: greenhouse-credentials        
 
   nginxConfigurationSnippet: |
     if ($host = 'blog.canonical.com' ) {
