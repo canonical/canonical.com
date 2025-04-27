@@ -37,9 +37,9 @@ let config2 = {
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
         standard: [
-          /^cookie-policy/,
+          // /^cookie-policy/,
           // /^form/,
-          /^p-/,  // Preserve form related classes
+          // /^p-/,  // Preserve form related classes
           // /^u-/,  // Utility classes
           // /^js-/  // JavaScript-related classes
         ],
@@ -51,8 +51,8 @@ let config2 = {
         //   /^has-/      // State-related classes
         // ],
         // deep: [/form-.+/], // Classes that start with form- and have more segments
-        keyframes: true,    // Preserve all keyframe animations
-        variables: true     // Preserve CSS variables
+        // keyframes: true,    // Preserve all keyframe animations
+        // variables: true     // Preserve CSS variables
       }
     }),
   ],
