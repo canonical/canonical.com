@@ -3,6 +3,7 @@
   var lastFocus = null;
   var ignoreFocusChanges = false;
   var focusAfterClose = null;
+  var modalTrigger = null;
 
   const triggeringHash = "#get-in-touch";
 
@@ -132,17 +133,30 @@
     modals.forEach(function (modal) {
       toggleModal(modal, false, false);
     });
+    if (modalTrigger) {
+      modalTrigger.setAttribute("aria-expanded", false);
+    }
   }
 
   // Add click handler for clicks on elements with aria-controls
   document.addEventListener("click", function (e) {
     const isModalTrigger = e.target.closest(".js-invoke-modal");
     const isCloseButton = e.target.closest(".p-modal-close-button");
+    if (isModalTrigger) modalTrigger = isModalTrigger;
     if (isModalTrigger || isCloseButton) {
       e.preventDefault();
 
       const targetControls = e.target.getAttribute("aria-controls");
-      toggleModal(document.getElementById(targetControls), e.target, isModalTrigger ? true : false);
+      const toggleValue = isModalTrigger ? true : false;
+      toggleModal(
+        document.getElementById(targetControls),
+        e.target,
+        toggleValue
+      );
+
+      if (modalTrigger) {
+        modalTrigger.setAttribute("aria-expanded", toggleValue);
+      }
     }
     return false;
   });
