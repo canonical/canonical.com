@@ -22,6 +22,7 @@ jobs:
           recursionlevel=2
           timeout=1000
           sslverify=0
+          useragent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
 
           [filtering]
           checkextern=1
@@ -43,7 +44,7 @@ jobs:
           status=0
           warnings=0
           ignoreerrors=
-            ^http?s://.* ^.*(471|500|503|504|400)
+            ^http?s://.* ^.*(471|500|503|504|400|403)
           EOF
 
       - name: Run linkchecker for 404 errors only
