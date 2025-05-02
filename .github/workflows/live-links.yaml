@@ -1,9 +1,8 @@
 name: Links on canonical.com live
 
 on:
-  push
-  # schedule:
-  #   - cron: "20 7 * * *"
+  schedule:
+    - cron: "20 7 * * *"
 
 jobs:
   check-links:
@@ -23,7 +22,6 @@ jobs:
           recursionlevel=2
           timeout=1000
           sslverify=0
-          useragent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
 
           [filtering]
           checkextern=1
@@ -38,8 +36,18 @@ jobs:
             https://canonical.com/blog
             https://ubuntu.com/blog
             https://canonical.com/static/css/*
-            https://www.xilinx.com/applications/*
+            https://www.xilinx.com/*
             https://player.vimeo.com/video/*
+            http://atea.com
+            https://linuxpolska.com/*
+            https://www.packet.net
+            https://www.amd.com/
+            https://start.microsemi.com
+            http://www.omnicore-it.com/
+            http://www.pgp.com/
+            https://www.hcl.com/
+            http://www.randrinc.com/
+            https://www.storagemadeeasy.com/
 
           [output]
           status=0
@@ -49,8 +57,7 @@ jobs:
           EOF
 
       - name: Run linkchecker for 404 errors only
-        run: linkchecker --no-warning https://canonical-com-1685.demos.haus
-        # run: linkchecker --no-warning https://canonical.com
+        run: linkchecker --no-warning https://canonical.com
 
       - name: Send message on failure
         if: failure()
