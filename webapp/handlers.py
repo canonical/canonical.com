@@ -87,6 +87,7 @@ CSP = {
     "media-src": [
         "'self'",
         "res.cloudinary.com",
+        "assets.ubuntu.com",
     ],
     "child-src": [
         "'self'",
