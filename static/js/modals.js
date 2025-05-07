@@ -147,7 +147,7 @@
       e.preventDefault();
 
       const targetControls = e.target.getAttribute("aria-controls");
-      const toggleValue = isModalTrigger ? true : false;
+      const toggleValue = Boolean(isModalTrigger)
       toggleModal(
         document.getElementById(targetControls),
         e.target,
