@@ -1,0 +1,203 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}Managed Kafka for smart safety{% endblock %}
+
+{% block meta_description %}
+  Learn how this smart safety technology leader unlocked immense annual savings with Canonical’s Managed Kafka.
+{% endblock %}
+
+{% block meta_company_name %}Managed Kafka for smart safety{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1ovAS3QYBR0hIAsjsD8lnzAW9UgRn8DWxGc_ZE0hkvhI{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Safety technology leader saves hundreds of thousands per year with Canonical’s Managed Kafka",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+  {%- endcall -%}
+  
+  {%- call(slot) text_list(title="About the customer") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Leading provider of connected safety solutions.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Delivers safety products across government, commercial, and industrial sectors.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Subject to extensive regulatory compliance requirements.
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=4) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      The company chose Canonical’s Charmed Kafka – delivered as a fully managed service – to enhance service levels for its distributed applications.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Canonical was the only vendor that could deploy Kafka® on the company’s compliant cloud.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Canonical’s Managed Kafka saves the company a significant sum per year.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_4' -%}
+      Zero issues with compliance audits since adopting Managed Kafka.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/3007d4cb-image1.png",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="How can you outsource mission critical infrastructure without compromising compliance?") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Apache Kafka&reg; is at the heart of this safety technology company’s operations, enabling the flow of data to and from countless distributed solutions. As part of its ongoing mission to make its applications more available, reliable and resilient, the business decided to pivot away from managing Kafka in-house and instead look for external support. However, no SaaS vendors or managed service providers could readily navigate the complex requirements to deploy Kafka on Azure Government cloud – that is, none except Canonical.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="The decision to go with a managed service has 100% paid off. Kafka was never our core focus. It would take us years to get to the level of expertise that Canonical already has.",
+    citation_source_name_text="Spokesperson",
+    citation_source_title_text="Safety technology company",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+    <p>
+      Modern safety technologies come in countless shapes and sizes, but they all have one thing in common: they produce and consume significant volumes of data. This industry leader delivers a broad portfolio of smart safety products – including safety lighting, video systems, and emergency services equipment – which are deployed as distributed applications. This makes the company’s Kafka messaging system, which enables those applications to communicate with each other and transfer data to and from the cloud, among the most critical elements of the company’s infrastructure.
+    </p>
+    <p>
+      The organization managed its messaging system in-house, but since Kafka was not the team’s core expertise, this led to various inefficiencies and challenges. As part of the company’s mission to continuously improve the availability, reliability, and resilience of its applications, it decided to rethink its Kafka strategy.
+    </p>
+    <p>
+      A spokesperson for the company explains: “With Kafka being such an important component of our architecture, we understood that we didn't have the expertise and we didn't have the proper implementation in place to get to where we needed to get. Every time we had an issue with Kafka, it could take hours to troubleshoot, which risked impacting our apps and our customers.”
+    </p>
+    <p>
+      The final straw was the inability to upgrade the Kafka deployment in place. Every time that the version of Kafka that the company was using was deprecated, it had to create a new cluster and migrate unprocessed data – a highly impractical and time consuming task that wasn’t sustainable long term.
+    </p>
+    <p>
+      “We decided that if we had to migrate again, we wanted to migrate one last time to a solution that supported in-place patching right out of the box,” says the spokesperson. “This meant refreshing the Kafka implementation, which gave us the ideal opportunity to outsource Kafka management. We wanted to work with someone who could not just provide a version of Kafka, but also maintain it and optimize it.”
+    </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/2215b7c4-image32.png",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+    <p>
+      The safety specialist initially explored software-as-a-service options for Kafka, but quickly realized that no SaaS vendors were capable of navigating the company’s compliance landscape. The safety sector is subject to an array of regulatory requirements, so the company operates primarily on the Azure Government cloud, and no SaaS provider was able to deploy Kafka in this environment.
+    </p>
+    <p>
+      It was beginning to look like the goal of outsourcing Kafka would remain out of reach; but fortunately, this was when the company discovered Canonical’s Managed Kafka. Uniquely of all the vendors that were considered, Canonical was able to deploy Kafka on top of the existing Azure Government cloud, and maintain and operate it as a fully managed service.
+    </p>
+    <p>
+      Canonical made sure that the company was confident the solution would work in the compliant cloud. In a series of pre-sales meetings going through technical requirements, constraints, and processes, Canonical demonstrated that it could deliver the same Kafka capabilities that would be expected on a regular commercial cloud.
+    </p>
+    <p>
+      Going a step further, Canonical also put the company in touch with an existing customer using the same solution. The spokesperson recalls: “That customer was fully transparent, even sharing the challenges they had encountered in implementation. We really appreciated that Canonical was willing to connect us. It helped us understand the road that lay ahead and set expectations, and gave us even more faith in the solution.”
+    </p>
+    <p>
+      This project was the first time that the safety  technology company had used a managed service, so it did involve an element of risk. That’s why it was so important to be able to fully trust Canonical. Between the presales sessions and interviewing another customer, it was clear to the company that Canonical offered a proven solution backed by extensive expertise.
+    </p>
+    <p>
+      “The Canonical name also gave us peace of mind,” adds the spokesperson. “These are the guys behind Ubuntu. They know what they’re doing, and they’re not going to release something or change something that would negatively impact us”.
+  </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="The Canonical name also gave us peace of mind. These are the guys behind Ubuntu. They know what they’re doing, and they’re not going to release something or change something that would negatively impact us.",
+    citation_source_name_text="Spokesperson",
+    citation_source_title_text="Safety technology company",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/db406549-image3.png",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+    <p>
+      Canonical designed and implemented a new, optimized Kafka deployment on the company’s Azure Government cloud, based on Canonical’s solution for Apache Kafka. And post-deployment, Canonical now delivers a fully managed service that covers everyday maintenance, planned changes (upgrades, patching, security enforcement) and incident recovery, ensuring that the customer can focus on its core business.
+    </p>
+    <p>
+      “We’re gaining significant savings per year between Kafka implementation, maintenance, and troubleshooting,” says the spokesperson. “The ticketing system works phenomenally. Canonical is very proactive and does all the heavy lifting. I can’t think of a single outage in the last year.”
+    </p>
+    <p>
+      Crucially, the new Kafka implementation supports upgrades in place, so whenever the business is ready to move to a new release, Canonical can seamlessly update the cluster without a disruptive migration.
+    </p>
+    <p>
+      From a security perspective, Canonical is taking care of monitoring for vulnerabilities and patching CVEs, both for Kafka itself and the underlying Ubuntu OS. What’s more, Canonical’s Managed Kafka helps the company remain compliant with industry regulations despite no longer managing Kafka in-house.
+    </p>
+    <p>
+      “Vendor management with Canonical is easy because everything is hosted in our cloud. We haven’t had any issues with any of the audits we’ve been through since outsourcing Kafka to Canonical.”
+    </p>
+    <p>
+      Overall service levels have also improved, leading to happier customers. The company has hundreds of microservices relying on Kafka, and in the past it had to respond reactively to ensure that applications were getting the right resources. Now, the cluster is provisioned to support all the applications on top of Kafka. Canonical’s monitoring enables the company to see well ahead of time if it’s running out of resources, so it can act preemptively to prevent any issues.
+    </p>
+    <p>
+      “The decision to go with a managed service has 100% paid off,” concludes the spokesperson. “Kafka was never our core focus. It would take us years to get to the level of expertise that Canonical already has.”
+    </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  <div class="p-section">
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <hr class="p-rule--muted">
+        <p class="u-text--muted">
+          Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us about your Kafka use case", link="/contact-us", has_modal=true) }}
+{% endblock %}
