@@ -12,6 +12,7 @@ import flask
 import markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 import math
+from pathlib import Path
 
 # Packages
 from canonicalwebteam import image_template
@@ -226,6 +227,17 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
                 )
 
     return all_departments, departments_overview
+
+
+# Read once at startup
+critical_css_path = Path("static/css/critical.css")
+css = critical_css_path.read_text() if critical_css_path.exists() else ''
+minified_css = re.sub(r'\s+', ' ', css.strip())  # simple whitespace minifier
+
+
+@app.context_processor
+def inject_critical_css():
+    return {'inline_critical_css': minified_css}
 
 
 sentry = app.extensions["sentry"]
@@ -1168,7 +1180,7 @@ microstack_docs.init_app(app)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
