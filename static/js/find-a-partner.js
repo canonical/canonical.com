@@ -5,7 +5,7 @@
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
-  const sideNavButtons = document.querySelectorAll(".js-drawer-toggle");
+  const sideNavButtons = document.querySelectorAll(".p-accordion__tab.js-drawer-toggle");
   const clearFiltersButton = document.getElementById("js-clear-filters");
   const sideNavigation = document.getElementById("drawer");
   const toggles = sideNavigation.querySelectorAll('.js-drawer-toggle[class*="p-side-navigation__"]');
@@ -39,14 +39,7 @@
 
     updateNumberOfPartners();
 
-    if (sideNavButtons) {
-      sideNavButtons.forEach((el) => {
-        el.addEventListener("click", function () {
-          toggleSection(el);
-        });
-      });
-    }
-
+    // Event listener for the drawer toggle elements
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', function(event) {
         event.preventDefault();
@@ -57,6 +50,14 @@
         }
       });
     });
+
+    if (sideNavButtons) {
+      sideNavButtons.forEach((el) => {
+        el.addEventListener("click", function () {
+          toggleSection(el);
+        });
+      });
+    }
 
     if (clearFiltersButton) {
       clearFiltersButton.addEventListener("click", clearFilters);
