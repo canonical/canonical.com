@@ -7,7 +7,7 @@
  * "is-active" class. Other links have the "is-active" class removed.
  *
  * The function assumes that:
- * - Section headers have the class "section-head".
+ * - Section headers have the class "section-heading".
  * - Side navigation links have the class "p-side-navigation__link".
  * - Side navigation links use href attributes that correspond to the IDs of
  *   the section headers (e.g., href="#section-id").
@@ -20,7 +20,7 @@
  */
 function setUpDynamicSideNav() {
   const sections = Array.prototype.slice.call(
-    document.querySelectorAll(".section-head")
+    document.querySelectorAll(".section-heading")
   );
   const navigationLinks = Array.prototype.slice.call(
     document.querySelectorAll(".p-side-navigation__link")
