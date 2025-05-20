@@ -5,10 +5,8 @@
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
-  const sideNavButtons = document.querySelectorAll(".p-accordion__tab.js-drawer-toggle");
+  const sideNavButtons = document.querySelectorAll(".p-accordion__tab.js-accordion-toggle");
   const clearFiltersButton = document.getElementById("js-clear-filters");
-  const sideNavigation = document.getElementById("drawer");
-  const toggles = sideNavigation.querySelectorAll('.js-drawer-toggle[class*="p-side-navigation__"]');
 
   var filters = [];
 
@@ -39,18 +37,6 @@
 
     updateNumberOfPartners();
 
-    // Event listener for the drawer toggle elements
-    toggles.forEach((toggle) => {
-      toggle.addEventListener('click', function(event) {
-        event.preventDefault();
-
-        if (sideNavigation) {
-          sideNavigation.classList.remove('is-drawer-hidden');
-          toggleDrawer(sideNavigation, !sideNavigation.classList.contains('is-drawer-expanded'));
-        }
-      });
-    });
-
     if (sideNavButtons) {
       sideNavButtons.forEach((el) => {
         el.addEventListener("click", function () {
@@ -75,29 +61,6 @@
       targetPanel.ariaHidden = targetPanel.ariaHidden !== "true";
     }
   }
-
-  function toggleDrawer(sideNavigation, show) {
-    const toggleButtonOutsideDrawer = sideNavigation.querySelector('.p-side-navigation__toggle, .js-drawer-toggle');
-    const toggleButtonInsideDrawer = sideNavigation.querySelector('.p-side-navigation__toggle--in-drawer');
-    
-    if (sideNavigation) {
-      if (show) {
-        sideNavigation.classList.remove('is-drawer-collapsed');
-        sideNavigation.classList.add('is-drawer-expanded');
-
-        toggleButtonInsideDrawer.focus();
-        toggleButtonOutsideDrawer.setAttribute('aria-expanded', true);
-        toggleButtonInsideDrawer.setAttribute('aria-expanded', true);
-      } else {
-        sideNavigation.classList.remove('is-drawer-expanded');
-        sideNavigation.classList.add('is-drawer-collapsed');
-
-        toggleButtonOutsideDrawer.focus();
-        toggleButtonOutsideDrawer.setAttribute('aria-expanded', false);
-        toggleButtonInsideDrawer.setAttribute('aria-expanded', false);
-      }
-    }
-}
 
   // Display no reults message
   function updateNoResultsMessage() {
