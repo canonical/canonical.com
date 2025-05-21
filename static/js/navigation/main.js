@@ -98,7 +98,7 @@ function toggleDropdown(toggle) {
 }
 
 /**
- * Resets all toggles to there base state, unless an exception is passed
+ * Resets all toggles to their base state, unless an exception is passed
  * then this toggle is ignored
  * @param {HTMLElement} exception - The toggle to ignore
  */

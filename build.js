@@ -8,7 +8,6 @@ let entries = {
   "forms": "./static/js/forms.js",
   "prepare-form-inputs": "./static/js/prepare-form-inputs.js",
   "navigation": "./static/js/navigation/main.js",
-  "osselector": "./static/js/osselector.js",
   "active-nav-scroll": "./static/js/active-nav-scroll.js",
 };
 
