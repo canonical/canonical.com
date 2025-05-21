@@ -5,7 +5,7 @@
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
-  const sideNavButtons = document.querySelectorAll(".js-drawer-toggle");
+  const sideNavButtons = document.querySelectorAll(".js-accordion-toggle");
   const clearFiltersButton = document.getElementById("js-clear-filters");
 
   var filters = [];
