@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1391OL7xQec1SY9HFkv80DFwACbdndCIk-N_sFzAXkPU
 {% endblock meta_copydoc %}
@@ -33,31 +35,27 @@
     <hr class="p-rule" />
   </div>
 
-  <section class="p-section">
-    <div class="row">
-      <div class="col-6 col-medium-3">
-        <h1 class="p-heading--2">
-          <strong>Remote work</strong>
-        </h1>
-      </div>
-      <div class="col-6 col-medium-3">
-        <div class="p-strip is-shallow u-no-padding--top">
-          <h2>We are remote but connected</h2>
-        </div>
-        <div class="p-section--shallow">
-          <p>Canonical has been a fully distributed organization since its origin in 2004.</p>
-          <p>
-            Our remote-first policy enables us to collaborate with the best in the world in our domain. Though most team members work remotely, we meet each other at least twice per year during in-person sprints to nurture cross-team relationships. These sprints are funded by Canonical, and take place at locations around the world.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a class="p-button--positive u-no-margin--bottom" href="/careers">
-            Careers with Canonical
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="p-section__u-no-padding--top">
+    {% call(slot) vf_hero(
+      title_text='Remote work',
+      subtitle_text='We are remote but connected',
+      layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Canonical has been a fully distributed organization since its origin in 2004.
+      </p>
+      <p>
+        Our remote-first policy enables us to collaborate with the best in the world in our domain. Though most team members work remotely, we meet each other at least twice per year during in-person sprints to nurture cross-team relationships. These sprints are funded by Canonical, and take place at locations around the world.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive u-no-margin--bottom" href="/careers">
+        Careers with Canonical
+      </a>
+    {%- endif -%}
+    {% endcall -%}
+  </div>
 
   <section class="p-section">
     <div class="u-fixed-width">
