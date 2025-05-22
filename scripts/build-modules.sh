@@ -18,3 +18,9 @@ cp node_modules/intl-tel-input/build/js/utils.js static/js/modules/intl-tel-inpu
 
 mkdir -p static/js/modules/discourse-rad-parser
 cp node_modules/@canonical/discourse-rad-parser/build/js/discourse-rad-parser.js static/js/modules/discourse-rad-parser
+
+mkdir -p static/js/modules/flickity
+cp node_modules/flickity/dist/flickity.pkgd.min.js static/js/modules/flickity
+
+mkdir -p static/js/modules/leaflet
+cp node_modules/leaflet/dist/leaflet.js static/js/modules/leaflet

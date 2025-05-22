@@ -19,6 +19,8 @@ let config = {
         "static/*.md",
         "static/*.tsx",
         "static/*.xml",
+        "node_modules/flickity/dist/flickity.pkgd.min.js",
+        "node_modules/leaflet/dist/leaflet.js",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
@@ -28,6 +30,7 @@ let config = {
           /^p-/, // Preserve form related classes
           /^u-/, // Utility classes
           /^js-/, // JavaScript-related classes
+          /^leaflet-/, // Leaflet classes for map
         ],
         greedy: [
           /^iti/,
