@@ -1163,6 +1163,33 @@ app.add_url_rule(
 
 microstack_docs.init_app(app)
 
+dqlite_docs = Docs(
+    parser=DocParser(
+        api=DiscourseAPI(
+            base_url="https://discourse.dqlite.io/",
+            session=search_session,
+        ),
+        index_topic_id=34,
+        url_prefix="/dqlite/docs",
+    ),
+    document_template="/dqlite/docs/document.html",
+    url_prefix="/dqlite/docs",
+    blueprint_name="dqlite_docs",
+)
+
+app.add_url_rule(
+    "/dqlite/docs/search",
+    "dqlite-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/dqlite/docs",
+        template_path="/dqlite/docs/search-results.html",
+    ),
+)
+
+dqlite_docs.init_app(app)
+
 
 @app.errorhandler(502)
 def bad_gateway(e):
