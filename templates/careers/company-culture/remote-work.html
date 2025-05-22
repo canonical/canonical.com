@@ -452,18 +452,17 @@
     }
 
     function initMap(mapSelector) {
-      const map = L.map(mapSelector).setView([31.505, -0.09], 2); // Default view set to [51.505, -0.09] for center
+      const map = L.map(mapSelector).setView([31.505, -0.09], 2);
 
       // Set up the tile layer with grey canvas (using CartoDB Positron without labels)
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png').addTo(map);
 
-      // Custom orange marker icon (using existing marker-icon.png and marker-icon-2x.png)
       const customIcon = L.icon({
-        iconUrl: "https://assets.ubuntu.com/v1/ea30540d-marker-icon.png",  // Path to regular icon
-        iconRetinaUrl: "https://assets.ubuntu.com/v1/ed796590-marker-icon-2x.png",  // Path to regular icon
-        iconSize: [20, 32.8],  // Icon size
-        iconAnchor: [12, 41],  // Icon anchor
-        popupAnchor: [1, -34]  // Popup anchor
+        iconUrl: "https://assets.ubuntu.com/v1/ea30540d-marker-icon.png",
+        iconRetinaUrl: "https://assets.ubuntu.com/v1/ed796590-marker-icon-2x.png",
+        iconSize: [20, 32.8],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34]
       });
 
       const markersData = [
@@ -541,14 +540,10 @@
           },
       ];
 
-      // Loop through the parsed CSV data and add markers
       markersData.forEach(function(marker) {
-        // Ensure lat and lon are provided for each marker
-        if (marker.lat && marker.lon) {
-          L.marker([marker.lat, marker.lon], { icon: customIcon })
-            .bindPopup(marker.city)  // Popup with the city field
-            .addTo(map);
-        }
+        L.marker([marker.lat, marker.lon], { icon: customIcon })
+          .bindPopup(marker.city)
+          .addTo(map);
       });
     }
   </script>
