@@ -6,6 +6,10 @@
 // import dial-code dropdown
 @import "intl-tel-input/build/css/intlTelInput";
 
+@import "flickity/dist/flickity";
+
+@import "leaflet/dist/leaflet";
+
 $color-brand: #7c355d;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
@@ -16,6 +20,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_application";
 @import "pattern_blog-card";
 @import "pattern_cards";
+@import "pattern_carousel";
 @import "pattern_careers-modal";
 @import "pattern_footer";
 @import "pattern_forms";
@@ -54,6 +59,22 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-navigation-tab-panel;
 @include canonical-p-navigation-dropdown-content;
 @include canonical-p-navigation-mobile;
+@include sprint-carousel;
+
+
+@media screen and ($breakpoint-large <= width) {
+  .p-section__u-no-padding--top {
+    h1,
+    .p-heading--2,
+    .p-section--hero {
+      padding-top: 0;
+    }
+  }
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
 
 .js-find-a-partner__partner {
   // find-a-partner search
