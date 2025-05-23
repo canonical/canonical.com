@@ -127,7 +127,7 @@
     <!-- map goes here -->
     <div class="row">
       <figure>
-        <div id="locations-map" style="height: 400px; z-index: 1;">
+        <div id="locations-map">
           <noscript>
             <div class="p-strip is-shallow u-no-padding--top">
               <div class="row">
@@ -452,6 +452,15 @@
     }
 
     function initMap(mapSelector) {
+      const mapElement = document.getElementById(mapSelector);
+
+      if (!mapElement) {
+        return;
+      }
+
+      mapElement.style.height = "400px";
+      mapElement.style.zIndex = "1";
+
       const map = L.map(mapSelector).setView([31.505, -0.09], 2);
 
       // Set up the tile layer with grey canvas (using CartoDB Positron without labels)
