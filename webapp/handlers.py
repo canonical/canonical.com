@@ -29,6 +29,7 @@ CSP = {
         "w.usabilla.com",
         "api.usabilla.com",
         "*.googlesyndication.com",
+        "cdn.jsdelivr.net",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -82,6 +83,7 @@ CSP = {
     ],
     "style-src": [
         "'self'",
+        "cdn.jsdelivr.net",
         "'unsafe-inline'",
     ],
     "media-src": [
