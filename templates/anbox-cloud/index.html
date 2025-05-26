@@ -10,6 +10,11 @@
   https://docs.google.com/document/d/1m3hL6Y8VqFqeZLy-sewPAyCZz-uGr7zfqzNwtGumyho/edit
 {% endblock %}
 
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}
@@ -37,10 +42,12 @@
       </div>
       <div class="col">
         <div class="u-embedded-media">
-          <iframe title="Scalable Android Cloud with Anbox Cloud"
-                  class="u-embedded-media__element"
-                  src="https://www.youtube.com/embed/drOCjcDpnng?rel=0"
-                  allowfullscreen=""></iframe>
+          <lite-youtube videoid="drOCjcDpnng" width="560" height="315" posterquality="maxresdefault" videotitle="Scalable Android Cloud with Anbox Cloud" class="u-embedded-media__element">
+          <a href="https://www.youtube.com/embed/drOCjcDpnng?rel=0"
+             title="Play Video">
+            <span class="lyt-visually-hidden">Scalable Android Cloud with Anbox Cloud</span>
+          </a>
+          </lite-youtube>
         </div>
       </div>
     </div>
