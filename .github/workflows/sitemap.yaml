@@ -1,4 +1,4 @@
-name: Generate sitemap for static pages
+name: Generate sitemap for static pages on canonical.com
 on:
   push:
     branches:
@@ -16,9 +16,8 @@ jobs:
 
       - name: Call sitemap generation endpoint
         run: |
-          curl -X POST "https://canonical.com/sitemap_tree.xml" \
-          -H "Authorization: Bearer ${{ secrets.SITEMAP_SECRET }}"
-
+          curl --fail-with-body -X POST "https://canonical.com/sitemap_tree.xml" \
+          -H "Authorization: Bearer invalid-secret-for-qa"
 
       - name: Send message on failure
         if: failure()
