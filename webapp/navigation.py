@@ -38,9 +38,11 @@ def get_current_page_bubble(path):
                 current_page_bubble["parent_title"] = parent[0]["title"]
                 current_page_bubble["parent_path"] = parent[1]["path"]
 
-            for page in page_bubble["children"]:
-                if page["path"] == path:
-                    page["active"] = True
+            children = page_bubble.get("children", [])
+            if children:
+                for page in children:
+                    if page["path"] == path:
+                        page["active"] = True
 
     return {"page_bubble": current_page_bubble}
 
