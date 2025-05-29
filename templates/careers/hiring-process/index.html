@@ -12,6 +12,11 @@
   Learn about Canonical's hiring process &ndash; Understand how we hire and what you can expect from our process.
 {% endblock %}
 
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}
@@ -32,15 +37,11 @@
       </div>
       <div class="col">
         <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="1120"
-                  height="630"
-                  src="https://www.youtube.com/embed/mOFgDpjRiO8?si=y9vGn5UhnqDIBVSU"
-                  title="Our hiring process at Canonical"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
+          <lite-youtube videoid="mOFgDpjRiO8" width="1120" height="630" posterquality="maxresdefault" videotitle="Our hiring process at Canonical" class="u-embedded-media__element">
+          <a href="https://www.youtube.com/watch?v=mOFgDpjRiO8" title="Play Video">
+            <span class="lyt-visually-hidden">Our hiring process at Canonical</span>
+          </a>
+          </lite-youtube>
         </div>
       </div>
     </div>
