@@ -821,3 +821,30 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 html {
   scroll-behavior: smooth;
 }
+
+// Forces images to be 16:9 aspect ratio without whitespace
+// Made to work with link wrapped images
+.u-crop--16-9 {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  a {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
