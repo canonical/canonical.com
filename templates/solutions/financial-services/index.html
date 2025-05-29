@@ -36,7 +36,7 @@
     {%- if slot == 'cta' -%}
       <a href="https://ubuntu.com/engage/secure-open-source-for-financial-services"
          class="p-button--positive">Learn more in our whitepaper</a>
-      <a href="/contact-us" class="p-button">Contact Canonical</a>
+      <a href="/contact-us" class="p-button js-invoke-modal" aria-controls="financial-services-modal">Contact Canonical</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="u-embedded-media u-hide--small">
@@ -474,11 +474,13 @@
           The experts in finserv open source operations, from cloud to devices, are waiting to help you on your digital transformation journey.
         </p>
         <div class="p-cta-block">
-          <a href="/contact-us" class="p-button--positive">Get in touch</a>
+          <a href="/contact-us" class="p-button--positive js-invoke-modal" aria-controls="financial-services-modal">Get in touch</a>
         </div>
       </div>
     </div>
   </section>
+
+  {{ load_form("/solutions/financial-services") | safe }}
 
   <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
