@@ -70,6 +70,7 @@ CSP = {
         "www.facebook.com",
         "*.googlesyndication.com",
         "*.mktoresp.com",
+        "assets.ubuntu.com",
     ],
     "frame-src": [
         "'self'",
