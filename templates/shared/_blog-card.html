@@ -1,8 +1,15 @@
 {# djlint: off #}
+
 <noscript>
   <section class="{% if section_classes %}{{ section_classes }}{% else %}p-strip{% endif %}">
     <div class="row">
-      <h3><a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}">Read the latest {{ heading_topic }} news on our blog&nbsp;&rsaquo;</a></h3>
+      <h3><a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}">
+        {% if heading_topic %}
+          {{ heading_topic }}&nbsp;&rsaquo;
+        {% else %}
+          Read the latest news on our blog&nbsp;&rsaquo;
+        {% endif %}
+      </a></h3>
     </div>
   </section>
 </noscript>
@@ -17,10 +24,13 @@
     {% else %}
       <h2 class="{% if heading_class %}{{ heading_class }}{% else %}p-heading--3{% endif %}">
     {% endif %}
-    {% if not is_title_link %}
-        Latest {{ heading_topic }} news from
-    {% endif %}
-    <a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'blog', 'eventAction' : 'clicks blog feed link', 'eventLabel' : 'canonical.com{% if tag_name %}/{{ tag_name }}{% else %} homepage{% endif %}', 'eventValue' : undefined });">{% if is_title_link %}Latest {{ heading_topic }} news from {% endif %}our blog&nbsp;&rsaquo;</a>
+    <a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'blog', 'eventAction' : 'clicks blog feed link', 'eventLabel' : 'canonical.com{% if tag_name %}/{{ tag_name }}{% else %} homepage{% endif %}', 'eventValue' : undefined });">
+      {% if heading_topic %}
+        {{ heading_topic }}&nbsp;&rsaquo;
+      {% else %}
+        Latest news from our blog&nbsp;&rsaquo;
+      {% endif %}
+    </a>
     </h2>
   </div>
   <div class="row">
@@ -46,9 +56,7 @@
       {% endif %}
       {% if show_image %}
         <div class="p-equal-height-row__item">
-          <div class="u-crop--16-9">
-            <div class="article-image p-image-wrapper"></div>
-          </div>
+          <div class="article-image u-crop--16-9"></div>
         </div>
       {% endif %}
       <div class="p-equal-height-row__item">
@@ -98,5 +106,6 @@
         {% if excerptLength %}excerptLength: "{{ excerptLength }}",{% endif %}
       }
     )
-</script>
+  </script>
 </section>
+{# djlint: on #}

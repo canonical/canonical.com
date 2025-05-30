@@ -245,7 +245,7 @@
     // Toggles show board based on selection on small screens
 
     const boards = document.querySelectorAll(`[role=tabpanel]`);
-    const dropdownSelect = document.getElementById("boardSelect");
+    const dropdownSelect = document.getElementById("tabSelect");
 
     dropdownSelect?.addEventListener("change", (event) => {
       selectBoard();
