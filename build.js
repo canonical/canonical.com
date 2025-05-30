@@ -9,6 +9,7 @@ let entries = {
   "prepare-form-inputs": "./static/js/prepare-form-inputs.js",
   "navigation": "./static/js/navigation/main.js",
   "active-nav-scroll": "./static/js/active-nav-scroll.js",
+  "homepage_animations": "./static/js/homepage/animations.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
