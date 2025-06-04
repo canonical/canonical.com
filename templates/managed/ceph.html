@@ -23,7 +23,7 @@
       <p>Focus on your business applications, while Canonical takes care of your storage needs.</p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
-      <a href="/ceph/contact-us" class="p-button--positive js-invoke-modal">Get in touch</a>
+      <a href="/managed/contact-us" class="p-button--positive js-invoke-modal" aria-controls="managed-modal">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--3-2 is-highlighted is-cover u-hide--small">
@@ -267,4 +267,7 @@
       </div>
     </div>
   </div>
+
+  {{ load_form("/managed") | safe }}
+
 {% endblock content %}

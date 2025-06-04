@@ -26,7 +26,7 @@
             The best self-managed alternative to <a href="/managed">Canonical Managed Services</a>. Get engineers on call to help you resolve the most critical issues, while continuing to manage your own environments.
           </p>
           <hr class="p-rule--muted" />
-          <a href="/managed/contact-us" class="p-button--positive js-invoke-modal">Enhance your cloud support now</a>
+          <a href="/managed/contact-us" class="p-button--positive js-invoke-modal" aria-controls="managed-modal">Enhance your cloud support now</a>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
       </div>
       <div class="col">
         <p>
-          Whether you’re running a cloud based on <a href="/openstack">OpenStack</a> or <a href="https://canonical.com/microcloud">MicroCloud</a>, or using applications like Kafka, Kubeflow, Spark, or OpenSearch, operations management can be tough! That's why Canonical offers <a href="/managed">fully managed services</a>, which relieve you of that worry. However, be it due to security regulations or other issues, giving our engineers access to your environments is not something you can always do.
+          Whether you're running a cloud based on <a href="/openstack">OpenStack</a> or <a href="/microcloud">MicroCloud</a>, or using applications like Kafka, Kubeflow, Spark, or OpenSearch, operations management can be tough! That's why Canonical offers <a href="/managed">fully managed services</a>, which relieve you of that worry. However, be it due to security regulations or other issues, giving our engineers access to your environments is not something you can always do.
         </p>
         <p>
           This is why we launched Firefighting Support, a package that gives you dual, highly-enhanced cloud support from Canonical's Support and Managed Solutions engineering teams.
@@ -101,7 +101,7 @@
           <li class="p-list__item is-ticked">Full control of your environments</li>
         </ul>
         <hr class="p-rule--muted" />
-        <a href="/managed/contact-us" class="p-button--positive js-invoke-modal">Get Firefighting Support</a>
+        <a href="/managed/contact-us" class="p-button--positive js-invoke-modal" aria-controls="managed-modal">Get Firefighting Support</a>
       </div>
     </div>
   </section>
@@ -464,17 +464,11 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
-        <a href="/managed/contact-us" class="js-invoke-modal">Contact us and discuss your options&nbsp;&rsaquo;</a>
+        <a href="/managed/contact-us" class="js-invoke-modal" aria-controls="managed-modal">Contact us and discuss your options&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
 
-  <div class="u-hide"
-       id="contact-form-container"
-       data-form-location="/shared/forms/interactive/managed-services.html"
-       data-form-id="4053"
-       data-lp-id=""
-       data-return-url="https://ubuntu.com/managed/thank-you"
-       data-lp-url="https://pages.ubuntu.com/things-contact-us.html"></div>
+  {{ load_form("/managed") | safe }}
 
 {% endblock content %}
