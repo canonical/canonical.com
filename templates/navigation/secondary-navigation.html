@@ -12,14 +12,16 @@
           <span class="p-navigation__logo-title">{{ page_bubble.title | replace(' ', '&nbsp;') | safe }}</span>
         </a>
       </div>
-      <ul class="p-navigation__items">
-        <li class="p-navigation__item">
-          <button class="js-secondary-menu-toggle-button p-navigation__link--menu-toggle"
-                  aria-controls="secondary-navigation"
-                  title="Toggle navigation"
-                  aria-label="Toggle navigation"></button>
-        </li>
-      </ul>
+      {% if page_bubble.children %}
+        <ul class="p-navigation__items">
+          <li class="p-navigation__item">
+            <button class="js-secondary-menu-toggle-button p-navigation__link--menu-toggle"
+                    aria-controls="secondary-navigation"
+                    title="Toggle navigation"
+                    aria-label="Toggle navigation"></button>
+          </li>
+        </ul>
+      {% endif %}
     </div>
     <nav class="p-navigation__nav"
          aria-label="{{ page_bubble.title | replace(' ', '&nbsp;') | safe }}">
