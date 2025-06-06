@@ -60,3 +60,10 @@ function suruScrollHandler() {
 
 // we need to wait for the animations to load before we can use them
 window.homepageSuru_dark.addEventListener("load", suruScrollHandler);
+
+window.centrepage = new DotLottie({
+  autoplay: true,
+  loop: true,
+  canvas: document.querySelector("#centre-animation"),
+  src: "/static/json/centre.lottie",
+});
