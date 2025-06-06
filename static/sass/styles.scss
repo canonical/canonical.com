@@ -724,23 +724,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   margin-bottom: 2rem;
 }
 
-.p-tabs.is-home {
-  padding-left: $spv--x-large;
-  padding-right: $spv--x-large;
-
-  @media screen and (max-width: $breakpoint-small - 1) {
-    padding-left: $spv--large;
-    padding-right: $spv--large;
-  }
-
-  .p-tabs__link {
-    @media screen and (max-width: $breakpoint-x-small - 1) {
-      padding-left: $spv--medium;
-      padding-right: $spv--medium;
-    }
-  }
-}
-
 // XXX MPT 22/9/2023
 // The following two custom styles have been proposed to Vanilla
 // https://github.com/canonical/vanilla-framework/issues/4876
@@ -850,6 +833,93 @@ html {
   scroll-behavior: smooth;
 }
 
+// Scroll-section styles
+.scroll-section {
+  position: relative;
+  min-height: 24rem;
+}
+.scroll-section__sidebar {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+}
+
+.scroll-section__indicator {
+  position: absolute;
+  left: 30rem;
+  width: 0.2rem;
+  height: 3rem;
+  z-index: 2;
+  border-radius: 3rem;
+  background: rgb(255, 255, 255);
+  transition: top 0.3s ease;
+}
+
+.scroll-section__indicator--outline {
+  position: absolute;
+  top: 6rem;
+  left: 30rem;
+  width: 0.2rem;
+  height: 7rem;
+  border-radius: 3rem;
+  background: #707070;
+}
+
+.scroll-section__tab {
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.scroll-section__tab.active {
+  color: orange;
+}
+
+.scroll-section__contentArea {
+  flex: 1;
+  overflow: hidden;
+  min-height: 22rem;
+  position: relative;
+}
+
+.scroll-section__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transform: translateY(100px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  padding: 2rem;
+}
+
+.scroll-section__content.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.scroll-section__content.slide-out-up {
+  transform: translateY(-100px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.scroll-section__content h2 {
+  margin-top: 0;
+}
+
+//////////////////////////////////////////////
 // Homepage styles
 
 .homepage .p-button--positive {
@@ -857,9 +927,12 @@ html {
   border: none;
 }
 .homepage {
-   .p-icon--arrow-right {
+  .p-icon--arrow-right {
     @extend %icon;
-  @include vf-themed-icon($light-value: vf-icon-arrow-right-url($colors--light-theme--icon), $dark-value: vf-icon-arrow-right-url(#fc764c));
+    @include vf-themed-icon(
+      $light-value: vf-icon-arrow-right-url($colors--light-theme--icon),
+      $dark-value: vf-icon-arrow-right-url(#fc764c)
+    );
     transition: padding-left 0.3s ease;
     padding-left: 2rem;
   }
@@ -871,6 +944,42 @@ html {
     color: #fc764c;
   }
 }
+
+.p-tabs.homepage {
+  padding-left: $spv--x-large;
+  padding-right: $spv--x-large;
+  max-height: 56rem;
+
+  @media screen and (max-width: $breakpoint-small - 1) {
+    padding-left: $spv--large;
+    padding-right: $spv--large;
+  }
+
+  .p-tabs__link {
+    @media screen and (max-width: $breakpoint-x-small - 1) {
+      padding-left: $spv--medium;
+      padding-right: $spv--medium;
+    }
+  }
+  .u-hide[role="tabpanel"] {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition-property: opacity transform;
+    transition: 1s ease-in-out;
+    transition-behavior: allow-discrete;
+  }
+  [role="tabpanel"] {
+    opacity: 1;
+    transform: translateX(0px);
+    transition-property: opacity transform;
+    transition: 1s ease-in-out 1s;
+    @starting-style {
+      opacity: 0;
+      transform: translateX(100px);
+    }
+  }
+}
+
 .p-homepage-card {
   background-color: #202020; /* dark background */
   padding: 0 2rem 0 2rem;
@@ -951,11 +1060,18 @@ html {
 
 .p-homepage-carousel--slide {
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition-property: opacity;
+  transition-duration: 0.8s;
+  height: 25rem;
+  transition-timing-function: ease-in-out;
+  transition-behavior: allow-discrete;
 }
 
 .p-homepage-carousel--slide[aria-hidden="false"] {
   opacity: 1;
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 @keyframes progressBarAnim {
