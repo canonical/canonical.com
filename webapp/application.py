@@ -260,6 +260,10 @@ def _get_application(harvest, application_id):
                 application["hiring_lead"][
                     "video_src"
                 ] = "https://www.youtube.com/embed/UvDSXgPbpt8"
+            elif job_id == 2804114:  # Chief Revenue Officer
+                application["hiring_lead"][
+                    "video_src"
+                ] = "https://www.youtube.com/embed/hO1rXwoRjx0"
             elif (
                 # Currently only user with video
                 # as we don't have a source to pull this video from
