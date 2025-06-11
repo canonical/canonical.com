@@ -28,6 +28,7 @@ from canonicalwebteam.discourse import (
 from canonicalwebteam.search import build_search_view
 import canonicalwebteam.directory_parser as directory_parser
 from pathlib import Path
+import requests
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -1442,5 +1443,62 @@ app.add_url_rule("/sitemap_parser", view_func=get_sitemaps_tree)
 app.add_url_rule(
     "/sitemap_tree.xml",
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
-    methods=["GET", "POST"],
+    methods=["*"],
 )
+
+
+def rewrite_university_links(html):
+    """
+    Prefix all absolute URLs in href/src attributes with /university,
+    unless they already start with /university or are protocol-relative or external.
+    Also rewrite empty and relative href/src attributes to point to /university.
+    """
+
+    def repl(match):
+        attr = match.group(1)
+        url = match.group(2)
+        # Already correct or external
+        if (
+            url.startswith("/university")
+            or url.startswith("//")
+            or url.startswith("http://")
+            or url.startswith("https://")
+        ):
+            return match.group(0)
+        # Empty href/src
+        if url == "":
+            return f'{attr}="/university"'
+        # Absolute path
+        if url.startswith("/"):
+            return f'{attr}="/university{url}"'
+        # Relative path (not starting with /, http, or //)
+        return f'{attr}="/university/{url}"'
+
+    html = re.sub(r'(href|src)=["\']([^"\']*)["\']', repl, html)
+    return html
+
+
+def university(subpath=None):
+    """
+    University page.
+    """
+    request_path = flask.request.path
+    # Correctly remove the '/university' prefix only once
+    if request_path.startswith("/university"):
+        proxied_path = request_path[len("/university") :]
+    else:
+        proxied_path = request_path
+    if not proxied_path.startswith("/"):
+        proxied_path = "/" + proxied_path
+    resource = f"http://host.docker.internal:7607{proxied_path}"
+    partial = requests.get(resource).text
+    partial = rewrite_university_links(partial)
+    return flask.render_template(
+        "university/index.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+        embedded_html=partial,
+    )
+
+
+app.add_url_rule("/university", view_func=university)
+app.add_url_rule("/university/<path:subpath>", view_func=university)
