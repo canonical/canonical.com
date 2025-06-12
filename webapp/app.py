@@ -1473,24 +1473,63 @@ def rewrite_university_links(html):
     return html
 
 
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+def update_openid_params(base_url: str, url: str) -> str:
+    # Ensure trailing slash for realm
+    if not base_url.endswith('/'):
+        base_url += '/'
+
+    # Parse the main URL
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+
+    # Get the current openid.return_to to extract janrain_nonce
+    original_return_to = query_params.get('openid.return_to', [None])[0]
+    if not original_return_to:
+        raise ValueError("Missing 'openid.return_to' in the query string.")
+
+    # Extract janrain_nonce from original return_to
+    return_to_qs = parse_qs(urlparse(original_return_to).query)
+    nonce = return_to_qs.get('janrain_nonce', [None])[0]
+    if not nonce:
+        raise ValueError("Missing 'janrain_nonce' in openid.return_to")
+
+    # Construct new openid.return_to
+    new_return_to = f"{base_url}university/login?next=/shop&openid_complete=yes&janrain_nonce={nonce}"
+
+    # Update the query parameters
+    query_params['openid.return_to'] = [new_return_to]
+    query_params['openid.realm'] = [base_url]
+
+    # Rebuild the final URL
+    new_query = urlencode(query_params, doseq=True)
+    updated_url = urlunparse(parsed_url._replace(query=new_query))
+    return updated_url
+
+
+
 def university(subpath=None):
     """
     University page.
     """
-    request_path = flask.request.path
+    request_path = flask.request.path + "?" + flask.request.query_string.decode("utf-8")
     # Correctly remove the '/university' prefix only once
-    if request_path.startswith("/university"):
-        proxied_path = request_path[len("/university") :]
-    else:
-        proxied_path = request_path
+    proxied_path = request_path[len("/university") :]
     if not proxied_path.startswith("/"):
         proxied_path = "/" + proxied_path
+
     resource = f"http://host.docker.internal:7607{proxied_path}"
     resp = requests.get(resource, allow_redirects=False)
     if resp.is_redirect:
+        print("is_redirect: ", resp.is_redirect)
         location = resp.headers["Location"]
+        print(location)
         if location.startswith("/login"):
-            location = f"/university{location}"
+            location = f"/university{location}"        
+        elif location.startswith("https://login.ubuntu.com/"):
+            current_base = f"{flask.request.scheme}://{flask.request.host}"
+            location = update_openid_params(current_base, location)
         return flask.redirect(location, code=resp.status_code)
 
     embed = rewrite_university_links(resp.text)
@@ -1501,5 +1540,5 @@ def university(subpath=None):
     )
 
 
-app.add_url_rule("/university", view_func=university)
-app.add_url_rule("/university/<path:subpath>", view_func=university)
+app.add_url_rule("/university", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
+app.add_url_rule("/university/<path:subpath>", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
