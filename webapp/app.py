@@ -1448,11 +1448,6 @@ app.add_url_rule(
 
 
 def rewrite_university_links(html):
-    """
-    Prefix all absolute URLs in href/src attributes with /university,
-    unless they already start with /university or are protocol-relative or external.
-    Also rewrite empty and relative href/src attributes to point to /university.
-    """
 
     def repl(match):
         attr = match.group(1)
@@ -1491,12 +1486,18 @@ def university(subpath=None):
     if not proxied_path.startswith("/"):
         proxied_path = "/" + proxied_path
     resource = f"http://host.docker.internal:7607{proxied_path}"
-    partial = requests.get(resource).text
-    partial = rewrite_university_links(partial)
+    resp = requests.get(resource, allow_redirects=False)
+    if resp.is_redirect:
+        location = resp.headers["Location"]
+        if location.startswith("/login"):
+            location = f"/university{location}"
+        return flask.redirect(location, code=resp.status_code)
+
+    embed = rewrite_university_links(resp.text)
     return flask.render_template(
         "university/index.html",
         recaptcha_site_key=RECAPTCHA_SITE_KEY,
-        embedded_html=partial,
+        embedded_html=embed,
     )
 
 
