@@ -35,8 +35,8 @@ meta_copydoc %}
           <a class="homepage p-cta-text">Get in touch<i class="p-icon--arrow-right homepage"></i></a>
         </div>
       </div>
-      <!-- Canvas element where the Lottie animation will be rendered -->
     </div>
+    <!-- Canvas element where the Lottie animation will be rendered -->
     <div id="hero-section-suru-wrapper">
       <canvas id="hero-section-suru-light"></canvas>
       <canvas id="hero-section-suru-shadow"></canvas>
@@ -44,7 +44,7 @@ meta_copydoc %}
   </section>
   <section class="p-section">
     <div class="row p-homepage-card">
-      <div class="col-6">
+      <div class="col-6 col-medium-6">
         <h2 class="p-heading--3">New security research</h2>
         <p>9 out of 10 organizations prefer to source packages from their OS</p>
 
@@ -52,7 +52,7 @@ meta_copydoc %}
            class="homepage p-cta-text">Find out why in IDC’s latest research</a>
 
       </div>
-      <div class="col-6">
+      <div class="col-6 col-medium-6">
         <div class="p-image-container">
           {{ image(url="https://assets.ubuntu.com/v1/4fd20cbc-research.png",
                     alt="",
@@ -79,8 +79,9 @@ meta_copydoc %}
       <div class="p-section--deep">
         <div class="p-homepage-carousel">
           <div class="row">
-            <div class="col-3">
-              <ul class="p--homepage-carousel-tabs u-hide--small" role="tablist">
+            <div class="col-3 col-medium-6">
+              <ul class="p--homepage-carousel-tabs u-hide--medium u-hide--small"
+                  role="tablist">
                 <li>
                   <button class="p--homepage-carousel-tabs__item"
                           id="start-ubuntu"
@@ -143,11 +144,27 @@ meta_copydoc %}
                   </button>
                 </li>
               </ul>
-              <button class="pause-btn">⏸</button>
+              <div class="row u-hide--large">
+                <div class="col-medium-3">
+                  <div class="u-sv1">
+                    <a class="p--homepage-carousel__previous" style="text-decoration: unset">
+                      <i class="p-icon--chevron-left">Previous image</i>
+                    </a>
+                    &nbsp;
+                    <a class="p--homepage-carousel__next" style="text-decoration: unset">
+                      <i class="p-icon--chevron-right">Next image</i>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-medium-3 u-align--right">
+                  <button class="pause-btn">⏸</button>
+                </div>
+              </div>
+              <button class="pause-btn u-hide--small u-hide--medium">⏸</button>
             </div>
 
             <!-- tab content -->
-            <div class="col-9 col-medium-4">
+            <div class="col-9 col-medium-6">
               <div class="p-homepage-carousel--slides"
                    role="tablist"
                    aria-label="Homepage carousel tabs">
@@ -158,7 +175,6 @@ meta_copydoc %}
                      aria-labelledby="start-ubuntu"
                      aria-hidden="true">
                   <div class="p-image--container">
-
                     {{ image(url="https://assets.ubuntu.com/v1/d2b1b018-1.png",
                                         alt="",
                                         width="1832",
@@ -166,7 +182,9 @@ meta_copydoc %}
                                         hi_def=True,
                                         loading="lazy") | safe
                     }}
+                    <div class="progress-bar u-hide--large"></div>
                   </div>
+                  <h3 class="u-hide--large">Start with Ubuntu</h3>
                   <p>
                     Build with confidence on the world’s most popular open source OS, move faster with certified hardware, and empower your developers with access to trusted repositories for all your open source packages.
                   </p>
@@ -179,7 +197,6 @@ meta_copydoc %}
                      aria-labelledby="infrastructure-control"
                      aria-hidden="true">
                   <div class="p-image--container">
-
                     {{ image(url="https://assets.ubuntu.com/v1/0408dba0-2.png",
                                         alt="",
                                         width="1832",
@@ -187,7 +204,10 @@ meta_copydoc %}
                                         hi_def=True,
                                         loading="auto|lazy") | safe
                     }}
+                    <div class="progress-bar u-hide--large"></div>
                   </div>
+                  <h3 class="u-hide--large">Take control of your infrastructure</h3>
+
                   <p>
                     Drive down cloud costs and complexity with automation. Enjoy the freedom of open source infrastructure with a partner that understands your business, the criticality of operational stability and uptime, and the importance of reliable support.
                   </p>
@@ -201,7 +221,6 @@ meta_copydoc %}
                      aria-labelledby="stay-secure"
                      aria-hidden="true">
                   <div class="p-image--container">
-
                     {{ image(url="https://assets.ubuntu.com/v1/2b671f23-3.png",
                                         alt="",
                                         width="1832",
@@ -209,7 +228,10 @@ meta_copydoc %}
                                         hi_def=True,
                                         loading="auto|lazy") | safe
                     }}
+                    <div class="progress-bar u-hide--large"></div>
                   </div>
+                  <h3 class="u-hide--large">Build apps at speed and stay secure</h3>
+
                   <p>
                     Managing dependencies is hard, repetitive and not value-creating -  why do that? Canonical offers you a composable approach to application modernization, providing trusted artifacts you can use to build, deploy and operate containerized apps the way that suits you best and on the cloud of your choice.
                   </p>
@@ -231,7 +253,11 @@ meta_copydoc %}
                                         hi_def=True,
                                         loading="auto|lazy") | safe
                     }}
+                    <div class="progress-bar u-hide--large"></div>
+
                   </div>
+                  <h3 class="u-hide--large">Get an optimized stack for data and AI</h3>
+
                   <p>
                     Accelerate AI and data-driven workflows. Start training your models on the public cloud and scale on your own data center. Take the pain out of operations with our data solutions and MLOps portfolio.
                   </p>
@@ -255,7 +281,11 @@ meta_copydoc %}
                                         hi_def=True,
                                         loading="auto|lazy") | safe
                     }}
+                    <div class="progress-bar u-hide--large"></div>
+
                   </div>
+                  <h3 class="u-hide--large">Deploy smart things at the edge</h3>
+
                   <p>
                     Outpace both vulnerabilities and competitors. Build, secure and scale your IoT devices with trusted open source for all parts of the device lifecycle.
 
@@ -665,6 +695,217 @@ meta_copydoc %}
       </div>
     </div>
   </section>
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-9 col-start-large-4">
+        <h2>Accelerate innovation on any platform</h2>
+        <p>Access an ecosystem of integrated solutions.</p>
+        <hr class="p-rule--muted" />
+      </div>
+    </div>
+    <div class="scroll-section" style="position: relative;">
+      <div class="row--25-75">
+        <div class="col">
+          <div class="scroll-section__sidebar">
+            <div class="scroll-section__indicator"></div>
+            <div class="scroll-section__indicator--outline"></div>
+
+            <div class="scroll-section__tab" data-target="cloud">
+              {{ image(url="https://assets.ubuntu.com/v1/2370a9a8-cloud.svg",
+                            alt="",
+                            width="32",
+                            height="32",
+                            hi_def=True,
+                            loading="auto|lazy") | safe
+              }}
+              <span class="p-text--small-caps">Cloud</span>
+            </div>
+            <div class="scroll-section__tab" data-target="silicon">
+
+              {{ image(url="https://assets.ubuntu.com/v1/9efb4b31-silicon.svg",
+                            alt="",
+                            width="32",
+                            height="32",
+                            hi_def=True,
+                            loading="auto|lazy") | safe
+              }}
+
+            Silicon</span>
+          </div>
+          <div class="scroll-section__tab" data-target="hardware">
+
+            {{ image(url="https://assets.ubuntu.com/v1/d036df5d-hardware.svg",
+                        alt="",
+                        width="32",
+                        height="32",
+                        hi_def=True,
+                        loading="auto|lazy") | safe
+            }}
+            <span class="p-text--small-caps">Hardware</span>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="scroll-section__contentArea" id="contentArea">
+          <div class="scroll-section__content active" id="cloud" aria-hidden="false">
+            <p>Get the scalability and performance you need with Ubuntu across clouds.</p>
+            <a class="homepage p-cta-text" href="/partners/public-cloud"> Discover our public cloud partners
+              <i class="p-icon--arrow-right homepage"></i></a>
+
+            <div class="p-logo-section">
+              <div class="p-logo-section__items">
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/5afa90c1-google-cloud-logo.png",
+                                    alt="Google Cloud",
+                                    width="696",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/0b9f0328-aws-logo.png",
+                                    alt="AWS",
+                                    width="177",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/bb183d2b-Group%203359.png",
+                                    alt="Microsoft",
+                                    width="474",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/7271c669-oracle_logo_white.png",
+                                    alt="Oracle",
+                                    width="474",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/424191f2-ibm-cloud-logo.png",
+                                    alt="IBM Cloud",
+                                    width="474",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="scroll-section__content" id="silicon" aria-hidden="true">
+            <p>Go to market faster with Canonical’s silicon ecosystem.</p>
+
+            <a class="homepage p-cta-text" href="/partners/silicon"> Unleash the power of silicon
+              <i class="p-icon--arrow-right homepage"></i></a>
+            <div class="row">
+              <div class="p-logo-section">
+                <div class="p-logo-section__items">
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/3267d9f8-nvidia-logo.png",
+                                        alt="NVIDIA",
+                                        width="525",
+                                        height="474",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/560da749-arm-logo.png",
+                                        alt="ARM",
+                                        width="183",
+                                        height="474",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/eedd1cbe-intel-new-logo.png",
+                                        alt="Intel",
+                                        width="207",
+                                        height="474",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/74705d48-amd-logo.png",
+                                        alt="AMD",
+                                        width="336",
+                                        height="474",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="scroll-section__content" id="hardware" aria-hidden="true">
+            <p>Build your cloud faster and get optimal performance with Ubuntu Certified Hardware.</p>
+            <a class="homepage p-cta-text" href="/partners/ihv-and-oem">The right hardware makes all the difference
+
+              <i class="p-icon--arrow-right homepage"></i></a>
+            <div class="p-logo-section">
+              <div class="p-logo-section__items">
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/59392278-hp-logo.png",
+                                    alt="HP",
+                                    width="195",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/17527792-dell-technologies-logo-dark-theme.png",
+                                    alt="Dell",
+                                    width="520",
+                                    height="948",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+                <div class="p-logo-section__item">
+                  {{ image(url="https://assets.ubuntu.com/v1/77ee3313-lenovo-logo.png",
+                                    alt="Lenovo",
+                                    width="318",
+                                    height="474",
+                                    hi_def=True,
+                                    loading="lazy",
+                                    attrs={"class": "p-logo-section__logo"}) | safe
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <section class="p-section">
     <div class="row">
