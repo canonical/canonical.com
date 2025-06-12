@@ -1,11 +1,14 @@
-const tabs = document.querySelectorAll(".scroll-section__tab");
-const indicator = document.querySelector(".scroll-section__indicator");
-const sections = document.querySelectorAll(".scroll-section__content");
-let currentIndex = 0;
+const wrappers = document.querySelectorAll(".scroll-section");
 
-const sectionIds = ["cloud", "silicon", "hardware"];
-
-function showSection(index) {
+function showSection(
+  index,
+  currentIndex,
+  setCurrentIndex,
+  tabs,
+  indicator,
+  sections
+) {
+  console.log(`Switching from section ${currentIndex} to ${index}`);
   if (index === currentIndex) return;
 
   const currentSection = sections[currentIndex];
@@ -32,47 +35,82 @@ function showSection(index) {
   activeTab.classList.add("active");
   indicator.style.top = `${activeTab.offsetTop}px`;
 
-  currentIndex = index;
+  setCurrentIndex(index);
 }
 
-// Click navigation
-tabs.forEach((tab, index) => {
-  tab.addEventListener("click", () => showSection(index));
-});
+function setScrollSection(wrapper) {
+  const tabs = wrapper.querySelectorAll(".scroll-section__tab");
+  const indicator = wrapper.querySelector(".scroll-section__indicator");
+  const sections = wrapper.querySelectorAll(".scroll-section__content");
+  let currentIndex = 0;
+  const setCurrentIndex = (val) => {
+    currentIndex = val;
+  };
 
-// Scroll navigation
-const wrapper = document.querySelector(".scroll-section");
-let scrollEnabled = false;
+  let scrollEnabled = false;
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      scrollEnabled = entry.isIntersecting;
-    });
-  },
-  {
-    threshold: 0.2, // Trigger when at least 50% visible
-  }
-);
+  // Click navigation
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () =>
+      showSection(
+        index,
+        currentIndex,
+        setCurrentIndex,
+        tabs,
+        indicator,
+        sections
+      )
+    );
+  });
 
-observer.observe(wrapper);
+  // Scroll navigation
 
-// Scroll listener
-window.addEventListener(
-  "wheel",
-  (e) => {
-    if (!scrollEnabled) return;
-
-    if (e.deltaY > 0 && currentIndex < sections.length - 1) {
-      showSection(currentIndex + 1);
-    } else if (e.deltaY < 0 && currentIndex > 0) {
-      showSection(currentIndex - 1);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        scrollEnabled = entry.isIntersecting;
+      });
+    },
+    {
+      threshold: 1, // Trigger when at least 50% visible
     }
-  },
-  { passive: true }
-);
+  );
 
-// Initial state
-window.addEventListener("load", () => {
-  showSection(0);
-});
+  observer.observe(wrapper);
+
+  // Scroll listener
+  window.addEventListener(
+    "wheel",
+    (e) => {
+      if (!scrollEnabled) return;
+
+      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
+        showSection(
+          currentIndex + 1,
+          currentIndex,
+          setCurrentIndex,
+          tabs,
+          indicator,
+          sections
+        );
+      } else if (e.deltaY < 0 && currentIndex > 0) {
+        showSection(
+          currentIndex - 1,
+          currentIndex,
+          setCurrentIndex,
+          tabs,
+          indicator,
+          sections
+        );
+      }
+    },
+    { passive: true }
+  );
+
+  // Initial state
+  window.addEventListener("load", () => {
+    showSection(0, 0, setCurrentIndex, tabs, indicator, sections);
+  });
+}
+
+wrappers.forEach(setScrollSection);
