@@ -114,7 +114,7 @@ jobs:
           vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-35-staging-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
-          printf "controllers:\n  juju-controller-36-staging-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
+          printf "controllers:\n  juju-controller-35-staging-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
 
       - name: Deploy Application to staging
         run: |
