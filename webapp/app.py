@@ -1006,52 +1006,6 @@ app.add_url_rule(
 )
 data_mongodb_k8s_docs.init_app(app)
 
-# Data Platform PostgreSQL on K8s docs
-data_postgresql_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9307,
-        url_prefix="/data/docs/postgresql/k8s",
-    ),
-    document_template="/data/docs/postgresql/k8s/document.html",
-    url_prefix="/data/docs/postgresql/k8s",
-    blueprint_name="data-docs-postgresql-k8s",
-)
-app.add_url_rule(
-    "/data/docs/postgresql/k8s/search",
-    "data-docs-postgresql-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/postgresql/k8s",
-        template_path="/data/docs/postgresql/k8s/search-results.html",
-    ),
-)
-data_postgresql_k8s_docs.init_app(app)
-
-# Data Platform PostgreSQL on IaaS docs
-data_postgresql_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9710,
-        url_prefix="/data/docs/postgresql/iaas",
-    ),
-    document_template="/data/docs/postgresql/iaas/document.html",
-    url_prefix="/data/docs/postgresql/iaas",
-    blueprint_name="data-docs-postgresql-iaas",
-)
-app.add_url_rule(
-    "/data/docs/postgresql/iaas/search",
-    "data-docs-postgresql-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/postgresql/iaas",
-        template_path="/data/docs/postgresql/iaas/search-results.html",
-    ),
-)
-data_postgresql_iaas_docs.init_app(app)
-
 # Data Platform OpenSearch on IaaS docs
 data_opensearch_iaas_docs = Docs(
     parser=DocParser(
