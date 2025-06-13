@@ -810,11 +810,9 @@ html {
   min-height: 24rem;
 }
 .scroll-section__sidebar {
-  width: 120px;
-  display: flex;
+  width: 100%;
   position: relative;
   flex-direction: column;
-  align-items: center;
   padding-top: 100px;
   left: 0;
   top: 0;
@@ -908,12 +906,16 @@ html {
     transition: padding-left 0.3s ease;
     padding-left: 2rem;
   }
-
+  .p-icon--begin-downloading {
+    @extend %icon;
+    @include vf-icon-begin-downloading(#fc764c);
+  }
   .p-icon--arrow-right:hover {
     padding-left: 3rem; /* Or whatever value you want */
   }
   .p-cta-text {
     color: #fc764c;
+    text-decoration: none;
   }
 }
 
@@ -962,6 +964,14 @@ html {
   gap: 2rem;
 }
 
+.p-homepage-blog-card {
+  background-color: #202020; /* dark background */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
+  border-radius: 4px;
+  align-items: center;
+  margin-right: -1.4rem;
+}
+
 // Homepage Suru Style
 #hero-section-suru-wrapper {
   position: relative;
@@ -1001,12 +1011,18 @@ html {
 
 // Homepage Mega Carousel Styles
 
-.p--homepage-carousel-tabs {
+.p-homepage-carousel {
+  .pause-btn {
+    padding: 0;
+    border: 0;
+  }
+}
+.p-homepage-carousel-tabs {
   list-style: none;
   margin-left: 0;
   padding-left: 0;
 
-  .p--homepage-carousel-tabs__item {
+  .p-homepage-carousel-tabs__item {
     border: 0;
     position: relative;
     display: initial;
@@ -1015,12 +1031,12 @@ html {
     margin-bottom: 0;
     padding-left: 0;
   }
-  .p--homepage-carousel-tabs__item:hover {
+  .p-homepage-carousel-tabs__item:hover {
     background: var(--vf-color-background-default);
     font-weight: bold;
   }
 }
-.p--homepage-carousel-tabs__item[aria-selected="true"] {
+.p-homepage-carousel-tabs__item[aria-selected="true"] {
   background: var(--vf-color-background-default);
 
   .progress-bar {
@@ -1049,7 +1065,7 @@ html {
   @starting-style {
     opacity: 0;
   }
-    .progress-bar {
+  .progress-bar {
     position: relative;
     height: 5px;
     background: white;
