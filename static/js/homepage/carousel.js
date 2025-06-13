@@ -1,5 +1,5 @@
 const slides = document.querySelectorAll(".p-homepage-carousel--slide");
-const navItems = document.querySelectorAll(".p--homepage-carousel-tabs__item");
+const navItems = document.querySelectorAll(".p-homepage-carousel-tabs__item");
 const pauseBtns = document.querySelectorAll(".pause-btn");
 
 let currentIndex = 0;
@@ -39,7 +39,10 @@ function nextSlide() {
 function pauseSlide() {
   isPaused = !isPaused;
   pauseBtns.forEach(
-    (pauseBtn) => (pauseBtn.textContent = isPaused ? "▶️" : "⏸")
+    (pauseBtn) =>
+      (pauseBtn.querySelector("img").src = isPaused
+        ? "https://assets.ubuntu.com/v1/58c707b0-play.svg"
+        : "https://assets.ubuntu.com/v1/398d9c17-pause.svg")
   );
   if (isPaused) {
     clearInterval(interval);
@@ -86,8 +89,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 // arrow buttons
-const arrowNext = document.querySelector(".p--homepage-carousel__next");
-const arrowPrev = document.querySelector(".p--homepage-carousel__previous");
+const arrowNext = document.querySelector(".p-homepage-carousel__next");
+const arrowPrev = document.querySelector(".p-homepage-carousel__previous");
 arrowNext.addEventListener("click", () => {
   nextSlide();
   if (!isPaused) {
