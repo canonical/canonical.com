@@ -1,0 +1,108 @@
+# This file configures Charmcraft.
+# See https://juju.is/docs/sdk/charmcraft-config for guidance.
+
+name: canonical-com
+
+type: charm
+
+bases:
+  - build-on:
+      - name: ubuntu
+        channel: "22.04"
+    run-on:
+      - name: ubuntu
+        channel: "22.04"
+
+summary: https://canonical.com
+
+description: |
+  This is the flask charm for the canonical.com website.
+
+extensions:
+  - flask-framework
+config:
+  options:
+    greenhouse-debug:
+      type: string
+      description: "Greenhouse debug key used in harvest api"
+      default: "true"
+    harvest-api-key:
+      type: string
+      description: "Harvest api key used in harvest api"
+      default: "harvest_api_key"
+    application-crypto-secret-key:
+      type: string
+      description: "Harvest api cipher key"
+      default: "super_secret"
+    service-account-email:
+      type: string
+      description: "Google service account"
+      default: "test_email@email.com"
+    service-account-private-key:
+      type: string
+      description: "Google service account private key"
+      default: "test_private_key"
+    sitemap-secret:
+      type: string
+      description: "Sitemap access secret"
+      default: "sitemap_secret"
+    recaptcha-enabled:
+      type: string
+      description: "Flag to enable or disable recaptcha"
+      default: "false"
+    greenhouse-api-key:
+      type: string
+      description: "Greenhouse API key"
+      default: ""
+    recaptcha-site-key:
+      type: string
+      description: "Recaptcha site key"
+      default: "recaptch_site_key"
+    recaptcha-project-id:
+      type: string
+      description: "Recaptcha project ID"
+      default: "recaptcha_project_id"
+    recaptcha-api-key:
+      type: string
+      description: "Recaptcha API key"
+      default: "recaptcha_api_key"
+    recaptcha-score-threshold:
+      type: string
+      description: "Recaptcha score threshold"
+      default: "0.5"
+    charmhub-discourse-api-key:
+      type: string
+      description: "Charmhub Discourse API key"
+      default: "charmhub_discourse_api_key"
+    charmhub-discourse-api-user:
+      type: string
+      description: "Charmhub Discourse API user"
+      default: "charmhub_discourse_api_user"
+    discourse-api-key:
+      type: string
+      description: "Discourse API key"
+      default: "discourse_api_key"
+    discourse-api-username:
+      type: string
+      description: "Discourse API username"
+      default: "discourse_api_username"
+    directory-api-token:
+      type: string
+      description: "Directory API token"
+      default: "disrectory_api_token"
+    smtp-server:
+      type: string
+      description: "SMTP server hostname"
+      default: "smtp.example.com"
+    smtp-user:
+      type: string
+      description: "SMTP username"
+      default: "smtp_user"
+    smtp-pass:
+      type: string
+      description: "SMTP password"
+      default: "smtp_pass"
+    smtp-sender-address:
+      type: string
+      description: "SMTP sender email address"
+      default: "user@example.com"
