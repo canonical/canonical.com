@@ -1,34 +1,33 @@
 # Standard library
-import logging
-import json
-import datetime
 import calendar
+import datetime
+import json
+import logging
+import math
 import os
 import re
+from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlparse
 import yaml
 
 import bleach
 import flask
 import markdown
-from jinja2 import ChoiceLoader, FileSystemLoader
-import math
 
 # Packages
-from canonicalwebteam import image_template
+from canonicalwebteam import directory_parser, image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
-from canonicalwebteam.flask_base.app import FlaskBase
-from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.discourse import (
     DiscourseAPI,
-    Docs,
     DocParser,
+    Docs,
     EngagePages,
 )
+from canonicalwebteam.flask_base.app import FlaskBase
+from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
-import canonicalwebteam.directory_parser as directory_parser
-from pathlib import Path
+from canonicalwebteam.templatefinder import TemplateFinder
+from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -36,15 +35,16 @@ from slugify import slugify
 from webapp.application import application
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
-from webapp.partners import Partners
-from webapp.static_data import homepage_featured_products
 from webapp.navigation import (
-    get_current_page_bubble,
     build_navigation,
+    get_current_page_bubble,
     split_list,
 )
+from webapp.partners import Partners
+from webapp.recaptcha import RECAPTCHA_CONFIG, verify_recaptcha
 from webapp.requests_session import get_requests_session
-from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
+from webapp.static_data import homepage_featured_products
+from webapp.utils.env import load_plain_env_variables
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +66,8 @@ DYNAMIC_SITEMAPS = [
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
 
+# Load plain variables into environment
+load_plain_env_variables()
 app = FlaskBase(
     __name__,
     "canonical.com",
@@ -74,6 +76,8 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+# Load env variables into app config
+app.config.from_prefixed_env()
 
 # ChoiceLoader attempts loading templates from each path in successive order
 directory_parser_templates = (
@@ -84,7 +88,7 @@ loader = ChoiceLoader(
         FileSystemLoader("templates"),
         FileSystemLoader("node_modules/vanilla-framework/templates/"),
         FileSystemLoader(str(directory_parser_templates)),
-    ]
+    ],
 )
 
 # Loader supplied to jinja_loader overwrites default jinja_loader
@@ -109,13 +113,11 @@ form_loader.load_forms()
 
 
 def _group_by_department(harvest, vacancies):
-    """
-    Return a dictionary of departments by slug,
+    """Return a dictionary of departments by slug,
     where each department will have a new
     "vacancies" property of all the vacancies in
     that department
     """
-
     all_departments = harvest.get_departments()
     vacancies_by_department = {}
 
@@ -172,9 +174,7 @@ def _get_sorted_departments(greenhouse, harvest):
 
 
 def _get_all_departments(greenhouse, harvest) -> tuple:
-    """
-    Refactor for careers search section
-    """
+    """Refactor for careers search section"""
     all_departments = (
         _group_by_department(harvest, greenhouse.get_vacancies()),
     )
@@ -223,7 +223,7 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
                         "count": count,
                         "slug": slug,
                         "icon": icon,
-                    }
+                    },
                 )
 
     return all_departments, departments_overview
@@ -281,7 +281,8 @@ app.add_url_rule(
 @app.route("/secure-boot-master-ca.crl")
 def secure_boot():
     return flask.send_from_directory(
-        "../static/files", "secure-boot-master-ca.crl"
+        "../static/files",
+        "secure-boot-master-ca.crl",
     )
 
 
@@ -303,7 +304,8 @@ def careers_results(greenhouse, harvest):
 
     context = {
         "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
+            harvest,
+            greenhouse.get_vacancies(),
         ),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
@@ -358,11 +360,11 @@ def careers_rss(greenhouse):
     defaults={"job_title": None},
 )
 @app.route(
-    "/careers/<regex('[0-9]+'):job_id>/<job_title>", methods=["GET", "POST"]
+    "/careers/<regex('[0-9]+'):job_id>/<job_title>",
+    methods=["GET", "POST"],
 )
 def handle_job_details(job_id, job_title):
-    """
-    job_title is not used, but is included in the route to avoid
+    """job_title is not used, but is included in the route to avoid
     breaking existing links
     """
     with get_requests_session() as session:
@@ -385,7 +387,7 @@ def job_details(session, greenhouse, harvest, job_id):
     except HTTPError as error:
         if error.response.status_code == 404:
             logger.exception(
-                f"requesting details for non-existing job post {job_id=}"
+                f"requesting details for non-existing job post {job_id=}",
             )
             flask.abort(404)
         else:
@@ -394,7 +396,9 @@ def job_details(session, greenhouse, harvest, job_id):
     if flask.request.method == "POST":
         recaptcha_token = flask.request.form.get("recaptcha_token")
         recaptcha_passed = verify_recaptcha(
-            session, recaptcha_token, "JOB_APPLY"
+            session,
+            recaptcha_token,
+            "JOB_APPLY",
         )
         if not recaptcha_passed:
             context["message"] = {
@@ -407,20 +411,21 @@ def job_details(session, greenhouse, harvest, job_id):
             return flask.render_template("/careers/job-detail.html", **context)
 
         response = greenhouse.submit_application(
-            flask.request.form, flask.request.files, job_id
+            flask.request.form,
+            flask.request.files,
+            job_id,
         )
         if response.status_code == 200:
             return flask.render_template("/careers/thank-you.html", **context)
 
-        else:
-            logger.error(
-                f"submit application error {response.status_code=} {job_id=}"
-            )
-            context["message"] = {
-                "type": "negative",
-                "title": f"Error {response.status_code}",
-                "text": f"{response.reason}. Please try again!",
-            }
+        logger.error(
+            f"submit application error {response.status_code=} {job_id=}",
+        )
+        context["message"] = {
+            "type": "negative",
+            "title": f"Error {response.status_code}",
+            "text": f"{response.reason}. Please try again!",
+        }
 
     return flask.render_template("/careers/job-detail.html", **context)
 
@@ -435,8 +440,7 @@ def start_career():
 
 @app.route("/careers/roles.json")
 def handle_roles():
-    """
-    API endpoint for _navigation to consume
+    """API endpoint for _navigation to consume
     roles by department section with the up to date roles.
     """
     with get_requests_session() as session:
@@ -447,15 +451,15 @@ def handle_roles():
 
 def roles(greenhouse, harvest):
     all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+        greenhouse,
+        harvest,
     )
     return flask.jsonify(departments_overview)
 
 
 @app.route("/careers")
 def handle_careers_index():
-    """
-    Create a dictionary containing number of roles, slug
+    """Create a dictionary containing number of roles, slug
     and department name for a given department
     """
     with get_requests_session() as session:
@@ -466,7 +470,8 @@ def handle_careers_index():
 
 def careers_index(greenhouse, harvest):
     all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+        greenhouse,
+        harvest,
     )
 
     return flask.render_template(
@@ -528,7 +533,8 @@ def handle_careers_progression():
 
 def careers_progression(greenhouse, harvest):
     all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+        greenhouse,
+        harvest,
     )
 
     return flask.render_template(
@@ -553,13 +559,15 @@ def handle_diversity():
 def diversity(greenhouse, harvest):
     context = {
         "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
+            harvest,
+            greenhouse.get_vacancies(),
         ),
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
     }
     context["department"] = None
     return flask.render_template(
-        "careers/company-culture/diversity.html", **context
+        "careers/company-culture/diversity.html",
+        **context,
     )
 
 
@@ -628,8 +636,7 @@ def department_group(greenhouse, harvest, department_slug):
     # Generate list of templates in the /templates/careers folder,
     # and remove the .html suffix
     for template in os.listdir("./templates/careers"):
-        if template.endswith(".html"):
-            template = template[:-5]
+        template = template.removesuffix(".html")
         templates.append(template)
 
     return flask.render_template(
@@ -654,7 +661,8 @@ def handle_find_a_partner():
 
 def find_a_partner(partners_api):
     partners = sorted(
-        partners_api.get_partner_list(), key=lambda item: item["name"]
+        partners_api.get_partner_list(),
+        key=lambda item: item["name"],
     )
 
     partners_length = len(partners)
@@ -686,10 +694,14 @@ class PressCentre(BlogView):
     def dispatch_request(self):
         page_param = flask.request.args.get("page", default=1, type=int)
         category_param = flask.request.args.get(
-            "category", default="", type=str
+            "category",
+            default="",
+            type=str,
         )
         context = self.blog_views.get_group(
-            "canonical-announcements", page_param, category_param
+            "canonical-announcements",
+            page_param,
+            category_param,
         )
 
         return flask.render_template("press-centre/index.html", **context)
@@ -777,7 +789,8 @@ def utility_processor():
 # Blog pagination
 def modify_query(params):
     query_params = parse_qs(
-        flask.request.query_string.decode("utf-8"), keep_blank_values=True
+        flask.request.query_string.decode("utf-8"),
+        keep_blank_values=True,
     )
     query_params.update(params)
 
@@ -821,7 +834,8 @@ def context():
 @app.template_filter()
 def convert_to_kebab(kebab_input):
     words = re.findall(
-        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
+        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+",
+        kebab_input,
     )
 
     return "-".join(map(str.lower, words))
@@ -1166,8 +1180,7 @@ def unauthorized_error(error):
 
 
 def get_user_country_by_tz():
-    """
-    Get user country by timezone using ISO 3166 country codes.
+    """Get user country by timezone using ISO 3166 country codes.
     We store the country codes and timezones as static JSON files in the
     static/files directory.
 
@@ -1178,12 +1191,12 @@ def get_user_country_by_tz():
     timezone = flask.request.args.get("tz")
 
     with open(
-        os.path.join(APP_ROOT, "static/files/timezones.json"), "r"
+        os.path.join(APP_ROOT, "static/files/timezones.json"),
     ) as file:
         timezones = json.load(file)
 
     with open(
-        os.path.join(APP_ROOT, "static/files/countries.json"), "r"
+        os.path.join(APP_ROOT, "static/files/countries.json"),
     ) as file:
         countries = json.load(file)
 
@@ -1211,7 +1224,7 @@ def get_user_country_by_tz():
         {
             "country": country,
             "country_code": _country,
-        }
+        },
     )
 
 
@@ -1222,7 +1235,8 @@ app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
 def osredirect(osname):
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
     json_path = os.path.join(
-        SITE_ROOT, "../static/files/latest-multipass-releases.json"
+        SITE_ROOT,
+        "../static/files/latest-multipass-releases.json",
     )
     release = json.load(open(json_path))
     return flask.redirect(release["installer_urls"][osname], code=302)
@@ -1269,7 +1283,10 @@ def build_case_study_index(engage_docs):
                 active_count,
                 current_total,
             ) = engage_docs.get_index(
-                limit, offset, key="type", value="case study"
+                limit,
+                offset,
+                key="type",
+                value="case study",
             )
         total_pages = math.ceil(current_total / limit)
 
@@ -1317,7 +1334,8 @@ case_studies = EngagePages(
 )
 
 app.add_url_rule(
-    case_study_path, view_func=build_case_study_index(case_studies)
+    case_study_path,
+    view_func=build_case_study_index(case_studies),
 )
 
 
@@ -1328,7 +1346,9 @@ def build_sitemap_tree(exclude_paths=None):
         base_url = "https://canonical.com"
         try:
             xml_sitemap = directory_parser.generate_sitemap(
-                directory_path, base_url, exclude_paths=exclude_paths
+                directory_path,
+                base_url,
+                exclude_paths=exclude_paths,
             )
             if xml_sitemap:
                 with open(sitemap_path, "w") as f:
@@ -1336,17 +1356,15 @@ def build_sitemap_tree(exclude_paths=None):
                 logging.info(f"Sitemap saved to {sitemap_path}")
 
                 return xml_sitemap
-            else:
-                logging.warning("Sitemap is empty")
-                return {"error:", "Sitemap is empty"}, 400
+            logging.warning("Sitemap is empty")
+            return {"error:", "Sitemap is empty"}, 400
 
         except Exception as e:
-            logging.error(f"Error generating sitemap: {e}")
+            logging.exception(f"Error generating sitemap: {e}")
             return f"Generate_sitemap error: {e}", 500
 
     def serve_sitemap():
-        """
-        Generate and serve the sitemap_tree.xml file.
+        """Generate and serve the sitemap_tree.xml file.
         This sitemap tracks changes in the template files and is generated
         dynamically on every new push to main.
         """
@@ -1356,7 +1374,8 @@ def build_sitemap_tree(exclude_paths=None):
         if flask.request.method == "POST":
             expected_secret = os.getenv("SITEMAP_SECRET")
             provided_secret = flask.request.headers.get(
-                "Authorization", ""
+                "Authorization",
+                "",
             ).replace("Bearer ", "")
 
             if provided_secret != expected_secret:
@@ -1367,7 +1386,7 @@ def build_sitemap_tree(exclude_paths=None):
             return {
                 "message": (
                     f"Sitemap successfully generated at {sitemap_path}"
-                )
+                ),
             }, 200
 
         # Generate sitemap if it does not exist
@@ -1375,7 +1394,7 @@ def build_sitemap_tree(exclude_paths=None):
             xml_sitemap = create_sitemap(sitemap_path)
 
         # Serve the existing sitemap
-        with open(sitemap_path, "r") as f:
+        with open(sitemap_path) as f:
             xml_sitemap = f.read()
 
         response = flask.make_response(xml_sitemap)
@@ -1389,7 +1408,8 @@ def build_sitemap_tree(exclude_paths=None):
 def get_sitemaps_tree():
     try:
         tree = directory_parser.scan_directory(
-            os.getcwd() + "/templates", exclude_paths=DYNAMIC_SITEMAPS
+            os.getcwd() + "/templates",
+            exclude_paths=DYNAMIC_SITEMAPS,
         )
     except Exception as e:
         return {"Error:": str(e)}, 500
