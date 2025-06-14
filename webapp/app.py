@@ -28,6 +28,7 @@ from canonicalwebteam.discourse import (
 from canonicalwebteam.search import build_search_view
 import canonicalwebteam.directory_parser as directory_parser
 from pathlib import Path
+import requests
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -1442,5 +1443,102 @@ app.add_url_rule("/sitemap_parser", view_func=get_sitemaps_tree)
 app.add_url_rule(
     "/sitemap_tree.xml",
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
-    methods=["GET", "POST"],
+    methods=["*"],
 )
+
+
+def rewrite_university_links(html):
+
+    def repl(match):
+        attr = match.group(1)
+        url = match.group(2)
+        # Already correct or external
+        if (
+            url.startswith("/university")
+            or url.startswith("//")
+            or url.startswith("http://")
+            or url.startswith("https://")
+        ):
+            return match.group(0)
+        # Empty href/src
+        if url == "":
+            return f'{attr}="/university"'
+        # Absolute path
+        if url.startswith("/"):
+            return f'{attr}="/university{url}"'
+        # Relative path (not starting with /, http, or //)
+        return f'{attr}="/university/{url}"'
+
+    html = re.sub(r'(href|src)=["\']([^"\']*)["\']', repl, html)
+    return html
+
+
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+def update_openid_params(base_url: str, url: str) -> str:
+    # Ensure trailing slash for realm
+    if not base_url.endswith('/'):
+        base_url += '/'
+
+    # Parse the main URL
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+
+    # Get the current openid.return_to to extract janrain_nonce
+    original_return_to = query_params.get('openid.return_to', [None])[0]
+    if not original_return_to:
+        raise ValueError("Missing 'openid.return_to' in the query string.")
+
+    # Extract janrain_nonce from original return_to
+    return_to_qs = parse_qs(urlparse(original_return_to).query)
+    nonce = return_to_qs.get('janrain_nonce', [None])[0]
+    if not nonce:
+        raise ValueError("Missing 'janrain_nonce' in openid.return_to")
+
+    # Construct new openid.return_to
+    new_return_to = f"{base_url}university/login?next=/shop&openid_complete=yes&janrain_nonce={nonce}"
+
+    # Update the query parameters
+    query_params['openid.return_to'] = [new_return_to]
+    query_params['openid.realm'] = [base_url]
+
+    # Rebuild the final URL
+    new_query = urlencode(query_params, doseq=True)
+    updated_url = urlunparse(parsed_url._replace(query=new_query))
+    return updated_url
+
+
+
+def university(subpath=None):
+    """
+    University page.
+    """
+    request_path = flask.request.path + "?" + flask.request.query_string.decode("utf-8")
+    # Correctly remove the '/university' prefix only once
+    proxied_path = request_path[len("/university") :]
+    if not proxied_path.startswith("/"):
+        proxied_path = "/" + proxied_path
+
+    resource = f"http://host.docker.internal:7607{proxied_path}"
+    resp = requests.get(resource, allow_redirects=False)
+    if resp.is_redirect:
+        print("is_redirect: ", resp.is_redirect)
+        location = resp.headers["Location"]
+        print(location)
+        if location.startswith("/login"):
+            location = f"/university{location}"        
+        elif location.startswith("https://login.ubuntu.com/"):
+            current_base = f"{flask.request.scheme}://{flask.request.host}"
+            location = update_openid_params(current_base, location)
+        return flask.redirect(location, code=resp.status_code)
+
+    embed = rewrite_university_links(resp.text)
+    return flask.render_template(
+        "university/index.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+        embedded_html=embed,
+    )
+
+
+app.add_url_rule("/university", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
+app.add_url_rule("/university/<path:subpath>", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
