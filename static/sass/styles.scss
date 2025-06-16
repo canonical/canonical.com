@@ -879,6 +879,9 @@ html {
 
 .scroll-section__tab.active {
   color: orange;
+  @media screen and (width < $breakpoint-large) {
+    color: bisque;
+  }
 }
 
 .scroll-section__contentArea {
@@ -921,11 +924,28 @@ html {
 //////////////////////////////////////////////
 // Homepage styles
 
-.homepage .p-button--positive {
-  background: #cc420a;
-  border: none;
-}
+// .homepage .p-button--positive {
+//   background: #cc420a;
+//   border: none;
+// }
 .homepage {
+   .p-button--positive {
+    @extend %vf-button-base;
+    @extend %vf-button-white-success-icon;
+
+    @include vf-button-pattern(
+      $button-background-color: #cc420a ,
+      $button-hover-background-color: #ff7139,
+      $button-active-background-color: #ff7139,
+      $button-disabled-background-color: $colors--theme--button-positive-default,
+      $button-border-color: #cc420a,
+      $button-hover-border-color: #cc420a,
+      $button-active-border-color: #cc420a,
+      $button-disabled-border-color: $colors--theme--button-positive-default,
+      $button-text-color: $colors--theme--button-positive-text
+    );
+    @include vf-focus($color-focus-positive);
+  }
   .p-icon--arrow-right {
     @extend %icon;
     @include vf-themed-icon(
@@ -939,18 +959,18 @@ html {
     @extend %icon;
     @include vf-icon-begin-downloading(#fc764c);
   }
-  .p-icon--arrow-right:hover {
-    padding-left: 3rem; /* Or whatever value you want */
-  }
   .p-cta-text {
     color: #fc764c;
     text-decoration: none;
   }
+  .p-cta-text:hover {
+    .p-icon--arrow-right {
+      padding-left: 3rem; /* Or whatever value you want */
+    }
+  }
 }
 
 .p-tabs.homepage {
-  padding-left: $spv--x-large;
-  padding-right: $spv--x-large;
   max-height: 56rem;
 
   @media screen and (max-width: $breakpoint-small - 1) {
@@ -1005,7 +1025,7 @@ html {
 #hero-section-suru-wrapper {
   position: relative;
   width: 100%;
-  margin-top: -15rem;
+  margin-top: -12rem;
   margin-bottom: -15rem;
   height: 800px;
   overflow: hidden;
