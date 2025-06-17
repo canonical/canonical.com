@@ -140,7 +140,7 @@ def after_login(resp):
         "is_credentials_support": is_credentials_support,
     }
 
-    return flask.redirect(f"/university/proxy-login?next={open_id.get_next_url()}")
+    return flask.redirect(open_id.get_next_url())
 
 
 def logout():

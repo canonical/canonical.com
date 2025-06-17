@@ -1517,8 +1517,8 @@ def university(subpath=None):
         flask.request.path + "?" + flask.request.query_string.decode("utf-8")
     )
     proxied_path = request_path[len("/university") :]
-    user_token = flask.session.get("authentication_token")
-    openid = flask.session.get("openid")
+    user_token = flask.session.get("authentication_token", "")
+    openid = flask.session.get("openid", "")
     
     # if not user_token:
     #     if proxied_path.startswith("/shop") or proxied_path.startswith("/your-exams"):
@@ -1529,16 +1529,8 @@ def university(subpath=None):
 
     resource = f"http://host.docker.internal:7607{proxied_path}"
     method = flask.request.method
-    body = {}
-    
-    if proxied_path.startswith("/proxy-login"):
-        body["openid"] = flask.session.get("openid", "")
-        body["authentication_token"] = user_token if user_token else ""
-        method = "POST"
-    else:
-        body = flask.request.form if method in ["POST", "PUT", "PATCH"] else None
+    body = flask.request.form if method in ["POST", "PUT", "PATCH"] else None
 
-    print(urlencode(openid))
     resp = requests.request(
         method,
         resource,
@@ -1549,15 +1541,10 @@ def university(subpath=None):
             "Openid": urlencode(openid), 
         }
     )
-    if proxied_path.startswith("/proxy-login"):
-        next = flask.request.args.get("next", "")
-        if next:
-            return flask.redirect(next)
         
     if resp.is_redirect:
         location = resp.headers["Location"]
         if location.startswith("/login"):
-            next = flask.request.args.get("next", "")
             return flask.redirect("/login")
             # location = f"/university{location}"
         return flask.redirect(location, code=resp.status_code)
