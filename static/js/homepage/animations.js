@@ -5,7 +5,7 @@ window.homepageSuru_light = new DotLottie({
   autoplay: true,
   loop: false,
   canvas: document.querySelector("#hero-section-suru-light"),
-  src: "/static/json/suru_light.json",
+  src: "/static/json/suru_light.lottie",
 });
 
 // Initialize dark animation
@@ -13,7 +13,7 @@ window.homepageSuru_dark = new DotLottie({
   autoplay: true,
   loop: false,
   canvas: document.querySelector("#hero-section-suru-shadow"),
-  src: "/static/json/suru_shadow.json",
+  src: "/static/json/suru_shadow.lottie",
 });
 
 // Helper function to set direction + play
@@ -63,7 +63,27 @@ window.homepageSuru_dark.addEventListener("load", suruScrollHandler);
 
 window.centrepage = new DotLottie({
   autoplay: true,
-  loop: true,
+  loop: false,
   canvas: document.querySelector("#centre-animation"),
   src: "/static/json/centre.lottie",
+});
+
+window.centrepage.addEventListener("load", () => {
+  // Play the animation when it is loaded
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          playAnimation(window.centrepage, true);
+        } else {
+          window.centrepage.pause();
+        }
+      });
+    },
+    {
+      threshold: 0.1, // Trigger when at least 50% visible
+    }
+  );
+  const centreContainer = document.querySelector("#centre-animation");
+  observer.observe(centreContainer);
 });

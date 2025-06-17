@@ -102,9 +102,9 @@ meta_copydoc %}
                           data-index="0"
                           aria-selected="true"
                           aria-controls="start-ubuntu-tab">
-                    <hr class="p-rule--muted" />
+                    <hr class="progress-bar--husk" />
                     <div class="progress-bar"></div>
-                    Start-with-ubuntu
+                    Start with Ubuntu
                   </button>
                 </li>
                 <li>
@@ -114,7 +114,7 @@ meta_copydoc %}
                           data-index="1"
                           aria-selected="false"
                           aria-controls="infrastructure-control-tab">
-                    <hr class="p-rule--muted" />
+                    <hr class="progress-bar--husk" />
                     <div class="progress-bar"></div>
                     Take control of your infrastructure
                   </button>
@@ -126,7 +126,7 @@ meta_copydoc %}
                           data-index="2"
                           aria-selected="false"
                           aria-controls="stay-secure-tab">
-                    <hr class="p-rule--muted" />
+                    <hr class="progress-bar--husk" />
                     <div class="progress-bar"></div>
                     Build apps at speed and stay secure
                   </button>
@@ -139,7 +139,7 @@ meta_copydoc %}
                           aria-selected="false"
                           aria-controls="optimized-ai-tab">
                     <hr class="p-rule--muted" />
-                    <div class="progress-bar"></div>
+                    <div class="progress-bar--husk"></div>
                     Get an optimized stack for data and AI
 
                   </button>
@@ -151,7 +151,7 @@ meta_copydoc %}
                           data-index="4"
                           aria-selected="false"
                           aria-controls="smart-edge-tab">
-                    <hr class="p-rule--muted" />
+                    <hr class="progress-bar--husk" />
                     <div class="progress-bar"></div>
                     Deploy smart things at the edge
                   </button>
@@ -249,7 +249,7 @@ meta_copydoc %}
                     Managing dependencies is hard, repetitive and not value-creating -  why do that? Canonical offers you a composable approach to application modernization, providing trusted artifacts you can use to build, deploy and operate containerized apps the way that suits you best and on the cloud of your choice.
                   </p>
                   <a href="/solutions/cloud-native-development"
-                     class="homepage p-cta-text">Break the mold -- build composable<i class="p-icon--arrow-right homepage"></i></a>
+                     class="homepage p-cta-text">Break the mold &ndash; build composable<i class="p-icon--arrow-right homepage"></i></a>
                 </div>
                 <div tabindex="0"
                      class="p-homepage-carousel--slide"
@@ -325,21 +325,21 @@ meta_copydoc %}
       </div>
       <!-- lottie animation -->
       <div class="u-hide--small u-hide--medium">
-        <canvas id="centre-animation" height="1000" width="1000"></canvas>
+        <div id="centre-animation-wrapper">
+          <button class="centre-animation-leaf">Consistent&nbsp;security</button>
+          <canvas id="centre-animation" style="height: auto; width: 100%"></canvas>
+        </div>
       </div>
     </div>
   </section>
 
-
   <section class="p-section">
     <div class="row">
-        <div class="col-9 col-start-large-4">
-  <div class="p-section--shallow">
-      <h2>
-        Do more with trusted open source
-      </h2>
-  </div>
-  </div>
+      <div class="col-9 col-start-large-4">
+        <div class="p-section--shallow">
+          <h2>Do more with trusted open source</h2>
+        </div>
+      </div>
       <div class="col-medium-6 col-12">
         <div class="p-tabs homepage row js-tabbed-content"
              role="tablist"
@@ -396,10 +396,10 @@ meta_copydoc %}
             <div class="p-section">
               <div class="row">
                 <div class="col-3">
-          {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%20group.png",
-            alt="",
-            width="200",
-            height="76",
+                  {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%20group.png",
+                                    alt="",
+                                    width="200",
+                                    height="76",
                                     hi_def=True,
                                     loading="lazy") | safe
                   }}
@@ -782,16 +782,16 @@ meta_copydoc %}
       <div class="col-9 col-start-large-4">
         <h2>Accelerate innovation on any platform</h2>
         <p>Access an ecosystem of integrated solutions.  Deliver innovation at speed and at scale.</p>
-        <hr class="p-rule--muted" />
+        <hr class="p-rule--muted u-hide--medium u-hide--small" />
       </div>
     </div>
     <div class="scroll-section" style="position: relative;">
-      <div class="row--25-75">
-        <div class="col">
+      <div class="row">
+        <div class="col-3 col-medium-6">
           <div class="scroll-section__sidebar">
-            <div class="scroll-section__indicator"></div>
-            <div class="scroll-section__indicator--outline"></div>
-            <div class="scroll-section__tab" data-target="cloud">
+            <div class="scroll-section__indicator u-hide--medium u-hide--small"></div>
+            <div class="scroll-section__indicator--outline u-hide--medium u-hide--small"></div>
+            <div class="scroll-section__tab active" data-target="cloud">
               {{ image(url="https://assets.ubuntu.com/v1/2370a9a8-cloud.svg",
                             alt="",
                             width="32",
@@ -800,8 +800,9 @@ meta_copydoc %}
                             loading="lazy") | safe
               }}
               <span class="p-text--small-caps">Cloud</span>
+              <hr class="u-hide--large" >
             </div>
-            <br />
+            <br class="u-hide--medium u-hide--small" />
             <div class="scroll-section__tab" data-target="silicon">
               {{ image(url="https://assets.ubuntu.com/v1/9efb4b31-silicon.svg",
                             alt="",
@@ -811,8 +812,10 @@ meta_copydoc %}
                             loading="lazy") | safe
               }}
             Silicon</span>
+                          <hr class="u-hide--large" >
+
           </div>
-          <br />
+          <br class="u-hide--medium u-hide--small" />
           <div class="scroll-section__tab" data-target="hardware">
             {{ image(url="https://assets.ubuntu.com/v1/d036df5d-hardware.svg",
                         alt="",
@@ -822,10 +825,13 @@ meta_copydoc %}
                         loading="lazy") | safe
             }}
             <span class="p-text--small-caps">Hardware</span>
+                          <hr class="u-hide--large" >
+
           </div>
         </div>
+        <hr class="u-hide--large" />
       </div>
-      <div class="col">
+      <div class="col-9 col-medium-6">
         <div class="scroll-section__contentArea">
           <div class="scroll-section__content active" aria-hidden="false">
             <p>Get the scalability and performance you need with Ubuntu across clouds.</p>
@@ -1000,13 +1006,19 @@ meta_copydoc %}
 
           <div class="scroll-section__tab active">
             <span class="p-text--small-caps">Latest stories</span>
+                          <hr class="u-hide--large" >
+
           </div>
           <div class="scroll-section__tab">
             <span class="p-text--small-caps">Webinars and events</span>
+                          <hr class="u-hide--large" >
+
           </div>
           <div class="scroll-section__tab">
 
             <span class="p-text--small-caps">Guides and research</span>
+                          <hr class="u-hide--large" >
+
           </div>
         </div>
       </div>
