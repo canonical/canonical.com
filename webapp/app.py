@@ -45,6 +45,7 @@ from webapp.navigation import (
 )
 from webapp.requests_session import get_requests_session
 from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
+from webapp.login import login_handler, logout
 
 logger = logging.getLogger(__name__)
 
@@ -241,7 +242,6 @@ def index():
     }
 
     return flask.render_template("index.html", **context)
-
 
 @app.route("/sitemap.xml")
 def index_sitemap():
@@ -1475,23 +1475,24 @@ def rewrite_university_links(html):
 
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
+
 def update_openid_params(base_url: str, url: str) -> str:
     # Ensure trailing slash for realm
-    if not base_url.endswith('/'):
-        base_url += '/'
+    if not base_url.endswith("/"):
+        base_url += "/"
 
     # Parse the main URL
     parsed_url = urlparse(url)
     query_params = parse_qs(parsed_url.query)
 
     # Get the current openid.return_to to extract janrain_nonce
-    original_return_to = query_params.get('openid.return_to', [None])[0]
+    original_return_to = query_params.get("openid.return_to", [None])[0]
     if not original_return_to:
         raise ValueError("Missing 'openid.return_to' in the query string.")
 
     # Extract janrain_nonce from original return_to
     return_to_qs = parse_qs(urlparse(original_return_to).query)
-    nonce = return_to_qs.get('janrain_nonce', [None])[0]
+    nonce = return_to_qs.get("janrain_nonce", [None])[0]
     if not nonce:
         raise ValueError("Missing 'janrain_nonce' in openid.return_to")
 
@@ -1499,8 +1500,8 @@ def update_openid_params(base_url: str, url: str) -> str:
     new_return_to = f"{base_url}university/login?next=/shop&openid_complete=yes&janrain_nonce={nonce}"
 
     # Update the query parameters
-    query_params['openid.return_to'] = [new_return_to]
-    query_params['openid.realm'] = [base_url]
+    query_params["openid.return_to"] = [new_return_to]
+    query_params["openid.realm"] = [base_url]
 
     # Rebuild the final URL
     new_query = urlencode(query_params, doseq=True)
@@ -1508,37 +1509,79 @@ def update_openid_params(base_url: str, url: str) -> str:
     return updated_url
 
 
-
 def university(subpath=None):
     """
     University page.
     """
-    request_path = flask.request.path + "?" + flask.request.query_string.decode("utf-8")
-    # Correctly remove the '/university' prefix only once
+    request_path = (
+        flask.request.path + "?" + flask.request.query_string.decode("utf-8")
+    )
     proxied_path = request_path[len("/university") :]
+    user_token = flask.session.get("authentication_token")
+    openid = flask.session.get("openid")
+    
+    # if not user_token:
+    #     if proxied_path.startswith("/shop") or proxied_path.startswith("/your-exams"):
+    #         return flask.redirect('/login')
+
     if not proxied_path.startswith("/"):
         proxied_path = "/" + proxied_path
 
     resource = f"http://host.docker.internal:7607{proxied_path}"
-    resp = requests.get(resource, allow_redirects=False)
+    method = flask.request.method
+    body = {}
+    
+    if proxied_path.startswith("/proxy-login"):
+        body["openid"] = flask.session.get("openid", "")
+        body["authentication_token"] = user_token if user_token else ""
+        method = "POST"
+    else:
+        body = flask.request.form if method in ["POST", "PUT", "PATCH"] else None
+
+    print(urlencode(openid))
+    resp = requests.request(
+        method,
+        resource,
+        allow_redirects=False,
+        json=body,
+        headers={
+            "Authorization": user_token if user_token else "",
+            "Openid": urlencode(openid), 
+        }
+    )
+    if proxied_path.startswith("/proxy-login"):
+        next = flask.request.args.get("next", "")
+        if next:
+            return flask.redirect(next)
+        
     if resp.is_redirect:
-        print("is_redirect: ", resp.is_redirect)
         location = resp.headers["Location"]
-        print(location)
         if location.startswith("/login"):
-            location = f"/university{location}"        
-        elif location.startswith("https://login.ubuntu.com/"):
-            current_base = f"{flask.request.scheme}://{flask.request.host}"
-            location = update_openid_params(current_base, location)
+            next = flask.request.args.get("next", "")
+            return flask.redirect("/login")
+            # location = f"/university{location}"
         return flask.redirect(location, code=resp.status_code)
 
+    if resp.headers.get("Content-Type") == "application/json":
+        return flask.jsonify(resp.json()), resp.status_code
+    
     embed = rewrite_university_links(resp.text)
     return flask.render_template(
         "university/index.html",
-        recaptcha_site_key=RECAPTCHA_SITE_KEY,
         embedded_html=embed,
     )
 
+# Login
+app.add_url_rule("/login", methods=["GET", "POST"], view_func=login_handler)
+app.add_url_rule("/logout", view_func=logout)
 
-app.add_url_rule("/university", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
-app.add_url_rule("/university/<path:subpath>", view_func=university, methods=["GET", "POST", "PUT", "DELETE"])
+app.add_url_rule(
+    "/university",
+    view_func=university,
+    methods=["GET", "POST", "PUT", "DELETE"],
+)
+app.add_url_rule(
+    "/university/<path:subpath>",
+    view_func=university,
+    methods=["GET", "POST", "PUT", "DELETE"],
+)
