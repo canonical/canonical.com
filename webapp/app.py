@@ -243,6 +243,7 @@ def index():
 
     return flask.render_template("index.html", **context)
 
+
 @app.route("/sitemap.xml")
 def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
@@ -812,6 +813,10 @@ def context():
         "get_current_page_bubble": get_current_page_bubble,
         "build_navigation": build_navigation,
         "split_list": split_list,
+        "get_stripe_publishable_key": os.getenv(
+            "STRIPE_PUBLISHABLE_KEY",
+            "pk_live_68aXqowUeX574aGsVck8eiIE",
+        ),
     }
 
 
@@ -1519,7 +1524,7 @@ def university(subpath=None):
     proxied_path = request_path[len("/university") :]
     user_token = flask.session.get("authentication_token", "")
     openid = flask.session.get("openid", "")
-    
+
     # if not user_token:
     #     if proxied_path.startswith("/shop") or proxied_path.startswith("/your-exams"):
     #         return flask.redirect('/login')
@@ -1538,10 +1543,10 @@ def university(subpath=None):
         json=body,
         headers={
             "Authorization": user_token if user_token else "",
-            "Openid": urlencode(openid), 
-        }
+            "Openid": urlencode(openid),
+        },
     )
-        
+
     if resp.is_redirect:
         location = resp.headers["Location"]
         if location.startswith("/login"):
@@ -1549,14 +1554,31 @@ def university(subpath=None):
             # location = f"/university{location}"
         return flask.redirect(location, code=resp.status_code)
 
-    if resp.headers.get("Content-Type") == "application/json":
+    if resp.headers.get("Content-Type").startswith("application/json"):
         return flask.jsonify(resp.json()), resp.status_code
-    
+    elif resp.headers.get("Content-Type").startswith("text/javascript"):
+        return flask.Response(
+            resp.text, mimetype="text/javascript", status=resp.status_code
+        )
+    elif resp.headers.get("Content-Type").startswith("text/css"):
+        return flask.Response(
+            resp.text, mimetype="text/css", status=resp.status_code
+        )
     embed = rewrite_university_links(resp.text)
-    return flask.render_template(
-        "university/index.html",
-        embedded_html=embed,
+    response = flask.make_response(
+        flask.render_template(
+            "university/index.html",
+            embedded_html=embed,
+        ),
     )
+    response.mimetype = "text/html"
+    # Forward CSP header if present in resp
+    if "Content-Security-Policy" in resp.headers:
+        response.headers["Content-Security-Policy"] = resp.headers[
+            "Content-Security-Policy"
+        ]
+    return response
+
 
 # Login
 app.add_url_rule("/login", methods=["GET", "POST"], view_func=login_handler)
