@@ -26,4 +26,4 @@ mkdir -p static/js/modules/leaflet
 cp node_modules/leaflet/dist/leaflet.js static/js/modules/leaflet
 
 mkdir -p static/js/modules/vanilla-framework
-cp node_modules/vanilla-framework/templates/_macros/ static/js/modules/vanilla-framework
+cp -r node_modules/vanilla-framework/templates/_macros/ static/js/modules/vanilla-framework
