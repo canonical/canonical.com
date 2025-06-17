@@ -845,6 +845,9 @@ html {
   padding-top: 100px;
   left: 0;
   top: 0;
+  @media screen and (width < $breakpoint-large) {
+    padding-top: 0;
+  }
 }
 
 .scroll-section__indicator {
@@ -875,12 +878,24 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
+  hr {
+    display: none;
+  }
 }
 
 .scroll-section__tab.active {
   color: orange;
   @media screen and (width < $breakpoint-large) {
-    color: bisque;
+    color: white;
+    hr {
+      position: absolute;
+      display: block;
+      width: 7rem;
+      color: white;
+      height: 3px;
+      background-color: white;
+      top: 3.4rem;
+    }
   }
 }
 
@@ -901,7 +916,6 @@ html {
   transform: translateY(100px);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
-  padding: 2rem;
 }
 
 .scroll-section__content.active {
@@ -929,12 +943,12 @@ html {
 //   border: none;
 // }
 .homepage {
-   .p-button--positive {
+  .p-button--positive {
     @extend %vf-button-base;
     @extend %vf-button-white-success-icon;
 
     @include vf-button-pattern(
-      $button-background-color: #cc420a ,
+      $button-background-color: #cc420a,
       $button-hover-background-color: #ff7139,
       $button-active-background-color: #ff7139,
       $button-disabled-background-color: $colors--theme--button-positive-default,
@@ -988,7 +1002,7 @@ html {
     opacity: 0;
     transform: translateX(-100px);
     transition-property: opacity transform;
-    transition: 1s ease-in-out;
+    transition: 0.4s ease-in-out;
     transition-behavior: allow-discrete;
   }
   [role="tabpanel"] {
@@ -1024,9 +1038,8 @@ html {
 // Homepage Suru Style
 #hero-section-suru-wrapper {
   position: relative;
-  width: 100%;
-  margin-top: -12rem;
-  margin-bottom: -15rem;
+  width: 70%;
+  margin: -12rem 15% -15rem 15%;
   height: 800px;
   overflow: hidden;
   @media screen and (width < $breakpoint-large) {
@@ -1090,13 +1103,22 @@ html {
 
   .progress-bar {
     position: absolute;
-    top: 3px;
+    top: 6px;
     left: 0;
-    height: 5px;
+    height: 3px;
     background: white;
     animation: progressBarAnim 8s linear forwards;
     width: 0;
     z-index: 2;
+  }
+  .progress-bar--husk {
+    background: var(--vf-color-border-default);
+    border: 0;
+    height: 3px;
+    margin-bottom: calc(0.5rem - 1px);
+    margin-top: 0;
+    position: relative;
+    width: 100%;
   }
 }
 
@@ -1131,5 +1153,28 @@ html {
   }
   to {
     width: 100%;
+  }
+}
+
+#centre-animation-wrapper {
+  position: relative;
+  .centre-animation-leaf {
+    position: absolute;
+    z-index: 2;
+    top: 13.5rem;
+    font-size: 0.7rem;
+    padding: 2px 0 2px 0;
+    left: 35rem;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    border-left: none;
+    background-color: #202020;
+    border-radius: 2px;
+    opacity: 0;
+    width: 0;
+  }
+  .centre-animation-leaf:hover {
+    opacity: 1;
+    width: 7rem;
+    transition: width 0.3s ease-in-out;
   }
 }

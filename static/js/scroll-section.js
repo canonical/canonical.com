@@ -72,7 +72,7 @@ function setScrollSection(wrapper) {
       });
     },
     {
-      threshold: 1, // Trigger when at least 50% visible
+      threshold: 0.5, // Trigger when at least 50% visible
     }
   );
 
@@ -83,7 +83,9 @@ function setScrollSection(wrapper) {
     "wheel",
     (e) => {
       if (!scrollEnabled) return;
-
+      if (currentIndex != 0 && currentIndex != sections.length - 1) {
+        e.preventDefault(); // Prevent default scrolling behavior
+      }
       if (e.deltaY > 0 && currentIndex < sections.length - 1) {
         showSection(
           currentIndex + 1,
@@ -93,7 +95,9 @@ function setScrollSection(wrapper) {
           indicator,
           sections
         );
-      } else if (e.deltaY < 0 && currentIndex > 0) {
+        scrollEnabled = false;
+        setTimeout(() => (scrollEnabled = true), 1000);
+      } else if (e.deltaY < -0 && currentIndex > 0) {
         showSection(
           currentIndex - 1,
           currentIndex,
@@ -102,9 +106,11 @@ function setScrollSection(wrapper) {
           indicator,
           sections
         );
+        scrollEnabled = false;
+        setTimeout(() => (scrollEnabled = true), 1000);
       }
     },
-    { passive: true }
+    { passive: false }
   );
 
   // Initial state
