@@ -836,13 +836,12 @@ html {
 // Scroll-section styles
 .scroll-section {
   position: relative;
-  min-height: 24rem;
+  min-height: 15rem;
 }
 .scroll-section__sidebar {
   width: 100%;
   position: relative;
   flex-direction: column;
-  padding-top: 100px;
   left: 0;
   top: 0;
   @media screen and (width < $breakpoint-large) {
@@ -854,7 +853,7 @@ html {
   position: absolute;
   left: -1rem;
   width: 0.2rem;
-  height: 3rem;
+  height: 3.5rem;
   z-index: 2;
   border-radius: 3rem;
   background: rgb(255, 255, 255);
@@ -863,10 +862,9 @@ html {
 
 .scroll-section__indicator--outline {
   position: absolute;
-  top: 6rem;
   left: -1rem;
   width: 0.2rem;
-  height: 7rem;
+  height: 10rem;
   border-radius: 3rem;
   background: #707070;
 }
@@ -884,7 +882,6 @@ html {
 }
 
 .scroll-section__tab.active {
-  color: orange;
   @media screen and (width < $breakpoint-large) {
     color: white;
     hr {
@@ -902,7 +899,7 @@ html {
 .scroll-section__contentArea {
   flex: 1;
   overflow: hidden;
-  min-height: 22rem;
+  min-height: 15rem;
   position: relative;
 }
 
@@ -916,6 +913,9 @@ html {
   transform: translateY(100px);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
+  .p-equal-height-row {
+    gap: 0 0.5rem;
+  }
 }
 
 .scroll-section__content.active {
@@ -960,6 +960,23 @@ html {
     );
     @include vf-focus($color-focus-positive);
   }
+  .p-button {
+    @extend %vf-button-base;
+    @extend %vf-button-white-success-icon;
+    color: #cc420a !important;
+    @include vf-button-pattern(
+      $button-background-color: none,
+      $button-hover-background-color: #ff7139,
+      $button-active-background-color: #ff7139,
+      $button-disabled-background-color: $colors--theme--button-positive-default,
+      $button-border-color: #cc420a,
+      $button-hover-border-color: #cc420a,
+      $button-active-border-color: #cc420a,
+      $button-disabled-border-color: $colors--theme--button-positive-default,
+      $button-text-color: $colors--theme--button-positive-text
+    );
+    @include vf-focus($color-focus-positive);
+  }
   .p-icon--arrow-right {
     @extend %icon;
     @include vf-themed-icon(
@@ -979,7 +996,7 @@ html {
   }
   .p-cta-text:hover {
     .p-icon--arrow-right {
-      padding-left: 3rem; /* Or whatever value you want */
+      padding-left: 2.5rem;
     }
   }
 }
@@ -1032,7 +1049,18 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
   border-radius: 4px;
   align-items: center;
-  margin-right: -1.4rem;
+  padding-bottom: 1rem;
+  .p-image-container {
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .p-image-wrapper {
+    border-style: solid;
+    border-width: 4px;
+    margin: 0;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 // Homepage Suru Style
@@ -1092,10 +1120,14 @@ html {
     width: 100%;
     margin-bottom: 0;
     padding-left: 0;
+    padding-right: 0;
   }
   .p-homepage-carousel-tabs__item:hover {
     background: var(--vf-color-background-default);
-    font-weight: bold;
+    .progress-bar--husk {
+      background: var(--vf-color-border-default);
+      height: 3px;
+    }
   }
 }
 .p-homepage-carousel-tabs__item[aria-selected="true"] {
@@ -1126,7 +1158,6 @@ html {
   opacity: 0;
   transition-property: opacity;
   transition-duration: 0.8s;
-  height: 25rem;
   transition-timing-function: ease-in-out;
   transition-behavior: allow-discrete;
 }

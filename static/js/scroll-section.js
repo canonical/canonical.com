@@ -72,7 +72,7 @@ function setScrollSection(wrapper) {
       });
     },
     {
-      threshold: 0.5, // Trigger when at least 50% visible
+      threshold: 0.95, // Trigger when at least 50% visible
     }
   );
 
@@ -82,7 +82,9 @@ function setScrollSection(wrapper) {
   window.addEventListener(
     "wheel",
     (e) => {
-      if (!scrollEnabled) return;
+      if (!scrollEnabled || window.innerWidth <= 1036) {
+        return;
+      }
       if (currentIndex != 0 && currentIndex != sections.length - 1) {
         e.preventDefault(); // Prevent default scrolling behavior
       }
@@ -96,7 +98,7 @@ function setScrollSection(wrapper) {
           sections
         );
         scrollEnabled = false;
-        setTimeout(() => (scrollEnabled = true), 1000);
+        setTimeout(() => (scrollEnabled = true), 600);
       } else if (e.deltaY < -0 && currentIndex > 0) {
         showSection(
           currentIndex - 1,
@@ -107,7 +109,7 @@ function setScrollSection(wrapper) {
           sections
         );
         scrollEnabled = false;
-        setTimeout(() => (scrollEnabled = true), 1000);
+        setTimeout(() => (scrollEnabled = true), 600);
       }
     },
     { passive: false }
