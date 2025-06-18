@@ -1550,8 +1550,12 @@ def university(subpath=None):
     if resp.is_redirect:
         location = resp.headers["Location"]
         if location.startswith("/login"):
-            return flask.redirect("/login")
-            # location = f"/university{location}"
+            next = location.split("?next=/")
+            if len(next) > 0:
+                next = next[1]
+            else:
+                next = ""
+            return flask.redirect(f"/login?next=/university/{next}")
         return flask.redirect(location, code=resp.status_code)
 
     if resp.headers.get("Content-Type").startswith("application/json"):
