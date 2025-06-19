@@ -622,7 +622,7 @@
   </section>
   <style>
     html {
-      scroll-behavior: auto !important;
+      scroll-behavior: smooth;
     }
 
     .banner-image,
@@ -708,7 +708,6 @@
     const mainContent = document.querySelector('#main-content');
     const featuredSections = document.querySelectorAll('.feature');
     const navigation = document.querySelector('#navigation');
-    const subNaviagtion = document.querySelector('.p-navigation--secondary');
     const closeButtons = document.querySelectorAll('.p-icon--close');
     let previousFeature = '';
 
@@ -740,7 +739,6 @@
       if (feature === "form") {
         return false;
       }
-      const globalNav = document.querySelector('.global-nav');
       if (feature !== "") {
         previousFeature = feature;
         const section = document.querySelector(`#${feature}`);
@@ -753,17 +751,13 @@
         });
         mainContent.classList.add('feature-selected');
         navigation.classList.add('u-hide');
-        subNaviagtion.classList.add('u-hide');
-        globalNav.classList.add('u-hide');
-        window.scrollTo(0, 0);
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         featuredSections.forEach((featuredSection) => {
           featuredSection.classList.remove('selected-feature');
         });
         mainContent.classList.remove('feature-selected');
         navigation.classList.remove('u-hide');
-        subNaviagtion.classList.remove('u-hide');
-        globalNav.classList.remove('u-hide');
       }
     }
   </script>
