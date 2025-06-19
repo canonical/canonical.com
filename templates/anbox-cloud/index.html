@@ -19,39 +19,38 @@
   is-paper
 {% endblock body_class %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block content %}
-  <section class="p-section--hero">
-    <div class="row--50-50-on-large">
-      <div class="col">
-        <div class="p-section--shallow">
-          <h1>Scalable Android in the cloud</h1>
-        </div>
-        <div class="p-section--shallow">
-          <p>
-            Managing large-scale Android development is tough with traditional emulators. Anbox Cloud runs Android in secure, scalable cloud containers, outperforming emulators. Anbox simplifies workflows, reduces hardware needs, automates testing and delivers ultra-low latency across thousands of instances.
-          </p>
-          <p>
-            Watch <a href="https://youtu.be/P7md88WhOC0?si=eUGiQtQ-9uXmZOQu">this video</a> to learn more about how you can use Anbox Cloud with charms to power Android in the cloud.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a href="https://documentation.ubuntu.com/anbox-cloud/howto/install-appliance/landing/"
-             class="p-button--positive">Try Anbox Cloud</a>
-          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Anbox Cloud Datasheet.pdf?version=0">Read the Anbox Cloud datasheet&nbsp;&rsaquo;</a>
-        </div>
+  {% call(slot) vf_hero(
+    title_text='Scalable Android in the cloud',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Managing large-scale Android development is tough with traditional emulators. Anbox Cloud runs Android in secure, scalable cloud containers, outperforming emulators. Anbox simplifies workflows, reduces hardware needs, automates testing and delivers ultra-low latency across thousands of instances.
+      </p>
+      <p>
+        Check out our <a href="https://www.youtube.com/playlist?list=PLwFSk464RMxlDZrlgsS35tib-gJJd5SVN">video resources</a> to learn more about how you can use Anbox Cloud.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://documentation.ubuntu.com/anbox-cloud/howto/install-appliance/landing/"
+         class="p-button--positive">Try Anbox Cloud</a>
+      <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Anbox Cloud Datasheet.pdf?version=0">Read the Anbox Cloud datasheet&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <lite-youtube videoid="drOCjcDpnng" width="560" height="315" posterquality="maxresdefault" videotitle="Scalable Android Cloud with Anbox Cloud" class="u-embedded-media__element">
+        <a href="https://www.youtube.com/embed/drOCjcDpnng?rel=0"
+           title="Play Video">
+          <span class="lyt-visually-hidden">Scalable Android Cloud with Anbox Cloud</span>
+        </a>
+        </lite-youtube>
       </div>
-      <div class="col">
-        <div class="u-embedded-media">
-          <lite-youtube videoid="drOCjcDpnng" width="560" height="315" posterquality="maxresdefault" videotitle="Scalable Android Cloud with Anbox Cloud" class="u-embedded-media__element">
-          <a href="https://www.youtube.com/embed/drOCjcDpnng?rel=0"
-             title="Play Video">
-            <span class="lyt-visually-hidden">Scalable Android Cloud with Anbox Cloud</span>
-          </a>
-          </lite-youtube>
-        </div>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
+
   <section class="p-section" id="why-anbox-cloud">
     <div class="u-fixed-width">
       <hr class="p-rule" />
@@ -599,9 +598,9 @@
               <th>
                 <strong>Android versions</strong>
               </th>
-              <td data-heading="Anbox Cloud Appliance">12, 13, 14</td>
-              <td data-heading="Charmed Anbox Cloud">12, 13, 14</td>
-              <td data-heading="Fully managed deployment">12, 13, 14</td>
+              <td data-heading="Anbox Cloud Appliance">12, 13, 14, 15</td>
+              <td data-heading="Charmed Anbox Cloud">12, 13, 14, 15</td>
+              <td data-heading="Fully managed deployment">12, 13, 14, 15</td>
             </tr>
             <tr>
               <th>
