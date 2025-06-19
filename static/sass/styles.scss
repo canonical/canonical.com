@@ -846,6 +846,10 @@ html {
   top: 0;
   @media screen and (width < $breakpoint-large) {
     padding-top: 0;
+    .scroll-section__tabs {
+      display: flex;
+      overflow-x: auto;
+    }
   }
 }
 
@@ -879,19 +883,22 @@ html {
   hr {
     display: none;
   }
+  @media screen and (width < $breakpoint-large) {
+    padding: 0 1rem 0 1rem;
+    position: relative;
+  }
 }
 
 .scroll-section__tab.active {
   @media screen and (width < $breakpoint-large) {
-    color: white;
     hr {
       position: absolute;
       display: block;
-      width: 7rem;
-      color: white;
+      width: 100%;
+      left: 0;
+      bottom: -9px;
       height: 3px;
       background-color: white;
-      top: 3.4rem;
     }
   }
 }
@@ -899,7 +906,7 @@ html {
 .scroll-section__contentArea {
   flex: 1;
   overflow: hidden;
-  min-height: 15rem;
+  min-height: 16rem;
   position: relative;
 }
 
@@ -910,6 +917,7 @@ html {
   right: 0;
   bottom: 0;
   opacity: 0;
+  overflow-x: auto;
   transform: translateY(100px);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -998,6 +1006,16 @@ html {
     .p-icon--arrow-right {
       padding-left: 2.5rem;
     }
+  }
+}
+
+#homepage-blog-content {
+  min-height: 30rem;
+  @media screen and ($breakpoint-small < width < $breakpoint-large) {
+    min-height: 44rem;
+  }
+  @media screen and (width <= $breakpoint-small) {
+    min-height: 52rem;
   }
 }
 
