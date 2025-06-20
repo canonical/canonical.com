@@ -8,7 +8,6 @@ function showSection(
   indicator,
   sections
 ) {
-  console.log(`Switching from section ${currentIndex} to ${index}`);
   if (index === currentIndex) return;
 
   const currentSection = sections[currentIndex];
@@ -72,7 +71,8 @@ function setScrollSection(wrapper) {
       });
     },
     {
-      threshold: 0.95, // Trigger when at least 50% visible
+      threshold: 1, // Trigger when at least 50% visible
+      // rootMargin: "0% 0px 0px -30%", // Adjust the root margin to trigger earlier
     }
   );
 
@@ -85,7 +85,10 @@ function setScrollSection(wrapper) {
       if (!scrollEnabled || window.innerWidth <= 1036) {
         return;
       }
-      if (currentIndex != 0 && currentIndex != sections.length - 1) {
+      if (currentIndex != sections.length - 1 && e.deltaY > 0) {
+        e.preventDefault(); // Prevent default scrolling behavior
+      }
+      if (currentIndex != 0 && e.deltaY < 0) {
         e.preventDefault(); // Prevent default scrolling behavior
       }
       if (e.deltaY > 0 && currentIndex < sections.length - 1) {

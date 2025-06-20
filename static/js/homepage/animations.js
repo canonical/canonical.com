@@ -1,4 +1,5 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
+import lottie from "lottie-web";
 
 // Initialize light animation
 window.homepageSuru_light = new DotLottie({
@@ -61,29 +62,48 @@ function suruScrollHandler() {
 // we need to wait for the animations to load before we can use them
 window.homepageSuru_dark.addEventListener("load", suruScrollHandler);
 
-window.centrepage = new DotLottie({
-  autoplay: true,
+// const window.centrepage = new DotLottie({
+//   autoplay: true,
+//   loop: false,
+//   canvas: document.querySelector("#centre-animation"),
+//   src: "/static/json/centre.json",
+// });
+window.centrepage = lottie.loadAnimation({
+  container: document.querySelector("#centre-animation"),
+  renderer: "svg",
   loop: false,
-  canvas: document.querySelector("#centre-animation"),
-  src: "/static/json/centre.lottie",
+  autoplay: true,
+  path: "/static/json/centre_hover.json",
 });
 
-window.centrepage.addEventListener("load", () => {
-  // Play the animation when it is loaded
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          playAnimation(window.centrepage, true);
-        } else {
-          window.centrepage.pause();
-        }
-      });
-    },
-    {
-      threshold: 0.1, // Trigger when at least 50% visible
-    }
-  );
-  const centreContainer = document.querySelector("#centre-animation");
-  observer.observe(centreContainer);
+// Intersection observer to control playback on viewport entry
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        window.centrepage.setCurrentRawFrameValue(1);
+        window.centrepage.playSegments([1, 37], true); // ✅ Corrected
+      } else {
+        window.centrepage.pause();
+      }
+    });
+  },
+  {
+    threshold: 0.1,
+  }
+);
+
+observer.observe(document.querySelector("#centre-animation"));
+
+// Handle forward on mouseenter and reverse on mouseleave
+const hoverZone = document.querySelector(".centre-animation__zone--1");
+
+hoverZone.addEventListener("mouseenter", () => {
+  window.centrepage.setDirection(1); // forward
+  window.centrepage.playSegments([41, 57], true);
+});
+
+hoverZone.addEventListener("mouseleave", () => {
+  window.centrepage.setDirection(-1); // reverse
+  window.centrepage.playSegments([57, 41], true);
 });

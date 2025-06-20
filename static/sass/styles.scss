@@ -1007,6 +1007,39 @@ html {
       padding-left: 2.5rem;
     }
   }
+
+  .p-tabs {
+    max-height: 56rem;
+
+    @media screen and (max-width: $breakpoint-small - 1) {
+      padding-left: $spv--large;
+      padding-right: $spv--large;
+    }
+
+    .p-tabs__link {
+      @media screen and (max-width: $breakpoint-x-small - 1) {
+        padding-left: $spv--medium;
+        padding-right: $spv--medium;
+      }
+    }
+    .u-hide[role="tabpanel"] {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition-property: opacity transform;
+      transition: 0.4s ease-in-out;
+      transition-behavior: allow-discrete;
+    }
+    [role="tabpanel"] {
+      opacity: 1;
+      transform: translateX(0px);
+      transition-property: opacity transform;
+      transition: 0.4s ase-in-out 0.4s;
+      @starting-style {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+    }
+  }
 }
 
 #homepage-blog-content {
@@ -1016,39 +1049,6 @@ html {
   }
   @media screen and (width <= $breakpoint-small) {
     min-height: 52rem;
-  }
-}
-
-.p-tabs.homepage {
-  max-height: 56rem;
-
-  @media screen and (max-width: $breakpoint-small - 1) {
-    padding-left: $spv--large;
-    padding-right: $spv--large;
-  }
-
-  .p-tabs__link {
-    @media screen and (max-width: $breakpoint-x-small - 1) {
-      padding-left: $spv--medium;
-      padding-right: $spv--medium;
-    }
-  }
-  .u-hide[role="tabpanel"] {
-    opacity: 0;
-    transform: translateX(-100px);
-    transition-property: opacity transform;
-    transition: 0.4s ease-in-out;
-    transition-behavior: allow-discrete;
-  }
-  [role="tabpanel"] {
-    opacity: 1;
-    transform: translateX(0px);
-    transition-property: opacity transform;
-    transition: 1s ease-in-out 1s;
-    @starting-style {
-      opacity: 0;
-      transform: translateX(100px);
-    }
   }
 }
 
@@ -1068,6 +1068,9 @@ html {
   border-radius: 4px;
   align-items: center;
   padding-bottom: 1rem;
+  @media screen and (width < $breakpoint-large) {
+    padding-bottom: 0;
+  }
   .p-image-container {
     border-style: solid;
     border-width: 2px;
@@ -1084,8 +1087,8 @@ html {
 // Homepage Suru Style
 #hero-section-suru-wrapper {
   position: relative;
-  width: 70%;
-  margin: -12rem 15% -15rem 15%;
+  width: 84rem;
+  margin: -12rem auto -15rem auto;
   height: 800px;
   overflow: hidden;
   @media screen and (width < $breakpoint-large) {
@@ -1118,8 +1121,8 @@ html {
 }
 
 // Homepage Mega Carousel Styles
-
 .p-homepage-carousel {
+  height: 32rem;
   .pause-btn {
     padding: 0;
     border: 0;
@@ -1205,25 +1208,55 @@ html {
   }
 }
 
+@mixin centre-animation--zone($position-top, $position-left) {
+  position: absolute;
+  z-index: 2;
+  top: $position-top;
+  left: $position-left;
+  width: 4rem;
+  padding: 0;
+  margin: 0;
+  height: 15%;
+  opacity: 0;
+  // .centre-animation__leaf {
+  //   border: 1px solid hsla(0, 0%, 100%, 0.1);
+  //   border-radius: 2px;
+  //   opacity: 0;
+  //   width: 0;
+  // }
+}
+
 #centre-animation-wrapper {
   position: relative;
-  .centre-animation-leaf {
-    position: absolute;
-    z-index: 2;
-    top: 13.5rem;
-    font-size: 0.7rem;
-    padding: 2px 0 2px 0;
-    left: 35rem;
-    border: 1px solid hsla(0, 0%, 100%, 0.1);
-    border-left: none;
-    background-color: #202020;
-    border-radius: 2px;
-    opacity: 0;
-    width: 0;
+
+  .centre-animation__zone--1 {
+    @include centre-animation--zone(15%, 40%);
   }
-  .centre-animation-leaf:hover {
-    opacity: 1;
-    width: 7rem;
-    transition: width 0.3s ease-in-out;
+  .centre-animation__zone--1:hover {
+    .centre-animation__leaf {
+      opacity: 1;
+      width: 7rem;
+      transition: width 0.3s ease-in-out, opacity 0.2s ease-in;
+    }
   }
+
+  // .centre-animation-b {
+  //   position: absolute;
+  //   z-index: 2;
+  //   top: 13.5rem;
+  //   font-size: 0.7rem;
+  //   padding: 2px 0 2px 0;
+  //   left: 35rem;
+  //   border: 1px solid hsla(0, 0%, 100%, 0.1);
+  //   border-left: none;
+  //   background-color: #202020;
+  //   border-radius: 2px;
+  //   opacity: 0;
+  //   width: 0;
+  // }
+  // .centre-animation-leaf:hover {
+  //   opacity: 1;
+  //   width: 7rem;
+  //   transition: width 0.3s ease-in-out;
+  // }
 }
