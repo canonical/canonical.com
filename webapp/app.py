@@ -28,6 +28,7 @@ from canonicalwebteam.discourse import (
 from canonicalwebteam.search import build_search_view
 import canonicalwebteam.directory_parser as directory_parser
 from pathlib import Path
+import requests
 from requests.exceptions import HTTPError
 from slugify import slugify
 
@@ -44,6 +45,7 @@ from webapp.navigation import (
 )
 from webapp.requests_session import get_requests_session
 from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
+from webapp.login import login_handler, logout
 
 logger = logging.getLogger(__name__)
 
@@ -811,6 +813,10 @@ def context():
         "get_current_page_bubble": get_current_page_bubble,
         "build_navigation": build_navigation,
         "split_list": split_list,
+        "get_stripe_publishable_key": os.getenv(
+            "STRIPE_PUBLISHABLE_KEY",
+            "pk_live_68aXqowUeX574aGsVck8eiIE",
+        ),
     }
 
 
@@ -1396,5 +1402,153 @@ app.add_url_rule("/sitemap_parser", view_func=get_sitemaps_tree)
 app.add_url_rule(
     "/sitemap_tree.xml",
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
-    methods=["GET", "POST"],
+    methods=["*"],
+)
+
+
+def rewrite_university_links(html):
+
+    def repl(match):
+        attr = match.group(1)
+        url = match.group(2)
+        # Already correct or external
+        if (
+            url.startswith("/university")
+            or url.startswith("//")
+            or url.startswith("http://")
+            or url.startswith("https://")
+        ):
+            return match.group(0)
+        # Empty href/src
+        if url == "":
+            return f'{attr}="/university"'
+        # Absolute path
+        if url.startswith("/"):
+            return f'{attr}="/university{url}"'
+        # Relative path (not starting with /, http, or //)
+        return f'{attr}="/university/{url}"'
+
+    html = re.sub(r'(href|src)=["\']([^"\']*)["\']', repl, html)
+    return html
+
+
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+
+def update_openid_params(base_url: str, url: str) -> str:
+    # Ensure trailing slash for realm
+    if not base_url.endswith("/"):
+        base_url += "/"
+
+    # Parse the main URL
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+
+    # Get the current openid.return_to to extract janrain_nonce
+    original_return_to = query_params.get("openid.return_to", [None])[0]
+    if not original_return_to:
+        raise ValueError("Missing 'openid.return_to' in the query string.")
+
+    # Extract janrain_nonce from original return_to
+    return_to_qs = parse_qs(urlparse(original_return_to).query)
+    nonce = return_to_qs.get("janrain_nonce", [None])[0]
+    if not nonce:
+        raise ValueError("Missing 'janrain_nonce' in openid.return_to")
+
+    # Construct new openid.return_to
+    new_return_to = f"{base_url}university/login?next=/shop&openid_complete=yes&janrain_nonce={nonce}"
+
+    # Update the query parameters
+    query_params["openid.return_to"] = [new_return_to]
+    query_params["openid.realm"] = [base_url]
+
+    # Rebuild the final URL
+    new_query = urlencode(query_params, doseq=True)
+    updated_url = urlunparse(parsed_url._replace(query=new_query))
+    return updated_url
+
+
+def university(subpath=None):
+    """
+    University page.
+    """
+    request_path = (
+        flask.request.path + "?" + flask.request.query_string.decode("utf-8")
+    )
+    proxied_path = request_path[len("/university") :]
+    user_token = flask.session.get("authentication_token", "")
+    openid = flask.session.get("openid", "")
+
+    # if not user_token:
+    #     if proxied_path.startswith("/shop") or proxied_path.startswith("/your-exams"):
+    #         return flask.redirect('/login')
+
+    if not proxied_path.startswith("/"):
+        proxied_path = "/" + proxied_path
+
+    resource = f"http://host.docker.internal:7607{proxied_path}"
+    method = flask.request.method
+    body = flask.request.form if method in ["POST", "PUT", "PATCH"] else None
+
+    resp = requests.request(
+        method,
+        resource,
+        allow_redirects=False,
+        json=body,
+        headers={
+            "Authorization": user_token if user_token else "",
+            "Openid": urlencode(openid),
+        },
+    )
+
+    if resp.is_redirect:
+        location = resp.headers["Location"]
+        if location.startswith("/login"):
+            next = location.split("?next=/")
+            if len(next) > 0:
+                next = next[1]
+            else:
+                next = ""
+            return flask.redirect(f"/login?next=/university/{next}")
+        return flask.redirect(location, code=resp.status_code)
+
+    if resp.headers.get("Content-Type").startswith("application/json"):
+        return flask.jsonify(resp.json()), resp.status_code
+    elif resp.headers.get("Content-Type").startswith("text/javascript"):
+        return flask.Response(
+            resp.text, mimetype="text/javascript", status=resp.status_code
+        )
+    elif resp.headers.get("Content-Type").startswith("text/css"):
+        return flask.Response(
+            resp.text, mimetype="text/css", status=resp.status_code
+        )
+    embed = rewrite_university_links(resp.text)
+    response = flask.make_response(
+        flask.render_template(
+            "university/index.html",
+            embedded_html=embed,
+        ),
+    )
+    response.mimetype = "text/html"
+    # Forward CSP header if present in resp
+    if "Content-Security-Policy" in resp.headers:
+        response.headers["Content-Security-Policy"] = resp.headers[
+            "Content-Security-Policy"
+        ]
+    return response
+
+
+# Login
+app.add_url_rule("/login", methods=["GET", "POST"], view_func=login_handler)
+app.add_url_rule("/logout", view_func=logout)
+
+app.add_url_rule(
+    "/university",
+    view_func=university,
+    methods=["GET", "POST", "PUT", "DELETE"],
+)
+app.add_url_rule(
+    "/university/<path:subpath>",
+    view_func=university,
+    methods=["GET", "POST", "PUT", "DELETE"],
 )
