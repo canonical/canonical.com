@@ -62,12 +62,6 @@ function suruScrollHandler() {
 // we need to wait for the animations to load before we can use them
 window.homepageSuru_dark.addEventListener("load", suruScrollHandler);
 
-// const window.centrepage = new DotLottie({
-//   autoplay: true,
-//   loop: false,
-//   canvas: document.querySelector("#centre-animation"),
-//   src: "/static/json/centre.json",
-// });
 window.centrepage = lottie.loadAnimation({
   container: document.querySelector("#centre-animation"),
   renderer: "svg",
@@ -82,7 +76,7 @@ const observer = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         window.centrepage.setCurrentRawFrameValue(1);
-        window.centrepage.playSegments([1, 37], true); // ✅ Corrected
+        window.centrepage.playSegments([1, 26], true); 
       } else {
         window.centrepage.pause();
       }
@@ -96,14 +90,27 @@ const observer = new IntersectionObserver(
 observer.observe(document.querySelector("#centre-animation"));
 
 // Handle forward on mouseenter and reverse on mouseleave
-const hoverZone = document.querySelector(".centre-animation__zone--1");
+const zoneConfigs = {
+  1: [28, 47],
+  2: [52, 71],
+  3: [76, 95],
+  4: [100, 119],
+  5: [124, 143],
+  6: [148, 167],
+  7: [172, 191],
+};
 
-hoverZone.addEventListener("mouseenter", () => {
-  window.centrepage.setDirection(1); // forward
-  window.centrepage.playSegments([41, 57], true);
-});
+Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
+  const zone = document.querySelector(`.centre-animation__zone--${zoneId}`);
+  if (!zone) return;
 
-hoverZone.addEventListener("mouseleave", () => {
-  window.centrepage.setDirection(-1); // reverse
-  window.centrepage.playSegments([57, 41], true);
+  zone.addEventListener("mouseenter", () => {
+    window.centrepage.setDirection(1); // forward
+    window.centrepage.playSegments([start, end], true);
+  });
+
+  zone.addEventListener("mouseleave", () => {
+    window.centrepage.setDirection(-1); // reverse
+    window.centrepage.playSegments([end, start], true);
+  });
 });
