@@ -44,7 +44,6 @@ from webapp.partners import Partners
 from webapp.recaptcha import RECAPTCHA_CONFIG, verify_recaptcha
 from webapp.requests_session import get_requests_session
 from webapp.static_data import homepage_featured_products
-from webapp.utils.env import load_plain_env_variables
 
 logger = logging.getLogger(__name__)
 
@@ -66,8 +65,6 @@ DYNAMIC_SITEMAPS = [
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
 
-# Load plain variables into environment
-load_plain_env_variables()
 app = FlaskBase(
     __name__,
     "canonical.com",
@@ -76,9 +73,6 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
-# Load env variables into app config
-app.config.from_prefixed_env()
-
 # ChoiceLoader attempts loading templates from each path in successive order
 directory_parser_templates = (
     Path(directory_parser.__file__).parent / "templates"
