@@ -1,3 +1,5 @@
+import lottie from "lottie-web";
+
 const wrappers = document.querySelectorAll(".scroll-section");
 
 function showSection(
@@ -8,7 +10,28 @@ function showSection(
   indicator,
   sections
 ) {
-  if (index === currentIndex) return;
+  if (index === currentIndex) {
+    const initalTab = tabs[index];
+
+    const initalTab_lottiePath = initalTab.dataset.lottie;
+    const initalTab_iconContainer = initalTab.querySelector(
+      ".scroll-section__tab-icon"
+    );
+
+    if (initalTab_lottiePath && initalTab_iconContainer) {
+      initalTab_iconContainer.querySelector("img")?.classList.add("u-hide");
+
+      // Inject Lottie
+      lottie.loadAnimation({
+        container: initalTab_iconContainer,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: initalTab_lottiePath,
+      });
+    }
+    return;
+  }
 
   const currentSection = sections[currentIndex];
   const nextSection = sections[index];
@@ -29,9 +52,38 @@ function showSection(
   }, 400); // Match CSS transition duration
 
   // Tab indicator
-  tabs.forEach((tab) => tab.classList.remove("active"));
+  tabs.forEach((tab) => {
+    tab.classList.remove("active");
+    tab;
+    tab
+      .querySelector(".scroll-section__tab-icon img")
+      ?.classList.remove("u-hide");
+    tab.querySelector("svg")?.remove();
+  });
+
   const activeTab = tabs[index];
   activeTab.classList.add("active");
+
+  const lottiePath = activeTab.dataset.lottie;
+  const iconContainer = activeTab.querySelector(".scroll-section__tab-icon");
+
+
+  console.log(`Lottie path: ${lottiePath}`);
+  console.log(`Icon container: ${iconContainer}`);
+  
+  if (lottiePath && iconContainer) {
+    iconContainer.querySelector("img")?.classList.add("u-hide");
+
+    // Inject Lottie
+    lottie.loadAnimation({
+      container: iconContainer,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: lottiePath,
+    });
+  }
+
   indicator.style.top = `${activeTab.offsetTop}px`;
 
   setCurrentIndex(index);
