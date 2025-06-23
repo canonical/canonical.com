@@ -50,19 +50,19 @@
       <div class="p-homepage-card">
         <div class="row">
           <div class="col-medium-6 u-hide--large">
-            <div >
-            <div class="p-image-container--16-9 is-highlighted">
-              {{ image(url="https://assets.ubuntu.com/v1/4fd20cbc-research.png",
-                            alt="",
-                            width="900",
-                            height="506",
-                            attrs={
-                            "class": "p-image-container__image",},
-                            hi_def=True,
-                            loading="auto") | safe
-              }}
+            <div>
+              <div class="p-image-container--16-9 is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/4fd20cbc-research.png",
+                                alt="",
+                                width="900",
+                                height="506",
+                                attrs={
+                                "class": "p-image-container__image",},
+                                hi_def=True,
+                                loading="auto") | safe
+                }}
+              </div>
             </div>
-            </div>  
           </div>
           <div class="col-6 col-medium-6" style="align-content: center;">
             <div class="p-section--shallow">
@@ -182,12 +182,13 @@
                 </div>
               </div>
               <div class="col-medium-3 u-align--right">
-                <button class="pause-btn">
+                <button class="pause-btn" aria-label="Pause carousel">
                   <img src="https://assets.ubuntu.com/v1/398d9c17-pause.svg" />
                 </button>
               </div>
             </div>
-            <button class="pause-btn u-hide--small u-hide--medium">
+            <button class="pause-btn u-hide--small u-hide--medium"
+                    aria-label="Pause carousel">
               <img src="https://assets.ubuntu.com/v1/398d9c17-pause.svg" />
             </button>
           </div>
@@ -340,14 +341,24 @@
       <!-- lottie animation -->
       <div class="u-hide--small u-hide--medium">
         <div id="centre-animation-wrapper">
-          <button class="centre-animation__zone--1"></button>
+          <div class="centre-animation__zones" aria-label="Features of ubuntu pro">
+            <button class="centre-animation__zone--1"
+                    aria-label="Hardening and certifications"></button>
+            <button class="centre-animation__zone--2"
+                    aria-label="Reliable security maintenance"></button>
+            <button class="centre-animation__zone--3" aria-label="Simplified compliance"></button>
+            <button class="centre-animation__zone--4"
+                    aria-label="Patching automation tools"></button>
+            <button class="centre-animation__zone--5" aria-label="24/7 Support"></button>
+            <button class="centre-animation__zone--6"
+                    aria-label="Long-term API stability"></button>
+            <button class="centre-animation__zone--7" aria-label="Device management"></button>
+          </div>
           <div id="centre-animation" style="height: auto; width: 100%"></div>
         </div>
       </div>
     </div>
   </section>
-
-
 
   <section class="p-section--deep">
     <div class="row">
@@ -413,7 +424,7 @@
               <div class="row">
                 <div class="col-3">
                   {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%20group.png",
-                                    alt="",
+                                    alt="BT Group",
                                     width="200",
                                     height="76",
                                     hi_def=True,
@@ -860,50 +871,51 @@
               <div class="p-logo-section">
                 <div class="p-logo-section__items">
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/5afa90c1-google-cloud-logo.png",
-                                        alt="Google Cloud",
-                                        width="696",
-                                        height="474",
-                                        hi_def=True,
-                                        loading="lazy",
-                                        attrs={"class": "p-logo-section__logo"}) | safe
-                    }}
-                  </div>
-                  <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/0b9f0328-aws-logo.png",
+                    {{ image(url="https://assets.ubuntu.com/v1/8f18ab35-aws-logo.png",
                                         alt="AWS",
-                                        width="177",
-                                        height="474",
+                                        width="101",
+                                        height="209",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
                     }}
                   </div>
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/bb183d2b-Group%203359.png",
-                                        alt="Microsoft",
-                                        width="474",
-                                        height="474",
+                    {{ image(url="https://assets.ubuntu.com/v1/69b7c578-google-cloud-logo.png",
+                                        alt="Google Cloud",
+                                        width="265",
+                                        height="209",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/68f813f9-ibm-cloud-logo.png",
+                                        alt="IBM",
+                                        width="228",
+                                        height="209",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
                     }}
                   </div>
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/7271c669-oracle_logo_white.png",
+                    {{ image(url="https://assets.ubuntu.com/v1/9d41b83f-microsoft-azure-logo [DEPRECATED].png",
+                                        alt="Azure",
+                                        width="199",
+                                        height="209",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/ca64e2f4-oracle-new-logo.png",
                                         alt="Oracle",
-                                        width="474",
-                                        height="474",
-                                        hi_def=True,
-                                        loading="lazy",
-                                        attrs={"class": "p-logo-section__logo"}) | safe
-                    }}
-                  </div>
-                  <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/424191f2-ibm-cloud-logo.png",
-                                        alt="IBM Cloud",
-                                        width="474",
-                                        height="474",
+                                        width="231",
+                                        height="209",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
@@ -921,40 +933,66 @@
                 <div class="p-logo-section">
                   <div class="p-logo-section__items">
                     <div class="p-logo-section__item">
-                      {{ image(url="https://assets.ubuntu.com/v1/3267d9f8-nvidia-logo.png",
-                                            alt="NVIDIA",
-                                            width="525",
-                                            height="474",
+                      {{ image(url="https://assets.ubuntu.com/v1/bf7b6a8b-nvidia-logo.png",
+                                            alt="Nvidia",
+                                            width="253",
+                                            height="208",
+                      
                                             hi_def=True,
                                             loading="lazy",
                                             attrs={"class": "p-logo-section__logo"}) | safe
                       }}
                     </div>
                     <div class="p-logo-section__item">
-                      {{ image(url="https://assets.ubuntu.com/v1/560da749-arm-logo.png",
-                                            alt="ARM",
-                                            width="183",
-                                            height="474",
-                                            hi_def=True,
-                                            loading="lazy",
-                                            attrs={"class": "p-logo-section__logo"}) | safe
-                      }}
-                    </div>
-                    <div class="p-logo-section__item">
-                      {{ image(url="https://assets.ubuntu.com/v1/eedd1cbe-intel-new-logo.png",
+
+                      {{ image(url="https://assets.ubuntu.com/v1/55cc1f43-intel-new-logo.png",
                                             alt="Intel",
-                                            width="207",
-                                            height="474",
+                                            width="108",
+                                            height="208",
                                             hi_def=True,
                                             loading="lazy",
                                             attrs={"class": "p-logo-section__logo"}) | safe
                       }}
                     </div>
                     <div class="p-logo-section__item">
-                      {{ image(url="https://assets.ubuntu.com/v1/74705d48-amd-logo.png",
+
+                      {{ image(url="https://assets.ubuntu.com/v1/8a8c2207-qualcom-logo.png",
+                                            alt="Qualcomm",
+                                            width="208",
+                                            height="208",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-logo-section__logo"}) | safe
+                      }}
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      {{ image(url="https://assets.ubuntu.com/v1/9040bac8-amd-logo.png",
                                             alt="AMD",
-                                            width="336",
-                                            height="474",
+                                            width="151",
+                                            height="208",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-logo-section__logo"}) | safe
+                      }}
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      {{ image(url="https://assets.ubuntu.com/v1/d66095fa-mediatek-logo.png",
+                                            alt="Mediatek",
+                                            width="213",
+                                            height="208",
+                                            hi_def=True,
+                                            loading="lazy",
+                                            attrs={"class": "p-logo-section__logo"}) | safe
+                      }}
+                    </div>
+                    <div class="p-logo-section__item">
+
+                      {{ image(url="https://assets.ubuntu.com/v1/66339380-arm-logo.png",
+                                            alt="ARM",
+                                            width="103",
+                                            height="208",
                                             hi_def=True,
                                             loading="lazy",
                                             attrs={"class": "p-logo-section__logo"}) | safe
@@ -973,30 +1011,74 @@
               <div class="p-logo-section">
                 <div class="p-logo-section__items">
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/59392278-hp-logo.png",
+
+                    {{ image(url="https://assets.ubuntu.com/v1/85ac4852-Dell-logo.png",
+                                        alt="Dell Technologies",
+                                        width="276",
+                                        height="208",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+
+                    {{ image(url="https://assets.ubuntu.com/v1/edd98130-hp-enterprise-logo.png",
+                                        alt="Hewlett Packard Enterprise",
+                                        width="171",
+                                        height="208",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+
+                    {{ image(url="https://assets.ubuntu.com/v1/ef8a9be0-hp-logo.png",
                                         alt="HP",
-                                        width="195",
-                                        height="474",
+                                        width="90",
+                                        height="208",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
                     }}
                   </div>
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/17527792-dell-technologies-logo-dark-theme.png",
-                                        alt="Dell",
-                                        width="520",
-                                        height="948",
+                    {{ image(url="https://assets.ubuntu.com/v1/3d8a6c1c-huawei-logo.png",
+                                        alt="Huawei",
+                                        width="205",
+                                        height="208",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
                     }}
                   </div>
                   <div class="p-logo-section__item">
-                    {{ image(url="https://assets.ubuntu.com/v1/77ee3313-lenovo-logo.png",
+                    {{ image(url="https://assets.ubuntu.com/v1/b6820291-ibm-logo.png",
+                                        alt="IBM",
+                                        width="103",
+                                        height="208",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+
+                    {{ image(url="https://assets.ubuntu.com/v1/df3315a0-lenovo-logo.png",
                                         alt="Lenovo",
-                                        width="318",
-                                        height="474",
+                                        width="135",
+                                        height="208",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-logo-section__logo"}) | safe
+                    }}
+                  </div>
+                  <div class="p-logo-section__item">
+                    {{ image(url="https://assets.ubuntu.com/v1/ba6a1c5d-Supermicro-logo.png",
+                                        alt="Supermicro",
+                                        width="155",
+                                        height="208",
                                         hi_def=True,
                                         loading="lazy",
                                         attrs={"class": "p-logo-section__logo"}) | safe
