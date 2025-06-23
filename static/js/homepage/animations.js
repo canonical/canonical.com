@@ -49,13 +49,13 @@ function suruScrollHandler() {
       });
     },
     {
-      threshold: 0.25, // 50% visibility triggers
-      rootMargin: "-30% 0px 0px 0px", // Adjust the root margin to trigger earlier
+      threshold: 0.5, // 50% visibility triggers
+      rootMargin: "-5% 0px 0px 0px", // Adjust the root margin to trigger earlier
     }
   );
 
   // FIX: remove "#" when using getElementById
-  const suruContainer = document.getElementById("hero-section-suru-wrapper");
+  const suruContainer = document.getElementById("suru-motion-anchor");
   observer.observe(suruContainer);
 }
 
@@ -66,7 +66,7 @@ window.centrepage = lottie.loadAnimation({
   container: document.querySelector("#centre-animation"),
   renderer: "svg",
   loop: false,
-  autoplay: true,
+  autoplay: false,
   path: "/static/json/centre_hover.json",
 });
 
@@ -75,8 +75,8 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        window.centrepage.setCurrentRawFrameValue(1);
-        window.centrepage.playSegments([1, 26], true); 
+        window.centrepage.setSpeed(1); // normal speed
+        window.centrepage.playSegments([1, 26], true);
       } else {
         window.centrepage.pause();
       }
@@ -89,7 +89,6 @@ const observer = new IntersectionObserver(
 
 observer.observe(document.querySelector("#centre-animation"));
 
-// Handle forward on mouseenter and reverse on mouseleave
 const zoneConfigs = {
   1: [28, 47],
   2: [52, 71],
@@ -105,12 +104,17 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
   if (!zone) return;
 
   zone.addEventListener("mouseenter", () => {
+    window.centrepage.setSpeed(1); // normal speed
     window.centrepage.setDirection(1); // forward
     window.centrepage.playSegments([start, end], true);
   });
 
   zone.addEventListener("mouseleave", () => {
+    const currentFrame = window.centrepage.currentFrame;
+    const safeFrame = Math.max(start, Math.min(currentFrame, end)); // clamp to zone bounds
+
+    window.centrepage.setSpeed(2); // double speed
     window.centrepage.setDirection(-1); // reverse
-    window.centrepage.playSegments([end, start], true);
+    window.centrepage.playSegments([safeFrame, start], true);
   });
 });
