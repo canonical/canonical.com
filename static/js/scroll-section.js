@@ -2,6 +2,20 @@ import lottie from "lottie-web";
 
 const wrappers = document.querySelectorAll(".scroll-section");
 
+let activeWrapper = null;
+
+function lockScroll() {
+  const scrollbarWidth =
+    window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = "hidden";
+  document.body.style.paddingRight = `${scrollbarWidth}px`;
+}
+
+function unlockScroll() {
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = "";
+}
+
 function showSection(
   index,
   currentIndex,
@@ -11,23 +25,19 @@ function showSection(
   sections
 ) {
   if (index === currentIndex) {
-    const initalTab = tabs[index];
+    const initialTab = tabs[index];
+    const iconContainer = initialTab.querySelector(".scroll-section__tab-icon");
+    const lottiePath = initialTab.dataset.lottie;
 
-    const initalTab_lottiePath = initalTab.dataset.lottie;
-    const initalTab_iconContainer = initalTab.querySelector(
-      ".scroll-section__tab-icon"
-    );
+    if (lottiePath && iconContainer) {
+      iconContainer.querySelector("img")?.classList.add("u-hide");
 
-    if (initalTab_lottiePath && initalTab_iconContainer) {
-      initalTab_iconContainer.querySelector("img")?.classList.add("u-hide");
-
-      // Inject Lottie
       lottie.loadAnimation({
-        container: initalTab_iconContainer,
+        container: iconContainer,
         renderer: "svg",
         loop: true,
         autoplay: true,
-        path: initalTab_lottiePath,
+        path: lottiePath,
       });
     }
     return;
@@ -36,45 +46,39 @@ function showSection(
   const currentSection = sections[currentIndex];
   const nextSection = sections[index];
 
-  // Slide out current
+  // Animate sections
   currentSection.classList.remove("active");
   currentSection.classList.add("slide-out-up");
   currentSection.setAttribute("aria-hidden", "true");
 
-  // Slide in next after short delay to allow z-index layering
   nextSection.classList.add("active");
   nextSection.classList.remove("slide-out-up");
   nextSection.setAttribute("aria-hidden", "false");
 
-  // Remove slide-out-up class after transition ends
   setTimeout(() => {
     currentSection.classList.remove("slide-out-up");
-  }, 400); // Match CSS transition duration
+  }, 400); // match CSS transition time
 
-  // Tab indicator
+  // Animate tabs
   tabs.forEach((tab) => {
     tab.classList.remove("active");
-    tab;
-    tab
-      .querySelector(".scroll-section__tab-icon img")
-      ?.classList.remove("u-hide");
-    tab.querySelector("svg")?.remove();
+
+    const icon = tab.querySelector(".scroll-section__tab-icon");
+    if (icon) {
+      icon.querySelector("img")?.classList.remove("u-hide");
+      icon.querySelector("svg")?.remove(); // Remove Lottie
+    }
   });
 
   const activeTab = tabs[index];
   activeTab.classList.add("active");
 
-  const lottiePath = activeTab.dataset.lottie;
   const iconContainer = activeTab.querySelector(".scroll-section__tab-icon");
+  const lottiePath = activeTab.dataset.lottie;
 
-
-  console.log(`Lottie path: ${lottiePath}`);
-  console.log(`Icon container: ${iconContainer}`);
-  
   if (lottiePath && iconContainer) {
     iconContainer.querySelector("img")?.classList.add("u-hide");
 
-    // Inject Lottie
     lottie.loadAnimation({
       container: iconContainer,
       renderer: "svg",
@@ -85,7 +89,6 @@ function showSection(
   }
 
   indicator.style.top = `${activeTab.offsetTop}px`;
-
   setCurrentIndex(index);
 }
 
@@ -93,6 +96,7 @@ function setScrollSection(wrapper) {
   const tabs = wrapper.querySelectorAll(".scroll-section__tab");
   const indicator = wrapper.querySelector(".scroll-section__indicator");
   const sections = wrapper.querySelectorAll(".scroll-section__content");
+
   let currentIndex = 0;
   const setCurrentIndex = (val) => {
     currentIndex = val;
@@ -100,9 +104,9 @@ function setScrollSection(wrapper) {
 
   let scrollEnabled = false;
 
-  // Click navigation
+  // Tab click navigation
   tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () =>
+    tab.addEventListener("click", () => {
       showSection(
         index,
         currentIndex,
@@ -110,70 +114,75 @@ function setScrollSection(wrapper) {
         tabs,
         indicator,
         sections
-      )
-    );
+      );
+    });
   });
 
-  // Scroll navigation
-
+  // Track which scroll section is active
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        scrollEnabled = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          activeWrapper = wrapper;
+          scrollEnabled = true;
+        } else if (activeWrapper === wrapper) {
+          scrollEnabled = false;
+        }
       });
     },
     {
-      threshold: 1, // Trigger when at least 50% visible
-      // rootMargin: "0% 0px 0px -30%", // Adjust the root margin to trigger earlier
+      threshold: 1,
+      rootMargin: "-12% 0px 0px 0px",
     }
   );
 
   observer.observe(wrapper);
 
-  // Scroll listener
+  // Scroll navigation
   window.addEventListener(
     "wheel",
     (e) => {
-      if (!scrollEnabled || window.innerWidth <= 1036) {
+      if (
+        activeWrapper !== wrapper ||
+        !scrollEnabled ||
+        window.innerWidth <= 1036
+      ) {
         return;
       }
-      if (currentIndex != sections.length - 1 && e.deltaY > 0) {
-        e.preventDefault(); // Prevent default scrolling behavior
-      }
-      if (currentIndex != 0 && e.deltaY < 0) {
-        e.preventDefault(); // Prevent default scrolling behavior
-      }
-      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
+
+      const atLast = currentIndex < sections.length - 1 && e.deltaY > 0;
+      const atFirst = currentIndex > 0 && e.deltaY < 0;
+
+      if (atLast || atFirst) {
+        e.preventDefault();
+
+        lockScroll();
+
+        const newIndex = currentIndex + (e.deltaY > 0 ? 1 : -1);
         showSection(
-          currentIndex + 1,
+          newIndex,
           currentIndex,
           setCurrentIndex,
           tabs,
           indicator,
           sections
         );
+
         scrollEnabled = false;
-        setTimeout(() => (scrollEnabled = true), 600);
-      } else if (e.deltaY < -0 && currentIndex > 0) {
-        showSection(
-          currentIndex - 1,
-          currentIndex,
-          setCurrentIndex,
-          tabs,
-          indicator,
-          sections
-        );
-        scrollEnabled = false;
-        setTimeout(() => (scrollEnabled = true), 600);
+        setTimeout(() => {
+          scrollEnabled = true;
+          unlockScroll();
+        }, 600); // allow transition to finish
       }
     },
     { passive: false }
   );
 
-  // Initial state
+  // Initialize first section
   window.addEventListener("load", () => {
     showSection(0, 0, setCurrentIndex, tabs, indicator, sections);
   });
 }
 
+// Init all wrappers
 wrappers.forEach(setScrollSection);
