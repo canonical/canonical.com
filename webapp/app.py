@@ -1611,6 +1611,25 @@ def build_case_study_index(engage_docs):
 
     return case_study_index
 
+# Canonical University
+def cred_exam_content(**_):
+    valid_exam_names = ['CUE.01 Linux', 'CUE.02 Desktop', 'CUE.03 Server']
+    exam_name = flask.request.args.get("exam")
+    if exam_name not in valid_exam_names:
+        exam_name = valid_exam_names[0]
+    syllabus_file = open("templates/university/exam-content/exam-content.json", "r")
+    syllabus_data = json.load(syllabus_file)
+    return flask.render_template(
+        "university/exam-content/index.html",
+        syllabus_data=syllabus_data,
+        exam_name=exam_name,
+    )
+
+app.add_url_rule(
+    "/university/exam-content",
+    view_func=cred_exam_content,
+    methods=["GET"],
+)
 
 # Case study
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
