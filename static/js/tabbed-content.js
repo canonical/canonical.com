@@ -180,7 +180,6 @@
       var tabContent = document.querySelectorAll(
         "#" + tabElement.getAttribute("aria-controls")
       );
-      console.log("Tab content:", tabContent);
       tabContent.forEach((content) => {
         if (tabElement === tab) {
           tabElement.setAttribute("aria-selected", true);

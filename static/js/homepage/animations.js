@@ -23,7 +23,6 @@ function playAnimation(anim, forward = true) {
   // Animation is always playing until you stop it or it reverses and reaches the end
   // If the animation is already playing, we don't need to call play again
   // Also everytime we set the mode, it will reset the current frame to 0
-  console.log(`Playing animation in ${forward ? "forward" : "reverse"} mode`);
   if (!anim.isPlaying) {
     anim.play();
   }
@@ -54,7 +53,6 @@ function suruScrollHandler() {
     }
   );
 
-  // FIX: remove "#" when using getElementById
   const suruContainer = document.getElementById("suru-motion-anchor");
   observer.observe(suruContainer);
 }
@@ -111,7 +109,7 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
 
   zone.addEventListener("mouseleave", () => {
     const currentFrame = window.centrepage.currentFrame;
-    const safeFrame = Math.max(start, Math.min(currentFrame, end)); // clamp to zone bounds
+    const safeFrame = Math.max(start, Math.min(currentFrame, end));
 
     window.centrepage.setSpeed(4); // double speed
     window.centrepage.setDirection(-1); // reverse
