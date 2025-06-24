@@ -40,9 +40,13 @@ function pauseSlide() {
   isPaused = !isPaused;
   pauseBtns.forEach(
     (pauseBtn) =>
-      (pauseBtn.querySelector("img").src = isPaused
+      {pauseBtn.querySelector("img").src = isPaused
         ? "https://assets.ubuntu.com/v1/58c707b0-play.svg"
-        : "https://assets.ubuntu.com/v1/398d9c17-pause.svg")
+        : "https://assets.ubuntu.com/v1/398d9c17-pause.svg"
+      pauseBtn.setAttribute("aria-label", isPaused
+        ? "Play carousel"
+        : "Pause carousel");
+      }
   );
   if (isPaused) {
     clearInterval(interval);

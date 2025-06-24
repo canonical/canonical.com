@@ -113,7 +113,7 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
     const currentFrame = window.centrepage.currentFrame;
     const safeFrame = Math.max(start, Math.min(currentFrame, end)); // clamp to zone bounds
 
-    window.centrepage.setSpeed(2); // double speed
+    window.centrepage.setSpeed(4); // double speed
     window.centrepage.setDirection(-1); // reverse
     window.centrepage.playSegments([safeFrame, start], true);
   });
