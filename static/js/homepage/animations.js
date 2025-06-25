@@ -2,19 +2,19 @@ import { DotLottie } from "@lottiefiles/dotlottie-web";
 import lottie from "lottie-web";
 
 // Initialize light animation
-window.homepageSuru_light = new DotLottie({
+const homepageSuru_light = new DotLottie({
   autoplay: true,
   loop: false,
   canvas: document.querySelector("#hero-section-suru-light"),
-  src: "/static/json/suru_light.lottie",
+  src: "/static/json/suru_light.json",
 });
 
 // Initialize dark animation
-window.homepageSuru_dark = new DotLottie({
+const homepageSuru_dark = new DotLottie({
   autoplay: true,
   loop: false,
   canvas: document.querySelector("#hero-section-suru-shadow"),
-  src: "/static/json/suru_shadow.lottie",
+  src: "/static/json/suru_shadow.json",
 });
 
 // Helper function to set direction + play
@@ -38,12 +38,12 @@ function suruScrollHandler() {
 
         if (isVisible) {
           // Element enters viewport → play forward
-          playAnimation(window.homepageSuru_light, true);
-          playAnimation(window.homepageSuru_dark, true);
+          playAnimation(homepageSuru_light, true);
+          playAnimation(homepageSuru_dark, true);
         } else {
           // Element exits viewport → play reverse
-          playAnimation(window.homepageSuru_light, false);
-          playAnimation(window.homepageSuru_dark, false);
+          playAnimation(homepageSuru_light, false);
+          playAnimation(homepageSuru_dark, false);
         }
       });
     },
@@ -58,9 +58,9 @@ function suruScrollHandler() {
 }
 
 // we need to wait for the animations to load before we can use them
-window.homepageSuru_dark.addEventListener("load", suruScrollHandler);
+homepageSuru_dark.addEventListener("load", suruScrollHandler);
 
-window.centrepage = lottie.loadAnimation({
+const centrepage = lottie.loadAnimation({
   container: document.querySelector("#centre-animation"),
   renderer: "svg",
   loop: false,
@@ -73,10 +73,10 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        window.centrepage.setSpeed(1); // normal speed
-        window.centrepage.playSegments([1, 26], true);
+        centrepage.setSpeed(1); // normal speed
+        centrepage.playSegments([1, 26], true);
       } else {
-        window.centrepage.pause();
+        centrepage.pause();
       }
     });
   },
@@ -102,17 +102,17 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
   if (!zone) return;
 
   zone.addEventListener("mouseenter", () => {
-    window.centrepage.setSpeed(1); // normal speed
-    window.centrepage.setDirection(1); // forward
-    window.centrepage.playSegments([start, end], true);
+    centrepage.setSpeed(1); // normal speed
+    centrepage.setDirection(1); // forward
+    centrepage.playSegments([start, end], true);
   });
 
   zone.addEventListener("mouseleave", () => {
-    const currentFrame = window.centrepage.currentFrame;
+    const currentFrame = centrepage.currentFrame;
     const safeFrame = Math.max(start, Math.min(currentFrame, end));
 
-    window.centrepage.setSpeed(4); // double speed
-    window.centrepage.setDirection(-1); // reverse
-    window.centrepage.playSegments([safeFrame, start], true);
+    centrepage.setSpeed(4); // double speed
+    centrepage.setDirection(-1); // reverse
+    centrepage.playSegments([safeFrame, start], true);
   });
 });
