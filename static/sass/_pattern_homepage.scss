@@ -35,23 +35,26 @@
     .p-button {
       @extend %vf-button-base;
       @extend %vf-button-white-success-icon;
-      color: #cc420a !important;
+      color: #fc764c !important;
       @media screen and (width <= $breakpoint-small) {
         width: 100%;
       }
       @include vf-button-pattern(
         $button-background-color: none,
-        $button-hover-background-color: #ff7139,
-        $button-active-background-color: #ff7139,
+        $button-hover-background-color: none,
+        $button-active-background-color: none,
         $button-disabled-background-color:
           $colors--theme--button-positive-default,
-        $button-border-color: #cc420a,
-        $button-hover-border-color: #cc420a,
-        $button-active-border-color: #cc420a,
+        $button-border-color: #fc764c,
+        $button-hover-border-color: #fe8a66,
+        $button-active-border-color: #fe8a66,
         $button-disabled-border-color: $colors--theme--button-positive-default,
         $button-text-color: $colors--theme--button-positive-text
       );
       @include vf-focus($color-focus-positive);
+    }
+    .p-button:hover {
+      color: #fe8a66 !important;
     }
     .p-icon--arrow-right {
       @extend %icon;
@@ -97,17 +100,17 @@
         // Hide tab panels by default
         opacity: 0;
         transform: translateX(-150px);
-        transition-property: transform opacity;
-        transition: 0.6s;
+        transition-property: opacity;
+        transition: 0.4s;
         transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
         transition-behavior: allow-discrete;
       }
       [role="tabpanel"] {
         transform: translateX(0px);
         opacity: 1;
-        transition-property: transform opacity;
+        transition-property: opacity;
         z-index: 3;
-        transition: 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.6s;
+        transition: 0.4s cubic-bezier(0.65, 0, 0.35, 1) 0.4s;
         @starting-style {
           transform: translateX(100px);
           opacity: 0;
@@ -116,21 +119,10 @@
     }
   }
 
-  #homepage-blog-content {
-    min-height: 30rem;
-    @media screen and ($breakpoint-small < width < $breakpoint-large) {
-      min-height: 44rem;
-    }
-    @media screen and (width <= $breakpoint-small) {
-      min-height: 52rem;
-    }
-  }
-
   .p-homepage-card {
     background-color: #202020; /* dark background */
     padding: 0;
     border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
-    border-radius: 4px;
     justify-content: space-between;
     align-items: center;
   }
@@ -138,7 +130,6 @@
   .p-homepage-blog-card {
     background-color: #202020; /* dark background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
-    border-radius: 4px;
     align-items: center;
     padding-bottom: 1rem;
     @media screen and (width < $breakpoint-large) {
@@ -201,6 +192,9 @@
       padding: 0;
       border: 0;
     }
+    .pause-btn:hover {
+      background: transparent;
+    }
   }
   .p-homepage-carousel-tabs {
     list-style: none;
@@ -214,10 +208,10 @@
       text-align: left;
       width: 100%;
       margin-bottom: 0;
-      padding: 0 0 12px 0;
+      padding: 0 0 14px 0;
       .progress-bar--husk {
         background: #ffffff10;
-        height: 2px;
+        height: 1px;
         top: -5px;
         left: 0;
         position: absolute;

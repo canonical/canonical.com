@@ -854,6 +854,7 @@ html {
     .scroll-section__tabs {
       display: flex;
       overflow-x: auto;
+      overflow-y: hidden;
     }
   }
 }
@@ -888,6 +889,15 @@ html {
   hr {
     display: none;
   }
+  .scroll-section__tab-icon {
+    position: relative;
+    .p-lottie--container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+  }
   @media screen and (width < $breakpoint-large) {
     padding: 0 1rem 0 1rem;
     position: relative;
@@ -913,6 +923,7 @@ html {
   overflow: hidden;
   min-height: 16rem;
   position: relative;
+  overflow: hidden;
 }
 
 .scroll-section__content {
@@ -922,7 +933,7 @@ html {
   right: 0;
   bottom: 0;
   opacity: 0;
-  overflow-x: auto;
+  overflow: hidden;
   transform: translateY(100px);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;

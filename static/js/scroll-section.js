@@ -16,6 +16,15 @@ function unlockScroll() {
   document.body.style.paddingRight = "";
 }
 
+function updateWrapperMinHeight(wrapper) {
+  const activeContent = wrapper.querySelector(
+    ".scroll-section__content.active"
+  );
+  if (activeContent) {
+    wrapper.style.minHeight = `${activeContent.scrollHeight}px`;
+  }
+}
+
 function showSection(
   index,
   currentIndex,
@@ -25,21 +34,6 @@ function showSection(
   sections
 ) {
   if (index === currentIndex) {
-    const initialTab = tabs[index];
-    const iconContainer = initialTab.querySelector(".scroll-section__tab-icon");
-    const lottiePath = initialTab.dataset.lottie;
-
-    if (lottiePath && iconContainer) {
-      iconContainer.querySelector("img")?.classList.add("u-hide");
-
-      lottie.loadAnimation({
-        container: iconContainer,
-        renderer: "svg",
-        loop: true,
-        autoplay: true,
-        path: lottiePath,
-      });
-    }
     return;
   }
 
@@ -65,8 +59,8 @@ function showSection(
 
     const icon = tab.querySelector(".scroll-section__tab-icon");
     if (icon) {
-      icon.querySelector("img")?.classList.remove("u-hide");
-      icon.querySelector("svg")?.remove(); // Remove Lottie
+      icon.querySelector("img").style.opacity = 1; // show image
+      icon.querySelector(".p-lottie--container").style.opacity = 0; // hide Lottie
     }
   });
 
@@ -77,15 +71,8 @@ function showSection(
   const lottiePath = activeTab.dataset.lottie;
 
   if (lottiePath && iconContainer) {
-    iconContainer.querySelector("img")?.classList.add("u-hide");
-
-    lottie.loadAnimation({
-      container: iconContainer,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      path: lottiePath,
-    });
+    iconContainer.querySelector("img").style.opacity = 0; // hide image
+    iconContainer.querySelector(".p-lottie--container").style.opacity = 1; // show Lottie
   }
 
   indicator.style.top = `${activeTab.offsetTop}px`;
@@ -106,6 +93,23 @@ function setScrollSection(wrapper) {
 
   // Tab click navigation
   tabs.forEach((tab, index) => {
+    // Initialize Lottie animations
+    const iconContainer = tab.querySelector(".scroll-section__tab-icon");
+    const lottiePath = tab.dataset.lottie;
+    if (lottiePath && iconContainer) {
+      const lottieContainer = iconContainer.querySelector(
+        ".p-lottie--container"
+      );
+      lottie.loadAnimation({
+        container: lottieContainer,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: lottiePath,
+      });
+    }
+
+    // Add click event listener to each tab
     tab.addEventListener("click", () => {
       showSection(
         index,
@@ -117,6 +121,17 @@ function setScrollSection(wrapper) {
       );
     });
   });
+
+  const activeContent_wrapper = wrapper.querySelector(
+    ".scroll-section__contentArea"
+  );
+  // Update wrapper min-height based on active content
+  window.addEventListener("load", () =>
+    updateWrapperMinHeight(activeContent_wrapper)
+  );
+  window.addEventListener("resize", () =>
+    updateWrapperMinHeight(activeContent_wrapper)
+  );
 
   // Track which scroll section is active
   const observer = new IntersectionObserver(
