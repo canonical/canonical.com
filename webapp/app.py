@@ -6,6 +6,7 @@ import calendar
 import os
 import re
 from urllib.parse import parse_qs, urlencode, urlparse
+import yaml
 
 import bleach
 import flask
@@ -262,6 +263,8 @@ def home_sitemap():
     return response
 
 
+with open("navigation.yaml") as nav_file:
+    navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
 app.add_url_rule(
     "/search",
     "search",
@@ -270,6 +273,7 @@ app.add_url_rule(
         session=search_session,
         template_path="search.html",
         search_engine_id=search_engine_id,
+        featured=navigation,
     ),
 )
 
