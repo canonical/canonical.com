@@ -17,9 +17,7 @@ function unlockScroll() {
 }
 
 function updateWrapperMinHeight(wrapper) {
-  const activeContent = wrapper.querySelector(
-    ".scroll-section__content.active"
-  );
+  const activeContent = wrapper.querySelector(".scroll-section__content");
   if (activeContent) {
     wrapper.style.minHeight = `${activeContent.scrollHeight}px`;
   }
@@ -129,9 +127,13 @@ function setScrollSection(wrapper) {
   window.addEventListener("load", () =>
     updateWrapperMinHeight(activeContent_wrapper)
   );
-  window.addEventListener("resize", () =>
-    updateWrapperMinHeight(activeContent_wrapper)
-  );
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      updateWrapperMinHeight(activeContent_wrapper);
+    }, 100); // Allow layout to stabilize
+  });
 
   // Track which scroll section is active
   const observer = new IntersectionObserver(
@@ -147,11 +149,11 @@ function setScrollSection(wrapper) {
     },
     {
       threshold: 1,
-      rootMargin: "-12% 0px 0px 0px",
+      rootMargin: "0px 0px 0px 0px",
     }
   );
-
-  observer.observe(wrapper);
+  const observe_element = wrapper.closest('.scroll-section-observe-anchor')
+  observer.observe(observe_element);
 
   // Scroll navigation
   window.addEventListener(
@@ -187,7 +189,7 @@ function setScrollSection(wrapper) {
         setTimeout(() => {
           scrollEnabled = true;
           unlockScroll();
-        }, 600); // allow transition to finish
+        }, 300); // allow transition to finish
       }
     },
     { passive: false }
