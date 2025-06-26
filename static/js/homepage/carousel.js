@@ -26,6 +26,9 @@ function activateSlide(index) {
         i === index && !isPaused
           ? "progressBarAnim 8s linear forwards"
           : "none";
+    if (isPaused) {
+      bar.style.width = i === index && isPaused ? "100%" : "0%"; // Ensure the progress bar is full when paused
+    }
   });
   currentIndex = index;
 }
@@ -52,6 +55,7 @@ function pause_play_Slide() {
     document
       .querySelectorAll(".progress-bar")
       .forEach((bar) => (bar.style.animation = "none"));
+    navItems[currentIndex].querySelector(".progress-bar").style.width = "100%"; // Ensure the current slide's progress bar is full
   } else {
     activateSlide(currentIndex); // restart animation
     startAutoRotate();

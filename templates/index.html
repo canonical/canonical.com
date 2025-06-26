@@ -1,6 +1,8 @@
 {% extends 'base_index.html' %}
 
 {% block head %}
+  {# djlint: off #}
+
   <link rel="preload"
         href="/static/json/suru_light.json"
         as="fetch"
@@ -11,6 +13,8 @@
         as="fetch"
         type="application/json"
         crossorigin />
+  {# djlint: on #}
+
 {% endblock head %}
 
 {% block meta_copydoc %}
@@ -1388,21 +1392,24 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        {% with %}
-          {% set formid = "5311" %}
-          {% set returnURL = "https://canonical.com#success" %}
-          {% include "partners/partial/_homepage-form.html" %}
-        {% endwith %}
+  {% with %}
+    {% set formid = "5311" %}
+    {% set returnURL = "https://canonical.com#success" %}
+    {% include "partners/partial/_homepage-form.html" %}
+  {% endwith %}
 
-        <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
-        <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
-        <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
-        <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
 
-        <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-        {# djlint: off #}
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  {# djlint: off #}
       <script>
         canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
@@ -1414,6 +1421,6 @@
           excerptLength: 100,
         })
 </script>
-        {# djlint: on #}
+  {# djlint: on #}
 
-      {% endblock %}
+{% endblock %}
