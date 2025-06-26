@@ -20,8 +20,6 @@ function activateSlide(index) {
   }
   navItems.forEach((nav, i) => {
     nav.setAttribute("aria-selected", i === index);
-    const simpleLine = nav.querySelector("p-rule--muted");
-    if (simpleLine) simpleLine.classList.toggle("u-hide", i === index);
     const bar = nav.querySelector(".progress-bar");
     if (bar)
       bar.style.animation =
@@ -36,18 +34,18 @@ function nextSlide() {
   const next = (currentIndex + 1) % slides.length;
   activateSlide(next);
 }
-function pauseSlide() {
+
+function pause_play_Slide() {
   isPaused = !isPaused;
-  pauseBtns.forEach(
-    (pauseBtn) =>
-      {pauseBtn.querySelector("img").src = isPaused
-        ? "https://assets.ubuntu.com/v1/58c707b0-play.svg"
-        : "https://assets.ubuntu.com/v1/398d9c17-pause.svg"
-      pauseBtn.setAttribute("aria-label", isPaused
-        ? "Play carousel"
-        : "Pause carousel");
-      }
-  );
+  pauseBtns.forEach((pauseBtn) => {
+    pauseBtn.querySelector("img").src = isPaused
+      ? "https://assets.ubuntu.com/v1/58c707b0-play.svg"
+      : "https://assets.ubuntu.com/v1/398d9c17-pause.svg";
+    pauseBtn.setAttribute(
+      "aria-label",
+      isPaused ? "Play carousel" : "Pause carousel"
+    );
+  });
   if (isPaused) {
     clearInterval(interval);
     // stop progress bar animation
@@ -65,6 +63,7 @@ function startAutoRotate() {
   interval = setInterval(nextSlide, 8000);
 }
 
+// Event listeners for navigation items
 navItems.forEach((nav) => {
   nav.addEventListener("click", () => {
     const index = parseInt(nav.getAttribute("data-index"), 10);
@@ -75,7 +74,9 @@ navItems.forEach((nav) => {
   });
 });
 
-pauseBtns.forEach((pauseBtn) => pauseBtn.addEventListener("click", pauseSlide));
+pauseBtns.forEach((pauseBtn) =>
+  pauseBtn.addEventListener("click", pause_play_Slide)
+);
 
 // Keyboard navigation
 document.addEventListener("keydown", (event) => {
@@ -88,11 +89,11 @@ document.addEventListener("keydown", (event) => {
       startAutoRotate(); // restart timer
     }
   } else if (event.key === " ") {
-    pauseSlide();
+    pause_play_Slide();
   }
 });
 
-// arrow buttons
+// arrow buttons on medium and small screens
 const arrowNext = document.querySelector(".p-homepage-carousel__next");
 const arrowPrev = document.querySelector(".p-homepage-carousel__previous");
 arrowNext.addEventListener("click", () => {

@@ -1,11 +1,12 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
 import lottie from "lottie-web";
 
+// Suru animations
 // Initialize light animation
 const homepageSuru_light = new DotLottie({
   autoplay: true,
   loop: false,
-  canvas: document.querySelector("#hero-section-suru-light"),
+  canvas: document.querySelector(".hero-section-suru-light"),
   src: "/static/json/suru_light.json",
 });
 
@@ -13,7 +14,7 @@ const homepageSuru_light = new DotLottie({
 const homepageSuru_dark = new DotLottie({
   autoplay: true,
   loop: false,
-  canvas: document.querySelector("#hero-section-suru-shadow"),
+  canvas: document.querySelector(".hero-section-suru-shadow"),
   src: "/static/json/suru_shadow.json",
 });
 
@@ -49,7 +50,7 @@ function suruScrollHandler() {
     },
     {
       threshold: 0.5, // 50% visibility triggers
-      rootMargin: "-5% 0px 0px 0px", // Adjust the root margin to trigger earlier
+      rootMargin: "-5% 0px 0px 0px",
     }
   );
 
@@ -57,9 +58,10 @@ function suruScrollHandler() {
   observer.observe(suruContainer);
 }
 
-// we need to wait for the animations to load before we can use them
+// We need to wait for the animations to load before we can use them
 homepageSuru_dark.addEventListener("load", suruScrollHandler);
 
+// Initialize the centrepage animation
 const centrepage = lottie.loadAnimation({
   container: document.querySelector("#centre-animation"),
   renderer: "svg",
@@ -73,7 +75,7 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        centrepage.setSpeed(1); // normal speed
+        centrepage.setSpeed(1);
         centrepage.playSegments([1, 26], true);
       } else {
         centrepage.pause();
@@ -102,7 +104,7 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
   if (!zone) return;
 
   zone.addEventListener("mouseenter", () => {
-    centrepage.setSpeed(1); // normal speed
+    centrepage.setSpeed(1);
     centrepage.setDirection(1); // forward
     centrepage.playSegments([start, end], true);
   });
@@ -111,7 +113,7 @@ Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
     const currentFrame = centrepage.currentFrame;
     const safeFrame = Math.max(start, Math.min(currentFrame, end));
 
-    centrepage.setSpeed(4); // double speed
+    centrepage.setSpeed(4);
     centrepage.setDirection(-1); // reverse
     centrepage.playSegments([safeFrame, start], true);
   });
