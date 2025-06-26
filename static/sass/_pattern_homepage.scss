@@ -85,17 +85,6 @@
     .p-tabs {
       max-height: 56rem;
 
-      @media screen and (max-width: $breakpoint-small - 1) {
-        padding-left: $spv--large;
-        padding-right: $spv--large;
-      }
-
-      .p-tabs__link {
-        @media screen and (max-width: $breakpoint-x-small - 1) {
-          padding-left: $spv--medium;
-          padding-right: $spv--medium;
-        }
-      }
       .u-hide[role="tabpanel"] {
         // Hide tab panels by default
         opacity: 0;
@@ -163,11 +152,12 @@
   }
 
   // Homepage Suru Style
-  #hero-section-suru-wrapper {
+  .hero-section-suru-wrapper {
     position: relative;
+    top: -4rem;
     max-width: 82rem;
     width: 100%;
-    margin: 0 auto 0 auto;
+    margin: 0 auto -4rem auto;
     height: 300px;
     overflow: hidden;
     @media screen and (width < $breakpoint-large) {
@@ -175,27 +165,31 @@
     }
   }
 
-  #hero-section-suru-light,
-  #hero-section-suru-shadow {
+  .hero-section-suru-light,
+  .hero-section-suru-shadow {
     position: absolute;
     top: 171px;
     left: 0;
     width: 100%;
-    /* height: 100%; */
     display: block;
     transform: translatey(-50%);
     @media screen and (width < $breakpoint-large) {
       display: none;
     }
   }
+  .u-no-padding--bottom-large {
+    @media screen and (width >= $breakpoint-large) {
+      padding-bottom: 0;
+    }
+  }
 
   /* Specific styles */
-  #hero-section-suru-light {
+  .hero-section-suru-light {
     z-index: 2;
     opacity: 0.03;
   }
 
-  #hero-section-suru-shadow {
+  .hero-section-suru-shadow {
     mix-blend-mode: multiply;
     z-index: 1;
   }

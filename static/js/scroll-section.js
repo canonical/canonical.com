@@ -19,6 +19,7 @@ function unlockScroll() {
 function updateWrapperMinHeight(wrapper) {
   const activeContent = wrapper.querySelector(".scroll-section__content");
   if (activeContent) {
+    // this works because the content section is set to have height equal to maxcontent height
     wrapper.style.minHeight = `${activeContent.scrollHeight}px`;
   }
 }
@@ -127,12 +128,14 @@ function setScrollSection(wrapper) {
   window.addEventListener("load", () =>
     updateWrapperMinHeight(activeContent_wrapper)
   );
+
+  // Debounce resize event to update wrapper min-height
   let resizeTimeout;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       updateWrapperMinHeight(activeContent_wrapper);
-    }, 100); // Allow layout to stabilize
+    }, 100);
   });
 
   // Track which scroll section is active
@@ -152,7 +155,7 @@ function setScrollSection(wrapper) {
       rootMargin: "0px 0px 0px 0px",
     }
   );
-  const observe_element = wrapper.closest('.scroll-section-observe-anchor')
+  const observe_element = wrapper.closest(".scroll-section-observe-anchor");
   observer.observe(observe_element);
 
   // Scroll navigation
@@ -185,11 +188,12 @@ function setScrollSection(wrapper) {
           sections
         );
 
+        // Debouncing scroll so that it doesn't trigger too fast and go across all sections in one go
         scrollEnabled = false;
         setTimeout(() => {
           scrollEnabled = true;
           unlockScroll();
-        }, 300); // allow transition to finish
+        }, 300);
       }
     },
     { passive: false }
