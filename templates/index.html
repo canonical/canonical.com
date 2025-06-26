@@ -1,6 +1,8 @@
 {% extends 'base_index.html' %}
 
 {% block head %}
+  {# djlint: off #}
+
   <link rel="preload"
         href="/static/json/suru_light.json"
         as="fetch"
@@ -11,6 +13,8 @@
         as="fetch"
         type="application/json"
         crossorigin />
+  {# djlint: on #}
+
 {% endblock head %}
 
 {% block meta_copydoc %}
@@ -1388,27 +1392,31 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        {{ load_form("/") | safe }}
-        <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
-        <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
-        <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
-        <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
+  {{ load_form("/") | safe }}
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
 
-        <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-        {# djlint: off #}
-            <script>
-              canonicalLatestNews.fetchLatestNews({
-                articlesContainerSelector: "#latest-articles",
-                articleTemplateSelector: "#articles-template",
-                hostname: "canonical.com",
-                groupId: 2100,
-                limit: "3",
-                linkImage: true,
-                excerptLength: 100,
-              })
-            </script>
-        {# djlint: on #}
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+
+  {# djlint: off #}
+      <script>
+        canonicalLatestNews.fetchLatestNews({
+          articlesContainerSelector: "#latest-articles",
+          articleTemplateSelector: "#articles-template",
+          hostname: "canonical.com",
+          groupId: 2100,
+          limit: "3",
+          linkImage: true,
+          excerptLength: 100,
+        })
+      </script>
+  {# djlint: on #}
 
 {% endblock %}
