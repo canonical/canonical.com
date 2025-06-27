@@ -500,12 +500,6 @@
 
   {{ load_form('/solutions/cloud-native-development') | safe }}
   
-  <script>
-    // The "Ready to go" tab is visible by default
-    document.querySelectorAll("[role='tabpanel']").forEach(panel => panel.style.display = "none");
-    document.getElementById("ready-to-use-apps-tab").style.display = "block";
-    document.getElementById("ready-to-use-apps").setAttribute("aria-selected", "true");
-    document.getElementById("ready-to-use-apps").removeAttribute("tabindex");
-  </script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
 {% endblock content %}
