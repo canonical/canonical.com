@@ -1,0 +1,551 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Open source for public sector and government{% endblock %}
+
+{% block meta_description %}
+  Canonical provides trusted and reliable open source solutions for public sector and government IT or mission-critical workloads &mdash; with FIPS and DISA STIG compliant modules.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1umM1XMEzqeXklPkyCjDr98Q-RvwCcNNXgwNwfLoynTo/edit#heading=h.h8lo4gnw0yf
+{% endblock meta_copydoc %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Open source for public sector',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Harness the power of open source for strategic public sector or government initiatives. Modernize with confidence by relying on security and support from Canonical, the publisher of Ubuntu.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive js-invoke-modal"  aria-controls="public-sector-modal" href="/contact-us">Get in touch</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="p-section--shallow">
+        <h2>Why choose Canonical?</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9 col-start-large-4">
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <ul class="js-tabbed-content p-tabs--vertical is-black u-hide--small"
+                role="tablist"
+                aria-label="Why choose Canonical?">
+              <li>
+                <button class="p-tabs__item"
+                        id="security"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="security-tab">Security</button>
+              </li>
+              <li>
+                <button class="p-tabs__item"
+                        id="compliance"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="compliance-tab">Compliance</button>
+              </li>
+              <li>
+                <button class="p-tabs__item"
+                        id="innovation"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="innovation-tab">Innovation</button>
+              </li>
+            </ul>
+            <form class="u-hide--large u-hide--medium">
+              <select name="boardSelect" id="boardSelect">
+                <option value="security-tab" selected="">Security</option>
+                <option value="compliance-tab">Compliance</option>
+                <option value="innovation-tab">Innovation</option>
+              </select>
+            </form>
+          </div>
+          <div class="col-6 col-medium-3">
+            <!-- tab 1 -->
+            <div class="p-tabs__content"
+                 id="security-tab"
+                 role="tabpanel"
+                 aria-labelledby="security">
+              <p>
+                We deliver security maintenance for the whole stack: from the OS, to infrastructure, to containers and their dependencies.
+              </p>
+              <p>
+                Start with Ubuntu's securely designed foundation. Adopt <a href="/pro">Ubuntu Pro</a>, a subscription for enterprise-grade security, support and compliance, and simplify vulnerability management for  all your open source.
+              </p>
+              <div class="p-cta-block">
+                <a href="/pro/free-trial">Get a 30-day free trial of Ubuntu Pro&nbsp;&rsaquo;</a>
+              </div>
+            </div>
+            <!-- tab 2 -->
+            <div class="p-tabs__content"
+                 id="compliance-tab"
+                 role="tabpanel"
+                 aria-labelledby="compliance">
+              <div class="p-section--shallow">
+                <h3 class="p-heading--5">Compliance standards</h3>
+                <p>
+                  We simplify compliance with automation tools and hardening profiles, including FIPS 140-2 and 140-3, CMMC, FedRamp, DISA-STIG and CIS.
+                </p>
+                <p>
+                  Achieve compliance everywhere with Ubuntu Pro &ndash; on-premise, in air-gapped environments, on the edge, and on public clouds.
+                </p>
+                <div class="p-cta-block u-no-padding--bottom">
+                  <a href="/security/security-standards"
+                     class="p-button u-no-margin--bottom">Learn about security standards on Ubuntu</a>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <h3 class="p-heading--5">Management tools</h3>
+              <p>
+                Manage your Ubuntu fleets easily and remain compliant. Landscape &ndash; available with your Ubuntu Pro subscription &ndash; automates security patches and audits, saving you time and giving you visibility into your estate.
+              </p>
+              <div class="p-cta-block">
+                <a href="/landscape">Discover Landscape&nbsp;&rsaquo;</a>
+              </div>
+            </div>
+            <!-- tab 3 -->
+            <div class="p-tabs__content"
+                 id="innovation-tab"
+                 role="tabpanel"
+                 aria-labelledby="innovation">
+              <div class="p-section--shallow">
+                <h3 class="p-heading--5">Containerization</h3>
+                <p>
+                  Ubuntu and Canonical offer you a trusted foundation to build securely designed containers that you can run on your preferred platform &ndash; in public clouds, on-premise or hybrid environments.
+                </p>
+                <p>
+                  Choose our Container Build Service to get up to 12 years of reliable security maintenance for any open source container image, or explore our developer tools to build and optimize your containers.
+                </p>
+                <div class="p-cta-block u-no-padding--bottom">
+                  <a href="/containers" class="p-button">Discover our container offering</a>
+                  <a href="https://repo1.dso.mil/dsop/canonical/ubuntu/pro-cis-stig-20.04/ubuntu-pro-cis-stig-20.04">Learn about hardened containers in the Iron Bank&nbsp;&rsaquo;</a>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <h3 class="p-heading--5">Data and AI</h3>
+              <p>
+                Transform citizen services with an optimized foundation for data management and AI. With Ubuntu Pro, you pay per node, not per app, or metered in the cloud. This enables you to unlock both innovation and full stack security maintenance at an unbeatable price.
+              </p>
+              <div class="p-cta-block">
+                <a href="https://canonical.com/solutions/ai" class="p-button">Explore our AI solutions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-text--small-caps">Our public cloud partners</h2>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/4369310f-aws-logo.png",
+                        alt="AWS",
+                        width="151",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/0ed19633-microsoft-azure-logo.png",
+                        alt="Microsoft Azure",
+                        width="272",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/66fb5735-google-cloud-logo.png",
+                        alt="Google Cloud",
+                        width="382",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/36640e1b-ibm-cloud-logo.png",
+                        alt="IBM Cloud",
+                        width="292",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/83befec6-oracle-cloud-logo.png",
+                        alt="Oracle Cloud",
+                        width="387",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          Ubuntu compliance guide
+          <br />
+          for the US public sector
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-container is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/9fc6858b-secure-minimal-runtime.png",
+                        alt="",
+                        width="1200",
+                        height="800",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+        </div>
+        <p>Learn how to navigate the overwhelming complexity of compliance requirements facing the US public sector.</p>
+        <div class="p-cta-block">
+          <a href="/engage/security-compliance-US-public-sector-FIPS-DISASTIG"
+             class="p-button">Read the guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2 class="p-text--small-caps">Helping you stay compliant</h2>
+      </div>
+      <div class="col">
+        <div class="p-logo-section">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/b04dafe4-FIPS-logo.png",
+                            alt="FIPS 140-2",
+                            width="145",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/3b12c178-DISA-logo.png",
+                            alt="DISA",
+                            width="220",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/3ebfe22d-FedRAMP.png",
+                            alt="FedRAMP",
+                            width="111",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/416df6b6-CIS-logo.png",
+                            alt="CIS",
+                            width="130",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <p>Meeting the requirements of major public sector and governmental standards is straightforward with Canonical.</p>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="Hear from our customers",
+    quote_size="small",
+    quote_text="Transformative innovations such as AI and deep learning are being put to work to unlock new levels of business automation. With the introduction of Ubuntu Pro, enterprises will benefit from better security, support, and long-term maintenance for thousands of open source libraries that are at the core of modern AI and data science workflows.",
+    citation_source_name_text="Justin Boitano",
+    citation_source_title_text="Vice president of Enterprise Computing,",
+    citation_source_organisation_text="NVIDIA"
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/30dbef54-logo.png",
+            alt="NVIDIA logo",
+            width="852",
+            height="114",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Canonical has been immensely helpful and given us all the support we've needed. It's been an ideal relationship.",
+    citation_source_name_text="Rosario Peluso",
+    citation_source_title_text="Technologist,",
+    citation_source_organisation_text="INGV"
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/d72c59c3-ingv.png",
+            alt="INGV logo",
+            width="852",
+            height="240",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Info on Ubuntu is right there at our fingertips. Anything we need to know is always just a Google search away, so whatever issues we run into are easy to solve.",
+    citation_source_name_text="Ed Zenisek",
+    citation_source_title_text="IT Manager,",
+    citation_source_organisation_text="New Mexico State University, NMSU Physical Science Lab"
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/5da42288-nmsu.png",
+            alt="New Mexico State University logo",
+            width="852",
+            height="195",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="We're already seeing a transformation in the services we provide to citizens. We're able to scale up more efficiently and we plan to introduce a lot more features and services for the citizens to access. From an operational perspective, we're seeing that it is possible to bring cost-efficiency to a multi-petabyte environment.",
+    citation_source_name_text="SMD Jeelani",
+    citation_source_title_text="Director (Operations),",
+    citation_source_organisation_text="UIDAI"
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/7f50aa34-aadhaar.png",
+            alt="Aadhaar logo",
+            width="852",
+            height="189",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          <a class="js-invoke-modal" aria-controls="public-sector-modal" href="/contact-us">Contact us</a>
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-container is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/02c45865-contact%20us.png",
+                        alt="",
+                        width="1200",
+                        height="800",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+        </div>
+        <p>
+          Canonical can support unique government requirements. We partner with agencies, award holders, prime, and sub-contractors. Contact us for more.
+        </p>
+        <p>US agencies can find us with Canonical's CAGE and NCAGE Code:</p>
+        <p class="p-heading--5 u-no-padding--top">CAGE Code: 7VDN3 | NCAGE Code: U09K6</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--deep">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          Resources for successful
+          <br />
+          open source adoption
+        </h2>
+      </div>
+      <div class="col">
+
+        <nav class="p-tabs js-tabbed-content">
+          <ul class="p-tabs__list u-no-margin--bottom"
+              role="tablist"
+              data-maintain-hash="true">
+            <li class="p-tabs__item">
+              <button class="p-tabs__link"
+                      id="launchdarkly"
+                      role="tab"
+                      aria-selected="true"
+                      aria-controls="launchdarkly-tab">LaunchDarkly</button>
+            </li>
+            <li class="p-tabs__item">
+              <button class="p-tabs__link"
+                      id="esa"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="esa-tab">ESA</button>
+            </li>
+            <li class="p-tabs__item">
+              <button class="p-tabs__link"
+                      id="unicc"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="unicc-tab">UNICC</button>
+            </li>
+            <li class="p-tabs__item">
+              <button class="p-tabs__link"
+                      id="lucid"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="lucid-tab">Lucid</button>
+            </li>
+          </ul>
+        </nav>
+        <form class="u-hide--large u-hide--medium">
+          <select name="boardSelect" id="boardSelect">
+            <option value="launchdarkly-tab" selected="">LaunchDarkly</option>
+            <option value="esa-tab">ESA</option>
+            <option value="unicc-tab">UNICC</option>
+            <option value="lucid-tab">Lucid</option>
+          </select>
+        </form>
+        <!-- tab 1 -->
+        <div class="p-tabs__content"
+             id="launchdarkly-tab"
+             role="tabpanel"
+             aria-labelledby="launchdarkly">
+
+          {{ image(url="https://assets.ubuntu.com/v1/752fab38-launchdarkly-logo@3x.png",
+                    alt="LaunchDarkly",
+                    width="1800",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+          <h3>LaunchDarkly becomes the first FedRAMP-authorized feature management platform thanks to Ubuntu Pro</h3>
+          <p>Learn how this leading SaaS provider achieved effortless FIPS compliance on AWS.</p>
+          <div class="p-cta-block">
+            <a href="https://assets.ubuntu.com/v1/b97b2df6-AWS%20LaunchDarkly%20Case%20Study%20v3%203.6.2024.pdf">Read the case study&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <!-- tab 2 -->
+        <div class="p-tabs__content"
+             id="esa-tab"
+             role="tabpanel"
+             aria-labelledby="esa">
+          {{ image(url="https://assets.ubuntu.com/v1/279a0e2f-esa-logo@3x.png",
+                    alt="ESA",
+                    width="1800",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+          <h3>The European Space Agency aims to double its number of space missions with Canonical's solutions</h3>
+          <p>Discover how Canonical Kubernetes are launching ESA's infrastructure into the future.</p>
+          <div class="p-cta-block">
+            <a href="https://canonical.com/case-study/esa">Explore the case study&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <!-- tab 3 -->
+        <div class="p-tabs__content"
+             id="unicc-tab"
+             role="tabpanel"
+             aria-labelledby="unicc">
+          {{ image(url="https://assets.ubuntu.com/v1/cb5f9dbe-unicc-logo@3x.png",
+                    alt="UNICC",
+                    width="1800",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+          <h3>UNICC partners with Canonical to build UNICC cloud</h3>
+          <p>
+            Partnering with Canonical marks a major leap in UNICC's mission to deliver open source cloud solutions that uphold data sovereignty.
+          </p>
+          <div class="p-cta-block">
+            <a href="https://www.unicc.org/news/2023/10/19/unicc-partners-with-canonical-to-build-unicc-cloud/">Read the announcement&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <!-- tab 4 -->
+        <div class="p-tabs__content"
+             id="lucid-tab"
+             role="tabpanel"
+             aria-labelledby="lucid">
+          {{ image(url="https://assets.ubuntu.com/v1/51dec4ba-lucid-logo@3x.png",
+                    alt="Lucid",
+                    width="1800",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+          <h3>Ubuntu Pro helps Lucid Software meet FedRAMP compliance for government contracts</h3>
+          <p>Find out how Lucid became FedRAMP compliant by adopting Ubuntu Pro.</p>
+          <div class="p-cta-block">
+            <a href="https://canonical.com/case-study/lucid-aws-fedramp-compliance-case-study">Read the case study&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form('/public-sector') | safe }}
+	<script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+
+
+{% endblock content %}
