@@ -122,4 +122,7 @@ if (!prefersReducedMotion) {
       centrepage.playSegments([safeFrame, start], true);
     });
   });
+} else {
+  observer.unobserve(document.querySelector("#centre-animation"));
+  centrepage.goToAndStop(26, true);
 }
