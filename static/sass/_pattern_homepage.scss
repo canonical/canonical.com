@@ -12,12 +12,29 @@
 
 @mixin homepage-styles {
   .homepage {
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      *:hover {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .p-icon--arrow-right {
+        padding-left: 2rem !important;
+      }
+    }
+
     .p-button--positive {
       @extend %vf-button-base;
       @extend %vf-button-white-success-icon;
       @media screen and (width <= $breakpoint-small) {
         width: 100%;
       }
+
       @include vf-button-pattern(
         $button-background-color: #cc420a,
         $button-hover-background-color: #b23a09,
@@ -30,8 +47,10 @@
         $button-disabled-border-color: $colors--theme--button-positive-default,
         $button-text-color: $colors--theme--button-positive-text
       );
+
       @include vf-focus($color-focus-positive);
     }
+
     .p-button {
       @extend %vf-button-base;
       @extend %vf-button-white-success-icon;
@@ -39,6 +58,7 @@
       @media screen and (width <= $breakpoint-small) {
         width: 100%;
       }
+
       @include vf-button-pattern(
         $button-background-color: none,
         $button-hover-background-color: none,
@@ -51,31 +71,39 @@
         $button-disabled-border-color: $colors--theme--button-positive-default,
         $button-text-color: $colors--theme--button-positive-text
       );
+
       @include vf-focus($color-focus-positive);
     }
+
     .p-button:hover {
       color: #fe8a66 !important;
     }
+
     .p-icon--arrow-right {
       @extend %icon;
       @include vf-themed-icon(
         $light-value: vf-icon-arrow-right-url($colors--light-theme--icon),
         $dark-value: vf-icon-arrow-right-url(#fc764c)
       );
+
       transition: padding-left 0.3s ease;
       padding-left: 2rem;
     }
+
     .p-icon--begin-downloading {
       @extend %icon;
       @include vf-icon-begin-downloading(#fc764c);
     }
+
     .p-cta-text {
       color: #fc764c;
       text-decoration: none;
     }
+
     .p-cta-text:hover {
       color: #fe8a66;
     }
+
     .p-cta-text:hover {
       .p-icon--arrow-right {
         padding-left: 2.5rem;
@@ -90,14 +118,16 @@
         opacity: 0;
         transition-property: opacity;
         transition: 0.3s;
-        transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+        transition-timing-function: ease-in-out;
         transition-behavior: allow-discrete;
       }
+
       [role="tabpanel"] {
         opacity: 1;
         transition-property: opacity;
         z-index: 3;
-        transition: 0.3s cubic-bezier(0.65, 0, 0.35, 1) 0.3s;
+        transition: 0.3s ease-in-out 0.2s;
+        transition-behavior: allow-discrete;
         @starting-style {
           opacity: 0;
         }
@@ -116,33 +146,38 @@
   .p-homepage-blog-card {
     background-color: #202020; /* dark background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
-    align-items: center;
     padding: 0;
     @media screen and (width < $breakpoint-large) {
       padding-bottom: 0;
     }
+
     .p-image-container {
       border-style: solid;
       border-width: 1px;
       border-color: #ffffff1a;
+
       a {
         line-height: 0;
       }
     }
+
     .p-image-wrapper {
       border-style: solid;
       border-width: 4px;
       margin: 0;
       border-color: rgba(255, 255, 255, 0.5);
     }
+
     a {
       text-decoration-color: #fff;
     }
+
     h3 {
       color: white;
       padding: 16px 16px 0 16px;
       margin: 0;
     }
+
     p {
       padding: 8px 16px 8px 16px;
     }
@@ -174,6 +209,7 @@
       display: none;
     }
   }
+
   .u-no-padding--bottom-large {
     @media screen and (width >= $breakpoint-large) {
       padding-bottom: 0;
@@ -198,16 +234,19 @@
       height: 680px;
     }
     @media screen and (width < $breakpoint-small) {
-      height: 40rem;
+      height: 820px;
     }
+
     .pause-btn {
       padding: 0;
       border: 0;
     }
+
     .pause-btn:hover {
       background: transparent;
     }
   }
+
   .p-homepage-carousel-tabs {
     list-style: none;
     margin-left: 0;
@@ -221,6 +260,7 @@
       width: 100%;
       margin-bottom: 0;
       padding: 6px 0 18px 0;
+
       .progress-bar--husk {
         background: #ffffff10;
         height: 1px;
@@ -230,6 +270,7 @@
         width: 100%;
       }
     }
+
     .p-homepage-carousel-tabs__item:hover {
       background: var(--vf-color-background-default);
       .progress-bar--husk {
@@ -237,6 +278,7 @@
       }
     }
   }
+
   .p-homepage-carousel-tabs__item[aria-selected="true"] {
     background: var(--vf-color-background-default);
 
@@ -250,6 +292,7 @@
       width: 0;
       z-index: 2;
     }
+
     .progress-bar--husk {
       background: #ffffff10;
       height: 3px;
@@ -273,6 +316,7 @@
     @starting-style {
       opacity: 0;
     }
+
     .progress-bar {
       position: relative;
       height: 3px;
@@ -299,21 +343,27 @@
     .centre-animation__zone--1 {
       @include centre-animation--zone(12%, 40%);
     }
+
     .centre-animation__zone--2 {
       @include centre-animation--zone(70%, 48%);
     }
+
     .centre-animation__zone--3 {
       @include centre-animation--zone(42%, 56.5%);
     }
+
     .centre-animation__zone--4 {
       @include centre-animation--zone(22%, 64.5%);
     }
+
     .centre-animation__zone--5 {
       @include centre-animation--zone(50%, 32.75%);
     }
+
     .centre-animation__zone--6 {
       @include centre-animation--zone(30%, 23.5%);
     }
+
     .centre-animation__zone--7 {
       @include centre-animation--zone(57%, 73%);
     }
