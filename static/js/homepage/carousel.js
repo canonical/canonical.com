@@ -15,7 +15,7 @@ function activateSlide(index) {
   const slide_progress_bar = slides[index].querySelector(".progress-bar");
   if (slide_progress_bar) {
     slide_progress_bar.style.animation = !isPaused
-      ? "progressBarAnim 8s linear forwards"
+      ? "progress-bar-anim 8s linear forwards"
       : "none";
   }
   navItems.forEach((nav, i) => {
@@ -24,7 +24,7 @@ function activateSlide(index) {
     if (bar)
       bar.style.animation =
         i === index && !isPaused
-          ? "progressBarAnim 8s linear forwards"
+          ? "progress-bar-anim 8s linear forwards"
           : "none";
     if (isPaused) {
       bar.style.width = i === index && isPaused ? "100%" : "0%"; // Ensure the progress bar is full when paused

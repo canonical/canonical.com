@@ -131,7 +131,7 @@ function setScrollSection(wrapper) {
     clearTimeout(loadtimer);
     loadtimer = setTimeout(() => {
       updateWrapperMinHeight(activeContent_wrapper);
-    }, 500);
+    }, 1500);
   });
 
   // Debounce resize event to update wrapper min-height
