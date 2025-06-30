@@ -829,12 +829,7 @@ meta_copydoc %}
     </section>
   </div>
 
-  {% with %}
-    {% set formid = "5311" %}
-    {% set returnURL = "https://canonical.com#success" %}
-    {% include "partners/partial/_homepage-form.html" %}
-  {% endwith %}
-
+  {{ load_form("/") | safe }}
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
 
 {% endblock %}
