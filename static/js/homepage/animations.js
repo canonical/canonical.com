@@ -99,22 +99,27 @@ const zoneConfigs = {
   7: [172, 191],
 };
 
-Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
-  const zone = document.querySelector(`.centre-animation__zone--${zoneId}`);
-  if (!zone) return;
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+if (!prefersReducedMotion) {
+  Object.entries(zoneConfigs).forEach(([zoneId, [start, end]]) => {
+    const zone = document.querySelector(`.centre-animation__zone--${zoneId}`);
+    if (!zone) return;
 
-  zone.addEventListener("mouseenter", () => {
-    centrepage.setSpeed(1);
-    centrepage.setDirection(1); // forward
-    centrepage.playSegments([start, end], true);
+    zone.addEventListener("mouseenter", () => {
+      centrepage.setSpeed(1);
+      centrepage.setDirection(1); // forward
+      centrepage.playSegments([start, end], true);
+    });
+
+    zone.addEventListener("mouseleave", () => {
+      const currentFrame = centrepage.currentFrame;
+      const safeFrame = Math.max(start, Math.min(currentFrame, end));
+
+      centrepage.setSpeed(4);
+      centrepage.setDirection(-1); // reverse
+      centrepage.playSegments([safeFrame, start], true);
+    });
   });
-
-  zone.addEventListener("mouseleave", () => {
-    const currentFrame = centrepage.currentFrame;
-    const safeFrame = Math.max(start, Math.min(currentFrame, end));
-
-    centrepage.setSpeed(4);
-    centrepage.setDirection(-1); // reverse
-    centrepage.playSegments([safeFrame, start], true);
-  });
-});
+}

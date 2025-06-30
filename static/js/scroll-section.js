@@ -125,9 +125,14 @@ function setScrollSection(wrapper) {
     ".scroll-section__contentArea"
   );
   // Update wrapper min-height based on active content
-  window.addEventListener("load", () =>
-    updateWrapperMinHeight(activeContent_wrapper)
-  );
+  let loadtimer;
+
+  window.addEventListener("load", () => {
+    clearTimeout(loadtimer);
+    loadtimer = setTimeout(() => {
+      updateWrapperMinHeight(activeContent_wrapper);
+    }, 500);
+  });
 
   // Debounce resize event to update wrapper min-height
   let resizeTimeout;

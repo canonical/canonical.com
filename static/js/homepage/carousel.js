@@ -117,3 +117,13 @@ arrowPrev.addEventListener("click", () => {
 // INIT
 activateSlide(currentIndex);
 startAutoRotate();
+
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+if (prefersReducedMotion) {
+  pause_play_Slide(); // Pause the carousel if user prefers reduced motion
+} else {
+  activateSlide(currentIndex); // Ensure the first slide is active
+  startAutoRotate(); // Start the auto-rotation
+}
