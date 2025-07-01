@@ -25,6 +25,8 @@ from canonicalwebteam.discourse import (
     Docs,
     DocParser,
     EngagePages,
+    TutorialParser, 
+    Tutorials
 )
 from canonicalwebteam.search import build_search_view
 import canonicalwebteam.directory_parser as directory_parser
@@ -1147,6 +1149,129 @@ app.add_url_rule(
 )
 
 dqlite_docs.init_app(app)
+
+MAAS_DISCOURSE_API_KEY = os.getenv("MAAS_DISCOURSE_API_KEY")
+MAAS_DISCOURSE_API_USERNAME = os.getenv("MAAS_DISCOURSE_API_USERNAME")
+
+maas_url_prefix = "/maas/docs"
+maas_docs = Docs(
+    parser=DocParser(
+        api=DiscourseAPI(
+            base_url="https://discourse.maas.io/",
+            session=search_session,
+            get_topics_query_id=2,
+            api_key=MAAS_DISCOURSE_API_KEY,
+            api_username=MAAS_DISCOURSE_API_USERNAME,
+        ),
+        index_topic_id=6662,
+        url_prefix=maas_url_prefix,
+        tutorials_index_topic_id=1289,
+        tutorials_url_prefix="/maas/tutorials",
+    ),
+    document_template="maas/docs/document.html",
+    url_prefix=maas_url_prefix,
+)
+
+app.add_url_rule(
+    "/maas/docs/search",
+    "maas-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="maas.io/docs",
+        template_path="docs/search.html",
+    ),
+)
+
+maas_docs.init_app(app)
+
+MAAS_TUTORIALS_URL = "/maas/tutorials"
+tutorials_discourse = Tutorials(
+    parser=TutorialParser(
+        api=DiscourseAPI(
+            base_url="https://discourse.maas.io/",
+            session=search_session,
+            api_key=MAAS_DISCOURSE_API_KEY,
+            api_username=MAAS_DISCOURSE_API_USERNAME,
+            get_topics_query_id=2,
+        ),
+        index_topic_id=1289,
+        url_prefix=MAAS_TUTORIALS_URL,
+    ),
+    document_template="maas/tutorials/tutorial.html",
+    url_prefix=MAAS_TUTORIALS_URL,
+    blueprint_name="maas-tutorials",
+)
+
+@app.route(MAAS_TUTORIALS_URL)
+def maas_tutorials():
+    tutorials_discourse.parser.parse()
+    tutorials_discourse.parser.parse_topic(
+        tutorials_discourse.parser.index_topic
+    )
+    tutorials = tutorials_discourse.parser.tutorials
+    topic_list = []
+
+    for item in tutorials:
+        if item["categories"] not in topic_list:
+            topic_list.append(item["categories"])
+        item["categories"] = {
+            "slug": item["categories"],
+            "name": " ".join(
+                [
+                    word.capitalize()
+                    for word in item["categories"].split("-")
+                ]
+            ),
+        }
+
+    topic_list.sort()
+    topics = []
+
+    for topic in topic_list:
+        topics.append(
+            {
+                "slug": topic,
+                "name": " ".join(
+                    [word.capitalize() for word in topic.split("-")]
+                ),
+            }
+        )
+
+    return flask.render_template(
+        "maas/tutorials/index.html",
+        tutorials=tutorials,
+        topics=topics,
+    )
+
+tutorials_discourse.init_app(app)
+
+MAAS_BLOG_URL = "/maas/blog"
+maas_blog_api = BlogAPI(
+    session=search_session,
+    thumbnail_width=354,
+    thumbnail_height=199,
+)
+maas_blog = build_blueprint(
+    BlogViews(
+        api=maas_blog_api,
+        blog_title="MAAS Blog",
+        tag_ids=[1304],
+        excluded_tags=[3184, 3265, 3408],
+    ),
+)
+
+app.register_blueprint(maas_blog, url_prefix=MAAS_BLOG_URL, name="maas_blog")
+
+app.add_url_rule(
+    "/maas/blog/sitemap.xml",
+    view_func=BlogSitemapIndex.as_view("maas_blog_sitemap", blog_views=maas_blog),
+)
+
+app.add_url_rule(
+    "/maas/blog/sitemap/<regex('.+'):slug>.xml",
+    view_func=BlogSitemapPage.as_view("maas_blog_sitemap_page", blog_views=maas_blog),
+)
 
 
 @app.errorhandler(502)

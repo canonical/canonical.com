@@ -1,0 +1,249 @@
+// This file contains styles specific to the /maas bubble.
+// They were copied over from maas.io and can be removed once rebranding is complete.
+
+@use "sass:math";
+
+@mixin maas-styles {
+  .p-heading-icon-block {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    @media only screen and (min-width: $breakpoint-large) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .p-heading-icon-block__copy-block {
+    margin-top: -0.5rem;
+  }
+
+  .p-heading-icon-block__icon {
+    border-radius: 0;
+    height: auto;
+    margin-bottom: $spv--small;
+    margin-right: $sph--large;
+    padding-right: $sph--large;
+    width: ($sp-unit * 5) + $sph--large;
+  }
+
+  .p-takeunder {
+    border-radius: 0.125rem;
+    margin-right: -1 rem;
+    padding: $sp-x-large;
+
+    @media only screen and (min-width: $breakpoint-large) {
+      padding: $sp-x-large $sp-medium $sp-medium $sp-medium;
+    }
+
+    &.is-dark {
+      color: $color-x-light;
+
+      a:link,
+      a:visited {
+        color: $color-x-light;
+      }
+    }
+
+    &.is-light {
+      color: $color-dark;
+
+      a:link,
+      a:visited {
+        color: $color-dark;
+      }
+    }
+
+    & + & {
+      @media only screen and (max-width: $breakpoint-large) {
+        margin-top: $spv--large;
+      }
+    }
+  }
+
+  .p-tutorial-section {
+    display: none;
+
+    &:target {
+      display: block;
+    }
+  }
+
+  .p-tutorials-meter {
+    background-image: url('#{$assets-path}77d5aee3-maas-difficulty-meter.svg');
+    background-position-x: -75px;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: $sp-large;
+    margin-left: $sp-xx-small;
+    text-indent: -9999px;
+    width: 74px;
+  }
+
+  .p-tutorials-meter--1 {
+    background-position-x: -60px;
+  }
+
+  .p-tutorials-meter--2 {
+    background-position-x: -45px;
+  }
+
+  .p-tutorials-meter--3 {
+    background-position-x: -30px;
+  }
+
+  .p-tutorials-meter--4 {
+    background-position-x: -15px;
+  }
+
+  .p-tutorials-meter--5 {
+    background-position-x: 0;
+  }
+
+  .p-tutorial-section__footer {
+    margin-bottom: $sp-medium;
+  }
+
+  .p-tutorial__bug-link {
+    position: relative;
+    top: -1.38rem;
+
+    @media only screen and (min-width: $breakpoint-small) {
+      top: 0;
+    }
+  }
+
+  .p-tutorial__duration {
+    margin-bottom: $sp-small;
+
+    @media only screen and (min-width: $breakpoint-small) {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-right: $sp-medium;
+    }
+  }
+
+  .p-tutorial__pagination {
+    @media only screen and (min-width: $breakpoint-small) {
+      display: inline-block;
+    }
+  }
+
+  %p-tutorial-pagination-item {
+    display: inline-block;
+    margin-right: $sp-small;
+    max-width: $sp-xxxx-large;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @media only screen and (max-width: $breakpoint-small) {
+      width: auto;
+    }
+  }
+
+  .p-tutorial__pagination-item--prev {
+    @extend %p-tutorial-pagination-item;
+
+    .p-icon--chevron-down {
+      transform: rotate(90deg);
+    }
+  }
+
+  .p-tutorial__pagination-item--next {
+    @extend %p-tutorial-pagination-item;
+
+    .p-icon--chevron-down {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .p-tutorial__feedback-icon {
+    cursor: pointer;
+  }
+
+  .p-tutorial__feedback-options {
+    .p-inline-list__item {
+      .has-color {
+        display: none;
+      }
+
+      &:hover {
+        .p-tutorial__feedback-icon {
+          display: none;
+        }
+
+        .has-color {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .p-sidenav__toggle {
+    background-size: $sp-medium;
+    cursor: pointer;
+    float: right;
+    padding: $sp-x-large;
+  }
+
+  .p-sidenav__body {
+    // Fix p-sidebar-nav to understand
+    // h3 headings, and not require any classes on the <ul>s and <li>s
+    // Because the markup is pulled directly in from Discourse
+    padding: math.div($sp-large, 2) $sp-large;
+
+    a,
+    a:visited {
+      color: $color-dark;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: $color-link;
+      text-decoration: underline;
+    }
+
+    .is-active {
+      position: relative;
+
+      &::before {
+        background-color: $color-mid-light;
+        bottom: -0.25rem;
+        content: '';
+        left: -1rem;
+        position: absolute;
+        top: -0.25rem;
+        width: 0.1875rem;
+      }
+    }
+
+    ul {
+      margin-bottom: 0.625rem;
+      margin-left: 0;
+      padding-left: 1rem;
+    }
+
+    li {
+      padding-bottom: 0.125rem;
+      padding-top: 0.125rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 2;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .p-blog-card--maas {
+    @extend %p-card--highlighted;
+
+    border-top: 3px solid rgb(233, 84, 32);
+  }
+}
