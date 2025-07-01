@@ -43,10 +43,12 @@ function showSection(
   currentSection.classList.remove("active");
   currentSection.classList.add("slide-out-up");
   currentSection.setAttribute("aria-hidden", "true");
+  currentSection.inert = true;
 
   nextSection.classList.add("active");
   nextSection.classList.remove("slide-out-up");
   nextSection.setAttribute("aria-hidden", "false");
+  nextSection.inert = false;
 
   setTimeout(() => {
     currentSection.classList.remove("slide-out-up");
@@ -150,13 +152,13 @@ function setScrollSection(wrapper) {
         if (entry.isIntersecting) {
           activeWrapper = wrapper;
           scrollEnabled = true;
-        } else if (activeWrapper === wrapper) {
+        } else {
           scrollEnabled = false;
         }
       });
     },
     {
-      threshold: 1,
+      threshold: 0.9,
       rootMargin: "0px 0px 0px 0px",
     }
   );
@@ -180,7 +182,6 @@ function setScrollSection(wrapper) {
 
       if (atLast || atFirst) {
         e.preventDefault();
-
         lockScroll();
 
         const newIndex = currentIndex + (e.deltaY > 0 ? 1 : -1);
