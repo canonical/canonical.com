@@ -154,6 +154,25 @@
               </div>
             </div>
           </div>
+          <div id="contact-form-fail" class="u-hide">
+            <div class="p-notification--negative u-no-margin--bottom">
+              <div class="p-notification__content">
+                <p class="p-notification__message">
+                  {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% for category, message in messages %}
+                      {% if category == "contact-form-fail" %}{{ message }}{% endif %}
+                    {% endfor %}
+                    {% if not messages %}
+                      An error occurred while submitting your form.
+                    {% endif %}
+                    Please try again or 
+                    <a href="https://github.com/canonical/canonical.com/issues/new?template=ISSUE_TEMPLATE.md">file a bug report</a>.
+                  {% endwith %}
+                  <a href="#" onclick="document.querySelector('#contact-form-fail').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
+                </p>
+              </div>
+            </div>
+          </div>
 
           {% include "navigation/navigation.html" %}
 
@@ -172,7 +191,7 @@
           <script>
             (function() {
               // Form submission notification
-              var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success"];
+              var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success", "#contact-form-fail"];
               bannerElements.forEach(el => {
                 if (location.hash === el) {
                   document.querySelector(el).classList.remove("u-hide");
