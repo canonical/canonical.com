@@ -28,6 +28,57 @@
     width: ($sp-unit * 5) + $sph--large;
   }
 
+    .p-sidenav__body {
+    // Fix p-sidebar-nav to understand
+    // h3 headings, and not require any classes on the <ul>s and <li>s
+    // Because the markup is pulled directly in from Discourse
+    padding: math.div($sp-large, 2) $sp-large;
+
+    a,
+    a:visited {
+      color: $color-dark;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: $color-link;
+      text-decoration: underline;
+    }
+
+    .is-active {
+      position: relative;
+
+      &::before {
+        background-color: $color-mid-light;
+        bottom: -0.25rem;
+        content: "";
+        left: -1rem;
+        position: absolute;
+        top: -0.25rem;
+        width: 0.1875rem;
+      }
+    }
+
+    ul {
+      margin-bottom: 0.625rem;
+      margin-left: 0;
+      padding-left: 1rem;
+    }
+
+    li {
+      padding-bottom: 0.125rem;
+      padding-top: 0.125rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 2;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   .p-takeunder {
     border-radius: 0.125rem;
     margin-right: -1 rem;
@@ -71,7 +122,7 @@
   }
 
   .p-tutorials-meter {
-    background-image: url('#{$assets-path}77d5aee3-maas-difficulty-meter.svg');
+    background-image: url("#{$assets-path}77d5aee3-maas-difficulty-meter.svg");
     background-position-x: -75px;
     background-position-y: center;
     background-repeat: no-repeat;
@@ -190,60 +241,9 @@
     padding: $sp-x-large;
   }
 
-  .p-sidenav__body {
-    // Fix p-sidebar-nav to understand
-    // h3 headings, and not require any classes on the <ul>s and <li>s
-    // Because the markup is pulled directly in from Discourse
-    padding: math.div($sp-large, 2) $sp-large;
-
-    a,
-    a:visited {
-      color: $color-dark;
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: $color-link;
-      text-decoration: underline;
-    }
-
-    .is-active {
-      position: relative;
-
-      &::before {
-        background-color: $color-mid-light;
-        bottom: -0.25rem;
-        content: '';
-        left: -1rem;
-        position: absolute;
-        top: -0.25rem;
-        width: 0.1875rem;
-      }
-    }
-
-    ul {
-      margin-bottom: 0.625rem;
-      margin-left: 0;
-      padding-left: 1rem;
-    }
-
-    li {
-      padding-bottom: 0.125rem;
-      padding-top: 0.125rem;
-    }
-
-    h3 {
-      font-size: 1rem;
-      font-weight: 400;
-      line-height: 2;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
   .p-blog-card--maas {
     @extend %p-card--highlighted;
 
-    border-top: 3px solid rgb(233, 84, 32);
+    border-top: 3px solid rgb(233 84 32);
   }
 }
