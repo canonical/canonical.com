@@ -25,8 +25,8 @@ from canonicalwebteam.discourse import (
     Docs,
     DocParser,
     EngagePages,
-    TutorialParser, 
-    Tutorials
+    TutorialParser,
+    Tutorials,
 )
 from canonicalwebteam.search import build_search_view
 import canonicalwebteam.directory_parser as directory_parser
@@ -1203,6 +1203,7 @@ tutorials_discourse = Tutorials(
     blueprint_name="maas-tutorials",
 )
 
+
 @app.route(MAAS_TUTORIALS_URL)
 def maas_tutorials():
     tutorials_discourse.parser.parse()
@@ -1218,10 +1219,7 @@ def maas_tutorials():
         item["categories"] = {
             "slug": item["categories"],
             "name": " ".join(
-                [
-                    word.capitalize()
-                    for word in item["categories"].split("-")
-                ]
+                [word.capitalize() for word in item["categories"].split("-")]
             ),
         }
 
@@ -1244,6 +1242,7 @@ def maas_tutorials():
         topics=topics,
     )
 
+
 tutorials_discourse.init_app(app)
 
 MAAS_BLOG_URL = "/maas/blog"
@@ -1265,12 +1264,16 @@ app.register_blueprint(maas_blog, url_prefix=MAAS_BLOG_URL, name="maas_blog")
 
 app.add_url_rule(
     "/maas/blog/sitemap.xml",
-    view_func=BlogSitemapIndex.as_view("maas_blog_sitemap", blog_views=maas_blog),
+    view_func=BlogSitemapIndex.as_view(
+        "maas_blog_sitemap", blog_views=maas_blog
+    ),
 )
 
 app.add_url_rule(
     "/maas/blog/sitemap/<regex('.+'):slug>.xml",
-    view_func=BlogSitemapPage.as_view("maas_blog_sitemap_page", blog_views=maas_blog),
+    view_func=BlogSitemapPage.as_view(
+        "maas_blog_sitemap_page", blog_views=maas_blog
+    ),
 )
 
 
