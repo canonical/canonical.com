@@ -4,6 +4,9 @@ rm -rf static/js/modules
 mkdir -p static/js/modules/cookie-policy
 cp node_modules/@canonical/cookie-policy/build/js/cookie-policy.js static/js/modules/cookie-policy
 
+mkdir -p static/js/modules/cookie-policy-with-callback
+cp node_modules/@canonical/cookie-policy/build/js/cookie-policy-with-callback.js static/js/modules/cookie-policy-with-callback
+
 mkdir -p static/js/modules/fuse
 cp node_modules/fuse.js/dist/fuse.js static/js/modules/fuse
 

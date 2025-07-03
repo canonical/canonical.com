@@ -5,6 +5,7 @@
     "watch-css": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
     "watch-js": "watch -p 'static/js/**/!(*.test)*.{jsx,ts,tsx}' -c 'node build.js'",
     "build": "yarn run build-css && yarn run build-js",
+    "build-cookie-policy": "cp node_modules/@canonical/cookie-policy/build/js/cookie-policy.js static/js/dist/",
     "build-css": "sass static/sass/styles.scss static/css/styles.css --load-path=node_modules --style=compressed && postcss --map false --replace 'static/css/**/*.css'",
     "build-js": "./scripts/build-modules.sh && node build.js",
     "format-python": "black --line-length 79 webapp tests",
