@@ -23,6 +23,10 @@ Afterwards the website will be available at <http://localhost:8002>.
 
 When you start changing files, the server should reload and make the changes available immediately.
 
+## Environment variables
+
+Environment variables are read from the available shell. For the charm, these are prepended with the prefix `FLASK_`, which we strip before re-inserting them into the environment.
+
 ## Greenhouse API
 
 To work locally on the `/careers` section of the site, you will need to add a `HARVEST_API_KEY` environment variable to `.env` file. You can find this via the [Greenhouse admin panel](https://canonical.greenhouse.io/configure/dev_center/credentials).
