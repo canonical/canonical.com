@@ -5,7 +5,7 @@
 {% block extra_meta %}
   <link rel="alternate"
         type="application/rss+xml"
-        href="/blog/feed"
+        href="/maas/blog/feed"
         title="MAAS blog RSS feed" />
 {% endblock %}
 
@@ -56,7 +56,7 @@
         {% if current_page > 1 %}
           <li class="p-pagination__item">
             <a class="p-pagination__link--previous"
-               href="/blog?page={{ current_page - 1 }}"
+               href="/maas/blog?page={{ current_page - 1 }}"
                title="Previous page">
               <i class="p-icon--chevron-down">Previous page</i>
             </a>
@@ -70,62 +70,62 @@
         {# always show 5 pages in pagination #}
         {% if current_page > 4 and current_page == total_pages %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page - 4 }}">{{ current_page - 4 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page - 4 }}">{{ current_page - 4 }}</a>
           </li>
         {% endif %}
 
         {% if current_page > 3 and current_page >= total_pages - 1 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page - 3 }}">{{ current_page - 3 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page - 3 }}">{{ current_page - 3 }}</a>
           </li>
         {% endif %}
 
         {% if current_page > 2 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page - 2 }}">{{ current_page - 2 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page - 2 }}">{{ current_page - 2 }}</a>
           </li>
         {% endif %}
 
         {% if current_page > 1 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page - 1 }}">{{ current_page - 1 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page - 1 }}">{{ current_page - 1 }}</a>
           </li>
         {% endif %}
 
         <!-- current page -->
         <li class="p-pagination__item">
           <a class="p-pagination__link is-active"
-             href="/blog?page={{ current_page }}">{{ current_page }}</a>
+             href="/maas/blog?page={{ current_page }}">{{ current_page }}</a>
         </li>
 
         {% if current_page < total_pages %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page + 1 }}">{{ current_page + 1 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page + 1 }}">{{ current_page + 1 }}</a>
           </li>
         {% endif %}
 
         {% if current_page < total_pages - 1 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page + 2 }}">{{ current_page + 2 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page + 2 }}">{{ current_page + 2 }}</a>
           </li>
         {% endif %}
 
         {% if current_page < total_pages - 2 and current_page <= 2 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page + 3 }}">{{ current_page + 3 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page + 3 }}">{{ current_page + 3 }}</a>
           </li>
         {% endif %}
 
         {% if current_page < total_pages - 3 and current_page == 1 %}
           <li class="p-pagination__item">
-            <a class="p-pagination__link" href="/blog?page={{ current_page + 4 }}">{{ current_page + 4 }}</a>
+            <a class="p-pagination__link" href="/maas/blog?page={{ current_page + 4 }}">{{ current_page + 4 }}</a>
           </li>
         {% endif %}
 
         {% if current_page != total_pages %}
           <li class="p-pagination__item">
             <a class="p-pagination__link--next"
-               href="/blog?page={{ current_page + 1 }}"
+               href="/maas/blog?page={{ current_page + 1 }}"
                title="Next page">
               <i class="p-icon--chevron-down">Next page</i>
             </a>

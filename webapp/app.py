@@ -1166,7 +1166,7 @@ maas_docs = Docs(
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
         tutorials_index_topic_id=1289,
-        tutorials_url_prefix="/maas/tutorials",
+        tutorials_url_prefix="/maas",
     ),
     document_template="maas/docs/document.html",
     url_prefix=maas_url_prefix,
@@ -1179,13 +1179,12 @@ app.add_url_rule(
         app=app,
         session=search_session,
         site="maas.io/docs",
-        template_path="docs/search.html",
+        template_path="/maas/docs/search-result.html",
     ),
 )
 
 maas_docs.init_app(app)
 
-MAAS_TUTORIALS_URL = "/maas/tutorials"
 tutorials_discourse = Tutorials(
     parser=TutorialParser(
         api=DiscourseAPI(
@@ -1196,15 +1195,15 @@ tutorials_discourse = Tutorials(
             get_topics_query_id=2,
         ),
         index_topic_id=1289,
-        url_prefix=MAAS_TUTORIALS_URL,
+        url_prefix="/maas/tutorials",
     ),
-    document_template="maas/tutorials/tutorial.html",
-    url_prefix=MAAS_TUTORIALS_URL,
+    document_template="maas/_tutorial.html",
+    url_prefix="/maas/tutorials",
     blueprint_name="maas-tutorials",
 )
 
 
-@app.route(MAAS_TUTORIALS_URL)
+@app.route("/maas/tutorials")
 def maas_tutorials():
     tutorials_discourse.parser.parse()
     tutorials_discourse.parser.parse_topic(
@@ -1237,7 +1236,7 @@ def maas_tutorials():
         )
 
     return flask.render_template(
-        "maas/tutorials/index.html",
+        "maas/tutorials.html",
         tutorials=tutorials,
         topics=topics,
     )
