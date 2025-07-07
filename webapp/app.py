@@ -41,7 +41,7 @@ from webapp.navigation import (
     split_list,
 )
 from webapp.partners import Partners
-from webapp.recaptcha import RECAPTCHA_CONFIG, verify_recaptcha
+from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
 from webapp.static_data import homepage_featured_products
 
@@ -84,7 +84,7 @@ directory_parser_templates = (
 loader = ChoiceLoader(
     [
         FileSystemLoader("templates"),
-        FileSystemLoader("node_modules/vanilla-framework/templates/"),
+        FileSystemLoader("static/js/modules/vanilla-framework/"),
         FileSystemLoader(str(directory_parser_templates)),
     ],
 )
