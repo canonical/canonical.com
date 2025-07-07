@@ -44,16 +44,8 @@ from webapp.partners import Partners
 from webapp.recaptcha import RECAPTCHA_CONFIG, verify_recaptcha
 from webapp.requests_session import get_requests_session
 from webapp.static_data import homepage_featured_products
-from webapp.utils.env import load_plain_env_variables
 
 logger = logging.getLogger(__name__)
-
-CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
-CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
-
-RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
-if not RECAPTCHA_SITE_KEY:
-    logger.error("RECAPTCHA_SITE_KEY is missing!")
 
 # Sitemaps that are already generated and don't need to be updated.
 # Can be seen on sitemap_index.xml
@@ -66,8 +58,6 @@ DYNAMIC_SITEMAPS = [
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
 
-# Load plain variables into environment
-load_plain_env_variables()
 app = FlaskBase(
     __name__,
     "canonical.com",
@@ -76,8 +66,16 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
-# Load env variables into app config
-app.config.from_prefixed_env()
+
+# Load env variables after the app is initialized
+CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
+CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
+
+RECAPTCHA_CONFIG = load_recaptcha_config()
+RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
+if not RECAPTCHA_SITE_KEY:
+    logger.error("RECAPTCHA_SITE_KEY is missing!")
+
 
 # ChoiceLoader attempts loading templates from each path in successive order
 directory_parser_templates = (

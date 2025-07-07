@@ -120,6 +120,8 @@ jobs:
         run: |
           export JUJU_MODEL=admin/stg-staging-canonical-com
           juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
 
   deploy-production:
@@ -158,4 +160,6 @@ jobs:
         run: |
           export JUJU_MODEL=admin/prod-canonical-com
           juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
