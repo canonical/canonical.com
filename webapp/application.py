@@ -79,7 +79,7 @@ application = flask.Blueprint(
 
 base_url = "https://harvest.greenhouse.io/v1"
 
-directory_api_url = "https://directory.wpe.internal/graphql/"
+directory_api_url = "https://api.directory.canonical.com/graphql/"
 directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
 
 # Helpers
