@@ -50,13 +50,6 @@ from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
 
 logger = logging.getLogger(__name__)
 
-CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
-CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
-
-RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
-if not RECAPTCHA_SITE_KEY:
-    logger.error("RECAPTCHA_SITE_KEY is missing!")
-
 # Sitemaps that are already generated and don't need to be updated.
 # Can be seen on sitemap_index.xml
 DYNAMIC_SITEMAPS = [
@@ -77,6 +70,15 @@ app = FlaskBase(
     template_500="500.html",
 )
 
+# Load env variables after the app is initialized
+CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
+CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
+
+RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
+if not RECAPTCHA_SITE_KEY:
+    logger.error("RECAPTCHA_SITE_KEY is missing!")
+
+
 # ChoiceLoader attempts loading templates from each path in successive order
 directory_parser_templates = (
     Path(directory_parser.__file__).parent / "templates"
@@ -85,6 +87,7 @@ loader = ChoiceLoader(
     [
         FileSystemLoader("templates"),
         FileSystemLoader("node_modules/vanilla-framework/templates/"),
+        FileSystemLoader("static/js/modules/vanilla-framework/"),
         FileSystemLoader(str(directory_parser_templates)),
     ]
 )
