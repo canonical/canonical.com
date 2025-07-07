@@ -13,7 +13,8 @@
 $color-brand: #7c355d;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
-$p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, small);
+$p-small-lh-diff: map-get($line-heights, default-text) -
+  map-get($line-heights, small);
 
 @import "pattern_animations";
 @import "pattern_application";
@@ -32,6 +33,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 @import "pattern_global-nav";
 @import "pattern_tabs";
 @import "pattern_homepage-modal";
+@import "pattern_homepage";
 
 @include vanilla;
 @include vf-p-icon-status-waiting;
@@ -59,6 +61,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 @include canonical-p-navigation-dropdown-content;
 @include canonical-p-navigation-mobile;
 @include sprint-carousel;
+@include homepage-styles;
 
 @media screen and ($breakpoint-large <= width) {
   .p-section__u-no-padding--top {
@@ -160,7 +163,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   width: 100%;
   padding-bottom: 56.25%;
   overflow: hidden;
-  
+
   img {
     position: absolute;
     top: 0;
@@ -169,7 +172,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
     height: 100%;
     object-fit: cover;
   }
-  
+
   a {
     display: block;
     position: absolute;
@@ -453,7 +456,8 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 }
 
 .p-overlayed-section {
-  $second-row: #{$spv--strip-regular + map-get($line-heights, h2-mobile) + map-get($nudges, h1)};
+  $second-row: #{$spv--strip-regular + map-get($line-heights, h2-mobile) +
+    map-get($nudges, h1)};
 
   display: grid;
   grid-template-rows: auto $second-row 1fr;
@@ -724,23 +728,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
   margin-bottom: 2rem;
 }
 
-.p-tabs.is-home {
-  padding-left: $spv--x-large;
-  padding-right: $spv--x-large;
-
-  @media screen and (max-width: $breakpoint-small - 1) {
-    padding-left: $spv--large;
-    padding-right: $spv--large;
-  }
-
-  .p-tabs__link {
-    @media screen and (max-width: $breakpoint-x-small - 1) {
-      padding-left: $spv--medium;
-      padding-right: $spv--medium;
-    }
-  }
-}
-
 // XXX MPT 22/9/2023
 // The following two custom styles have been proposed to Vanilla
 // https://github.com/canonical/vanilla-framework/issues/4876
@@ -848,4 +835,137 @@ $p-small-lh-diff: map-get($line-heights, default-text) - map-get($line-heights, 
 
 html {
   scroll-behavior: smooth;
+}
+
+// Scroll-section styles
+.scroll-section {
+  position: relative;
+  min-height: 15rem;
+}
+
+.scroll-section__sidebar {
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  left: 0;
+  top: 0;
+  @media screen and (width < $breakpoint-large) {
+    padding-top: 0;
+
+    .scroll-section__tabs {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  }
+}
+
+.scroll-section__indicator {
+  position: absolute;
+  left: -1rem;
+  width: 0.2rem;
+  height: 3.5rem;
+  z-index: 2;
+  border-radius: 3rem;
+  background: rgb(255 255 255);
+  transition: top 0.3s ease;
+}
+
+.scroll-section__indicator--outline {
+  position: absolute;
+  left: -1rem;
+  width: 0.2rem;
+  height: 10rem;
+  border-radius: 3rem;
+  background: #707070;
+}
+
+.scroll-section__tab {
+  all: unset;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  hr {
+    display: none;
+  }
+
+  .scroll-section__tab-icon {
+    position: relative;
+
+    .p-lottie--container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+  }
+  @media screen and (width < $breakpoint-large) {
+    padding: 0 1rem;
+    position: relative;
+  }
+}
+
+.scroll-section__tab:hover {
+  background-color: transparent;
+}
+
+.scroll-section__tab.active {
+  @media screen and (width < $breakpoint-large) {
+    hr {
+      position: absolute;
+      display: block;
+      width: 100%;
+      left: 0;
+      bottom: -9px;
+      height: 3px;
+      background-color: white;
+    }
+  }
+}
+
+.scroll-section__contentArea {
+  flex: 1;
+  min-height: 16rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-section__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  height: max-content;
+  transform: translateY(100px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+
+  .p-equal-height-row {
+    gap: 0 0.5rem;
+  }
+}
+
+.scroll-section__content.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.scroll-section__content.slide-out-up {
+  transform: translateY(-100px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.scroll-section__content h2 {
+  margin-top: 0;
 }

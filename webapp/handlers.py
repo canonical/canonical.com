@@ -30,6 +30,8 @@ CSP = {
         "api.usabilla.com",
         "*.googlesyndication.com",
         "cdn.jsdelivr.net",
+        "https://esm.sh",
+        "https://cdn.jsdelivr.net",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -66,10 +68,14 @@ CSP = {
         "pixel-config.reddit.com",
         "www.redditstatic.com",
         "conversions-config.reddit.com",
+        "https://esm.sh",
+        "https://lottie.host",
+        "https://cdn.jsdelivr.net",
         "*.analytics.google.com",
         "www.facebook.com",
         "*.googlesyndication.com",
         "*.mktoresp.com",
+        "assets.ubuntu.com",
     ],
     "frame-src": [
         "'self'",

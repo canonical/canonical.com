@@ -1,0 +1,375 @@
+@mixin centre-animation--zone($position-top, $position-left) {
+  position: absolute;
+  z-index: 2;
+  top: $position-top;
+  left: $position-left;
+  width: 4%;
+  padding: 0;
+  margin: 0;
+  height: 17%;
+  opacity: 0;
+}
+
+@mixin homepage-styles {
+  .homepage {
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      *:hover {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .p-icon--arrow-right {
+        padding-left: 2rem !important;
+      }
+    }
+
+    .p-button--positive {
+      @extend %vf-button-base;
+      @extend %vf-button-white-success-icon;
+      @media screen and (width <= $breakpoint-small) {
+        width: 100%;
+      }
+
+      @include vf-button-pattern(
+        $button-background-color: #cc420a,
+        $button-hover-background-color: #b23a09,
+        $button-active-background-color: #b23a09,
+        $button-disabled-background-color:
+          $colors--theme--button-positive-default,
+        $button-border-color: #cc420a,
+        $button-hover-border-color: #b23a09,
+        $button-active-border-color: #b23a09,
+        $button-disabled-border-color: $colors--theme--button-positive-default,
+        $button-text-color: $colors--theme--button-positive-text
+      );
+
+      @include vf-focus($color-focus-positive);
+    }
+
+    .p-button {
+      @extend %vf-button-base;
+      @extend %vf-button-white-success-icon;
+      color: #fc764c !important;
+      @media screen and (width <= $breakpoint-small) {
+        width: 100%;
+      }
+
+      @include vf-button-pattern(
+        $button-background-color: none,
+        $button-hover-background-color: none,
+        $button-active-background-color: none,
+        $button-disabled-background-color:
+          $colors--theme--button-positive-default,
+        $button-border-color: #fc764c,
+        $button-hover-border-color: #fe8a66,
+        $button-active-border-color: #fe8a66,
+        $button-disabled-border-color: $colors--theme--button-positive-default,
+        $button-text-color: $colors--theme--button-positive-text
+      );
+
+      @include vf-focus($color-focus-positive);
+    }
+
+    .p-button:hover {
+      color: #fe8a66 !important;
+    }
+
+    .p-icon--arrow-right {
+      @extend %icon;
+      @include vf-themed-icon(
+        $light-value: vf-icon-arrow-right-url($colors--light-theme--icon),
+        $dark-value: vf-icon-arrow-right-url(#fc764c)
+      );
+
+      transition: padding-left 0.3s ease;
+      padding-left: 2rem;
+    }
+
+    .p-icon--begin-downloading {
+      @extend %icon;
+      @include vf-icon-begin-downloading(#fc764c);
+    }
+
+    .p-cta-text {
+      color: #fc764c;
+      text-decoration: none;
+    }
+
+    .p-cta-text:hover {
+      color: #fe8a66;
+
+      .p-icon--arrow-right {
+        padding-left: 2.5rem;
+      }
+    }
+
+    .p-tabs {
+      max-height: 56rem;
+      /* stylelint-disable */
+
+      .u-hide[role="tabpanel"] {
+        // Hide tab panels by default
+        opacity: 0;
+        transition-property: opacity;
+        transition: 0.4s;
+        transition-timing-function: ease-in-out;
+        transition-behavior: allow-discrete;
+      }
+
+      [role="tabpanel"] {
+        opacity: 1;
+        transition-property: opacity;
+        z-index: 3;
+        transition: 0.4s ease-in-out;
+        transition-behavior: allow-discrete;
+        @starting-style {
+          opacity: 0;
+        }
+      }
+      /* stylelint-enable */
+    }
+  }
+
+  .p-homepage-card {
+    background-color: #202020; /* dark background */
+    padding: 0;
+    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  a {
+    text-decoration-color: #fff;
+  }
+
+  .p-homepage-blog-card {
+    background-color: #202020; /* dark background */
+    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    padding: 0;
+    @media screen and (width < $breakpoint-large) {
+      padding-bottom: 0;
+    }
+
+    .p-image-container {
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ffffff1a;
+
+      a {
+        line-height: 0;
+      }
+    }
+
+    .p-image-wrapper {
+      border-style: solid;
+      border-width: 4px;
+      margin: 0;
+      border-color: rgb(255 255 255 / 50%);
+    }
+
+    h3 {
+      color: white;
+      padding: 16px 16px 0;
+      margin: 0;
+    }
+
+    p {
+      padding: 8px 16px;
+    }
+  }
+
+  // Homepage Suru Style
+  .hero-section-suru-wrapper {
+    position: relative;
+    top: -4rem;
+    max-width: 82rem;
+    width: 100%;
+    margin: 0 auto -4rem;
+    height: 300px;
+    overflow: hidden;
+    @media screen and (width < $breakpoint-large) {
+      display: none;
+    }
+  }
+
+  .hero-section-suru-light,
+  .hero-section-suru-shadow {
+    position: absolute;
+    top: 171px;
+    left: 0;
+    width: 100%;
+    display: block;
+    transform: translateY(-50%);
+    @media screen and (width < $breakpoint-large) {
+      display: none;
+    }
+  }
+
+  .u-no-padding--bottom-large {
+    @media screen and (width >= $breakpoint-large) {
+      padding-bottom: 0;
+    }
+  }
+
+  /* Specific styles */
+  .hero-section-suru-light {
+    z-index: 2;
+    opacity: 0.03;
+  }
+
+  .hero-section-suru-shadow {
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  // Homepage Mega Carousel Styles
+  .p-homepage-carousel {
+    height: 32rem;
+    @media screen and ($breakpoint-small <= width < $breakpoint-large) {
+      height: 680px;
+    }
+    @media screen and (width < $breakpoint-small) {
+      height: 820px;
+    }
+
+    .pause-btn {
+      padding: 0;
+      border: 0;
+    }
+
+    .pause-btn:hover {
+      background: transparent;
+    }
+  }
+
+  .p-homepage-carousel-tabs {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+
+    .p-homepage-carousel-tabs__item {
+      border: 0;
+      position: relative;
+      display: initial;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 0;
+      padding: 6px 0 18px;
+
+      .progress-bar--husk {
+        background: #ffffff10;
+        height: 1px;
+        top: -5px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+    }
+
+    .p-homepage-carousel-tabs__item:hover {
+      background: var(--vf-color-background-default);
+
+      .progress-bar--husk {
+        background: #fff;
+      }
+    }
+  }
+
+  .p-homepage-carousel-tabs__item[aria-selected="true"] {
+    background: var(--vf-color-background-default);
+
+    .progress-bar {
+      position: absolute;
+      top: -5px;
+      left: 0;
+      height: 3px;
+      background: white;
+      animation: progress-bar-anim 8s linear forwards;
+      width: 0;
+      z-index: 2;
+    }
+
+    div.progress-bar--husk {
+      background: #ffffff10;
+      height: 3px;
+      top: -5px;
+      left: 0;
+      position: absolute;
+      width: 100%;
+    }
+  }
+
+  /* stylelint-disable scss/at-rule-no-unknown */
+  .p-homepage-carousel--slide {
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+    transition-behavior: allow-discrete;
+  }
+
+  .p-homepage-carousel--slide[aria-hidden="false"] {
+    opacity: 1;
+    @starting-style {
+      opacity: 0;
+    }
+
+    .progress-bar {
+      position: relative;
+      height: 3px;
+      background: white;
+      animation: progress-bar-anim 8s linear forwards;
+      width: 0;
+      z-index: 2;
+      margin-top: -0.5rem;
+    }
+  }
+  /* stylelint-enable scss/at-rule-no-unknown */
+
+  @keyframes progress-bar-anim {
+    from {
+      width: 0%;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  #centre-animation-wrapper {
+    position: relative;
+
+    .centre-animation__zone--1 {
+      @include centre-animation--zone(12%, 40%);
+    }
+
+    .centre-animation__zone--2 {
+      @include centre-animation--zone(70%, 48%);
+    }
+
+    .centre-animation__zone--3 {
+      @include centre-animation--zone(42%, 56.5%);
+    }
+
+    .centre-animation__zone--4 {
+      @include centre-animation--zone(22%, 64.5%);
+    }
+
+    .centre-animation__zone--5 {
+      @include centre-animation--zone(50%, 32.75%);
+    }
+
+    .centre-animation__zone--6 {
+      @include centre-animation--zone(30%, 23.5%);
+    }
+
+    .centre-animation__zone--7 {
+      @include centre-animation--zone(57%, 73%);
+    }
+  }
+}
