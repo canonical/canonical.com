@@ -91,6 +91,62 @@ function requiredCheckbox(fieldset, target) {
   }
 }
 
+/**
+ * Sets the consent info from the data layer into the consent_info cookie
+ */
+function setDataLayerConsentInfo() {
+  const dataLayer = window.dataLayer || [];
+  const latestConsentUpdateElements = dataLayer
+    .slice()
+    .reverse()
+    .filter(
+      (item) =>
+        typeof item === "object" &&
+        item !== null &&
+        item[0] === "consent" &&
+        item[1] === "update",
+    )[0]?.[2];
+
+  if (latestConsentUpdateElements) {
+    document.cookie =
+      "consent_info=" +
+      JSON.stringify(latestConsentUpdateElements) +
+      ";max-age=31536000;";
+  }
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? match[2] : null;
+}
+
+/**
+ * Adds cookie values as hidden form fields
+ */
+function addCookieFieldsToForm(form) {
+  const cookieFields = ['user_id', 'consent_info', 'utms'];
+  
+  cookieFields.forEach(fieldName => {
+    const cookieValue = getCookie(fieldName);
+    if (cookieValue) {
+      // Remove existing hidden field if it exists
+      const existingField = form.querySelector(`input[name="${fieldName}"]`);
+      if (existingField) {
+        existingField.remove();
+      }
+      
+      // Create new hidden field
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = fieldName;
+      hiddenField.value = cookieValue;
+      form.appendChild(hiddenField);
+      
+      console.log(`Added ${fieldName} to form:`, cookieValue);
+    }
+  });
+}
+
 const forms = document.querySelectorAll("form");
 forms.forEach((form) => {
   // Add event listeners to toggle checkbox visibility
@@ -118,7 +174,11 @@ forms.forEach((form) => {
   // Exclude forms that don't need loader
   const cancelLoader = submitButton?.classList.contains("no-loader");
   if (submitButton && !cancelLoader) {
-    form.addEventListener("submit", () => attachLoadingSpinner(submitButton));
+    form.addEventListener("submit", () => {
+      attachLoadingSpinner(submitButton);
+      setDataLayerConsentInfo();
+      addCookieFieldsToForm(form);
+    });
   }
 
   // This block checks for the presence of 'phone number' and 'country' input fields on the page. If either input field exists, it triggers the `prepareInputFields` function to set them up. Note: In a modal form scenario, these inputs are not present at page load and thus, `prepareInputFields` is not invoked here. Instead, the function is imported and executed within `dynamic-forms.js` when the modal is opened.
