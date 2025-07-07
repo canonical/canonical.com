@@ -12,6 +12,7 @@ let entries = {
   "homepage_animations": "./static/js/homepage/animations.js",
   "homepage_carousel": "./static/js/homepage/carousel.js",
   "scroll-section": "./static/js/scroll-section.js",
+  "cookie-policy-with-callback": "./static/js/cookie-policy-with-callback.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
