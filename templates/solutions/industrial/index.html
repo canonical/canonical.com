@@ -1,0 +1,725 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
+
+{% block title %}Industrial{% endblock %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/1QiU75g49lRKebt82oyLSxR3-PU96Sk87nqauAZ4vvIY
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+    The Ubuntu platform enables industry 4.0 digital transformation. Build industrial IoT appliances for the factory of the future with Ubuntu. Bring cloud native technologies to the factory. Download our tools and start innovating today
+{% endblock meta_description %}
+
+{% block body_class %}
+    is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+    {% call(slot) vf_hero(
+        title_text='App-centric industry 4.0',
+        subtitle_text='Software-defined<br class="u-hide--medium u-hide--small" /> embedded Linux devices',
+        layout='50/50'
+        ) -%}
+        {%- if slot == 'description' -%}
+            Driving the <a href="https://ubuntu.com/engage/future-industrial-automation">future of industrial automation</a>
+        {%- endif -%}
+        {%- if slot == 'cta' -%}
+            <a href="/contact-us"
+               class="p-button--positive js-invoke-modal"
+               aria-controls="industrial-modal">Get in touch</a>
+        {%- endif -%}
+    {% endcall -%}
+
+    <section class="p-section">
+        <div class="row--50-50">
+            <hr class="p-rule" />
+            <div class="col">
+                <h2>Press release</h2>
+            </div>
+            <div class="col">
+                <div class="p-section--shallow">
+                    <div class="p-image-container--3-2">
+                        {{ image(url="https://assets.ubuntu.com/v1/9d6e0309-press-release.jpg",
+                                                alt="",
+                                                width="1200",
+                                                height="801",
+                                                hi_def=True,
+                                                loading="auto",
+                                                attrs={
+                                                "class": "p-image-container__image",
+                                                }) | safe
+                        }}
+                    </div>
+                </div>
+                <p>Bosch Rexroth’s CtrlX automation platform, built on Ubuntu Core, reduces engineering costs by 30% to 50%.</p>
+                <div class="p-cta-block">
+                    <a href="https://ubuntu.com/blog/bosch-rexroth-adopts-ubuntu-core-and-snaps-for-app-based-ctrlx-automation-platform">Bosch Rexroth adopts Ubuntu&nbsp;&rsaquo;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% call(slot) vf_quote_wrapper(
+        title_text="What our customers say",
+        quote_size="medium",
+        quote_text="Building our new ctrlX AUTOMATION with Ubuntu Core has enabled us to create a software-driven industrial manufacturing solution",
+        citation_source_name_text="Hans-Michael Krause",
+        citation_source_title_text="Director Product Management",
+        citation_source_organisation_text="PLC and IoT, Bosch Rexroth"
+        ) -%}
+
+        {%- if slot == 'signpost_image' -%}
+            {{ image(url="https://assets.ubuntu.com/v1/bf362884-rexroth.png",
+                        alt="RexRoth",
+                        width="852",
+                        height="148",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+        {%- endif -%}
+
+    {% endcall -%}
+
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+        {%- if slot == 'title' -%}
+            <h2>Empowering industry 4.0 champions</h2>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_1' -%}
+            <h3 class="p-heading--5">Case study</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_1' -%}
+            <div class="p-section--shallow">
+                <p>
+                    Ubuntu Core makes the Dell Edge Gateways ultra reliable in challenging industrial settings with transactional software updates.
+                </p>
+                <div class="p-cta-block">
+                    <a href="https://ubuntu.com/blog/the-dell-edge-gateway-3000-launches-with-ubuntu-core-16">Dell gateway launches with Ubuntu&nbsp;&rsaquo;</a>
+                </div>
+            </div>
+
+            <hr class="p-rule--muted" />
+            <p>
+                Ubuntu Core hardens Rigado’s IoT gateways with cryptography-enhanced capabilities like secure boot and full disk encryption.
+            </p>
+            <div class="p-cta-block">
+                <a href="https://ubuntu.com/engage/case-study-rigado">Rigado IoT gateway deploys with Ubuntu&nbsp;&rsaquo;</a>
+            </div>
+        {%- endif -%}
+    {%- endcall -%}
+
+    <section class="p-section">
+        <div class="row">
+            <div class="col-start-large-4 col-9">
+                <hr class="p-rule--muted" />
+                <div class="p-logo-section">
+                    <div class="p-logo-section__items">
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/0cf657d1-rexroth-logo.png",
+                                                        alt="RexRoth",
+                                                        width="240",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/396bd756-advantech-logo.png",
+                                                        alt="Advantech",
+                                                        width="354",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/d468eec6-ABB-logo.png",
+                                                        alt="ABB",
+                                                        width="145",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/1fc0ef47-Dell-logo.png",
+                                                        alt="Dell Technologies",
+                                                        width="544",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/679d8088-avnet-logo.png",
+                                                        alt="Avnet",
+                                                        width="253",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/2d5c61df-eurotech-group-logo.png",
+                                                        alt="Eurotech",
+                                                        width="309",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-section">
+        <div class="p-section--shallow">
+            <div class="row--50-50">
+                <hr class="p-rule" />
+                <div class="col">
+                    <h2>Harness data to supercharge shop floor productivity</h2>
+                </div>
+                <div class="col">
+                    <ul class="p-list--divided">
+                        <li class="p-list__item is-ticked">Build smart industrial gateways with open source</li>
+                        <li class="p-list__item is-ticked">
+                            <a href="https://ubuntu.com/real-time">Real-time</a> Linux support
+                        </li>
+                        <li class="p-list__item is-ticked">Connect your factory to the public clouds</li>
+                        <li class="p-list__item is-ticked">Deploy industrial apps on your machines</li>
+                        <li class="p-list__item is-ticked">Implement bespoke device fleet management</li>
+                        <li class="p-list__item is-ticked">App stores including OPC-UA, Modbus, MQTT clients and more</li>
+                    </ul>
+                    <div class="p-cta-block">
+                        <a href="https://ubuntu.com/internet-of-things/gateways">Learn more about virtualization on edge gateways&nbsp;&rsaquo;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-equal-height-row">
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-sv2">
+                    <div class="p-media-container">
+                        {{ image(url="https://assets.ubuntu.com/v1/4f510cb4-edgex.png",
+                                                alt="EdgeX Foundry",
+                                                width="60",
+                                                height="60",
+                                                hi_def=True,
+                                                loading="lazy") | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--medium" />
+                    <a href="https://snapcraft.io/edgexfoundry?_gl=1*3damw3*_gcl_au*MjE4NzI4NTUwLjE3NDk4Mjc1NDQ.*_ga*MTQ0NjY2MDkwNi4xNzQ5ODI1OTE4*_ga_5LTL1CNEJM*czE3NTEzNjE2MDgkbzE2JGcxJHQxNzUxMzYxODQzJGo2MCRsMCRoMA..">
+                        Install edgexfoundry on Linux &rsaquo;
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-sv2">
+                    <div class="p-media-container">
+                        {{ image(url="https://assets.ubuntu.com/v1/90afb21b-kura.png",
+                                                alt="Kura",
+                                                width="60",
+                                                height="60",
+                                                hi_def=True,
+                                                loading="lazy") | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--medium" />
+                    <a href="https://snapcraft.io/kura">Install Kura™ on Linux &rsaquo;</a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-sv2">
+                    <div class="p-media-container">
+                        {{ image(url="https://assets.ubuntu.com/v1/312c8221-greengrass.png",
+                                                alt="AWS IoT Greengrass",
+                                                width="60",
+                                                height="60",
+                                                hi_def=True,
+                                                loading="lazy") | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--medium" />
+                    <a href="https://snapcraft.io/aws-iot-greengrass">Install AWS IoT Greengrass on Linux &rsaquo;</a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-sv2">
+                    <div class="p-media-container">
+                        {{ image(url="https://assets.ubuntu.com/v1/23df31d5-iot-edge.png",
+                                                alt="Azure IoT Edge",
+                                                width="60",
+                                                height="60",
+                                                hi_def=True,
+                                                loading="lazy") | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--medium" />
+                    <a href="https://snapcraft.io/azure-iot-edge">Install azure-iot-edge on Linux &rsaquo;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-section">
+        <div class="p-section--shallow">
+            <div class="row--50-50">
+                <hr class="p-rule" />
+                <div class="col">
+                    <h2>Industrial micro clouds</h2>
+                </div>
+                <div class="col">
+                    <ul class="p-list--divided">
+                        <li class="p-list__item is-ticked">Bring 5G networks and edge clouds to production</li>
+                        <li class="p-list__item is-ticked">Deploy AI/ML solutions in industrial settings</li>
+                        <li class="p-list__item is-ticked">Get latest versions and security fixes with over-the-air updates</li>
+                        <li class="p-list__item is-ticked">Offload IT infrastructure management to our experts</li>
+                        <li class="p-list__item is-ticked">Contract long term support services for mission critical software</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-start-large-4 col-9">
+                <div class="p-equal-height-row">
+                    <div class="p-equal-height-row__col">
+                        <div class="p-equal-height-row__item u-sv2">
+                            <div class="p-media-container">
+                                {{ image(url="https://assets.ubuntu.com/v1/e0d557a4-openstack.png",
+                                                                alt="OpenStack",
+                                                                width="60",
+                                                                height="60",
+                                                                hi_def=True,
+                                                                loading="lazy") | safe
+                                }}
+                            </div>
+                        </div>
+
+                        <div class="p-equal-height-row__item">
+                            <hr class="p-rule--muted u-hide--medium" />
+                            <a href="/microstack">Learn more about OpenStack on Kubernetes &rsaquo;</a>
+                        </div>
+                    </div>
+
+                    <div class="p-equal-height-row__col">
+                        <div class="p-equal-height-row__item u-sv2">
+                            <div class="p-media-container">
+                                {{ image(url="https://assets.ubuntu.com/v1/595123c9-microk8s.png",
+                                                                alt="MicroK8s",
+                                                                width="60",
+                                                                height="60",
+                                                                hi_def=True,
+                                                                loading="lazy") | safe
+                                }}
+                            </div>
+                        </div>
+
+                        <div class="p-equal-height-row__item">
+                            <hr class="p-rule--muted u-hide--medium" />
+                            <a href="https://microk8s.io/">Learn more about MicroK8s &rsaquo;</a>
+                        </div>
+                    </div>
+
+                    <div class="p-equal-height-row__col">
+                        <div class="p-equal-height-row__item u-sv2">
+                            <div class="p-media-container">
+                                {{ image(url="https://assets.ubuntu.com/v1/6d9ca3cc-lxd.png",
+                                                                alt="LXD",
+                                                                width="60",
+                                                                height="60",
+                                                                hi_def=True,
+                                                                loading="auto|lazy") | safe
+                                }}
+                            </div>
+                        </div>
+
+                        <div class="p-equal-height-row__item">
+                            <hr class="p-rule--muted u-hide--medium" />
+                            <a href="/lxd">Learn more about LXD &rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-section">
+        <div class="row--50-50">
+            <hr class="p-rule" />
+            <div class="col">
+                <h2>Shop floor cobots</h2>
+            </div>
+            <div class="col">
+                <h3 class="p-heading--5">Speed, precision and quality</h3>
+                <hr class="p-rule--muted u-no-margin--bottom" />
+                <ul class="p-list--divided">
+                    <li class="p-list__item is-ticked">Assure robots security over the long term</li>
+                    <li class="p-list__item is-ticked">Benefit from a managed cloud infrastructure for robots-as-a-service</li>
+                    <li class="p-list__item is-ticked">Boost developer productivity on ROS</li>
+                    <li class="p-list__item is-ticked">Leverage cutting-edge accelerated computer vision libraries</li>
+                    <li class="p-list__item is-ticked">Run deep learning inference engines, natively or in containers</li>
+                </ul>
+                <div class="p-logo-section">
+                    <div class="p-logo-section__items">
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/51bfcd4d-ros-logo.png",
+                                                        alt="ROS",
+                                                        width="196",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/ca45b6e0-open-robotics-logo.png",
+                                                        alt="Open Robotics",
+                                                        width="237",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                    </div>
+                </div>
+                <div class="p-cta-block">
+                    <a href="https://ubuntu.com/robotics" class="p-button">Learn more about robotics</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-section">
+        <div class="row--50-50">
+            <hr class="p-rule" />
+            <div class="col">
+                <h2>Exciting HMIs and POS</h2>
+            </div>
+            <div class="col">
+                <h3 class="p-heading--5">Fast, fluid and designer-friendly</h3>
+                <hr class="p-rule--muted u-no-margin--bottom" />
+                <ul class="p-list--divided">
+                    <li class="p-list__item is-ticked">Implement robust digital signage and kiosk solutions</li>
+                    <li class="p-list__item is-ticked">Upgrade your terminals securely, with reliable OTA updates</li>
+                    <li class="p-list__item is-ticked">Benefit from a rich hardware and software ecosystem</li>
+                    <li class="p-list__item is-ticked">Millions of smart displays have already deployed on Ubuntu</li>
+                    <li class="p-list__item is-ticked">
+                        Create rich graphical interfaces with Qt and <a href="https://snapcraft.io/flutter">Flutter</a>
+                    </li>
+                </ul>
+                <div class="p-logo-section">
+                    <div class="p-logo-section__items">
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/a28cc94a-flutter-logo.png",
+                                                        alt="Flutter",
+                                                        width="138",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/58c21220-qt-logo.png",
+                                                        alt="QT",
+                                                        width="156",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/febadc4d-html5-logo.png",
+                                                        alt="HTML5",
+                                                        width="108",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                    </div>
+                </div>
+                <div class="p-cta-block">
+                    <a href="https://snapcraft.io/ubuntu-frame" class="p-button">Create rich graphic interfaces with Ubuntu Frame</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="p-rule is-fixed-width" />
+
+    <section class="p-strip is-deep">
+        <div class="u-fixed-width">
+            <h2>
+                Do you have other use cases in mind?
+                <br />
+                <a href="/contact-us"
+                   class="js-invoke-modal"
+                   aria-controls="industrial-modal">Tell us more&nbsp;&rsaquo;</a>
+            </h2>
+        </div>
+    </section>
+
+    <section class="p-section">
+        <div class="p-section--shallow">
+            <div class="u-fixed-width">
+                <hr class="p-rule" />
+                <h2>Where the journey starts</h2>
+            </div>
+        </div>
+        <div class="p-equal-height-row has-divider-3">
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-hide--small">
+                    <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                        {{ image(url="https://assets.ubuntu.com/v1/bff558c0-iot-prof.png",
+                                                alt="",
+                                                width="568",
+                                                height="853",
+                                                hi_def=True,
+                                                loading="lazy",
+                                                attrs={class:"p-image-container__image" }) | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+
+                    <h3 class="p-heading--5">IoT Professional Services</h3>
+                </div>
+
+                <p class="p-equal-height-row__item">
+                    Bring your IoT devices to market in no time with our IoT Professional Services. Focus on your apps, we handle the rest.
+                </p>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="https://ubuntu.com/core/services">
+                        <p>Get started with professional service&nbsp;&rsaquo;</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-hide--small">
+                    <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                        {{ image(url="https://assets.ubuntu.com/v1/448fd388-iot-app.png",
+                                                alt="",
+                                                width="568",
+                                                height="853",
+                                                hi_def=True,
+                                                loading="lazy",
+                                                attrs={class:"p-image-container__image" }) | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+
+                    <h3 class="p-heading--5">IoT app stores</h3>
+                </div>
+
+                <p class="p-equal-height-row__item">
+                    Get a private app store for your industrial devices. We handle cloud hosting and manage infrastructure on your behalf.
+                </p>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="https://ubuntu.com/internet-of-things/appstore">
+                        <p>Get an IoT App Store&nbsp;&rsaquo;</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-hide--small">
+                    <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                        {{ image(url="https://assets.ubuntu.com/v1/406b9395-u-server.png",
+                                                alt="",
+                                                width="568",
+                                                height="853",
+                                                hi_def=True,
+                                                loading="lazy",
+                                                attrs={class:"p-image-container__image" }) | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+
+                    <h3 class="p-heading--5">Ubuntu Server</h3>
+                </div>
+
+                <p class="p-equal-height-row__item">
+                    Loved by developers and endorsed by sysadmins, Ubuntu Server is the starting point for technology innovation. Use the biggest open source software repository to build software-defined industrial assets.
+                </p>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="https://ubuntu.com/server">
+                        <p>Download Ubuntu Server&nbsp;&rsaquo;</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-equal-height-row__col">
+                <div class="p-equal-height-row__item u-hide--small">
+                    <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                        {{ image(url="https://assets.ubuntu.com/v1/e04651f5-u-core.png",
+                                                alt="",
+                                                width="568",
+                                                height="853",
+                                                hi_def=True,
+                                                loading="lazy",
+                                                attrs={class:"p-image-container__image" }) | safe
+                        }}
+                    </div>
+                </div>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+
+                    <h3 class="p-heading--5">Ubuntu Core</h3>
+                </div>
+
+                <p class="p-equal-height-row__item">
+                    Ubuntu Core is an ultra-secure embedded Ubuntu, optimized for mission critical IoT appliances. Benefit from OTA software updates and security maintenance for 10 years.
+                </p>
+
+                <div class="p-equal-height-row__item">
+                    <hr class="p-rule--muted u-hide--large" />
+                    <a href="https://ubuntu.com/core">
+                        <p>Download Ubuntu Core&nbsp;&rsaquo;</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        {% call(slot) vf_quote_wrapper(
+            title_text="What our partners say",
+            quote_size="medium",
+            quote_text="Canonical's commitment to ten years of support empowers us to commercialize business critical devices with the assurances our customers expect",
+            citation_source_name_text="Advantech",
+            is_shallow=True
+            ) -%}
+        {%- endcall -%}
+
+        {% call(slot) vf_quote_wrapper(
+            quote_size="medium",
+            quote_text="Intel and Canonical partner to accelerate  OEM readiness to meet growing demands for optimized sector-specific embedded solutions on Ubuntu Core, with long-term support and maintenance guaranteed.",
+            citation_source_name_text="John Healey",
+            citation_source_title_text="VP in the Internet of Things Group and GM of Platform Management and Customer Engineering",
+            citation_source_organisation_text="Intel"
+            ) -%}
+        {%- endcall -%}
+    </section>
+
+    <section class="p-section">
+        <div class="row--50-50">
+            <hr class="p-rule" />
+            <div class="col">
+                <h2 class="p-text--small-caps">ODM-Certified and Silicon-endorsed</h2>
+            </div>
+            <div class="col">
+                <div class="p-logo-section">
+                    <div class="p-logo-section__items">
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/396bd756-advantech-logo.png",
+                                                        alt="Advantech",
+                                                        width="354",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/679d8088-avnet-logo.png",
+                                                        alt="Avnet",
+                                                        width="253",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/b17865e6-intel-new-logo.png",
+                                                        alt="Intel",
+                                                        width="152",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                        <div class="p-logo-section__item">
+                            {{ image(url="https://assets.ubuntu.com/v1/db454d7b-arm-logo.png",
+                                                        alt="",
+                                                        width="154",
+                                                        height="313",
+                                                        hi_def=True,
+                                                        loading="lazy",
+                                                        attrs={"class": "p-logo-section__logo" }) | safe
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="p-rule is-fixed-width" />
+
+    <section class="p-strip is-deep">
+        <div class="u-fixed-width">
+            <h2>
+                Ready for the next steps?
+                <br />
+                <a href="/contact-us"
+                   class="js-invoke-modal"
+                   aria-controls="industrial-modal">Tell us about your project&nbsp;&rsaquo;</a>
+            </h2>
+        </div>
+    </section>
+    {{ load_form("/solutions/industrial") | safe }}
+
+{% endblock content %}
