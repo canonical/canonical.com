@@ -1589,3 +1589,38 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/solutions/infrastructure/private-cloud-pricing")
+def private_cloud_pricing():
+    import json
+    import os
+
+    pricing_data_path = (
+        os.getcwd()
+        + "/templates"
+        + "/solutions/infrastructure/private-cloud-pricing-metrics.json"
+    )
+
+    try:
+        with open(pricing_data_path, "r") as f:
+            pricing_metrics = json.load(f)
+    except FileNotFoundError:
+        pricing_metrics = {}
+        logger.error(f"Pricing data file not found at {pricing_data_path}")
+    except json.JSONDecodeError:
+        pricing_metrics = {}
+        logger.error(f"Error decoding JSON from {pricing_data_path}")
+
+    node_counts = [int(k) for k in pricing_metrics.keys() if k.isdigit()]
+
+    context = {
+        "pricing_metrics": pricing_metrics,
+        "node_counts": node_counts,
+        "min_nodes": min(node_counts),
+        "max_nodes": max(node_counts),
+    }
+
+    return flask.render_template(
+        "solutions/infrastructure/private-cloud-pricing.html", **context
+    )

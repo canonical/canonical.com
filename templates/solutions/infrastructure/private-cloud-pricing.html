@@ -1,0 +1,432 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}Private cloud pricing{% endblock %}
+
+{% block meta_description %}
+  Use this private cloud pricing page and calculator to estimate the cost of running your workloads in a private cloud.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1pFJdjRvFJ8LOWEoFTPdMFRdYI3WuL6ZPdpTBzuwp0mk/edit?tab=t.0#heading=h.4tjfso5hx6tw
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text="Private cloud pricing calculator",
+    layout="50/50"
+    ) -%}
+    {%- if slot == "description" -%}
+      <p>
+        <strong>Understand the real cost of running your own cloud infrastructure.</strong>
+        <br />
+        Private clouds are a cost-efficient extension to your public cloud infrastructure. Get the following report for free to learn how cloud pricing differs across AWS, Azure, Google and Canonical.
+      </p>
+    {%- endif -%}
+    {%- if slot == "cta" -%}
+      <a href="https://ubuntu.com/engage/cloud-pricing-report"
+         class="p-button--positive">Get the report</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="p-section--shallow">
+      <div class="row--50-50">
+        <div class="col">
+          <h2>Estimate your savings</h2>
+        </div>
+        <div class="col">
+          <p>
+            Use our private cloud pricing calculator to estimate savings from running your applications in a data center designed by Canonical.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9 col-start-large-4">
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3">
+              <p>
+                <strong>How many physical machines do you have?</strong>
+              </p>
+            </div>
+            <div class="col-6">
+              <div class="p-slider__wrapper">
+                <input type="range"
+                       min="0"
+                       max="{{ (node_counts|length) - 1 }}"
+                       value="0"
+                       step="1"
+                       id="private-cloud-pricing"
+                       data-private-cloud-pricing-slider
+                       aria-label="Number of physical machines slider" />
+                <input class="p-slider__input"
+                       type="text"
+                       maxlength="6"
+                       id="private-cloud-pricing-input"
+                       data-private-cloud-pricing-input
+                       tabindex="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-start-large-7">
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3">
+              <h3 class="p-heading--4">Hourly cost per VM:</h3>
+            </div>
+            <div class="col-3 u-align--right">
+              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-vm-cost-display></p>
+              <p class="p-text--small">for t2d-standard-4 instance equivalent.</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3">
+              <h3 class="p-heading--4">Total savings:</h3>
+            </div>
+            <div class="col-3 u-align--right">
+              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-savings-display></p>
+              <p class="p-text--small">
+                compared to public clouds
+                <br />
+                (includes a 3-year discount)
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-cta-block has-border">
+          <a href="#" class="p-button--positive">Get in touch</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9 col-start-large-4">
+        <div class="p-notification--information">
+          <div class="p-notification__content">
+            <h3 class="p-notification__title p-heading--5">Cost estimates are for informational purposes only</h3>
+            <p class="p-notification__message">
+              Exact costs may vary depending on project requirements, cloud architecture, and local cost conditions. The hourly cost per VM shown above contains all total cost of ownership (TCO) ingredients over an amortization period of five years, including reference hardware, network fabric, typical hosting charges, and the cost of commercial subscriptions. If you have any questions or would like to get a more detailed breakdown of cost projections, please get in touch with our cloud experts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--50-50">
+      <div class="col">
+        <h2>Optimize your cloud costs</h2>
+      </div>
+      <div class="col">
+        <h2 class="p-heading--5">
+          <a href="https://ubuntu.com/engage/cloud-cost-optimisation-best-practices">Cloud cost optimization playbook</a>
+        </h2>
+        <p>
+          Since cloud infrastructure usually accounts for a significant portion of organizations' budgets, optimizing cloud costs is essential to reduce your IT spending. Read our cost optimization playbook to discover proven techniques to lower your TCO.
+        </p>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <h2 class="p-heading--5">
+          <a href="https://ubuntu.com/engage/gsi-private-cloud">Architecting private clouds for price-performance</a>
+        </h2>
+        <p>
+          The TCO is critical in determining the viability of a private cloud. Along with cost savings, a well-designed data center may supplement public cloud computing capabilities. In this whitepaper, we look at Canonical's internal cloud, replete with performance data and deployment best practices.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="Price-performance guaranteed",
+    quote_size="small",
+    quote_text="We recently reassessed our cloud strategy, and one of the parameters was cost-efficiency. We observed that Canonical OpenStack is helping us to achieve two to three times more cost-efficiency than using public clouds.",
+    citation_source_name_text="Cléber Alexandre Agazzi",
+    citation_source_title_text="Head of Infrastructure & IT Operations,",
+    citation_source_organisation_text="Sicredi",
+    is_shallow=True
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/6ed19644-sicredi.png",
+            alt="Sicredi logo",
+            width="568",
+            height="76",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/sicredi-openstack-case-study"
+         aria-label="Read the Sicredi openstack case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="The level of engagement from the Canonical team was remarkable. Even before we entered into a commercial agreement, Canonical offered valuable advice around OEMs and hardware choices.",
+    citation_source_name_text="Tim Rosenfield",
+    citation_source_title_text="CEO and Co-Founder,",
+    citation_source_organisation_text="Firmus",
+    is_shallow=True
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/61ddd2f2-firmus.png",
+            alt="Firmus logo",
+            width="568",
+            height="69",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/kubernetes-openstack-case-study-firmus"
+         aria-label="Read the Firmus openstack case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Canonical's solution was a third of the price of the other proposals we'd received. It is also proving to be highly cost-effective, both from CAPEX and OPEX perspectives.",
+    citation_source_name_text="Georgi Georgiev",
+    citation_source_title_text="CIO,",
+    citation_source_organisation_text="SBI BITS",
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/ac021a67-sbi-bits-logo-2.png",
+            alt="SBI BITS logo",
+            width="852",
+            height="267",
+            hi_def=True,
+            loading="auto|lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/sbi-casestudy"
+         aria-label="Read the SBI BITS case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--50-50">
+      <div class="col">
+        <h2>Related blogs</h2>
+      </div>
+      <div class="col">
+        <h3 class="p-heading--5">
+          <a href="/blog/aws-pricing">Have you ever wondered how AWS pricing actually works?</a>
+        </h3>
+        <p>
+          AWS pricing differs depending on the service mode. Amazon offers various options: from free tier to dedicated hosts. Learn how AWS pricing works in details.
+        </p>
+        <hr class="p-rule--muted" />
+        <h3 class="p-heading--5">
+          <a href="/blog/azure-pricing">Azure pricing explained</a>
+        </h3>
+        <p>
+          Azure pricing differs depending on the service mode. Azure offers various options: from free tier to reservations. Learn how Azure pricing works in details.
+        </p>
+        <hr class="p-rule--muted" />
+        <h3 class="p-heading--5">
+          <a href="/blog/gcp-pricing">How GCP pricing works</a>
+        </h3>
+        <p>
+          GCP pricing differs depending on the service mode. Google offers various options: from free trial to sole-tenant nodes. Learn how GCP pricing works.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {# djlint: off #}
+  <script>
+    // Pricing data from server
+    var pricingMetrics = {{ pricing_metrics | tojson | safe }};
+    var nodeCount = {{ node_counts | tojson | safe }};
+
+    // Styling for the slider, source: https://vanillaframework.io/docs/patterns/slider
+    var isWebkit =
+      /Chrome/i.test(navigator.userAgent) || /Safari/i.test(navigator.userAgent);
+    var PROGRESS_COLOUR = "#06c";
+    var EMPTY_COLOUR = "#D9D9D9";
+
+    /**
+     * Find the closest pricing data for a given node value
+     * @param {number} nodeValue - Node value
+     * @returns {object|null} - Pricing data or null if not found
+     */
+    function lookupNodePricing(nodeValue) {
+      var nodeStr = nodeValue.toString();
+
+      if (pricingMetrics[nodeStr]) {
+        return pricingMetrics[nodeStr];
+      }
+
+      return null;
+    }
+
+    /**
+     * Get node value from slider index
+     * @param {number} index - Slider index (0 to nodeCount.length-1)
+     * @returns {number} - The node value
+     */
+    function getNodeValueFromIndex(index) {
+      return nodeCount[index] || nodeCount[0];
+    }
+
+    /**
+     * Get slider index from node value
+     * @param {number} nodeValue - The node value
+     * @returns {number} - Slider index
+     */
+    function getIndexFromNodeCount(nodeValue) {
+      var index = nodeCount.indexOf(nodeValue);
+      return index >= 0 ? index : 0;
+    }
+
+    /**
+     * Find closest valid node from input (always rounds up)
+     * @param {number} inputValue - User input value
+     * @returns {number} - Next valid node count (rounded up)
+     */
+    function findClosestValidNodeCount(inputValue) {
+      if (isNaN(inputValue) || inputValue <= 0) {
+        return nodeCount[0];
+      }
+      for (var i = 0; i < nodeCount.length; i++) {
+        if (nodeCount[i] >= inputValue) {
+          return nodeCount[i];
+        }
+      }
+      return nodeCount[nodeCount.length - 1];
+    }
+
+    /**
+     * Format currency value to 4 decimal places and dollars
+     * @param {number} value - Numeric value
+     * @returns {string} - Formatted currency
+     */
+    function formatCurrency(value) {
+      return "$" + value.toFixed(4);
+    }
+
+    /**
+     * Format percentage value from decimal
+     * @param {number} value - Decimal percentage ie. 0.22
+     * @returns {string} - Formatted percentage ie. 22%
+     */
+    function formatPercentage(value) {
+      return Math.round(value * 100) + "%";
+    }
+
+    /**
+     * Update pricing display based on current slider value
+     * @param {number} nodeValue - Actual number of nodes
+     */
+    function updatePricingDisplay(nodeValue) {
+      var pricingData = lookupNodePricing(nodeValue);
+
+      if (!pricingData || !pricingData.openstack) {
+        return;
+      }
+
+      var openstackData = pricingData.openstack;
+
+      var vmCostDisplay = document.querySelector("[data-vm-cost-display]");
+      if (vmCostDisplay) {
+        vmCostDisplay.textContent = formatCurrency(openstackData.vm_cost_per_h);
+      }
+
+      var savingsDisplay = document.querySelector("[data-savings-display]");
+      if (savingsDisplay) {
+        savingsDisplay.textContent = formatPercentage(openstackData.discount);
+      }
+    }
+
+    /**
+     Renders gradient to fake progress color in webkit browsers.
+     @param {HTMLElement} slider - Slider element to render background on.
+    */
+    function renderSlider(slider) {
+      if (isWebkit) {
+        var value = (slider.value - slider.min) / (slider.max - slider.min);
+        slider.style.backgroundImage = (
+          "-webkit-gradient(linear, left top, right top, color-stop(" +
+          value + ", " + PROGRESS_COLOUR + "), color-stop(" +
+          value + ", " + EMPTY_COLOUR + "))"
+        );
+      }
+    }
+
+    /**
+      Attaches listenera to slider and number input to update their background color and pricing results.
+      @param {HTMLElement} slider - Slider element to render background on.
+    */
+    function initPricingCalculator(slider, numericInput) {
+      renderSlider(slider);
+
+      // The numericInput works weird as the data point do not inrecement by 1's, 
+      // so it has to "auto correct" the numericInput to ensure a valid
+      // I think there must be a better way because it feel akward
+      if (numericInput) {
+        numericInput.value = nodeCount[0]; // Initilize with first node count
+
+        numericInput.addEventListener("input", function() {
+          var inputValue = parseInt(numericInput.value);
+          var closestValidNode = findClosestValidNodeCount(inputValue);
+          var sliderIndex = getIndexFromNodeCount(closestValidNode);
+
+          numericInput.value = closestValidNode;
+          slider.value = sliderIndex;
+
+          renderSlider(slider);
+          updatePricingDisplay(closestValidNode);
+        });
+      }
+
+      slider.addEventListener("input", function() {
+        var sliderIndex = parseInt(slider.value);
+        var nodeValue = getNodeValueFromIndex(sliderIndex);
+
+        if (numericInput) {
+          numericInput.value = nodeValue;
+        }
+        renderSlider(slider);
+        updatePricingDisplay(nodeValue);
+      });
+
+      // Initialize with first value
+      updatePricingDisplay(nodeCount[0]);
+    }
+
+    var privateCloudPricingSlider = document.querySelector("[data-private-cloud-pricing-slider]");
+    var privateCloudPricingInput = document.querySelector("[data-private-cloud-pricing-input]");
+    initPricingCalculator(privateCloudPricingSlider, privateCloudPricingInput);
+  </script>
+  {# djlint: on #}
+{% endblock content %}
