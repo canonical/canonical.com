@@ -46,7 +46,7 @@ from webapp.navigation import (
     split_list,
 )
 from webapp.requests_session import get_requests_session
-from webapp.recaptcha import verify_recaptcha, RECAPTCHA_CONFIG
+from webapp.recaptcha import verify_recaptcha, load_recaptcha_config 
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,7 @@ app = FlaskBase(
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
 CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
 
+RECAPTCHA_CONFIG = load_recaptcha_config()
 RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
 if not RECAPTCHA_SITE_KEY:
     logger.error("RECAPTCHA_SITE_KEY is missing!")

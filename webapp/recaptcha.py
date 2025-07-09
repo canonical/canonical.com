@@ -4,30 +4,38 @@ import os
 logger = logging.getLogger(__name__)
 
 
-RECAPTCHA_CONFIG = {
-    "enabled": os.getenv("RECAPTCHA_ENABLED", "false").lower() != "false",
-    "site_key": os.getenv("RECAPTCHA_SITE_KEY"),
-    "project_id": os.getenv("RECAPTCHA_PROJECT_ID"),
-    "api_key": os.getenv("RECAPTCHA_API_KEY"),
-    "score_threshold": float(os.getenv("RECAPTCHA_SCORE_THRESHOLD", 0.5)),
-    "max_token_size": 100000,
-}
+def load_recaptcha_config() -> dict:
+    config = {
+        "enabled": os.getenv("RECAPTCHA_ENABLED", "false").lower() != "false",
+        "site_key": os.getenv("RECAPTCHA_SITE_KEY"),
+        "project_id": os.getenv("RECAPTCHA_PROJECT_ID"),
+        "api_key": os.getenv("RECAPTCHA_API_KEY"),
+        "score_threshold": float(
+            os.getenv("RECAPTCHA_SCORE_THRESHOLD", "0.5"),
+        ),
+        "max_token_size": 100000,
+    }
+    msg = (
+        "RECAPTCHA "
+        f"enabled={config['enabled']} "
+        f"score_threshold={config['score_threshold']}",
+    )
+    logger.info(msg)
 
-logger.info(
-    "RECAPTCHA "
-    f"enabled={RECAPTCHA_CONFIG['enabled']} "
-    f"score_threshold={RECAPTCHA_CONFIG['score_threshold']}"
-)
+    return config
 
 
 def verify_recaptcha(
-    session, recaptcha_token, expected_action, recaptcha_config=None
+    session,
+    recaptcha_token,
+    expected_action,
+    recaptcha_config=None,
 ):
     # interpreting assesment:
     # https://cloud.google.com/recaptcha/docs/interpret-assessment-website
     try:
         if recaptcha_config is None:
-            recaptcha_config = RECAPTCHA_CONFIG
+            recaptcha_config = load_recaptcha_config()
 
         enabled = recaptcha_config["enabled"]
         site_key = recaptcha_config["site_key"]
@@ -56,7 +64,7 @@ def verify_recaptcha(
                     "token": recaptcha_token,
                     "expectedAction": expected_action,
                     "siteKey": site_key,
-                }
+                },
             },
             timeout=30,
         )
