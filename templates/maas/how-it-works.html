@@ -1,0 +1,195 @@
+{% extends "base_index.html" %}
+
+{% block title %}How it works{% endblock %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/16tkFyk2W-AkoJYeE9qoFjwzHBlH4diazN9tlqRsV3XA/edit
+{% endblock meta_copydoc %}
+
+{% block content %}
+    <section class="p-strip--image is-dark p-takeover--no-overlays">
+        <div class="row u-equal-height u-vertically-center">
+            <div class="col-6">
+                <h1>How it works</h1>
+                <p>
+                    MAAS has a tiered architecture with a central postgres database backing a &lsquo;Region Controller (regiond)&rsquo; that deals with operator requests. Distributed Rack Controllers (rackd) provide high-bandwidth services to multiple racks. The controller itself is stateless and horizontally scalable, presenting only a REST API.
+                </p>
+                <p>
+                    Rack Controller (rackd) provides <abbr title="Dynamic Host Configuration Protocol">DHCP</abbr>, <abbr title="Intelligent Platform Management Interface">IPMI</abbr>, <abbr title="Preboot Execution Environment">PXE</abbr>, <abbr title="Trivial File Transfer Protocol">TFTP</abbr> and other local services. They cache large items like operating system install images at the rack level for performance but maintain no exclusive state other than credentials to talk to the controller.
+                </p>
+            </div>
+            <div class="col-6 u-align--center">
+                <img src="https://assets.ubuntu.com/v1/b03d95a1-maas.io-how-it-works.svg"
+                     alt="MAAS structure diagram" />
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip is-deep u-no-padding--bottom" id="high-availability">
+        <div class="row">
+            <div class="col-8">
+                <h2>High availability in MAAS</h2>
+                <p>
+                    MAAS is a mission critical service, providing infrastructure coordination upon which HPC and cloud infrastructures depend. High availability in the region controller is achieved at the database level. The region controller will automatically switch gateways to ensure high availability of services to network segments in the event of a rackd failure.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip is-shallow u-hidden--small">
+        <div class="row">
+            <div class="col-12">
+                {{ image(url="https://assets.ubuntu.com/v1/d788fae0-maas.io-high-availability.svg",
+                                alt="High availability network diagram",
+                                width="964",
+                                height="342",
+                                hi_def=True,
+                                attrs={"class": "u-no-margin--bottom"},) | safe
+                }}
+            </div>
+        </div>
+    </section>
+    <section class="p-strip is-deep u-no-padding--top">
+        <div class="row">
+            <div class="col-8">
+                <p>
+                    Rackds are not in the primary data path, they are not routers or otherwise involved in the flow of data traffic, this diagram shows only the role that MAAS Rackds play in providing local services to racks, and the way in which they can cover for one another in the event of a failure.
+                </p>
+                <p>
+                    MAAS can scale from a small set of servers to many racks of hardware in a datacentre. High-bandwidth activities (such as the initial operating system installation) are handled by the distributed gateways enabling massively parallel deployments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip--accent is-deep" id="protocols">
+        <div class="row u-equal-height">
+            <div class="col-8">
+                <h2>Protocols</h2>
+                <p>
+                    MAAS uses standard server <abbr title="Baseboard Management Controller">BMC</abbr> and <abbr title="Network Interface Controller">NIC</abbr> services such as <abbr>IPMI</abbr> and PXE to control the machines in your data centre. For converged infrastructure, MAAS talks to the chassis controller of the rack or hyperscale chassis such as Intel RSD, Cisco UCS or HP Moonshot. Custom plugins extend MAAS for alternative BMC protocols.
+                </p>
+                <p>
+                    Initial machine inventory and commissioning is done from an ephemeral Ubuntu image that works across all major servers from all major vendors. It is possible to add custom scripts for firmware updates and reporting.
+                </p>
+            </div>
+            <div class="prefix-1 col-4 u-vertically-center">
+                {{ image(url="https://assets.ubuntu.com/v1/1e561874-maas.io-protocols.svg",
+                                alt="",
+                                width="238",
+                                height="238",
+                                hi_def=True,
+                                attrs={"class": "u-hidden--small"}) | safe
+                }}
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip is-deep u-no-padding--bottom"
+             id="physical-availability-zones">
+        <div class="row">
+            <div class="col-8">
+                <h2>Physical availability zones</h2>
+                <p>
+                    In keeping with the notion of a &lsquo;physical cloud&rsquo; MAAS lets you designate machines as belonging to a particular availability zone. It is typical to group sets of machines by rack or room or building into an availability zone based on common points of failure. The natural boundaries of a zone depend largely on the scale of deployment and the design of physical interconnects in the data centre.
+                </p>
+                <p>
+                    Nevertheless the effect is to be able to a scale-out service across multiple failure domains very easily, just as you would expect on a public cloud. Higher-level infrastructure offerings like OpenStack or Mesos can present that information to their API clients as well, enabling very straightforward deployment of sophisticated solutions from metal to container.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="p-strip u-hidden--small">
+        <div class="row">
+            <div class="col-12">
+                {{ image(url="https://assets.ubuntu.com/v1/d1dc00ae-maas.io-physical-availability-zones.svg",
+                                alt="Availability zone diagram",
+                                width="573",
+                                height="258",
+                                hi_def=True,
+                                attrs={"class": "u-no-margin--bottom"},) | safe
+                }}
+            </div>
+        </div>
+    </section>
+    <section class="p-strip is-bordered is-deep u-no-padding--top">
+        <div class="row">
+            <div class="col-8">
+                <p>
+                    The MAAS API allows for discovery of the zones in the region. Chef, Puppet, Ansible and Juju can transparently spread services across the available zones.
+                </p>
+                <p>Users can also specifically request machines in particular AZs.</p>
+                <p>
+                    There is no forced correlation between a machine location in a particular rack and the zone in which MAAS will present it, nor is there a forced correlation between network segment and rack. In larger deployments it is common for traffic to be routed between zones, in smaller deployments the switches are often trunked allowing subnets to span zones.
+                </p>
+                <p>
+                    By convention, users are entitled to assume that all zones in a region are connected with very high bandwidth that is not metered, enabling them to use all zones equally and spread deployments across as many zones as they choose for availability purposes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip is-deep" id="node-lifecycle">
+        <div class="row">
+            <div class="col-8">
+                <h2>The node lifecycle</h2>
+                <p>
+                    Each machine (&ldquo;node&rdquo;) managed by MAAS goes through a lifecycle &mdash; from its enlistment or onboarding to MAAS, through commissioning when we inventory and can setup firmware or other hardware-specific elements, then allocation to a user and deployment, and finally they are released back to the pool or retired altogether.
+                </p>
+            </div>
+        </div>
+        <br />
+        <div class="row u-equal-height">
+            <div class="col-5 u-hidden--medium u-hidden--small u-vertically-center">
+                {{ image(url="https://assets.ubuntu.com/v1/b2cec06d-maas.io-node-lifecycle.svg",
+                                alt="Node lifecycle chart",
+                                width="353",
+                                height="662",
+                                hi_def=True,) | safe
+                }}
+            </div>
+            <div class="col-7">
+                <h3 class="p-heading--4">New</h3>
+                <p>
+                    New machines which PXE-boot on a MAAS network will be enlisted automatically if MAAS can detect their BMC parameters. The easiest way to enlist standard <abbr>IPMI</abbr> servers is simply to PXE-boot them on the MAAS network.
+                </p>
+                <h3 class="p-heading--4">Commissioning</h3>
+                <p>
+                    Detailed inventory of RAM, CPU, disks, NICs and accelerators like GPUs itemized and usable as constraints for machine selection. It is possible to run your own scripts for site-specific tasks such as firmware updates.
+                </p>
+                <h3 class="p-heading--4">Ready</h3>
+                <p>
+                    A machine that is successfully commissioned is considered &ldquo;Ready&rdquo;. It will have configured BMC credentials (on IPMI based BMCs) for ongoing  power control, ensuring that MAAS can start or stop the machine and allocate or (re)deploy it with a fresh operating system.
+                </p>
+                <h3 class="p-heading--4">Allocated</h3>
+                <p>
+                    Ready machines can be allocated to users, who can configure network interface bonding and addressing, and disks, such as LVM, RAID, bcache or partitioning.
+                </p>
+                <h3 class="p-heading--4">Deploying</h3>
+                <p>
+                    Users then can ask MAAS to turn the machine on and install a complete server operating system from scratch without any manual intervention, configuring network interfaces, disk partitions and more.
+                </p>
+                <h3 class="p-heading--4">Releasing</h3>
+                <p>
+                    When a user has finished with the machine, they can release it back to the shared pool of capacity. You can ask MAAS to ensure that there is a full disk-wipe of the machine when that happens.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-strip--accent is-shallow">
+        <div class="row u-equal-height">
+            <div class="col-10 u-sv3--small">
+                <h3 class="p-heading--4 u-no-margin--bottom">
+                    MAAS is a bare-metal server provisioning tool. It is open source and&nbsp;free.
+                </h3>
+                <br class="u-hide--medium u-hide--large" />
+            </div>
+            <div class="col-2 u-vertically-center">
+                <a aria-label="Find out how to install MAAS"
+                   href="/maas/docs/how-to-get-maas-up-and-running"
+                   class="p-button--positive u-no-margin--bottom">Install MAAS</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

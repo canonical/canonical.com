@@ -21,6 +21,7 @@ let config = {
         "static/*.xml",
         "node_modules/flickity/dist/flickity.pkgd.min.js",
         "node_modules/leaflet/dist/leaflet.js",
+        "node_modules/venobox/dist/venobox.min.js",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
@@ -31,6 +32,8 @@ let config = {
           /^u-/, // Utility classes
           /^js-/, // JavaScript-related classes
           /^leaflet-/, // Leaflet classes for map
+          /^vbox-/, // VenoBox classes
+          /^venobox/, // VenoBox classes
         ],
         greedy: [
           /^iti/,

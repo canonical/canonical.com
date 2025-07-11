@@ -24,3 +24,6 @@ cp node_modules/flickity/dist/flickity.pkgd.min.js static/js/modules/flickity
 
 mkdir -p static/js/modules/leaflet
 cp node_modules/leaflet/dist/leaflet.js static/js/modules/leaflet
+
+mkdir -p static/js/modules/venobox
+cp node_modules/venobox/dist/venobox.min.js static/js/modules/venobox/venobox.min.js
