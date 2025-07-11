@@ -46,7 +46,7 @@ from webapp.navigation import (
     split_list,
 )
 from webapp.requests_session import get_requests_session
-from webapp.recaptcha import verify_recaptcha, load_recaptcha_config 
+from webapp.recaptcha import verify_recaptcha, load_recaptcha_config
 
 logger = logging.getLogger(__name__)
 
