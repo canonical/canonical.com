@@ -25,7 +25,7 @@ As an organisation Canonical’s internal activities include engineering, suppor
 
 Canonical procures services from a number of external third parties to support its activities and services.
 
-Canonical Group Limited and Canonical UK Limited are English subsidiaries of Canonical Limited and a number of affiliated entities provide services. A full list of Canonical entities can be found at [https://www.ubuntu.com/legal/companies](https://www.ubuntu.com/legal/companies). This statement relates to Canonical Group Limited and Canonical UK Limited.
+Canonical Group Limited and Canonical UK Limited are English subsidiaries of Canonical Limited and a number of affiliated entities provide services. A full list of Canonical entities can be found at [/legal/companies](/legal/companies). This statement relates to Canonical Group Limited and Canonical UK Limited.
 
 ## Our Policy
 

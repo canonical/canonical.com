@@ -43,11 +43,11 @@ Our legal basis for using your personal information is that it is necessary for 
 
 In subscribing to our newsletter, our legal basis for processing your personal information is that it is necessary for our legitimate interests in conducting our business and meeting the requirements of you, our current and prospective customers.
 
-We may contact you from time to time with information about products and services that we offer (see [Marketing Communications to Businesses](https://ubuntu.com/legal/data-privacy/partner-portal#mkt-comms)). Our legal basis for using your personal information to contact you is that it is necessary for our legitimate interest in keeping you informed of the products and services that we offer. You can opt out of marketing communications as set out below.
+We may contact you from time to time with information about products and services that we offer (see [Marketing Communications to Businesses](/legal/data-privacy/partner-portal#mkt-comms)). Our legal basis for using your personal information to contact you is that it is necessary for our legitimate interest in keeping you informed of the products and services that we offer. You can opt out of marketing communications as set out below.
 
 ### Your consent
 
-If you subscribe our newsletter, you will have the option to provide your consent to us sending you information about the products and services that we offer (see [Email Marketing Communications](https://ubuntu.com/legal/data-privacy/partner-portal#mkt-comms)). You can withdraw your consent at any time.
+If you subscribe our newsletter, you will have the option to provide your consent to us sending you information about the products and services that we offer (see [Email Marketing Communications](/legal/data-privacy/partner-portal#mkt-comms)). You can withdraw your consent at any time.
 
 ## How long do we keep your information for?
 

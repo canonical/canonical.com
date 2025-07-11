@@ -24,7 +24,7 @@ Canonical may update these Terms of Service from time to time in its discretion.
 
 The Service provides users of Ubuntu with a free subscription to use the Service on up to five physical Ubuntu systems with unlimited number of VMs or containers for the eligible Ubuntu LTS versions as designated by Canonical.
 
-Details about the Service can be found here: https://ubuntu.com/legal/ubuntu-pro-description
+Details about the Service can be found here: /legal/ubuntu-pro-description
 
 For recognised Ubuntu Community Members (as designated by Canonical) the Services can be used on up to fifty physical Ubuntu systems with unlimited number of VMs or containers for the eligible Ubuntu LTS versions as designated by Canonical.
 
