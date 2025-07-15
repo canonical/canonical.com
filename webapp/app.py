@@ -1596,34 +1596,37 @@ app.add_url_rule(
 @app.route("/solutions/infrastructure/private-cloud-pricing.json")
 def get_pricing_data():
     """Serve pricing data with on-demand compression"""
-    
-    base_path = os.path.join(os.getcwd(), "static/json/private-cloud-pricing.json")
-    
+
+    base_path = os.path.join(
+        os.getcwd(), "static/json/private-cloud-pricing.json"
+    )
+
     # Check if client accepts gzip encoding
-    accepts_gzip = 'gzip' in flask.request.headers.get('Accept-Encoding', '')
-    
+    accepts_gzip = "gzip" in flask.request.headers.get("Accept-Encoding", "")
+
     try:
         if accepts_gzip:
-            with open(base_path, 'rb') as f:
+            with open(base_path, "rb") as f:
                 data = gzip.compress(f.read())
-            
+
             response = flask.make_response(data)
-            response.headers['Content-Type'] = 'application/json'
-            response.headers['Content-Encoding'] = 'gzip'
-            response.headers['Vary'] = 'Accept-Encoding'
-            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+            response.headers["Content-Type"] = "application/json"
+            response.headers["Content-Encoding"] = "gzip"
+            response.headers["Vary"] = "Accept-Encoding"
+            response.headers["Cache-Control"] = (
+                "public, max-age=31536000, immutable"
+            )
             return response
         else:
             response = flask.send_file(
-                base_path,
-                mimetype='application/json',
-                as_attachment=False
+                base_path, mimetype="application/json", as_attachment=False
             )
-            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
-            response.headers['Vary'] = 'Accept-Encoding'
+            response.headers["Cache-Control"] = (
+                "public, max-age=31536000, immutable"
+            )
+            response.headers["Vary"] = "Accept-Encoding"
             return response
-            
+
     except FileNotFoundError:
         logger.error("Pricing data file not found")
         return {"error": "Pricing data not available"}, 500
-
