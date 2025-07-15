@@ -13,6 +13,8 @@ import flask
 import markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 import math
+import gzip
+
 
 # Packages
 from canonicalwebteam import image_template
@@ -1591,36 +1593,37 @@ app.add_url_rule(
 )
 
 
-@app.route("/solutions/infrastructure/private-cloud-pricing")
-def private_cloud_pricing():
-    import json
-    import os
-
-    pricing_data_path = (
-        os.getcwd()
-        + "/templates"
-        + "/solutions/infrastructure/private-cloud-pricing-metrics.json"
-    )
-
+@app.route("/solutions/infrastructure/private-cloud-pricing.json")
+def get_pricing_data():
+    """Serve pricing data with on-demand compression"""
+    
+    base_path = os.path.join(os.getcwd(), "static/json/private-cloud-pricing.json")
+    
+    # Check if client accepts gzip encoding
+    accepts_gzip = 'gzip' in flask.request.headers.get('Accept-Encoding', '')
+    
     try:
-        with open(pricing_data_path, "r") as f:
-            pricing_metrics = json.load(f)
+        if accepts_gzip:
+            with open(base_path, 'rb') as f:
+                data = gzip.compress(f.read())
+            
+            response = flask.make_response(data)
+            response.headers['Content-Type'] = 'application/json'
+            response.headers['Content-Encoding'] = 'gzip'
+            response.headers['Vary'] = 'Accept-Encoding'
+            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+            return response
+        else:
+            response = flask.send_file(
+                base_path,
+                mimetype='application/json',
+                as_attachment=False
+            )
+            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+            response.headers['Vary'] = 'Accept-Encoding'
+            return response
+            
     except FileNotFoundError:
-        pricing_metrics = {}
-        logger.error(f"Pricing data file not found at {pricing_data_path}")
-    except json.JSONDecodeError:
-        pricing_metrics = {}
-        logger.error(f"Error decoding JSON from {pricing_data_path}")
+        logger.error("Pricing data file not found")
+        return {"error": "Pricing data not available"}, 500
 
-    node_counts = [int(k) for k in pricing_metrics.keys() if k.isdigit()]
-
-    context = {
-        "pricing_metrics": pricing_metrics,
-        "node_counts": node_counts,
-        "min_nodes": min(node_counts),
-        "max_nodes": max(node_counts),
-    }
-
-    return flask.render_template(
-        "solutions/infrastructure/private-cloud-pricing.html", **context
-    )
