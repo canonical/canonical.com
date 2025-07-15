@@ -64,7 +64,7 @@
               <div class="p-slider__wrapper">
                 <input type="range"
                        min="0"
-                       max="{{ (node_counts|length) - 1 }}"
+                       max="0"
                        value="0"
                        step="1"
                        id="private-cloud-pricing"
@@ -91,7 +91,9 @@
               <h3 class="p-heading--4">Hourly cost per VM:</h3>
             </div>
             <div class="col-3 u-align--right">
-              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-vm-cost-display></p>
+              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-vm-cost-display>
+                <i class="p-icon--spinner u-animation--spin"></i>
+              </p>
               <p class="p-text--small">for t2d-standard-4 instance equivalent.</p>
             </div>
           </div>
@@ -102,7 +104,9 @@
               <h3 class="p-heading--4">Total savings:</h3>
             </div>
             <div class="col-3 u-align--right">
-              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-savings-display></p>
+              <p class="p-heading--3 u-no-margin--bottom u-sv2" data-savings-display>
+                <i class="p-icon--spinner u-animation--spin"></i>
+              </p>
               <p class="p-text--small">
                 compared to public clouds
                 <br />
@@ -265,65 +269,85 @@
 
   {# djlint: off #}
   <script>
-    // Pricing data from server
-    var pricingMetrics = {{ pricing_metrics | tojson | safe }};
-    var nodeCount = {{ node_counts | tojson | safe }};
-
-    // Styling for the slider, source: https://vanillaframework.io/docs/patterns/slider
-    var isWebkit =
-      /Chrome/i.test(navigator.userAgent) || /Safari/i.test(navigator.userAgent);
-    var PROGRESS_COLOUR = "#06c";
-    var EMPTY_COLOUR = "#D9D9D9";
+    let pricingMetrics = {};
 
     /**
-     * Find the closest pricing data for a given node value
+     * Fetch pricing data from API
+     * @returns {Promise<Object>} - Promise that resolves to pricing data
+     */
+    async function fetchPricingData() {
+      try {
+        const response = await fetch('/solutions/infrastructure/private-cloud-pricing.json', {
+          headers: {
+            'Accept-Encoding': 'gzip, deflate, br'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error - status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching pricing data:', error);
+        throw error;
+      }
+    }
+
+    /**
+     * Initialize pricing data and calculator
+     */
+    async function initializePricingCalculator() {
+      const vmCostDisplay = document.querySelector("[data-vm-cost-display]");
+      const savingsDisplay = document.querySelector("[data-savings-display]");
+      try {
+        pricingMetrics = await fetchPricingData();
+        
+        // Extract min/max node counts - assume they increment by 1
+        const nodeKeys = Object.keys(pricingMetrics).filter(key => /^\d+$/.test(key));
+        if (nodeKeys.length === 0) {
+          throw new Error('No valid node count data found');
+        }
+        const minNodes = Math.min(...nodeKeys.map(k => parseInt(k)));
+        const maxNodes = Math.max(...nodeKeys.map(k => parseInt(k)));
+
+        // Initialize the pricing calculator UI
+        const privateCloudPricingSlider = document.querySelector("[data-private-cloud-pricing-slider]");
+        const privateCloudPricingInput = document.querySelector("[data-private-cloud-pricing-input]"); 
+        if (privateCloudPricingSlider && privateCloudPricingInput) {
+          privateCloudPricingSlider.min = minNodes;
+          privateCloudPricingSlider.max = maxNodes;
+          privateCloudPricingSlider.value = minNodes;
+          initPricingCalculator(privateCloudPricingSlider, privateCloudPricingInput);
+        }
+        
+      } catch (error) {
+        console.error('Failed to initialize pricing calculator:', error);
+        if (vmCostDisplay) vmCostDisplay.textContent = "Error loading data";
+        if (savingsDisplay) savingsDisplay.textContent = "Error loading data";
+      }
+    }
+
+    // Styling for the slider, source: https://vanillaframework.io/docs/patterns/slider
+    const isWebkit =
+      /Chrome/i.test(navigator.userAgent) || /Safari/i.test(navigator.userAgent);
+    const PROGRESS_COLOUR = "#06c";
+    const EMPTY_COLOUR = "#D9D9D9";
+
+    /**
+     * Find the pricing data for a given node value
      * @param {number} nodeValue - Node value
      * @returns {object|null} - Pricing data or null if not found
      */
     function lookupNodePricing(nodeValue) {
-      var nodeStr = nodeValue.toString();
+      const nodeStr = nodeValue.toString();
 
       if (pricingMetrics[nodeStr]) {
         return pricingMetrics[nodeStr];
       }
 
       return null;
-    }
-
-    /**
-     * Get node value from slider index
-     * @param {number} index - Slider index (0 to nodeCount.length-1)
-     * @returns {number} - The node value
-     */
-    function getNodeValueFromIndex(index) {
-      return nodeCount[index] || nodeCount[0];
-    }
-
-    /**
-     * Get slider index from node value
-     * @param {number} nodeValue - The node value
-     * @returns {number} - Slider index
-     */
-    function getIndexFromNodeCount(nodeValue) {
-      var index = nodeCount.indexOf(nodeValue);
-      return index >= 0 ? index : 0;
-    }
-
-    /**
-     * Find closest valid node from input (always rounds up)
-     * @param {number} inputValue - User input value
-     * @returns {number} - Next valid node count (rounded up)
-     */
-    function findClosestValidNodeCount(inputValue) {
-      if (isNaN(inputValue) || inputValue <= 0) {
-        return nodeCount[0];
-      }
-      for (var i = 0; i < nodeCount.length; i++) {
-        if (nodeCount[i] >= inputValue) {
-          return nodeCount[i];
-        }
-      }
-      return nodeCount[nodeCount.length - 1];
     }
 
     /**
@@ -349,20 +373,20 @@
      * @param {number} nodeValue - Actual number of nodes
      */
     function updatePricingDisplay(nodeValue) {
-      var pricingData = lookupNodePricing(nodeValue);
+      const pricingData = lookupNodePricing(nodeValue);
 
       if (!pricingData || !pricingData.openstack) {
         return;
       }
 
-      var openstackData = pricingData.openstack;
+      const openstackData = pricingData.openstack;
 
-      var vmCostDisplay = document.querySelector("[data-vm-cost-display]");
+      const vmCostDisplay = document.querySelector("[data-vm-cost-display]");
       if (vmCostDisplay) {
         vmCostDisplay.textContent = formatCurrency(openstackData.vm_cost_per_h);
       }
 
-      var savingsDisplay = document.querySelector("[data-savings-display]");
+      const savingsDisplay = document.querySelector("[data-savings-display]");
       if (savingsDisplay) {
         savingsDisplay.textContent = formatPercentage(openstackData.discount);
       }
@@ -374,7 +398,7 @@
     */
     function renderSlider(slider) {
       if (isWebkit) {
-        var value = (slider.value - slider.min) / (slider.max - slider.min);
+        const value = (slider.value - slider.min) / (slider.max - slider.min);
         slider.style.backgroundImage = (
           "-webkit-gradient(linear, left top, right top, color-stop(" +
           value + ", " + PROGRESS_COLOUR + "), color-stop(" +
@@ -384,34 +408,32 @@
     }
 
     /**
-      Attaches listenera to slider and number input to update their background color and pricing results.
+      Attaches listeners to slider and number input to update their background color and pricing results.
       @param {HTMLElement} slider - Slider element to render background on.
     */
     function initPricingCalculator(slider, numericInput) {
       renderSlider(slider);
 
-      // The numericInput works weird as the data point do not inrecement by 1's, 
-      // so it has to "auto correct" the numericInput to ensure a valid
-      // I think there must be a better way because it feel akward
       if (numericInput) {
-        numericInput.value = nodeCount[0]; // Initilize with first node count
+        numericInput.value = slider.min; // Start with minimum node count
 
         numericInput.addEventListener("input", function() {
-          var inputValue = parseInt(numericInput.value);
-          var closestValidNode = findClosestValidNodeCount(inputValue);
-          var sliderIndex = getIndexFromNodeCount(closestValidNode);
+          const inputValue = parseInt(numericInput.value);
+          
+          // Clamp input value to slider range
+          if (inputValue < slider.min) inputValue = slider.min;
+          if (inputValue > slider.max) inputValue = slider.max;
 
-          numericInput.value = closestValidNode;
-          slider.value = sliderIndex;
+          numericInput.value = inputValue;
+          slider.value = inputValue;
 
           renderSlider(slider);
-          updatePricingDisplay(closestValidNode);
+          updatePricingDisplay(inputValue);
         });
       }
 
       slider.addEventListener("input", function() {
-        var sliderIndex = parseInt(slider.value);
-        var nodeValue = getNodeValueFromIndex(sliderIndex);
+        const nodeValue = parseInt(slider.value);
 
         if (numericInput) {
           numericInput.value = nodeValue;
@@ -421,12 +443,18 @@
       });
 
       // Initialize with first value
-      updatePricingDisplay(nodeCount[0]);
+      updatePricingDisplay(parseInt(slider.value));
     }
 
-    var privateCloudPricingSlider = document.querySelector("[data-private-cloud-pricing-slider]");
-    var privateCloudPricingInput = document.querySelector("[data-private-cloud-pricing-input]");
-    initPricingCalculator(privateCloudPricingSlider, privateCloudPricingInput);
+    const privateCloudPricingSlider = document.querySelector("[data-private-cloud-pricing-slider]");
+    const privateCloudPricingInput = document.querySelector("[data-private-cloud-pricing-input]");
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializePricingCalculator);
+    } else {
+      initializePricingCalculator();
+    }
   </script>
   {# djlint: on #}
 {% endblock content %}
