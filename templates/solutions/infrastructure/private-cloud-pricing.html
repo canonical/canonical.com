@@ -60,23 +60,26 @@
                 <strong>How many physical machines do you have?</strong>
               </p>
             </div>
-            <div class="col-6">
-              <div class="p-slider__wrapper">
-                <input type="range"
-                       min="0"
-                       max="0"
-                       value="0"
-                       step="1"
-                       id="private-cloud-pricing"
-                       data-private-cloud-pricing-slider
-                       aria-label="Number of physical machines slider" />
-                <input class="p-slider__input"
-                       type="text"
-                       maxlength="6"
-                       id="private-cloud-pricing-input"
-                       data-private-cloud-pricing-input
-                       tabindex="0" />
+            <div class="col-6 p-form-validation js-input-validation">
+              <div class="p-section--shallow">
+                <div class="p-slider__wrapper">
+                  <input type="range"
+                         min="0"
+                         max="0"
+                         value="0"
+                         step="1"
+                         id="private-cloud-pricing"
+                         data-private-cloud-pricing-slider
+                         aria-label="Number of physical machines slider" />
+                  <input class="p-slider__input p-form-validation__input"
+                         type="text"
+                         maxlength="6"
+                         id="private-cloud-pricing-input"
+                         data-private-cloud-pricing-input
+                         tabindex="0" />
+                </div>
               </div>
+                <p class="p-form-validation__message u-no-margin--bottom u-hide" id="invalid-range-error">Please enter a valid value</p>
             </div>
           </div>
         </div>
@@ -319,6 +322,13 @@
           privateCloudPricingSlider.min = minNodes;
           privateCloudPricingSlider.max = maxNodes;
           privateCloudPricingSlider.value = minNodes;
+          
+          // Update validation message with actual range
+          const errorMessage = document.getElementById('invalid-range-error');
+          if (errorMessage) {
+            errorMessage.textContent = `Please enter a value from ${minNodes}-${maxNodes}`;
+          }
+          
           initPricingCalculator(privateCloudPricingSlider, privateCloudPricingInput);
         }
         
@@ -408,6 +418,46 @@
     }
 
     /**
+      Validates input value and returns validation result
+      @param {string|number} value - Input value to validate
+      @param {number} min - Minimum allowed value
+      @param {number} max - Maximum allowed value
+      @returns {Object} Validation result with isValid boolean and parsedValue
+    */
+    function validateInput(value, min, max) {
+      const parsedValue = parseInt(value);
+      
+      // Handle empty input or NaN
+      if (isNaN(parsedValue) || value.toString().trim() === '') {
+        return { isValid: false, parsedValue: null, error: 'invalid' };
+      }
+      
+      // Check if value is within valid range
+      if (parsedValue < min || parsedValue > max) {
+        return { isValid: false, parsedValue, error: 'range' };
+      }
+      
+      return { isValid: true, parsedValue };
+    }
+
+    /**
+      Sets or removes error state for input validation
+      @param {boolean} hasError - Whether to show error state
+    */
+    function setValidationError(hasError) {
+      const inputValidationCont = document.querySelector(".js-input-validation");
+      const errorMessage = document.getElementById('invalid-range-error');
+      
+      if (hasError) {
+        inputValidationCont.classList.add('is-error');
+        if (errorMessage) errorMessage.classList.remove('u-hide');
+      } else {
+        inputValidationCont.classList.remove('is-error');
+        if (errorMessage) errorMessage.classList.add('u-hide');
+      }
+    }
+
+    /**
       Attaches listeners to slider and number input to update their background color and pricing results.
       @param {HTMLElement} slider - Slider element to render background on.
     */
@@ -418,17 +468,21 @@
         numericInput.value = slider.min; // Start with minimum node count
 
         numericInput.addEventListener("input", function() {
-          const inputValue = parseInt(numericInput.value);
+          const validation = validateInput(numericInput.value, slider.min, slider.max);
           
-          // Clamp input value to slider range
-          if (inputValue < slider.min) inputValue = slider.min;
-          if (inputValue > slider.max) inputValue = slider.max;
+          if (!validation.isValid) {
+            setValidationError(true);
+            return;
+          }
+          
+          // Remove error state for valid input
+          setValidationError(false);
 
-          numericInput.value = inputValue;
-          slider.value = inputValue;
+          numericInput.value = validation.parsedValue;
+          slider.value = validation.parsedValue;
 
           renderSlider(slider);
-          updatePricingDisplay(inputValue);
+          updatePricingDisplay(validation.parsedValue);
         });
       }
 
@@ -455,6 +509,6 @@
     } else {
       initializePricingCalculator();
     }
-  </script>
+</script>
   {# djlint: on #}
 {% endblock content %}
