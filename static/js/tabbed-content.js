@@ -241,26 +241,42 @@
     });
   };
 
+  /*
+    Toggles show board based on selection on small screens
+    This is used for the tabbed content in pages where
+    the tabbed list is hidden on small screens and a dropdown 
+    is used to select the tab.
+    The dropdown is populated with the tab IDs and when a selection
+    is made, the corresponding tab content is shown.
+    The dropdown is hidden on larger screens.
+    The `data-tablist` attribute is used to group the tab components
+    and dropdowns together, allowing for multiple tabbed sections
+    on the same page without conflicts.
+  */
   (function () {
     // Toggles show board based on selection on small screens
+    const dropdownSelects = document.getElementsByName("tabSelect");
 
-    const boards = document.querySelectorAll(`[role=tabpanel]`);
-    const dropdownSelect = document.getElementById("tabSelect");
-
-    dropdownSelect?.addEventListener("change", (event) => {
-      selectBoard();
+    dropdownSelects.forEach((dropdownSelect) => {
+      dropdownSelect.addEventListener("change", (event) => {
+        selectBoard(dropdownSelect.dataset.tablist, dropdownSelect.value);
+      });
     });
 
-    function selectBoard() {
-      boards.forEach((board) => {
-        if (board.id === dropdownSelect.value) {
-          board.classList.remove("u-hide");
-          board.focus();
-        } else {
-          board.classList.add("u-hide");
-        }
+    function selectBoard(tablist, dropdownValue) {
+      const tabpanelParent = document.querySelectorAll(`div[data-tablist="${tablist}"]`);
+      tabpanelParent.forEach((parent) => {
+        const boards = parent.querySelectorAll("[role='tabpanel']");
+        boards.forEach((board) => {
+          if (board.id === dropdownValue) {
+            board.classList.remove("u-hide");
+            board.focus();
+          } else {
+            board.classList.add("u-hide");
+          }
+        });
       });
-    }
+      }
   })();
 
   document.addEventListener("DOMContentLoaded", () => {
