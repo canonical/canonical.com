@@ -5,6 +5,7 @@ import datetime
 import calendar
 import os
 import re
+from typing import List
 from urllib.parse import parse_qs, urlencode, urlparse
 import yaml
 
@@ -47,6 +48,13 @@ from webapp.navigation import (
 )
 from webapp.requests_session import get_requests_session
 from webapp.recaptcha import verify_recaptcha, load_recaptcha_config
+from webapp.canonical_cla.views import (
+    canonical_cla_api_github_login,
+    canonical_cla_api_github_logout,
+    canonical_cla_api_launchpad_login,
+    canonical_cla_api_launchpad_logout,
+    canonical_cla_api_proxy,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -773,10 +781,27 @@ def inject_today_date():
     return {"current_year": datetime.date.today().year}
 
 
+def get_countries_list() -> List[dict]:
+    """
+    Get a list of countries in a standard format
+    """
+    from pycountry import countries
+
+    countries = [
+        {
+            "alpha2": country.alpha_2,
+            "name": getattr(country, "common_name", country.name),
+        }
+        for country in list(countries)
+    ]
+    return sorted(countries, key=lambda x: x["name"])
+
+
 @app.context_processor
 def utility_processor():
     return {
         "image": image_template,
+        "get_countries_list": get_countries_list,
     }
 
 
@@ -821,6 +846,7 @@ def context():
         "get_current_page_bubble": get_current_page_bubble,
         "build_navigation": build_navigation,
         "split_list": split_list,
+        "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
     }
 
 
@@ -1347,6 +1373,29 @@ def get_user_country_by_tz():
 
 
 app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
+
+
+app.add_url_rule(
+    "/legal/contributors/agreement/api",
+    methods=["POST", "GET"],
+    view_func=canonical_cla_api_proxy,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/github/logout",
+    view_func=canonical_cla_api_github_logout,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/github/login",
+    view_func=canonical_cla_api_github_login,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/launchpad/logout",
+    view_func=canonical_cla_api_launchpad_logout,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/launchpad/login",
+    view_func=canonical_cla_api_launchpad_login,
+)
 
 
 @app.route("/multipass/download/<regex('windows|macos'):osname>")
