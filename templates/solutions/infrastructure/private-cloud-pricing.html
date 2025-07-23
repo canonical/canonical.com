@@ -44,9 +44,12 @@
           <h2>Estimate your savings</h2>
         </div>
         <div class="col">
-          <p>
+          <p class="u-hide js-show-pricing-calculator-description">
             Use our private cloud pricing calculator to estimate savings from running your applications in a data center designed by Canonical.
           </p>
+          <noscript>
+            <p>Reach out to us to get estimated savings from running your applications in a data center designed by Canonical.</p>
+          </noscript>
         </div>
       </div>
     </div>
@@ -184,8 +187,7 @@
             width="568",
             height="76",
             hi_def=True,
-            loading="lazy",
-            attrs={"class": "u-hide--small"}) | safe
+            loading="lazy") | safe
       }}
     {%- endif -%}
 
@@ -211,8 +213,7 @@
             width="568",
             height="69",
             hi_def=True,
-            loading="lazy",
-            attrs={"class": "u-hide--small"}) | safe
+            loading="lazy") | safe
       }}
     {%- endif -%}
 
@@ -237,8 +238,7 @@
             width="852",
             height="267",
             hi_def=True,
-            loading="lazy",
-            attrs={"class": "u-hide--small"}) | safe
+            loading="lazy") | safe
       }}
     {%- endif -%}
 
@@ -512,9 +512,10 @@
 
     // Keep hidden if JS not available
     document.querySelector(".js-show-pricing-calculator").classList.remove("u-hide");
+    document.querySelector(".js-show-pricing-calculator-description").classList.remove("u-hide");
 
     // Initialize pricing calculator
     initializePricingCalculator();
-</script>
+  </script>
   {# djlint: on #}
 {% endblock content %}
