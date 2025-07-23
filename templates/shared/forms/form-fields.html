@@ -87,7 +87,7 @@
                                id="{{ field_id }}"
                                name="{{ field_id }}"
                                maxlength="255"
-                               autocomplete="{% if field.type == 'tel' %}tel{% elif field.type == 'email' %}email{% elif field.label and field.label == 'Company' or field.label == 'Company name' %}organization{% elif field.label and field.label == 'Job title' %}organization-title{% endif %}"
+                               autocomplete="{% if field.type == 'tel' %}tel{% elif field.type == 'email' %}email{% elif field.label and ( field.label == 'Company' or field.label == 'Company name' ) %}organization{% elif field.label and field.label == 'Job title' %}organization-title{% endif %}"
                                type="{{ field.type }}"
                                {% if field.type=="email" %}pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"{% endif %} />
                       {% elif field.type == "long-text" %}
