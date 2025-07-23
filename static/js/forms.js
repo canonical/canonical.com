@@ -8,8 +8,13 @@ import { prepareInputFields } from "./prepare-form-inputs";
  * form submission
  */
 function attachLoadingSpinner(submitButton) {
+  let spinnerClassName = "p-icon--spinner u-animation--spin";
+  if (submitButton.classList.contains("p-button--positive")) {
+    spinnerClassName += " is-light";
+  }
+
   const spinnerIcon = document.createElement("i");
-  spinnerIcon.className = "p-icon--spinner u-animation--spin is-light";
+  spinnerIcon.className = spinnerClassName;
   const buttonRect = submitButton.getBoundingClientRect();
   submitButton.style.width = buttonRect.width + "px";
   submitButton.style.height = buttonRect.height + "px";
@@ -104,7 +109,7 @@ function setDataLayerConsentInfo() {
         typeof item === "object" &&
         item !== null &&
         item[0] === "consent" &&
-        item[1] === "update",
+        item[1] === "update"
     )[0]?.[2];
 
   if (latestConsentUpdateElements) {
@@ -117,7 +122,7 @@ function setDataLayerConsentInfo() {
 
 /**
  * @param {string} name
- * 
+ *
  * Returns cookie value by name
  */
 function getCookie(name) {
@@ -129,9 +134,9 @@ function getCookie(name) {
  * Adds cookie values as hidden form fields
  */
 function addCookieFieldsToForm(form) {
-  const cookieFields = ['user_id', 'consent_info', 'utms'];
-  
-  cookieFields.forEach(fieldName => {
+  const cookieFields = ["user_id", "consent_info", "utms"];
+
+  cookieFields.forEach((fieldName) => {
     const cookieValue = getCookie(fieldName);
     if (cookieValue) {
       // Remove existing hidden field if it exists
@@ -139,10 +144,10 @@ function addCookieFieldsToForm(form) {
       if (existingField) {
         existingField.remove();
       }
-      
+
       // Create new hidden field
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
+      const hiddenField = document.createElement("input");
+      hiddenField.type = "hidden";
       hiddenField.name = fieldName;
       hiddenField.value = cookieValue;
       form.appendChild(hiddenField);
