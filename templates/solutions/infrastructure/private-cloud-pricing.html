@@ -102,7 +102,7 @@
                 <p class="p-heading--3 u-no-margin--bottom u-sv2" data-vm-cost-display>
                   <i class="p-icon--spinner u-animation--spin"></i>
                 </p>
-                <p class="p-text--small">for t2d-standard-4 instance equivalent.</p>
+                <p class="p-text--small">for <span data-ps-instance-type></span></p>
               </div>
             </div>
           </div>
@@ -257,17 +257,17 @@
       </div>
       <div class="col">
         <h3 class="p-heading--5">
-          <a href="/blog/aws-pricing">Have you ever wondered how AWS pricing actually works?</a>
+          <a href="/blog/aws-pricing">Understanding AWS pricing</a>
         </h3>
         <p>
-          AWS pricing differs depending on the service mode. Amazon offers various options: from free tier to dedicated hosts. Learn how AWS pricing works in details.
+          AWS pricing differs depending on the service mode. Amazon offers various options: from free tier to dedicated hosts. Learn how AWS pricing works in detail.
         </p>
         <hr class="p-rule--muted" />
         <h3 class="p-heading--5">
           <a href="/blog/azure-pricing">Azure pricing explained</a>
         </h3>
         <p>
-          Azure pricing differs depending on the service mode. Azure offers various options: from free tier to reservations. Learn how Azure pricing works in details.
+          Azure pricing differs depending on the service mode. Azure offers various options: from free tier to reservations. Learn how Azure pricing works in detail.
         </p>
         <hr class="p-rule--muted" />
         <h3 class="p-heading--5">
@@ -409,6 +409,11 @@
       const savingsDisplay = document.querySelector("[data-savings-display]");
       if (savingsDisplay) {
         savingsDisplay.textContent = formatPercentage(openstackData.discount);
+      }
+
+      const instanceType = document.querySelector("[data-ps-instance-type]");
+      if (instanceType) {
+        instanceType.textContent = openstackData.pc_instance_type;
       }
     }
 
