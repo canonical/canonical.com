@@ -484,6 +484,12 @@
       if (numericInput) {
         numericInput.value = slider.min; // Start with minimum node count
 
+        // Remove the '+' on focus as it prevents proper input
+        numericInput.addEventListener("focus", function() {
+          console.log("BLUR")
+          numericInput.value = numericInput.value.replace("+", "");
+        });
+
         numericInput.addEventListener("input", function() {
           const validation = validateInput(numericInput.value, slider.min, slider.max);
           
@@ -495,7 +501,10 @@
           // Remove error state for valid input
           setValidationError(false);
 
-          numericInput.value = validation.parsedValue;
+          // Display value with '+' if at maximum
+          const displayValue = validation.parsedValue === parseInt(slider.max) ? 
+            validation.parsedValue + '+' : validation.parsedValue;
+          numericInput.value = displayValue;
           slider.value = validation.parsedValue;
 
           renderSlider(slider);
@@ -507,14 +516,16 @@
         const nodeValue = parseInt(slider.value);
 
         if (numericInput) {
-          numericInput.value = nodeValue;
+          // Display value with '+' if at maximum
+          const displayValue = nodeValue === parseInt(slider.max) ? nodeValue + '+' : nodeValue;
+          numericInput.value = displayValue;
         }
         renderSlider(slider);
         updatePricingDisplay(nodeValue);
       });
 
       // Initialize with first value
-      updatePricingDisplay(parseInt(slider.value));
+      updatePricingDisplay(initialValue);
     }
 
     // Keep hidden if JS not available
