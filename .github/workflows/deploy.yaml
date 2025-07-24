@@ -24,13 +24,15 @@ jobs:
         run: sudo snap install charmcraft --classic --channel=latest/edge
 
       - name: Pack charm
-        run: charmcraft pack -v --project-dir ./charm
+        run: |
+          cd charm
+          charmcraft pack -v --project-dir ./
 
       - name: Upload charm
         uses: actions/upload-artifact@v4
         with:
           name: canonical-com-charm
-          path: ./*.charm
+          path: ./charm/*.charm
 
   pack-rock:
     runs-on: ubuntu-latest
