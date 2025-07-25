@@ -33,6 +33,7 @@ import canonicalwebteam.directory_parser as directory_parser
 from pathlib import Path
 from requests.exceptions import HTTPError
 from slugify import slugify
+from http.client import responses
 
 # Local
 from webapp.application import application
@@ -47,6 +48,7 @@ from webapp.navigation import (
 )
 from webapp.requests_session import get_requests_session
 from webapp.recaptcha import verify_recaptcha, load_recaptcha_config
+from webapp.openapi_parser import parse_openapi, read_yaml_from_url
 
 logger = logging.getLogger(__name__)
 
@@ -254,7 +256,7 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
+    response.headers["-Control"] = "public, max-age=43200"
 
     return response
 
@@ -1157,15 +1159,16 @@ dqlite_docs.init_app(app)
 MAAS_DISCOURSE_API_KEY = os.getenv("MAAS_DISCOURSE_API_KEY")
 MAAS_DISCOURSE_API_USERNAME = os.getenv("MAAS_DISCOURSE_API_USERNAME")
 
+
 maas_url_prefix = "/maas/docs"
 maas_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
             session=search_session,
-            get_topics_query_id=2,
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
+            get_topics_query_id=2,
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1175,6 +1178,10 @@ maas_docs = Docs(
     document_template="maas/docs/document.html",
     url_prefix=maas_url_prefix,
 )
+
+
+maas_docs.init_app(app)
+
 
 app.add_url_rule(
     "/maas/docs/search",
@@ -1187,7 +1194,56 @@ app.add_url_rule(
     ),
 )
 
-maas_docs.init_app(app)
+
+@app.route("/maas/docs/api")
+def maas_docs_api():
+    """
+    Show the MAAS API reference page
+    """
+    # Fetch the OpenAPI definition from GitHub and parse it
+    definition_url = (
+        "https://raw.githubusercontent.com"
+        "/canonical/maas-openapi-yaml/main/openapi.yaml"
+    )
+    definition = read_yaml_from_url(
+        definition_url, session=get_requests_session()
+    )
+    openapi = parse_openapi(definition)
+
+    # Inject the OpenAPI responses into the template
+    with open("templates/maas/docs/_api.html", "r") as f:
+        template_content = f.read()
+    rendered_body_html = flask.render_template_string(
+        template_content, openapi=openapi, responses=responses
+    )
+
+    # Mock an API response, and manually call the parsers
+    document = {
+        "title": "MAAS API",
+        "body_html": rendered_body_html,
+        "updated": "unknown, this document is generated dynamically",
+        "topic_path": "api",
+    }
+    maas_docs.parser.parse()
+    navigations = maas_docs.parser.navigations
+    maas_docs.parser.navigation = maas_docs.parser._generate_navigation(
+        navigations, ""
+    )
+
+    response = flask.make_response(
+        flask.render_template(
+            "maas/docs/document.html",
+            document=document,
+            nav_items=maas_docs.parser.navigation["nav_items"],
+            navigation=maas_docs.parser.navigation,
+        )
+    )
+
+    # Cache for 1 day
+    response.headers["Cache-Control"] = "public, max-age=86400"
+
+    return response
+
 
 tutorials_discourse = Tutorials(
     parser=TutorialParser(
