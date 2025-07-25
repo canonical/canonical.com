@@ -213,6 +213,10 @@
         tabContainer.querySelectorAll("[aria-controls]")
       );
 
+      // remove any button that invokes a modal
+      // for example, there might be a "get in touch" button within a tab
+      tabs = tabs.filter((tab) => !tab.classList.contains("js-invoke-modal"));
+
       // If the tab list container has pagination buttons
       // define the target buttons by matching the tablist data attribute
       // to the button container ID
