@@ -264,7 +264,9 @@
     });
 
     function selectBoard(tablist, dropdownValue) {
-      const tabpanelParent = document.querySelectorAll(`div[data-tablist="${tablist}"]`);
+      const tabpanelParent = document.querySelectorAll(
+        `div[data-tablist="${tablist}"]`
+      );
       tabpanelParent.forEach((parent) => {
         const boards = parent.querySelectorAll("[role='tabpanel']");
         boards.forEach((board) => {
@@ -276,7 +278,7 @@
           }
         });
       });
-      }
+    }
   })();
 
   document.addEventListener("DOMContentLoaded", () => {
