@@ -7,6 +7,7 @@ import os
 import re
 from urllib.parse import parse_qs, urlencode, urlparse
 import yaml
+import hashlib
 
 import bleach
 import flask
@@ -1595,38 +1596,49 @@ app.add_url_rule(
 
 @app.route("/solutions/infrastructure/private-cloud-pricing.json")
 def get_pricing_data():
-    """Serve pricing data with on-demand compression"""
-
+    """Serve pricing data with content-hash cache busting"""
+    
     base_path = os.path.join(
         os.getcwd(), "static/json/private-cloud-pricing.json"
     )
-
-    # Check if client accepts gzip encoding
-    accepts_gzip = "gzip" in flask.request.headers.get("Accept-Encoding", "")
-
+    
     try:
+        # Read file
+        with open(base_path, "rb") as f:
+            file_content = f.read()
+        
+        # Get hash
+        content_hash = hashlib.md5(file_content).hexdigest()[:8]
+        requested_version = flask.request.args.get('v')
+        is_versioned_request = requested_version == content_hash
+        
+        # Check if client accepts gzip encoding
+        accepts_gzip = "gzip" in flask.request.headers.get("Accept-Encoding", "")
+        
         if accepts_gzip:
-            with open(base_path, "rb") as f:
-                data = gzip.compress(f.read())
-
+            data = gzip.compress(file_content)
             response = flask.make_response(data)
             response.headers["Content-Type"] = "application/json"
             response.headers["Content-Encoding"] = "gzip"
-            response.headers["Vary"] = "Accept-Encoding"
-            response.headers["Cache-Control"] = (
-                "public, max-age=31536000, immutable"
-            )
-            return response
         else:
-            response = flask.send_file(
-                base_path, mimetype="application/json", as_attachment=False
-            )
+            response = flask.make_response(file_content)
+            response.headers["Content-Type"] = "application/json"
+        
+        # Set cache headers based on versioning
+        if is_versioned_request:
             response.headers["Cache-Control"] = (
                 "public, max-age=31536000, immutable"
             )
-            response.headers["Vary"] = "Accept-Encoding"
-            return response
-
+        else:
+            response.headers["Cache-Control"] = (
+                "public, max-age=300"
+            )
+        
+        response.headers["Vary"] = "Accept-Encoding"
+        response.headers["X-Content-Hash"] = content_hash
+        
+        return response
+        
     except FileNotFoundError:
         logger.error("Pricing data file not found")
         return {"error": "Pricing data not available"}, 500

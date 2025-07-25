@@ -70,7 +70,7 @@
                     <input type="range"
                            min="0"
                            max="0"
-                           value="0"
+                           value="1"
                            step="1"
                            id="private-cloud-pricing"
                            data-private-cloud-pricing-slider
@@ -78,6 +78,7 @@
                     <input class="p-slider__input p-form-validation__input"
                            type="text"
                            maxlength="6"
+                           value="1"
                            id="private-cloud-pricing-input"
                            data-private-cloud-pricing-input
                            tabindex="0" />
@@ -292,33 +293,28 @@
      */
     async function fetchPricingData() {
       try {
-        const response = await fetch('/solutions/infrastructure/private-cloud-pricing.json', {
-          headers: {
-            'Accept-Encoding': 'gzip, deflate, br'
-          }
-        });
+        // Get current version
+        const versionResponse = await fetch('/solutions/infrastructure/private-cloud-pricing.json');
+        const version = versionResponse.headers.get('X-File-Version') || 
+                       versionResponse.headers.get('X-Content-Hash');
         
-        if (!response.ok) {
-          throw new Error(`HTTP error - status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        return data;
+        // Fetch with version for immutable caching
+        const response = await fetch(`/solutions/infrastructure/private-cloud-pricing.json?v=${version}`);
+        return await response.json();
       } catch (error) {
-        console.error('Error fetching pricing data:', error);
-        throw error;
+        console.error('Failed to fetch pricing data:', error);
       }
     }
 
     /**
      * Initialize pricing data and calculator
      */
-    async function initializePricingCalculator() {
+    async function initPricingCalculatorData() {
       const vmCostDisplay = document.querySelector("[data-vm-cost-display]");
       const savingsDisplay = document.querySelector("[data-savings-display]");
       try {
         pricingMetrics = await fetchPricingData();
-        
+
         // Extract min/max node counts - assume they increment by 1
         const nodeKeys = Object.keys(pricingMetrics).filter(key => /^\d+$/.test(key));
         if (nodeKeys.length === 0) {
@@ -525,7 +521,11 @@
       });
 
       // Initialize with first value
+      const initialValue = 3;
+      slider.value = initialValue;
+      numericInput.value = initialValue;
       updatePricingDisplay(initialValue);
+      renderSlider(slider);
     }
 
     // Keep hidden if JS not available
@@ -533,7 +533,7 @@
     document.querySelector(".js-show-pricing-calculator-description").classList.remove("u-hide");
 
     // Initialize pricing calculator
-    initializePricingCalculator();
+    initPricingCalculatorData();
 </script>
   {# djlint: on #}
 {% endblock content %}
