@@ -34,6 +34,35 @@
     {%- if slot == 'cta' -%}
       <a href="https://assets.ubuntu.com/v1/bd787c8a-canonical-mir-datasheet-2018-12-20.pdf"
          class="p-button--positive">Get the Mir datasheet</a>
+      <div>
+        <a class="github-button"
+           data-size="large"
+           href="https://github.com/canonical/mir"
+           aria-label="Follow @canonical/mir on GitHub"></a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/mir">Follow @canonical on Github</a>
+        </noscript>
+
+        <a class="github-button"
+           href="https://github.com/canonical/mir"
+           data-icon="octicon-star"
+           data-size="large"
+           data-show-count="true"
+           aria-label="Star canonical/mir on GitHub">Star</a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/mir">Star canonical/mir on GitHub</a>
+        </noscript>
+
+        <a class="github-button"
+           href="https://github.com/canonical/mir/fork"
+           data-icon="octicon-repo-forked"
+           data-size="large"
+           data-show-count="true"
+           aria-label="Fork canonical/mir on GitHub">Fork</a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/mir">Fork canonical/mir on GitHub</a>
+        </noscript>
+      </div>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-cover">
@@ -58,10 +87,10 @@
       <div class="grid-col-4 grid-col-medium-2 grid-col-small-4">
         <div class="p-section--shallow">
           <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/9bd22677-what-is-mir.png",
+            {{ image(url="https://assets.ubuntu.com/v1/12b7533c-what-is-mir-update.png",
                         alt="",
-                        width="1200",
-                        height="801",
+                        width="1800",
+                        height="1201",
                         hi_def=True,
                         loading="lazy") | safe
             }}
@@ -71,7 +100,6 @@
         <p>
           Mir is a system-level component that can be used to unlock next-generation user experiences. It runs on a range of Linux powered devices including traditional desktops, IoT and embedded products. Mir implements the Wayland protocol, which is a modern replacement for the X window server system. It allows device makers and desktop users to have a well-defined, efficient, flexible, and secure platform for their graphical environment.
         </p>
-        <hr class="p-rule--muted" />
         <a href="https://ubuntu.com/blog/build-smart-display-devices-with-mir-fast-to-production-secure-open-source"
            class="p-button--positive">Download the whitepaper</a>
       </div>
@@ -81,12 +109,6 @@
   {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>Choose your display server</h2>
-    {%- endif -%}
-
-    {%- if slot == 'description' -%}
-      <p>
-        <!-- TODO -->
-      </p>
     {%- endif -%}
 
     {%- if slot == 'list_item_title_1' -%}
@@ -310,7 +332,6 @@
         </div>
         <p class="p-heading--5 u-no-margin--bottom">Optional 24/7 support with 10 year security maintenance</p>
         <p>As the publishers of Mir, we deliver the world’s most efficient display server and signage solution for Ubuntu.</p>
-        <hr class="p-rule--muted" />
         <a href="https://ubuntu.com/internet-of-things/digital-signage#get-in-touch"
            class="p-button--positive js-invoke-modal"
            aria-controls="mir-modal">Contact us</a>
@@ -342,4 +363,6 @@
   </section>
 
   {{ load_form("/mir") | safe }}
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}
