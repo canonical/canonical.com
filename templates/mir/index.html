@@ -1,0 +1,339 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "macros/vf_equal-heights.jinja" import vf_equal_heights %}
+
+{% block title %}
+  Canonical Mir Display Server
+{% endblock title %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1wqmWPx4TJ_oJoFt4gBOg4trYMIAsugMYtHGXzYJx8kc/edit#
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+  Mir is the fast, open and secure display server to unlock next-generation user experiences. Mir runs on a range of Linux powered devices including traditional desktops, IoT and embedded products.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='The fast, open and secure display server for any device',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        From mobile and desktop shells to IoT devices and robots. Whether you are building the smart screen for your information kiosk, digital signage display, in-car entertainment stack, or home automation interface, Mir is your fastest and most secure path to solution.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://assets.ubuntu.com/v1/bd787c8a-canonical-mir-datasheet-2018-12-20.pdf"
+         class="p-button--positive">Get the Mir datasheet</a>
+      <a href="#">Contact us ›</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/1aed367e-hero.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-4">
+        <h2>What is Mir?</h2>
+      </div>
+      <div class="grid-col-4">
+        <div class="p-section--shallow">
+          <div class="p-image-container is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/9bd22677-what-is-mir.png",
+                        alt="",
+                        width="1200",
+                        height="801",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p class="p-heading--5 u-no-margin--bottom">Introducing a secure display server</p>
+        <p>
+          Mir is a system-level component that can be used to unlock next-generation user experiences. It runs on a range of Linux powered devices including traditional desktops, IoT and embedded products. Mir implements the Wayland protocol, which is a modern replacement for the X window server system. It allows device makers and desktop users to have a well-defined, efficient, flexible, and secure platform for their graphical environment.
+        </p>
+        <hr class="p-rule--muted" />
+        <a href="https://ubuntu.com/blog/build-smart-display-devices-with-mir-fast-to-production-secure-open-source"
+           class="p-button--positive">Download the whitepaper</a>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Choose your display server</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        <!-- TODO -->
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Mir</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        <a href="https://canonical-mir.readthedocs-hosted.com/">Mir</a> is a set of libraries for writing graphical shells for GNU/Linux and similar operating systems. It incorporates much of what traditionally requires multiple components: a window manager, a compositor and a display server.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Ubuntu Frame</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+
+        <a href="https://snapcraft.io/ubuntu-frame">Ubuntu Frame</a> is a fullscreen shell for edge devices that is based on Mir. Whether you are building a kiosk, point of sale, IoT device or any other product that requires a graphical output or display to the user, Ubuntu Frame instantly allows your device to run a fullscreen window.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Miriway</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        <a href="https://github.com/Miriway/Miriway">Miriway</a> is a lightweight, basic, usable graphical shell, for desktop environments that is based on Mir. It includes several keyboard shortcuts and optional support for workspaces and shell components.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% set img1 = image(url="https://assets.ubuntu.com/v1/485341a2-Image-1.png",
+      alt="",
+      width="568",
+      height="853",
+      hi_def=True,
+      loading="lazy",
+      attrs={"class": "p-image-container__image"}
+    ) %}
+  {% set img2 = image(url="https://assets.ubuntu.com/v1/9ff3622c-Image-2.png",
+      alt="",
+      width="568",
+      height="853",
+      hi_def=True,
+      loading="lazy",
+      attrs={'class': 'p-image-container__image'}
+    ) %}
+  {% set img3 = image(url="https://assets.ubuntu.com/v1/0faf3eb3-Image-3.png",
+      alt="",
+      width="568",
+      height="853",
+      hi_def=True,
+      loading="lazy",
+      attrs={'class': 'p-image-container__image'}
+    ) %}
+  {% set img4 = image(url="https://assets.ubuntu.com/v1/8ab66d9b-Image-4.png",
+      alt="",
+      width="568",
+      height="853",
+      hi_def=True,
+      loading="lazy",
+      attrs={'class': 'p-image-container__image'}
+    ) %}
+
+  {% call(slot) vf_equal_heights(
+    title_text='Engineered for Excellence: <br class="u-hide--small" /> Secure. Versatile. Unstoppable Performance',
+    items=[
+    {
+    "title_text": "Your Canvas for Every Screen",
+    "image_html": img1,
+    "description_html": "<p>We designed Mir with limitless applications in mind. From the nimble footprint of embedded systems and IoT devices to the power of desktops and the convenience of portable devices, Mir delivers stunning graphics wherever you need them. Powering everything from kiosks and digital signage solutions to futuristic smart mirrors, Mir thrives across diverse Linux operating systems. From the moment you connect a display, Mir transforms your device into a robust kiosk, intelligent smart terminal, or dynamic digital signage solution &ndash; without the fuss, straight to production.</p>",
+    "image_container_class": "is-highlighted"
+    },
+    {
+    "title_text": "Your Smart Display, Deployed in Seconds",
+    "image_html": img2,
+    "description_html": "<p>Forget complex set up procedures and endless configuration. Mir is engineered for lightning-fast deployment, offering the swiftest path to turning your innovative display concepts into reality. Thanks to essential applications like Ubuntu Frame, developers are empowered with everything they need, right out of the box, to run virtually any graphical application. Plus, with easy-to-deploy snaps available for Ubuntu Core, Ubuntu, Fedora, Arch, and beyond, Mir's versatility means your graphical applications are truly unconstrained.</p>",
+    "image_container_class": "is-highlighted"
+    },
+    {
+    "title_text": "Display Security Redefined",
+    "image_html": img3,
+    "description_html": "<p>With a forward-thinking, robust architecture and built from the ground up with security at its core, Mir's modern design aggressively minimizes attack surfaces. By strictly mediating all application-to-server interactions and carefully managing data flow, Mir delivers an inherently secure and resilient visual experience.</p>",
+    "image_container_class": "is-highlighted"
+    },
+    {
+    "title_text": "Peak Display Performance",
+    "image_html": img4,
+    "description_html": "<p>Mir is purpose-built for speed and efficiency, intelligently taking full advantage of OpenGL and EGL/Vulkan capable hardware and cutting down on every ounce of unnecessary processing. By tightly integrating window management directly into the server, Mir eliminates frustrating communication bottlenecks, resulting in a display environment that is not just responsive, but exceptionally fluid and reliable. Plus, Mir achieves this performance while maintaining essential backwards compatibility for your existing applications.</p>",
+    "image_container_class": "is-highlighted"
+    }
+    ]
+    ) %}
+  {% endcall %}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-2">
+        <h2>
+          Mir
+          <br class="u-hide--small" />
+          Compatibility
+        </h2>
+      </div>
+      <div class="grid-col-6">
+        <table aria-label="Mir compatibility table">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Driver Requirements</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>gbm-kms</td>
+              <td>
+                KMS, libgbm and an EGL supporting
+                <br />
+                EGL_WL_bind_wayland_display
+              </td>
+              <td>
+                RPi3b (vc4)
+                <br />
+                RPi4 (V3D)
+                <br />
+                RPi5 (V3D)
+                <br />
+                Intel (i915)
+                <br />
+                Nvidia (Nouveau)
+                <br />
+                AMD (radeon)
+              </td>
+            </tr>
+            <tr>
+              <td>atomic-kms</td>
+              <td>
+                Atomic KMS, libgbm and an EGL supporting
+                <br />
+                EGL_WL_bind_wayland_display and/or
+                <br />
+                EGL_EXT_image_dma_buf_import_modifiers
+              </td>
+              <td>
+                RPi4 (V3D)
+                <br />
+                RPi5 (V3D)
+                <br />
+                Intel (i915)
+                <br />
+                Nvidia (Nouveau)
+                <br />
+                AMD (radeon)
+              </td>
+            </tr>
+            <tr>
+              <td>eglstream-kms</td>
+              <td>Proprietary Nvidia drivers</td>
+              <td>Nvidia</td>
+            </tr>
+            <tr>
+              <td>android</td>
+              <td>3rd party (UBports) works with a libhybris container for Android drivers</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>x11</td>
+              <td>A host environment supporting X11</td>
+              <td>Ubuntu Desktop</td>
+            </tr>
+            <tr>
+              <td>wayland</td>
+              <td>A host environment supporting Wayland wl_shell</td>
+              <td>Ubuntu Wayland Desktop</td>
+            </tr>
+            <tr>
+              <td>virtual</td>
+              <td>None</td>
+              <td>Any headless use case or additional virtual screens (e.g. VNC or Chromecast)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="grid-row">
+          <div class="grid-col-4 grid-col-start-large-3">
+            <hr class="p-rule--muted" />
+            <div class="p-cta-block">
+              <a href="https://discourse.ubuntu.com/t/mir-graphics-support/13185">More information about Mir graphic support&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-4">
+        <h2>Full enterprise support available, with no subscription needed</h2>
+      </div>
+      <div class="grid-col-4">
+        <div class="p-section--shallow">
+          <div class="p-image-container is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/2360e7ec-full-enterprise-support.png",
+                        alt="",
+                        width="1200",
+                        height="801",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p class="p-heading--5 u-no-margin--bottom">Optional 24/7 support with 10 year security maintenance</p>
+        <p>As the publishers of Mir, we deliver the world’s most efficient display server and signage solution for Ubuntu.</p>
+        <hr class="p-rule--muted" />
+        <a href="https://ubuntu.com/internet-of-things/digital-signage#get-in-touch"
+           class="p-button--positive">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-4">
+        <h2>Get involved</h2>
+      </div>
+      <div class="grid-col-4">
+        <ul class="p-list--divided">
+          <li class="p-list__item">
+            <a href="https://github.com/MirServer/mir">Contribute to Mir on GitHub</a>
+          </li>
+          <li class="p-list__item">
+            <a href="https://community.ubuntu.com/c/mir">Connect with our Community forum</a>
+          </li>
+          <li class="p-list__item">
+            <a href="https://kiwiirc.com/client/irc.libera.chat/#mir-server">Join the chat on Libera</a>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+{% endblock %}
