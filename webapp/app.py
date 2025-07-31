@@ -1271,7 +1271,7 @@ app.add_url_rule(
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
@@ -1437,6 +1437,41 @@ case_studies = EngagePages(
 app.add_url_rule(
     case_study_path, view_func=build_case_study_index(case_studies)
 )
+
+# Mir Server
+discourse_api = DiscourseAPI(
+    base_url="https://discourse.ubuntu.com/",
+    session=search_session,
+    api_key=DISCOURSE_API_KEY,
+    api_username=DISCOURSE_API_USERNAME,
+)
+
+mir_url_prefix = "/mir/docs"
+mir_docs = Docs(
+    parser=DocParser(
+        api=discourse_api,
+        index_topic_id=27559,
+        url_prefix=mir_url_prefix,
+        # tutorials_index_topic_id=1289,
+        # tutorials_url_prefix="/mir",
+    ),
+    blueprint_name="mir-server-docs",
+    document_template="mir/docs/document.html",
+    url_prefix=mir_url_prefix,
+)
+
+app.add_url_rule(
+    "/mir/docs/search",
+    "mir-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="mir-server.io",
+        template_path="mir/docs/search.html",
+    ),
+)
+
+mir_docs.init_app(app)
 
 
 # Sitemap parser
