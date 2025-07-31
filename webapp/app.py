@@ -1452,8 +1452,6 @@ mir_docs = Docs(
         api=discourse_api,
         index_topic_id=27559,
         url_prefix=mir_url_prefix,
-        # tutorials_index_topic_id=1289,
-        # tutorials_url_prefix="/mir",
     ),
     blueprint_name="mir-server-docs",
     document_template="mir/docs/document.html",
@@ -1467,7 +1465,7 @@ app.add_url_rule(
         app=app,
         session=search_session,
         site="mir-server.io",
-        template_path="mir/docs/search.html",
+        template_path="mir/docs/search-results.html",
     ),
 )
 
