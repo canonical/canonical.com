@@ -32,6 +32,7 @@ CSP = {
         "cdn.jsdelivr.net",
         "https://esm.sh",
         "https://cdn.jsdelivr.net",
+        "buttons.github.io",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
