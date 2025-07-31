@@ -34,7 +34,6 @@
     {%- if slot == 'cta' -%}
       <a href="https://assets.ubuntu.com/v1/bd787c8a-canonical-mir-datasheet-2018-12-20.pdf"
          class="p-button--positive">Get the Mir datasheet</a>
-      <a href="#">Contact us ›</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-cover">
@@ -313,7 +312,7 @@
         <p>As the publishers of Mir, we deliver the world’s most efficient display server and signage solution for Ubuntu.</p>
         <hr class="p-rule--muted" />
         <a href="https://ubuntu.com/internet-of-things/digital-signage#get-in-touch"
-           class="p-button--positive">Contact us</a>
+           class="p-button--positive js-invoke-modal">Contact us</a>
       </div>
     </div>
   </section>
@@ -340,4 +339,6 @@
       </div>
     </div>
   </section>
+
+  {{ load_form("/mir") | safe }}
 {% endblock %}
