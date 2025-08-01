@@ -77,6 +77,7 @@ CSP = {
         "*.googlesyndication.com",
         "*.mktoresp.com",
         "assets.ubuntu.com",
+        "api.github.com",
     ],
     "frame-src": [
         "'self'",
