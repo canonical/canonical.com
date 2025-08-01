@@ -1271,7 +1271,7 @@ app.add_url_rule(
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix):]
+        message = str(e)[len(prefix) :]
     return flask.render_template("502.html", message=message), 502
 
 
@@ -1472,8 +1472,6 @@ app.add_url_rule(
 mir_docs.init_app(app)
 
 # Sitemap parser
-
-
 def build_sitemap_tree(exclude_paths=None):
     def create_sitemap(sitemap_path):
         directory_path = os.getcwd() + "/templates"
