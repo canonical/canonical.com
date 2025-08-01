@@ -1515,6 +1515,7 @@ discourse_api = DiscourseAPI(
     api_username=DISCOURSE_API_USERNAME,
 )
 
+
 mir_url_prefix = "/mir/docs"
 mir_docs = Docs(
     parser=DocParser(
