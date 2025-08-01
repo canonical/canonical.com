@@ -7,12 +7,15 @@ import os
 import re
 from urllib.parse import parse_qs, urlencode, urlparse
 import yaml
+import hashlib
 
 import bleach
 import flask
 import markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 import math
+import gzip
+
 
 # Packages
 from canonicalwebteam import image_template
@@ -1562,3 +1565,53 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/solutions/infrastructure/private-cloud-pricing.json")
+def get_pricing_data():
+    """Serve pricing data with content-hash cache busting"""
+
+    base_path = os.path.join(
+        os.getcwd(), "static/json/private-cloud-pricing.json"
+    )
+
+    try:
+        # Read file
+        with open(base_path, "rb") as f:
+            file_content = f.read()
+
+        # Get hash
+        content_hash = hashlib.md5(file_content).hexdigest()[:8]
+        requested_version = flask.request.args.get("v")
+        is_versioned_request = requested_version == content_hash
+
+        # Check if client accepts gzip encoding
+        accepts_gzip = "gzip" in flask.request.headers.get(
+            "Accept-Encoding", ""
+        )
+
+        if accepts_gzip:
+            data = gzip.compress(file_content)
+            response = flask.make_response(data)
+            response.headers["Content-Type"] = "application/json"
+            response.headers["Content-Encoding"] = "gzip"
+        else:
+            response = flask.make_response(file_content)
+            response.headers["Content-Type"] = "application/json"
+
+        # Set cache headers based on versioning
+        if is_versioned_request:
+            response.headers["Cache-Control"] = (
+                "public, max-age=31536000, immutable"
+            )
+        else:
+            response.headers["Cache-Control"] = "public, max-age=300"
+
+        response.headers["Vary"] = "Accept-Encoding"
+        response.headers["X-Content-Hash"] = content_hash
+
+        return response
+
+    except FileNotFoundError:
+        logger.error("Pricing data file not found")
+        return {"error": "Pricing data not available"}, 500

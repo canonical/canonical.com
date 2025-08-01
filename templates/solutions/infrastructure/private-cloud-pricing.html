@@ -1,0 +1,541 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}Private cloud pricing{% endblock %}
+
+{% block meta_description %}
+  Use this private cloud pricing page and calculator to estimate the cost of running your workloads in a private cloud.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1pFJdjRvFJ8LOWEoFTPdMFRdYI3WuL6ZPdpTBzuwp0mk/edit?tab=t.0#heading=h.4tjfso5hx6tw
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text="Private cloud pricing calculator",
+    layout="50/50"
+    ) -%}
+    {%- if slot == "description" -%}
+      <p>
+        <strong>Understand the real cost of running your own cloud infrastructure.</strong>
+        <br />
+        Private clouds are a cost-efficient extension to your public cloud infrastructure. Get the following report for free to learn how cloud pricing differs across AWS, Azure, Google and Canonical.
+      </p>
+    {%- endif -%}
+    {%- if slot == "cta" -%}
+      <a href="https://ubuntu.com/engage/cloud-pricing-report"
+         class="p-button--positive">Get the report</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="p-section--shallow">
+      <div class="grid-row">
+        <div class="grid-col-4">
+          <h2>Estimate your savings</h2>
+        </div>
+        <div class="grid-col-4">
+          <p class="u-hide js-show-pricing-calculator-description">
+            Use our private cloud pricing calculator to estimate savings from running your applications in a data center designed by Canonical.
+          </p>
+          <noscript>
+            <p>Reach out to us to get estimated savings from running your applications in a data center designed by Canonical.</p>
+          </noscript>
+        </div>
+      </div>
+    </div>
+    <div class="u-hide js-show-pricing-calculator">
+      <div class="grid-row">
+        <div class="grid-col-6 grid-col-start-large-3">
+          <hr class="p-rule--muted" />
+          <div class="p-section--shallow">
+            <div class="grid-row">
+              <div class="grid-col-2">
+                <p>
+                  <strong>How many physical machines do you have?</strong>
+                </p>
+              </div>
+              <div class="grid-col-4 p-form-validation js-input-validation">
+                <div class="p-section--shallow">
+                  <div class="p-slider__wrapper">
+                    <input type="range"
+                           min="0"
+                           max="0"
+                           value="1"
+                           step="1"
+                           id="private-cloud-pricing"
+                           data-private-cloud-pricing-slider
+                           aria-label="Number of physical machines slider" />
+                    <input class="p-slider__input p-form-validation__input"
+                           type="text"
+                           maxlength="6"
+                           value="1"
+                           id="private-cloud-pricing-input"
+                           data-private-cloud-pricing-input
+                           tabindex="0" />
+                  </div>
+                </div>
+                <p class="p-form-validation__message u-no-margin--bottom u-hide"
+                   id="invalid-range-error">Please enter a valid value</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-col-4 grid-col-start-large-5">
+          <hr class="p-rule--muted" />
+          <div class="p-section--shallow">
+            <div class="grid-row">
+              <div class="grid-col-2 grid-col-medium-2">
+                <h3 class="p-heading--4">Hourly cost per VM:</h3>
+              </div>
+              <div class="grid-col-2 grid-col-medium-2 u-align--right">
+                <p class="p-heading--3 u-no-margin--bottom u-sv2" data-vm-cost-display>
+                  <i class="p-icon--spinner u-animation--spin"></i>
+                </p>
+                <p class="p-text--small">
+                  for <span data-ps-instance-type></span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="p-section--shallow">
+            <div class="grid-row">
+              <div class="grid-col-2 grid-col-medium-2">
+                <h3 class="p-heading--4">Total savings:</h3>
+              </div>
+              <div class="grid-col-2 grid-col-medium-2 u-align--right">
+                <p class="p-heading--3 u-no-margin--bottom u-sv2" data-savings-display>
+                  <i class="p-icon--spinner u-animation--spin"></i>
+                </p>
+                <p class="p-text--small">
+                  compared to public clouds
+                  <br />
+                  (includes a 3-year discount)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-4 grid-col-start-large-5">
+        <div class="p-cta-block has-border">
+          <a href="/contact-us" class="p-button--positive js-invoke-modal" aria-controls="solutions-infrastructure-modal">Get in touch</a>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6 grid-col-start-large-3">
+        <div class="p-notification--information">
+          <div class="p-notification__content">
+            <h3 class="p-notification__title p-heading--5">Cost estimates are for informational purposes only</h3>
+            <p class="p-notification__message">
+              Exact costs may vary depending on project requirements, cloud architecture, and local cost conditions. The hourly cost per VM shown above contains all total cost of ownership (TCO) ingredients over an amortization period of five years, including reference hardware, network fabric, typical hosting charges, and the cost of commercial subscriptions. If you have any questions or would like to get a more detailed breakdown of cost projections, please get in touch with our cloud experts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-4">
+        <h2>Optimize your cloud costs</h2>
+      </div>
+      <div class="grid-col-4">
+        <h3 class="p-heading--5">
+          <a href="https://ubuntu.com/engage/cloud-cost-optimisation-best-practices">Cloud cost optimization playbook</a>
+        </h3>
+        <p>
+          Since cloud infrastructure usually accounts for a significant portion of organizations' budgets, optimizing cloud costs is essential to reduce your IT spending. Read our cost optimization playbook to discover proven techniques to lower your TCO.
+        </p>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <h3 class="p-heading--5">
+          <a href="https://ubuntu.com/engage/gsi-private-cloud">Architecting private clouds for price-performance</a>
+        </h3>
+        <p>
+          The TCO is critical in determining the viability of a private cloud. Along with cost savings, a well-designed data center may supplement public cloud computing capabilities. In this whitepaper, we look at Canonical's internal cloud, replete with performance data and deployment best practices.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="Price-performance guaranteed",
+    quote_size="small",
+    quote_text="We recently reassessed our cloud strategy, and one of the parameters was cost-efficiency. We observed that Canonical OpenStack is helping us to achieve two to three times more cost-efficiency than using public clouds.",
+    citation_source_name_text="Cléber Alexandre Agazzi",
+    citation_source_title_text="Head of Infrastructure & IT Operations,",
+    citation_source_organisation_text="Sicredi",
+    is_shallow=True
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/6ed19644-sicredi.png",
+            alt="Sicredi logo",
+            width="568",
+            height="76",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/sicredi-openstack-case-study"
+         aria-label="Read the Sicredi openstack case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="The level of engagement from the Canonical team was remarkable. Even before we entered into a commercial agreement, Canonical offered valuable advice around OEMs and hardware choices.",
+    citation_source_name_text="Tim Rosenfield",
+    citation_source_title_text="CEO and Co-Founder,",
+    citation_source_organisation_text="Firmus",
+    is_shallow=True
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/61ddd2f2-firmus.png",
+            alt="Firmus logo",
+            width="568",
+            height="69",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/kubernetes-openstack-case-study-firmus"
+         aria-label="Read the Firmus openstack case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Canonical's solution was a third of the price of the other proposals we'd received. It is also proving to be highly cost-effective, both from CAPEX and OPEX perspectives.",
+    citation_source_name_text="Georgi Georgiev",
+    citation_source_title_text="CIO,",
+    citation_source_organisation_text="SBI BITS",
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/ac021a67-sbi-bits-logo-2.png",
+            alt="SBI BITS logo",
+            width="852",
+            height="267",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/sbi-casestudy"
+         aria-label="Read the SBI BITS case study">Read the case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-4">
+        <h2>Related blogs</h2>
+      </div>
+      <div class="grid-col-4">
+        <h3 class="p-heading--5">
+          <a href="/blog/aws-pricing">Understanding AWS pricing</a>
+        </h3>
+        <p>
+          AWS pricing differs depending on the service mode. Amazon offers various options: from free tier to dedicated hosts. Learn how AWS pricing works in detail.
+        </p>
+        <hr class="p-rule--muted" />
+        <h3 class="p-heading--5">
+          <a href="/blog/azure-pricing">Azure pricing explained</a>
+        </h3>
+        <p>
+          Azure pricing differs depending on the service mode. Azure offers various options: from free tier to reservations. Learn how Azure pricing works in detail.
+        </p>
+        <hr class="p-rule--muted" />
+        <h3 class="p-heading--5">
+          <a href="/blog/gcp-pricing">How GCP pricing works</a>
+        </h3>
+        <p>
+          GCP pricing differs depending on the service mode. Google offers various options: from free trial to sole-tenant nodes. Learn how GCP pricing works.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/solutions/infrastructure", 6062) | safe }}
+
+  {# djlint: off #}
+  <script>
+    let pricingMetrics = {};
+
+    /**
+     * Fetch pricing data from API
+     * @returns {Promise<Object>} - Promise that resolves to pricing data
+     */
+    async function fetchPricingData() {
+      try {
+        // Get current version
+        const versionResponse = await fetch('/solutions/infrastructure/private-cloud-pricing.json');
+        const version = versionResponse.headers.get('X-File-Version') || 
+                       versionResponse.headers.get('X-Content-Hash');
+        
+        // Fetch with version for immutable caching
+        const response = await fetch(`/solutions/infrastructure/private-cloud-pricing.json?v=${version}`);
+        return await response.json();
+      } catch (error) {
+        console.error('Failed to fetch pricing data:', error);
+      }
+    }
+
+    /**
+     * Initialize pricing data and calculator
+     */
+    async function initPricingCalculatorData() {
+      const vmCostDisplay = document.querySelector("[data-vm-cost-display]");
+      const savingsDisplay = document.querySelector("[data-savings-display]");
+      try {
+        pricingMetrics = await fetchPricingData();
+
+        // Extract min/max node counts - assume they increment by 1
+        const nodeKeys = Object.keys(pricingMetrics).filter(key => /^\d+$/.test(key));
+        if (nodeKeys.length === 0) {
+          throw new Error('No valid node count data found');
+        }
+        const minNodes = Math.min(...nodeKeys.map(k => parseInt(k)));
+        const maxNodes = Math.max(...nodeKeys.map(k => parseInt(k)));
+
+        // Initialize the pricing calculator UI
+        const privateCloudPricingSlider = document.querySelector("[data-private-cloud-pricing-slider]");
+        const privateCloudPricingInput = document.querySelector("[data-private-cloud-pricing-input]"); 
+        if (privateCloudPricingSlider && privateCloudPricingInput) {
+          privateCloudPricingSlider.min = minNodes;
+          privateCloudPricingSlider.max = maxNodes;
+          privateCloudPricingSlider.value = minNodes;
+          
+          // Update validation message with actual range
+          const errorMessage = document.getElementById('invalid-range-error');
+          if (errorMessage) {
+            errorMessage.textContent = `Please enter a value from ${minNodes}-${maxNodes}`;
+          }
+          
+          initPricingCalculator(privateCloudPricingSlider, privateCloudPricingInput);
+        }
+        
+      } catch (error) {
+        console.error('Failed to initialize pricing calculator:', error);
+        if (vmCostDisplay) vmCostDisplay.textContent = "Error loading data";
+        if (savingsDisplay) savingsDisplay.textContent = "Error loading data";
+      }
+    }
+
+    // Styling for the slider, source: https://vanillaframework.io/docs/patterns/slider
+    const isWebkit =
+      /Chrome/i.test(navigator.userAgent) || /Safari/i.test(navigator.userAgent);
+    const PROGRESS_COLOUR = "#06c";
+    const EMPTY_COLOUR = "#D9D9D9";
+
+    /**
+     * Find the pricing data for a given node value
+     * @param {number} nodeValue - Node value
+     * @returns {object|null} - Pricing data or null if not found
+     */
+    function lookupNodePricing(nodeValue) {
+      const nodeStr = nodeValue.toString();
+
+      if (pricingMetrics[nodeStr]) {
+        return pricingMetrics[nodeStr];
+      }
+
+      return null;
+    }
+
+    /**
+     * Format currency value to 4 decimal places and dollars
+     * @param {number} value - Numeric value
+     * @returns {string} - Formatted currency
+     */
+    function formatCurrency(value) {
+      return "$" + value.toFixed(4);
+    }
+
+    /**
+     * Format percentage value from decimal
+     * @param {number} value - Decimal percentage ie. 0.22
+     * @returns {string} - Formatted percentage ie. 22%
+     */
+    function formatPercentage(value) {
+      return Math.round(value * 100) + "%";
+    }
+
+    /**
+     * Update pricing display based on current slider value
+     * @param {number} nodeValue - Actual number of nodes
+     */
+    function updatePricingDisplay(nodeValue) {
+      const pricingData = lookupNodePricing(nodeValue);
+
+      if (!pricingData || !pricingData.openstack) {
+        return;
+      }
+
+      const openstackData = pricingData.openstack;
+
+      const vmCostDisplay = document.querySelector("[data-vm-cost-display]");
+      if (vmCostDisplay) {
+        vmCostDisplay.textContent = formatCurrency(openstackData.vm_cost_per_h);
+      }
+
+      const savingsDisplay = document.querySelector("[data-savings-display]");
+      if (savingsDisplay) {
+        savingsDisplay.textContent = formatPercentage(openstackData.discount);
+      }
+
+      const instanceType = document.querySelector("[data-ps-instance-type]");
+      if (instanceType) {
+        instanceType.textContent = openstackData.pc_instance_type;
+      }
+    }
+
+    /**
+     Renders gradient to fake progress color in webkit browsers.
+     @param {HTMLElement} slider - Slider element to render background on.
+    */
+    function renderSlider(slider) {
+      if (isWebkit) {
+        const value = (slider.value - slider.min) / (slider.max - slider.min);
+        slider.style.backgroundImage = (
+          "-webkit-gradient(linear, left top, right top, color-stop(" +
+          value + ", " + PROGRESS_COLOUR + "), color-stop(" +
+          value + ", " + EMPTY_COLOUR + "))"
+        );
+      }
+    }
+
+    /**
+      Validates input value and returns validation result
+      @param {string|number} value - Input value to validate
+      @param {number} min - Minimum allowed value
+      @param {number} max - Maximum allowed value
+      @returns {Object} Validation result with isValid boolean and parsedValue
+    */
+    function validateInput(value, min, max) {
+      const parsedValue = parseInt(value);
+      
+      // Handle empty input or NaN
+      if (isNaN(parsedValue) || value.toString().trim() === '') {
+        return { isValid: false, parsedValue: null, error: 'invalid' };
+      }
+      
+      // Check if value is within valid range
+      if (parsedValue < min || parsedValue > max) {
+        return { isValid: false, parsedValue, error: 'range' };
+      }
+      
+      return { isValid: true, parsedValue };
+    }
+
+    /**
+      Sets or removes error state for input validation
+      @param {boolean} hasError - Whether to show error state
+    */
+    function setValidationError(hasError) {
+      const inputValidationCont = document.querySelector(".js-input-validation");
+      const errorMessage = document.getElementById('invalid-range-error');
+      
+      if (hasError) {
+        inputValidationCont.classList.add('is-error');
+        if (errorMessage) errorMessage.classList.remove('u-hide');
+      } else {
+        inputValidationCont.classList.remove('is-error');
+        if (errorMessage) errorMessage.classList.add('u-hide');
+      }
+    }
+
+    /**
+      Attaches listeners to slider and number input to update their background color and pricing results.
+      @param {HTMLElement} slider - Slider element to render background on.
+    */
+    function initPricingCalculator(slider, numericInput) {
+      renderSlider(slider);
+
+      if (numericInput) {
+        numericInput.value = slider.min; // Start with minimum node count
+
+        // Remove the '+' on focus as it prevents proper input
+        numericInput.addEventListener("focus", function() {
+          console.log("BLUR")
+          numericInput.value = numericInput.value.replace("+", "");
+        });
+
+        numericInput.addEventListener("input", function() {
+          const validation = validateInput(numericInput.value, slider.min, slider.max);
+          
+          if (!validation.isValid) {
+            setValidationError(true);
+            return;
+          }
+          
+          // Remove error state for valid input
+          setValidationError(false);
+
+          // Display value with '+' if at maximum
+          const displayValue = validation.parsedValue === parseInt(slider.max) ? 
+            validation.parsedValue + '+' : validation.parsedValue;
+          numericInput.value = displayValue;
+          slider.value = validation.parsedValue;
+
+          renderSlider(slider);
+          updatePricingDisplay(validation.parsedValue);
+        });
+      }
+
+      slider.addEventListener("input", function() {
+        const nodeValue = parseInt(slider.value);
+
+        if (numericInput) {
+          // Display value with '+' if at maximum
+          const displayValue = nodeValue === parseInt(slider.max) ? nodeValue + '+' : nodeValue;
+          numericInput.value = displayValue;
+        }
+        renderSlider(slider);
+        updatePricingDisplay(nodeValue);
+      });
+
+      // Initialize with first value
+      const initialValue = 3;
+      slider.value = initialValue;
+      numericInput.value = initialValue;
+      updatePricingDisplay(initialValue);
+      renderSlider(slider);
+    }
+
+    // Keep hidden if JS not available
+    document.querySelector(".js-show-pricing-calculator").classList.remove("u-hide");
+    document.querySelector(".js-show-pricing-calculator-description").classList.remove("u-hide");
+
+    // Initialize pricing calculator
+    initPricingCalculatorData();
+</script>
+  {# djlint: on #}
+{% endblock content %}

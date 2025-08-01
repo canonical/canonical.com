@@ -32,7 +32,7 @@
           <hr class="p-rule--muted u-hide--small u-hide--medium" />
           <a class="p-button--positive js-invoke-modal"
              href="/contact-us"
-             aria-controls="infrastructure-modal">Contact Canonical</a>
+             aria-controls="solutions-infrastructure-modal">Contact Canonical</a>
         </div>
       </div>
       <div class="p-suru"></div>
@@ -431,7 +431,7 @@
         <br />
         <a href="/contact-us"
            class="js-invoke-modal"
-           aria-controls="infrastructure-modal">Talk to sales&nbsp;&rsaquo;</a>
+           aria-controls="solutions-infrastructure-modal">Talk to sales&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
@@ -556,7 +556,7 @@
             <a class="p-section--shallow js-invoke-modal"
                style="float: right"
                href="/contact-us"
-               aria-controls="infrastructure-modal">Contact us to discuss your needs&nbsp;&rsaquo;</a>
+               aria-controls="solutions-infrastructure-modal">Contact us to discuss your needs&nbsp;&rsaquo;</a>
           </div>
         </div>
       </div>
@@ -600,16 +600,11 @@
         </ul>
         <a class="p-button--positive js-invoke-modal"
            href="/contact-us"
-           aria-controls="infrastructure-modal">Contact us</a>
+           aria-controls="solutions-infrastructure-modal">Contact us</a>
       </div>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/infrastructure#contact-form-success" %}
-    {% include "solutions/infrastructure/_form_infrastructure.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/infrastructure") | safe }}
 
 {% endblock content %}
