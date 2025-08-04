@@ -1,40 +1,53 @@
 name: Update PR Description with Demo Link
+
 on:
   issue_comment:
     types: [created]
 
 jobs:
   update-pr-description:
-    if: github.event.comment.user.login == 'webteam-app'  # Ensure only webteam-app triggers this
+    if: github.event.comment.user.login == 'webteam-app'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: Extract Demo Link from Comment
         id: extract_link
         run: |
-          COMMENT_BODY="${{ github.event.comment.body }}"
-          if [[ "$COMMENT_BODY" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
-            echo "DEMO_LINK=${BASH_REMATCH[0]}" >> $GITHUB_ENV
+          comment="${{ github.event.comment.body }}"
+          if [[ "$comment" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
+            echo "demo_link=${BASH_REMATCH[0]}" >> "$GITHUB_OUTPUT"
           else
-            echo "No matching demo link found. Exiting."
+            echo "No demo link found, exiting."
             exit 1
           fi
-      - name: Get PR Description
+
+      - name: Get PR Body
         id: get_pr
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER=${{ github.event.issue.number }}
-          PR_BODY=$(gh pr view $PR_NUMBER --json body -q .body)
-          echo "PR_BODY<<EOF" >> $GITHUB_ENV
-          echo "$PR_BODY" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-      - name: Update PR Description (Replace All Instances)
+          pr_number="${{ github.event.issue.number }}"
+          pr_body=$(gh pr view "$pr_number" --json body | jq -r .body)
+          echo "original_body<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$pr_body" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Update PR Body (Replace Placeholder Safely)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          UPDATED_BODY=$(echo "${{ env.PR_BODY }}" | sed "s|DEMO_LINK|${{ env.DEMO_LINK }}|g")
-          PR_NUMBER=${{ github.event.issue.number }}
-          gh pr edit $PR_NUMBER --body "$UPDATED_BODY"
+          pr_number="${{ github.event.issue.number }}"
+          demo_link="${{ steps.extract_link.outputs.demo_link }}"
+          original_body="${{ steps.get_pr.outputs.original_body }}"
+
+          # Use sed to replace only the placeholder DEMO_LINK
+          safe_body=$(printf "%s" "$original_body" | sed "s|DEMO_LINK|$demo_link|g")
+
+          # Write to a temp file to avoid shell quoting issues
+          echo "$safe_body" > body.txt
+
+          gh pr edit "$pr_number" --body-file body.txt
+
