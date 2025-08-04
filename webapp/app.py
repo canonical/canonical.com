@@ -1278,6 +1278,21 @@ def maas_tutorials():
     )
 
 
+# @app.route("/maas/core", defaults={"subpath": None})
+# @app.route("/maas/core/<path:subpath>")
+# def gomod(subpath):
+#     """
+#     Return metadata for Go package manager
+#     That allows to do things like `go get maas.io/core/src/maasagent`
+#     by using Git repository at https://code.launchpad.net/maas
+#     """
+#     print(flask.request)
+#     if flask.request.query_string == b"go-get=1":
+#         return flask.render_template("maas/gomod.html"), 200
+
+#     flask.abort(404)
+
+
 tutorials_discourse.init_app(app)
 
 MAAS_BLOG_URL = "/maas/blog"
@@ -1312,11 +1327,25 @@ app.add_url_rule(
 )
 
 
+@app.before_request
+def handle_maas_goget():
+    """
+    Handle go-get requests for /maas and /maas/* paths before normal routing.
+    Return metadata for Go package manager
+    That allows to do things like `go get canonical.com/maas/core/src/maasagent`
+    by using Git repository at https://code.launchpad.net/maas
+    """
+    path = flask.request.path
+    if ((path == '/maas' or path.startswith('/maas/')) and
+            flask.request.query_string == b"go-get=1"):
+        return flask.render_template("maas/gomod.html"), 200
+
+
 @app.errorhandler(502)
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
