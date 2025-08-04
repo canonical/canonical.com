@@ -1065,6 +1065,8 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=search_session,
+            api_key=CHARMHUB_DISCOURSE_API_KEY,
+            api_username=CHARMHUB_DISCOURSE_API_USERNAME,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
