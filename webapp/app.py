@@ -1332,7 +1332,7 @@ def handle_maas_goget():
     """
     Handle go-get requests for /maas and /maas/* paths before normal routing.
     Return metadata for Go package manager
-    That allows to do things like 
+    That allows to do things like
     `go get canonical.com/maas/core/src/maasagent`
     by using Git repository at https://code.launchpad.net/maas
     """
