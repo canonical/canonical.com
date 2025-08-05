@@ -1279,6 +1279,7 @@ def maas_tutorials():
 
 tutorials_discourse.init_app(app)
 
+
 MAAS_BLOG_URL = "/maas/blog"
 maas_blog_api = BlogAPI(
     session=search_session,
