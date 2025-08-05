@@ -1,5 +1,6 @@
 let esbuild = require("esbuild");
 const path = require("path");
+const { sassPlugin } = require("esbuild-sass-plugin");
 
 // prettier-ignore
 let entries = {
@@ -13,6 +14,7 @@ let entries = {
   "homepage_carousel": "./static/js/homepage/carousel.js",
   "scroll-section": "./static/js/scroll-section.js",
   "cookie-policy-with-callback": "./static/js/cookie-policy-with-callback.js",
+  "canonical-cla": "./static/js/canonical-cla/app.tsx",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
@@ -20,6 +22,7 @@ const isDev = process && process.env && process.env.NODE_ENV === "development";
 for (const [key, value] of Object.entries(entries)) {
   const options = {
     entryPoints: [value],
+    plugins: [sassPlugin()],
     bundle: true,
     minify: isDev ? false : true,
     nodePaths: [path.resolve(__dirname, "./static/js/src")],
