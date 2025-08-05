@@ -1277,22 +1277,6 @@ def maas_tutorials():
         topics=topics,
     )
 
-
-# @app.route("/maas/core", defaults={"subpath": None})
-# @app.route("/maas/core/<path:subpath>")
-# def gomod(subpath):
-#     """
-#     Return metadata for Go package manager
-#     That allows to do things like `go get maas.io/core/src/maasagent`
-#     by using Git repository at https://code.launchpad.net/maas
-#     """
-#     print(flask.request)
-#     if flask.request.query_string == b"go-get=1":
-#         return flask.render_template("maas/gomod.html"), 200
-
-#     flask.abort(404)
-
-
 tutorials_discourse.init_app(app)
 
 MAAS_BLOG_URL = "/maas/blog"
