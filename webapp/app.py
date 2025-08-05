@@ -1277,6 +1277,7 @@ def maas_tutorials():
         topics=topics,
     )
 
+
 tutorials_discourse.init_app(app)
 
 
