@@ -1044,51 +1044,6 @@ app.add_url_rule(
 )
 data_opensearch_iaas_docs.init_app(app)
 
-# Data Platform Kafka on IaaS docs
-data_kafka_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10288,
-        url_prefix="/data/docs/kafka/iaas",
-    ),
-    document_template="/data/docs/kafka/iaas/document.html",
-    url_prefix="/data/docs/kafka/iaas",
-    blueprint_name="data-docs-kafka-iaas",
-)
-app.add_url_rule(
-    "/data/docs/kafka/iaas/search",
-    "data-docs-kafka-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/kafka/iaas",
-        template_path="/data/docs/kafka/iaas/search-results.html",
-    ),
-)
-data_kafka_iaas_docs.init_app(app)
-
-# Data Platform Kafka on K8s docs
-data_kafka_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10296,
-        url_prefix="/data/docs/kafka/k8s",
-    ),
-    document_template="/data/docs/kafka/k8s/document.html",
-    url_prefix="/data/docs/kafka/k8s",
-    blueprint_name="data-docs-kafka-k8s",
-)
-app.add_url_rule(
-    "/data/docs/kafka/k8s/search",
-    "data-docs-kafka-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/kafka/k8s",
-        template_path="/data/docs/kafka/k8s/search-results.html",
-    ),
-)
-data_kafka_k8s_docs.init_app(app)
 
 # Data Platform index docs
 data_docs = Docs(
