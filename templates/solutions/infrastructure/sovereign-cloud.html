@@ -28,7 +28,7 @@
         </div>
         <hr class="p-rule--muted" />
         <a href="/contact-us"
-           aria-controls="sovereign-cloud-modal"
+           aria-controls="solutions-infrastructure-modal"
            class="p-button--positive js-invoke-modal">Contact Canonical</a>
       </div>
     </div>
@@ -77,15 +77,17 @@
       <div class="col-9 col-start-large-4">
         <div class="p-equal-height-row--wrap ">
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              {{ image(url="https://assets.ubuntu.com/v1/0871d97c-data.jpg",
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                    {{ image(url="https://assets.ubuntu.com/v1/0871d97c-data.jpg",
                             alt="",
                             width="568",
                             height="853",
                             hi_def=True,
                             loading="lazy",
                             attrs={"class": "p-image-container__image"}) | safe
-              }}
+                    }}
+                </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">1. Data</h3>
             <p class="p-equal-height-row__item">
@@ -94,16 +96,17 @@
 
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-
-              {{ image(url="https://assets.ubuntu.com/v1/a8fb93d1-operations.jpg",
-                            alt="",
-                            width="568",
-                            height="853",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-              }}
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/a8fb93d1-operations.jpg",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">2. Operations</h3>
             <p class="p-equal-height-row__item">
@@ -112,16 +115,17 @@
 
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-
-              {{ image(url="https://assets.ubuntu.com/v1/7b18db59-technology.jpg",
-                            alt="",
-                            width="568",
-                            height="853",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-              }}
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/7b18db59-technology.jpg",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">3. Technology</h3>
             <p class="p-equal-height-row__item">
@@ -717,7 +721,7 @@
         <br class="u-hide--small" />
         <a href="/contact-us"
            class="js-invoke-modal"
-           aria-controls="sovereign-cloud-modal">Talk to sales&nbsp;&rsaquo;</a>
+           aria-controls="solutions-infrastructure-modal">Talk to sales&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
@@ -760,12 +764,12 @@
       <h2>
         <a href="/contact-us"
            class="js-invoke-modal"
-           aria-controls="sovereign-cloud-modal">Send us a message to discuss your project&nbsp;&rsaquo;</a>
+           aria-controls="solutions-infrastructure-modal">Send us a message to discuss your project&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/solutions/infrastructure", 5906) | safe }}
 
   {% with %}
     {% set returnURL = "https://canonical.com/solutions/infrastructure/sovereign-cloud#contact-form-success" %}

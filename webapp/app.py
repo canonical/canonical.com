@@ -1,53 +1,45 @@
 # Standard library
-import logging
-import json
-import datetime
 import calendar
+import datetime
+import gzip
+import hashlib
+import json
+import logging
+import math
 import os
 import re
+from http.client import responses
+from pathlib import Path
 from typing import List
 from urllib.parse import parse_qs, urlencode, urlparse
-import yaml
 
 import bleach
+import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
-from jinja2 import ChoiceLoader, FileSystemLoader
-import math
+import yaml
 
 # Packages
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
-from canonicalwebteam.flask_base.app import FlaskBase
-from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.discourse import (
     DiscourseAPI,
-    Docs,
     DocParser,
+    Docs,
     EngagePages,
     TutorialParser,
     Tutorials,
 )
+from canonicalwebteam.flask_base.app import FlaskBase
+from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
-import canonicalwebteam.directory_parser as directory_parser
-from pathlib import Path
+from canonicalwebteam.templatefinder import TemplateFinder
+from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
 from webapp.application import application
-from webapp.greenhouse import Greenhouse, Harvest
-from webapp.handlers import init_handlers
-from webapp.partners import Partners
-from webapp.static_data import homepage_featured_products
-from webapp.navigation import (
-    get_current_page_bubble,
-    build_navigation,
-    split_list,
-)
-from webapp.requests_session import get_requests_session
-from webapp.recaptcha import verify_recaptcha, load_recaptcha_config
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -55,6 +47,18 @@ from webapp.canonical_cla.views import (
     canonical_cla_api_launchpad_logout,
     canonical_cla_api_proxy,
 )
+from webapp.greenhouse import Greenhouse, Harvest
+from webapp.handlers import init_handlers
+from webapp.navigation import (
+    build_navigation,
+    get_current_page_bubble,
+    split_list,
+)
+from webapp.openapi_parser import parse_openapi, read_yaml_from_url
+from webapp.partners import Partners
+from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
+from webapp.requests_session import get_requests_session
+from webapp.static_data import homepage_featured_products
 
 logger = logging.getLogger(__name__)
 
@@ -262,7 +266,7 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
+    response.headers["-Control"] = "public, max-age=43200"
 
     return response
 
@@ -1065,51 +1069,6 @@ app.add_url_rule(
 )
 data_opensearch_iaas_docs.init_app(app)
 
-# Data Platform Kafka on IaaS docs
-data_kafka_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10288,
-        url_prefix="/data/docs/kafka/iaas",
-    ),
-    document_template="/data/docs/kafka/iaas/document.html",
-    url_prefix="/data/docs/kafka/iaas",
-    blueprint_name="data-docs-kafka-iaas",
-)
-app.add_url_rule(
-    "/data/docs/kafka/iaas/search",
-    "data-docs-kafka-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/kafka/iaas",
-        template_path="/data/docs/kafka/iaas/search-results.html",
-    ),
-)
-data_kafka_iaas_docs.init_app(app)
-
-# Data Platform Kafka on K8s docs
-data_kafka_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10296,
-        url_prefix="/data/docs/kafka/k8s",
-    ),
-    document_template="/data/docs/kafka/k8s/document.html",
-    url_prefix="/data/docs/kafka/k8s",
-    blueprint_name="data-docs-kafka-k8s",
-)
-app.add_url_rule(
-    "/data/docs/kafka/k8s/search",
-    "data-docs-kafka-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/kafka/k8s",
-        template_path="/data/docs/kafka/k8s/search-results.html",
-    ),
-)
-data_kafka_k8s_docs.init_app(app)
 
 # Data Platform index docs
 data_docs = Docs(
@@ -1125,33 +1084,6 @@ data_docs = Docs(
 
 data_docs.init_app(app)
 
-# Mirostack docs
-microstack_docs = Docs(
-    parser=DocParser(
-        api=DiscourseAPI(
-            base_url="https://discourse.ubuntu.com/",
-            session=search_session,
-        ),
-        index_topic_id=18212,
-        url_prefix="/microstack/docs",
-    ),
-    document_template="/microstack/docs/document.html",
-    url_prefix="/microstack/docs",
-    blueprint_name="microstack_docs",
-)
-
-app.add_url_rule(
-    "/microstack/docs/search",
-    "microstack-docs-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/microstack/docs",
-        template_path="/microstack/docs/search-results.html",
-    ),
-)
-
-microstack_docs.init_app(app)
 
 dqlite_docs = Docs(
     parser=DocParser(
@@ -1183,15 +1115,16 @@ dqlite_docs.init_app(app)
 MAAS_DISCOURSE_API_KEY = os.getenv("MAAS_DISCOURSE_API_KEY")
 MAAS_DISCOURSE_API_USERNAME = os.getenv("MAAS_DISCOURSE_API_USERNAME")
 
+
 maas_url_prefix = "/maas/docs"
 maas_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
             session=search_session,
-            get_topics_query_id=2,
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
+            get_topics_query_id=2,
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1201,6 +1134,10 @@ maas_docs = Docs(
     document_template="maas/docs/document.html",
     url_prefix=maas_url_prefix,
 )
+
+
+maas_docs.init_app(app)
+
 
 app.add_url_rule(
     "/maas/docs/search",
@@ -1213,7 +1150,56 @@ app.add_url_rule(
     ),
 )
 
-maas_docs.init_app(app)
+
+@app.route("/maas/docs/api")
+def maas_docs_api():
+    """
+    Show the MAAS API reference page
+    """
+    # Fetch the OpenAPI definition from GitHub and parse it
+    definition_url = (
+        "https://raw.githubusercontent.com"
+        "/canonical/maas-openapi-yaml/main/openapi.yaml"
+    )
+    definition = read_yaml_from_url(
+        definition_url, session=get_requests_session()
+    )
+    openapi = parse_openapi(definition)
+
+    # Inject the OpenAPI responses into the template
+    with open("templates/maas/docs/_api.html", "r") as f:
+        template_content = f.read()
+    rendered_body_html = flask.render_template_string(
+        template_content, openapi=openapi, responses=responses
+    )
+
+    # Mock an API response, and manually call the parsers
+    document = {
+        "title": "MAAS API",
+        "body_html": rendered_body_html,
+        "updated": "unknown, this document is generated dynamically",
+        "topic_path": "api",
+    }
+    maas_docs.parser.parse()
+    navigations = maas_docs.parser.navigations
+    maas_docs.parser.navigation = maas_docs.parser._generate_navigation(
+        navigations, ""
+    )
+
+    response = flask.make_response(
+        flask.render_template(
+            "maas/docs/document.html",
+            document=document,
+            nav_items=maas_docs.parser.navigation["nav_items"],
+            navigation=maas_docs.parser.navigation,
+        )
+    )
+
+    # Cache for 1 day
+    response.headers["Cache-Control"] = "public, max-age=86400"
+
+    return response
+
 
 tutorials_discourse = Tutorials(
     parser=TutorialParser(
@@ -1582,3 +1568,53 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/solutions/infrastructure/private-cloud-pricing.json")
+def get_pricing_data():
+    """Serve pricing data with content-hash cache busting"""
+
+    base_path = os.path.join(
+        os.getcwd(), "static/json/private-cloud-pricing.json"
+    )
+
+    try:
+        # Read file
+        with open(base_path, "rb") as f:
+            file_content = f.read()
+
+        # Get hash
+        content_hash = hashlib.md5(file_content).hexdigest()[:8]
+        requested_version = flask.request.args.get("v")
+        is_versioned_request = requested_version == content_hash
+
+        # Check if client accepts gzip encoding
+        accepts_gzip = "gzip" in flask.request.headers.get(
+            "Accept-Encoding", ""
+        )
+
+        if accepts_gzip:
+            data = gzip.compress(file_content)
+            response = flask.make_response(data)
+            response.headers["Content-Type"] = "application/json"
+            response.headers["Content-Encoding"] = "gzip"
+        else:
+            response = flask.make_response(file_content)
+            response.headers["Content-Type"] = "application/json"
+
+        # Set cache headers based on versioning
+        if is_versioned_request:
+            response.headers["Cache-Control"] = (
+                "public, max-age=31536000, immutable"
+            )
+        else:
+            response.headers["Cache-Control"] = "public, max-age=300"
+
+        response.headers["Vary"] = "Accept-Encoding"
+        response.headers["X-Content-Hash"] = content_hash
+
+        return response
+
+    except FileNotFoundError:
+        logger.error("Pricing data file not found")
+        return {"error": "Pricing data not available"}, 500
