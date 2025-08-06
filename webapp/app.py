@@ -1323,8 +1323,9 @@ def handle_maas_goget():
     by using Git repository at https://code.launchpad.net/maas
     """
     path = flask.request.path
-    if ((path == '/maas' or path.startswith('/maas/')) and
-            flask.request.query_string == b"go-get=1"):
+    if (
+        path == "/maas" or path.startswith("/maas/")
+    ) and flask.request.query_string == b"go-get=1":
         return flask.render_template("maas/gomod.html"), 200
 
 
