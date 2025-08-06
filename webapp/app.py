@@ -1472,9 +1472,8 @@ app.add_url_rule(
 
 mir_docs.init_app(app)
 
+
 # Sitemap parser
-
-
 def build_sitemap_tree(exclude_paths=None):
     def create_sitemap(sitemap_path):
         directory_path = os.getcwd() + "/templates"
