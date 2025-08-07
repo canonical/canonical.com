@@ -109,6 +109,7 @@ charmhub_discourse_api = DiscourseAPI(
     get_topics_query_id=2,
 )
 search_session = get_requests_session()
+discourse_session = get_requests_session()
 
 app.register_blueprint(application, url_prefix="/careers/application")
 
@@ -1064,7 +1065,7 @@ dqlite_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
-            session=search_session,
+            session=discourse_session,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1096,9 +1097,7 @@ maas_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
-            session=search_session,
-            api_key=MAAS_DISCOURSE_API_KEY,
-            api_username=MAAS_DISCOURSE_API_USERNAME,
+            session=discourse_session,
             get_topics_query_id=2,
         ),
         index_topic_id=6662,
