@@ -1235,6 +1235,7 @@ def maas_tutorials():
 
 tutorials_discourse.init_app(app)
 
+
 MAAS_BLOG_URL = "/maas/blog"
 maas_blog_api = BlogAPI(
     session=search_session,
@@ -1265,6 +1266,22 @@ app.add_url_rule(
         "maas_blog_sitemap_page", blog_views=maas_blog
     ),
 )
+
+
+@app.before_request
+def handle_maas_goget():
+    """
+    Handle go-get requests for /maas and /maas/* before normal routing.
+    Return metadata for Go package manager
+    That allows to do things like
+    `go get canonical.com/maas/core/src/maasagent`
+    by using Git repository at https://code.launchpad.net/maas
+    """
+    path = flask.request.path
+    if (
+        path == "/maas" or path.startswith("/maas/")
+    ) and flask.request.query_string == b"go-get=1":
+        return flask.render_template("maas/gomod.html"), 200
 
 
 @app.errorhandler(502)
