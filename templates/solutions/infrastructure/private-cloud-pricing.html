@@ -513,6 +513,9 @@
       slider.addEventListener("input", function() {
         const nodeValue = parseInt(slider.value);
 
+        // Reset error validation
+        setValidationError(false);
+
         if (numericInput) {
           // Display value with '+' if at maximum
           const displayValue = nodeValue === parseInt(slider.max) ? nodeValue + '+' : nodeValue;
