@@ -1062,8 +1062,6 @@ data_docs.init_app(app)
 dqlite_discourse_api = DiscourseAPI(
     base_url="https://discourse.dqlite.io/",
     session=get_requests_session(),
-    api_key=CHARMHUB_DISCOURSE_API_KEY,
-    api_username=CHARMHUB_DISCOURSE_API_USERNAME,
 )
 dqlite_docs = Docs(
     parser=DocParser(
