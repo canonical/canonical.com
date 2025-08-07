@@ -1455,6 +1455,40 @@ app.add_url_rule(
     case_study_path, view_func=build_case_study_index(case_studies)
 )
 
+# Mir Server
+discourse_api = DiscourseAPI(
+    base_url="https://discourse.ubuntu.com/",
+    session=search_session,
+    api_key=DISCOURSE_API_KEY,
+    api_username=DISCOURSE_API_USERNAME,
+)
+
+
+mir_url_prefix = "/mir/docs"
+mir_docs = Docs(
+    parser=DocParser(
+        api=discourse_api,
+        index_topic_id=27559,
+        url_prefix=mir_url_prefix,
+    ),
+    blueprint_name="mir-server-docs",
+    document_template="mir/docs/document.html",
+    url_prefix=mir_url_prefix,
+)
+
+app.add_url_rule(
+    "/mir/docs/search",
+    "mir-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="mir-server.io",
+        template_path="mir/docs/search-results.html",
+    ),
+)
+
+mir_docs.init_app(app)
+
 
 # Sitemap parser
 def build_sitemap_tree(exclude_paths=None):
