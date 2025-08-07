@@ -1120,7 +1120,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="maas.io/docs",
+        site="canonical.com/maas/docs",
         template_path="/maas/docs/search-result.html",
     ),
 )
@@ -1288,7 +1288,7 @@ def handle_maas_goget():
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
@@ -1482,7 +1482,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="mir-server.io",
+        site="canonical.com/mir/docs",
         template_path="mir/docs/search-results.html",
     ),
 )
