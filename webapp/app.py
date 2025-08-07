@@ -1673,6 +1673,7 @@ def get_pricing_data():
         logger.error("Pricing data file not found")
         return {"error": "Pricing data not available"}, 500
 
+
 # Custom redirects for Jaas
 @app.route("/jaas/<charm_or_bundle_name>")
 @app.route("/jaas/<charm_or_bundle_name>/<series_or_version>")
