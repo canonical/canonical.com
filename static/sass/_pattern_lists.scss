@@ -1,5 +1,6 @@
 @mixin canonical-p-lists {
   @include canonical-p-inline-list-selection;
+  @include canonical-p-inline-list-icons;
 }
 
 @mixin canonical-p-inline-list-selection {
@@ -43,6 +44,98 @@
       border-bottom: 1px solid $color-mid-light;
       flex: 1;
       max-width: 5rem;
+    }
+  }
+}
+
+@mixin canonical-p-inline-list-icons {
+  $color-twitter: #111;
+  $color-google: #dc4e41;
+  $color-linkedin: #0274b3;
+  $color-instagram: #111;
+  $color-facebook: #1877f2;
+  $color-rss: #ea781a;
+  $color-youtube: #ff0000;
+  $color-tiktok: #000;
+
+  %list-link {
+    display: block;
+    fill: $color-mid-dark;
+    height: $sp-x-large;
+    width: $sp-x-large;
+  }
+
+  .p-inline-list-icons {
+    .p-inline-list__item {
+      display: inline-block;
+      line-height: 1rem;
+      vertical-align: middle;
+    }
+
+    .p-inline-list__link {
+      &--twitter {
+        @extend %list-link;
+
+        &:hover .twitter-icon {
+          fill: $color-twitter;
+        }
+      }
+
+      &--google {
+        @extend %list-link;
+
+        &:hover .google-plus {
+          fill: $color-google;
+        }
+      }
+
+      &--facebook {
+        @extend %list-link;
+
+        &:hover .facebook-icon {
+          fill: $color-facebook;
+        }
+      }
+
+      &--linkedin {
+        @extend %list-link;
+
+        &:hover .linkedin-icon {
+          fill: $color-linkedin;
+        }
+      }
+
+      &--instagram {
+        @extend %list-link;
+
+        &:hover .instagram-icon {
+          fill: $color-instagram;
+        }
+      }
+
+      &--rss {
+        @extend %list-link;
+
+        &:hover .rss-icon {
+          fill: $color-rss;
+        }
+      }
+
+      &--youtube {
+        @extend %list-link;
+
+        &:hover .youtube-icon {
+          fill: $color-youtube;
+        }
+      }
+
+      &--tiktok {
+        @extend %list-link;
+
+        &:hover .tiktok-icon {
+          fill: $color-tiktok;
+        }
+      }
     }
   }
 }
