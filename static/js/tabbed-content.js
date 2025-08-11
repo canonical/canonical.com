@@ -104,25 +104,11 @@
         if (tabPanel) {
           tabPanel.focus({ preventScroll: true });
         }
-
-        // For tablist containers with pagination
-        // toggle buttons state on tab click
-        if (prevButton && nextButton) {
-          if (index === 0) {
-            prevButton.disabled = true;
-            nextButton.disabled = false;
-          } else if (index > 0 && index < tabs.length - 1) {
-            prevButton.disabled = false;
-            nextButton.disabled = false;
-          } else {
-            prevButton.disabled = false;
-            nextButton.disabled = true;
-          }
-        }
       });
 
       tab.addEventListener("focus", () => {
         setActiveTab(tab, tabs);
+        updatePaginationButtonStates(prevButton, nextButton, tabs, tabContainer);
       });
 
       tab.index = index;
@@ -169,6 +155,27 @@
     }
   };
 
+  /**
+   * Disables pagination buttons based on the current active tab.
+   */
+  const updatePaginationButtonStates = (prevButton, nextButton, tabs, tabContainer) => {
+    if (prevButton && nextButton) {
+      const currentTab = tabContainer.querySelector(".p-tabs__item[aria-selected='true']");
+      const currentIndex = tabs.indexOf(currentTab);
+      
+      if (currentIndex === 0) {
+        prevButton.disabled = true;
+        nextButton.disabled = false;
+      } else if (currentIndex > 0 && currentIndex < tabs.length - 1) {
+        prevButton.disabled = false;
+        nextButton.disabled = false;
+      } else {
+        prevButton.disabled = false;
+        nextButton.disabled = true;
+      }
+    }
+  }
+  
   /**
       Cycles through an array of tab elements and ensures
       only the target tab and its content are selected
