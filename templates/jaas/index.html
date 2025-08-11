@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block title %}Manage large scale Juju deployments with Jaas{% endblock %}
 
 {% block meta_description %}
@@ -15,21 +17,20 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-section--hero u-no-padding--bottom">
-    <div class="grid-row--50-50 p-section--shallow">
-      <div class="grid-col">
-        <h1>Take control of your large-scale Juju deployments</h1>
-      </div>
-      <div class="grid-col">
-        <p>JAAS is Juju for enterprise.</p>
-        <div class="p-cta-block">
-          <a href="/contact-us"
-             class="p-button--positive js-invoke-modal"
-             aria-controls="jaas-modal">Contact us</a>
-        </div>
-      </div>
-    </div>
-    <div class="u-fixed-width">
+
+  {% call(slot) vf_hero(
+    title_text='Take control of your large-scale Juju deployments',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>JAAS is Juju for enterprise.</p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="jaas-modal">Contact us</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
       <div class="p-image-container u-hide--medium u-hide--small">
         {{ image(url="https://assets.ubuntu.com/v1/d7c20674-JAAS-arch-diagram.svg",
                 alt="",
@@ -40,8 +41,8 @@
                 attrs={ "class": "p-image-container__image" }) | safe
         }}
       </div>
-    </div>
-  </section>
+    {% endif -%}
+  {% endcall -%}
 
   <section class="p-section">
     <hr class="is-fixed-width" />
@@ -52,10 +53,10 @@
       <div class="grid-col-4 grid-col-medium-4">
         <div class="p-section--shallow">
           <div class="grid-row">
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <h3 class="p-text--small-caps">Backend API server (JIMM)</h3>
             </div>
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <p>
                 JAAS has a backend API server (JIMM) that is responsible for managing all interactions with the downstream, Juju controllers.
                 <br />
@@ -67,10 +68,10 @@
         <hr class="p-rule--muted" />
         <div class="p-section--shallow">
           <div class="grid-row">
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <h3 class="p-text--small-caps">Dashboard</h3>
             </div>
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <p>A graphical user interface to simplify common administrative operations.</p>
             </div>
           </div>
@@ -92,10 +93,10 @@
       <div class="grid-col-6">
         <div class="p-section--shallow">
           <div class="grid-row">
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <h3 class="p-heading--5">Have to manage multiple Juju controllers</h3>
             </div>
-            <div class="grid-col-4">
+            <div class="grid-col-4 grid-col-medium-2">
               <p>
                 JAAS simplifies the provisioning and lifecycle management of controllers and charms at scale, automating activities like model migrations and controller upgrades
               </p>
@@ -105,10 +106,10 @@
         <hr class="p-rule--muted" />
         <div class="p-section--shallow">
           <div class="grid-row">
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <h3 class="p-heading--5">Need to meet tighter security and compliance requirements</h3>
             </div>
-            <div class="grid-col-4">
+            <div class="grid-col-4 grid-col-medium-2">
               <p>
                 JAAS offers additional security features like single sign on (SSO) on both the dashboard and the cli, permission management, fine grained juju controller activity auditing and soon an SSH proxy and service accounts for the Terraform provider
               </p>
@@ -118,10 +119,10 @@
         <hr class="p-rule--muted" />
         <div class="p-section--shallow">
           <div class="grid-row">
-            <div class="grid-col-2">
+            <div class="grid-col-2 grid-col-medium-2">
               <h3 class="p-heading--5">Prefer to interact with your system with a web interface</h3>
             </div>
-            <div class="grid-col-4">
+            <div class="grid-col-4 grid-col-medium-2">
               <p>
                 The dashboard offer a simplified way for administrators to perform common administrative operations and monitor the state of the deployment
               </p>
@@ -147,7 +148,7 @@
     </div>
     <div class="grid-row--50-50">
       <div class="grid-col">
-        <p style="max-width: 50rem;">
+        <p>
           JAAS is your centralised enterprise control plane for Juju deployments.
           <br />
           With JAAS you can:
@@ -200,15 +201,15 @@
             </li>
           </ul>
           <form class="u-hide--large u-hide--medium">
-          <select name="tabSelect" data-tablist="jaas-features">
-            <option value="view-models-and-controllers-details-tab" selected="">View models and controllers details</option>
-            <option value="run-actions-tab">Run actions</option>
-            <option value="configure-applications-tab">Configure applications</option>
-            <option value="onboard-controllers-and-manage-access-tab">Onboard controllers and manage access</option>
-            <option value="run-audits-and-reports-tab">Run audits and reports</option>
-            <option value="search-and-filter-tab">Search and filter</option>
-          </select>
-        </form>
+            <select name="tabSelect" data-tablist="jaas-features">
+              <option value="view-models-and-controllers-details-tab" selected="">View models and controllers details</option>
+              <option value="run-actions-tab">Run actions</option>
+              <option value="configure-applications-tab">Configure applications</option>
+              <option value="onboard-controllers-and-manage-access-tab">Onboard controllers and manage access</option>
+              <option value="run-audits-and-reports-tab">Run audits and reports</option>
+              <option value="search-and-filter-tab">Search and filter</option>
+            </select>
+          </form>
         </div>
       </div>
       <div class="grid-col" data-tablist="jaas-features">
@@ -228,7 +229,9 @@
           </p>
         </div>
         <div class="p-tabs__content"
-             role="tabpanel" id="run-actions-tab" aria-controls="run-actions">
+             role="tabpanel"
+             id="run-actions-tab"
+             aria-controls="run-actions">
           {{ image(url="https://assets.ubuntu.com/v1/e70dab91-run-action.png",
                     alt="",
                     height="669",
@@ -239,7 +242,9 @@
           <p>Execute Juju action from the UI and view the resulting logs to confirm their status.</p>
         </div>
         <div class="p-tabs__content"
-             role="tabpanel" id="configure-applications-tab" aria-controls="configure-applications">
+             role="tabpanel"
+             id="configure-applications-tab"
+             aria-controls="configure-applications">
           {{ image(url="https://assets.ubuntu.com/v1/1ac0ed08-configure-app.png",
                     alt="",
                     height="669",
@@ -250,7 +255,9 @@
           <p>Perform common administrative operations and apply machine configurations.</p>
         </div>
         <div class="p-tabs__content"
-             role="tabpanel" id="onboard-controllers-and-manage-access-tab" aria-controls="onboard-controllers-and-manage-access">
+             role="tabpanel"
+             id="onboard-controllers-and-manage-access-tab"
+             aria-controls="onboard-controllers-and-manage-access">
           {{ image(url="https://assets.ubuntu.com/v1/d54720f1-jaas-controllers.png",
                     alt="",
                     height="669",
@@ -261,7 +268,9 @@
           <p>Onboard controllers and add, remove or manage user access to models and controllers.</p>
         </div>
         <div class="p-tabs__content"
-             role="tabpanel" id="run-audits-and-reports-tab" aria-controls="run-audits-and-reports">
+             role="tabpanel"
+             id="run-audits-and-reports-tab"
+             aria-controls="run-audits-and-reports">
           {{ image(url="https://assets.ubuntu.com/v1/8d0f47a6-action-logs.png",
                     alt="",
                     height="669",
@@ -272,7 +281,9 @@
           <p>Access the logs from your deployment in a single, centralised location.</p>
         </div>
         <div class="p-tabs__content"
-             role="tabpanel" id="search-and-filter-tab" aria-controls="search-and-filter">
+             role="tabpanel"
+             id="search-and-filter-tab"
+             aria-controls="search-and-filter">
           {{ image(url="https://assets.ubuntu.com/v1/f3ff0a1b-searchandfilter.jpg",
                     alt="",
                     height="669",
@@ -314,10 +325,10 @@
           <hr class="p-rule--muted" />
           <div class="p-section--shallow">
             <div class="grid-row">
-              <div class="grid-col-2">
+              <div class="grid-col-2 grid-col-medium-2">
                 <h3 class="p-heading--5">Centralised Terraform Provider</h3>
               </div>
-              <div class="grid-col-4">
+              <div class="grid-col-4 grid-col-medium-2">
                 <p>
                   JAAS can make use of the Juju Terraform provider to apply plans to all managed controllers. The provider supports Oauth client credentials authentication and its access is controlled by the authorisation system.
                 </p>
@@ -327,14 +338,14 @@
           <hr class="p-rule--muted" />
           <div class="p-section--shallow">
             <div class="grid-row">
-              <div class="grid-col-2">
+              <div class="grid-col-2 grid-col-medium-2">
                 <h3 class="p-heading--5">
                   SSH Proxy
                   <br />
                   (Coming soon)
                 </h3>
               </div>
-              <div class="grid-col-4">
+              <div class="grid-col-4 grid-col-medium-2">
                 <p>
                   Administrators can use JAAS to SSH into all units of managed controllers, reducing the need to grant access to vast areas of the network.
                   <br />
@@ -346,10 +357,10 @@
           <hr class="p-rule--muted" />
           <div class="p-section--shallow">
             <div class="grid-row">
-              <div class="grid-col-2">
+              <div class="grid-col-2 grid-col-medium-2">
                 <h3 class="p-heading--5">Single sign on (SSO)</h3>
               </div>
-              <div class="grid-col-4">
+              <div class="grid-col-4 grid-col-medium-2">
                 <p>
                   JAAS supports integration with external identity providers through OIDC, enforcing strong authentication on both the cli and the web dashboard
                 </p>
@@ -424,7 +435,7 @@
         <div class="p-logo-section__items u-no-margin--bottom">
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/7040f392-Ubuntu-logo.png",
-                        alt="Ubuntu logo",
+                        alt="Ubuntu",
                         width="218",
                         height="256",
                         hi_def=True,
@@ -434,7 +445,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/a76d4ee3-deutsche-telekom.png",
-                        alt="Deutsche Telekom logo",
+                        alt="Deutsche Telekom",
                         width="257",
                         height="256",
                         hi_def=True,
@@ -444,7 +455,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/0a6968e6-ibm-logo.png",
-                        alt="IBM logo",
+                        alt="IBM",
                         width="125",
                         height="256",
                         hi_def=True,
@@ -454,7 +465,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/cc65269a-intel-new-logo.png",
-                        alt="Intel logo",
+                        alt="Intel",
                         width="133",
                         height="256",
                         hi_def=True,
@@ -464,7 +475,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/ea63a7ba-microsoft-azure-2021.png",
-                        alt="Microsoft Azure logo",
+                        alt="Microsoft Azure",
                         width="78",
                         height="256",
                         hi_def=True,
@@ -474,7 +485,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/f3d556d7-cisco-logo.png",
-                        alt="Cisco logo",
+                        alt="Cisco",
                         width="225",
                         height="372",
                         hi_def=True,
@@ -484,7 +495,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/757f59f0-china-telecom-logo.png",
-                        alt="China Telecom logo",
+                        alt="China Telecom",
                         width="257",
                         height="256",
                         hi_def=True,
@@ -494,7 +505,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/f044cea8-bt-logo.png",
-                        alt="BT logo",
+                        alt="BT",
                         width="111",
                         height="256",
                         hi_def=True,
@@ -504,7 +515,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/89365c81-nec-logo.png",
-                        alt="NEC logo",
+                        alt="NEC",
                         width="172",
                         height="256",
                         hi_def=True,
@@ -514,7 +525,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/4b74a5f4-hp-logo.png",
-                        alt="Hewlett Packard logo",
+                        alt="Hewlett Packard",
                         width="110",
                         height="256",
                         hi_def=True,
@@ -524,7 +535,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/02d41af7-yahoo-jp-logo.png",
-                        alt="Yahoo! Japan logo",
+                        alt="Yahoo! Japan",
                         width="210",
                         height="256",
                         hi_def=True,
@@ -534,7 +545,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/067bffc3-verizon-logo.png",
-                        alt="verizon logo",
+                        alt="verizon",
                         width="257",
                         height="256",
                         hi_def=True,
@@ -544,7 +555,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/05d9f06b-bell-logo.png",
-                        alt="Bell logo",
+                        alt="Bell",
                         width="87",
                         height="256",
                         hi_def=True,
@@ -554,7 +565,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/5482ad8a-swissquote-logo.png",
-                        alt="Swissquote logo",
+                        alt="Swissquote",
                         width="257",
                         height="256",
                         hi_def=True,
@@ -564,7 +575,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/8848ee2f-panasonic-logo.png",
-                        alt="Panasonic logo",
+                        alt="Panasonic",
                         width="254",
                         height="256",
                         hi_def=True,
@@ -574,7 +585,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/e0b84fa2-scania-logo.png",
-                        alt="Scania logo",
+                        alt="Scania",
                         width="255",
                         height="256",
                         hi_def=True,
@@ -584,7 +595,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/d8060c1d-rabobank-logo.png",
-                        alt="Rabobank logo",
+                        alt="Rabobank",
                         width="257",
                         height="259",
                         hi_def=True,
@@ -594,7 +605,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/e2fa6efb-tele2-logo.png",
-                        alt="tele2 logo",
+                        alt="tele2",
                         width="125",
                         height="256",
                         hi_def=True,
@@ -619,10 +630,10 @@
       </div>
       <div class="grid-col-4">
         <div class="grid-row">
-          <div class="grid-col-1">
+          <div class="grid-col-1 grid-col-medium-2">
             <h3 class="p-heading--5">Connect with the community</h3>
           </div>
-          <div class="grid-col-3">
+          <div class="grid-col-3 grid-col-medium-2">
             <p>
               <a href="https://matrix.to/#/#charmhub:ubuntu.com">Charmhub chat</a>
             </p>
@@ -636,10 +647,10 @@
           <hr class="p-rule--muted" />
         </div>
         <div class="grid-row">
-          <div class="grid-col-1">
+          <div class="grid-col-1 grid-col-medium-2">
             <h3 class="p-heading--5">Contact us</h3>
           </div>
-          <div class="grid-col-3">
+          <div class="grid-col-3 grid-col-medium-2">
             <p>
               <a href="/contact-us" class="js-invoke-modal" aria-controls="jaas-modal">Talk to a Canonical expert</a>
             </p>
@@ -649,10 +660,10 @@
           <hr class="p-rule--muted" />
         </div>
         <div class="grid-row">
-          <div class="grid-col-1">
+          <div class="grid-col-1 grid-col-medium-2">
             <h3 class="p-heading--5">Read more</h3>
           </div>
-          <div class="grid-col-3">
+          <div class="grid-col-3 grid-col-medium-2">
             <p>
               <a href="https://juju.is/why-juju">How juju works</a>
             </p>
