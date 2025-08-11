@@ -1185,10 +1185,10 @@ tutorials_discourse = Tutorials(
             get_topics_query_id=2,
         ),
         index_topic_id=1289,
-        url_prefix="/maas/tutorials",
+        url_prefix="/maas",
     ),
     document_template="maas/_tutorial.html",
-    url_prefix="/maas/tutorials",
+    url_prefix="/maas",
     blueprint_name="maas-tutorials",
 )
 
