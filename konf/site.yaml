@@ -3,6 +3,9 @@ domain: canonical.com
 image: prod-comms.ps5.docker-registry.canonical.com/canonical.com
 
 env:
+  - name: CANONICAL_CLA_API_URL
+    value: https://cla.staging.canonical.com
+
   - name: SENTRY_DSN
     value: https://aedc7a57f0bc4d22bf7c0b6d63c3e1bb@sentry.is.canonical.com//14
 
@@ -127,6 +130,9 @@ production:
       replicas: 3
       memoryLimit: 256Mi
       env:
+        - name: CANONICAL_CLA_API_URL
+          value: https://cla.canonical.com
+
         - name: SEARCH_API_KEY
           secretKeyRef:
             key: google-custom-search-key
@@ -148,7 +154,7 @@ production:
         - name: SERVICE_ACCOUNT_PRIVATE_KEY
           secretKeyRef:
             key: scheduler_account_private_key
-            name: greenhouse-credentials        
+            name: greenhouse-credentials
 
   nginxConfigurationSnippet: |
     if ($host = 'blog.canonical.com' ) {
@@ -196,7 +202,7 @@ staging:
 
         - name: FLASK_DEBUG
           value: True
-        
+
         - name: GREENHOUSE_DEBUG
           value: "true"
 

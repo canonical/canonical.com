@@ -1,57 +1,64 @@
 # Standard library
-import logging
-import json
-import datetime
 import calendar
+import datetime
+import gzip
+import hashlib
+import json
+import logging
+import math
 import os
 import re
+from http.client import responses
+from pathlib import Path
+from typing import List
 from urllib.parse import parse_qs, urlencode, urlparse
-import yaml
-import hashlib
 
 import bleach
+import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
-from jinja2 import ChoiceLoader, FileSystemLoader
-import math
-import gzip
-
+import yaml
 
 # Packages
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
-from canonicalwebteam.flask_base.app import FlaskBase
-from canonicalwebteam.templatefinder import TemplateFinder
-from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.discourse import (
     DiscourseAPI,
-    Docs,
     DocParser,
+    Docs,
     EngagePages,
     TutorialParser,
     Tutorials,
 )
+from canonicalwebteam.flask_base.app import FlaskBase
+from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
-import canonicalwebteam.directory_parser as directory_parser
-from pathlib import Path
+from canonicalwebteam.templatefinder import TemplateFinder
+from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
-from http.client import responses
 
 # Local
 from webapp.application import application
+from webapp.canonical_cla.views import (
+    canonical_cla_api_github_login,
+    canonical_cla_api_github_logout,
+    canonical_cla_api_launchpad_login,
+    canonical_cla_api_launchpad_logout,
+    canonical_cla_api_proxy,
+)
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
-from webapp.partners import Partners
-from webapp.static_data import homepage_featured_products
 from webapp.navigation import (
-    get_current_page_bubble,
     build_navigation,
+    get_current_page_bubble,
     split_list,
 )
-from webapp.requests_session import get_requests_session
-from webapp.recaptcha import verify_recaptcha, load_recaptcha_config
 from webapp.openapi_parser import parse_openapi, read_yaml_from_url
+from webapp.partners import Partners
+from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
+from webapp.requests_session import get_requests_session
+from webapp.static_data import homepage_featured_products
 
 logger = logging.getLogger(__name__)
 
@@ -779,10 +786,27 @@ def inject_today_date():
     return {"current_year": datetime.date.today().year}
 
 
+def get_countries_list() -> List[dict]:
+    """
+    Get a list of countries in a standard format
+    """
+    from pycountry import countries
+
+    countries = [
+        {
+            "alpha2": country.alpha_2,
+            "name": getattr(country, "common_name", country.name),
+        }
+        for country in list(countries)
+    ]
+    return sorted(countries, key=lambda x: x["name"])
+
+
 @app.context_processor
 def utility_processor():
     return {
         "image": image_template,
+        "get_countries_list": get_countries_list,
     }
 
 
@@ -827,6 +851,7 @@ def context():
         "get_current_page_bubble": get_current_page_bubble,
         "build_navigation": build_navigation,
         "split_list": split_list,
+        "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
     }
 
 
@@ -1350,6 +1375,29 @@ def get_user_country_by_tz():
 
 
 app.add_url_rule("/user-country-tz.json", view_func=get_user_country_by_tz)
+
+
+app.add_url_rule(
+    "/legal/contributors/agreement/api",
+    methods=["POST", "GET"],
+    view_func=canonical_cla_api_proxy,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/github/logout",
+    view_func=canonical_cla_api_github_logout,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/github/login",
+    view_func=canonical_cla_api_github_login,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/launchpad/logout",
+    view_func=canonical_cla_api_launchpad_logout,
+)
+app.add_url_rule(
+    "/legal/contributors/agreement/api/launchpad/login",
+    view_func=canonical_cla_api_launchpad_login,
+)
 
 
 @app.route("/multipass/download/<regex('windows|macos'):osname>")
