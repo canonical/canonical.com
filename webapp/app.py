@@ -1185,12 +1185,10 @@ tutorials_discourse = Tutorials(
             get_topics_query_id=2,
         ),
         index_topic_id=1289,
-        # discourse URL already has /tutorials appended
         url_prefix="/maas/tutorials",
     ),
     document_template="maas/_tutorial.html",
-    # discourse URL already has /tutorials appended
-    url_prefix="/maas",
+    url_prefix="/maas/tutorials",
     blueprint_name="maas-tutorials",
 )
 
