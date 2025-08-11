@@ -1119,7 +1119,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="maas.io/docs",
+        site="canonical.com/maas/docs",
         template_path="/maas/docs/search-result.html",
     ),
 )
@@ -1179,7 +1179,7 @@ tutorials_discourse = Tutorials(
     parser=TutorialParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
-            session=search_session,
+            session=get_requests_session(),
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
@@ -1481,7 +1481,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="mir-server.io",
+        site="canonical.com/mir/docs",
         template_path="mir/docs/search-results.html",
     ),
 )
