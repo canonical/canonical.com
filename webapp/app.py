@@ -116,6 +116,7 @@ charmhub_discourse_api = DiscourseAPI(
     get_topics_query_id=2,
 )
 search_session = get_requests_session()
+discourse_session = get_requests_session()
 
 app.register_blueprint(application, url_prefix="/careers/application")
 
@@ -1089,7 +1090,7 @@ dqlite_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
-            session=search_session,
+            session=discourse_session,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1121,9 +1122,7 @@ maas_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
-            session=search_session,
-            api_key=MAAS_DISCOURSE_API_KEY,
-            api_username=MAAS_DISCOURSE_API_USERNAME,
+            session=discourse_session,
             get_topics_query_id=2,
         ),
         index_topic_id=6662,
@@ -1145,7 +1144,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="maas.io/docs",
+        site="canonical.com/maas/docs",
         template_path="/maas/docs/search-result.html",
     ),
 )
@@ -1205,7 +1204,7 @@ tutorials_discourse = Tutorials(
     parser=TutorialParser(
         api=DiscourseAPI(
             base_url="https://discourse.maas.io/",
-            session=search_session,
+            session=get_requests_session(),
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
@@ -1260,6 +1259,7 @@ def maas_tutorials():
 
 tutorials_discourse.init_app(app)
 
+
 MAAS_BLOG_URL = "/maas/blog"
 maas_blog_api = BlogAPI(
     session=search_session,
@@ -1290,6 +1290,22 @@ app.add_url_rule(
         "maas_blog_sitemap_page", blog_views=maas_blog
     ),
 )
+
+
+@app.before_request
+def handle_maas_goget():
+    """
+    Handle go-get requests for /maas and /maas/* before normal routing.
+    Return metadata for Go package manager
+    That allows to do things like
+    `go get canonical.com/maas/core/src/maasagent`
+    by using Git repository at https://code.launchpad.net/maas
+    """
+    path = flask.request.path
+    if (
+        path == "/maas" or path.startswith("/maas/")
+    ) and flask.request.query_string == b"go-get=1":
+        return flask.render_template("maas/gomod.html"), 200
 
 
 @app.errorhandler(502)
@@ -1485,6 +1501,40 @@ case_studies = EngagePages(
 app.add_url_rule(
     case_study_path, view_func=build_case_study_index(case_studies)
 )
+
+# Mir Server
+discourse_api = DiscourseAPI(
+    base_url="https://discourse.ubuntu.com/",
+    session=search_session,
+    api_key=DISCOURSE_API_KEY,
+    api_username=DISCOURSE_API_USERNAME,
+)
+
+
+mir_url_prefix = "/mir/docs"
+mir_docs = Docs(
+    parser=DocParser(
+        api=discourse_api,
+        index_topic_id=27559,
+        url_prefix=mir_url_prefix,
+    ),
+    blueprint_name="mir-server-docs",
+    document_template="mir/docs/document.html",
+    url_prefix=mir_url_prefix,
+)
+
+app.add_url_rule(
+    "/mir/docs/search",
+    "mir-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/mir/docs",
+        template_path="mir/docs/search-results.html",
+    ),
+)
+
+mir_docs.init_app(app)
 
 
 # Sitemap parser
