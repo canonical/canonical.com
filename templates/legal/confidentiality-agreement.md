@@ -223,7 +223,7 @@ context:
                           <input type="text"
                                   id="tfa_15"
                                   name="tfa_15"
-                                  value="{{ user_info.email }}"
+                                  value=""
                                   placeholder=""
                                   class="validate-email required" />
                         </div>

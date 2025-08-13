@@ -27,7 +27,7 @@ When used in this Agreement the following terms have the following meanings:
 
 - **Affiliate:** a corporate entity that, directly or indirectly, controls, is controlled by or is under common control with a Party, where "control" means ownership of more than 50% of the outstanding shares or securities representing the right to vote for the election of directors or other managing authority of such corporate entity.
 - **Canonical Group:** Canonical and its Affiliates.
-- **Canonical Trade Mark Policy:** Canonical trade mark policy and brand guidelines as amended from time to time and found at [www.ubuntu.com/intellectual-property-policy](/intellectual-property-policy)
+- **Canonical Trade Mark Policy:** Canonical trade mark policy and brand guidelines as amended from time to time and found at [https://ubuntu.com/intellectual-property-policy](https://ubuntu.com/intellectual-property-policy)
 - **Confidential Information:** any information identified by a Party as confidential and/or which a Party ought reasonably by its nature know is of a confidential nature and includes, without limitation, the terms of this Agreement and any Supplement Agreement.
 - **Customer Hardware:** the Customer computer systems for which Customer purchases Ubuntu Advantage Services.
 - **Customer Software:** any software provided or licensed by Customer to Canonical or any member of the Canonical Group and which may be installed on or combined with Ubuntu by the Canonical Group in the performance of the Services.
@@ -42,7 +42,7 @@ When used in this Agreement the following terms have the following meanings:
 - **Term:** The period of time beginning on Canonical's receipt of the Fees or satisfactory completion of a credit check (if the Services are purchased directly from Canonical) or the date identified by Canonical's Reseller (if the Services are purchased through a Reseller) and ending as specified in the Order.
 - **Ubuntu:** a version of the Ubuntu operating system which is supported by Canonical pursuant to Canonical's public announcements and support schedule and is either Canonical's standard version with no modifications or a version modified by Canonical and delivered to Customer hereunder.
 - **Ubuntu Advantage:** Canonical's standard Services which relate Customer's deployment and use of Ubuntu on Customer Hardware.
-- **Ubuntu Assurance Programme:** Canonical's offering with respect to Ubuntu known as "Ubuntu Assurance" as may be modified by Canonical from time to time and described at [www.ubuntu.com/legal/ubuntu-advantage/assurance](/legal/ubuntu-advantage/assurance).
+- **Ubuntu Assurance Programme:** Canonical's offering with respect to Ubuntu known as "Ubuntu Assurance" as may be modified by Canonical from time to time and described at [https://ubuntu.com/legal/ubuntu-advantage/assurance](https://ubuntu.com/legal/ubuntu-advantage/assurance).
 
 #### (2) Services
 

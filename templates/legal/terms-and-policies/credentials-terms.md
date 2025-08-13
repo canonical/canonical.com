@@ -38,7 +38,7 @@ You will need to register for a Single Sign On (SSO) account and Ubuntu One acco
 
 If you do not have both an SSO account and Ubuntu One account you will need to create these. You are responsible for choosing an appropriate password for your accounts and for keeping such password secure. Canonical will not ask you for your password and you should not reveal it to anyone. You are responsible for keeping your account details up to date.
 
-You can view the exams that you have registered for at any time at: [https://ubuntu.com/credentials/your-exams](/credentials/your-exams)
+You can view the exams that you have registered for at any time at: [https://ubuntu.com/credentials/your-exams](https://ubuntu.com/credentials/your-exams)
 
 You may cancel access to the Service at any time by emailing [skills@canonical.com](mailto:skills@canonical.com). Note that this does not delete your Ubuntu SSO account or Ubuntu One account, since you might be using it for other Canonical services. To delete your Ubuntu SSO or Ubuntu One account, visit [https://login.ubuntu.com](https://login.ubuntu.com/) and click **Permanently delete account**.
 

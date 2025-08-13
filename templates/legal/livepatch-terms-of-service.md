@@ -22,7 +22,7 @@ Canonical may update these Terms of Service from time to time in its discretion.
 
 ## 2\. Service
 
-Details about the Service can be found here: [www.ubuntu.com/livepatch](/livepatch)
+Details about the Service can be found here: [https://ubuntu.com/livepatch](https://ubuntu.com/livepatch)
 
 The Service provides users of Ubuntu with a subscription to use the Software on up to three physical or virtual Ubuntu systems and to make a reasonable number of copies of this software for backup and installation purposes.
 

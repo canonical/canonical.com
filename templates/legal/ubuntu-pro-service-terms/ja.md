@@ -27,7 +27,7 @@ context:
 
     **登録プロセス**: お客様がカノニカルのリセラーを通じてご購入の本サービスを受けるためにカノニカルに登録するプロセスを指します。
 
-    **本サービス**: 本件注文書の指定どおり、本件注文書ならびに／または [www.ubuntu.com/uasd](/legal/ubuntu-pro-service-description)、[www.ubuntu.com/mssd](/legal/managed-services-description) および／もしくは [https://www.ubuntu.com/openstack/training](/openstack/training) の記載に従ってカノニカルが実施することになるサービスを指します。
+    **本サービス**: 本件注文書の指定どおり、本件注文書ならびに／または [https://ubuntu.com/uasd](https://ubuntu.com/legal/ubuntu-pro-service-description)、[https://ubuntu.com/mssd](https://ubuntu.com/legal/managed-services-description) および／もしくは [https://ubuntu.com/openstack/training](https://ubuntu.com/openstack/training) の記載に従ってカノニカルが実施することになるサービスを指します。
 
     **本サービス期間**: カノニカルが初めて本サービスをお客様に提供する時点で開始し、本件注文書に指定の期間後に終了する期間を指します。
 

@@ -39,6 +39,7 @@ from requests.exceptions import HTTPError
 from slugify import slugify
 
 # Local
+from webapp.views import json_asset_query
 from webapp.application import application
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
@@ -280,6 +281,9 @@ def home_sitemap():
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
+
+
+app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 
 
 with open("navigation.yaml") as nav_file:
