@@ -251,9 +251,6 @@
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
   <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/lxd/install#success" %}
-    {% include "lxd/_form-lxd-install.html" %}
-  {% endwith %}
+  {{ load_form("/lxd") | safe }}
 
 {% endblock %}
