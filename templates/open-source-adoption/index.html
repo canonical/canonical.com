@@ -24,7 +24,7 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 
 {% macro data_spotlight(spotlight) -%}
-  <div class="col-3">
+  <div class="grid-col">
     <hr class="p-rule--highlight" />
     <p class="p-heading--1">{{ spotlight }}</p>
     <p>
@@ -62,16 +62,14 @@
     {% endif -%}
   {% endcall -%}
 
-  <section class="p-section">
-    <div class="row">
-      <h2 class="p-text--small-caps u-no-padding--top">
-        <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain?_gl=1*zqjohj*_gcl_au*MTQ3NDY1NDc0NC4xNzQ3MTM3NDQw">
-          Why enterprises choose open source
-        </a>
-      </h2>
-    </div>
+  <section class="p-section u-fixed-width">
+    <h2 class="p-text--small-caps u-no-padding--top">
+      <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain?_gl=1*zqjohj*_gcl_au*MTQ3NDY1NDc0NC4xNzQ3MTM3NDQw">
+        Why enterprises choose open source
+      </a>
+    </h2>
 
-    <div class="row">
+    <div class="grid-row--25-25-25-25">
       {% call data_spotlight("70%") %}
         Of organizations find open source extremely important to run mission-critical applications
       {% endcall %}
@@ -87,34 +85,30 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Adopting open source helps attract technical talent</h2>
-      </div>
-      <div class="col">
-        <div class="u-extra-space">
-          <p>
-            76% of organizations agree that adopting and actively engaging with open source software creates a significant advantage in attracting technical talent, according to recent research by the Linux Foundation.<sup>1</sup>
-          </p>
-          <p>
-            Ubuntu is the most widely used operating system amongst developers, making it easier to attract talent who understand open source and are keen to work with Ubuntu.<sup>2</sup>
-          </p>
-          <p class="u-text--muted">
-            <cite>
-              <sup>1</sup>
-              Open source as Europe's strategic advantage: trends, barriers, and priorities for the European open source community amid regulatory and geopolitical shifts, August, 2025.
-            </cite>
-          </p>
-          <p class="u-text--muted">
-            <cite>
-              <sup>2</sup>
-              2025 state of open source report, Perforce OpenLogic, 2025, p.13.
-            </cite>
-          </p>
-        </div>
-      </div>
+  <section class="p-section grid-row--50-50">
+    <hr class="p-rule" />
+    <div class="grid-col">
+      <h2>Adopting open source helps attract technical talent</h2>
+    </div>
+    <div class="grid-col">
+      <p>
+        76% of organizations agree that adopting and actively engaging with open source software creates a significant advantage in attracting technical talent, according to recent research by the Linux Foundation.<sup>1</sup>
+      </p>
+      <p>
+        Ubuntu is the most widely used operating system amongst developers, making it easier to attract talent who understand open source and are keen to work with Ubuntu.<sup>2</sup>
+      </p>
+      <p class="u-text--muted">
+        <cite>
+          <sup>1</sup>
+          Open source as Europe's strategic advantage: trends, barriers, and priorities for the European open source community amid regulatory and geopolitical shifts, August, 2025.
+        </cite>
+      </p>
+      <p class="u-text--muted">
+        <cite>
+          <sup>2</sup>
+          2025 state of open source report, Perforce OpenLogic, 2025, p.13.
+        </cite>
+      </p>
     </div>
   </section>
 
@@ -210,11 +204,9 @@
 
     <hr class="p-rule" />
 
-    <div class="grid-row">
-      <div class="grid-col-4 grid-col-medium-2">
-        <h2>Enterprise open source: the Ubuntu way</h2>
-      </div>
-      <div class="grid-col-4 grid-col-medium-2 p-section--shallow">
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">Enterprise open source: the Ubuntu way</h2>
+      <div class="grid-col p-section--shallow">
         <div class="p-image-container is-highlighted" data-tablist="enterprise-open-source">
           {{ tab_image(tab_name="overview", image_url="https://assets.ubuntu.com/v1/233fc40b-diagram - overview.png") }}
           {{ tab_image(tab_name="customers", image_url="https://assets.ubuntu.com/v1/d7ff82a0-diagram - customers.png") }}
@@ -223,77 +215,79 @@
         </div>
       </div>
     </div>
+
     <div class="grid-row">
-      <div class="grid-col-start-large-3 grid-col-8">
+      <div class="grid-col-6 grid-col-start-large-3 grid-col-medium-3 grid-col-start-medium-2">
         <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-2 grid-col-medium-2 grid-col-start-large-3">
-        <ul class="col js-tabbed-content p-tabs--vertical is-black u-hide--small" role="tablist" data-tablist="enterprise-open-source">
-          {{ tab_button("overview", "Overview") }}
-          {{ tab_button("customers", "Customers") }}
-          {{ tab_button("canonical", "Canonical") }}
-          {{ tab_button("community", "Community") }}
-        </ul>
-        <form class="u-hide--large u-hide--medium" autocomplete="off">
-          <select name="tabSelect" data-tablist="enterprise-open-source">
-            <option value="overview-tab" selected>Overview</option>
-            <option value="customers-tab">Customers</option>
-            <option value="canonical-tab">Canonical</option>
-            <option value="community-tab">Community</option>
-          </select>
-        </form>
-      </div>
-      <div class="grid-col-4 grid-col-medium-2">
-        <div data-tablist="enterprise-open-source">
-          {% call() tab("overview") %}
-            <p>
-              Canonical is built on a symbiotic relationship between our customers, our community, and our company. Each element benefits the others, driving innovation and success. Bring your team together on an open source platform they can agree on.
-            </p>
-          {% endcall %}
-          {% call() tab("customers") %}
-            <p>
-              Our customers benefit from adopting Canonical open source in different ways.
-            </p>
-            <ul class="p-list">
-              <li class="p-list__item has-bullet">Composability for competitive advantage: composable systems scale easily, accelerate development, and can be customized to meet the organization’s specific needs.</li>
-              <li class="p-list__item has-bullet">Gain knowledge: a broad user base, active online communities, and Canonical’s support make issue resolution easy.</li>
-              <li class="p-list__item has-bullet">Lower costs: our affordable enterprise solutions require no proprietary hardware, or costly licensing fees.</li>
+
+        <div class="grid-row">
+          <div class="grid-col-2 grid-col-medium-1">
+            <ul class="js-tabbed-content p-tabs--vertical is-black u-hide--small" role="tablist" data-tablist="enterprise-open-source">
+              {{ tab_button("overview", "Overview") }}
+              {{ tab_button("customers", "Customers") }}
+              {{ tab_button("canonical", "Canonical") }}
+              {{ tab_button("community", "Community") }}
             </ul>
-          {% endcall %}
-          {% call() tab("canonical") %}
-            <p>
-              By working with Canonical, our customers benefit from our software – whilst enabling us to continue our <a href="https://canonical.com/company">mission</a> to amplify the global impact of open source.
-            </p>
-            <ul class="p-list">
-              <li class="p-list__item has-bullet">Contributions and governance: Canonical contributes to, steers, and supports many open source projects and foundations to ensure their long-term development and sustainability.</li>
-              <li class="p-list__item has-bullet">Security assurances: Through <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, we offer enterprises up to 12 years of coverage for thousands of packages, with reliable vulnerability management and security patching automation, as well as compliance certifications. This facilitates open source adoption while mitigating risks.</li>
-              <li class="p-list__item has-bullet">Stability and dependability: with 20+ years of experience and expertise in Linux, we’re here in the long term to support you and our communities.</li>
-            </ul>
-          {% endcall %}
-          {% call() tab("community") %}
-            <p>
-              Canonical closely collaborates with and supports the global community of developers innovating, improving, and maintaining open source software projects. In turn, we &ndash; and our customers &ndash; benefit from better software.
-            </p>
-            <ul class="p-list">
-              <li class="p-list__item has-bullet">Innovation: the open source community continuously improves software, offering valuable feedback to us and supporting users.</li>
-              <li class="p-list__item has-bullet">Faster development: a global developer network brings diverse ideas and skills, which makes for better, easier, and more secure software.</li>
-              <li class="p-list__item has-bullet">Purpose and impact: Canonical supports these passionate communities to continue their valuable work.</li>
-            </ul>
-          {% endcall %}
-        </div>
-        <div class="p-section--shallow">
-          <hr class="p-rule--muted u-hide--small" />
-          <div>
-            <div class="u-float-left" data-tablist="enterprise-open-source">
-              {{ tab_cta(tab_name="customers", title="Get in touch", link="https://canonical.com/#get-in-touch", label="Get in touch with Canonical") }}
-              {{ tab_cta(tab_name="canonical", title="Get to know us", link="https://canonical.com/company", label="Find out more about our company") }}
-              {{ tab_cta(tab_name="community", title="Find out more", link="https://canonical.com/projects", label="Find out more about the open source projects and communities Canonical supports") }}
+            <form class="u-hide--large u-hide--medium" autocomplete="off">
+              <select name="tabSelect" data-tablist="enterprise-open-source">
+                <option value="overview-tab" selected>Overview</option>
+                <option value="customers-tab">Customers</option>
+                <option value="canonical-tab">Canonical</option>
+                <option value="community-tab">Community</option>
+              </select>
+            </form>
+          </div>
+          <div class="grid-col-4 grid-col-medium-2">
+            <div data-tablist="enterprise-open-source">
+              {% call() tab("overview") %}
+                <p>
+                  Canonical is built on a symbiotic relationship between our customers, our community, and our company. Each element benefits the others, driving innovation and success. Bring your team together on an open source platform they can agree on.
+                </p>
+              {% endcall %}
+              {% call() tab("customers") %}
+                <p>
+                  Our customers benefit from adopting Canonical open source in different ways.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Composability for competitive advantage: composable systems scale easily, accelerate development, and can be customized to meet the organization’s specific needs.</li>
+                  <li class="p-list__item has-bullet">Gain knowledge: a broad user base, active online communities, and Canonical’s support make issue resolution easy.</li>
+                  <li class="p-list__item has-bullet">Lower costs: our affordable enterprise solutions require no proprietary hardware, or costly licensing fees.</li>
+                </ul>
+              {% endcall %}
+              {% call() tab("canonical") %}
+                <p>
+                  By working with Canonical, our customers benefit from our software – whilst enabling us to continue our <a href="https://canonical.com/company">mission</a> to amplify the global impact of open source.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Contributions and governance: Canonical contributes to, steers, and supports many open source projects and foundations to ensure their long-term development and sustainability.</li>
+                  <li class="p-list__item has-bullet">Security assurances: Through <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, we offer enterprises up to 12 years of coverage for thousands of packages, with reliable vulnerability management and security patching automation, as well as compliance certifications. This facilitates open source adoption while mitigating risks.</li>
+                  <li class="p-list__item has-bullet">Stability and dependability: with 20+ years of experience and expertise in Linux, we’re here in the long term to support you and our communities.</li>
+                </ul>
+              {% endcall %}
+              {% call() tab("community") %}
+                <p>
+                  Canonical closely collaborates with and supports the global community of developers innovating, improving, and maintaining open source software projects. In turn, we &ndash; and our customers &ndash; benefit from better software.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Innovation: the open source community continuously improves software, offering valuable feedback to us and supporting users.</li>
+                  <li class="p-list__item has-bullet">Faster development: a global developer network brings diverse ideas and skills, which makes for better, easier, and more secure software.</li>
+                  <li class="p-list__item has-bullet">Purpose and impact: Canonical supports these passionate communities to continue their valuable work.</li>
+                </ul>
+              {% endcall %}
             </div>
-            <div class="js-tab-buttons u-float-right u-hide--small" id="enterprise-open-source">
-              <button class="p-button js-prev-tab" disabled>&lsaquo;&nbsp;Previous</button>
-              <button class="p-button js-next-tab">Next&nbsp;&rsaquo;</button>
+            <div class="p-section--shallow">
+              <hr class="p-rule--muted u-hide--small" />
+              <div>
+                <div class="u-float-left" data-tablist="enterprise-open-source">
+                  {{ tab_cta(tab_name="customers", title="Get in touch", link="https://canonical.com/#get-in-touch", label="Get in touch with Canonical") }}
+                  {{ tab_cta(tab_name="canonical", title="Get to know us", link="https://canonical.com/company", label="Find out more about our company") }}
+                  {{ tab_cta(tab_name="community", title="Find out more", link="https://canonical.com/projects", label="Find out more about the open source projects and communities Canonical supports") }}
+                </div>
+                <div class="js-tab-buttons u-float-right u-hide--small" id="enterprise-open-source">
+                  <button class="p-button js-prev-tab" disabled>&lsaquo;&nbsp;Previous</button>
+                  <button class="p-button js-next-tab">Next&nbsp;&rsaquo;</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -302,35 +296,33 @@
   </section>
 
   <section class="p-section">
-    <div class="row">
+    <div class="grid-row--50-50">
       <hr class="p-rule" />
 
-      <div class="col-6">
-        <h2 class="p-text--small-caps u-no-padding--top">
-          Enterprises' expectations of open source projects
-        </h2>
-      </div>
+      <h2 class="grid-col p-text--small-caps u-no-padding--top">
+        Enterprises' expectations of open source projects
+      </h2>
 
-      {% call data_spotlight("54%") %}
-        Expect long term support guarantees
-      {% endcall %}
-      {% call data_spotlight("53%") %}
-        Expect rapid security patching
-      {% endcall %}
+      <div class="grid-col grid-row--50-50">
+        {% call data_spotlight("54%") %}
+          Expect long term support guarantees
+        {% endcall %}
+        {% call data_spotlight("53%") %}
+          Expect rapid security patching
+        {% endcall %}
+      </div>
     </div>
   </section>
 
   <section class="p-section u-fixed-width">
-    <div class="row--50-50">
+    <div class="grid-row--50-50">
       <hr class="p-rule" />
 
-      <div class="col">
-        <h2>
-          Open source with enterprise-grade support
-        </h2>
-      </div>
+      <h2 class="grid-col">
+        Open source with enterprise-grade support
+      </h2>
 
-      <div class="col">
+      <div class="grid-col">
         <p>
           For high stakes environments, enterprises consider paid support essential – from mission critical workloads, to systems handling sensitive data, to cloud infrastructure.<sup>3</sup>
         </p>
@@ -361,27 +353,21 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Where can you adopt open source with Canonical?</h2>
-      </div>
-      <div class="col">
-        <p>
-          Our customers have adopted our open source software to solve all kinds of challenges &ndash; from AI workloads and large private clouds, to healthcare devices and critical telecommunications and financial services infrastructure.
-        </p>
-      </div>
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">Where can you adopt open source with Canonical?</h2>
+      <p class="grid-col">
+        Our customers have adopted our open source software to solve all kinds of challenges &ndash; from AI workloads and large private clouds, to healthcare devices and critical telecommunications and financial services infrastructure.
+      </p>
     </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6 grid-col-start-medium-2 grid-col-medium-3">
         {% macro adopt_item(title, cta_text, cta_link) -%}
           <hr class="p-rule--muted" />
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">{{ title }}</h3>
-            </div>
-            <div class="col-6 col-medium-3">
+          <div class="grid-row">
+            <h3 class="p-heading--5 grid-col-2 grid-col-medium-1">{{ title }}</h3>
+            <div class="grid-col-4 grid-col-medium-2">
               {{ caller() }}
 
               <div class="p-cta-block">
@@ -461,33 +447,33 @@
     </div>
 
     {% macro testimonial(name, title, case_study_link, logo) -%}
-      <div class="row p-section--shallow">
-        <div class="col-3 p-section--shallow" style="margin-top: 1rem;">
+      <div class="grid-row u-fixed-width">
+        <hr class="p-rule grid-col-start-large-3 grid-col-6" />
+      </div>
+      <div class="p-testimonial">
+        <div class="p-testimonial__logo u-pad-logo">
           {{ logo | safe }}
         </div>
-        <div class="col-9">
-          <hr class="p-rule--muted" />
-          <div class="row p-section--shallow">
-            <div class="col-6 col-medium-4">
-              <blockquote class="u-no-margin--bottom u-no-padding" style="border: none;">
-                <p>
-                  “{{ caller() }}”
-                  <span class="u-off-screen">{{ name }}, {{ title }}</span>
-                </p>
-              </blockquote>
-            </div>
-            <div class="col-3 col-medium-2">
-              <p class="p-heading--5 u-no-margin--bottom" aria-hidden="true">{{ name }}</p>
-              <p class="u-text--muted" aria-hidden="true">{{ title }}</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="p-cta-block">
-              <a href="{{ case_study_link }}">
-                Learn more in the case study&nbsp;&rsaquo;
-              </a>
-            </div>
-          </div>
+        <div class="p-testimonial__quote">
+          <p>
+            <i>
+              &ldquo;{{ caller() }}&rdquo;
+            </i>
+          </p>
+          <p>
+            <a href="{{ case_study_link }}">
+              Learn more in the case study&nbsp;&rsaquo;
+            </a>
+          </p>
+        </div>
+        <div class="p-testimonial__author">
+          <p>
+            <span class="p-heading--bold">{{ name }}</span>
+            <br />
+            <span class="u-text--muted">
+              {{ title }}
+            </span>
+          </p>
         </div>
       </div>
     {%- endmacro %}
@@ -541,10 +527,10 @@
   <section class="p-section u-fixed-width">
     <hr class="p-rule--highlight" />
 
-    <div class="row--50-50">
-      <h2 class="p-text--small-caps col">Foundations we support and collaborate with</h2>
+    <div class="grid-row--50-50">
+      <h2 class="p-text--small-caps grid-col">Foundations we support and collaborate with</h2>
 
-      <p class="col">
+      <p class="grid-col">
         Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. Foundations that we support and collaborate with include:
       </p>
     </div>
@@ -579,12 +565,12 @@
   </section>
 
   <section class="p-section">
-    <div class="row--50-50">
+    <div class="grid-row--50-50">
       <hr class="p-rule" />
-      <div class="col">
+      <div class="grid-col">
         <h2>Further reading</h2>
       </div>
-      <div class="col">
+      <div class="grid-col">
         <p>
           <a href="https://ubuntu.com/engage/open-source-program-office-guide-ospo-guide">
             Learn about Open Source Program Offices (OSPOs)
