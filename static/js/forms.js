@@ -37,7 +37,7 @@ function attachLoadingSpinner(submitButton) {
 function toggleCheckboxVisibility(fieldset, checklistItem) {
   const checkboxes = fieldset.querySelectorAll(".js-checkbox-visibility");
   const otherCheckboxes = fieldset.querySelectorAll(
-    ".js-checkbox-visibility__other"
+    ".js-checkbox-visibility__other",
   );
   const isVisible = checklistItem.classList.contains("js-checkbox-visibility");
 
@@ -109,7 +109,7 @@ function setDataLayerConsentInfo() {
         typeof item === "object" &&
         item !== null &&
         item[0] === "consent" &&
-        item[1] === "update"
+        item[1] === "update",
     )[0]?.[2];
 
   if (latestConsentUpdateElements) {
@@ -155,11 +155,100 @@ function addCookieFieldsToForm(form) {
   });
 }
 
+function fixMultiSelectDropdowns() {
+  const multiSelects = document.querySelectorAll("select[multiple]");
+
+  multiSelects.forEach((select) => {
+    // EDIT CSS TO MODIFY SELECTION VISUALS
+    if (!document.getElementById("multi-select-styles")) {
+      const style = document.createElement("style");
+      style.id = "multi-select-styles";
+      style.textContent = `
+        select[multiple] option:checked {
+          background: #0066CC !important;
+          color: white !important;
+        }
+        
+        select[multiple] option:hover {
+          background: #f0f0f0 !important;
+          color: black !important;
+        }
+        
+        select[multiple] option:checked:hover {
+          background: #0066CC !important;
+          color: black !important;
+        }
+
+        .selection-count {
+          font-size: 12px;
+          color: #666;
+          margin-top: 4px;
+          font-weight: normal;
+        }
+        .selection-count.limit-reached {
+          color: #C7162B !important;
+          font-weight: bold !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const newSelect = select.cloneNode(true);
+    select.parentNode.replaceChild(newSelect, select);
+
+    let lastScrollTop = 0;
+
+    newSelect.addEventListener("scroll", function () {
+      lastScrollTop = newSelect.scrollTop;
+    });
+
+    newSelect.addEventListener("mousedown", function (e) {
+      e.preventDefault();
+
+      const option = e.target;
+      if (option.tagName === "OPTION") {
+        const selectedCount = newSelect.selectedOptions.length;
+
+        if (option.selected) {
+          option.selected = false;
+        } else if (selectedCount < 3) {
+          option.selected = true;
+        } else {
+          updateVisualFeedback(newSelect, true);
+          return;
+        }
+        //Required to ensure the scroll restoration happens at the very end, after ALL code has finished running
+        setTimeout(() => {
+          newSelect.scrollTop = lastScrollTop;
+        }, 0);
+        updateVisualFeedback(newSelect, false);
+      }
+    });
+    updateVisualFeedback(newSelect, false);
+  });
+}
+
+function updateVisualFeedback(select, limitReached = false) {
+  const selectedCount = select.selectedOptions.length;
+
+  let countDisplay = select.parentNode.querySelector(".selection-count");
+  if (!countDisplay) {
+    countDisplay = document.createElement("div");
+    countDisplay.className = "selection-count";
+    select.parentNode.appendChild(countDisplay);
+  }
+
+  if (limitReached) {
+    setTimeout(() => updateVisualFeedback(select, false), 3000);
+  }
+}
+
 const forms = document.querySelectorAll("form");
+
 forms.forEach((form) => {
   // Add event listeners to toggle checkbox visibility
   const ubuntuVersionCheckboxes = document.querySelector(
-    "fieldset.js-toggle-checkbox-visibility"
+    "fieldset.js-toggle-checkbox-visibility",
   );
   ubuntuVersionCheckboxes?.addEventListener("change", function (event) {
     toggleCheckboxVisibility(ubuntuVersionCheckboxes, event.target);
@@ -167,7 +256,7 @@ forms.forEach((form) => {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const requiredFieldset = form.querySelectorAll(
-    "fieldset.js-required-checkbox"
+    "fieldset.js-required-checkbox",
   );
   // By default we disable the button, until the required fields are selected
   if (requiredFieldset.length) submitButton.disabled = true;
@@ -195,4 +284,5 @@ forms.forEach((form) => {
   if (phoneNumberInput || countryInput) {
     prepareInputFields(phoneNumberInput, countryInput);
   }
+  fixMultiSelectDropdowns();
 });
