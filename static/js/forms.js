@@ -155,6 +155,21 @@ function addCookieFieldsToForm(form) {
   });
 }
 
+function updateVisualFeedback(select, limitReached = false) {
+  const selectedCount = select.selectedOptions.length;
+
+  let countDisplay = select.parentNode.querySelector(".selection-count");
+  if (!countDisplay) {
+    countDisplay = document.createElement("div");
+    countDisplay.className = "selection-count";
+    select.parentNode.appendChild(countDisplay);
+  }
+
+  if (limitReached) {
+    setTimeout(() => updateVisualFeedback(select, false), 3000);
+  }
+}
+
 function fixMultiSelectDropdowns() {
   const multiSelects = document.querySelectorAll("select[multiple]");
 
@@ -226,21 +241,6 @@ function fixMultiSelectDropdowns() {
     });
     updateVisualFeedback(newSelect, false);
   });
-}
-
-function updateVisualFeedback(select, limitReached = false) {
-  const selectedCount = select.selectedOptions.length;
-
-  let countDisplay = select.parentNode.querySelector(".selection-count");
-  if (!countDisplay) {
-    countDisplay = document.createElement("div");
-    countDisplay.className = "selection-count";
-    select.parentNode.appendChild(countDisplay);
-  }
-
-  if (limitReached) {
-    setTimeout(() => updateVisualFeedback(select, false), 3000);
-  }
 }
 
 const forms = document.querySelectorAll("form");
