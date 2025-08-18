@@ -12,8 +12,7 @@
   {% endif %}
 </div>
 <script>
-  const interview = {{ interview | tojson }};
-  const interviewTime = new Date(interview["start"]["datetime"])
+  const interviewTime = new Date("{{ interview["start"]["datetime"] }}");
   const userTime = interviewTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
   const offset = -(interviewTime.getTimezoneOffset() / 60)
   const userLocalTime = document.querySelector(".user-local-time");
