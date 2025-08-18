@@ -22,6 +22,7 @@
 
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
 {% macro data_spotlight(spotlight) -%}
   <div class="grid-col">
@@ -460,82 +461,69 @@
       <h2 class="p-text--small-caps">Customer testimonials</h2>
     </div>
 
-    {% macro testimonial(name, title, case_study_link, logo) -%}
-      <div class="grid-row u-fixed-width">
-        <hr class="p-rule--muted grid-col-start-large-3 grid-col-6" />
-      </div>
-      <div class="p-testimonial">
-        <div class="p-testimonial__logo u-pad-logo">
-          {{ logo | safe }}
-        </div>
-        <div class="p-testimonial__quote">
-          <p>
-            <i>
-              &ldquo;{{ caller() }}&rdquo;
-            </i>
-          </p>
-          <p>
-            <a href="{{ case_study_link }}">
-              Learn more in the case study&nbsp;&rsaquo;
-            </a>
-          </p>
-        </div>
-        <div class="p-testimonial__author">
-          <p>
-            <span class="p-heading--bold">{{ name }}</span>
-            <br />
-            <span class="u-text--muted">
-              {{ title }}
-            </span>
-          </p>
-        </div>
-      </div>
-    {%- endmacro %}
-
-    {% call() testimonial(
-      name = "Daniel Schell",
-      title = "Chief Technology Officer and Co-founder, Airlock Digital",
-      case_study_link = "https://canonical.com/case-study/airlock-digital-ubuntu-pro-azure-case-study",
-      logo = image(
-        url="https://assets.ubuntu.com/v1/34af1302-airlock-logo.png",
-        alt="",
-        width="852",
-        height="165",
-        hi_def=True,
-        loading="auto|lazy"
-      )
+    {% call(slot) vf_quote_wrapper(
+      quote_text="My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.",
+      quote_size="small",
+      citation_source_name_text="Daniel Schell",
+      citation_source_title_text="Chief Technology Officer and Co-founder",
+      citation_source_organisation_text="Airlock Digital",
+      is_shallow=true
     ) -%}
-      My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.
-    {%- endcall %}
-    {% call() testimonial(
-      name = "Curtis Haslam",
-      title = "Senior Manager at Network Cloud, BT Group",
-      case_study_link = "https://ubuntu.com/engage/5G-with-open-source-infrastructure",
-      logo = image(
-        url="https://assets.ubuntu.com/v1/e1a5c56f-bt-logo.png",
-        alt="",
-        width="852",
-        height="186",
-        hi_def=True,
-        loading="auto|lazy"
-      )
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/34af1302-airlock-logo.png",
+          alt="",
+          width="852",
+          height="165",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://canonical.com/case-study/airlock-digital-ubuntu-pro-azure-case-study">Learn more in the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
+    {% call(slot) vf_quote_wrapper(
+      quote_text="Canonical works with us as partner and they own problems alongside us. I feel like we work as a team rather than a simple business transaction.",
+      quote_size="small",
+      citation_source_name_text="Curtis Haslam",
+      citation_source_title_text="Senior Manager at Network Cloud",
+      citation_source_organisation_text="BT Group",
+      is_shallow=true
     ) -%}
-      Canonical works with us as partner and they own problems alongside us. I feel like we work as a team rather than a simple business transaction.
-    {%- endcall %}
-    {% call() testimonial(
-      name = "Ed Zenisek",
-      title = "IT Manager, NMSU Physical Science Lab",
-      case_study_link = "https://ubuntu.com/engage/new-mexico-state-university-physical-science-laboratory-drives-agile-and-compliant-federal-research-with-ubuntu",
-      logo = image(url="https://assets.ubuntu.com/v1/565995a3-nmsu-logo.png",
-        alt="",
-        width="852",
-        height="222",
-        hi_def=True,
-        loading="auto|lazy"
-      )
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/e1a5c56f-bt-logo.png",
+          alt="",
+          width="852",
+          height="186",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://ubuntu.com/engage/5G-with-open-source-infrastructure">Learn more in the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
+    {% call(slot) vf_quote_wrapper(
+      quote_text="My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.",
+      quote_size="small",
+      citation_source_name_text="Ed Zenisek",
+      citation_source_title_text="IT Manager",
+      citation_source_organisation_text="NMSU Physical Science Lab",
+      is_shallow=true
     ) -%}
-      Info on Ubuntu is right there at our fingertips. Anything we need to know is always just a Google search away, so whatever issues we run into are easy to solve.
-    {%- endcall %}
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/565995a3-nmsu-logo.png",
+          alt="",
+          width="852",
+          height="222",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://ubuntu.com/engage/new-mexico-state-university-physical-science-laboratory-drives-agile-and-compliant-federal-research-with-ubuntu">Learn more in the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
   </section>
 
   <section class="p-section u-fixed-width">
