@@ -4,9 +4,13 @@
 
 {% block meta_description %}The home of Canonical media resources, news stories and press releases.{% endblock %}
 
-{% block meta_copydoc %}https://docs.google.com/document/d/1d1Xi5KyHEYMdHCRNLKIxMrzKoQlqXS8mebkkYPRJJTU/edit{% endblock %}
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1d1Xi5KyHEYMdHCRNLKIxMrzKoQlqXS8mebkkYPRJJTU/edit
+{% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
 {% block content %}
 
@@ -14,30 +18,44 @@
     <div class="row">
       <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
         <h1 class="u-no-margin--bottom">Press centre</h1>
-        <p class="p-heading--2">All the latest news and featured stories <br class="u-hide--small u-hide--medium">from Canonical.</p>
+        <p class="p-heading--2">
+          All the latest news and featured stories
+          <br class="u-hide--small u-hide--medium" />
+          from Canonical.
+        </p>
       </div>
     </div>
     <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
-      <img src="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg" alt="" style="aspect-ratio: 5.177570093457944; width: 100%;"/>
+      {{ image(url="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg",
+            alt="",
+            width="2216",
+            height="428",
+            fmt="png",
+            hi_def=True,
+            loading="auto",
+            attrs={"style":"aspect-ratio: 5.177570093457944; width: 100%;"}) | safe
+      }}
     </div>
   </section>
 
   <section class="p-section">
     <div class="row">
       <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
-        <hr class="p-rule">
+        <hr class="p-rule" />
         <div class="row">
           <div class="col-3 col-medium-2 col-small-2">
             <h2 class="p-muted-heading">Resources</h2>
             <p>
               <a href="https://drive.google.com/drive/folders/1I6Oi39qKONRN3gjNKLtovUUtwu8YYwEf?usp=drive_link">Canonical logos</a>
-              <br>
+              <br />
               <a href="https://design.ubuntu.com/brand">Brand guidelines</a>
             </p>
           </div>
           <div class="col-3 col-medium-2 col-small-2">
             <h2 class="p-muted-heading">Get in touch</h2>
-            <p>For the Canonical Communications team, email <a href="mailto:pr@canonical.com">pr@canonical.com</a>.</p>
+            <p>
+              For the Canonical Communications team, email <a href="mailto:pr@canonical.com">pr@canonical.com</a>.
+            </p>
           </div>
         </div>
       </div>
@@ -46,13 +64,21 @@
 
   <section class="p-section">
     <div class="row">
-      <hr class="p-rule">
+      <hr class="p-rule" />
       <div class="col-3 col-medium-2">
-        <h2 class="p-muted-heading">Canonical <br class="u-hide--small">at a glance</h2>
+        <h2 class="p-muted-heading">
+          Canonical
+          <br class="u-hide--small" />
+          at a glance
+        </h2>
       </div>
       <div class="col-9 col-medium-4">
         <div class="p-section--shallow">
-          <p class="p-heading--2">Publishing the #1 OS in the cloud. <br class="u-hide--medium u-hide--small">Trusted by industry leaders.</p>
+          <p class="p-heading--2">
+            Publishing the #1 OS in the cloud.
+            <br class="u-hide--medium u-hide--small" />
+            Trusted by industry leaders.
+          </p>
         </div>
         <ul class="p-list--divided">
           <li class="p-list__item has-bullet">8 of the top 10 automotive companies.</li>
@@ -69,15 +95,15 @@
     </div>
     {% for article in articles %}
       {% if loop.index0 < 5 %}
-      {% include 'blog/blog-card.html' %}
+        {% include 'blog/blog-card.html' %}
       {% endif %}
     {% endfor %}
   </section>
 
   {% with %}
-  {% set total_pages = total_pages %}
-  {% set current_page = current_page %}
-  {% include "shared/_pagination.html" %}
+    {% set total_pages = total_pages %}
+    {% set current_page = current_page %}
+    {% include "shared/_pagination.html" %}
   {% endwith %}
 
 {% endblock %}
