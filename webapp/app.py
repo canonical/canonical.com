@@ -1465,8 +1465,8 @@ def build_case_study_index(engage_docs):
                 case_study["path"] = "https://ubuntu.com" + path
 
         tags = engage_docs.get_engage_pages_tags()
-        # strip whitespace & remove dupes
-        processed_tags = {tag.strip() for tag in tags if tag.strip()}
+        # strip whitespace, remove dupes and order alphabetically
+        processed_tags = sorted({tag.strip() for tag in tags if tag.strip()})
 
         return flask.render_template(
             "case-study/index.html",
