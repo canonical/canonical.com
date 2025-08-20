@@ -45,7 +45,7 @@
       </p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
-      <a href="https://canonical.com/#get-in-touch" class="p-button--positive">Get in touch</a>
+      <a href="/contact-us" class="p-button--positive js-invoke-modal" aria-controls="homepage-modal">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-cover">
@@ -197,10 +197,10 @@
         </button>
       </li>
     {%- endmacro %}
-    {% macro tab_cta(tab_name, title, link, label) -%}
+    {% macro tab_cta(tab_name, title, link, label, class="", aria_controls="") -%}
       {% call() tab(tab_name) %}
         <div class="p-cta-block">
-          <a href="{{ link }}">
+          <a href="{{ link }}" class="{{ class }}" aria-controls="{{ aria_controls }}">
             {{ title }}&nbsp;&rsaquo;
           </a>
         </div>
@@ -288,7 +288,7 @@
               <hr class="p-rule--muted u-hide--small" />
               <div>
                 <div class="u-float-left" data-tablist="enterprise-open-source">
-                  {{ tab_cta(tab_name="customers", title="Get in touch", link="https://canonical.com/#get-in-touch", label="Get in touch with Canonical") }}
+                  {{ tab_cta(tab_name="customers", title="Get in touch", link="/contact-us", label="Get in touch with Canonical", class="js-invoke-modal", aria_controls="homepage-modal" ) }}
                   {{ tab_cta(tab_name="community", title="Find out more", link="https://canonical.com/projects", label="Find out more about the open source projects and communities Canonical supports") }}
                   {{ tab_cta(tab_name="canonical", title="Get to know us", link="https://canonical.com/company", label="Find out more about our company") }}
                 </div>
@@ -607,6 +607,8 @@
       </div>
     </div>
   </section>
+
+  {{ load_form("/contact-us") | safe }}
 
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
 {% endblock %}
