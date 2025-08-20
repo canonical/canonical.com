@@ -8,7 +8,6 @@ from smtplib import SMTP
 from typing import Dict, List, Tuple
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
-from requests.exceptions import HTTPError
 import pytz
 import logging
 
