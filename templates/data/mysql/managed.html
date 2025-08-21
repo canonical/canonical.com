@@ -25,7 +25,13 @@
     layout='25/75'
     ) -%}
     {%- if slot == 'signpost_image' -%}
-      <img src="https://assets.ubuntu.com/v1/a11267a9-mysql-logo.png" alt="" />
+      {{ image(url="https://assets.ubuntu.com/v1/a11267a9-mysql-logo.png",
+            alt="",
+            width="568",
+            height="162",
+            hi_def=True,
+            loading="auto") | safe
+      }}
     {%- endif -%}
     {%- if slot == 'description' -%}
       <p>
@@ -474,6 +480,6 @@
     </div>
   </section>
 
-  {{ load_form('/data/mysql') | safe }}
+  {{ load_form("/data/mysql") | safe }}
 
 {% endblock %}
