@@ -1672,3 +1672,16 @@ def get_pricing_data():
     except FileNotFoundError:
         logger.error("Pricing data file not found")
         return {"error": "Pricing data not available"}, 500
+
+
+# Custom redirects for Jaas
+@app.route("/jaas/<charm_or_bundle_name>")
+@app.route("/jaas/<charm_or_bundle_name>/<series_or_version>")
+@app.route("/jaas/<charm_or_bundle_name>/<series_or_version>/<version>")
+def details_redirect(
+    charm_or_bundle_name,
+    series_or_version=None,
+    version=None,
+):
+    charmhub_url = "https://charmhub.io/" + charm_or_bundle_name
+    return flask.redirect(charmhub_url, code=301)
