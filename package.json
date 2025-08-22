@@ -2,8 +2,8 @@
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "concurrently --kill-others --raw 'yarn run watch-css' 'yarn run watch-js'",
-    "watch-css": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
-    "watch-js": "watch -p 'static/js/**/!(*.test)*.{jsx,ts,tsx}' -c 'node build.js'",
+    "watch-css": "sass --watch static/sass/styles.scss:static/css/styles.css --load-path=node_modules --style=compressed",
+    "watch-js": "nodemon --watch 'static/js' --ext js,jsx,ts,tsx --ignore '**/*.test.*' --ignore 'static/js/dist/**' --exec 'node build.js'",
     "build": "yarn run build-css && yarn run build-js",
     "build-css": "sass static/sass/styles.scss static/css/styles.css --load-path=node_modules --style=compressed && postcss --map false --replace 'static/css/**/*.css'",
     "build-js": "./scripts/build-modules.sh && node build.js",
@@ -62,7 +62,7 @@
     "stylelint-order": "6.0.4",
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.5",
-    "watch-cli": "0.2.3"
+    "nodemon": "3.1.10"
   },
   "jest": {
     "moduleDirectories": [
