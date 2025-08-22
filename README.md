@@ -1,4 +1,4 @@
-# ![Canonical](https://assets.ubuntu.com/v1/98b1e19c-Tag-CoF-Orange-Digital.png?h=32 "Canonical")&nbsp;canonical.com
+# ![Canonical](https://assets.ubuntu.com/v1/efc6527b-CoF%20@2x.png?h=32 "Canonical")&nbsp;canonical.com
 
 **The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/).**
 
