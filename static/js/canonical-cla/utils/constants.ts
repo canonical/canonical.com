@@ -6,7 +6,6 @@ export type IndividualSignForm = {
   agreement_type: "individual";
   first_name: string;
   last_name: string;
-  phone_number: string;
   address: string;
   country: string;
   github_email?: string;

@@ -21,7 +21,6 @@ const IndividualFormSchema = Yup.object<
   .shape({
     first_name: Yup.string().max(50).required().label("First name"),
     last_name: Yup.string().max(50).required().label("Last name"),
-    phone_number: Yup.string().max(20).required().label("Phone number"),
     street_address: Yup.string().max(200).required().label("Street address"),
     city: Yup.string().max(100).required().label("City"),
     state_province: Yup.string().max(100).label("State/Province"),
@@ -44,7 +43,7 @@ const IndividualContactForm = () => {
   const { changeStep } = useSignForm();
   const [storedValues, setStoredValues, resetStoredValues] =
     usePersistedForm<Yup.InferType<typeof IndividualFormSchema>>(
-      "individual-form",
+      "individual-form"
     );
   const submitSignForm = useMutation({
     mutationFn: postIndividualSignForm,
@@ -68,7 +67,6 @@ const IndividualContactForm = () => {
       agreement_type: "individual",
       first_name: values.first_name,
       last_name: values.last_name,
-      phone_number: values.phone_number,
       address,
       country: values.country,
       github_email: values.github_email || undefined,
@@ -102,14 +100,6 @@ const IndividualContactForm = () => {
               required
               type="text"
               maxLength={50}
-            />
-            <FormikField
-              component={Input}
-              name="phone_number"
-              label="Phone number"
-              required
-              type="tel"
-              maxLength={20}
             />
             <FormikField
               component={Input}
