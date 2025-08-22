@@ -1,8 +1,7 @@
-# ![Canonical](https://assets.ubuntu.com/v1/9ce5bce5-canonical-logo3.png?h=32 "Canonical")&nbsp;canonical.com
+# ![Canonical](https://assets.ubuntu.com/v1/98b1e19c-Tag-CoF-Orange-Digital.png?h=32 "Canonical")&nbsp;canonical.com
 
 **The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/).**
 
-[![CircleCI build status](https://circleci.com/gh/canonical-web-and-design/canonical.com.svg?style=shield)](https://circleci.com/gh/canonical-web-and-design/canonical.com)
 [![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
 
 This is the repository for the canonical.com website.
