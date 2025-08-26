@@ -66,7 +66,7 @@ Use of Canonical intellectual property is subject to [Canonical's intellectual p
 
 So that we can provide the Service to you, you will be required to provide information about yourself such as your name and email address. Any such information you provide to Canonical must always be accurate, correct and up to date and in compliance with these Terms of Service.
 
-Our [Single Sign On Privacy Notice](/legal/data-privacy/sso) and [Privacy Policy](/legal/terms-and-policies/privacy-policy) explain how we treat your personal data and protect your privacy when using these Services. In addition, if you use the Service for more than the entitled number of Ubuntu systems Canonical may contact you directly, using the SSO account details provided, to discuss ongoing maintenance and support requirements.
+Our [Single Sign On Privacy Notice](/legal/data-privacy/sso) and [Privacy Policy](/legal/data-policy) explain how we treat your personal data and protect your privacy when using these Services. In addition, if you use the Service for more than the entitled number of Ubuntu systems Canonical may contact you directly, using the SSO account details provided, to discuss ongoing maintenance and support requirements.
 
 We may also collect certain non-personally-identifiable information, which is located on your computer. The information collected may include statistics relating to how often data is transferred, and performance metrics in relation to software and configuration. You agree this information may be retained and used by Canonical.
 

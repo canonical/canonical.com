@@ -91,7 +91,7 @@ Additional Snap Store services may require payment of fees, such as access to a 
 
 ## 13\. Personal data
 
-Our [Privacy Notice](/legal/data-privacy/snap-store) and [Privacy Policy](/legal/terms-and-policies/privacy-policy) explain how we treat your personal data and protect your privacy.
+Our [Privacy Notice](/legal/data-privacy/snap-store) and [Privacy Policy](/legal/data-privacy) explain how we treat your personal data and protect your privacy.
 
 ## 14\. Limitation of liability
 
