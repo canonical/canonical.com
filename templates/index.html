@@ -18,7 +18,7 @@
         as="fetch"
         type="application/json"
         crossorigin />
-  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}" defer></script>
+  <!-- <script src="{{ versioned_static('js/dist/homepage_animations.js') }}" defer></script> -->
   
   {# djlint: on #}
 {% endblock extra_metatags %}
@@ -1416,6 +1416,14 @@
       script.defer = true;
       document.head.appendChild(script);
     }
+    const heroObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        loadScript("{{ versioned_static('js/dist/homepage_animations.js') }}");
+        heroObserver.disconnect();
+      }
+    });
+    heroObserver.observe(document.querySelector('#suru-motion-anchor'));
+
     const centerAnimationObserver = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         loadScript("{{ versioned_static('js/dist/homepage_center_animations.js') }}");
