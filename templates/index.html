@@ -1,6 +1,6 @@
 {% extends 'base_index.html' %}
 
-{% block head %}
+{% block extra_metatags %}
   {# djlint: off #}
 
   <link rel="preload"
@@ -13,11 +13,11 @@
         as="fetch"
         type="application/json"
         crossorigin />
+  <script src="{{ versioned_static('js/dist/scroll-section.js') }}" defer></script>
+  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}" defer></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}" defer></script>
   {# djlint: on #}
-  <script defer src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
-  <script defer src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
-  <script defer src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
-{% endblock head %}
+{% endblock extra_metatags %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1GNa1FaTkARdrVwYgHXf5H-6sqOLjkJENDistDDcsi4o/edit?tab=t.vzytlkpquivg
@@ -1400,10 +1400,12 @@
 
   {{ load_form("/") | safe }}
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+<!-- <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script> -->
+<script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
 
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-
-  {# djlint: off #}
+{# djlint: off #}
       <script>
         canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
@@ -1415,6 +1417,6 @@
           excerptLength: 100,
         })
 </script>
-  {# djlint: on #}
+{# djlint: on #}
 
 {% endblock %}
