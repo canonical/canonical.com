@@ -13,8 +13,9 @@
         as="fetch"
         type="application/json"
         crossorigin />
-  <script src="{{ versioned_static('js/dist/scroll-section.js') }}" defer></script>
+  <!-- <script src="{{ versioned_static('js/dist/scroll-section.js') }}" defer></script> -->
   <script src="{{ versioned_static('js/dist/homepage_animations.js') }}" defer></script>
+  
   {# djlint: on #}
 {% endblock extra_metatags %}
 
@@ -887,7 +888,7 @@
     </div>
   </section>
 
-  <section class="p-section--deep scroll-section-observe-anchor">
+  <section id="scroll-animation-section" class="p-section--deep scroll-section-observe-anchor">
     <div class="row">
       <div class="col-9 col-start-large-4">
         <div class="p-section--shallow">
@@ -1403,6 +1404,24 @@
   <!-- <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script> -->
   <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script>
+    function loadScript(url) {
+      const script = document.createElement('script');
+      script.src = url;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  
+    // Load on intersection or scroll event
+    const observer = new IntersectionObserver((entries) => {
+      console.log("I ran >>>>>>")
+      if (entries[0].isIntersecting) {
+        loadScript("{{ versioned_static('js/dist/scroll-section.js') }}");
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.querySelector('#scroll-animation-section'));
+  </script>
 
   {# djlint: off #}
       <script>
