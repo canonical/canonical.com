@@ -1405,7 +1405,7 @@
   {{ load_form("/") | safe }}
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
   <!-- <script src="{{ versioned_static('js/dist/scroll-section.js') }}"></script> -->
-  <!-- <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script> -->
+  <script src="{{ versioned_static('js/dist/homepage_animations.js') }}"></script>
   <!-- <script src="{{ versioned_static('js/dist/homepage_center_animations.js') }}"></script> -->
   <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
@@ -1416,13 +1416,7 @@
       script.defer = true;
       document.head.appendChild(script);
     }
-    const heroObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        loadScript("{{ versioned_static('js/dist/homepage_animations.js') }}");
-        heroObserver.disconnect();
-      }
-    });
-    heroObserver.observe(document.querySelector('#suru-motion-anchor'));
+    
 
     const centerAnimationObserver = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
