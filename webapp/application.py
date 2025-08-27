@@ -25,8 +25,16 @@ from webapp.requests_session import get_requests_session
 logger = logging.getLogger(__name__)
 
 withdrawal_reasons = {
-    "27987": "I've accepted another position",
-    "27992": "I've decided to stay with my current employer",
+    "97001": "Accepted another offer – compensation",
+    "97002": "Accepted another offer – role fit",
+    "97004": (
+        "I chose to remain with my current company "
+        "as the timing/offer was a better fit"
+    ),
+    "97003": (
+        "I chose to remain with my current company due to "
+        "a new opportunity/promotion"
+    ),
     "35818": "The position isn't a good fit",
     "36714": "I cannot complete the assessment",
     "33": "Other",
