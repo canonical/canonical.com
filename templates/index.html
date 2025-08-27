@@ -13,7 +13,11 @@
         as="fetch"
         type="application/json"
         crossorigin />
-  <!-- <script src="{{ versioned_static('js/dist/scroll-section.js') }}" defer></script> -->
+  <link rel="preload"
+        href="/static/json/centre_hover.json"
+        as="fetch"
+        type="application/json"
+        crossorigin />
   <script src="{{ versioned_static('js/dist/homepage_animations.js') }}" defer></script>
   
   {# djlint: on #}
@@ -1411,10 +1415,7 @@
       script.defer = true;
       document.head.appendChild(script);
     }
-  
-    // Load on intersection or scroll event
     const observer = new IntersectionObserver((entries) => {
-      console.log("I ran >>>>>>")
       if (entries[0].isIntersecting) {
         loadScript("{{ versioned_static('js/dist/scroll-section.js') }}");
         observer.disconnect();
