@@ -13,6 +13,8 @@
   https://docs.google.com/document/d/1Wvhl0yYV_w0BJsyZbQFKg_QV6RjMLbmQU3x0rsD2F4Q
 {% endblock meta_copydoc %}
 
+{% block meta_image %}https://assets.ubuntu.com/v1/4964cb81-servers.jpg{% endblock %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}
@@ -40,7 +42,7 @@
         <div class="p-cta-block">
           <a href="/contact-us"
              class="p-button--positive js-invoke-modal"
-             aria-controls="kubeflow-modal">Get in touch</a>
+             aria-controls="mlops-modal">Get in touch</a>
           <a href="https://ubuntu.com/engage/mlops-guide">Read our guide to MLOps&nbsp;&rsaquo;</a>
         </div>
       </div>
@@ -61,38 +63,50 @@
     {
     "title_text": "One solution, any cloud
     ",
-    "image_html":  '<img src="https://assets.ubuntu.com/v1/566c5295-one-solution.png"
-     class="p-image-container__image"
-     width="568"
-     height="853"
-     alt="" />',
+    "image_html":  image(url="https://assets.ubuntu.com/v1/566c5295-one-solution.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"})
+    ,
     "description_html": "<p>Deploy Kubeflow on public clouds, private infrastructure, or air-gapped environments.</p>",
     },
     {
     "title_text": "Multi-user collaboration",
-    "image_html":  '<img src="https://assets.ubuntu.com/v1/1b774c6e-multi-user.png"
-     class="p-image-container__image"
-     width="568"
-     height="853"
-     alt="" />',
+    "image_html": image(url="https://assets.ubuntu.com/v1/1b774c6e-multi-user.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
     "description_html": "<p>Enable secure workspaces with role-based access for data science teams.</p>",
     },
     {
     "title_text": "Scale with confidence",
-    "image_html":  '<img src="https://assets.ubuntu.com/v1/faa2c0b5-scale-with.png"
-     class="p-image-container__image"
-     width="568"
-     height="853"
-     alt="" />',
+    "image_html":  image(url="https://assets.ubuntu.com/v1/faa2c0b5-scale-with.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
     "description_html": "<p>Run parallel experiments at any scale, with GPU acceleration built-in.</p>",
     },
     {
     "title_text": "Open and cost-efficient",
-    "image_html":  '<img src="https://assets.ubuntu.com/v1/c9c7d08a-open-and.png"
-     class="p-image-container__image"
-     width="568"
-     height="853"
-     alt="" />',
+    "image_html": image(url="https://assets.ubuntu.com/v1/c9c7d08a-open-and.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
     "description_html": "<p>No licensing fees. No usage limits. Backed by Canonical’s enterprise-grade support.</p>",
     }
     ]
@@ -169,6 +183,7 @@
                             width="362",
                             height="417",
                             hi_def=True,
+                            fmt="png",
                             loading="lazy",
                             attrs={"class": "p-logo-section__logo"},) | safe
               }}
@@ -229,7 +244,7 @@
             <li class="p-list__item is-ticked">Validated with leading OEMs and silicon vendors</li>
           </ul>
           <div class="p-cta-block">
-            <a href="https://ubuntu.com/ai/mlops" class="p-button">Explore Canonical MLOps</a>
+            <a href="/mlops" class="p-button">Explore Canonical MLOps</a>
           </div>
         </div>
       </div>
@@ -310,10 +325,10 @@
     {%- if slot == 'cta' -%}
       <a href="/contact-us"
          class="p-button--positive js-invoke-modal"
-         aria-controls="kubeflow-modal">Discover Charmed Kubeflow&nbsp;&rsaquo;</a>
+         aria-controls="mlops-modal">Discover Charmed Kubeflow&nbsp;&rsaquo;</a>
     {%- endif -%}
   {% endcall -%}
 
-  {{ load_form("/mlops/kubeflow") | safe }}
+  {{ load_form("/mlops") | safe }}
 
 {% endblock content %}

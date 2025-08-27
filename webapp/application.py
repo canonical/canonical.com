@@ -8,7 +8,6 @@ from smtplib import SMTP
 from typing import Dict, List, Tuple
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
-from requests.exceptions import HTTPError
 import pytz
 import logging
 
@@ -22,6 +21,8 @@ from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
 from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
 from webapp.requests_session import get_requests_session
+
+logger = logging.getLogger(__name__)
 
 withdrawal_reasons = {
     "27987": "I've accepted another position",
@@ -101,8 +102,9 @@ def _get_employee_directory_data(employee_id: str):
         headers={"Authorization": directory_api_token},
         use_json=True,
         verify=False,
+        timeout=10,
     )
-    client = Client(transport=transport, fetch_schema_from_transport=True)
+    client = Client(transport=transport)
     filter_term = r"{id: $id}"
     query = gql(
         """
@@ -238,23 +240,20 @@ def _get_application(harvest, application_id):
     for recruiter in job["hiring_team"]["recruiters"]:
         if recruiter["responsible"]:
             application["hiring_lead"] = harvest.get_user(recruiter["id"])
+            application["hiring_lead"]["bio"] = None
+            application["hiring_lead"]["avatar"] = None
 
             try:
                 employee_data = _get_employee_directory_data(
                     recruiter["employee_id"]
                 )
-                # Avatar not available for now
-                application["hiring_lead"]["avatar"] = None
-                # Split bio into a list, as it was previously
                 if employee_data["bio"]:
                     application["hiring_lead"]["bio"] = employee_data[
                         "bio"
                     ].split("\\n")
-                else:
-                    application["hiring_lead"]["bio"] = None
 
-            except HTTPError as error:
-                print(error)
+            except Exception:
+                logger.exception("failed to load hl bio")
 
             if job_id == 2680006:  # Enterprise Sales Representative
                 application["hiring_lead"][

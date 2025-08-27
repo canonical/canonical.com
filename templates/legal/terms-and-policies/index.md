@@ -26,7 +26,7 @@ Your privacy is extremely important. Our privacy policy explains what data we co
 
 Terms and conditions are for when you purchase services from Canonical.
 
-[View service terms ›](/legal/ubuntu-advantage-service-terms)
+[View service terms ›](/legal/ubuntu-pro-service-terms)
 
 ### Intellectual property rights
 

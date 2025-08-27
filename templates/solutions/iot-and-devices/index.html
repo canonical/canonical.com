@@ -49,10 +49,19 @@
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-cover u-hide--small">
-        <img class="p-image-container__image"
-             src="https://assets.ubuntu.com/v1/697a4a90-BRND-2303-IoT%20portfolio%20diagram.svg"
-             alt="A diagram consisting of three wheels in a line, representing the three pillars of Canonical's IoT portfolio: Build. Secure. Scale. In each wheel, there are four products. These wheels mirror the DevSecOps cycle"
-             style="object-fit: contain" />
+        {{ image(url="https://assets.ubuntu.com/v1/697a4a90-BRND-2303-IoT%20portfolio%20diagram.svg",
+                alt="",
+                width="2116",
+                height="773",
+                hi_def=True,
+                fmt="svg",
+                loading="auto",
+                attrs={
+                "class": "p-image-container__image",
+                "style":"object-fit: contain",
+                "fetchpriority": "high"
+                }) | safe
+        }}
       </div>
     {%- endif -%}
   {% endcall -%}

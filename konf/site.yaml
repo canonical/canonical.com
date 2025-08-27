@@ -122,6 +122,10 @@ extraHosts:
 # Overrides for production
 production:
   replicas: 5
+  env:
+    - name: CANONICAL_CLA_API_URL
+      value: https://cla.canonical.com
+
   routes:
     - paths: [/blog]
       name: canonical-com-blog
@@ -130,9 +134,6 @@ production:
       replicas: 3
       memoryLimit: 256Mi
       env:
-        - name: CANONICAL_CLA_API_URL
-          value: https://cla.canonical.com
-
         - name: SEARCH_API_KEY
           secretKeyRef:
             key: google-custom-search-key
