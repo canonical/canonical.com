@@ -11,6 +11,7 @@ let entries = {
   "navigation": "./static/js/navigation/main.js",
   "active-nav-scroll": "./static/js/active-nav-scroll.js",
   "homepage_animations": "./static/js/homepage/animations.js",
+  "homepage_center_animations": "./static/js/homepage/center-animations.js",
   "homepage_carousel": "./static/js/homepage/carousel.js",
   "scroll-section": "./static/js/scroll-section.js",
   "cookie-policy-with-callback": "./static/js/cookie-policy-with-callback.js",
