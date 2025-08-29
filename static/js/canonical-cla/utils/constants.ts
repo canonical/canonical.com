@@ -17,6 +17,7 @@ export type OrganizationSignForm = {
   name: string;
   contact_name: string;
   contact_email: string;
+  contact_job_title: string;
   phone_number: string;
   address: string;
   country: string;
