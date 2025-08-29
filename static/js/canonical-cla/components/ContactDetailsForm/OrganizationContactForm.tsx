@@ -32,6 +32,10 @@ const OrganizationFormSchema = Yup.object<
     .email()
     .required()
     .label("Contact email"),
+  contact_job_title: Yup.string()
+    .max(100)
+    .required()
+    .label("Contact job title"),
   phone_number: Yup.string().max(20).required().label("Phone number"),
   street_address: Yup.string().max(200).required().label("Street address"),
   city: Yup.string().max(100).required().label("City"),
@@ -48,7 +52,7 @@ const OrganizationContactForm = () => {
   const { changeStep } = useSignForm();
   const [storedValues, setStoredValues, resetStoredValues] =
     usePersistedForm<Yup.InferType<typeof OrganizationFormSchema>>(
-      "organization-form",
+      "organization-form"
     );
   const submitSignForm = useMutation({
     mutationFn: postOrganizationSignForm,
@@ -59,7 +63,7 @@ const OrganizationContactForm = () => {
     },
   });
   const handleSubmit = (
-    values: Yup.InferType<typeof OrganizationFormSchema>,
+    values: Yup.InferType<typeof OrganizationFormSchema>
   ) => {
     const address = formatAddress({
       street_address: values.street_address,
@@ -73,6 +77,7 @@ const OrganizationContactForm = () => {
       name: values.name,
       contact_name: values.contact_name,
       contact_email: values.contact_email,
+      contact_job_title: values.contact_job_title,
       phone_number: values.phone_number,
       address,
       country: values.country,
@@ -102,7 +107,7 @@ const OrganizationContactForm = () => {
       {({ isValid, values, setFieldValue }) => {
         setStoredValues(values);
         const email_domain = getEmailDomain(
-          values.github_email || values.launchpad_email,
+          values.github_email || values.launchpad_email
         );
         if (values.email_domain !== email_domain) {
           setFieldValue("email_domain", email_domain);
@@ -135,6 +140,14 @@ const OrganizationContactForm = () => {
             />
             <FormikField
               component={Input}
+              type="text"
+              required
+              name="contact_job_title"
+              label="Contact job title"
+              maxLength={100}
+            />
+            <FormikField
+              component={Input}
               type="tel"
               required
               name="phone_number"
@@ -149,7 +162,6 @@ const OrganizationContactForm = () => {
               type="text"
               maxLength={200}
             />
-
             <FormikField
               component={Input}
               name="city"
@@ -158,7 +170,6 @@ const OrganizationContactForm = () => {
               type="text"
               maxLength={100}
             />
-
             <FormikField
               component={Input}
               name="state_province"
@@ -211,12 +222,11 @@ const OrganizationContactForm = () => {
                 name="email_domain"
                 maxLength={100}
                 value={getEmailDomain(
-                  values.github_email || values.launchpad_email,
+                  values.github_email || values.launchpad_email
                 )}
                 help="By filling this field, you are signing a Contributor License Agreement for an entire domain.  Please ensure you have your organization's approval  before submitting this form."
               />
             </div>
-
             {submitSignForm.isError && (
               <div className="p-form__control is-error">
                 <p className="p-form-validation__message">
