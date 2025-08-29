@@ -73,7 +73,8 @@
             ) -%}
 
             {%- if slot == 'signpost_image' -%}
-                <img src="https://assets.ubuntu.com/v1/d99015cc-bt-quote-updated.png" alt="BT Group" />
+                <img src="https://assets.ubuntu.com/v1/d99015cc-bt-quote-updated.png"
+                     alt="BT Group" />
             {%- endif -%}
         {% endcall -%}
 
@@ -312,56 +313,57 @@
         </div>
     </section>
 
-    {% call(slot) vf_equal_heights(
-        title_text="Ace the market with Canonical",
-        image_aspect_ratio_medium="2-3",
-        image_aspect_ratio_small="2-3",
-        highlight_images=True,
-        items=[
-        {
-        "title_text": "Accelerate the delivery",
-        "image_html":  '<img src="https://assets.ubuntu.com/v1/b87cfc55-accelerate.jpg"
+    <div class="section">
+        {% call(slot) vf_equal_heights(
+            title_text="Ace the market with Canonical",
+            image_aspect_ratio_medium="2-3",
+            image_aspect_ratio_small="2-3",
+            items=[
+            {
+            "title_text": "Accelerate the delivery",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/b87cfc55-accelerate.jpg"
      class="p-image-container__image"
      width="568"
      height="853"
      alt="" />',
-        "description_html": "<p>When time-to-market matters you might not have a minute to spare. Be smart about OpenStack: let our consultants build the cloud for you.</p>",
-        },
-        {
-        "title_text": "Break the ice with OpenStack",
-        "image_html":  '<img src="https://assets.ubuntu.com/v1/d9d94341-break-ice.jpg"
+            "description_html": "<p>When time-to-market matters you might not have a minute to spare. Be smart about OpenStack: let our consultants build the cloud for you.</p>",
+            },
+            {
+            "title_text": "Break the ice with OpenStack",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/d9d94341-break-ice.jpg"
      class="p-image-container__image"
      width="568"
      height="853"
      alt="" />',
-        "description_html": "<p>Get started quickly with a trusted partner. We know how to effectively tame the complexity of OpenStack.</p>",
-        },
-        {
-        "title_text": "Rely on our expertise",
-        "image_html":  '<img src="https://assets.ubuntu.com/v1/53d2f2a7-rely-expertise.jpg"
+            "description_html": "<p>Get started quickly with a trusted partner. We know how to effectively tame the complexity of OpenStack.</p>",
+            },
+            {
+            "title_text": "Rely on our expertise",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/53d2f2a7-rely-expertise.jpg"
      class="p-image-container__image"
      width="568"
      height="853"
      alt="" />',
-        "description_html": "<p>Let us help you with every detail, while your teams concentrate on expanding the value brought by the platform.</p>",
-        },
-        {
-        "title_text": "Shift your focus towards applications",
-        "image_html":  '<img src="https://assets.ubuntu.com/v1/a3eebf69-shift-focus.jpg"
+            "description_html": "<p>Let us help you with every detail, while your teams concentrate on expanding the value brought by the platform.</p>",
+            },
+            {
+            "title_text": "Shift your focus towards applications",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/a3eebf69-shift-focus.jpg"
      class="p-image-container__image"
      width="568"
      height="853"
      alt="" />',
-        "description_html": "<p>Develop your applications strategy, while our cloud experts take care of the underlying infrastructure.</p>",
-        }
-        ]
-        ) %}
-        {% if slot == "cta" %}
-            <a href="/contact-us"
-               class="js-invoke-modal p-button--positive"
-               aria-controls="openstack-support-modal">Get OpenStack support</a>
-        {% endif %}
-    {% endcall %}
+            "description_html": "<p>Develop your applications strategy, while our cloud experts take care of the underlying infrastructure.</p>",
+            }
+            ]
+            ) %}
+            {% if slot == "cta" %}
+                <a href="/contact-us"
+                   class="js-invoke-modal p-button--positive"
+                   aria-controls="openstack-support-modal">Get OpenStack support</a>
+            {% endif %}
+        {% endcall %}
+    </div>
 
     {{ load_form("/openstack/support") | safe }}
 
