@@ -1,5 +1,6 @@
 import {
   Button,
+  CheckboxInput,
   FormikField,
   Input,
   Select,
@@ -46,6 +47,7 @@ const OrganizationFormSchema = Yup.object<
   // used to choose the email domain and removed before submitting the form
   github_email: Yup.string().label("GitHub email"),
   launchpad_email: Yup.string().label("Launchpad email"),
+  authorized_confirm: Yup.boolean().required().label("Authorized confirm"),
 });
 
 const OrganizationContactForm = () => {
@@ -224,7 +226,6 @@ const OrganizationContactForm = () => {
                 value={getEmailDomain(
                   values.github_email || values.launchpad_email
                 )}
-                help="By filling this field, you are signing a Contributor License Agreement for an entire domain.  Please ensure you have your organization's approval  before submitting this form."
               />
             </div>
             {submitSignForm.isError && (
@@ -234,6 +235,14 @@ const OrganizationContactForm = () => {
                 </p>
               </div>
             )}
+            <div className="p-form__group">
+              <FormikField
+                component={CheckboxInput}
+                name="authorized_confirm"
+                required
+                label="I confirm that I am authorized to sign this agreement on behalf of my organization, and have the legal authority to bind the organization to its terms."
+              />
+            </div>
             <p>
               By clicking ‘Request contributor agreement’ below you are
               confirming that you accept the terms detailed above.
@@ -241,7 +250,11 @@ const OrganizationContactForm = () => {
             <Button
               type="submit"
               appearance="positive"
-              disabled={!isValid || submitSignForm.isPending}
+              disabled={
+                !isValid ||
+                submitSignForm.isPending ||
+                !values.authorized_confirm
+              }
             >
               {submitSignForm.isPending
                 ? "Loading..."
