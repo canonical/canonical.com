@@ -75,40 +75,44 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="grid-row--50-50">
-      <hr class="p-rule">
-      <div class="grid-col">
-        <h2>What is MLOps?</h2>
-      </div>
-      <div class="grid-col">
-        <div class="p-image-container--16-9">
-          {{
-            image(
-              url="https://assets.ubuntu.com/v1/3c68af89-what%20is%20mlops.png",
-              alt="The MLOps lifecycle spanning ML, dev, and ops stages: data, model, create, verify, plan, package, release, configure, and monitor.",
-              width="2481",
-              height="1358",
-              attrs={"class": "p-image-container__image"},
-              hi_def=True,
-              loading="auto|lazy"
-            ) | safe
-          }}
-        </div>
-        <p>Machine learning operations (MLOps) is like DevOps for machine learning. It is a set of practices that automates machine learning workflows, ensuring scalability, portability, and reproducibility.</p>
-        <div class="p-cta-block u-no-padding--bottom">
-          <a href="https://ubuntu.com/engage/mlops-guide">Get the full guide to MLOps &gt;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="grid-row">
-    <hr class="p-rule" />
-  </div>
+  {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+  {{ vf_basic_section(
+    title={"text": "What is MLOps?"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/3c68af89-what%20is%20mlops.png",
+            "alt": "The MLOps lifecycle spanning ML, dev, and ops stages: data, model, create, verify, plan, package, release, configure, and monitor."
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Machine learning operations (MLOps) is like DevOps for machine learning. It is a set of practices that automates machine learning workflows, ensuring scalability, portability, and reproducibility."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Get the full guide to MLOps &rsaquo;",
+            "attrs": {
+              "href": "https://ubuntu.com/engage/mlops-guide"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
 
   {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
   {%- if slot == 'title' -%}
   <h2>End-to-end open source MLOps</h2>
   {%- endif -%}
@@ -155,39 +159,66 @@
   {%- endif -%}
   {%- endcall -%}
 
-  <section class="p-section">
-    <div class="grid-row--50-50">
-      <hr class="p-rule">
-      <div class="grid-col">
-        <h2>Fully open source, fully supported</h2>
-      </div>
-      <div class="grid-col">
-        <div class="p-image-container--16-9 is-highlighted">
-          {{ 
-            image(
-              url="https://assets.ubuntu.com/v1/d5ff2262-Canonical%20AI%20ML%20Illustrations%20v5-02.png",
-              alt="",
-              width="8000",
-              height="4500",
-              attrs={"class": "p-image-container__image"},
-              hi_def=True,
-              loading="auto|lazy"
-              ) | safe
-          }}
-        </div>
-        <p>Each component of Canonical's MLOps stack is fully open source, and backed by long-term, enterprise-grade security maintenance and support commitments:</p>
-        <ul class="p-list--divided">
-          <li class="p-list__item has-bullet">Up to 10 years of security maintenance</li>
-          <li class="p-list__item has-bullet">Regular updates and CVE fixes</li>
-          <li class="p-list__item has-bullet">Optional 24/7 support with SLAs</li>
-        </ul>
-        <p>The entire MLOps platform is covered by a simple per node, per year subscription.</p>
-        <div class="p-cta-block">
-          <a href="https://ubuntu.com/pro" class="p-button--positive">Explore enterprise support</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "Fully open source, fully supported"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/2db9104e-fully-os.png",
+            "alt": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Each component of Canonical's MLOps stack is fully open source, and backed by long-term, enterprise-grade security maintenance and support commitments:"
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Up to 10 years of security maintenance"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Regular updates and CVE fixes"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Optional 24/7 support with SLAs"
+            }
+          ]
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "The entire MLOps platform is covered by a simple per node, per year subscription."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Explore enterprise support",
+            "attrs": {
+              "href": "https://ubuntu.com/pro"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
 
   <div class="p-section u-fixed-width">
     <div class="p-section--shallow">
@@ -226,17 +257,13 @@
     {% endcall -%}
   </div>
 
-  <div class="grid-row">
-    <hr class="p-rule" />
-  </div>
-
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
   {%- if slot == 'title' -%}
   <h2>MLOps services</h2>
   {%- endif -%}
 
   {%- if slot == 'description' -%}
-  <p>Canonical’s experts deliver a range of services to help you move faster and smarter with AI projects.</p>
+  <p>Canonical's experts deliver a range of services to help you move faster and smarter with AI projects.</p>
   {%- endif -%}
 
   {%- if slot == 'list_item_title_1' -%}
@@ -245,9 +272,9 @@
 
   {%- if slot == 'list_item_description_1' -%}
   <div class="p-section--shallow">
-    <p>Build your tailored MLOps architecture in just 5 days. In a custom workshop, we’ll help you design AI infrastructure for any use case and level up your in-house expertise to accelerate your machine learning initiatives.</p>
+    <p>Build your tailored MLOps architecture in just 5 days. In a custom workshop, we'll help you design AI infrastructure for any use case and level up your in-house expertise to accelerate your machine learning initiatives.</p>
     <div class="p-cta-block">
-      <a href="https://canonical.com/mlops/workshop">More on MLOps workshops &rsaquo;</a>
+      <a href="https://canonical.com/mlops/mlops-workshop">More on MLOps workshops &rsaquo;</a>
     </div>
   </div>
   {%- endif -%}
@@ -258,7 +285,7 @@
 
   {%- if slot == 'list_item_description_2' -%}
   <div class="p-section--shallow">
-    <p>Move faster with Canonical’s MLOps consulting services. Our experts can design and deploy your full stack AI environment from the ground up on your substrate of choice.</p>
+    <p>Move faster with Canonical's MLOps consulting services. Our experts can design and deploy your full stack AI environment from the ground up on your substrate of choice.</p>
     <div class="p-cta-block">
       <a href="https://canonical.com/consulting">Discover our consulting services &rsaquo;</a>
     </div>
@@ -279,101 +306,75 @@
   {%- endif -%}
   {%- endcall -%}
 
-  <div class="p-section u-fixed-width">
-    <div class="p-section--shallow">
-      <hr class="p-rule">
-      <div class="row">
-        <div class="u-fixed-width">
-          <h2>Open source MLOps resources</h2>
-        </div>
-      </div>
-    </div>
+  {% from "macros/_vf_resources.jinja" import vf_resources %}
+  {%- call(slot) vf_resources(p_section_type="deep") -%}
+  {%- if slot == 'title' -%}
+  <h2>Open source MLOps resources</h2>
+  {%- endif -%}
 
-    <div class="p-section--shallow">
-      <div class="grid-row">
-        <div class="grid-col-2 grid-col-start-large-3">
-          {{ 
-            image(url="https://assets.ubuntu.com/v1/a50d7f6f-data-ai-solutions.jpg",
-            alt="",
-            width="568",
-            height="321",
-            attrs={"class": "p-image-container__image"},
-            hi_def=True,
-            loading="auto|lazy"
-            ) | safe
-          }}
-        </div>
-        <div class="grid-col-4">
-          <div class="p-section--shallow">
-            <h3 class="p-heading--5">
-              <a href="https://canonical.com/solutions/data-and-ai">Data & AI solutions</a>
-            </h3>
-            <p>There's no machine learning without data. Explore our solutions that bridge the gap between data and AI.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="is-muted">
-      </div>
-    </div>
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">
+    <a href="https://canonical.com/solutions/data-and-ai">Data & AI solutions</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_1' -%}
+  <p>There's no machine learning without data. Explore our solutions that bridge the gap between data and AI.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_1' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/a50d7f6f-data-ai-solutions.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="auto|lazy"
+    ) | safe
+  }}
+  {%- endif -%}
 
-    <div class="p-section--shallow">
-      <div class="grid-row">
-        <div class="grid-col-2 grid-col-start-large-3">
-          {{ 
-            image(url="https://assets.ubuntu.com/v1/df7d2ab6-guide-to-mlops.jpg",
-            alt="",
-            width="568",
-            height="321",
-            attrs={"class": "p-image-container__image"},
-            hi_def=True,
-            loading="auto|lazy"
-            ) | safe
-          }}
-        </div>
-        <div class="grid-col-4">
-          <div class="p-section--shallow">
-            <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/engage/mlops-guide">Guide to MLOps</a>
-            </h3>
-            <p>Learn how to take your models to production using open source MLOps platforms in this whitepaper.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="is-muted">
-      </div>
-    </div>
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">
+    <a href="https://ubuntu.com/engage/mlops-guide">Guide to MLOps</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Learn how to take your models to production using open source MLOps platforms in this whitepaper.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_2' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/df7d2ab6-guide-to-mlops.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="auto|lazy"
+    ) | safe
+  }}
+  {%- endif -%}
 
-    <div class="p-section--shallow">
-      <div class="grid-row">
-        <div class="grid-col-2 grid-col-start-large-3">
-          {{ 
-            image(url="https://assets.ubuntu.com/v1/dff8bbc8-what-is-mlops-resource.jpg",
-            alt="",
-            width="568",
-            height="321",
-            attrs={"class": "p-image-container__image"},
-            hi_def=True,
-            loading="auto|lazy"
-            ) | safe
-          }}
-        </div>
-        <div class="grid-col-4">
-          <div class="p-section--shallow">
-            <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/blog/what-is-mlops">What is MLOps?</a>
-            </h3>
-            <p>Read the blog to dig deeper into the fundamental principles of MLOps.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">
+    <a href="https://ubuntu.com/blog/what-is-mlops">What is MLOps?</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Read the blog to dig deeper into the fundamental principles of MLOps.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_3' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/dff8bbc8-what-is-mlops-resource.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="auto|lazy"
+    ) | safe
+  }}
+  {%- endif -%}
+  {%- endcall -%}
 
   {{ load_form('/mlops') | safe }}
 
