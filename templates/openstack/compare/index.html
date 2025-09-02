@@ -16,6 +16,8 @@
 
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
@@ -602,73 +604,69 @@
       },
     ]) }}
 
-  {{ vf_basic_section(title={"text": "OpenStack distributions:<br />useful resources for your project"},
-    is_split_on_medium=true,
-    items=[
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": '<strong>Openstack E-book</strong>'
-        }
+    {{ vf_divided_section(
+      title={
+        "text": "OpenStack distributions:<br />useful resources for your project",
       },
+      is_split_on_medium=true,
+      blocks=[
       {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<p><a href="https://ubuntu.com/engage/openstack-ebook-beginners">Learn about OpenStack architecture and what makes Canonical OpenStack different from other OpenStack distributions.</a></p>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<hr class="p-rule--muted" /><strong>OpenStack Deployment Guide</strong>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<p><a href="https://ubuntu.com/engage/openstack-deployment-guide">Explore Canonical&#39;s proven path to a successful OpenStack deployment.</a></p>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<hr class="p-rule--muted" /><strong>Canonical OpenStack Datasheet</strong>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<p><a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf">Discover Canonical OpenStack by reviewing supported features and our professional services.</a></p>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<hr class="p-rule--muted" /><strong>Canonical OpenStack Reference Architecture</strong>'
-        }
-      },
-      {
-        "type": "description",
-        "padding": "shallow",
-        "item": {
-          "type": "html",
-          "content": '<p><a href="https://ubuntu.com/engage/canonical-openstack-reference-architecture">Learn how to design and build production-grade clouds by reviewing a reference architecture for Canonical OpenStack.</a></p>'
-        }
-      }
-    ]) }}
+        "type": "divided-block",
+        "bullet_type": "none",
+        "items": [
+              {
+                "title_text": "OpenStack E-book",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/openstack-ebook-beginners">Learn about OpenStack architecture and what makes Canonical OpenStack different from other OpenStack distributions.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "OpenStack Deployment Guide",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/openstack-deployment-guide">Explore Canonical’s proven path to a successful OpenStack deployment.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "Canonical OpenStack Datasheet",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf">Discover Canonical OpenStack by reviewing supported features and our professional services.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "Canonical OpenStack Reference Architecture",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/canonical-openstack-reference-architecture">Learn how to design and build production-grade clouds by reviewing a reference architecture for Canonical OpenStack.</a></p>'
+                    }
+                  },
+                ]
+              },
+            ]
+          },
+        ],
+      ) 
+    }}
 
   {{ vf_basic_section(title={"text": "Get in touch with Canonical"},
     is_split_on_medium=true,
