@@ -1,0 +1,45 @@
+name: Playwright Tests
+env:
+  SECRET_KEY: insecure_test_key
+  PORT: 8002
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-playwright:
+    if: github.repository == 'canonical/ubuntu.com'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: yarn install --immutable
+
+    - name: Install dotrun
+      run: sudo pip3 install dotrun
+
+    - name: Install dependencies
+      run: |
+        sudo chmod -R 777 .
+        dotrun install
+
+    - name: Build assets and run dotrun
+      run: |
+        dotrun & sleep 5
+          curl --head --fail --retry-delay 2 --retry 30 --retry-connrefused http://localhost:8002
+
+    - name: Install Playwright Browsers
+      run: yarn playwright install --with-deps
+
+    - name: Run Playwright tests
+      env:
+        PLAYWRIGHT_USER_ID: ${{ secrets.PLAYWRIGHT_USER_ID }}
+        PLAYWRIGHT_USER_PASSWORD : ${{ secrets.PLAYWRIGHT_USER_PASSWORD }}
+        TESTING: true
+      run: yarn playwright test
