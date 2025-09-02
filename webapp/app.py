@@ -1689,7 +1689,8 @@ def details_redirect(
 
 
 # Create endpoints for testing environment only
-if get_flask_env("DEBUG") or flask.current_app.debug:
+if get_flask_env("DEBUG") or app.debug:
+
     @app.route("/tests/<path:subpath>")
     def tests(subpath):
         """

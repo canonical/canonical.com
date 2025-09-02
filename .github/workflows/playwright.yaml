@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-playwright:
-    if: github.repository == 'canonical/ubuntu.com'
+    if: github.repository == 'canonical/canonical.com'
     runs-on: ubuntu-latest
 
     steps:
@@ -41,5 +41,5 @@ jobs:
       env:
         PLAYWRIGHT_USER_ID: ${{ secrets.PLAYWRIGHT_USER_ID }}
         PLAYWRIGHT_USER_PASSWORD : ${{ secrets.PLAYWRIGHT_USER_PASSWORD }}
-        TESTING: true
+        DEBUG: true
       run: yarn playwright test
