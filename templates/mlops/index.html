@@ -14,232 +14,376 @@
   is-paper
 {% endblock body_class %}
 
+{% block meta_keywords %}
+  open source mlops
+{% endblock meta_keywords %}
+
+{% block meta_image %}
+  https://assets.ubuntu.com/v1/110c22f9-Canonical%20AI%20ML%20Illustrations%20v5-08.svg
+{% endblock meta_image %}
+
 {% block content %}
+  {% from "_macros/vf_hero.jinja" import vf_hero %}
+  {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+  {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+  {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+  {% from "macros/_vf_resources.jinja" import vf_resources %}
 
-  <section class="p-strip--whitesuru is-shallow u-no-padding--bottom">
-    <div class="p-section--deep">
-      <div class="grid-row">
-        <div class="grid-col-start-large-3 grid-col-6">
-          {% include "shared/_azure-banner.html" %}
-          <div class="p-section--shallow">
-            <h1 class="u-no-padding--bottom">
-              Deliver AI at scale
-              <br class="u-hide--small" />
-              with secure and supported MLOps
-            </h1>
-          </div>
-          <div class="p-section--shallow">
-            <p>
-              Move from experimentation to production using a modular MLOps platform.
-              <br class="u-hide--small" />
-              Accelerate your project delivery and ensure quick return on investment.
-            </p>
-          </div>
-          <a class="p-button--positive" href="https://ubuntu.com/engage/mlops-toolkit">Read our MLOps toolkit</a>
-          <a class="p-button js-invoke-modal" aria-controls="mlops-modal" href="/mlops/contact-us">Talk to our experts</a>
-        </div>
+  {% call(slot) vf_hero(
+    title_text='Open source MLOps for AI that scales',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Move from experimentation to production using a trusted, open source MLOps platform. Take the complexity out of deploying and maintaining your models with automated workflows, security patching, and tooling integrations that span the entire end-to-end machine learning lifecycle.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/mlops-toolkit"
+         class="p-button--positive">Access the MLOps toolkit</a>
+      <a class="p-button js-invoke-modal" href="/mlops/contact-us" aria-controls="mlops-modal" aria-expanded="false">
+        Get in touch
+      </a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <hr class="p-rule--highlight u-hide--medium u-hide--small u-no-margin--bottom" />
+      <div class="p-image-container--cinematic is-cover">
+        {{
+          image(url="https://assets.ubuntu.com/v1/6d836703-hero.jpg",
+          alt="Conveyor belt carrying ML models along three stages: easy model deployment, security patching, and automated upgrades and updates.",
+          width="2464",
+          height="1027",
+          attrs={"class": "p-image-container__image"},
+          hi_def=True,
+          loading="auto"
+          ) | safe
+        }}
       </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
 
+  {% set text_spotlight_items = [
+      '10 years of security maintenance',
+      'Automated lifecycle management',
+      'End-to-end tooling integration',
+      'Deploy on any public or private cloud',
+      'Simple per node support subscription'
+    ]
+  %}
   <section class="p-section">
-    <div class="grid-row">
-      <hr class="p-rule" />
-      <div class="grid-col-start-large-3 grid-col-6">
-        <div class="p-section--shallow">
-          <h2>What is MLOps?</h2>
-        </div>
-        <p>
-          Machine learning operations (MLOps) is like DevOps for machine learning. It is a set of practices that automates machine learning workflows, ensuring scalability, portability and reproducibility.
-        </p>
-        <div>
-          <img src="https://assets.ubuntu.com/v1/3c68af89-what%20is%20mlops.png"
-               alt=""
-               style="width: 650px;
-                      height: 356px" />
-        </div>
-        <p>
-          <a href="https://ubuntu.com/blog/what-is-mlops">Read more about MLOps&nbsp;&rsaquo;</a>
-        </p>
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--25-75-on-large">
+      <div class="col">
+        <h2 class="p-text--small-caps">
+          Why choose Canonical <br class="u-hide--medium u-hide--small" />for open source MLOps?
+        </h2>
+      </div>
+      <div class="col">
+        {%- for list_item in text_spotlight_items -%}
+          <p class="p-heading--2">{{- list_item -}}</p>
+          {%- if not loop.last %}<hr class="p-rule--muted" />{%- endif %}
+        {%- endfor -%}
       </div>
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="grid-row">
-      <hr class="p-rule" />
-      <div class="grid-col-start-large-3 grid-col-6">
-        <div class="p-section--shallow">
-          <h2>
-            Why choose
-            <br class="u-hide--small" />
-            Canonical MLOps?
-          </h2>
-        </div>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">10 years of security maintenance</li>
-          <li class="p-list__item is-ticked">Easy to deploy and integrate different tools</li>
-          <li class="p-list__item is-ticked">Hybrid, multi-cloud experience</li>
-          <li class="p-list__item is-ticked">Simple per node subscription</li>
-          <li class="p-list__item is-ticked">Automated lifecycle management</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "What is MLOps?"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/f96ff742-what-is-mlops.jpg",
+            "alt": "The MLOps lifecycle spanning ML, dev, and ops stages: data, model, create, verify, plan, package, release, configure, and monitor."
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Machine learning operations (MLOps) is like DevOps for machine learning. It is a set of practices that automates machine learning workflows, ensuring scalability, portability, and reproducibility."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Get the full guide to MLOps &rsaquo;",
+            "attrs": {
+              "href": "https://ubuntu.com/engage/mlops-guide"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
 
-  <section class="p-section">
-    <div class="grid-row">
-      <hr class="p-rule" />
-      <div class="grid-col-start-large-3 grid-col-6">
-        <div class="p-section--shallow">
-          <div class="p-section--shallow">
-            <h2>
-              End-to-end MLOps
-              <br class="u-hide--small" />
-              with Charmed Kubeflow
-            </h2>
-          </div>
-          <p>
-            Charmed Kubeflow is the foundation of Canonical MLOps. It integrates with various tools including Charmed MLFlow, Canonical Observability Stack and Charmed Spark covering all the stages of the machine learning lifecycle.
-          </p>
-        </div>
-        <div class="p-section--shallow">
-          <hr class="p-rule--muted" />
-          <a class="p-button--positive" href="https://charmed-kubeflow.io/docs/get-started-with-charmed-kubeflow">Get started with Charmed Kubeflow</a>
-        </div>
-        <div class="u-hide--small">
-          <img src="https://assets.ubuntu.com/v1/a59f849e-what is MLOps illustration.svg"
-               alt="Conveyor belt carrying ML models along three stages: easy model deployment, security patching, and automated upgrades and updates."
-               style="height: 512px;
-                      width: 1309px" />
-        </div>
-      </div>
-    </div>
-  </section>
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>End-to-end open source MLOps</h2>
+  {%- endif -%}
 
-  <section class="p-section">
-    <div class="grid-row--25-75">
-      <hr class="p-rule" />
-      <div class="grid-col">
-        <div class="p-section--shallow">
-          <h2 class="p-text--small-caps">MLOps services</h2>
-        </div>
-      </div>
-      <div class="grid-col">
-        <div class="p-section--shallow">
-          <div class="p-section--shallow">
-            <h3 class="p-heading--2">Full support for your ML stack</h3>
-          </div>
-          <p>
-            Canonical offers a fully supported machine learning operations solution, with guaranteed SLAs. Get the same level of support across public or private clouds.
-          </p>
-          <p>
-            <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Charmed Kubeflow%20-%20Digital.pdf">Get the Charmed Kubeflow datasheet&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-        <div class="p-section--shallow">
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow">
-            <h3 class="p-heading--2">Managed MLOps</h3>
-          </div>
-          <p>
-            We run the platform. Your team can focus on developing and deploying models. Streamline operational service delivery and offload the design, implementation and management of your MLOps environment.
-          </p>
-          <p>
-            <a href="https://assets.ubuntu.com/v1/4e502b09-Managed.Kubeflow.DS.19.01.22+%281%29.pdf">Get the Managed MLOps datasheet&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-        <div class="p-section--shallow">
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow">
-            <h3 class="p-heading--2">
-              Get your team up-to-date
-              <br class="u-hide--small" />
-              with an MLOps workshop
-            </h3>
-          </div>
-          <p>
-            Canonical offers a 5-day, on-site workshop for up to 10 participants. It includes architecture building based on your specific use case with a full MLOps architecture proposal at the end of the workshop.
-          </p>
-          <p>
-            <a href="https://assets.ubuntu.com/v1/429359fe-MLOps%20advisory%20DS%2029.11.22.pdf">Get the MLOps advisory datasheet&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+  {%- if slot == 'description' -%}
+  <p>Canonical's MLOps stack delivers all the open source solutions you need to streamline the complete machine learning lifecycle. These tools are tightly integrated to ensure a smooth MLOps journey, from experimentation to production.</p>
+  {%- endif -%}
 
-  <section class="p-section--deep">
-    <div class="grid-row--25-75 is-split-on-medium">
-      <hr class="p-rule" />
-      <div class="grid-col">
-        <div class="p-section--shallow">
-          <h2 class="p-text--small-caps">MLOps resources</h2>
-        </div>
-      </div>
-      <div class="grid-col">
-        <div class="grid-row p-section--shallow">
-          <div class="grid-col-2">
-            <p>
-              <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Machine learning drives down operational costs in media & entertainment</a>
-            </p>
-          </div>
-          <div class="grid-col-4">
-            <p>One of our customers migrated from a legacy platform to Canonical MLOps and reduced their operational costs.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="grid-row p-section--shallow">
-          <div class="grid-col-2">
-            <p>
-              <a href="https://ubuntu.com/engage/mlops-guide">Guide to MLOps</a>
-            </p>
-          </div>
-          <div class="grid-col-4">
-            <p>Learn to take models to production using open source MLOps platforms.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="grid-row p-section--shallow">
-          <div class="grid-col-2">
-            <p>
-              <a href="https://ubuntu.com/engage/kubeflow-nvidia-dgx-webinar">Webinar: Operationalise your AI
-                <br class="u-hide--small" />
-              models quickly</a>
-            </p>
-          </div>
-          <div class="grid-col-4">
-            <p>Find out how to streamline operations and scale AI initiatives using open source MLOps platforms on NVIDIA DGX.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="grid-row p-section--shallow">
-          <div class="grid-col-2">
-            <p>
-              <a href="https://ubuntu.com/engage/open-source-mlops-aws">Webinar: Open source MLOps on AWS</a>
-            </p>
-          </div>
-          <div class="grid-col-4">
-            <p>Run open source MLOps on AWS to remove compute power constraints and start your AI project quickly.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="grid-row p-section--shallow">
-          <div class="grid-col-2">
-            <p>
-              <a href="https://ubuntu.com/engage/kubeflow-vs-mlflow">Kubeflow vs MLFlow</a>
-            </p>
-          </div>
-          <div class="grid-col-4">
-            <p>
-              Choosing a suitable machine learning tool can often be challenging. Understand the differences between the most widely-used open source solutions.
-            </p>
-          </div>
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Charmed Kubeflow</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <div class="p-section--shallow">
+    <p>Charmed Kubeflow is the foundation of Canonical MLOps. It is an enterprise-ready platform for deploying, scaling, and managing AI workflows on any cloud.</p>
+    <div class="p-cta-block">
+      <a href="/mlops/kubeflow">Learn more about Charmed Kubeflow</a>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Charmed MLFlow</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <div class="p-section--shallow">
+    <p>Charmed MLFlow is our solution for managing the model lifecycle. Track your experiments, package code in a reproducible format, and store and deploy models - all using a lightweight platform that can be deployed on any infrastructure.</p>
+    <div class="p-cta-block">
+      <a href="/mlops/mlflow">Learn more about Charmed MLFlow</a>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Charmed Feast</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Charmed Feast is an enterprise-grade feature store that enables you to bridge the gap between data engineering and model deployment. Native integration with Charmed Kubeflow ensures a seamless experience.</p>
+  <div class="p-cta-block">
+    <a href="/mlops/feast">Learn more about Charmed Feast</a>
+  </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Fully open source, fully supported"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/2db9104e-fully-os.png",
+            "alt": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Each component of Canonical's MLOps stack is fully open source, and backed by long-term, enterprise-grade security maintenance and support commitments:"
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Up to 10 years of security maintenance"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Regular updates and CVE fixes"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Optional 24/7 support with SLAs"
+            }
+          ]
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "The entire MLOps platform is covered by a simple per node, per year subscription."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Explore enterprise support",
+            "attrs": {
+              "href": "https://ubuntu.com/pro"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
+
+  <div class="p-section u-fixed-width">
+    <div class="p-section--shallow">
+      <hr class="p-rule">
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <h2 class="p-muted-heading">What customers say</h2>
         </div>
       </div>
     </div>
-  </section>
+
+    {% call(slot) vf_quote_wrapper(
+      quote_size="small",
+      quote_text="We wanted one partner for the whole on-premise cloud because we're not just supporting Kubernetes but also our Ceph clusters, managed Postgres, Kafka, and AI tools such as Kubeflow and Spark. These were all the services that were needed and with this we could have one nice, easy joined-up approach.",
+      citation_source_name_text="Michael Hawkshaw",
+      citation_source_title_text="IT Service Manager",
+      citation_source_organisation_text="European Space Agency",
+      is_shallow=True
+    ) -%}
+    {%- if slot == 'cta' -%}
+    <a href="/case-study/esa">Get the full case study &rsaquo;</a>
+    {%- endif -%}
+    {% endcall -%}
+    {% call(slot) vf_quote_wrapper(
+      quote_size="small",
+      quote_text="Partnering with Canonical lets us concentrate on our core business. Our data scientists can focus on data manipulation and model training rather than managing infrastructure.",
+      citation_source_name_text="Machine Learning Engineer",
+      citation_source_title_text="Entertainment Technology Provider",
+      citation_source_organisation_text="",
+      is_shallow=True
+    ) -%}
+    {%- if slot == 'cta' -%}
+    <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Get the full case study &rsaquo;</a>
+    {%- endif -%}
+    {% endcall -%}
+  </div>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>MLOps services</h2>
+  {%- endif -%}
+
+  {%- if slot == 'description' -%}
+  <p>Canonical's experts deliver a range of services to help you move faster and smarter with AI projects.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Kick start your AI/ML journey with an MLOps Workshop</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <div class="p-section--shallow">
+    <p>Build your tailored MLOps architecture in just 5 days. In a custom workshop, we'll help you design AI infrastructure for any use case and level up your in-house expertise to accelerate your machine learning initiatives.</p>
+    <div class="p-cta-block">
+      <a href="/mlops/mlops-workshop">More on MLOps workshops &rsaquo;</a>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">MLOps Consulting</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <div class="p-section--shallow">
+    <p>Move faster with Canonical's MLOps consulting services. Our experts can design and deploy your full stack AI environment from the ground up on your substrate of choice.</p>
+    <div class="p-cta-block">
+      <a href="/consulting">Discover our consulting services &rsaquo;</a>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Managed MLOps</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Let us run the platform so your team can focus on developing and deploying models. Streamline operational service delivery and offload the design, implementation and management of your MLOps environment.</p>
+  <div class="p-cta-block">
+    <a class="js-invoke-modal" href="/mlops/contact-us" aria-controls="mlops-modal" aria-expanded="false">
+      Talk to us about managed MLOps &rsaquo;
+    </a>
+  </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_resources(p_section_type="deep") -%}
+  {%- if slot == 'title' -%}
+  <h2>Open source MLOps resources</h2>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">
+    <a href="/solutions/data-and-ai">Data & AI solutions</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_1' -%}
+  <p>There's no machine learning without data. Explore our solutions that bridge the gap between data and AI.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_1' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/a50d7f6f-data-ai-solutions.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="lazy"
+    ) | safe
+  }}
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">
+    <a href="https://ubuntu.com/engage/mlops-guide">Guide to MLOps</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Learn how to take your models to production using open source MLOps platforms in this whitepaper.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_2' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/df7d2ab6-guide-to-mlops.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="lazy"
+    ) | safe
+  }}
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">
+    <a href="https://ubuntu.com/blog/what-is-mlops">What is MLOps?</a>
+  </h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Read the blog to dig deeper into the fundamental principles of MLOps.</p>
+  {%- endif -%}
+  {%- if slot == 'list_item_image_3' -%}
+  {{ 
+    image(url="https://assets.ubuntu.com/v1/dff8bbc8-what-is-mlops-resource.jpg",
+    alt="",
+    width="568",
+    height="321",
+    attrs={"class": "p-image-container__image"},
+    hi_def=True,
+    loading="lazy"
+    ) | safe
+  }}
+  {%- endif -%}
+  {%- endcall -%}
 
   {{ load_form('/mlops') | safe }}
 
-  {% endblock content %}
+{% endblock content %}
