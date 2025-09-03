@@ -204,8 +204,6 @@
     {%- endif -%}
   {% endcall -%}
 
-
-
   <section class="p-section">
     <div class="row">
       <hr class="p-rule--muted" />
@@ -765,13 +763,22 @@
             <p>
               Use our private cloud pricing calculator to estimate savings from running your applications in a data center designed by Canonical.
             </p>
-           <p>Reach out to us to get estimated savings from running your applications in a data center designed by Canonical.</p>
-           <p><a href="/solutions/infrastructure/private-cloud-pricing" class="p-button">Let's talk</a></p>
+            <p>Reach out to us to get estimated savings from running your applications in a data center designed by Canonical.</p>
+            <p><a href="/solutions/infrastructure/private-cloud-pricing" class="p-button">Let's talk</a></p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  {% call(slot) vf_newsletter_signup(layout="50-50", title_text="Sign up for our monthly OpenStack newsletter", form_id="mktoForm_7615", return_url="https://ubuntu.com/#contact-form-success", input_label='Your email address', checkbox_id='canonicalUpdatesOptIn', checkbox_label='I agree to receive information about Canonical\'s products and services.') %}
+
+  {% call(slot) vf_newsletter_signup(
+    layout="50-50",
+    title_text="Sign up for our monthly OpenStack newsletter",
+    form_id="mktoForm_7615",
+    return_url="https://ubuntu.com/#contact-form-success",
+    input_label='Your email address',
+    checkbox_id='canonicalUpdatesOptIn',
+    checkbox_label='I agree to receive information about Canonical\'s products and services.') %}
     {%- if slot == 'description' -%}
       <p>Be the first to know what is happening in the tech. Sign up for our monthly OpenStack newsletter and get informed about our latest technological advancements.</p>
     {%- endif -%}
