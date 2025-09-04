@@ -31,6 +31,7 @@ from canonicalwebteam.discourse import (
     Tutorials,
 )
 from canonicalwebteam.flask_base.app import FlaskBase
+from canonicalwebteam.flask_base.env import get_flask_env
 from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
@@ -1685,3 +1686,15 @@ def details_redirect(
 ):
     charmhub_url = "https://charmhub.io/" + charm_or_bundle_name
     return flask.redirect(charmhub_url, code=301)
+
+
+# Create endpoints for testing environment only
+if get_flask_env("DEBUG") or app.debug:
+
+    @app.route("/tests/<path:subpath>")
+    def tests(subpath):
+        """
+        Expose all routes under templates/tests if in development/testing mode.
+        """
+        print("subpath:", subpath)
+        return flask.render_template(f"tests/{subpath}.html")
