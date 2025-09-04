@@ -313,7 +313,6 @@ def _get_application(harvest, application_id):
     for interviewer in application["scheduled_interviews"].get("interviewers"):
         if "email" in interviewer:
             del interviewer["email"]
-            del interviewer["name"]
         if "response_status" in interviewer:
             del interviewer["response_status"]
         if "scorecard_id" in interviewer:
