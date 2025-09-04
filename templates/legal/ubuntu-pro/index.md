@@ -7,9 +7,9 @@ context:
 
 # Ubuntu Pro
 
-[Ubuntu Pro](/pro) is Canonical's service package for Ubuntu. It offers tiered levels of support for desktop, server and cloud deployments. In this section, you can see our service description, but don't forget that there will still be some details in your customer agreement that are specific to your deployment.
+[Ubuntu Pro](https://ubuntu.com/pro) is Canonical's service package for Ubuntu. It offers tiered levels of support for desktop, server and cloud deployments. In this section, you can see our service description, but don't forget that there will still be some details in your customer agreement that are specific to your deployment.
 
-If you're interested in support for an Ubuntu deployment or you're a reseller and you want to offer it to your customers, you can [learn more about Ubuntu Pro here](/pro).
+If you're interested in support for an Ubuntu deployment or you're a reseller and you want to offer it to your customers, you can [learn more about Ubuntu Pro here](https://ubuntu.com/pro).
 
 ### Ubuntu Pro service description
 
