@@ -1,0 +1,69 @@
+{#-
+  This is a temporary macro to support the new requested "resources" section.
+  This is needed until the functionality is upstreamed in "vanilla-framework".
+-#}
+
+{#-
+# Params
+# p_section_type: the type of .p-section to use for wrapping ("shallow" | "deep" | "")
+# include_top_rule: whether to include a top HR to separate this section
+# Slots
+# title_content: top-level title element
+# list_item_title_[1-25]: title element of each child list item
+# list_item_description_[1-25]: description element of each child list item
+# list_item_image_[1-25]: image element of each child list item
+-#}
+{% macro vf_resources(
+  p_section_type="",
+  include_top_rule=true) -%}
+  {%- set section_class_separator = "--" if p_section_type|trim|length > 0 else "" -%}
+  {%- set section_class = "p-section" + section_class_separator + p_section_type -%}
+  {%- set title_content = caller('title') -%}
+
+  <div class="{{section_class}} u-fixed-width">
+    <div class="p-section--shallow">
+      {% if include_top_rule %}
+        <hr class="p-rule">
+      {% endif %}
+      <div class="row">
+        <div class="u-fixed-width">
+          {{ title_content }}
+        </div>
+      </div>
+    </div>
+
+    {%- for number in range(1, 25) -%}
+      {%- set list_item_title_content = caller('list_item_title_' + number|string) -%}
+      {%- set has_title_content = list_item_title_content|trim|length > 0 -%}
+      {%- set list_item_description_content = caller('list_item_description_' + number|string) -%}
+      {%- set has_description_content = list_item_description_content|trim|length > 0 -%}
+      {%- set list_item_image_content = caller('list_item_image_' + number|string) -%}
+      {%- set has_image_content = list_item_image_content|trim|length > 0 -%}
+
+      {#- Check to see if title/description content exist, since we're
+          iterating through 25 potential list items -#}
+      {%- if has_title_content and has_description_content and has_image_content -%}
+        {#- Skip the first HR -#}
+        {%- if number != 1 %}
+          <div class="grid-row">
+            <div class="grid-col-6 grid-col-start-large-3">
+              <hr class="is-muted">
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="p-section--shallow">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-2 grid-col-start-large-3">
+              {{ list_item_image_content }}
+            </div>
+            <div class="grid-col-4 grid-col-medium-2">
+              {{ list_item_title_content }}
+              {{ list_item_description_content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{%- endmacro %}
