@@ -1,0 +1,743 @@
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1_luFPxd5yZy6eJt3-GE7jX_G8m3wTjo-JDo1aUPOnpU
+{% endblock meta_copydoc %}
+
+{% block title %}OpenStack distributions: a comparison{% endblock %}
+
+{% block meta_description %}
+  See a detailed comparison of all the different OpenStack distributions. Compare architecture, features, support, pricing, and more with our extensive breakdown.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='OpenStack distributions:<br />a comparison',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Looking for a detailed OpenStack distributions comparison? Have a look at the table below. While the OpenStack landscape remains complex, only one platform stands out for its future-proof architecture, enterprise-grade stability, and cost-effectiveness: Canonical OpenStack.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <hr class="p-rule--muted" />
+      <a class="p-button--positive" href="https://canonical.com/openstack/">Discover Canonical OpenStack</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <div class="u-fixed-width">
+    <div class="p-section">
+      <div class="u-align--right">
+        <label class="p-switch u-hide" style="float: right;">
+          <input type="checkbox" class="p-switch__input" role="switch" />
+          <span class="p-switch__slider"></span>
+          <span class="p-switch__label">Detailed view</span>
+        </label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table id="openstack-comparison-table"
+                 class="p-table--mobile-card"
+                 aria-label="Openstack distributions comparison">
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  Canonical
+                  <br />
+                  Openstack
+                </th>
+                <th>
+                  Other
+                  <br />
+                  Openstack
+                  <br />
+                  Distributions
+                </th>
+                <th class="wide-view" style="width: 50%; display: none"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Cloud-native architecture</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Canonical OpenStack stands out for its fully cloud-native architecture, based on snaps and rocks, for infrastructure transformation.
+                </td>
+              </tr>
+              <tr>
+                <th class="u-align--left" style="text-wrap: wrap">Fully automated upgrades</th>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  You can upgrade Canonical OpenStack between each version in a fully automated way.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Up to 12 years of support</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  If you prefer not to upgrade frequently, you can stay secure and supported on LTS versions of Canonical OpenStack for up to 12 years.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Fixed-price consulting packages</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Unlike other OpenStack distributions, consulting packages for Canonical OpenStack are available at a fixed price with the OpenStack build included.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Per-node support pricing</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Unlike other OpenStack distributions, support subscription for Canonical OpenStack is charged per node, enabling transparent and predictable budgeting.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Full-stack support subscription</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--error">Not Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Ubuntu Pro &mdash; the most comprehensive subscription for open source software security &mdash; stands out for its full-stack coverage: from infrastructure to applications.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Technology freedom</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  You can choose the hardware of your preference as long as it's certified on Ubuntu. Optionally, we can also certify it for you.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Single-node edition</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  You can install Canonical OpenStack on a single machine (no high availability) and subscribe for a full commercial support.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Hardware automation included</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Canonical OpenStack comes with an integrated hardware automation framework for bare metal provisioning at scale.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Observability stack included</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Canonical OpenStack comes with an integrated observability stack for distributed monitoring, logging and alerting.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Expandable Kubernetes layer</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Canonical OpenStack comes with an on-demand Kubernetes service (currently in beta).
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">100% open source</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  While Canonical OpenStack is 100% open source, some OpenStack distributions rely on proprietary software components underneath.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Support subscription is optional</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  While you can use Canonical OpenStack with or without a support subscription, some OpenStack distributions are only available under a paid, commercial subscription.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">24/7 support coverage</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  While some OpenStack distributions are available without a proper commercial support, Canonical OpenStack comes with 24/7 coverage as required by the most demanding industries and use cases.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Fully-managed cloud service</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--help">Depends on the OpenStack distribution</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Canonical OpenStack is one of the few OpenStack distributions that offers a fully-managed cloud service, including day-to-day operations and maintenance of the cloud.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">GPU / vGPU support</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Like other OpenStack distributions, Canonical OpenStack supports GPU passthrough and vGPU for accelerated workloads.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Performance tuning options</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Like other OpenStack distributions, Canonical OpenStack supports various performance tuning options, including CPU pinning, SR-IOV, DPDK, and more.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Integration with third-party software</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Like other OpenStack distributions, you can integrate Canonical OpenStack with various third-party open source and proprietary software.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Integration with third-party storage platforms</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Like other OpenStack distributions, you can integrate Canonical OpenStack with various third-party storage platforms.
+                </td>
+              </tr>
+              <tr>
+                <td class="u-align--left" style="text-wrap: wrap">Composability</td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Canonical Openstack">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left"
+                    style="text-wrap: wrap"
+                    data-heading="Other Openstack Distributions">
+                  <i class="p-icon--success">Included</i>
+                </td>
+                <td class="u-align--left wide-view"
+                    style="text-wrap: wrap;
+                           display: none">
+                  Like other OpenStack distributions, Canonical OpenStack is composable, while it remains opinionated by default.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ vf_basic_section(title={"text": "Backed by the most trusted platform in the community"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/384413a4-384413a40c515f0062a71594fe6751f103d2a326.png",
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<br />"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "According to the <a href='https://www.openstack.org/analytics/'>OpenStack User Survey from 2024</a>, Ubuntu Server continues to be the most popular operating system for OpenStack deployments, currently powering 54% of all production environments all over the world."
+        }
+      }
+    ]) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+
+      <div class="row--50-50">
+        <div class="col">
+          <h2>What makes Canonical OpenStack distribution different?</h2>
+        </div>
+        <div class="col">
+          <p>
+            Are you skeptical about OpenStack due to the overall complexity of the upstream project? We understand that very well. Just get in touch with us and let us explain what makes Canonical OpenStack different from other OpenStack distributions.
+          </p>
+          <a class="p-button--positive js-invoke-modal"
+             href="/openstack/compare/contact-us"
+             aria-controls="openstack-compare-modal">Get in touch</a>
+        </div>
+      </div>
+
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Future-proof architecture</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Transform your data center into a modern, cloud-native infrastructure. Get an “on rails” experience thanks to the high-level abstraction, opinionated design, and automation framework we provide.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Enterprise-grade stability</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Use your Canonical OpenStack installation to serve the most sophisticated workloads and use cases, while benefiting from long-term security and support under our <a href="https://ubuntu.com/pro">Ubuntu Pro</a> subscription.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Cost-effective solution</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Optimize your infrastructure costs, without any compromises. Canonical OpenStack stands out from other enterprise OpenStack distributions for cost-effectiveness.
+      </p>
+    {%- endif -%}
+
+  {%- endcall -%}
+
+  <div class="p-section row--25-75-on-large">
+    <div class="col">
+      <h3 class="p-muted-heading">
+        With a non-stop contribution
+        <br />
+        since the very beginning
+      </h3>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-medium-2 col-3">
+          <hr class="p-rule--highlight" />
+          <h4 class="p-heading--1">2nd</h4>
+          <h4 class="p-heading--3">biggest contributor ever</h4>
+        </div>
+        <div class="col-medium-2 col-3">
+          <hr class="p-rule--highlight" />
+          <h4 class="p-heading--1">250+</h4>
+          <h4 class="p-heading--3">individual contributors</h4>
+        </div>
+        <div class="col-medium-2 col-3">
+          <hr class="p-rule--highlight" />
+          <h4 class="p-heading--1">5M+</h4>
+          <h4 class="p-heading--3">lines of code contributed</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ vf_basic_section(title={"text": "Move away from proprietary virtualization platforms"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "padding": "shallow",
+        "item": {
+          "aspect_ratio": "16-9",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/e99aa72c-e99aa72c9df9cb798896ffeda5d664efb7815ddd.jpg",
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Gain more than a decade of stability with an open source, enterprise cloud solution. Contrary to traditional, proprietary virtualization platforms, Canonical OpenStack helps you reduce vendor lock-in and lower your infrastructure costs by up to 85%."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<a href='https://ubuntu.com/engage/from-vmware-to-openstack'>Read the white paper &mdash; “From VMware to OpenStack” &rsaquo;</a>"
+        }
+      },
+    ]) }}
+
+  {{ vf_basic_section(title={"text": "Repatriate your cloud workloads and regain control over your data"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "padding": "shallow",
+        "item": {
+        "aspect_ratio": "16-8",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/9374033b-9374033b77400848b48de4d9746e205c48077ed8.jpg",
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Public cloud costs continue to grow? Don't worry &mdash; a better solution exists. Simply augment your existing multi-cloud setup with an on-prem cloud environment and benefit from cost optimization, while regaining full control over your sensitive data at the same time."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<a href='https://canonical.com/solutions/infrastructure/private-cloud-pricing'>Check private cloud pricing calculator &rsaquo;</a>"
+        }
+      },
+    ]) }}
+
+    {{ vf_divided_section(
+      title={
+        "text": "OpenStack distributions:<br />useful resources for your project",
+      },
+      is_split_on_medium=true,
+      blocks=[
+      {
+        "type": "divided-block",
+        "bullet_type": "none",
+        "items": [
+              {
+                "title_text": "OpenStack E-book",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/openstack-ebook-beginners">Learn about OpenStack architecture and what makes Canonical OpenStack different from other OpenStack distributions.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "OpenStack Deployment Guide",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/openstack-deployment-guide">Explore Canonical’s proven path to a successful OpenStack deployment.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "Canonical OpenStack Datasheet",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf">Discover Canonical OpenStack by reviewing supported features and our professional services.</a></p>'
+                    }
+                  },
+                ]
+              },
+              {
+                "title_text": "Canonical OpenStack Reference Architecture",
+                "contents": [
+                  {
+                    "type": "description",
+                    "item": {
+                      "type": "html",
+                      "content": '<p><a href="https://ubuntu.com/engage/canonical-openstack-reference-architecture">Learn how to design and build production-grade clouds by reviewing a reference architecture for Canonical OpenStack.</a></p>'
+                    }
+                  },
+                ]
+              },
+            ]
+          },
+        ],
+      ) 
+    }}
+
+  {{ vf_basic_section(title={"text": "Get in touch with Canonical"},
+    is_split_on_medium=true,
+    padding="deep",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Let our cloud experts help you with:"
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+        "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Pricing and TCO estimates"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Project requirements evaluation"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "OpenStack design and delivery"
+            }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+          "content_html": "Talk to an expert",
+            "attrs": {
+              "href": "/openstack/compare/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "openstack-compare-modal"
+            }
+          }
+        }
+      },
+    ]) }}
+
+  <script>
+    const toggleSwitch = document.querySelector('.p-switch');
+    const toggleSwitchInput = document.querySelector('.p-switch__input');
+    const table = document.getElementById('openstack-comparison-table');
+    const wideViewElements = document.querySelectorAll('.wide-view');
+
+    // If there's JS, unhide the toggle switch
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleSwitch.classList.remove('u-hide');
+    });
+
+    // Toggle options for detailed/simple view
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleSwitchInput.addEventListener('change', function() {
+        if (this.checked) {
+          // Show wide view elements
+          wideViewElements.forEach(el => el.style.display = 'table-cell');
+        } else {
+          // Hide wide view elements
+          wideViewElements.forEach(el => el.style.display = 'none');
+        }
+      });
+    });
+  </script>
+
+  {{ load_form("/openstack-compare") | safe }}
+
+{% endblock %}

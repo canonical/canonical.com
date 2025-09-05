@@ -1,0 +1,646 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1W5icC6V49_BDGjrHmB7xD_uDZ8IT1pJDriOiB3HYw_g/edit
+{% endblock meta_copydoc %}
+
+{% block title %}Enterprise cloud solution{% endblock %}
+
+{% block meta_description %}
+  Looking for an enterprise cloud solution? Canonical delivers comprehensive products with full automation tailored to the most demanding use cases.
+{% endblock %}
+
+{% block meta_keywords %}enterprise cloud solution{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Enterprise cloud solution',
+    subtitle_text='Power mission-critical workloads with Canonical OpenStack',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Gift your enterprise a robust, highly scalable, and flexible cloud solution. Boost the efficiency of your sophisticated workloads, including AI and data, while benefitting from long-term stability and security.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf"
+         class="p-button--positive">Get the datasheet</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/30bdbfba-hero.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto|lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "At the forefront of innovation"},
+    is_split_on_medium=True,
+    items=[
+    {
+    "type": "image",
+    "item": {
+    "aspect_ratio": "3-2",
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/7eb12d1c-Image%20container.png",
+    "alt": ""
+    }
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      When you are experimenting with AI agents, rolling out 5G networks, or looking for a way to protect your data with confidential computing, you need an enterprise cloud solution. We recognize that. This is why Canonical OpenStack is always at the forefront of innovation.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "list",
+    "item": {
+    "list_items": [
+    {
+    "list_item_type": "bullet",
+    "content": "All the goodness of the upstream code packaged into one human-friendly product"
+    },
+    {
+    "list_item_type": "bullet",
+    "content": "Get an OpenStack that has been pushed to its limits across various market sectors and the most sophisticated use cases"
+    },
+    {
+    "list_item_type": "bullet",
+    "content": "With us, your cloud is backed by the third biggest contributor ever and developed in cooperation with our strategic partners"
+    }
+    ]
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Discover Canonical OpenStack&nbsp;&rsaquo;",
+    "attrs": {
+    "href": "/openstack"
+    }
+    }
+    }
+    }
+    ]) }}
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="row">
+        <hr class="p-rule" />
+        <h2 class="p-text--small-caps u-no-padding--top">Appreciated by key industry players</h2>
+      </div>
+    </div>
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="Canonical’s continued investment in confidential computing reflects the importance of protecting workloads in increasingly complex environments. We’re proud to collaborate with Canonical to extend secure, scalable solutions across enterprise infrastructure.",
+      citation_source_name_text="Frank Gorishek",
+      citation_source_title_text="Corporate Vice President, Software Development, AMD",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/cc95d22c-amd-quote.png",
+                alt="AMD",
+                width="284",
+                height="40",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="The introduction of NVIDIA virtual GPU support in Ubuntu means that we not only can consistently and cost-effectively leverage the same monitoring and maintenance tools in core and edge deployments, we can also unlock differentiated services for our customers.",
+      citation_source_name_text="Paul Veitch",
+      citation_source_title_text="Senior Manager of Software Based Networks Research, BT",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/880ba682-bt-quote.png",
+                alt="BT",
+                width="284",
+                height="65",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="The extreme performance of NVIDIA’s BlueField DPU enables next-generation architectures, such as OpenStack on Ubuntu, to power breakthrough innovations with the potential to bring transformative benefits to society.",
+      citation_source_name_text="Kevin Deierling",
+      citation_source_title_text="Senior vice president of networking, NVIDIA",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/9447bf72-nvidia-quote.png",
+                alt="NVIDIA",
+                width="284",
+                height="44",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+  </section>
+
+  {% call(slot) vf_equal_heights(
+    title_text="OpenStack, tamed",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
+    highlight_images=True,
+    items=[
+    {
+    "title_text": "Opinionated design",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/402c0e9b-opinionated.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Get an “on rails” experience with OpenStack by sticking to sensible defaults provided by us.</p>",
+    },
+    {
+    "title_text": "Cloud-native architecture",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/1945bbf3-cloud-native.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Run OpenStack as yet another application on top of Canonical’s cloud-native computing foundation.</p>",
+    },
+    {
+    "title_text": "Full bottom-up automation",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/65ac47f5-full-bottom-up.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Save your time and energy by automating all your cloud processes, from bare metal to applications.</p>",
+    },
+    {
+    "title_text": "High-level abstraction",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/6cc7306c-high-level.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Bootstrap and operate the cloud with ease through an intuitive command-line interface.</p>",
+    }
+    ]
+    ) %}
+    {% if slot == "description" %}
+      <p>
+        Benefit from maturity and comprehensiveness of the upstream code, while ensuring the smoothest experience possible in deployment and operations. Canonical effectively tames the complexity of the upstream OpenStack project and delivers its distilled excellence in the form of an enterprise cloud solution.
+      </p>
+    {% endif %}
+  {% endcall %}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Way more than just a cloud</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Rely on our expertise to give your enterprise everything it needs. When deployed by us Canonical OpenStack is way more than just a cloud. It is an end-to-end cloud solution.
+      </p>
+
+      <!-- Optional CTA block -->
+      <div class="p-cta-block u-no-padding--bottom">
+        <a href="/openstack/support" class="p-button--positive">Explore Canonical’s services</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Expandable containers layer</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Need a Kubernetes cluster? No problem: simply get it from the dashboard. Canonical OpenStack comes with an expandable containers layer, enabling your teams to provision <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> installations on demand.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Cloud storage</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Store up to 128 TB of data per node with no additional cost. <a href="https://ubuntu.com/ceph">Canonical Ceph</a>, included by default, is a highly scalable storage platform, providing both traditional and cloud-native storage options as required in heterogenous environments.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Observability stack</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Equip your operations teams with an integrated <a href="/observability">observability stack</a>. Metrics, distributed traces, logs, and alerts: everything is collected automatically and unified under a single, intuitive dashboard.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Centralized system management</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Automate security patching, auditing, and compliance tasks across your entire Ubuntu estate. <a href="https://ubuntu.com/landscape">Landscape</a> is a centralized system management tool that lets you enroll all those processes at scale.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">Bare metal automation</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Modernize your data center processes, such as server provisioning, with <a href="/maas">Canonical MAAS</a>. A full bare metal automation platform is included in the price of Canonical’s consulting packages for OpenStack.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_basic_section(title={"text": "Full commercial support across your entire open source estate"},
+    is_split_on_medium=True,
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <img src="https://assets.ubuntu.com/v1/5434a37a-ubuntu-pro-logo.png"
+         width="180"
+         height="51"
+         alt="Ubuntu Pro"
+         loading="lazy" />
+    <p>
+      Cover your Canonical OpenStack installation with the most comprehensive subscription for open source software security. With Ubuntu Pro you get up to 12 years of stability across all the layers of the stack: from infrastructure to applications and data.
+    </p>
+    '
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Get Ubuntu Pro&nbsp;&rsaquo;",
+    "attrs": {
+    "href": "https://ubuntu.com/pro/subscribe",
+    "class": "p-button"
+    }
+    }
+    }
+    }
+    ]) }}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Tailored to the most demanding market needs",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
+    items=[
+    {
+    "title_text": "HPC and AI/ML",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/a8270e75-hpc.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Where workload performance matters, Canonical OpenStack excels. Take advantage of GPU virtualization and other types of acceleration techniques to get 100% from your hardware.</p>",
+    },
+    {
+    "title_text": "Telco NFVI",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/3690d5c4-telco.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Build next-generation mobile networks on top of a carrier-grade, cloud-native infrastructure. Canonical OpenStack ships with leading EPA features to guarantee high performance in latency-sensitive environments.</p>",
+    },
+    {
+    "title_text": "Public sector",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/8333b779-public-sector.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Harden your infrastructure, and adhere to various national, and global compliance standards. Canonical OpenStack is designed to be deployed in fully offline environments to safeguard national interests and guarantee the highest level of security.</p>",
+    },
+    {
+    "title_text": "Financial services",
+    "image_html":  '<img src="https://assets.ubuntu.com/v1/57e9d91e-financial.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+    "description_html": "<p>Port mission-critical, financial applications to a future-proof cloud platform. Canonical OpenStack stands out for cost-effectiveness, while ensuring the required level of stability and resilience.</p>",
+    }
+    ]
+    ) %}
+    {% if slot == "description" %}
+      <p>
+        No matter the complexity of your project, Canonical OpenStack is right there to provide you with an enterprise cloud solution.
+      </p>
+    {% endif %}
+  {% endcall %}
+
+  <section class="p-section">
+    <div class="grid-row--50-50-on-large">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2 class="p-text--small-caps">Any silicon, any hardware, any storage</h2>
+      </div>
+      <div class="grid-col">
+        <p>
+          From lightweight architectures to IBM mainframes. We work with leading silicon and hardware manufacturers to make sure their platforms are tested and <a href="https://ubuntu.com/certified">certified with Ubuntu</a>. Is your hardware missing on the list below? Let us know. <a href="/openstack/features/contact-us"
+    class="js-invoke-modal"
+    aria-controls="openstack-features-modal">We will certify it for you</a>.
+        </p>
+      </div>
+    </div>
+    <div class="u-fixed-width">
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/d56b291a-intel-new-logo.png",
+                        alt="Intel",
+                        width="162",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/07185eb7-nvidia-logo.png",
+                        alt="Nvidia",
+                        width="310",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/d80b1bdb-amd-logo.png",
+                        alt="AMD",
+                        width="226",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/928956d2-ampere-logo.png",
+                        alt="Ampere",
+                        width="274",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e231021e-ibm-logo.png",
+                        alt="IBM Cloud",
+                        width="152",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/c56f91c2-Dell-logo.png",
+                        alt="Dell Technologies",
+                        width="414",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/c3c1bb87-hp-enterprise-logo.png",
+                        alt="HP Enterprise",
+                        width="256",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/f3396b77-Supermicro-logo.png",
+                        alt="Supermicro",
+                        width="233",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/833832f4-lenovo-logo.png",
+                        alt="Lenovo",
+                        width="244",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/b8a8a397-huawei-logo.png",
+                        alt="Huawei",
+                        width="307",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/5e35fd0c-cisco-logo.png",
+                        alt="Cisco",
+                        width="188",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/662bc229-gigabyte-logo.png",
+                        alt="Gigabyte",
+                        width="234",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/1e1c56bc-purestorage-logo.png",
+                        alt="Pure Storage",
+                        width="436",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/95e637f0-netapp-logo.png",
+                        alt="NetApp",
+                        width="286",
+                        height="313",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>
+        Integrate with ease with any
+        <br />
+        third-party software
+      </h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Canonical OpenStack uses pure upstream OpenStack APIs, enabling smooth integration with third-party open source and proprietary software. Simply do it yourself or rely on our expertise to enable the integration for you.
+      </p>
+
+      <!-- Optional CTA block -->
+      <div class="p-cta-block u-no-padding--bottom">
+        <a href="/openstack/features/contact-us"
+           class="p-button js-invoke-modal"
+           aria-controls="openstack-features-modal">Get in touch</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Migration-as-a-Service</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Move your workloads to OpenStack with ease from proprietary virtualization platforms or public clouds. Canonical partners with leading ISVs providing so-called Migration-as-a-Service tools.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Cloud management platforms</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Manage your entire cloud estate, including public and private clouds from a single pane of glass. Leading cloud management platforms provide native integration with OpenStack APIs.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Backup and recovery</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Ensure consistency of your workloads by taking regular backups and testing recovery procedures. Agentless backup and recovery solutions usually integrate with Canonical OpenStack out of the box.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Billing and invoicing</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Turn your Canonical OpenStack installation into a fully functional, regional public cloud platform. Get tenant metrics directly from OpenStack databases or integrate with leading billing and invoicing tools.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_basic_section(title={"text": "Highly scalable and composable enterprise cloud solution"},
+    is_split_on_medium=True,
+    items=[
+    {
+    "type": "image",
+    "item": {
+    "aspect_ratio": "3-2",
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/d4b73b7d-highly-scalable.png",
+    "alt": ""
+    }
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>Large-scale clusters consisting of hundreds of nodes: this is the space where Canonical OpenStack thrives.</p>
+    <p>
+      While other Canonical solutions like <a href='/microcloud'>MicroCloud</a> fit perfectly simple scenarios and smaller scales, Canonical OpenStack is designed to serve more advanced, sophisticated use cases that require customization and integration.
+    </p>
+    <p>
+      <a href='https://ubuntu.com/engage/canonical-openstack-reference-architecture'>Get started with both under a single build</a> and choose an enterprise cloud solution that suits your needs the best.
+    </p>
+    "
+    }
+    }
+    ]) }}
+
+  {% call(slot) vf_cta_section(
+    title_text='Haven’t found the feature you were looking for?',
+    variant='default',
+    layout='100',
+    ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf">Download Canonical OpenStack datasheet&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ load_form("/openstack/features") | safe }}
+
+{% endblock %}

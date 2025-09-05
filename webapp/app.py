@@ -287,6 +287,27 @@ def home_sitemap():
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 
 
+# OpenStack resources blog section
+# tag_ids:
+# openstack - 1327
+def render_openstack_blogs():
+    blogs = BlogViews(
+        api=BlogAPI(session=get_requests_session()),
+        excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
+        tag_ids=[1327],
+        per_page=4,
+        blog_title="OpenStack blogs",
+    )
+    openstack_articles = blogs.get_index()["articles"]
+    sorted_articles = sorted(openstack_articles, key=lambda x: x["date"])
+    return flask.render_template(
+        "/openstack/resources.html", blogs=sorted_articles
+    )
+
+
+app.add_url_rule("/openstack/resources", view_func=render_openstack_blogs)
+
+
 with open("navigation.yaml") as nav_file:
     navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
 app.add_url_rule(
