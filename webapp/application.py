@@ -110,7 +110,7 @@ def _get_employee_directory_data(employee_id: str):
         headers={"Authorization": directory_api_token},
         use_json=True,
         verify=False,
-        timeout=10,
+        timeout=5,
     )
     client = Client(transport=transport)
     filter_term = r"{id: $id}"
