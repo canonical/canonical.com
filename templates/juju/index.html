@@ -1,0 +1,1024 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+{% block title %}
+  Canonical Mir Display Server
+{% endblock title %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1wqmWPx4TJ_oJoFt4gBOg4trYMIAsugMYtHGXzYJx8kc/edit#
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+  Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Revolutionise the speed and quality of software operations with Juju',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure using charms.
+      </p>
+      <p>
+        A charm is an operator &ndash; business logic encapsulated in reusable software packages that automate every aspect of an application's life.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <hr class="p-rule--muted" />
+      <a href="/why-juju" class="p-button">How Juju works</a>
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="juju-modal">Contact us</a>
+      <div class="u-align--cta">
+        <a class="github-button"
+           data-size="large"
+           href="https://github.com/canonical/juju"
+           aria-label="Follow @canonical/juju on GitHub"></a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/juju">Follow @canonical/juju on Github</a>
+        </noscript>
+
+        <a class="github-button"
+           href="https://github.com/canonical/juju"
+           data-icon="octicon-star"
+           data-size="large"
+           data-show-count="true"
+           data-text="Star"
+           aria-label="Star canonical/juju on GitHub"></a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/juju">Star canonical/juju on GitHub</a>
+        </noscript>
+
+        <a class="github-button"
+           href="https://github.com/canonical/juju/fork"
+           data-icon="octicon-repo-forked"
+           data-size="large"
+           data-show-count="true"
+           data-text="Fork"
+           aria-label="Fork canonical/juju on GitHub"></a>
+        <noscript>
+          <a class="p-button" href="https://github.com/canonical/juju">Fork canonical/juju on GitHub</a>
+        </noscript>
+      </div>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container">
+        {{ image(url="https://assets.ubuntu.com/v1/8e1d3bf5-juju-hero-juju.is.svg",
+                alt="",
+                width="450",
+                height="366",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "Shift from application to system lifecycle management"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Juju and charms consider the integrations between different applications as a first class primitive."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "This means your observability stack, database, SSO, and more, evolve with your system &ndash; and they work on day 1,000 just as well as they did on day one."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+        "secondaries": [
+          {
+            "content_html": "Get started with Juju",
+            "attrs": {
+              "href": "https://documentation.ubuntu.com/juju/3.6/tutorial/"
+            }
+          },
+          {
+            "content_html": "Create your first charm",
+            "attrs": {
+              "href": "https://documentation.ubuntu.com/juju/3.6/howto/manage-charms/#build-a-charm"
+            }
+          }
+        ]
+      }
+    }
+  ]) }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Reuse operations code across Kubernetes and VMs</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Use a single codebase to automate the lifecycle management of your system across public clouds, Kubernetes, virtual (VM) and bare metal machines.
+      </p>
+      <p>Learn how to use Juju across supported clouds and environments.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">On Cloud</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/amazon-ec2">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/3477dfe5-aws-logo.png"
+                   alt="AWS" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/google-gce">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/dad928bd-google-cloud-logomark.png"
+                   alt="Google Cloud" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/oracle-oci">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/77661134-oracle-new-logo.png"
+                   alt="Oracle OCI" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/microsoft-azure">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/a8ada77e-microsoft-azure-2021.png"
+                   alt="Azure" />
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">On K8s</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/microk8s">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/7809f7d5-Canonical%20Kubernetes.svg"
+                   alt="Canonical Kubernetes" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/d5d616f3-kubernetes-logo.svg"
+                 alt="Kubernetes" />
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/amazon-eks">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/bd4bf3d8-amazon-eks-logo.svg"
+                   alt="Amazon EKS" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/google-gke">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/29843a76-google-gke-logo.svg"
+                   alt="Google GKE" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/google-gce">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/920a5a48-google-gce-logo.svg"
+                   alt="Google GCE" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/microsoft-aks">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/9214fcae-amazon%20kubernetes%20services.svg"
+                   alt="Microsoft AKS" />
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">On VMs</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/lxd">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/60078056-Canonical%20LXD.svg"
+                   alt="Canonical LXD" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/openstack">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/2dd7c33b-Canonical%20OpenStack.svg"
+                   alt="Canonical OpenStack" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/vmware-vsphere">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/7f211a54-vmware-logo.svg"
+                   alt="VMware" />
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">On Metal</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/maas">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/8c052326-Canonical%20MAAS.svg"
+                   alt="Canonical MAAS" />
+            </a>
+          </div>
+          <div class="p-logo-section__item">
+            <a href="/docs/juju/equinix-metal">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/ee48addc-equinix-logo.svg"
+                   alt="Equinix" />
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="p-section">
+      <div class="u-fixed-width">
+        <div class="p-image-container">
+          {{ image(url="https://assets.ubuntu.com/v1/01f41e75-Juju-main-illustration.svg",
+                    alt="",
+                    width="3000",
+                    height="1220",
+                    hi_def=True,
+                    attrs={"class":"p-image-container__image"}) | safe }}
+        </div>
+      </div>
+      <div class="grid-row--75-25">
+        <div class="grid-col">
+          <h2>Deploy and integrate with enterprise-grade software operators</h2>
+        </div>
+        <div class="grid-col">
+          <p>
+            <a href="https://charmhub.io/">Charmhub</a> is a curated marketplace for charms which can be readily integrated into any infrastructure, and the centre of the charm community.
+          </p>
+          <div class="p-cta-block">
+            <a class="p-button" href="https://charmhub.io/">Explore all charms</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="p-rule--muted is-fixed-width" />
+    <div class="grid-row">
+      <div class="grid-col-2 grid-col-medium-1">
+        <ul class="js-tabbed-content p-tabs--vertical is-black u-hide--small"
+            role="tablist"
+            data-tablist="common-charms">
+          <li>
+            <button class="p-tabs__item"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="databases-tab"
+                    id="databases">Databases</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="big-data-and-ai-tab"
+                    id="big-data-and-ai">Big data and AI</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="observability-tab"
+                    id="observability">Observability</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="infrastructure-tab"
+                    id="infrastructure">Infrastructure</button>
+          </li>
+        </ul>
+        <form class="u-hide--large u-hide--medium">
+          <select name="tabSelect" data-tablist="jaas-features">
+            <option value="databases-tab" selected="">View models and controllers details</option>
+            <option value="big-data-and-ai-tab">Run actions</option>
+            <option value="observability-tab">Configure applications</option>
+            <option value="infrastructure-tab">Onboard controllers and manage access</option>
+          </select>
+        </form>
+      </div>
+      <div class="grid-col-6 grid-col-medium-3">
+        <!-- tab 1 -->
+        <div class="p-tabs__content"
+             role="tabpanel"
+             id="databases-tab"
+             aria-labelledby="databases">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/postgresql">
+                    {{ image(url="https://assets.ubuntu.com/v1/3c1ecfd9-postgres-logo-jujuis.png",
+                                        alt="", height="288", width="237", hi_def=True,
+                                        loading="auto", attrs={ "class": "p-heading-icon__img
+                                        operator-logo", },) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Postgres</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open-source relational database management system</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/postgresql">Postgres on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/mysql">
+                    {{ image(url="https://assets.ubuntu.com/v1/5d559f28-MySQL.juju.is.svg",
+                                        alt="", height="288", width="420", hi_def=True,
+                                        loading="auto", attrs={ "class": "p-heading-icon__img  operator-logo", },) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">MySQL</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open-source relational database management system</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/mysql">MySQL on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="p-section--shallow">
+            <div class="grid-row">
+              <div class="grid-col-2 grid-col-medium-1">
+                <div class="p-heading-icon u-no-margin">
+                  <div class="p-heading-icon__header">
+                    <a href="https://charmhub.io/mongodb">
+                      {{ image(url="https://assets.ubuntu.com/v1/5a6b9b4b-ubuntu-logo.png",
+                                            alt="", height="328", width="288", hi_def=True,
+                                            loading="auto", attrs={ "class": "p-heading-icon__img
+                                            operator-logo", },) | safe }}
+                    </a>
+                    <h3 class="p-heading-icon__title p-heading--4">Charmed MongoDB</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="grid-col-4">
+                <div class="grid-row">
+                  <div class="grid-col-2">
+                    <p>Source-available document-oriented database</p>
+                  </div>
+                  <div class="grid-col-2">
+                    <div class="p-chip--information">
+                      <span class="p-chip__value">Machine</span>
+                    </div>
+                  </div>
+                </div>
+                <hr class="p-rule--muted" />
+                <a href="https://charmhub.io/mongodb">MongoDB on charmhub &nbsp;&rsaquo;</a>
+              </div>
+            </div>
+          </div>
+          <hr class="is-muted" />
+          <div class="grid-row">
+            <div class="grid-col-3 grid-col-start-large-3">
+              <p>
+                Learn more about charms on <a href="https://discourse.charmhub.io/">Discourse</a> and <a href="https://matrix.to/#/#charmhub:ubuntu.com">Matrix</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- tab 2 -->
+        <div class="p-tabs__content"
+             role="tabpanel"
+             id="big-data-and-ai-tab"
+             aria-labelledby="big-data-and-ai">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/kafka">
+                    {{ image(url="https://assets.ubuntu.com/v1/f00ede67-kafka-logo-jujuis.png",
+                        alt="", 
+                        height="288", 
+                        width="154", 
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-heading-icon__img "},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Kafka</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source distributed event store and stream-processing platform</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/kafka">Kafka on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/kubeflow">
+                    {{ image(url="https://assets.ubuntu.com/v1/62a19f47-kubeflow-logo-jujuis.png",
+                        alt="", 
+                        height="288", 
+                        width="252", 
+                        hi_def=True,
+                        loading="auto", 
+                        attrs={"class": "p-heading-icon__img operator-logo"},
+                        ) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Kubeflow</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source platform for machine learning and MLOps on Kubernetes</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/kubeflow">Kubeflow on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="p-section--shallow">
+            <div class="grid-row">
+              <div class="grid-col-2 grid-col-medium-1">
+                <div class="p-heading-icon u-no-margin">
+                  <div class="p-heading-icon__header">
+                    <a href="https://charmhub.io/spark-history-server-k8s">
+                      {{ image(url="https://assets.ubuntu.com/v1/d9906786-apache-spark-logo-jujuis.png",
+                                            alt="", height="288", width="247", hi_def=True,
+                                            loading="auto", attrs={"class": "p-heading-icon__img
+                                            operator-logo"},) | safe }}
+                    </a>
+                    <h3 class="p-heading-icon__title p-heading--4">Apache Spark</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="grid-col-4">
+                <div class="grid-row">
+                  <div class="grid-col-2">
+                    <p>Open source unified analytics engine for large-scale data processing</p>
+                  </div>
+                  <div class="grid-col-2">
+                    <div class="p-chip--information">
+                      <span class="p-chip__value">K8s</span>
+                    </div>
+                  </div>
+                </div>
+                <hr class="p-rule--muted" />
+                <a href="https://charmhub.io/spark-history-server-k8s">Apache Spark on charmhub &nbsp;&rsaquo;</a>
+              </div>
+            </div>
+          </div>
+          <hr class="is-muted" />
+          <div class="grid-row">
+            <div class="grid-col"></div>
+          </div>
+          <p>
+            Learn more about charms on <a href="https://discourse.charmhub.io/">Discourse</a> and <a href="https://matrix.to/#/#charmhub:ubuntu.com">Matrix</a>
+          </p>
+        </div>
+        <!-- tab 3 -->
+        <div class="p-tabs__content"
+             role="tabpanel"
+             id="observability-tab"
+             aria-labelledby="observability">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/prometheus-k8s">
+                    {{ image(url="https://assets.ubuntu.com/v1/74efd28b-prometheus-logo-jujuis.png",
+                                        alt="", height="288", width="247", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Prometheus</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source monitoring system with a dimensional data model and a time series database</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/prometheus-k8s">Prometheus on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/grafana-k8s">
+                    {{ image(url="https://assets.ubuntu.com/v1/1c10fa01-grafana-logo-jujuis.png",
+                                        alt="", height="288", width="231", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Grafana</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source analytics and interactive visualization web application</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/grafana-k8s">Grafana on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/loki-k8s">
+                    {{ image(url="https://assets.ubuntu.com/v1/a647636f-loki-logo-jujuis.png",
+                                        alt="", height="288", width="211", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Loki</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source analytics and interactive visualization web application</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/loki-k8s">Loki on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- tab 4 -->
+        <div class="p-tabs__content"
+             role="tabpanel"
+             id="infrastructure-tab"
+             aria-labelledby="infrastructure">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/vault">
+                    {{ image(url="https://assets.ubuntu.com/v1/8f9d47a0-vault-logo-jujuis.png",
+                                        alt="", height="288", width="262", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Vault</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open source identity-based secrets and encryption management system</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/vault">Vault on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/traefik-k8s">
+                    {{ image(url="https://assets.ubuntu.com/v1/52d0f6ab-traefik-logo-jujuis.png",
+                                        alt="", height="288", width="216", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Traefik</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Open-source reverse proxy and load balancer for HTTP and TCP-based applications</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">K8s</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/traefik-k8s">Traefik on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-1">
+              <div class="p-heading-icon u-no-margin">
+                <div class="p-heading-icon__header">
+                  <a href="https://charmhub.io/landscape-scalable">
+                    {{ image(url="https://assets.ubuntu.com/v1/6320c190-landscape-logo-jujuis.png",
+                                        alt="", height="288", width="154", hi_def=True,
+                                        loading="auto", attrs={"class": "p-heading-icon__img
+                                        operator-logo"},) | safe }}
+                  </a>
+                  <h3 class="p-heading-icon__title p-heading--4">Landscape</h3>
+                </div>
+              </div>
+            </div>
+            <div class="grid-col-4">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <p>Ubuntu systems management tool developed by Canonical</p>
+                </div>
+                <div class="grid-col-2">
+                  <div class="p-chip--information">
+                    <span class="p-chip__value">Machine</span>
+                  </div>
+                </div>
+              </div>
+              <hr class="p-rule--muted" />
+              <p>
+                <a href="https://charmhub.io/landscape-scalable">Landscape on charmhub &nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <div class="p-section--shallow">
+          <h2>Watch: Learn about Juju in 10 minutes</h2>
+        </div>
+        <p>
+          Watch this video to learn the core concept of Juju and charms, how you can use them to automate operations across different clouds/VM/k8s and the benefits of integrations.
+        </p>
+      </div>
+      <div class="grid-col">
+        <div class="u-embedded-media">
+          <lite-youtube videoid="HhRBNs9ckIk" width="560" height="315" posterquality="maxresdefault" videotitle="Operator Day Europe 2023 | The beauty of Juju with Jon Seager" class="u-embedded-media__element">
+          <a href="https://www.youtube.com/watch?v=HhRBNs9ckIk" title="Play video">
+            <span class="lyt-visually-hidden">Operator Day Europe 2023 | The beauty of Juju with Jon Seager</span>
+          </a>
+          </lite-youtube>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="is-fixed-width" />
+    <div class="grid-row--50-50">
+      <div class="grid-col">
+        <h2>Add visibility and compliance controls with JAAS</h2>
+        <p>JAAS (Juju as a service) is your centralised enterprise control plane for Juju deployments.</p>
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Manage hundreds of Juju controllers.</li>
+          <li class="p-list__item is-ticked">Add fine grained access controls.</li>
+          <li class="p-list__item is-ticked">Enable enhanced audit functionalities.</li>
+          <li class="p-list__item is-ticked">Protect deployments by having a smaller attack area.</li>
+        </ul>
+        <hr class="p-rule--muted" />
+        <div class="p-cta-block">
+          <a href="https://jaas.ai" class="p-button--positive">Discover JAAS</a>
+        </div>
+      </div>
+      <div class="grid-col">
+        <div class="u-embedded-media">
+          {{ image(url="https://assets.ubuntu.com/v1/ed078d85-juju-dashboard.gif",
+                    alt="",
+                    height="779",
+                    width="1200",
+                    hi_def=True,
+                    loading="lazy",) | safe
+          }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="is-fixed-width" />
+    <div class="u-fixed-width">
+      <h2>Canonical products are trusted by 10,000+ engineers at</h2>
+    </div>
+    <div class="u-fixed-width">
+      <div class="p-logo-section has-misaligned-images">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/a6f05598-ubuntu-logo.png"
+                 alt="Ubuntu logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/4589dd76-logo-deutsche-telekom.svg"
+                 alt="Deutsche Telekom logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/d1c6f829-logo-ibm.svg"
+                 alt="IBM logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/ecf0af7c-logo-Intel.svg"
+                 alt="Intel logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/f01ae6bc-logo-azure.svg"
+                 alt="Microsoft Azure logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/2ec61a24-logo-deutsche-telekom.svg"
+                 alt="Cisco logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/e651641d-logo-china+telecom.svg"
+                 alt="China Telecom logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/3a707af3-nec-logo.png"
+                 alt="nec logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/3a082df1-logo-hp.svg"
+                 alt="Hewlett Packard logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/3bfe80c9-logo-yahoo-jp.svg"
+                 alt="Yahoo! Japan logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/2de518fb-logo-verizon.svg"
+                 alt="verizon logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/2a962e80-logo-Bell.svg"
+                 alt="Bell logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/efcbfd05-swissquote-logo.png"
+                 alt="Swissquote logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/01b828d0-logo-panasonic.svg"
+                 alt="Panasonic logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/066908c1-logo-scania.svg"
+                 alt="Scania logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/c2220484-logo-BT.svg"
+                 alt="BT logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/a2e4ca92-logo-rabobank.svg"
+                 alt="Rabobank logo" />
+          </div>
+          <div class="p-logo-section__item">
+            <img class="p-logo-section__logo"
+                 src="https://assets.ubuntu.com/v1/bafeea04-logo-tele2.svg"
+                 alt="tele2 logo" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--deep p-suru--bottom-right">
+    <div class="grid-row">
+      <hr class="is-fixed-width" />
+      <div class="grid-col-4">
+        <h2>Community and support</h2>
+      </div>
+      <div class="grid-col-4">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <h3 class="p-heading--5">Connect with the community</h3>
+          </div>
+          <div class="grid-col-2">
+            <p>
+              <a href="https://matrix.to/#/#charmhub:ubuntu.com">Matrix chat</a>
+            </p>
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="https://discourse.charmhub.io/">Discourse forum</a>
+            </p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <h3 class="p-heading--5">Contact us</h3>
+          </div>
+          <div class="grid-col-2">
+            <p>
+              <a href="/contact-us" class="js-invoke-modal" aria-controls="juju-modal">Talk to a Canonical expert</a>
+            </p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <h3 class="p-heading--5">Read more</h3>
+          </div>
+          <div class="grid-col-2">
+            <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="/docs/juju">Juju documentation</a>
+              </li>
+              <li class="p-list__item">
+                <a href="/blog/tag/juju">Juju blog posts</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://charmhub.io/">Charmhub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form('/juju') | safe }}
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}
