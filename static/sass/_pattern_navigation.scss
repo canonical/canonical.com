@@ -78,6 +78,16 @@ $navigation-heading-color: #fff9;
 }
 
 @mixin canonical-p-navigation-dropdown-content {
+  .p-navigation__preview-links {
+    @media screen and (max-width: ($breakpoint-large - 1)) {
+      padding-inline: 3rem;
+    }
+
+    a {
+      font-weight: inherit !important;
+    }
+  }
+
   .p-navigation__content-panel--full-width {
     .p-navigation__dropdown-item small,
     .p-navigation__dropdown-item small:visited {
@@ -146,15 +156,19 @@ $navigation-heading-color: #fff9;
     }
   }
 
+  .p-navigation__preview-link--container {
+    row-gap: 2rem;
+  }
+
   .p-navigation__preview-link--image {
-    margin-top: 1rem;
     width: 100%;
     position: relative;
     overflow: hidden;
   }
 
-  .p-navigation__preview-link:hover .p-navigation__preview-link--description {
-    text-decoration: underline;
+  .p-navigation__preview-link--description {
+    display: grid;
+    align-content: space-between;
   }
 
   .p-navigation__footer {
@@ -165,16 +179,13 @@ $navigation-heading-color: #fff9;
     justify-content: space-between;
   }
 
-  .p-navigation--sliding
-    .p-navigation__dropdown.is-full-width
-    .p-navigation__dropdown-content--full-width {
+  .p-navigation--sliding .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content--full-width {
     @include vf-animation(all, brisk, out);
   }
 
   .p-navigation--reduced,
   .p-navigation--sliding {
-    .p-navigation__dropdown.is-full-width
-      .p-navigation__dropdown-content--full-width {
+    .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content--full-width {
       background-color: $navigation-background;
     }
   }
@@ -220,9 +231,7 @@ $navigation-heading-color: #fff9;
   }
 
   // remove the border from the final tab item
-  .p-navigation__tab-panel
-    .p-side-navigation__item:last-of-type
-    .p-side-navigation__link {
+  .p-navigation__tab-panel .p-side-navigation__item:last-of-type .p-side-navigation__link {
     border-bottom: none;
   }
 }

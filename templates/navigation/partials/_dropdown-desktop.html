@@ -65,7 +65,24 @@
               {% endif %}
             </div>
           {% elif section.sibling_lists %}
-            <div class="row u-no-padding">
+            <div class="u-no-padding">
+              <div class="grid-row--50-50 u-no-padding">
+                {% for list in section.sibling_lists %}
+                  <div class="grid-col">
+                    {% with primary_links=list, columns=2 %}
+                      {% include "navigation/partials/_sibling-links.html" %}
+                    {% endwith %}
+                  </div>
+                {% endfor %}
+              </div>
+              {% if section.preview_secondary_links %}
+                <hr class="p-rule--muted" />
+                {% with preview_secondary_links=section.preview_secondary_links, show_heading=True %}
+                  {% include "navigation/partials/_preview-links.html" %}
+                {% endwith %}
+              {% endif %}
+            </div>
+            <!-- <div class="row u-no-padding">
               {% for list in section.sibling_lists %}
                 <div class="col-3">
                   {% with list=list, inverted_links=true %}
@@ -80,7 +97,7 @@
                   {% endwith %}
                 </div>
               {% endif %}
-            </div>
+            </div> -->
           {% endif %}
         </div>
       </div>
