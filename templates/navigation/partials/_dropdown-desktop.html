@@ -65,7 +65,7 @@
               {% endif %}
             </div>
           {% elif section.sibling_lists %}
-            <div class="u-no-padding">
+            {% if section.sibling_lists[0].links[0].description is defined %}
               <div class="grid-row--50-50 u-no-padding">
                 {% for list in section.sibling_lists %}
                   <div class="grid-col">
@@ -77,27 +77,28 @@
               </div>
               {% if section.preview_secondary_links %}
                 <hr class="p-rule--muted" />
-                {% with preview_secondary_links=section.preview_secondary_links, show_heading=True %}
+                {% with preview_secondary_links=section.preview_secondary_links, is_full_width=True %}
                   {% include "navigation/partials/_preview-links.html" %}
                 {% endwith %}
               {% endif %}
-            </div>
-            <!-- <div class="row u-no-padding">
-              {% for list in section.sibling_lists %}
-                <div class="col-3">
-                  {% with list=list, inverted_links=true %}
-                    {% include "navigation/partials/_link-list.html" %}
-                  {% endwith %}
-                </div>
-              {% endfor %}
-              {% if section.preview_secondary_links %}
-                <div class="col-6">
-                  {% with preview_secondary_links=section.preview_secondary_links %}
-                    {% include "navigation/partials/_preview-links.html" %}
-                  {% endwith %}
-                </div>
-              {% endif %}
-            </div> -->
+            {% else %}
+              <div class="grid-row u-no-padding">
+                {% for list in section.sibling_lists %}
+                  <div class="grid-col-2">
+                    {% with list=list, inverted_links=true %}
+                      {% include "navigation/partials/_link-list.html" %}
+                    {% endwith %}
+                  </div>
+                {% endfor %}
+                {% if section.preview_secondary_links %}
+                  <div class="grid-col-4">
+                    {% with preview_secondary_links=section.preview_secondary_links %}
+                      {% include "navigation/partials/_preview-links.html" %}
+                    {% endwith %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
           {% endif %}
         </div>
       </div>

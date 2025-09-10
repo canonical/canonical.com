@@ -78,9 +78,18 @@ $navigation-heading-color: #fff9;
 }
 
 @mixin canonical-p-navigation-dropdown-content {
+  .p-navigation__dropdown#solutions-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 3.5rem);
+  }
+
   .p-navigation__preview-links {
     @media screen and (max-width: ($breakpoint-large - 1)) {
       padding-inline: 3rem;
+    }
+
+    @media screen and (max-width: ($breakpoint-small - 1)) {
+      padding-inline: 2.5rem;
     }
 
     a {
