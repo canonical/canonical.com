@@ -1,111 +1,15 @@
-<section class="p-section--deep">
-    <div class="row">
-        <div class="col-start-large-4">
-            <h2 class="p-heading--2">Get started with Juju today</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-start-large-4">
-            <a href="/docs/juju" class="p-button--positive">Read Docs</a>
-            <button class="p-button" data-js="open-modal-control">Contact us</button>
-        </div>
-    </div>
-</section>
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
-<div class="p-modal u-hide" id="modal">
-    <section class="p-modal__dialog"
-             role="dialog"
-             aria-modal="true"
-             aria-labelledby="modal-title">
-        <header class="p-modal__header">
-            <h2 class="p-modal__title">Get in touch</h2>
-            <button class="p-modal__close"
-                    aria-label="Close active modal"
-                    aria-controls="modal"
-                    data-js="close-modal-control">Close</button>
-        </header>
-        <form action="https://ubuntu.com/marketo/submit"
-              method="post"
-              id="mktoForm_5332"
-              style="max-width: 560px">
-            <label class="is-required" for="firstName">First name</label>
-            <input type="text" name="firstName" id="firstName" required />
+{% call(slot) vf_cta_section(
+  title_text='Get started with Juju today',
+  variant='default',
+  layout='25-75'
+  ) -%}
+  {%- if slot == 'cta' -%}
+    <a href="https://documentation.ubuntu.com/juju/3.6/#"
+       class="p-button--positive">Read Docs</a>
+    <button class="p-button js-invoke-modal" aria-controls="juju-modal">Contact us</button>
+  {%- endif -%}
+{% endcall -%}
 
-            <label class="is-required" for="lastName">Last name</label>
-            <input type="text" name="lastName" id="lastName" required />
-
-            <label class="is-required" for="title">Job title</label>
-            <input type="text" name="title" id="title" required />
-
-            <label class="is-required" for="Email">Email address:</label>
-            <input type="email" name="email" id="email" required />
-
-            <label class="is-required" for="phone">Phone</label>
-            <input type="text" name="phone" id="phone" required />
-
-            <label for="Comments_from_lead__c">Comments</label>
-            <textarea name="Comments_from_lead__c" id="Comments_from_lead__c"></textarea>
-
-            <label class="p-checkbox">
-                <input type="checkbox"
-                       class="p-checkbox__input u-no-margin--top"
-                       name="canonicalUpdatesOptIn"
-                       aria-labelledby="CanonicalUpdatesOptIn"
-                       value="yes" />
-                <span class="p-checkbox__label" id="CanonicalUpdatesOptIn">
-                    <small>I agree to receive information about Canonical's products and services.</small>
-                </span>
-            </label>
-            <p>
-                <small>In submitting this form, I confirm that I have read and agree to <a href="https://ubuntu.com/legal/data-privacy/newsletter">Canonical's Privacy Notice</a> and <a href="https://ubuntu.com/legal/data-privacy">Privacy Policy</a>.</small>
-            </p>
-
-            <button type="submit"
-                    class="p-button--positive u-no-margin--bottom"
-                    aria-label="Submit">Get in touch</button>
-
-            <input type="hidden" name="formid" class="mktoField" value="5332" />
-            <input type="hidden" name="returnURL" value="https://juju.is/thank-you" />
-            <input type="hidden" name="Consent_to_Processing__c" value="yes" />
-            <input type="hidden" name="utm_campaign" id="utm_campaign" value="" />
-            <input type="hidden" name="utm_source" id="utm_source" value="" />
-            <input type="hidden" name="utm_medium" id="utm_medium" value="" />
-            <input type="hidden" name="utmcontent" id="utmcontent" value="" />
-            <input type="hidden" name="utm_term" id="utm_term" value="" />
-            <input type="hidden" name="GCLID__c" id="GCLID__c" value="" />
-            <input type="hidden"
-                   name="Facebook_Click_ID__c"
-                   id="Facebook_Click_ID__c"
-                   value="" />
-            <input type="hidden"
-                   name="grecaptcharesponse"
-                   id="grecaptcharesponse"
-                   value="" />
-            <input type="hidden" name="productContext" id="productContext" value="" />
-        </form>
-    </section>
-</div>
-
-<script>
-  const modal = document.querySelector("#modal");
-  const openModalControls = document.querySelectorAll("[data-js='open-modal-control']");
-  const closeModalControl = document.querySelector("[data-js='close-modal-control']");
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.add("u-hide");
-    }
-  });
-
-  openModalControls.forEach(openModalControl => {
-    openModalControl.addEventListener("click", (e) => {
-      e.preventDefault();
-      modal.classList.remove("u-hide");
-    });
-  })
-
-  closeModalControl.addEventListener("click", (e) => {
-    e.preventDefault();
-    modal.classList.add("u-hide");
-  });
-</script>
+{{ load_form("/juju") | safe }}

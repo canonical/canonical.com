@@ -30,13 +30,16 @@
         <section class="p-section--shallow">
         </section>
         <div class="u-fixed-width">
-            {{ image(url="https://assets.ubuntu.com/v1/5d884b21-Juju%20high%20level%20architecture.svg",
-                        alt="",
-                        width="1600",
-                        height="780",
-                        hi_def=True,
-                        attrs={"class": "u-full-width"}) | safe
-            }}
+            <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/6c85b84a-juju_high_level_architecture.png",
+                                alt="",
+                                width="3696",
+                                height="1503",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "u-full-width p-image-container__image"}) | safe
+                }}
+            </div>
         </div>
         <div class="row">
             <div class="col-3 col-start-large-4">
@@ -206,13 +209,16 @@
         </div>
         <section class="p-section--shallow">
             <div class="u-fixed-width">
-                {{ image(url="https://assets.ubuntu.com/v1/fd9ab3dc-a%20single%20tool%20to%20deploy.svg",
-                                alt="",
-                                width="1600",
-                                height="656",
-                                hi_def=True,
-                                attrs={"class": "u-full-width"}) | safe
-                }}
+                <div class="p-image-container is-highlighted">
+                    {{ image(url="https://assets.ubuntu.com/v1/4ac7df4b-a_single_tool.png",
+                                        alt="",
+                                        width="3696",
+                                        height="1515",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-image-container__image"}) | safe
+                    }}
+                </div>
             </div>
         </section>
     </section>
@@ -239,13 +245,16 @@
         </div>
         <section class="p-section--shallow">
             <div class="u-fixed-width">
-                {{ image(url="https://assets.ubuntu.com/v1/efc07adc-juju%20on%20k8s.svg",
-                                alt="",
-                                width="1500",
-                                height="706",
-                                hi_def=True,
-                                attrs={"class": "u-full-width"}) | safe
-                }}
+                <div class="p-image-container is-highlighted">
+                    {{ image(url="https://assets.ubuntu.com/v1/29530a0d-juju_on_k8s.png",
+                                        alt="",
+                                        width="3696",
+                                        height="1740",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-image-container__image"}) | safe
+                    }}
+                </div>
             </div>
         </section>
     </section>
@@ -266,13 +275,16 @@
         </div>
         <section class="p-section--shallow">
             <div class="u-fixed-width">
-                {{ image(url="https://assets.ubuntu.com/v1/e0bc4a58-Juju%20on%20VMs.svg",
-                                alt="",
-                                width="1500",
-                                height="885",
-                                hi_def=True,
-                                attrs={"class": "u-full-width"}) | safe
-                }}
+                <div class="p-image-container is-highlighted">
+                    {{ image(url="https://assets.ubuntu.com/v1/68c2e977-juju_on_vms.png",
+                                        alt="",
+                                        width="3696",
+                                        height="2183",
+                                        hi_def=True,
+                                        loading="lazy",
+                                        attrs={"class": "p-image-container__image"}) | safe
+                    }}
+                </div>
             </div>
         </section>
     </section>
@@ -321,27 +333,6 @@
             </div>
         </section>
     </section>
-    <script>
-      const panelLinks = document.querySelectorAll("[data-js='panel-link']");
-
-      panelLinks.forEach((panelLink) => {
-        panelLink.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          const activePanelLink = document.querySelector("[data-js='panel-link'].is-active");
-          const activePanel = document.querySelector(activePanelLink.getAttribute("href"));
-
-          if (activePanelLink === panelLink) {
-            return;
-          }
-
-          const targetPanel = document.querySelector(panelLink.getAttribute("href"));
-
-          activePanelLink.classList.remove("is-active");
-          activePanel.classList.add("u-hide");
-          panelLink.classList.add("is-active");
-          targetPanel.classList.remove("u-hide");
-        });
-      });
-    </script>
+    
+    <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 {% endblock %}
