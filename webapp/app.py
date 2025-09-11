@@ -61,6 +61,11 @@ from webapp.partners import Partners
 from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
 from webapp.static_data import homepage_featured_products
+from webapp.utils.juju_doc_search import (
+    DOMAIN_INFO,
+    process_and_sort_results,
+    search_all_docs,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -337,6 +342,24 @@ def handle_careers_results():
         greenhouse = Greenhouse.from_session(session)
         harvest = Harvest.from_session(session)
         return careers_results(greenhouse, harvest)
+
+
+@app.route("/juju/docs/search", methods=["GET"])
+def search_docs():
+    """Main search function that fetches and ranks documentation results."""
+    query = flask.request.args.get("q", "").strip()
+    if not query:
+        return flask.redirect("/juju/docs")
+
+    results = search_all_docs(query)
+    sorted_results = process_and_sort_results(results, query)
+
+    return flask.render_template(
+        "juju/docs/search.html",
+        query=query,
+        sorted_results=sorted_results,
+        domain_info=DOMAIN_INFO,
+    )
 
 
 def careers_results(greenhouse, harvest):
