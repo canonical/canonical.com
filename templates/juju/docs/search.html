@@ -1,0 +1,125 @@
+{% extends 'base_index.html' %}
+
+{% block meta %}
+  {{ super() }}
+  <meta name="robots" content="noindex" />
+{% endblock %}
+
+{% block title %}Juju documentation search results{% endblock %}
+
+{% block meta_title %}Juju documentation search results{% endblock %}
+
+{% block content %}
+
+  <section id="search-docs" class="p-strip--light is-shallow">
+    <div class="u-fixed-width">
+      <form class="p-search-box u-no-margin--bottom" action="/juju/docs/search">
+        <input type="search"
+               class="p-search-box__input"
+               name="q"
+               {% if query %}value="{{ query }}"{% endif %}
+               placeholder="Search documentation"
+               required />
+        <button type="button"
+                class="p-search-box__reset"
+                alt="reset"
+                onclick="this.previousElementSibling.value = '';this.previousElementSibling.focus()">
+          <i class="p-icon--close">Reset</i>
+        </button>
+        <button type="submit" class="p-search-box__button">
+          <i class="p-icon--search">Search</i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  {% if sorted_results %}
+    <section class="p-strip is-shallow">
+      <div class="u-fixed-width">
+        <h1 class="p-heading--2">
+          We've found these results for your search: <strong>"{{ query }}"</strong>
+        </h1>
+        <ul class="p-list">
+          {% for result in sorted_results %}
+            <li class="p-list__item search-result"
+                style="padding-bottom: 0.75rem;
+                       {% if loop.index > 10 %}display: none;{% endif %}">
+              <h5 class="u-no-margin--bottom">
+                <a href="{{ result.url }}" target="_blank">{{ result.title }}</a>&nbsp;
+                {% set search_path = "search.html" if result.domain == "ops.readthedocs.io"
+                                else "search/" %}
+                <a href="{{ result.search_url }}"
+                   target="_blank"
+                   class="p-chip is-inline">
+                  <span class="p-chip__value">{{ result.project_name }}</span>
+                </a>
+              </h5>
+              <p>{{ result.short_content }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+        <button id="load-more-button" class="p-button" onclick="loadMoreResults()">Load more results</button>
+      </div>
+    </section>
+  {% else %}
+    <section class="p-strip--shallow">
+      <div class="grid-row">
+        <h1 class="p-heading--2">
+          We haven't found any results for your search: <strong>"{{ query }}"</strong>.
+        </h1>
+        <div class="grid-col-6">
+          <h3>Why not try widening your search?</h3>
+          <p>You can do this by:</p>
+          <ul class="p-list">
+            <li class="p-list__item is-ticked">Adding alternative words or phrases</li>
+            <li class="p-list__item is-ticked">Using individual words instead of phrases</li>
+            <li class="p-list__item is-ticked">Trying a different spelling</li>
+          </ul>
+        </div>
+        <div class="grid-col-6">
+          <h3>Still no luck?</h3>
+          <ul class="p-list">
+            <li class="p-list__item is-ticked">
+              <a href="/juju/docs">Visit canonical.com/juju/docs</a>
+            </li>
+            <li class="p-list__item is-ticked">
+              <a href="https://discourse.charmhub.io">Ask on the forum</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let visibleResults = 10;
+      const loadMoreButton = document.getElementById("load-more-button");
+
+      window.loadMoreResults = function() {
+        if (!loadMoreButton) return;
+
+        loadMoreButton.innerText = "Loading...";
+        loadMoreButton.disabled = true;
+
+        setTimeout(() => {
+          const results = document.querySelectorAll('.search-result');
+          let count = 0;
+
+          for (let i = visibleResults; i < results.length && count < 10; i++) {
+            results[i].style.display = "block";
+            count++;
+          }
+          visibleResults += count;
+
+          if (visibleResults >= results.length) {
+            loadMoreButton.style.display = "none";
+          } else {
+            loadMoreButton.innerText = "Load more";
+            loadMoreButton.disabled = false;
+          }
+        }, 500);
+      };
+    });
+  </script>
+{% endblock content %}
