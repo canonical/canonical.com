@@ -1,0 +1,623 @@
+{% extends 'base_index.html' %}
+
+<!-- This page was migrated from juju.is/docs and would need to be redesigned to match the latest 8 column grid we follow on other pages. -->
+
+{% block content %}
+  <div class="grid-row--25-75">
+    <nav class="p-tabs">
+      <ul class="p-tabs__list">
+        <li class="p-tabs__item">
+          <a href="https://documentation.ubuntu.com/juju" class="p-tabs__link">Juju Docs</a>
+        </li>
+        <li class="p-tabs__item">
+          <a href="https://documentation.ubuntu.com/terraform-provider-juju"
+             class="p-tabs__link">Terraform Provider Juju Docs</a>
+        </li>
+        <li class="p-tabs__item">
+          <a href="https://documentation.ubuntu.com/jubilant/"
+             class="p-tabs__link">Jubilant Docs</a>
+        </li>
+        <li class="p-tabs__item">
+          <a href="https://documentation.ubuntu.com/jaas" class="p-tabs__link">JAAS
+          Docs</a>
+        </li>
+        <li class="p-tabs__item">
+          <a href="https://canonical-charmcraft.readthedocs-hosted.com"
+             class="p-tabs__link">Charmcraft
+          Docs</a>
+        </li>
+        <li class="p-tabs__item">
+          <a href="https://ops.readthedocs.io" class="p-tabs__link">Ops Docs</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <section class="p-section--shallow">
+    <div class="grid-row">
+      <div class="grid-col-2 grid-col-start-large-3">
+        <h1>Juju ecosystem</h1>
+      </div>
+      <div class="grid-col-4">
+        <p>
+          Juju is an ecosystem of tools for deploying and managing applications on any
+          cloud on any infrastructure, Kubernetes or otherwise, using the Juju operator lifecycle manager
+          and operators called 'charms'.
+        </p>
+        <div class="p-cta-block">
+          <a href="https://documentation.ubuntu.com/juju/3.6/tutorial/"
+             class="p-button--positive u-no-margin--bottom">Try the Juju tutorial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--shallow">
+    <div class="u-fixed-width">
+      <form class="p-search-box" action="/juju/docs/search" method="get">
+        <input type="search"
+               name="q"
+               class="p-search-box__input"
+               placeholder="Search documentation"
+               aria-label="Search documentation"
+               required />
+        <button type="button"
+                class="p-search-box__reset"
+                onclick="this.previousElementSibling.value = ''; this.previousElementSibling.focus();"
+                aria-label="Reset search input">
+          <i class="p-icon--close" aria-hidden="true"></i>
+        </button>
+        <button type="submit" class="p-search-box__button no-loader" aria-label="Submit search">
+          <i class="p-icon--search" aria-hidden="true"></i>
+        </button>
+      </form>
+      <hr class="p-rule" />
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="p-equal-height-row">
+      <div class="p-equal-height-row__col">
+        <div class="p-equal-height-row__item">
+          <a href="https://documentation.ubuntu.com/juju">
+            <div class="p-image-container">
+              {{ image(url="https://assets.ubuntu.com/v1/57c99e47-1%20What%20is%20Juju.svg",
+                            alt="",
+                            width="1600",
+                            height="780",
+                            attrs={"class": "p-image-container__image" },
+                            hi_def=True) | safe
+              }}
+            </div>
+            <hr class="p-rule--muted" />
+          </a>
+        </div>
+        <div class="p-equal-height-row__item">
+          <h4 style="font-weight: 500">
+            <a href="https://documentation.ubuntu.com/juju">What is Juju?</a>
+          </h4>
+        </div>
+      </div>
+
+      <div class="p-equal-height-row__col">
+        <div class="p-equal-height-row__item">
+          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-juju/#install-juju">
+            <div class="p-image-container">
+              {{ image(url="https://assets.ubuntu.com/v1/8dc83bbc-2%20Install%20Juju.svg",
+                            alt="",
+                            width="1600",
+                            height="780",
+                            attrs={"class": "p-image-container__image" },
+                            hi_def=True) | safe
+              }}
+            </div>
+          </a>
+          <hr class="p-rule--muted" />
+        </div>
+        <div class="p-equal-height-row__item">
+          <h4 style="font-weight: 500">
+            <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-juju/#install-juju">Install
+            Juju</a>
+          </h4>
+        </div>
+      </div>
+
+      <div class="p-equal-height-row__col">
+        <div class="p-equal-height-row__item">
+          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-clouds/#add-a-cloud">
+            <div class="p-image-container">
+              {{ image(url="https://assets.ubuntu.com/v1/c212142f-3%20Connect%20a%20cloud.svg",
+                            alt="",
+                            width="1600",
+                            height="780",
+                            attrs={"class": "p-image-container__image" },
+                            hi_def=True) | safe
+              }}
+            </div>
+          </a>
+          <hr class="p-rule--muted" />
+
+        </div>
+        <div class="p-equal-height-row__item">
+          <h4 style="font-weight: 500">
+            <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-clouds/#add-a-cloud">Connect
+            a cloud</a>
+          </h4>
+          <div>
+            <p class="p-text--small">
+              <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-amazon-ec2-cloud-and-juju">Amazon
+                EC2</a>&nbsp;&nbsp;&nbsp;
+                <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-amazon-eks-cloud-and-juju">Amazon
+                  EKS</a>&nbsp;&nbsp;&nbsp;
+                  <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-canonical-ks-cloud-and-juju">Canonical K8s</a>
+                </p>
+                <p class="p-text--small">
+                  <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-equinix-metal-cloud-and-juju">Equinix
+                    Metal</a>&nbsp;&nbsp;&nbsp;
+                    <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-google-gce-cloud-and-juju">Google
+                      GCE</a>&nbsp;&nbsp;&nbsp;
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-google-gke-cloud-and-juju">Google
+                      GKE</a>
+                    </p>
+                    <p class="p-text--small">
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-lxd-cloud-and-juju">LXD</a>&nbsp;&nbsp;&nbsp;
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-maas-cloud-and-juju">MAAS</a>&nbsp;&nbsp;&nbsp;
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-manual-cloud-and-juju/#cloud-manual">Manual</a>&nbsp;&nbsp;&nbsp;
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-microk8s-cloud-and-juju/#cloud-kubernetes-microk8s">MicroK8s</a>
+                    </p>
+                    <p class="p-text--small">
+                      <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-microsoft-aks-cloud-and-juju/#cloud-kubernetes-aks">Microsoft
+                        AKS</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-microsoft-azure-cloud-and-juju">Microsoft
+                          Azure</a>&nbsp;&nbsp;&nbsp;
+                        </p>
+                        <p class="p-text--small">
+                          <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-openstack-cloud-and-juju">OpenStack</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-oracle-oci-cloud-and-juju">Oracle OCI</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds/the-vmware-vsphere-cloud-and-juju/#cloud-vsphere">VMware vSphere</a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/">
+                        <div class="p-image-container">
+                          {{ image(url="https://assets.ubuntu.com/v1/944cab0d-4%20Use%20charmed%20applications.svg",
+                                                    alt="",
+                                                    width="1600",
+                                                    height="780",
+                                                    attrs={"class": "p-image-container__image" },
+                                                    hi_def=True) | safe
+                          }}
+                        </div>
+                      </a>
+                      <div class="u-fixed-width">
+                        <hr />
+                      </div>
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <h4 style="font-weight: 500">
+                        <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/">Use
+                        charmed applications</a>
+                      </h4>
+                      <div>
+                        <p class="p-text--small">
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#deploy-an-application">Deploy</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#configure-an-application">Configure</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#integrate-an-application-with-another-application">Integrate</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#scale-an-application">Scale</a>
+                        </p>
+                        <p class="p-text--small">
+                          <a href="https://charmhub.io/topics/canonical-observability-stack">Monitor</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#upgrade-an-application">Upgrade</a>&nbsp;&nbsp;&nbsp;
+                          <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-applications/#remove-an-application">Remove</a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="u-fixed-width">
+                <hr class="p-rule" />
+              </div>
+              <section class="p-section">
+                <div class="row">
+                  <div class="col-6 col-medium-3">
+                    <h1 class="p-heading--2">Browse charmed applications</h1>
+                    <p>on Charmhub, the curated marketplace for charms which can be readily integrated into any infrastructure.</p>
+                    <a href="https://charmhub.io" class="p-button has-icon">
+                      <span>Explore Charmhub</span>
+                      <i class="p-icon--chevron-right"></i>
+                    </a>
+                  </div>
+                  <div class="col-6 col-medium-3">
+                    <div class="row">
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/postgresql-k8s">
+                          {{ image(url="https://assets.ubuntu.com/v1/a854c8a7-postgresql-circle.svg",
+                                                    alt="Postgres",
+                                                    width="60",
+                                                    height="60",
+                                                    hi_def=True) | safe
+                          }}
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/postgresql-k8s">PostgreSQL</a>
+                        </h5>
+                      </div>
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/mysql-k8s">
+                          {{ image(url="https://assets.ubuntu.com/v1/ae2e0c53-mysql_logo.svg",
+                                                    alt="MySQL",
+                                                    width="70",
+                                                    height="70",
+                                                    hi_def=True) | safe
+                          }}
+
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/mysql-k8s">MySQL</a>
+                        </h5>
+                      </div>
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/mongodb-k8s">
+                          {{ image(url="https://assets.ubuntu.com/v1/d53451fc-products-hero-ubuntu-new.svg",
+                                                    alt="Canonical",
+                                                    width="50",
+                                                    height="50") | safe }}
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/mongodb-k8s">MongoDB</a>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="u-fixed-width">
+                      <hr class="p-rule--muted u-hide--small" />
+                    </div>
+                    <div class="row">
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/prometheus-k8s">
+                          {{ image(url="https://assets.ubuntu.com/v1/826d5be3-1200px-Prometheus_software_logo.svg.png",
+                                                    alt="Prometheus",
+                                                    width="50",
+                                                    height="50") | safe }}
+
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/prometheus-k8s">Prometheus</a>
+                        </h5>
+                      </div>
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/grafana-k8s">
+                          {{ image(url="https://assets.ubuntu.com/v1/54ac468e-grafana_logo_swirl-events.svg",
+                                                    alt="Grafana",
+                                                    width="50",
+                                                    height="50") | safe }}
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/grafana-k8s">Grafana</a>
+                        </h5>
+                      </div>
+                      <div class="col-2 col-medium-1" style="display: flex; align-items: center">
+                        <a href="https://charmhub.io/loki-k8s" class="u-hide--medium">
+                          {{ image(url="https://assets.ubuntu.com/v1/a647636f-loki-logo-jujuis.png",
+                                                    alt="Loki",
+                                                    width="50",
+                                                    height="50") | safe }}
+                        </a>
+                        <h5 class="u-no-margin--bottom u-no-padding--top"
+                            style="margin-left: 15px">
+                          <a href="https://charmhub.io/loki-k8s">Loki</a>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="u-fixed-width">
+                      <hr class="p-rule--muted" />
+                    </div>
+                    <p>And many more...</p>
+                  </div>
+                </div>
+              </section>
+              <div class="u-fixed-width">
+                <hr class="p-rule" />
+              </div>
+              <section class="p-section">
+                <div class="row">
+                  <h1 class="p-heading--2">Deploy and manage charmed applications</h1>
+                </div>
+                <div class="p-equal-height-row">
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/juju">
+                          {{ image(url="https://assets.ubuntu.com/v1/630fc738-Interactively.svg",
+                                                    alt="",
+                                                    width="1132",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with the Juju CLI</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://documentation.ubuntu.com/juju" class="p-button">Read Juju docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/terraform-provider-juju">
+                          {{ image(url="https://assets.ubuntu.com/v1/96037188-Declaratively.svg",
+                                                    alt="",
+                                                    width="1132",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Terraform Juju</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://documentation.ubuntu.com/terraform-provider-juju"
+                         class="p-button">
+                        <span>Read Terraform Juju docs</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/jubilant/">
+                          {{ image(url="https://assets.ubuntu.com/v1/d968780e-Programatically.svg",
+                                                    alt="",
+                                                    width="1132",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Jubilant</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://documentation.ubuntu.com/jubilant/" class="p-button">Read Jubilant docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/jaas">
+                          {{ image(url="https://assets.ubuntu.com/v1/d1ffe118-Enterprise%20style.svg",
+                                                    alt="",
+                                                    width="1132",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with JAAS</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://documentation.ubuntu.com/jaas" class="p-button">Read JAAS docs</a>
+                    </div>
+                  </div>
+                </div>
+
+              </section>
+              <div class="u-fixed-width">
+                <hr class="p-rule" />
+              </div>
+              <section class="p-section">
+                <div class="u-fixed-width">
+                  <h1 class="p-heading--2">Build charmed applications</h1>
+                </div>
+                <div class="p-equal-height-row--wrap">
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-flask/">
+                          {{ image(url="https://assets.ubuntu.com/v1/d7f7f82e-Flask.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/Flask</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-flask/"
+                         class="p-button">Read Charmcraft/Flask docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-django/">
+                          {{ image(url="https://assets.ubuntu.com/v1/e72692a9-Django.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/Django</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-django/"
+                         class="p-button"><span>Read Charmcraft/Django docs</span></a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-fastapi/">
+                          {{ image(url="https://assets.ubuntu.com/v1/aab84d59-FastAPI.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/FastAPI</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-fastapi/"
+                         class="p-button">Read Charmcraft/FastAPI docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-go/">
+                          {{ image(url="https://assets.ubuntu.com/v1/30e29413-GO.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/Go</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                      <a href="https://canonical-charmcraft.readthedocs-hosted.com/stable/tutorial/kubernetes-charm-go/"
+                         class="p-button"><span>Read Charmcraft/Go docs</span></a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-equal-height-row--wrap">
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/charmcraft/latest/tutorial/kubernetes-charm-express/">
+                          {{ image(url="https://assets.ubuntu.com/v1/26308504-Express.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/Express</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <a href="https://documentation.ubuntu.com/charmcraft/latest/tutorial/kubernetes-charm-express/"
+                         class="p-button">Read Charmcraft/Express docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://documentation.ubuntu.com/charmcraft/latest/tutorial/kubernetes-charm-spring-boot/">
+                          {{ image(url="https://assets.ubuntu.com/v1/8444e26f-Springboot.svg",
+                                                    alt="",
+                                                    width="1136",
+                                                    height="644",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <p class="p-equal-height-row__item">with Charmcraft/Springboot</p>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <a href="https://documentation.ubuntu.com/charmcraft/latest/tutorial/kubernetes-charm-spring-boot/"
+                         class="p-button">Read Charmcraft/Springboot docs</a>
+                    </div>
+                  </div>
+
+                  <div class="p-equal-height-row__col" style="grid-column: span 6;">
+                    <div class="p-equal-height-row__item">
+                      <div class="p-image-container is-highlighted">
+                        <a href="https://ops.readthedocs.io">
+                          {{ image(url="https://assets.ubuntu.com/v1/4d41864a-any%20app.svg",
+                                                    alt="",
+                                                    width="1000",
+                                                    height="320",
+                                                    attrs={"class": "p-image-container__image"},
+                                                    hi_def=True) | safe }}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <h5 class="p-heading--5">Any app</h5>
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <hr class="p-rule--muted" />
+                    </div>
+                    <div class="p-equal-height-row__item">
+                      <a href="https://ops.readthedocs.io" class="p-button">Read the Ops docs</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="u-fixed-width">
+                  <hr class="p-rule--muted" />
+                </div>
+              </section>
+              <div class="u-fixed-width">
+                <hr class="p-rule" />
+              </div>
+              <section class="p-section">
+                <div class="p-section--shallow">
+                  <div class="u-fixed-width">
+                    <h2>Other links</h2>
+                  </div>
+                </div>
+                <div class="p-section--shallow">
+                  <div class="grid-row">
+                    <div class="grid-col-2 grid-col-start-large-3">
+                      <h3 class="p-heading--5">Older juju versions</h3>
+                    </div>
+                    <div class="grid-col-4">
+                      <a href="https://documentation.ubuntu.com/juju/2.9/">Juju 2.9 docs</a>
+                    </div>
+                  </div>
+                  <div class="grid-row">
+                    <div class="grid-col-6 grid-col-start-large-3">
+                      <hr class="p-rule--muted" />
+                    </div>
+                  </div>
+                  <div class="grid-row">
+                    <div class="grid-col-2 grid-col-start-large-3">
+                      <h3 class="p-heading--5">Older client versions</h3>
+                    </div>
+
+                    <div class="grid-col-4">
+                      <a href="https://pythonlibjuju.readthedocs.io/en/latest/">Python Libjuju docs</a>
+                    </div>
+                  </div>
+                </div>
+                </section>
+              {% endblock content %}
