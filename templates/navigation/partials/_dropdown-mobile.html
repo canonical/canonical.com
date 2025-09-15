@@ -103,14 +103,22 @@
       {% endfor %}
     {% elif section.preview_secondary_links %}
       {% if section.preview_secondary_links.title and section.preview_secondary_links.title_url %}
-        <li class="p-navigation--list-heading">
-          <span class="p-navigation__dropdown-item">
-            <h2 class="p-text--small-caps u-no-margin"
-                {% if data_level %}data-level="{{ data_level }}"{% endif %}>
-              <a href="{{ section.preview_secondary_links.title_url }}" class="js-focus-target">{{ section.preview_secondary_links.title }}&nbsp;&rsaquo;</a>
-            </h2>
-          </span>
-        </li>
+        {% set has_sibling_description = section.sibling_lists[0].links[0].description is defined %}
+        {% if has_sibling_description %}
+          {% with preview_secondary_links=section.preview_secondary_links, is_full_width=True %}
+            {% include "navigation/partials/_preview-links.html" %}
+          {% endwith %}
+        {% else %}
+          <li class="p-navigation--list-heading">
+            <span class="p-navigation__dropdown-item">
+              <h2 class="p-text--small-caps u-no-margin"
+                  {% if data_level %}data-level="{{ data_level }}"{% endif %}>
+                <a href="{{ section.preview_secondary_links.title_url }}"
+                   class="js-focus-target">{{ section.preview_secondary_links.title }}&nbsp;&rsaquo;</a>
+              </h2>
+            </span>
+          </li>
+        {% endif %}
       {% endif %}
     {% endif %}
   </ul>

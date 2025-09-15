@@ -1,20 +1,47 @@
 <div class="p-navigation__preview-links">
   {% if preview_secondary_links.title and preview_secondary_links.title_url %}
-    <h2 class="p-navigation--list-heading p-text--small-caps">
+    <h2 class="p-navigation--list-heading p-text--small-caps u-sv2">
       <a href="{{ section.preview_secondary_links.title_url }}">{{ section.preview_secondary_links.title }}&nbsp;&rsaquo;</a>
     </h2>
   {% endif %}
-  <div class="row u-no-padding">
-    {% for link in preview_secondary_links.links %}
-      <div class="col-2">
-        <a class="p-link--inverted p-navigation__preview-link"
-           href="{{ link.url }}">
-          <div class="p-navigation__preview-link--image">
-            <img src="{{ link.image_url }}" alt="" loading="lazy" />
+
+  {% if is_full_width %}
+    <div class="grid-row u-no-padding p-navigation__preview-link--container">
+      {% for link in preview_secondary_links.links %}
+        <div class="grid-col-4 p-navigation__preview-link">
+          <div class="grid-row--50-50 u-no-padding">
+            <div class="p-navigation__preview-link--image grid-col p-image-container is-cover"
+                 style="height: 190px">
+              {{ image(url=link.image_url,
+                            alt="",
+                            width="284",
+                            height="190",
+                            attrs={"class": "p-image-container__image"},
+                            hi_def=True,
+                            loading="lazy") | safe
+              }}
+            </div>
+            <div class="grid-col p-navigation__preview-link--description">
+              <p>{{ link.description }}</p>
+              <a href="{{ link.url }}">Learn more&nbsp;&rsaquo;</a>
+            </div>
           </div>
-          <p class="p-navigation__preview-link--description">{{ link.description }}</p>
-        </a>
-      </div>
-    {% endfor %}
-  </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="grid-row u-no-padding">
+      {% for link in preview_secondary_links.links %}
+        <div class="grid-col-2">
+          <a class="p-link--inverted p-navigation__preview-link"
+             href="{{ link.url }}">
+            <div class="p-navigation__preview-link--image">
+              <img src="{{ link.image_url }}" alt="" loading="lazy" />
+            </div>
+            <p class="p-navigation__preview-link--description">{{ link.description }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
