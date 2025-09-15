@@ -1,5 +1,8 @@
 {% extends 'juju/how-juju-works.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
 {% block title %}Why use Juju? (open source orchestration engine for software operators){% endblock %}
 
 {% block meta_keywords %}Software operators{% endblock %}
@@ -14,9 +17,9 @@
 
 {% block how_juju_works_content %}
     <section class="p-section">
-        <div class="row--50-50">
-            <div class="col">
-                <h1 class="p-heading--2">Shift from application management to distributed system management</h1>
+        <div class="grid-row--50-50">
+            <div class="grid-col">
+                <h2>Shift from application management to distributed system management</h2>
                 <div class="p-image-container is-highlighted">
                     {{ image(url="https://assets.ubuntu.com/v1/7b253804-shift_from_application.png",
                                         alt="",
@@ -28,7 +31,7 @@
                     }}
                 </div>
             </div>
-            <div class="col">
+            <div class="grid-col">
                 <p class="p-heading--5">
                     Applications never run in isolation. Adding a workload to production requires adding essential services like observability, patching, identity, secret management, and many more
                 </p>
@@ -41,85 +44,72 @@
             </div>
         </div>
     </section>
+    {{ vf_basic_section(title={"text": "It's time to open source the operations code"},
+        is_split_on_medium=true,
+        subtitle={
+            "text": "To unlock the true potential of open source, we must normalise open sourcing not just the application code, but also the operational frameworks required to take the most out of it", 
+            "heading_level": 5
+        },
+        items=[
+            {
+                "type": "description",
+                "item": {
+                    "type": "text",
+                    "content": "That's where Juju and charms come in."
+                }
+            },
+            {
+                "type": "description",
+                "item": {
+                    "type": "text",
+                    "content": "Charms take all the domain knowledge required to operate software effectively and distil it into clean, maintainable, testable Python code that can be used across clouds."
+                }
+            },
+            {
+                "type": "description",
+                "item": {
+                    "type": "text",
+                    "content": "Juju is the orchestrator that helps to deploy, manage and integrate that software across Kubernetes containers, Linux containers, virtual machines, and bare metal machines, on public or private clouds."
+                }
+            }
+        ]) }}
+
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+        {%- if slot == 'title' -%}
+            <h2>What are Juju and Charms?</h2>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_1' -%}
+            <p class="p-heading--5">Juju, the orchestrator engine</p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_2' -%}
+            <p class="p-heading--5">Charms, the software operators</p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_2' -%}
+            <p>
+                A charm is an operator: business logic encapsulated in reusable software packages that automate every aspect of an application’s life.
+            </p>
+            <p>Charms are developed with the Charm SDK which comprises the:</p>
+            <hr class="p-rule--muted" />
+            <ul class="p-list--divided">
+                <li class="p-list__item has-bullet">
+                    <strong>Ops library:</strong> a Python framework for developing and testing charms
+                </li>
+                <li class="p-list__item has-bullet">
+                    <strong>Charmcraft:</strong> a tool for building, packaging and publishing charms.
+                </li>
+            </ul>
+        {%- endif -%}
+    {%- endcall -%}
     <section class="p-section">
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-        </div>
-        <div class="row--50-50">
-            <div class="col">
-                <h1 class="p-heading--2">It’s time to open source the operations code</h1>
-            </div>
-            <div class="col">
-                <p class="p-heading--5">
-                    To unlock the true potential of open source, we must normalise open sourcing not just the application code, but also the operational frameworks required to take the most out of it
-                </p>
-                <p>That’s where Juju and charms come in.</p>
-                <p>
-                    Charms take all the domain knowledge required to operate software effectively and distil it into clean, maintainable, testable Python code that can be used across clouds.
-                </p>
-                <p>
-                    Juju is the orchestrator that helps to deploy, manage and integrate that software across Kubernetes containers, Linux containers, virtual machines, and bare metal machines, on public or private clouds.
-                </p>
-            </div>
-        </div>
-    </section>
-    <section class="p-section">
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-        </div>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-6">
-                    <h1 class="p-heading--2">What are Juju and Charms?</h1>
-                </div>
-            </div>
-        </section>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3 col-start-large-4">
-                    <p class="p-heading--5">Juju, the orchestrator engine</p>
-                </div>
-                <div class="col-6 col-start-large-7">
-                    <p>
-                        Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.
-                    </p>
-                </div>
-            </div>
-        </section>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3 col-start-large-4">
-                    <p class="p-heading--5">Charms, the software operators</p>
-                </div>
-                <div class="col-6 col-start-large-7">
-                    <p>
-                        A charm is an operator: business logic encapsulated in reusable software packages that automate every aspect of an application’s life.
-                    </p>
-                    <p>Charms are developed with the Charm SDK which comprises the:</p>
-                    <div class="col-start-large-7">
-                        <hr class="p-rule--muted" />
-                    </div>
-                    <ul class="p-list--divided">
-                        <li class="p-list__item has-bullet">
-                            <strong>Ops library:</strong> a Python framework for developing and testing charms
-                        </li>
-                        <li class="p-list__item has-bullet">
-                            <strong>Charmcraft:</strong> a tool for building, packaging and publishing charms.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
         <div class="row p-image-container is-highlighted">
             {{ image(url="https://assets.ubuntu.com/v1/28c97c7c-what_are_juju_and_charms.png",
                         alt="",
@@ -132,21 +122,13 @@
         </div>
     </section>
     <section class="p-section">
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-        </div>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-8">
-                    <h1 class="p-heading--2">What makes Juju and charms different?</h1>
-                </div>
-            </div>
+        <hr class="p-rule is-fixed-width" />
+        <section class="p-section--shallow row">
+            <h2>What makes Juju and charms different?</h2>
         </section>
-        <div class="row--50-50">
-            <div class="u-fixed-width">
-                <hr class="p-rule--muted" />
-            </div>
-            <div class="col">
+        <hr class="p-rule--muted is-fixed-width" />
+        <div class="grid-row--50-50">
+            <div class="grid-col">
                 {{ image(url="https://assets.ubuntu.com/v1/babd876d-automate_ops.png",
                                 alt="",
                                 width="1800",
@@ -155,18 +137,16 @@
                                 loading="lazy") | safe
                 }}
             </div>
-            <div class="col">
+            <div class="grid-col">
                 <p class="p-heading--5">Automate operations across cloud, metal, VMs and Kubernetes</p>
                 <p>
                     Charms allow you to use a single codebase to automate the lifecycle management of your system across Kubernetes containers, Linux containers, virtual machines, and bare metal machines, on public or private clouds.
                 </p>
             </div>
         </div>
-        <div class="row--50-50">
-            <div class="u-fixed-width">
-                <hr class="p-rule--muted" />
-            </div>
-            <div class="col">
+        <hr class="p-rule--muted is-fixed-width" />
+        <div class="grid-row--50-50">
+            <div class="grid-col">
                 {{ image(url="https://assets.ubuntu.com/v1/433cb6fd-seamless_integrations.png",
                                 alt="",
                                 width="1800",
@@ -175,18 +155,16 @@
                                 loading="lazy") | safe
                 }}
             </div>
-            <div class="col">
+            <div class="grid-col">
                 <p class="p-heading--5">Seamless integrations across different clouds</p>
                 <p>
                     Integrations simplify the process of connecting two applications by automatically applying required networking and configuration changes, even if the workloads are deployed across different clouds (e.g. Openstack and AWS).
                 </p>
             </div>
         </div>
-        <div class="row--50-50">
-            <div class="u-fixed-width">
-                <hr class="p-rule--muted" />
-            </div>
-            <div class="col">
+        <hr class="p-rule--muted is-fixed-width" />
+        <div class="grid-row--50-50">
+            <div class="grid-col">
                 {{ image(url="https://assets.ubuntu.com/v1/ce928b9a-lifecycle_management.png",
                                 alt="",
                                 width="1800",
@@ -195,7 +173,7 @@
                                 loading="lazy") | safe
                 }}
             </div>
-            <div class="col">
+            <div class="grid-col">
                 <p class="p-heading--5">Lifecycle management for your system, not individual applications</p>
                 <p>
                     Because applications integrations are a first class citizen in Juju, the system knows how to optimise the lifecycle management of the entire system, rather than individual applications.
@@ -203,25 +181,28 @@
             </div>
         </div>
     </section>
-    <section class="p-section--shallow">
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-        </div>
-        <div class="row--50-50">
-            <div class="col">
-                <h1 class="p-heading--2">Juju compared to similar tools</h1>
-            </div>
-            <div class="col">
-                <p class="p-heading--5">Juju’s focus is on system lifecycle management</p>
-                <p>
+    {{ vf_basic_section(title={"text": "Juju compared to similar tools"},
+        is_split_on_medium=true,
+        padding="shallow",
+        subtitle={"text": "Juju’s focus is on system lifecycle management", "heading_level": 5},
+        items=[
+            {
+                "type": "description",
+                "item": {
+                    "type": "text",
+                    "content": '
                     Most existing tools are focused on solving the problem of deployment or configuration management, while juju’s focus is on the entire system lifecycle, from application deployment and integration to Day 2 operations like backup, upgrades, migrations, or scaling.
-                </p>
-                <p>
-                    Juju integrates well with Terraform, extending our system lifecycle management framework with infrastructure as code capabilities.
-                </p>
-            </div>
-        </div>
-    </section>
+                    '
+                }
+            },
+            {
+                "type": "description",
+                "item": {
+                    "type": "text",
+                    "content": "Juju integrates well with Terraform, extending our system lifecycle management framework with infrastructure as code capabilities."
+                }
+            }       
+        ]) }}
     <section class="p-section--shallow">
         <div class="u-fixed-width p-image-container is-highlighted">
             {{ image(url="https://assets.ubuntu.com/v1/5b81331e-how_does_juju_compare.png",
@@ -234,51 +215,30 @@
             }}
         </div>
     </section>
-    <section class="p-section">
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-        </div>
-        <section class="p-section--shallow">
-            <div class="row--50-50">
-                <div class="col">
-                    <h1 class="p-heading--2">Read about these next:</h1>
-                </div>
-                <div class="col"></div>
-            </div>
-        </section>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3 col-start-large-4">
-                    <a href="/juju/juju-architecture" class="p-heading--5">Juju architecture</a>
-                </div>
-                <div class="col-6 col-start-large-7">
-                    <p>
-                        Juju provides tools to design, deploy and manage large distributed systems across infrastructures at scale with high availability, visibility, access control and cross-cloud functionality.
-                    </p>
-                </div>
-            </div>
-        </section>
-        <section class="p-section--shallow">
-            <div class="row">
-                <div class="col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3 col-start-large-4">
-                    <a href="/juju/charms-architecture" class="p-heading--5">Charm architecture</a>
-                </div>
-                <div class="col-6 col-start-large-7">
-                    <p>
-                        Charm architecture encapsulates app management, with charms automating lifecycle actions via a controller, responsive to both admin commands and system events.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </section>
+
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+        {%- if slot == 'title' -%}
+            <h2>Read about these next:</h2>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_1' -%}
+            <a href="/juju/juju-architecture" class="p-heading--5">Juju architecture</a>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                Juju provides tools to design, deploy and manage large distributed systems across infrastructures at scale with high availability, visibility, access control and cross-cloud functionality.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_2' -%}
+            <a href="/juju/charms-architecture" class="p-heading--5">Charm architecture</a>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_2' -%}
+            <p>
+                Charm architecture encapsulates app management, with charms automating lifecycle actions via a controller, responsive to both admin commands and system events.
+            </p>
+        {%- endif -%}
+    {%- endcall -%}
 {% endblock %}
