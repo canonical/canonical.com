@@ -398,7 +398,8 @@
       <div class="grid-col-2 grid-col-medium-1">
         <ul class="js-tabbed-content p-tabs--vertical is-black u-hide--small"
             role="tablist"
-            data-tablist="common-charms">
+            data-tablist="common-charms"
+            aria-label="Common charms">
           <li>
             <button class="p-tabs__item"
                     role="tab"
@@ -429,22 +430,22 @@
           </li>
         </ul>
         <form class="u-hide--large u-hide--medium">
-          <select name="tabSelect" data-tablist="common-charms">
-            <option value="databases-tab" selected="">View models and controllers details</option>
-            <option value="big-data-and-ai-tab">Run actions</option>
-            <option value="observability-tab">Configure applications</option>
-            <option value="infrastructure-tab">Onboard controllers and manage access</option>
+          <select name="tabSelect" id="tabSelect" data-tablist="common-charms">
+            <option value="databases-tab" selected="">View database charms</option>
+            <option value="big-data-and-ai-tab">View big data and AI charms</option>
+            <option value="observability-tab">View observability charms</option>
+            <option value="infrastructure-tab">View infrastructure charms</option>
           </select>
         </form>
       </div>
-      <div class="grid-col-6 grid-col-medium-3">
+      <div class="grid-col-6 grid-col-medium-3" data-tablist="common-charms">
         <!-- tab 1 -->
         <div class="p-tabs__content"
              role="tabpanel"
              id="databases-tab"
              aria-labelledby="databases">
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/postgresql">
@@ -483,7 +484,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/mysql">
@@ -523,7 +524,7 @@
           <hr class="p-rule--muted" />
           <div class="p-section--shallow">
             <div class="grid-row">
-              <div class="grid-col-2 grid-col-medium-1">
+              <div class="grid-col-2 grid-col-medium-2">
                 <div class="p-heading-icon u-no-margin">
                   <div class="p-heading-icon__header">
                     <a href="https://charmhub.io/mongodb">
@@ -571,7 +572,7 @@
              id="big-data-and-ai-tab"
              aria-labelledby="big-data-and-ai">
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/kafka">
@@ -610,7 +611,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/kubeflow">
@@ -647,7 +648,7 @@
           <hr class="p-rule--muted" />
           <div class="p-section--shallow">
             <div class="grid-row">
-              <div class="grid-col-2 grid-col-medium-1">
+              <div class="grid-col-2 grid-col-medium-2">
                 <div class="p-heading-icon u-no-margin">
                   <div class="p-heading-icon__header">
                     <a href="https://charmhub.io/spark-history-server-k8s">
@@ -694,7 +695,7 @@
              id="observability-tab"
              aria-labelledby="observability">
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/prometheus-k8s">
@@ -733,7 +734,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/grafana-k8s">
@@ -772,7 +773,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/loki-k8s">
@@ -813,7 +814,7 @@
              id="infrastructure-tab"
              aria-labelledby="infrastructure">
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/vault">
@@ -849,7 +850,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/traefik-k8s">
@@ -885,7 +886,7 @@
           </div>
           <hr class="p-rule--muted" />
           <div class="grid-row">
-            <div class="grid-col-2 grid-col-medium-1">
+            <div class="grid-col-2 grid-col-medium-2">
               <div class="p-heading-icon u-no-margin">
                 <div class="p-heading-icon__header">
                   <a href="https://charmhub.io/landscape-scalable">
