@@ -320,8 +320,8 @@ def _get_application(harvest, application_id):
         interviewers = interview.get("interviewers")
         if interviewers is None:
             interviewers = []
-        
-        interview["interviewers"] = [{"name": i["name"]} for i in interviewers ]
+
+        interview["interviewers"] = [{"name": i["name"]} for i in interviewers]
 
     application["to_be_rejected"] = False
     application["role_name"] = _calculate_job_title(application)
