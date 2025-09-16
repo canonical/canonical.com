@@ -316,6 +316,15 @@ def _get_application(harvest, application_id):
             interview["interview"]["id"]
         ]
 
+    # Remove private interviewer information
+    for interviewer in application["scheduled_interviews"].get("interviewers"):
+        if "email" in interviewer:
+            del interviewer["email"]
+        if "response_status" in interviewer:
+            del interviewer["response_status"]
+        if "scorecard_id" in interviewer:
+            del interviewer["scorecard_id"]
+
     application["to_be_rejected"] = False
     application["role_name"] = _calculate_job_title(application)
 
