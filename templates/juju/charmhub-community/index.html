@@ -73,33 +73,52 @@
   <section class="p-section">
     <div class="grid-row--25-75">
       <div class="grid-col">
-        <div class="p-side-navigation">
-          <ul class="p-side-navigation__list">
-            <li class="p-side-navigation__item">
-              <a href="#databases"
-                 class="p-side-navigation__link is-active"
-                 data-js="panel-link">Databases</a>
+          <ul class="js-tabbed-content p-tabs--vertical u-hide--small"
+              role="tablist"
+              aria-label="Explore charms on Charmhub">
+            <li>
+              <button class="p-tabs__item"
+                      id="databases"
+                      role="tab"
+                      aria-selected="true"
+                      aria-controls="databases-tab">Databases</button>
             </li>
-            <li class="p-side-navigation__item">
-              <a href="#big-data-and-ai"
-                 class="p-side-navigation__link"
-                 data-js="panel-link">Big data and AI</a>
+            <li>
+              <button class="p-tabs__item"
+                      id="big-data-and-ai"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="big-data-and-ai-tab">Big data and AI</button>
             </li>
-            <li class="p-side-navigation__item">
-              <a href="#observability"
-                 class="p-side-navigation__link"
-                 data-js="panel-link">Observability</a>
+            <li>
+              <button class="p-tabs__item"
+                      id="observability"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="observability-tab">Observability</button>
             </li>
-            <li class="p-side-navigation__item">
-              <a href="#infrastructure"
-                 class="p-side-navigation__link"
-                 data-js="panel-link">Infrastructure</a>
+            <li>
+              <button class="p-tabs__item"
+                      id="infrastructure"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="infrastructure-tab">Infrastructure</button>
             </li>
           </ul>
-        </div>
+          <form class="u-hide--large u-hide--medium">
+            <select name="tabSelect" id="tabSelect" data-tablist="explore-charms-on-charmhub">
+              <option value="databases-tab" selected="">Databases</option>
+              <option value="big-data-and-ai-tab">Big data and AI</option>
+              <option value="observability-tab">Observability</option>
+              <option value="infrastructure-tab">Infrastructure</option>
+            </select>
+          </form>
       </div>
-      <div class="grid-col" style="min-height: 200px;">
-        <div class="grid-row" id="databases">
+      <div class="grid-col" style="min-height: 200px;" data-tablist="explore-charms-on-charmhub">
+        <div class="grid-row p-tabs__content"
+             id="databases-tab"
+             role="tabpanel"
+             aria-labelledby="databases">
           <div class="grid-col-2">
             <a href="https://charmhub.io/postgresql">
               {{ image(url="https://assets.ubuntu.com/v1/3c1ecfd9-postgres-logo-jujuis.png",
@@ -113,9 +132,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/postgresql">Postgres</a>
-            </h5>
+            </h3>
             <p>Open-source relational database management system</p>
           </div>
           <div class="grid-col-2">
@@ -131,9 +150,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/mysql">MySQL</a>
-            </h5>
+            </h3>
             <p>Open-source relational database management system</p>
           </div>
           <div class="grid-col-2">
@@ -149,13 +168,16 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/mongodb">Charmed MongoDB</a>
-            </h5>
+            </h3>
             <p>Source-available document-oriented database</p>
           </div>
         </div>
-        <div class="grid-row u-hide" id="big-data-and-ai">
+        <div class="grid-row p-tabs__content"
+             id="big-data-and-ai-tab"
+             role="tabpanel"
+             aria-labelledby="big-data-and-ai">
           <div class="grid-col-2">
             <a href="https://charmhub.io/kafka">
               {{ image(url="https://assets.ubuntu.com/v1/f00ede67-kafka-logo-jujuis.png",
@@ -169,9 +191,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/kafka">Kafka</a>
-            </h5>
+            </h3>
             <p>Open source distributed event store and stream-processing platform</p>
           </div>
           <div class="grid-col-2">
@@ -187,9 +209,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/kubeflow">Kubeflow</a>
-            </h5>
+            </h3>
             <p>Open source platform for machine learning and MLOps on Kubernetes</p>
           </div>
           <div class="grid-col-2">
@@ -205,13 +227,16 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/spark-history-server-k8s">Apache Spark</a>
-            </h5>
+            </h3>
             <p>Open source unified analytics engine for large-scale data processing</p>
           </div>
         </div>
-        <div class="grid-row u-hide" id="observability">
+        <div class="grid-row p-tabs__content"
+             id="observability-tab"
+             role="tabpanel"
+             aria-labelledby="observability">
           <div class="grid-col-2">
             <a href="https://charmhub.io/prometheus-k8s">
               {{ image(url="https://assets.ubuntu.com/v1/74efd28b-prometheus-logo-jujuis.png",
@@ -225,9 +250,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/prometheus-k8s">Prometheus</a>
-            </h5>
+            </h3>
             <p>Open source monitoring system with a dimensional data model and a time series database</p>
           </div>
           <div class="grid-col-2">
@@ -243,9 +268,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/grafana-k8s">Grafana</a>
-            </h5>
+            </h3>
             <p>Open source analytics and interactive visualization web application</p>
           </div>
           <div class="grid-col-2">
@@ -261,15 +286,18 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/loki-k8s">Loki</a>
-            </h5>
+            </h3>
             <p>
               Open source log aggregation system designed to store and query logs from all your applications and infrastructure
             </p>
           </div>
         </div>
-        <div class="grid-row u-hide" id="infrastructure">
+        <div class="grid-row p-tabs__content"
+             id="infrastructure-tab"
+             role="tabpanel"
+             aria-labelledby="infrastructure">
           <div class="grid-col-2">
             <a href="https://charmhub.io/vault">
               {{ image(url="https://assets.ubuntu.com/v1/8f9d47a0-vault-logo-jujuis.png",
@@ -283,9 +311,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/vault">Vault</a>
-            </h5>
+            </h3>
             <p>Open source identity-based secrets and encryption management system</p>
           </div>
           <div class="grid-col-2">
@@ -301,9 +329,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/traefik-k8s">Traefik</a>
-            </h5>
+            </h3>
             <p>Open-source reverse proxy and load balancer for HTTP and TCP-based applications</p>
           </div>
           <div class="grid-col-2">
@@ -319,9 +347,9 @@
                             },) | safe
               }}
             </a>
-            <h5 class="p-heading--5 u-no-margin--bottom">
+            <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/landscape-scalable">Landscape</a>
-            </h5>
+            </h3>
             <p>Ubuntu systems management tool developed by Canonical</p>
           </div>
         </div>
@@ -341,27 +369,5 @@
     </div>
   </section>
 
-  <script>
-    const panelLinks = document.querySelectorAll("[data-js='panel-link']");
-
-    panelLinks.forEach((panelLink) => {
-      panelLink.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const activePanelLink = document.querySelector("[data-js='panel-link'].is-active");
-        const activePanel = document.querySelector(activePanelLink.getAttribute("href"));
-
-        if (activePanelLink === panelLink) {
-          return;
-        }
-
-        const targetPanel = document.querySelector(panelLink.getAttribute("href"));
-
-        activePanelLink.classList.remove("is-active");
-        activePanel.classList.add("u-hide");
-        panelLink.classList.add("is-active");
-        targetPanel.classList.remove("u-hide");
-      });
-    });
-  </script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
 {% endblock %}
