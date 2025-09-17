@@ -40,23 +40,26 @@ def get_current_page_bubble(path):
     for page_bubble_name, page_bubble in page_bubbles.items():
         bubble_path = page_bubble.get("path", "")
 
-        # 1) Exact match on the bubble path (e.g. /solutions/ai should match the 'ai' bubble)
+        # 1) Exact match on the bubble path
+        # (e.g. /solutions/ai should match the 'ai' bubble)
         if bubble_path == normalized_path:
             exact_bubble_match = page_bubble
             break
 
-        # 2) Exact match on any child path (for cases like /data/warehouse, /data/streaming
+        # 2) Exact match on any child path
+        # (for cases like /data/warehouse, /data/streaming
         #    that should select the 'data-and-ai' bubble)
         for child in page_bubble.get("children", []) or []:
             child_path = child.get("path")
-            child_paths = child.get("paths", [])
 
-            if child_path == normalized_path or path in child_paths or normalized_path in child_paths:
+            if child_path == normalized_path:
                 exact_child_match = page_bubble
-                # We found a suitable child match; no need to check more children for this bubble
+                # We found a suitable child match;
+                # no need to check more children for this bubble
                 break
 
-        # 3) Longest prefix match as a fallback (keeps general behavior like /data -> 'data' bubble)
+        # 3) Longest prefix match as a fallback
+        # (keeps general behavior like /data -> 'data' bubble)
         if normalized_path.startswith(bubble_path):
             fallback_match = page_bubble
 
@@ -73,7 +76,10 @@ def get_current_page_bubble(path):
         children = current_page_bubble.get("children", [])
         if children:
             for page in children:
-                if page.get("path") == normalized_path or page.get("path") == path:
+                if (
+                    page.get("path") == normalized_path
+                    or page.get("path") == path
+                ):
                     page["active"] = True
 
     return {"page_bubble": current_page_bubble}
@@ -111,6 +117,6 @@ def split_list(array, parts):
 
     k, m = divmod(len(array), parts)
     return [
-        array[i * k + min(i, m): (i + 1) * k + min(i + 1, m)]
+        array[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)]
         for i in range(parts)
     ]
