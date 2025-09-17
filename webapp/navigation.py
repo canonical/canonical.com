@@ -29,20 +29,58 @@ def get_current_page_bubble(path):
 
     page_bubbles = copy.deepcopy(secondary_navigation_data)
 
+    # Priority order for selecting the bubble:
+    # 1) Exact match on a bubble's own path
+    # 2) Exact match on any child path
+    # 3) fallback match on a bubble's path
+    exact_bubble_match = None
+    exact_child_match = None
+    fallback_match = None
+
     for page_bubble_name, page_bubble in page_bubbles.items():
-        if normalized_path.startswith(page_bubble["path"]):
-            current_page_bubble = page_bubble
-            parent = page_bubble.get("parent", None)
+        bubble_path = page_bubble.get("path", "")
 
-            if parent:
-                current_page_bubble["parent_title"] = parent[0]["title"]
-                current_page_bubble["parent_path"] = parent[1]["path"]
+        # 1) Exact match on the bubble path
+        # (e.g. /solutions/ai should match the 'ai' bubble)
+        if bubble_path == normalized_path:
+            exact_bubble_match = page_bubble
+            break
 
-            children = page_bubble.get("children", [])
-            if children:
-                for page in children:
-                    if page["path"] == path:
-                        page["active"] = True
+        # 2) Exact match on any child path
+        # (for cases like /data/warehouse, /data/streaming
+        #    that should select the 'data-and-ai' bubble)
+        for child in page_bubble.get("children", []) or []:
+            child_path = child.get("path")
+
+            if child_path == normalized_path:
+                exact_child_match = page_bubble
+                # We found a suitable child match;
+                # no need to check more children for this bubble
+                break
+
+        # 3) Longest prefix match as a fallback
+        # (keeps general behavior like /data -> 'data' bubble)
+        if normalized_path.startswith(bubble_path):
+            fallback_match = page_bubble
+
+    chosen_bubble = exact_bubble_match or exact_child_match or fallback_match
+
+    if chosen_bubble:
+        current_page_bubble = chosen_bubble
+        parent = chosen_bubble.get("parent", None)
+
+        if parent:
+            current_page_bubble["parent_title"] = parent[0]["title"]
+            current_page_bubble["parent_path"] = parent[1]["path"]
+
+        children = current_page_bubble.get("children", [])
+        if children:
+            for page in children:
+                if (
+                    page.get("path") == normalized_path
+                    or page.get("path") == path
+                ):
+                    page["active"] = True
 
     return {"page_bubble": current_page_bubble}
 
