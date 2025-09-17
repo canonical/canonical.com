@@ -1,0 +1,135 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-text.jinja" import text %}
+
+{% block title %}Machine learning for financial services{% endblock %}
+{% block meta_description %}Learn how this Fortune 500 fintech company went from constant troubleshooting to scalable machine learning by switching to Canonical Kubeflow on AWS{% endblock %}
+{% block meta_company_name %}Machine learning for financial services{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1cxu4a126wbf7fD1NeDCCh-6c0F-FxkJYJxpDMeEhHs4{% endblock %}
+{% block meta_discourse_url %}https://discourse.ubuntu.com/t/case-study-lucid-aws-fedramp-compliance/53391{% endblock %}
+
+{% block inner_content %}
+    {%- call(slot) vf_hero(
+        title_text="Fortune 500 fintech company goes from constant troubleshooting to scalable machine learning by switching to Canonical Kubeflow on AWS",
+        is_split_on_medium="true"
+    )
+    -%}
+    {%- endcall -%}
+
+    {%- call(slot) text_list(title="About the customer") -%}
+    {%- if slot == "list_item_content_1" -%}
+        Leader in the US financial services sector  
+    {%- endif -%}
+    {%- if slot == "list_item_content_2" -%}
+        Innovator in risk modeling and financial forecasting
+    {%- endif -%}
+    {%- if slot == "list_item_content_3" -%}
+        Fortune 500 player 
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) highlights(num_items=4) -%}
+    {%- if slot == "highlights_item_content_1" -%}
+        The company replaced its legacy Kubeflow solution with Canonical Kubeflow on AWS, bringing stability, automation, and enterprise support to its machine learning operations.
+    {%- endif -%}
+    {%- if slot == "highlights_item_content_2" -%}
+        Seamless integration with machine learning tools like TensorFlow and PyTorch, together with easy access to Kubeflow Pipelines, is driving unprecedented data scientist productivity.
+    {%- endif -%}
+    {%- if slot == "highlights_item_content_3" -%}
+        Canonical Kubeflow is delivered as a suite of securely-designed and minimal containers, reducing the attack surface and remediating high and critical CVEs.
+    {%- endif -%}
+    {%- if slot == "highlights_item_content_4" -%}
+        Canonical Firefighting Support provides 24/7 access to expert engineering assistance, maximizing Kubeflow stability.
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) image_wrapper() -%}
+    {%- if slot == "image_content" -%}
+        {{ image(url="https://assets.ubuntu.com/v1/12f99490-image1.jpg",
+                alt="", 
+                width="2464", 
+                height="1028", 
+                hi_def="True", 
+                loading="lazy") | safe
+        }}
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) text(title="Overview") -%}
+    {%- if slot == "content" -%}
+        <p>With machine learning becoming increasingly central to its operations, this financial services company wanted to transform its Kubeflow environment to enhance stability and scalability. The enterprise set its sights on adopting an open source, upstream Kubeflow distribution that could run on Amazon Elastic Kubernetes Service (EKS); and in order to satisfy the finance sector’s security and compliance requirements, it also needed a solution with enterprise support backed by an SLA.</p>  
+        <p>Canonical Kubeflow was the right choice, providing a fully open source MLOps platform, with ongoing security maintenance, updates, and 24/7 enterprise support from Canonical. Canonical packaged the solution as 110 minimal, securely-designed containers, reducing the Kubeflow footprint and attack surface to enhance security and reduce network resource consumption. Now, the company’s data scientists can work more efficiently than ever, enjoying the latest upstream open source machine learning tooling, backed by enterprise support.</p>
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+        quote_text="We like the whole integration umbrella that Canonical offers with Canonical Kubeflow. We have easy access to popular ML frameworks like TensorFlow, PyTorch, and XGBoost, as well as the native Kubernetes tools for monitoring and logging. It helps our data scientists quickly build and experiment with their models in an efficient manner.",
+        citation_source_name_text="Senior data scientist",
+        citation_source_title_text="",
+        citation_source_organisation_text="Fortune 500 financial services company",
+        is_shallow=True)
+    -%}
+    {%- endcall -%}
+
+    {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == "content" -%}
+        <p>Historically, this leader in the US mortgage market has relied on sophisticated statistical models to make predictions on home values, forecast market trends, and analyze economic events. With a key focus on artificial intelligence, the company’s data science team is augmenting these traditional capabilities with machine learning. At the heart of its AI stack is Kubeflow, the open source platform for machine learning operations (MLOps), and the cloud platform is AWS. </p>  
+        <p>A spokesperson responsible for the company’s data platform explains: “Kubeflow helps us spin up a large amount of compute and scale flexibly so that our data scientists can do their work. For any ML model, the key is how you can interact with your data, how quickly you can do it, and how much you can iterate – and these are all things that Kubeflow helps us address.”</p>
+        <p>However, the enterprise was beginning to encounter difficulties with the Kubeflow platform that it was using. While Kubeflow is an open source project, the company was primarily using a version with proprietary features delivered by an external vendor. In the financial services sector, security and regulatory compliance are mission critical, so having a vendor to maintain Kubeflow was essential; but this proprietary version carried stability issues, and had a highly unique approach to storage that limited interoperability.</p>
+        <p>The spokesperson continues: “Data scientists were getting stuck because of the Kubeflow instability, and on the platform side, we were having to spend too much time supporting and troubleshooting the platform. Something needed to change.”</p>
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) image_wrapper() -%}
+    {%- if slot == "image_content" -%}
+        {{ image(url="https://assets.ubuntu.com/v1/657710d0-image2.jpg",
+                alt="", 
+                width="2464", 
+                height="1028", 
+                hi_def="True", 
+                loading="lazy") | safe
+        }}
+    {%- endif -%}
+    {%- endcall -%}
+
+    {%- call(slot) text(title="Solution") -%}
+    {%- if slot == "content" -%}
+        <p>The company decided to move away from the Kubeflow-based proprietary distribution and instead adopt the upstream, open source solution. This move would give the company access to the latest Kubeflow advancements and fixes, and align storage with industry standards. However, there was still the question of security and maintenance.</p>  
+        <p>“When you’re dealing with a lot of open source software, support is really important,” says the spokesperson. “Fixing bugs and vulnerabilities in good time is crucial, especially for financial institutions. So even though we were adopting open source Kubeflow, we still needed a vendor to support it.”</p>
+        <p>This was where Canonical stepped in with Canonical Kubeflow – a fully open source, easy-to-use, enterprise-grade distribution of Kubeflow delivered as securely-designed containers. Canonical has over 20 years of experience maintaining open source software, so the financial services company could be confident that its Kubeflow implementation would receive all of the CVE fixes, updates, and support necessary to run in production. </p>
+        <p>“With Canonical supporting it, we were comfortable making the switch to open source Kubeflow,” the spokesperson states. </p>
+        <p>Another key advantage of Canonical Kubeflow is its integration capabilities, providing seamless access to the broader open source machine learning ecosystem. Canonical Kubeflow bundles popular ML frameworks like TensorFlow, PyTorch, and XGBoost, as well as the native Kubernetes tools for monitoring and logging. This level of integration means that the Kubeflow implementation can evolve along with the organization's needs. For instance, the company can easily add further enhancements such as Feast and Spark.</p>
+        <p>Last but not least, Canonical Kubeflow is optimized to work with every major cloud – including AWS – so the company knew that the solution would be the perfect fit for its AI stack running on Amazon EKS.</p>
+    {%- endif -%}
+
+    {%- endcall -%}
+        {%- call(slot) vf_quote_wrapper(
+        quote_text="Moving to Canonical Kubeflow with Canonical support has really helped us to stabilize the environment. We’ve started to see that users are able to do a lot more and aren’t getting blocked by the issues they used to encounter.",
+        citation_source_name_text="Spokesperson",
+        citation_source_title_text="",
+        citation_source_organisation_text="Fortune 500 financial services company",
+        is_shallow=True)
+    -%}
+    {%- endcall -%}
+
+    {%- call(slot) text(title="Results") -%}
+    {%- if slot == "content" -%}
+        <p>With Canonical Kubeflow in place, the stability and storage difficulties that dogged the legacy environment have been solved. The company is spending less time maintaining and troubleshooting Kubeflow, and its data scientists can work more effectively than ever to drive enhanced forecasting capabilities with machine learning.</p>
+        <p>Alongside the improved stability, the automation and simplified user experience are also proving to be game changing for the company’s data scientists. Most notably, the team can now much more easily utilize Kubeflow Pipelines, a central Kubeflow component for creating and deploying ML workflows.</p>
+        <p>The senior data scientist notes: “Being able to build repeatable and manageable workflows using Kubeflow Pipelines is a big win. As we build more and more workflows, the reusability cuts down the time spent and helps our team experiment with new features.”</p>
+        <p>Most importantly of all, the company is enjoying the benefits of enterprise-grade, open source Kubeflow while also continuing to meet its strict standards of security and compliance. The Canonical Kubeflow solution was designed with security in mind, and Canonical incorporated scanning and vetting to ensure that every component and extension met the financial service organization’s requirements. Additionally, by adopting minimal, regularly maintained containers the company has been able to address at least 60 high and critical CVEs that affected the company’s Kubeflow dependencies.</p>
+        <p>Now that Canonical Kubeflow is up and running on Amazon EKS, Canonical is delivering ongoing Firefighting Support to rapidly resolve any issues that arise 24/7, with expert engineers on hand to join video calls for live troubleshooting. </p>
+        <p>“From an overall vendor perspective, Canonical is very flexible and collaborative,” concludes the spokesperson. “From our very first calls, it was clear that they really focus on the success of the customer.”</p>
+    {%- endif -%}
+    {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us about your Kubeflow use case", link="/contact-us", has_modal=true) }}
+{% endblock %}
