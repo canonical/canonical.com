@@ -3,6 +3,8 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from "_macros/vf_rich-vertical-list.jinja" import vf_rich_vertical_list %}
 
 {% block title %}
   Automate software operations with Juju and charms
@@ -19,11 +21,6 @@
 {% block body_class %}
   is-paper
 {% endblock body_class %}
-
-{% block extra_metatags %}
-  <script type="module"
-          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
-{% endblock extra_metatags %}
 
 {% block content %}
   {% call(slot) vf_hero(
@@ -917,7 +914,7 @@
               </div>
               <hr class="p-rule--muted" />
               <p>
-                <a href="https://charmhub.io/landscape-scalable">Landscape on charmhub &nbsp;&rsaquo;</a>
+                <a href="https://charmhub.io/landscape-scalable">Landscape on charmhub&nbsp;&rsaquo;</a>
               </p>
             </div>
           </div>
@@ -938,47 +935,47 @@
         </p>
       </div>
       <div class="grid-col">
-        <div class="u-embedded-media">
-          <lite-youtube videoid="HhRBNs9ckIk" width="560" height="315" posterquality="maxresdefault" videotitle="Operator Day Europe 2023 | The beauty of Juju with Jon Seager" class="u-embedded-media__element">
-          <a href="https://www.youtube.com/watch?v=HhRBNs9ckIk" title="Play video">
-            <span class="lyt-visually-hidden">Operator Day Europe 2023 | The beauty of Juju with Jon Seager</span>
-          </a>
-          </lite-youtube>
-        </div>
+        {{ lite_video(video_id="HhRBNs9ckIk", video_title="Operator Day Europe 2023 | The beauty of Juju with Jon Seager") }}
       </div>
     </div>
   </section>
 
-  <section class="p-section">
-    <hr class="is-fixed-width" />
-    <div class="grid-row--50-50">
-      <div class="grid-col">
-        <h2>Add visibility and compliance controls with JAAS</h2>
-        <p>JAAS (Juju as a service) is your centralised enterprise control plane for Juju deployments.</p>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Manage hundreds of Juju controllers.</li>
-          <li class="p-list__item is-ticked">Add fine grained access controls.</li>
-          <li class="p-list__item is-ticked">Enable enhanced audit functionalities.</li>
-          <li class="p-list__item is-ticked">Protect deployments by having a smaller attack area.</li>
-        </ul>
-        <hr class="p-rule--muted" />
-        <div class="p-cta-block">
-          <a href="https://jaas.ai" class="p-button--positive">Discover JAAS</a>
-        </div>
+  {% call(slot) vf_rich_vertical_list(
+      title_text='Add visibility and compliance controls with JAAS.',
+      list_item_tick_style="tick"
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        JAAS (Juju as a service) is your centralised enterprise control plane for Juju deployments.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'list_item_1' -%}
+      Manage hundreds of Juju controllers
+    {%- endif -%}
+    {%- if slot == 'list_item_2' -%}
+      Add fine grained access controls.
+    {%- endif -%}
+    {%- if slot == 'list_item_3' -%}
+      Enable enhanced audit functionalities.
+    {%- endif -%}
+    {%- if slot == 'list_item_4' -%}
+      Protect deployments by having a smaller attack area.
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/jaas" class="p-button--positive">Discover JAAS</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        {{ image(url="https://assets.ubuntu.com/v1/ed078d85-juju-dashboard.gif",
+                  alt="",
+                  height="779",
+                  width="1200",
+                  hi_def=True,
+                  loading="lazy",) | safe
+        }}
       </div>
-      <div class="grid-col">
-        <div class="u-embedded-media">
-          {{ image(url="https://assets.ubuntu.com/v1/ed078d85-juju-dashboard.gif",
-                    alt="",
-                    height="779",
-                    width="1200",
-                    hi_def=True,
-                    loading="lazy",) | safe
-          }}
-        </div>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section">
     <hr class="is-fixed-width" />
@@ -990,7 +987,7 @@
         <div class="p-logo-section__items">
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/a6f05598-ubuntu-logo.png",
-                        alt="Ubuntu logo",
+                        alt="Ubuntu",
                         width="250",
                         height="250",
                         hi_def=True,
@@ -1050,7 +1047,7 @@
           </div>
           <div class="p-logo-section__item">
             {{ image(url="https://assets.ubuntu.com/v1/e651641d-logo-china+telecom.svg",
-                        alt="",
+                        alt="China Telecom",
                         width="144",
                         height="144",
                         hi_def=True,
