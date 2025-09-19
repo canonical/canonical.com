@@ -22,6 +22,3 @@ def get_requests_session_with_retries():
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     return session
-
-
-
