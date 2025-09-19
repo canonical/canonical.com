@@ -1,0 +1,370 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/15XNmiCI8x4lom0FgMmSD5YnW7IjtKjy8vq8NZQzsB7k/edit
+{% endblock meta_copydoc %}
+
+{% block title %}What is an enterprise data warehouse?{% endblock %}
+
+{% block meta_description %}
+  Learn about enterprise data warehouses – what they are, what they’re for, and how you can implement one with Canonical
+  supported solutions.
+{% endblock %}
+
+{% block meta_keywords %}Data warehouse, What is a data warehouse{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='What is an enterprise <br /> data warehouse?',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        An enterprise data warehouse (EDW) is a data management system optimized for business intelligence (BI) and
+        analytics. It is a central repository for storing and managing large amounts of structured and semi-structured data
+        from multiple sources, often spanning an entire organization.
+      </p>
+      <p>
+        Data is typically processed before it enters the warehouse, where it can be easily queried, mined, and visualized to
+        help drive more informed business decisions.
+      </p> 
+      {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/choose-a-database">How to choose a database management system&nbsp;&rsaquo;</a>  
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/d745a69c-hero.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Why use an enterprise <br /> data warehouse?"},
+    items=[
+        {
+            "type": "description",
+            "item": {
+            "type": "html",
+            "content": "<p>Data warehouses have been a staple of enterprise data management for over 30 years. Despite the growing
+            popularity of data lakes and <a href='/data/lakehouse'>data lakehouses</a>, enterprise data warehouses remain a core
+            component of business intelligence strategies for countless organizations worldwide.</p>"
+            }
+        },
+        {
+            "type": "description",
+            "item": {
+            "type": "html",
+            "content": "<p>Enterprise data warehouses offer a variety of benefits over alternative data management architectures:</p>"
+            }
+        },
+        {
+            "type": "list",
+            "item": {
+            "list_items": [
+            {
+            "list_item_type": "tick",
+            "content": "Provide a single source of truth for consistent data analysis across the organization"
+        },
+        {
+            "list_item_type": "tick",
+            "content": "Optimized for rapid data querying, accelerating BI activities"
+        },
+        {
+            "list_item_type": "tick",
+            "content": "Support analyzing vast volumes of data"
+        }
+    ]
+    }},
+    ]) }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>OLAP, OLTP, and HTAP data processing</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">OLAP vs OLTP</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        There are two main types of data processing: online analytical processing (OLAP) and online transactional processing
+        (OLTP).
+      </p>
+      <p>
+        Data warehouses are typically optimised for OLAP workloads, aiming at enabling rapid analysis of large,
+        multi-dimensional datasets. Some data warehouses might not be fit for OLTP workloads involving multiple concurrent
+        transactions.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">HTAP</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Hybrid transaction/analytical processing (HTAP) is a third kind of data processing that combines both analytical and
+        transactional processing. Certain database solutions, such as PostgreSQL, can be used as HTAP solutions, potentially
+        reducing infrastructure complexity and maintenance effort.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_basic_section(title={"text": "Data warehouse architecture"},
+    items=[
+        {
+            "type": "description",
+            "item": {
+            "content": "A data warehouse deployment architecture typically includes the following components:"
+            }
+        },
+        {
+            "type": "list",
+            "item": {
+            "list_items": [
+                {
+                    "list_item_type": "bullet",
+                    "content": "<b>Data sources:</b> In this layer, structured and semi-structured data is ingested from various sources,
+                    such as operational databases, spreadsheets, or third-party applications."
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "<b>ETL:</b> Before data can be stored or used in analysis, it needs to be cleaned and formatted. This
+                    process is called extract, transform, load (ETL)."
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "<b>Data storage:</b> Following ETL, data is stored in the storage layer. The data might be organized in a
+                    deliberate structure to optimize query speed for specific use query patterns."
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "<b>Query processing:</b> This layer enables fast, multi-dimensional analysis of the data stored in the data
+                    warehouse."
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "<b>Front-end reporting and visualization:</b> This layer enables users to interact with the data through
+                    front-end user interfaces, reporting tools, and dashboards."
+                },
+            ]
+    }},
+    {
+        "type": "description",
+        "item": {
+            "content": "To see how these elements relate to one another, explore the diagram:"
+        }
+    },
+    ]) 
+  }}
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+
+      <div class="p-image-container--cinematic is-highlighted">
+        {{ image(url="https://assets.ubuntu.com/v1/35cce88a-data_warehouse_architecture.png",
+                alt="Diagram of a data warehouse flow. On the left, data sources such as operational databases, marketing platforms, ERP and CRM systems, spreadsheets, and flat files feed into ETL (extract, transform, load), which outputs to data storage containing metadata, raw data, transformed data, and data marts. Query processing supports OLAP and HTAP. On the right, reporting and visualization tools present the results",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    </div>
+  </section>
+
+  {{ vf_basic_section(title={"text": "Enterprise data warehouse use cases"},
+    items=[
+        {
+            "type": "description",
+            "item": {
+            "content": "Enterprise data warehouses have countless applications across industries, wherever organizations need to
+            turn large volumes of raw data into valuable insights."
+            }
+        },
+        {
+            "type": "description",
+            "item": {
+            "content": "Use cases include:"
+            }
+        },
+        {
+            "type": "list",
+            "item": {
+            "list_items": [
+                {
+                    "list_item_type": "bullet",
+                    "content": "Trend analysis and forecasting"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Customer behavior analysis"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Compliance and auditing"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Business reporting"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Inventory management"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Fraud detection"
+                },
+                {
+                    "list_item_type": "bullet",
+                    "content": "Geospatial analysis"
+                },
+            ]
+        }
+        },
+    ]) 
+  }}
+
+  {{ vf_basic_section(title={
+    "text": "Canonical's solution for<br />enterprise data warehouses"},
+    items=[
+        {
+            "type": "description",
+            "item": {
+                "content": "Canonical offers an enterprise solution for data warehouses based on PostgreSQL &ndash; the proven, open
+                source database management system with a 30 year track record."
+            }
+        },
+        {
+            "type": "description",
+            "item": {
+                "content": "Charmed PostgreSQL is our solution for simplifying the deployment, maintenance and upgrades of your
+                PostgreSQL databases. With it, you can meet the needs of both your transactional and analytical use cases, without
+                duplicating your data or enduring stale views."
+            }
+        },
+        {
+            "type": "description",
+            "item": {
+                "content": "We support a large number of PostgreSQL extensions including timescale, postgis, pgrouting, and pgvector to
+                help you perform analytical queries on all your data types without leaving the comfort of an OLTP capable database
+                management system. We also offer blueprints to separate your analytical and transactional traffic while using the same
+                highly available deployment."
+            }
+        },
+        {
+            "type": "description",
+            "item": {
+                "content": "Charmed PostgreSQL brings you up to 10 years of security maintenance, enterprise support from Canonical, and
+                advanced deployment and operations automation to help you get the most out of your PostgreSQL-based data warehouse."
+            }
+        },
+        {
+          "type": "cta-block",
+          "item": {
+            "link": {
+              "content_html": "Learn more about Charmed PostgreSQL&nbsp;&rsaquo;",
+              "attrs": {
+                "href": "/data/postgresql"
+              }
+            }
+          }
+        }
+    ]) 
+  }}
+
+  {{ vf_basic_section(title={
+    "text": "Questions? Get answers"},
+    items=[
+        {
+            "type": "image",
+            "item": {
+              "attrs": {
+                "src": "https://assets.ubuntu.com/v1/6e5dbcd1-questions-get-answers.jpg",
+                "alt": "",
+            }}
+        },
+        {
+            "type": "description",
+            "item": {
+                "content": "Do you have a data warehouse project in mind and want to get advice on implementing PostgreSQL? Contact
+          us now to discuss your needs."
+            }
+        },
+        {
+          "type": "cta-block",
+          "item": {
+            "primary": {
+              "content_html": "Contact us",
+              "attrs": {
+                "href": "/contact-us",
+                "aria-controls": "data&ai-modal",
+                "class": "js-invoke-modal"
+              }
+            }
+          }
+        }
+    ]) 
+  }}
+
+  <section class="p-section--deep">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>Resources</h2>
+      </div>
+      <div class="grid-col">
+        <div class="grid-row">
+          <div class="grid-col-1">
+            <h3 class="p-heading--5">Whitepapers</h3>
+          </div>
+          <div class="grid-col-3">
+            <p>
+              <a href="https://ubuntu.com/engage/spark_online_data_hub">A guide to building an online datahub
+              (data lakehouse)</a>
+            </p>
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="https://ubuntu.com/engage/choose-a-database">How to choose a database management
+              system</a>
+            </p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="grid-row">
+          <div class="grid-col-1">
+            <h3 class="p-heading--5">Webinar</h3>
+          </div>
+          <div class="grid-col-3">
+            <p>
+              <a href="https://ubuntu.com/engage/data-lake-spark-openstack">A data lake on your cloud</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/solutions/data-and-ai") | safe }}
+
+{% endblock %}
