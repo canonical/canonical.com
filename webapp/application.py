@@ -20,7 +20,7 @@ from webapp.job_regions import regions
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
 from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
-from webapp.requests_session import get_requests_session
+from webapp.requests_session import get_requests_session_with_retries
 
 logger = logging.getLogger(__name__)
 
@@ -439,7 +439,7 @@ def application_access_denied():
 
 @application.route("/<string:token>")
 def handle_application_index(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_index(harvest, token)
 
@@ -473,7 +473,7 @@ def application_index(harvest, token):
 
 @application.route("/get-report/<string:token>", methods=["POST"])
 def handle_application_report(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_report(harvest, token)
 
@@ -503,7 +503,7 @@ def application_report(harvest, token):
 
 @application.route("/withdraw/<string:token>")
 def handle_application_withdrawal(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_withdrawal(harvest, token)
 
@@ -669,7 +669,7 @@ def application_withdrawal(harvest, token):
 
 @application.route("/<string:token>", methods=["POST"])
 def handle_request_withdrawal(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return request_withdrawal(harvest, token)
 
