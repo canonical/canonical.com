@@ -711,6 +711,33 @@ def find_a_partner(partners_api):
     )
 
 
+@app.route("/partners/channel-and-reseller")
+@app.route("/partners/desktop")
+@app.route("/partners/gsi")
+@app.route("/partners/ihv-and-oem")
+@app.route("/partners/public-cloud")
+@app.route("/partners/iot-device")
+@app.route("/partners/silicon")
+@app.route("/partners/iot-device")
+def handle_partner_details():
+    with get_requests_session() as session:
+        partners_api = Partners(session)
+        return partner_details(partners_api)
+
+
+def partner_details(partners_api):
+    partners = partners_api._get(
+        partners_api.partner_page_map[flask.request.path.split("/")[2]]
+    )
+
+    if flask.request.path == "/partners/silicon":
+        template_path = "/partners/silicon/index.html"
+    else:
+        template_path = f"{flask.request.path}.html"
+
+    return flask.render_template(template_path, partners=partners)
+
+
 @app.route("/partners/sitemap.xml")
 def partners_sitemap():
     xml_sitemap = flask.render_template("partners/sitemap.xml")
