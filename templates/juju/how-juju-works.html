@@ -1,0 +1,57 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block content %}
+    {% call(slot) vf_hero(
+        title_text='How Juju works',
+        layout='fallback',
+        is_split_on_medium=true
+        ) -%}
+    {% endcall -%}
+
+    <div class="u-fixed-width">
+        <nav class="p-tabs">
+            <ul class="p-tabs__list" role="tablist">
+                <li class="p-tabs__item" role="presentation">
+                    <a href="/juju/why-juju"
+                       class="p-tabs__link"
+                       tabindex="0"
+                       role="tab"
+                       {% if selected_tab == "why-juju" %}aria-selected="true"{% endif %}>Why Juju?</a>
+                </li>
+                <li class="p-tabs__item" role="presentation">
+                    <a href="/juju/juju-architecture"
+                       class="p-tabs__link"
+                       tabindex="0"
+                       role="tab"
+                       {% if selected_tab == "juju-architecture" %}aria-selected="true"{% endif %}>
+                        Juju architecture
+                    </a>
+                </li>
+                <li class="p-tabs__item" role="presentation">
+                    <a href="/juju/charms-architecture"
+                       class="p-tabs__link"
+                       tabindex="0"
+                       role="tab"
+                       {% if selected_tab == "charms-architecture" %}aria-selected="true"{% endif %}>
+                        Charms architecture
+                    </a>
+                </li>
+                <li class="p-tabs__item" role="presentation">
+                    <a href="/juju/integrations"
+                       class="p-tabs__link"
+                       tabindex="0"
+                       role="tab"
+                       {% if selected_tab == "integrations" %}aria-selected="true"{% endif %}>Integrations</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    {% block how_juju_works_content %}
+    {% endblock how_juju_works_content %}
+
+    {% include "juju/partials/_contact-us.html" %}
+
+{% endblock %}

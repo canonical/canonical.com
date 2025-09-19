@@ -1,0 +1,212 @@
+{% extends 'juju/how-juju-works.html' %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% block title %}Juju integrations explained{% endblock %}
+
+{% block meta_keywords %}Software operators{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1j0RbS1YpvK9guHjFecEKUuFyzJ7LjpWq-y9z25o2vyw/edit
+{% endblock meta_copydoc %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% set selected_tab = "integrations" %}
+
+{% block how_juju_works_content %}
+  {{ vf_basic_section(
+    title={"text": "Integrate applications with a single command"},
+    is_split_on_medium=true,
+    top_rule_variant="none",
+    padding="shallow",
+    subtitle={"text": "Juju and charms greatly simplify the process of connecting applications and managing the lifecycle of your entire system", "heading_level": 5},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": '
+            Juju Integrations are virtual connections between applications to allow the exchange of information. The Juju controller acts as a mediator for these virtual connections, letting individual applications directly communicate with each other.
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "When an integration is created between two applications or across units of the same application, Integration data is persisted to the controller database."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Integration data persists across invocations of the charm code and through the various event handlers that may access it."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Juju is aware of the overall deployment topology, and it uses this information to perform the optimal set of lifecycle management decisions for your entire system, not just individual applications."
+        }
+      }
+    ]
+  ) }}
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <section class="p-section--shallow">
+      <div class="grid-row--50-50">
+        <div class="grid-col">
+          <h2>How do integrations work?</h2>
+        </div>
+      </div>
+    </section>
+    <section class="p-section--shallow">
+      <hr class="p-rule--muted is-fixed-width" />
+      <div class="grid-row--50-50">
+        <div class="grid-col">
+          {{ image(url="https://assets.ubuntu.com/v1/cd641f28-all_charms_contain.png",
+                    alt="",
+                    width="1800",
+                    height="535",
+                    hi_def=True,
+                    loading="auto") | safe
+          }}
+        </div>
+        <div class="grid-col">
+          <p>
+            All charms contain information about the services they offer or require to operate correctly. You can connect any two applications that:
+          </p>
+          <hr class="p-rule--muted" />
+          <ul class="p-list--divided">
+            <li class="p-list__item has-bullet">
+              Have compatible <strong>endpoints</strong> (i.e. requirer with provider, or peer with peer)
+            </li>
+            <li class="p-list__item has-bullet">
+              Implement the same <strong>interface</strong> (i.e. exchange the same set of information)
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="p-section--shallow">
+      <hr class="p-rule--muted is-fixed-width" />
+      <div class="grid-row--50-50">
+        <div class="grid-col">
+          {{ image(url="https://assets.ubuntu.com/v1/023e86d5-when_your_model.png",
+                    alt="",
+                    width="1800",
+                    height="1021",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="grid-col">
+          <p>
+            When your model contains two charms you wish to connect, all you have to do is to run juju integrate from the Juju controller and specify the two charms to be connected.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="p-section--deep">
+      <hr class="p-rule--muted is-fixed-width" />
+      <div class="grid-row--50-50">
+        <div class="grid-col">
+          {{ image(url="https://assets.ubuntu.com/v1/4e6627aa-juju_will_automatically.png",
+                    alt="",
+                    width="1800",
+                    height="536",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="grid-col">
+          <p>
+            Juju will automatically create an integration between these two services. You generally do not need to worry about anything else.
+          </p>
+          <p>
+            The integrated applications communicate directly with each other and the communication is not mediated by the juju controller.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="p-section--shallow">
+      <hr class="p-rule--muted is-fixed-width" />
+      <div class="grid-row--50-50">
+        <div class="grid-col">
+          {{ image(url="https://assets.ubuntu.com/v1/8b4b7079-you_can_relate.png",
+                    alt="",
+                    width="1800",
+                    height="1608",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="grid-col">
+          <p>You can relate as many services as you want until you have a working model.</p>
+          <p>
+            Once the integration is done, Juju will deal with the application configurations and monitoring - you do not need to be an expert on each individual service! You can focus on judging if the resulting deployment is a good representation of your idea or not.
+          </p>
+          <p>
+            The optimal configuration is persisted even if one of the applications is scaled, upgraded or the configuration changed. Juju and the charm code take care of it all.
+          </p>
+        </div>
+      </div>
+    </section>
+  </section>
+  {{ vf_basic_section(
+    title={"text": "Seamlessly connect applications across clouds with cross model integrations"},
+    is_split_on_medium=true,
+    padding="shallow",
+    subtitle={"text": "Integrating applications across clouds is an even harder task due to the differences in the way storage, network and compute are represented", "heading_level": 5},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": '
+            Cross model relations allow applications in different models to be integrated. Models may be hosted on the same controller, different controllers, and different clouds… or even across virtual machines and Kubernetes.
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "That means you can keep your databases, where I/O performance is paramount, on bare metal, and your apps to live within Kubernetes, where scalability and application density are more important."
+        }
+      }
+    ]
+  ) }}
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <div class="p-image-container is-highlighted">
+        {{ image(url="https://assets.ubuntu.com/v1/9a90b108-seamlessly_connect_applications.png",
+                alt="",
+                width="3696",
+                height="1858",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Read about these next:</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <a href="/juju/charmhub-community" class="p-heading--5">Charmhub & Community</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Charmhub is a curated marketplace for charms which can be readily integrated into any infrastructure</p>
+    {%- endif -%}
+  {%- endcall -%}
+{% endblock %}
