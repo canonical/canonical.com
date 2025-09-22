@@ -6,6 +6,8 @@
   We lead the Open Operator Collection, on a mission to elevate the art of dev&ndash;sec&ndash;ops with open&ndash;source operators that control enterprise applications
 {% endblock %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1bPFekWN4xrUue2l8F2_2w3ygnh06VHMA3VUVoTzuAFk
 {% endblock meta_copydoc %}
@@ -15,192 +17,391 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-strip">
+{% call(slot) vf_hero(
+  title_text='The Model Driven Operator Manifesto',
+  subtitle_text='Better operators through open community standards',
+  layout='50/50'
+) -%}
+{%- if slot == 'description' -%}
+<p>
+  Our goal is to improve devsecops with open source operators for widely used software. These shared values ensure high quality code and conversations.
+</p>
+{%- endif -%}
+{% endcall -%}
+
+  <section class="p-section--deep">
+    <hr class="p-rule--muted is-fixed-width">
     <div class="grid-row">
-      <div class="grid-col-6">
+      <div class="grid-col-start-large-3 grid-col-6">
         <div class="p-section--shallow">
-          <h1>The Model Driven Operator Manifesto</h1>
-          <h2>Better operators through open community standards</h2>
+          <ol class="p-stepped-list">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Source required</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    We make operator source available so that everybody can understand exactly what happens on their systems.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Open source preferred</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    We are an open source community to enable everyone to contribute to common app operations. Our frameworks and tools are open source, but our framework license does allow vendors to create interoperable operators with their own license.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Community-driven</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator distills real-world application experience into shared code. No one person can know all the ways an app will be used. Open community discussions and code are the best way to improve operator performance, usability, quality and completeness.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Security</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator should apply defense-in-depth to every aspect of operations &mdash; from data encryption and app confinement to password selection and key handling. We review all operators for security, and we publish fixes fast.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Multi-cloud optimisation</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator should work on every cloud or Kubernetes, and should also automatically optimise for its environment and take advantage of local, differentiated capabilities.
+                  </p>
+                </div> 
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Reusability</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Reuse improves quality and grows the community. An operator should offer many ways to deploy the application &mdash; large or small scale, resilient or minimal, persistent or ephemeral, standalone or integrated with as many other apps as possible.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Patches</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Operators should facilitate security patching, to help administrators maintain a healthy and compliant deployment. High-quality updates are essential for security.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Upgradability</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Operators should manage upgrades. An operator should ensure maximum availability throughout the upgrade and provide a way to roll back to prior state.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">High-level config</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Operators should abstract complex application configuration. An operator should offer only high-level config to capture admin intent and reduce the burden of application specific domain expertise required to run the app.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Scalability</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Applications are often clustered for resilience or performance. An operator should handle dynamic changes, optimise for admin intent, and scale up or down equally well.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Everyday actions included</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Daily actions like backup, restore, reset, and restart should never require direct admin access to underlying systems or containers. Actions should be driven by API or CLI, subject to permissions, and logged for audit and accountability.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Status</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Admins should never require direct access to underlying systems or containers to know the status of a workload. An operator should assess and represent the health, availability, and dependencies of the app.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Leadership</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    In distributed systems, problems occur if different units of the same app make conflicting decisions. An operator should provide leadership and communicate leader decisions to all units in a reliable way with proven consistency.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Subordinate software</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator should provide for related functions to coexist in its execution environment, whether that is a Kubernetes pod or a machine.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Application graph</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Most of the work in enterprise software operations is integration. An operator should go beyond the application lifecycle to the application graph, and enable integration with as many other applications as possible to support as many scenarios as possible.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Interoperability</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Enterprises require multi-vendor deployments to work well. Operators should work well with operators from other vendors and publishers. Collaboration is best done in a public forum to ensure the widest participation.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Consistency</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    It is easier to use new applications if they follow common patterns. An operator should use common conventions to simplify the learning and adoption curve.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Substitution</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Enterprises expect to choose the actual implementation of services in a deployment. Operators should not assume specific integration counterparts, to allow substitution with compatible alternatives.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Model-driven</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Applications must work together to be successful. Operators should respond to changes in a shared model that describes the whole application graph and config.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Capacity agnostic</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Admins may deploy the application on a few small machines, or many large machines. An operator should not assume capacity or scale, but learn it from the model.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Network Agnostic</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Different scenarios require different networking for the same application. An operator should support segregated network architecture as described in the model.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Cross platform</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Enterprises have applications on both Windows and Linux, and many deployments integrate platforms. The <code>ops</code> library should enable multi-platform scenarios.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Multi-arch</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">An operator should work on all supported architectures of the application.</p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Tested</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Operators are privileged software dealing with critical apps in sensitive environments. An operator should have both unit and integration tests that gate all changes.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Trusted builds</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator should be built in a trusted environment, just like the app it drives, to guarantee provenance and integrity.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Signed</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    Operators are privileged software in which users place great trust. An operator should be signed to know who produced it, and prove that it has not been modified.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Beta testing</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An operator should publish beta and release candidate versions to enable widespread testing and increase the quality of stable releases.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <hr class="p-rule--muted">
+            <li class="p-stepped-list__item">
+              <div class="grid-row">
+                <div class="grid-col-2">
+                  <h3 class="p-stepped-list__title p-heading--5">Managed</h3>
+                </div>
+                <div class="grid-col-4">
+                  <p class="p-stepped-list__content">
+                    An enterprise environment must plan changes. Operators should enable fine-grained control of updates and enterprise control of application versions.
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ol>
         </div>
         <p>
-          Our goal is to improve devsecops with open source operators for widely used software. These shared values ensure high quality code and conversations.
+          Operators that embrace these principles, practices and values are better for a wider audience. We elevate the art of application management with universal, open operators that reflect the deepest insights from the broadest community in the widest contexts.
         </p>
       </div>
-    </div>
-  </section>
-  <section class="p-section--deep">
-    <div class="u-fixed-width">
-      <ol class="p-stepped-list">
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Source required</p>
-          <p class="p-stepped-list__content">
-            We make operator source available so that everybody can understand exactly what happens on their systems.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Open source preferred</p>
-          <p class="p-stepped-list__content">
-            We are an open source community to enable everyone to contribute to common app operations. Our frameworks and tools are open source, but our framework license does allow vendors to create interoperable operators with their own license.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Community-driven</p>
-          <p class="p-stepped-list__content">
-            An operator distills real-world application experience into shared code. No one person can know all the ways an app will be used. Open community discussions and code are the best way to improve operator performance, usability, quality and completeness.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Security</p>
-          <p class="p-stepped-list__content">
-            An operator should apply defense-in-depth to every aspect of operations &mdash; from data encryption and app confinement to password selection and key handling. We review all operators for security, and we publish fixes fast.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Multi-cloud optimisation</p>
-          <p class="p-stepped-list__content">
-            An operator should work on every cloud or Kubernetes, and should also automatically optimise for its environment and take advantage of local, differentiated capabilities.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Reusability</p>
-          <p class="p-stepped-list__content">
-            Reuse improves quality and grows the community. An operator should offer many ways to deploy the application &mdash; large or small scale, resilient or minimal, persistent or ephemeral, standalone or integrated with as many other apps as possible.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Patches</p>
-          <p class="p-stepped-list__content">
-            Operators should facilitate security patching, to help administrators maintain a healthy and compliant deployment. High-quality updates are essential for security.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Upgradability</p>
-          <p class="p-stepped-list__content">
-            Operators should manage upgrades. An operator should ensure maximum availability throughout the upgrade and provide a way to roll back to prior state.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">High-level config</p>
-          <p class="p-stepped-list__content">
-            Operators should abstract complex application configuration. An operator should offer only high-level config to capture admin intent and reduce the burden of application specific domain expertise required to run the app.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Scalability</p>
-          <p class="p-stepped-list__content">
-            Applications are often clustered for resilience or performance. An operator should handle dynamic changes, optimise for admin intent, and scale up or down equally well.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Everyday actions included</p>
-          <p class="p-stepped-list__content">
-            Daily actions like backup, restore, reset, and restart should never require direct admin access to underlying systems or containers. Actions should be driven by API or CLI, subject to permissions, and logged for audit and accountability.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Status</p>
-          <p class="p-stepped-list__content">
-            Admins should never require direct access to underlying systems or containers to know the status of a workload. An operator should assess and represent the health, availability, and dependencies of the app.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Leadership</p>
-          <p class="p-stepped-list__content">
-            In distributed systems, problems occur if different units of the same app make conflicting decisions. An operator should provide leadership and communicate leader decisions to all units in a reliable way with proven consistency.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Subordinate software</p>
-          <p class="p-stepped-list__content">
-            An operator should provide for related functions to coexist in its execution environment, whether that is a Kubernetes pod or a machine.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Application graph</p>
-          <p class="p-stepped-list__content">
-            Most of the work in enterprise software operations is integration. An operator should go beyond the application lifecycle to the application graph, and enable integration with as many other applications as possible to support as many scenarios as possible.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Interoperability</p>
-          <p class="p-stepped-list__content">
-            Enterprises require multi-vendor deployments to work well. Operators should work well with operators from other vendors and publishers. Collaboration is best done in a public forum to ensure the widest participation.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Consistency</p>
-          <p class="p-stepped-list__content">
-            It is easier to use new applications if they follow common patterns. An operator should use common conventions to simplify the learning and adoption curve.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Substitution</p>
-          <p class="p-stepped-list__content">
-            Enterprises expect to choose the actual implementation of services in a deployment. Operators should not assume specific integration counterparts, to allow substitution with compatible alternatives.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Model-driven</p>
-          <p class="p-stepped-list__content">
-            Applications must work together to be successful. Operators should respond to changes in a shared model that describes the whole application graph and config.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Capacity agnostic</p>
-          <p class="p-stepped-list__content">
-            Admins may deploy the application on a few small machines, or many large machines. An operator should not assume capacity or scale, but learn it from the model.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Network Agnostic</p>
-          <p class="p-stepped-list__content">
-            Different scenarios require different networking for the same application. An operator should support segregated network architecture as described in the model.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Cross platform</p>
-          <p class="p-stepped-list__content">
-            Enterprises have applications on both Windows and Linux, and many deployments integrate platforms. The <code>ops</code> library should enable multi-platform scenarios.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Multi-arch</p>
-          <p class="p-stepped-list__content">An operator should work on all supported architectures of the application.</p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Tested</p>
-          <p class="p-stepped-list__content">
-            Operators are privileged software dealing with critical apps in sensitive environments. An operator should have both unit and integration tests that gate all changes.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Trusted builds</p>
-          <p class="p-stepped-list__content">
-            An operator should be built in a trusted environment, just like the app it drives, to guarantee provenance and integrity.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Signed</p>
-          <p class="p-stepped-list__content">
-            Operators are privileged software in which users place great trust. An operator should be signed to know who produced it, and prove that it has not been modified.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Beta testing</p>
-          <p class="p-stepped-list__content">
-            An operator should publish beta and release candidate versions to enable widespread testing and increase the quality of stable releases.
-          </p>
-        </li>
-        <li class="p-stepped-list__item">
-          <p class="p-stepped-list__title">Managed</p>
-          <p class="p-stepped-list__content">
-            An enterprise environment must plan changes. Operators should enable fine-grained control of updates and enterprise control of application versions.
-          </p>
-        </li>
-      </ol>
-      <p>
-        Operators that embrace these principles, practices and values are better for a wider audience. We elevate the art of application management with universal, open operators that reflect the deepest insights from the broadest community in the widest contexts.
-      </p>
     </div>
   </section>
 {% endblock %}
