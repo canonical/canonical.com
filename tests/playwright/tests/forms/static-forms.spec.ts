@@ -3,15 +3,17 @@ import { fillExistingFields, acceptCookiePolicy } from "../../helpers/commands.t
 import { formTextFields, formCheckboxFields, formRadioFields } from "../../helpers/form-fields.ts";
 
 export const staticContactUsPages = [
-  "/tests/_static-client-form"
+  "/tests/_static-client-form",
+  "/tests/_static-default-form",
 ]
 
 test.describe("Form ID validation", () => {
   /**
-   * Discover all static contact us pages from the sitemap
+   * Discover all static contact us pages from the sitemap parser
    * @param page The Playwright page object
    * @returns An array of contact us page URLs
    */
+
   async function discoverContactUsPages(page) {
     await page.goto('/sitemap_parser');
     const sitemapContent = await page.textContent('body');
@@ -60,8 +62,7 @@ test.describe("Form submission validation", () => {
 
         await page.getByRole("button", { name: /Submit/ }).click();
         await page.waitForURL(/\/marketo\/submit/, { timeout: 10000 });
-        await expect(page).toHaveURL("https://ubuntu.com/marketo/submit");
-
+        expect(page.url()).toMatch('https://ubuntu.com/marketo/submit');
       });
     };
   });
@@ -120,5 +121,28 @@ test.describe("Radio field handling", () => {
         expect(radioName).toMatch(/^_radio_/);
       });
     }
+    
+  });
+});
+
+test.describe("Required checkbox validation", () => {
+  test("should disable submit button when required checkbox is not checked", async ({ page }) => {    
+    await page.goto("/tests/_static-default-form");
+    await acceptCookiePolicy(page);
+
+    // Check that submit button is disabled
+    const submitButton = page.getByRole("button", { name: /Submit/ });
+    await expect(submitButton).toBeDisabled();
+  });
+
+  test("should enable submit button when required checkbox is checked", async ({ page }) => {
+    await page.goto("/tests/_static-default-form");
+    await acceptCookiePolicy(page);
+
+    // Check the required checkbox
+    await page.locator('input[aria-labelledby="physical-server"]').check({ force: true });
+
+    const submitButton = page.getByRole("button", { name: /Submit/ });
+    await expect(submitButton).toBeEnabled();
   });
 });
