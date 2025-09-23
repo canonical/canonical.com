@@ -86,6 +86,7 @@ CSP = {
         "api.livechatinc.com",
         "cdn.livechatinc.com",
         "secure.livechatinc.com",
+        "web.facebook.com",
     ],
     "frame-src": [
         "'self'",
@@ -112,6 +113,7 @@ CSP = {
     ],
     "child-src": [
         "'self'",
+        "blob:",
         "youtube.com",
         "google.com",
         "fonts.google.com",
