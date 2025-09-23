@@ -33,6 +33,9 @@ CSP = {
         "https://esm.sh",
         "https://cdn.jsdelivr.net",
         "buttons.github.io",
+        "cdn.livechatinc.com",
+        "api.livechatinc.com",
+        "secure.livechatinc.com",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -40,6 +43,8 @@ CSP = {
         "'self'",
         "assets.ubuntu.com",
         "fonts.google.com",
+        "cdn.livechatinc.com",
+        "secure.livechatinc.com",
     ],
     "script-src": [
         "'self'",
@@ -78,6 +83,10 @@ CSP = {
         "*.mktoresp.com",
         "assets.ubuntu.com",
         "api.github.com",
+        "api.livechatinc.com",
+        "cdn.livechatinc.com",
+        "secure.livechatinc.com",
+        "web.facebook.com",
     ],
     "frame-src": [
         "'self'",
@@ -88,6 +97,9 @@ CSP = {
         "www.googletagmanager.com",
         "www.google.com",
         "www.brighttalk.com",
+        "cdn.livechatinc.com",
+        "secure.livechatinc.com",
+        "cdn.livechat-static.com",
     ],
     "style-src": [
         "'self'",
@@ -101,9 +113,13 @@ CSP = {
     ],
     "child-src": [
         "'self'",
+        "blob:",
         "youtube.com",
         "google.com",
         "fonts.google.com",
+        "api.livechatinc.com",
+        "cdn.livechatinc.com",
+        "secure.livechatinc.com",
     ],
 }
 
