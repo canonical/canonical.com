@@ -2,16 +2,13 @@ import { test, expect } from "@playwright/test";
 import { fillExistingFields, acceptCookiePolicy } from "../../helpers/commands.ts";
 import { formTextFields, formCheckboxFields, formRadioFields } from "../../helpers/form-fields.ts";
 
-export const staticContactUsPages = [
-  "/tests/_static-client-form"
-]
-
 test.describe("Form ID validation", () => {
   /**
-   * Discover all static contact us pages from the sitemap
+   * Discover all static contact us pages from the sitemap parser
    * @param page The Playwright page object
    * @returns An array of contact us page URLs
    */
+
   async function discoverContactUsPages(page) {
     await page.goto('/sitemap_parser');
     const sitemapContent = await page.textContent('body');
@@ -52,41 +49,36 @@ test.describe("Form ID validation", () => {
 
 test.describe("Form submission validation", () => {
   test("should fill and redirect to marketo submission endpoint", async ({ page }) => {
-    for (const url of staticContactUsPages) {
-      await test.step(`Testing form on ${url}`, async () => {
-        await page.goto(url);
-        await acceptCookiePolicy(page);
-        await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
+    await test.step(`Testing form on /tests/_static-client-form`, async () => {
+      await page.goto("/tests/_static-client-form");
+      await acceptCookiePolicy(page);
+      await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
 
-        await page.getByRole("button", { name: /Submit/ }).click();
-        await page.waitForURL(/\/marketo\/submit/, { timeout: 10000 });
-        await expect(page).toHaveURL("https://ubuntu.com/marketo/submit");
-
-      });
-    };
+      await page.getByRole("button", { name: /Submit/ }).click();
+      await page.waitForURL(/\/marketo\/submit/, { timeout: 10000 });
+      expect(page.url()).toMatch('https://ubuntu.com/marketo/submit');
+    });
   });
 
   test("should return 400 error when honeypot is triggered", async ({ page }) => {
-    for (const url of staticContactUsPages) {
-      await test.step(`Testing form on ${url}`, async () => {
-        const responsePromise = page.waitForResponse(response => 
-          response.url().includes('/marketo/submit') && response.status() === 400
-        );
-        await page.goto(url);
-        await acceptCookiePolicy(page);
-        await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
-    
-        // Honeypot fields
-        await page.fill('input[name="website"]', 'test');
-        await page.fill('input[name="name"]', 'test');
-        await page.getByRole("button", { name: /Submit/ }).click();
-    
-        // Wait for 400 response
-        const response = await responsePromise;
-        expect(response.status()).toBe(400);
+    await test.step(`Testing form on /tests/_static-client-form`, async () => {
+      const responsePromise = page.waitForResponse(response => 
+        response.url().includes('/marketo/submit') && response.status() === 400
+      );
+      await page.goto("/tests/_static-client-form");
+      await acceptCookiePolicy(page);
+      await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
+  
+      // Honeypot fields
+      await page.fill('input[name="website"]', 'test');
+      await page.fill('input[name="name"]', 'test');
+      await page.getByRole("button", { name: /Submit/ }).click();
+  
+      // Wait for 400 response
+      const response = await responsePromise;
+      expect(response.status()).toBe(400);
 
-      });
-    }
+    });
   });
 
   test("should focus on required field if missing required fields", async ({ page }) => {
@@ -102,23 +94,22 @@ test.describe("Form submission validation", () => {
 
 test.describe("Radio field handling", () => {
   test("radio fields should have appropriate js hooks classnames", async ({ page }) => {
-    for (const url of staticContactUsPages) {
-      await test.step(`Testing form on ${url}`, async () => {
-        await page.goto(url);
-        await acceptCookiePolicy(page);
+    await test.step(`Testing form on /tests/_static-client-form`, async () => {
+      await page.goto("/tests/_static-client-form");
+      await acceptCookiePolicy(page);
+  
+      // Check that radio has js hooks classnames
+      const radioFieldset = page.locator('fieldset.js-remove-radio-names');
+      await expect(radioFieldset).toBeVisible();
+  
+      // Check that radio buttons are present
+      const radioButtons = radioFieldset.locator('input[type="radio"]');
+      await expect(radioButtons.first()).toBeVisible();
+      
+      // Check that radio buttons have names starting with _radio_
+      const radioName = await radioButtons.first().getAttribute('name');
+      expect(radioName).toMatch(/^_radio_/);
+    });
     
-        // Check that radio has js hooks classnames
-        const radioFieldset = page.locator('fieldset.js-remove-radio-names');
-        await expect(radioFieldset).toBeVisible();
-    
-        // Check that radio buttons are present
-        const radioButtons = radioFieldset.locator('input[type="radio"]');
-        await expect(radioButtons.first()).toBeVisible();
-        
-        // Check that radio buttons have names starting with _radio_
-        const radioName = await radioButtons.first().getAttribute('name');
-        expect(radioName).toMatch(/^_radio_/);
-      });
-    }
   });
 });
