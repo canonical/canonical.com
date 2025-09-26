@@ -1612,24 +1612,24 @@ def build_case_study_index(engage_docs):
     return case_study_index
 
 
-# Canonical University
+# Canonical Academy
 def cred_exam_content(**_):
     exam_name = flask.request.args.get("exam")
     syllabus_file = open(
-        "templates/university/exam-content/exam-content.json", "r"
+        "templates/academy/exam-content/exam-content.json", "r"
     )
     syllabus_data = json.load(syllabus_file)
     if not any(exam_name == e["exam_name"] for e in syllabus_data):
         exam_name = syllabus_data[0]["exam_name"]
     return flask.render_template(
-        "university/exam-content/index.html",
+        "academy/exam-content/index.html",
         syllabus_data=syllabus_data,
         exam_name=exam_name,
     )
 
 
 app.add_url_rule(
-    "/university/exam-content",
+    "/academy/exam-content",
     view_func=cred_exam_content,
     methods=["GET"],
 )
