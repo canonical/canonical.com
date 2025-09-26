@@ -1,0 +1,15 @@
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% call(slot) vf_cta_section(
+  title_text='Get started with Juju today',
+  variant='default',
+  layout='25-75'
+  ) -%}
+  {%- if slot == 'cta' -%}
+    <a href="https://documentation.ubuntu.com/juju/3.6/#"
+       class="p-button--positive">Read Docs</a>
+    <button class="p-button js-invoke-modal" aria-controls="juju-modal">Contact us</button>
+  {%- endif -%}
+{% endcall -%}
+
+{{ load_form("/juju") | safe }}
