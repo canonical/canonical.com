@@ -2,13 +2,16 @@
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
-{% block title %}Juju: Charmhub and community{% endblock %}
+{% block title %}Juju | The simplest way to deploy and maintain applications in the cloud{% endblock %}
 
-{% block meta_keywords %}Software operators{% endblock %}
+{% block meta_description %}
+  Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.
+{% endblock %}
 
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1oRqbJ2Lqidcxqv0KIPPk1hfVew8F3cadO04n-QlOGIk/edit
+  https://docs.google.com/document/d/1_InbYD0f__hulJQv5fpwy76lQp4pZvn5Bc802X6WXAM/edit
 {% endblock meta_copydoc %}
 
 {% block body_class %}is-paper{% endblock %}
@@ -30,19 +33,42 @@
     items=[
       {
         "title_text": "Matrix space",
-        "image_html":  "<img src=\"https://assets.ubuntu.com/v1/84a09780-matrix_space.png\" class=\"p-image-container__image\" width=\"852\" height=\"568\" alt=\"Matrix\" />",
+        "image_html":  image(url="https://assets.ubuntu.com/v1/84a09780-matrix_space.png",
+            alt="Matrix",
+            width="852",
+            height="568",
+            hi_def=True,
+            loading="auto",
+            attrs={"class": "p-image-container__image"},
+            ) | safe,
         "description_html": "<p>The Juju Matrix Space is the best way to interact with all the community members and chat with the Canonical engineers working on Juju and charming.</p><p>The Juju Matrix Space is hosted by Canonical and it is also the home of the broader Ubuntu community chat.</p>",
         "cta_html": "<a href='https://matrix.to/#/%23charmhub:ubuntu.com'>Connect with the community on Matrix&nbsp;&rsaquo;</a>"
       },
       {
         "title_text": "Discourse forum",
-        "image_html":  "<img src=\"https://assets.ubuntu.com/v1/e4f4e47d-supporting_os.png\" class=\"p-image-container__image\" width=\"852\" height=\"568\" alt=\"Discourse\" />",
+        "image_html":  image(url="https://assets.ubuntu.com/v1/e4f4e47d-supporting_os.png",
+            alt="Discourse",
+            width="852",
+            height="568",
+            hi_def=True,
+            loading="auto",
+            attrs={"class": "p-image-container__image"},
+            ) | safe,
         "description_html": "<p>The discourse forum is the primary way for the community to discuss juju and charms. The forum is used daily by all the Canonical engineers working on charms and it includes a comprehensive list of community curated guides and resources.</p><p>The forum is the primary way for the development teams to share updates on the products, announce new releases and provide in depth explanations on new concepts.</p>",
         "cta_html": "<a href='https://discourse.charmhub.io/'>Connect with the community on Discourse&nbsp;&rsaquo;</a>"
       },
       {
         "title_text": "Canonical support",
-        "image_html":  "<img src=\"https://assets.ubuntu.com/v1/784f1b4d-canonical-support.png\" class=\"p-image-container__image\" width=\"852\" height=\"568\" alt=\"Canonical\" />",
+        "image_html":  
+          image(url="https://assets.ubuntu.com/v1/784f1b4d-canonical-support.png",
+            alt="Canonical",
+            width="852",
+            height="568",
+            hi_def=True,
+            loading="auto",
+            attrs={"class": "p-image-container__image"},
+            ) | safe
+          ,
         "description_html": "<p>Build with confidence and operate at scale with enterprise support from Canonical. Our global team of experts is available 24/7 to provide the best support experience for Ubuntu and your full open source stack, from infrastructure to applications.</p><p>You can fill out this form and one of our sales representatives will be in touch with you shortly.</p>",
         "cta_html": '<a href="/contact-us" class="js-invoke-modal" aria-controls="juju-modal">Contact us&nbsp;&rsaquo;</a>'
       },
@@ -120,57 +146,57 @@
              role="tabpanel"
              aria-labelledby="databases">
           <div class="grid-col-2">
-            <a href="https://charmhub.io/postgresql">
+            <a href="https://charmhub.io/postgresql" aria-label="Postgres">
               {{ image(url="https://assets.ubuntu.com/v1/3c1ecfd9-postgres-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="237",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Postgres
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/postgresql">Postgres</a>
-            </h3>
             <p>Open-source relational database management system</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/mysql">
+            <a href="https://charmhub.io/mysql" aria-label="MySQL">
               {{ image(url="https://assets.ubuntu.com/v1/64c18861-mysql_logo.png",
                             alt="",
                             height="339",
                             width="192",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
+            <p class="p-heading--5 u-no-margin--bottom">
               <a href="https://charmhub.io/mysql">MySQL</a>
-            </h3>
+            </p>
             <p>Open-source relational database management system</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/mongodb">
+            <a href="https://charmhub.io/mongodb" aria-label="Charmed MongoDB">
               {{ image(url="https://assets.ubuntu.com/v1/5a6b9b4b-ubuntu-logo.png",
                             alt="",
                             height="328",
                             width="288",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Charmed MongoDB
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/mongodb">Charmed MongoDB</a>
-            </h3>
             <p>Source-available document-oriented database</p>
           </div>
         </div>
@@ -185,51 +211,51 @@
                             height="288",
                             width="154",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Kafka
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/kafka">Kafka</a>
-            </h3>
             <p>Open source distributed event store and stream-processing platform</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/kubeflow">
+            <a href="https://charmhub.io/kubeflow" aria-label="Kubeflow">
               {{ image(url="https://assets.ubuntu.com/v1/62a19f47-kubeflow-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="252",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Kubeflow
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/kubeflow">Kubeflow</a>
-            </h3>
             <p>Open source platform for machine learning and MLOps on Kubernetes</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/spark-history-server-k8s">
+            <a href="https://charmhub.io/spark-history-server-k8s" aria-label="Apache Spark">
               {{ image(url="https://assets.ubuntu.com/v1/d9906786-apache-spark-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="247",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Apache Spark
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/spark-history-server-k8s">Apache Spark</a>
-            </h3>
             <p>Open source unified analytics engine for large-scale data processing</p>
           </div>
         </div>
@@ -238,57 +264,57 @@
              role="tabpanel"
              aria-labelledby="observability">
           <div class="grid-col-2">
-            <a href="https://charmhub.io/prometheus-k8s">
+            <a href="https://charmhub.io/prometheus-k8s" aria-label="Prometheus">
               {{ image(url="https://assets.ubuntu.com/v1/74efd28b-prometheus-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="247",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Prometheus
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/prometheus-k8s">Prometheus</a>
-            </h3>
             <p>Open source monitoring system with a dimensional data model and a time series database</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/grafana-k8s">
+            <a href="https://charmhub.io/grafana-k8s" aria-label="Grafana">
               {{ image(url="https://assets.ubuntu.com/v1/1c10fa01-grafana-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="231",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Grafana
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/grafana-k8s">Grafana</a>
-            </h3>
             <p>Open source analytics and interactive visualization web application</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/loki-k8s">
+            <a href="https://charmhub.io/loki-k8s" aria-label="Loki">
               {{ image(url="https://assets.ubuntu.com/v1/a647636f-loki-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="211",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Loki
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/loki-k8s">Loki</a>
-            </h3>
             <p>
               Open source log aggregation system designed to store and query logs from all your applications and infrastructure
             </p>
@@ -299,57 +325,57 @@
              role="tabpanel"
              aria-labelledby="infrastructure">
           <div class="grid-col-2">
-            <a href="https://charmhub.io/vault">
+            <a href="https://charmhub.io/vault" aria-label="Vault">
               {{ image(url="https://assets.ubuntu.com/v1/8f9d47a0-vault-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="262",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Vault
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/vault">Vault</a>
-            </h3>
             <p>Open source identity-based secrets and encryption management system</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/traefik-k8s">
+            <a href="https://charmhub.io/traefik-k8s" aria-label="Traefik">
               {{ image(url="https://assets.ubuntu.com/v1/52d0f6ab-traefik-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="216",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Traefik
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/traefik-k8s">Traefik</a>
-            </h3>
             <p>Open-source reverse proxy and load balancer for HTTP and TCP-based applications</p>
           </div>
           <div class="grid-col-2">
-            <a href="https://charmhub.io/landscape-scalable">
+            <a href="https://charmhub.io/landscape-scalable" aria-label="Landscape">
               {{ image(url="https://assets.ubuntu.com/v1/6320c190-landscape-logo-jujuis.png",
                             alt="",
                             height="288",
                             width="154",
                             hi_def=True,
-                            loading="auto",
+                            loading="lazy",
                             attrs={
                             "class": "p-juju-community-tabs__logo u-no-margin--bottom",
                             },) | safe
               }}
+              <p class="p-heading--5 u-no-margin--bottom">
+                Landscape
+              </p>
             </a>
-            <h3 class="p-heading--5 u-no-margin--bottom">
-              <a href="https://charmhub.io/landscape-scalable">Landscape</a>
-            </h3>
             <p>Ubuntu systems management tool developed by Canonical</p>
           </div>
         </div>
@@ -357,17 +383,17 @@
     </div>
   </section>
 
-  <hr class="p-rule is-fixed-width" />
+  {% call(slot) vf_cta_section(
+    title_text='Get started with Juju today',
+    variant='block',
+    layout='100'
+    ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://documentation.ubuntu.com/juju" class="p-button--positive">Read Docs</a>
+      <a href="/contact-us" class="js-invoke-modal p-button" aria-controls="juju-modal">Contact us</a>
+    {%- endif -%}
+  {% endcall -%}
 
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>Get started with Juju today</h2>
-      <div class="p-cta-block">
-        <a href="https://documentation.ubuntu.com/juju" class="p-button--positive">Read Docs</a>
-        <a href="/contact-us" class="js-invoke-modal p-button" aria-controls="juju-modal">Contact us</a>
-      </div>
-    </div>
-  </section>
-
+  {{ load_form("/juju") | safe }}
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
 {% endblock %}
