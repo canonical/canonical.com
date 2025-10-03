@@ -12,7 +12,7 @@ This website is written with the help of the [flask](http://flask.pocoo.org/) fr
 
 ## Development
 
-The simplest way to run the site is with [the `dotrun` snap](https://github.com/canonical-web-and-design/dotrun/):
+The simplest way to run the site is with [the `dotrun` snap](https://github.com/canonical/dotrun/):
 
 ```bash
 dotrun

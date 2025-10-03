@@ -12,6 +12,10 @@ from http.client import responses
 from pathlib import Path
 from typing import List
 from urllib.parse import parse_qs, urlencode, urlparse
+from flask_cors import cross_origin
+from cachetools import TTLCache, cached
+import requests
+import semver
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
@@ -360,6 +364,63 @@ def search_docs():
         sorted_results=sorted_results,
         domain_info=DOMAIN_INFO,
     )
+
+
+CACHE_TTL = 60 * 60  # 1 hour cache
+
+
+@app.route("/juju/latest.json")
+@cross_origin()
+@cached(cache=TTLCache(maxsize=128, ttl=CACHE_TTL))
+def get_latest_versions():
+    try:
+        result = {}
+
+        # get dashboard version
+        dashboard_response = requests.get(
+            "/".join(
+                [
+                    "https://api.github.com",
+                    "repos",
+                    "canonical",
+                    "juju-dashboard",
+                    "releases",
+                    "latest",
+                ]
+            )
+        )
+        dashboard_json_response = dashboard_response.json()
+        result["dashboard"] = dashboard_json_response["tag_name"]
+
+        # Get juju versions
+        juju_response = requests.get(
+            "https://api.github.com/repos/juju/juju/releases"
+        )
+        juju_json_response = juju_response.json()
+        juju_versions = []
+        for release in juju_json_response:
+            # get semver
+            version = semver.VersionInfo.parse(
+                release["tag_name"].replace("juju-", "").lstrip("v")
+            )
+            # Reduce to latest for each major.minor
+            if not list(
+                filter(
+                    lambda value: version.major == value.major
+                    and version.minor == value.minor,
+                    juju_versions,
+                )
+            ):
+                juju_versions.append(version)
+
+        # Reformat to a string
+        juju_versions = [
+            str(version.finalize_version()) for version in juju_versions
+        ]
+        result["juju"] = sorted(juju_versions)
+        return result
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 
 def careers_results(greenhouse, harvest):
