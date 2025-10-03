@@ -383,7 +383,7 @@ def get_latest_versions():
                     "https://api.github.com",
                     "repos",
                     "canonical",
-                    "jaas-dashboard",
+                    "juju-dashboard",
                     "releases",
                     "latest",
                 ]
