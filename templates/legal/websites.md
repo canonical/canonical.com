@@ -26,7 +26,6 @@ context:
 *   [help.ubuntu.com](https://help.ubuntu.com)
 *   [jaas.ai](https://jaas.ai)
 *   [jp.ubuntu.com](https://jp.ubuntu.com)
-*   [juju.is](https://juju.is)
 *   [kubeflow-news.com](https://kubeflow-news.com)
 *   [landscape.canonical.com](https://landscape.canonical.com)
 *   [launchpad.net](https://launchpad.net)

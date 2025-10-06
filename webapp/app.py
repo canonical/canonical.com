@@ -64,7 +64,6 @@ from webapp.openapi_parser import parse_openapi, read_yaml_from_url
 from webapp.partners import Partners
 from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
-from webapp.static_data import homepage_featured_products
 from webapp.utils.juju_doc_search import (
     DOMAIN_INFO,
     process_and_sort_results,
@@ -266,11 +265,7 @@ init_handlers(app, sentry)
 
 @app.route("/")
 def index():
-    context = {
-        "featured_products": homepage_featured_products,
-    }
-
-    return flask.render_template("index.html", **context)
+    return flask.render_template("index.html")
 
 
 @app.route("/sitemap.xml")
