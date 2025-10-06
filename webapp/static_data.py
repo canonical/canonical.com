@@ -67,14 +67,14 @@ homepage_featured_products = [
         footer="ubuntu.com/lxd",
     ),
     FeaturedProduct(
-        link="https://juju.is",
+        link="https://canonical.com/juju",
         image=f"{base_url}/v1/1dee5076-products-juju-wht-aubergine2.svg",
         alt="Juju",
         content=(
             "Model-driven cloud-native apps on public and private"
             " infrastructure and CAAS"
         ),
-        footer="juju.is",
+        footer="canonical.com/juju",
     ),
     FeaturedProduct(
         link="https://ubuntu.com/openstack",
