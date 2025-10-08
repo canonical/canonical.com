@@ -30,3 +30,4 @@ cp node_modules/venobox/dist/venobox.min.js static/js/modules/venobox/venobox.mi
 
 mkdir -p static/js/modules/vanilla-framework
 cp -r node_modules/vanilla-framework/templates/_macros/ static/js/modules/vanilla-framework
+cp -r node_modules/vanilla-framework/templates/static/js static/js/modules/vanilla-framework
