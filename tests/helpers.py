@@ -1,10 +1,7 @@
 import unittest
 import talisker.requests
-import json
-import re
 from requests import Session
 from pathlib import Path
-from bs4 import BeautifulSoup
 
 from webapp.marketo import MarketoAPI
 from canonicalwebteam.flask_base.env import get_flask_env
