@@ -10,9 +10,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.base_ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,4 +27,6 @@ jobs:
           MARKETO_API_CLIENT: ${{ secrets.FLASK_MARKETO_API_CLIENT }}
           MARKETO_API_SECRET: ${{ secrets.FLASK_MARKETO_API_SECRET }}
         run: |
-          python -m unittest tests.test_marketo
+          pwd
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          python3 -m unittest tests.test_marketo
