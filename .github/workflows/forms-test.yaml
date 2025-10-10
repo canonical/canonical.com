@@ -1,11 +1,11 @@
-name: Marketo Tests for form-generator
+name: Tests for forms
 on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 jobs:
-  test-marketo:
+  test-marketo-form-generator:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,7 +26,8 @@ jobs:
           MARKETO_API_URL: "https://066-EOV-335.mktorest.com"
           MARKETO_API_CLIENT: ${{ secrets.FLASK_MARKETO_API_CLIENT }}
           MARKETO_API_SECRET: ${{ secrets.FLASK_MARKETO_API_SECRET }}
+          SECRET_KEY: ${{ vars.SECRET_KEY }}
+
         run: |
-          pwd
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python3 -m unittest tests.test_marketo
