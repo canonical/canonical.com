@@ -14,6 +14,8 @@
   is-paper
 {% endblock body_class %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
 {% block content %}
   <section class="p-section--hero">
     <div class="u-fixed-width">
@@ -168,46 +170,46 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col u-fixed-width p-section--shallow">
-        <h2>Product portfolio</h2>
-      </div>
-      <div class="col">
-        <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/pGub0U7h9pE"
-                  title="Canonical's open source portfolio"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-start-large-7 col-start-medium-3 col-medium-4">
-          <p>
-            Our portfolio helps you adopt trusted open source while untangling complexity in modern software development and operations. It offers a set of building blocks that cover the full technology stack - from the OS to applications.
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-start-large-7 col-start-medium-3 col-medium-4">
-          <p>
-            We offer security maintenance, support and compliance features for our entire portfolio with one convenient subscription: Ubuntu Pro.         
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="p-cta-block col-6 col-start-large-7 col-start-medium-3 col-medium-4">
-          <a href="/solutions">Learn more about our products&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "Product portfolio"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "video",
+        "item": {
+          "attrs": {
+            "src": "https://www.youtube.com/embed/pGub0U7h9pE",
+            "allowfullscreen": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Our portfolio helps you adopt trusted open source while untangling complexity in modern software development and operations. It offers a set of building blocks that cover the full technology stack - from the OS to applications."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "We offer security maintenance, support and compliance features for our entire portfolio with one convenient subscription: Ubuntu Pro."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about our products ›",
+            "attrs": {
+              "href": "/solutions"
+            }
+          }
+        }
+      },
+    ]
+  ) }}
 
   <div class="u-fixed-width">
     <hr class="p-rule--muted" />
