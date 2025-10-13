@@ -25,7 +25,8 @@
 {% block content %}
   {% call(slot) vf_hero(
     title_text='Bare metal and data center automation made easy',
-    layout='50/50'
+    layout='50/50',
+    is_split_on_medium=true
     ) -%}
     {%- if slot == 'description' -%}
       <h2 class="p-text--default">Turn hardware into programmable, cloud-like bare metal infrastructure</h2>
@@ -50,6 +51,7 @@
   {% endcall -%}
 
   {{ vf_basic_section(title={"text": "Why automate your data center with MAAS"},
+    is_split_on_medium=true,
     items=[
     {
     "type": "description",
@@ -80,6 +82,7 @@
     ]) }}
 
   {{ vf_basic_section(title={"text": "Who is using MAAS?"},
+    is_split_on_medium=true,
     items=[
     {
     "type": "logo-block",
@@ -176,6 +179,7 @@
     ]) }}
 
   {{ vf_basic_section(title={"text": "Deploy any OS image on any hardware"},
+    is_split_on_medium=true,
     items=[
     {
     "type": "description",
@@ -218,7 +222,7 @@
     }
     ]) }}
 
-  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>Key features</h2>
     {%- endif -%}
@@ -349,6 +353,7 @@
   {{ vf_divided_section(title={
     "text": "What users say about MAAS",
     },
+    is_split_on_medium=true,
     blocks=[
     {
     "type": "divided-block",
@@ -420,7 +425,7 @@
     },
     ]
     },
-    ],)
+    ],) 
   }}
 
   {% with tag_id="1304" %}
@@ -430,6 +435,7 @@
   {{ vf_divided_section(title={
     "text": "MAAS tutorials",
     },
+    is_split_on_medium=true,
     blocks=[
     {
     "type": "divided-block",
@@ -507,10 +513,11 @@
     },
     ]
     },
-    ],)
+    ],) 
   }}
 
   {{ vf_basic_section(title={"text": "Enterprise support for MAAS"},
+    is_split_on_medium=true,
     items=[
     {
     "type": "image",
@@ -546,7 +553,7 @@
     }
     }
     }
-    ])
+    ]) 
   }}
 
   {% call(slot) vf_pricing_block(
