@@ -8,12 +8,6 @@
 
 {% block content %}
 
-  {% with h1="Contact us about Observability",
-    intro_text="Fill in your details below and a member of our training team will be in touch.",
-    formid="4072",
-    lpId="",
-    returnURL="https://canonical.com/observability#success" %}
-    {% include "shared/_client-contact-us-form.html" %}
-  {% endwith %}
+{{ load_form("/observability/contact-us") | safe }}
 
 {% endblock content %}

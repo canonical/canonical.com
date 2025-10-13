@@ -507,10 +507,6 @@
   <script src="/static/js/typer.js" defer></script>
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com//microcloud#success" %}
-
-    {% include "microcloud/_microcloud-modal.html" %}
-  {% endwith %}
+  {{ load_form("/microcloud") | safe }}
 
 {% endblock content %}
