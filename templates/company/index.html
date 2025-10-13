@@ -14,6 +14,8 @@
   is-paper
 {% endblock body_class %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
 {% block content %}
   <section class="p-section--hero">
     <div class="u-fixed-width">
@@ -168,94 +170,46 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="u-fixed-width p-section--shallow">
-      <hr class="p-rule" />
-      <h2>Product portfolio</h2>
-    </div>
-    <div class="row">
-      <div class="col-6 col-start-large-7 col-start-medium-3 col-medium-4">
-        <p>
-          Our portfolio helps you untangle complexity in modern software development and operations. It offers a set of building blocks that cover the full technology stack - from the OS to applications.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-medium-3 col-medium-4 col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="/solutions/ubuntu-os">Build with confidence. Build on Ubuntu.</a>
-            </h3>
-          </div>
-          <div class="col-6">
-            <p>Bring harmony to your stack from the desktop to the edge with Ubuntu, the OS that innovators have in common.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-medium-3 col-medium-4 col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="/solutions/infrastructure">Cloudify your data center</a>
-            </h3>
-          </div>
-          <div class="col-6">
-            <p>Gain more control and optimize costs with open source infrastructure.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-medium-3 col-medium-4 col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="/solutions/secure-open-source">Secure your open source supply chain</a>
-            </h3>
-          </div>
-          <div class="col-6">
-            <p>Keep your developers productive and streamline compliance.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-medium-3 col-medium-4 col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="/data">Run your databases reliably, across clouds</a>
-            </h3>
-          </div>
-          <div class="col-6">
-            <p>Accelerate time to market with secure and supported open source database software.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-medium-3 col-medium-4 col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="/solutions/ai">Simplify your enterprise AI journey</a>
-            </h3>
-          </div>
-          <div class="col-6">
-            <p>Enjoy the freedom of open source, with the best support and economics for AI projects.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "Product portfolio"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "video",
+        "item": {
+          "attrs": {
+            "src": "https://www.youtube.com/embed/pGub0U7h9pE",
+            "allowfullscreen": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Our portfolio helps you adopt trusted open source while untangling complexity in modern software development and operations. It offers a set of building blocks that cover the full technology stack - from the OS to applications."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "We offer security maintenance, support and compliance features for our entire portfolio with one convenient subscription: Ubuntu Pro."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about our products ›",
+            "attrs": {
+              "href": "/solutions"
+            }
+          }
+        }
+      },
+    ]
+  ) }}
 
   <div class="u-fixed-width">
     <hr class="p-rule--muted" />
@@ -275,6 +229,9 @@
       <div class="col">
         <p>When we do business, we go beyond transactional relationships.</p>
         <p>Our collaborative and joined-up approach is why customers prefer us, and why partners trust us.</p>
+        <div class="p-cta-block">
+          <a href="/open-source-adoption">How we help you adopt open source&nbsp;&rsaquo;</a>
+        </div>
       </div>
     </div>
     <div class="row p-section--shallow">
