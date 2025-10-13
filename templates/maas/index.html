@@ -1,1060 +1,692 @@
 {% extends "base_index.html" %}
 
-{% block title %}Metal as a Service{% endblock %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+
+{% block title %}MAAS | Bare metal automation for your data center{% endblock %}
 
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1Gv3_A3vW2k7U-0B0KVSHkEnGwgtIlDl5P1jGMSc8sqI/edit
+  https://docs.google.com/document/d/1qKlG2z0PWUmoWQRURKYMD4AQYULweqrEwLku9_p4VAI/edit
 {% endblock meta_copydoc %}
 
+{% block meta_description %}
+  MAAS (Metal as a Service) automates your data center, turning bare metal servers into an efficient, secure and scalable private cloud.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
 {% block content %}
-  <section class="p-takeover--dark">
-    <div class="row">
-      <div class="col-7">
-        <h1>Very fast server provisioning for your data centre</h1>
-        <p>
-          Self-service, remote installation of Windows, CentOS, ESXi and Ubuntu on real servers turns your data centre into a bare metal cloud.
-        </p>
-        <p>Welcome to metal-as-a-service.</p>
-        <ul class="p-inline-list u-no-margin--bottom">
-          <li class="p-inline-list__item">
-            <a href="/maas/docs/how-to-get-maas-up-and-running"
-               class="p-button--positive"
-               itemprop="url">Try  MAAS on your PC in minutes</a>
-          </li>
-          <li class="p-inline-list__item">
-            <a aria-label="Find out how to install MAAS"
-               href="/maas/docs/how-to-get-maas-up-and-running"
-               class="p-button"
-               itemprop="url">Install MAAS</a>
-          </li>
-        </ul>
+  {% call(slot) vf_hero(
+    title_text='Bare metal and data center automation made easy',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <h2 class="p-text--default">Turn hardware into programmable, cloud-like bare metal infrastructure</h2>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/docs/maas-in-thirty-minutes" class="p-button--positive">Try MAAS</a>
+      <a href="https://canonical.com/maas/contact-us" class="p-button">Get in touch</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <iframe class="u-embedded-media__element"
+                width="441"
+                height="247"
+                src="https://www.youtube.com/embed/eHfaiKlUYsM?showinfo=0&controls=2&modestbranding=1"
+                title="Watch the MAAS video on YouTube"
+                frameborder="0"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
+                allowfullscreen>
+        </iframe>
       </div>
-      <div class="col-5 u-hide--small">
-        <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="441"
-                  height="247"
-                  src="https://www.youtube.com/embed/eHfaiKlUYsM?showinfo=0&controls=2&modestbranding=1"
-                  title="Watch the MAAS video on YouTube"
-                  frameborder="0"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
-                  allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
 
-  <section class="p-strip">
-    <div class="u-fixed-width">
-      <div class="p-strip is-shallow u-no-padding--top">
-        <h2>Data centre automation</h2>
-        <h4>
-          Your next rack is a bare metal cloud.
-          <br />
-          Metal-As-A-Service (MAAS) provisioning with Windows, ESXi, Linux.
-        </h4>
-      </div>
-      <ul class="p-list is-split">
-        <li class="p-list__item is-ticked">Bare metal cloud with on-demand servers</li>
-        <li class="p-list__item is-ticked">Remote edge cluster operations</li>
-        <li class="p-list__item is-ticked">Infrastructure monitoring and discovery</li>
-        <li class="p-list__item is-ticked">Ansible, Chef, Puppet, SALT, Juju integration</li>
-        <li class="p-list__item is-ticked">Super fast install from scratch</li>
-        <li class="p-list__item is-ticked">VMWare ESXi, Windows, CentOS, RHEL, Ubuntu</li>
-        <li class="p-list__item is-ticked">Custom images with pre-installed apps</li>
-        <li class="p-list__item is-ticked">Disk and network configuration</li>
-        <li class="p-list__item is-ticked">API-driven DHCP, DNS, PXE, IPAM</li>
-        <li class="p-list__item is-ticked">REST API for provisioning</li>
-        <li class="p-list__item is-ticked">LDAP user authentication</li>
-        <li class="p-list__item is-ticked">Role-based access control (RBAC)</li>
-        <li class="p-list__item is-ticked">Hardware testing and commissioning</li>
-      </ul>
-      <ul class="row u-no-margin--bottom p-strip is-shallow">
-        <li class="col-2 col-medium-1 col-small-1">
-          <img src="https://assets.ubuntu.com/v1/59dc9048-verizon.png"
-               alt="Verizon logo" />
-        </li>
-        <li class="col-2 col-medium-1 col-small-1">
-          <img src="https://assets.ubuntu.com/v1/88730cec-Telefonica.png"
-               alt="Telefonica logo" />
-        </li>
-        <li class="col-2 col-medium-1 col-small-1">
-          <img src="https://assets.ubuntu.com/v1/b8f78004-Tele2.png"
-               alt="Tele2 logo" />
-        </li>
-        <li class="col-2 col-medium-1 col-small-1">
-          <img src="https://assets.ubuntu.com/v1/e0fec57a-Telecom+Italia.png"
-               alt="Telecom Italia logo" />
-        </li>
-        <li class="col-2 col-medium-1 col-small-1 col-start-small-2">
-          <img src="https://assets.ubuntu.com/v1/08a27e4a-NEC.png" alt="NEC logo" />
-        </li>
-        <li class="col-2 col-medium-1 col-small-1 col-start-small-3">
-          <img src="https://assets.ubuntu.com/v1/d44c4c5e-Barclays.png"
-               alt="Barclays logo" />
-        </li>
-      </ul>
-      <hr />
-      <div class="u-align--right">
-        <ul class="p-inline-list">
-          <li class="p-inline-list__item">
-            <a class="p-button--base"
-               href="/maas/contact-us"
-               onclick="dataLayer.push({ 'event': 'GAEvent', 'eventAction': 'Click' , 'eventCategory': 'Data centre automation', 'eventLabel' : 'Contact us' });"> Contact us </a>
-          </li>
-          <li class="p-inline-list__item u-no-margin--right">
-            <a class="p-button--positive u-no-margin--right" href="/maas/docs/how-to-get-maas-up-and-running">Install today</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-strip--light">
-    <div class="row">
-      <div class="col-6">
-        <h2>
-          Deploy any OS image
-          <br />
-          on any hardware
-        </h2>
-      </div>
-      <div class="col-6">
-        <h4>
-          MAAS delivers the fastest OS installation times in the industry thanks to its optimized image-based installer.
-          <br />
-          You can deploy:
-        </h4>
-      </div>
-    </div>
-    <div class="p-strip">
-      <div class="row">
-        <img src="https://assets.ubuntu.com/v1/c3b3b947-MAAS-diagram-grey.svg"
-             alt="Deploy Ubuntu, Redhat, CentOS, Windows on IBM, HP, Lenovo, Quanta Cloud Technology, Dell, Open Compute Project, Huawei, Cisco" />
-      </div>
-    </div>
-    <div class="row">
-      <ul class="p-list row">
-        <li class="p-list__item is-ticked is-large col-4 p-heading--5 u-no-margin--top">
-          <a href="https://ubuntu.com/certified?category=Server">Works on all Canonical certified servers</a>
-        </li>
-        <li class="p-list__item is-ticked is-large col-4 p-heading--5 u-no-margin--top">
-          Discovers servers in racks, chassis and data centre networks
-        </li>
-        <li class="p-list__item is-ticked is-large col-4 p-heading--5 u-no-margin--top">
-          Supports major system BMCs and chassis controllers
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="p-strip">
-    <div class="u-fixed-width">
-      <h2>Key features</h2>
-    </div>
-    <div class="row">
-      <ul class="p-matrix">
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/93830fc8-MAAS_icon_Automation.svg"
-               alt="Automation cog icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 aria-label="Learn more about automatic discovery and registration of every device on the network"
-                 href="/maas/tour#automation"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Automation' }); dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Interested in feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about device discovery and subnet mapping' });">Automation&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Automatic discovery of every network device.
-                <abbr title="Baseboard Management Controller">BMC</abbr> ops with
-                <abbr title="Intelligent Platform Management Interface">IPMI</abbr>,
-                <abbr title="Active Management Techonology">AMT</abbr> and other protocols.
-                <abbr title="Preboot Execution Environment">PXE</abbr> over
-                <abbr title="Internet Protocol version 4">IPv4</abbr> and
-                <abbr title="Internet Protocol version 6">IPv6</abbr> networks.
-                APIs for DNS, DHCP, IPAM, server configuration and provisioning.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/e0e09ca6-MAAS_icon_Speed.svg"
-               alt="Speed icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/tour#fast-deployment"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about images' }); dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Fast deployment' });">Speed&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Zero-touch deployment of Ubuntu, CentOS, Windows and RHEL. Full deployment time is approximately two boot cycles plus two minutes for disk imaging.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/8d9ac370-MAAS_icon_Inventory.svg"
-               alt="Inventory icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/how-it-works#node-lifecycle"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Chassis management' });">Inventory&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Discover every PCI and USB device in every server. Inventory disk models and serial numbers. Provision machines based on specific configuration details to optimize your applications.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/0ab10d32-MAAS_icon_Storage.svg"
-               alt="Storage layouts icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/tour#configure-servers"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about storage' }); dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Machine configuration' });">Storage layouts&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Create advanced filesystem layouts with
-                <abbr title="Redundant array of independent disks">RAID</abbr>,
-                <abbr title="Block Cache">bcache</abbr>,
-                <abbr title="Logical Volume Management">LVM</abbr>, ZFS and more. Automate storage configuration through APIs. Allocate servers based on storage.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/086349be-MAAS_icon_IPAM.svg"
-               alt="IPAM icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/tour#configure-servers"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about storage' }); dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Machine configuration' });">IPAM, DHCP, DNS&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Configure server network interfaces with bridges,
-                <abbr title="Virtual Local Area Network">VLAN</abbr>s, bonds and addresses.
-                Integrated, best of breed, highly available, open source DHCP and DNS.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/d3d238c8-MAAS_icon_Hardware+Testing.svg"
-               alt="Hardware testing icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/tour#hardware-testing"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Hardware testing' });">Hardware testing&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>Run tests to get up to date information about hardware health. Benchmark disk, RAM, CPU and network performance.</p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/77288bc2-MAAS_icon_DevOps+Integration.svg"
-               alt="DevOps icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <span class="p-heading--5">DevOps on bare metal</span>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Integration with Ansible, Chef, Puppet, SALT, and <a href="/juju">Juju</a>. REST API, CLI and Python bindings enable full lifecycle and project automation.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/454f5853-MAAS_icon_network_monitoring.svg"
-               alt="Network monitoring icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <a class="p-link--strong p-heading--5"
-                 href="/maas/tour#manage-network"
-                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });">Network monitoring&nbsp;&rsaquo;</a>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Continuously observes network traffic and catalogs every active IP address of unknown origin. Discovers rogue devices, IPs and MAC addresses. Drives active scanning of network ranges.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/b78dd440-MAAS_icon_authenticate.svg"
-               alt="Authentication icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <span class="p-heading--5">Authentication and Identity</span>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Integrate with LDAP, Active Directory or SAML for central identity management and single-sign-on (SSO) across multiple MAAS regions.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/9358a090-MAAS_icon_Composible+Systems.svg"
-               alt="Composable systems icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <span class="p-heading--5">Composable systems</span>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>Drive Cisco UCS, Intel RSD, HP Moonshot, and more. Supports dynamic hardware composition with Intel RSD.</p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/cb1205a5-MAAS_icon_Cloud+Metadata.svg"
-               alt="Cloud metadata icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <span class="p-heading--5">Cloud metadata</span>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>
-                Reuse standard cloud operations with cloud-init and metadata services. Hybrid multi-cloud operations now include bare metal, with no change in applications.
-              </p>
-            </div>
-          </div>
-        </li>
-        <li class="p-matrix__item">
-          <img class="p-matrix__img"
-               src="https://assets.ubuntu.com/v1/bbaafa51-MAAS_icon_KVM+Multi-Cloud.svg"
-               alt="KVM Micro-cloud icon" />
-          <div class="p-matrix__content">
-            <h4 class="p-matrix__title">
-              <span class="p-heading--5">KVM micro-cloud</span>
-            </h4>
-            <div class="p-matrix__desc">
-              <p>Designate servers to host KVM virtual machines to be dynamically provisioned alongside physical servers.</p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="p-strip--light">
-    <div class="row">
-      <p class="p-muted-heading">A selection of customers</p>
-    </div>
-    <div class="row js-logo-strip"></div>
-    <noscript>
-      <div class="row">
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/4c6fb640-logo-verizon.png"
-               alt="verizon logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/252e2017-logo-ea.png" alt="ea logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/e7dd8cc4-logo-at%26t.png"
-               alt="AT&amp;T logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/add4119e-logo-sandia.png"
-               alt="SNL logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/afb5991e-logo-ubisoft.png"
-               alt="ubisoft logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/ab9074df-logo-tele2.png"
-               alt="tele2 logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/56c03384-logo-nec.png"
-               alt="nec logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/822701bb-logo-tmobile.png"
-               alt="tmobile logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/673fa219-logo-ntt.png"
-               alt="ntt logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/022f6f41-logo-bt.png" alt="bt logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/a59ea622-logo-liberty-global.png"
-               alt="liberty-global logo" />
-        </div>
-        <div class="col-small-1 col-medium-1 col-2">
-          <img src="https://assets.ubuntu.com/v1/9bb88cf6-logo-barclays+copy.png"
-               alt="barclays logo" />
-        </div>
-      </div>
-    </noscript>
-  </section>
-
-  <script>
-    function fragmentFromString(htmlString) {
-      var temp = document.createElement('template');
-      temp.innerHTML = htmlString;
-      return temp.content;
+  {{ vf_basic_section(title={"text": "Why automate your data center with MAAS"},
+    items=[
+    {
+    "type": "description",
+    "padding": "shallow",
+    "item": {
+    "type": "html",
+    "content": '
+    <p>MAAS is an open source platform that provides a centralized environment for managing and provisioning physical servers as if they were cloud resources.</p>
+    <p>By turning complex tasks into automated workflows, MAAS helps teams move faster and focus on innovation instead of infrastructure.</p>
+    <h3 class="p-heading--5 u-no-padding u-no-margin">Lower costs with automation</h3>
+    <p>Reduce costs and human error by automating the entire lifecycle of your machines, from initial setup to final decommissioning.</p>
+    <h3 class="p-heading--5 u-no-padding u-no-margin">Scale your hardware resources effectively</h3>
+    <p>Treat your physical servers as a flexible, on-demand resource pool that can be provisioned and scaled instantly.</p>
+    '
     }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "primary": {
+    "content_html": "Download the MAAS datasheet",
+    "attrs": {
+    "href": "https://assets.ubuntu.com/v1/7d8d23cc-maas_datasheet.pdf"
+    }
+    }
+    }
+    }
+    ]) }}
 
-    var logoStripOneData = {
-      r1c1: {
-        url: "4c6fb640-logo-verizon.png",
-        altText: "verizon logo"
-      },
-      r1c2: {
-        url: "252e2017-logo-ea.png",
-        altText: "ea logo"
-      },
-      r1c3: {
-        url: "e7dd8cc4-logo-at%26t.png",
-        altText: "AT&T logo"
-      },
-      r1c4: {
-        url: "add4119e-logo-sandia.png",
-        altText: "SNL logo"
-      },
-      r1c5: {
-        url: "afb5991e-logo-ubisoft.png",
-        altText: "ubisoft logo"
-      },
-      r1c6: {
-        url: "ab9074df-logo-tele2.png",
-        altText: "tele2 logo"
-      },
-      r2c1: {
-        url: "56c03384-logo-nec.png",
-        altText: "nec logo"
-      },
-      r2c2: {
-        url: "822701bb-logo-tmobile.png",
-        altText: "tmobile logo"
-      },
-      r2c3: {
-        url: "673fa219-logo-ntt.png",
-        altText: "ntt logo"
-      },
-      r2c4: {
-        url: "022f6f41-logo-bt.png",
-        altText: "bt logo"
-      },
-      r2c5: {
-        url: "a59ea622-logo-liberty-global.png",
-        altText: "liberty-global logo"
-      },
-      r2c6: {
-        url: "9bb88cf6-logo-barclays+copy.png",
-        altText: "barclays logo"
-      }
-    };
+  {{ vf_basic_section(title={"text": "Who is using MAAS?"},
+    items=[
+    {
+    "type": "logo-block",
+    "item": {
+    "is_fixed_width": true,
+    "logos": [
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/1cee258e-verizon_logo.png",
+    "alt": "Verizon"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/7741f9e9-ea_logo.png",
+    "alt": "Electronic Arts"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/7a245fb0-att_logo.png",
+    "alt": "AT&T"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/e3d99125-snl_logo.png",
+    "alt": "Sandia National Laboratories"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/c1a8c693-ubisoft_logo.png",
+    "alt": "Ubisoft"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/eaa7fc2b-tele2_logo.png",
+    "alt": "Tele2"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/5499967f-nec_logo.png",
+    "alt": "NEC"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/0b3bc97e-tmobile_logo.png",
+    "alt": "T-Mobile"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/26788ddf-ntt_logo.png",
+    "alt": "NTT"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/758de86c-bt_logo.png",
+    "alt": "BT"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/82c0f71f-liberty_global_logo.png",
+    "alt": "Liberty Global"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/5cc71a34-barclays_logo.png",
+    "alt": "Barclays"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/25c6341b-telefonica_logo.png",
+    "alt": "Telefonica"
+    }
+    },
+    {
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/58b5c21c-telecom_italia_logo.png",
+    "alt": "Telecom Italia"
+    }
+    }
+    ]
+    }
+    }
+    ]) }}
 
-    var logoStripTwoData = {
-      r1c1: {
-        url: "4c6fb640-logo-verizon.png",
-        altText: "verizon logo"
-      },
-      r1c2: {
-        url: "bf709df8-logo-db.png",
-        altText: "db logo"
-      },
-      r1c3: {
-        url: "22fe3811-logo-telefonica.png",
-        altText: "telefonica logo"
-      },
-      r1c4: {
-        url: "01158ac3-logo-riot-games.png",
-        altText: "riot games logo"
-      },
-      r1c5: {
-        url: "ab9074df-logo-tele2.png",
-        altText: "tele2 logo"
-      },
-      r1c6: {
-        url: "589418ac-logo-telecom-italia.png",
-        altText: "telecom italia logo"
-      },
-      r2c1: {
-        url: "56c03384-logo-nec.png",
-        altText: "nec logo"
-      },
-      r2c2: {
-        url: "d2b3609c-logo-scania.png",
-        altText: "scania logo"
-      },
-      r2c3: {
-        url: "c6f4a7ea-logo-radobank.png",
-        altText: "radobank logo"
-      },
-      r2c4: {
-        url: "d003393b-logo-telstra.png",
-        altText: "telstra logo"
-      },
-      r2c5: {
-        url: "9bb88cf6-logo-barclays+copy.png",
-        altText: "barclays logo"
-      }
-    };
+  {{ vf_basic_section(title={"text": "Deploy any OS image on any hardware"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "text",
+    "content": "MAAS delivers the fastest OS installation times in the industry thanks to its optimized image-based installer."
+    }
+    },
+    {
+    "type": "image",
+    "padding": "shallow",
+    "item": {
+    "aspect_ratio": "16-9",
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/522a4939-deploy_any_os.png",
+    "alt": ""
+    }
+    }
+    },
+    {
+    "type": "list",
+    "item": {
+    "list_items": [
+    {
+    "list_item_type": "bullet",
+    "content": '
+    <a href="https://ubuntu.com/certified?category=Server">Works on all certified servers</a>
+    '
+    },
+    {
+    "list_item_type": "bullet",
+    "content": "Discovers servers in racks, chassis and data center networks"
+    },
+    {
+    "list_item_type": "bullet",
+    "content": "Supports major system BMCs and chassis controllers"
+    }
+    ]
+    }
+    }
+    ]) }}
 
-    var logoStripRevealingModule = (function() {
-      var target,
-        colClassesList;
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Key features</h2>
+    {%- endif -%}
 
-      target = document.querySelector('.js-logo-strip');
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Automated hardware lifecycle management</h3>
+    {%- endif -%}
 
-      colClassesList = {
-        mobile: "col-small-1",
-        tablet: "col-medium-1",
-        desktop: "col-2"
-      };
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Automatically discovers, inventories, commissions, and deploys physical servers. Through the server's baseboard management controller (BMC), MAAS can manage remote power and other out-of-band controls.
+      </p>
+    {%- endif -%}
 
-      function appendLogo(parent, logoDatum) {
-        var logoWrapper = document.createElement('div'),
-          logoImg = document.createElement('img');
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Infrastructure-as-code automation</h3>
+    {%- endif -%}
 
-        for (var className in colClassesList) {
-          logoWrapper.classList.add(colClassesList[className]);
-        }
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Use a cloud-like API to programmatically manage the entire hardware lifecycle as code. MAAS integrates with DevOps tools like Terraform, Juju and Ansible to automate, orchestrate, and model entire physical infrastructure deployments from a single workflow.
+      </p>
+    {%- endif -%}
 
-        logoImg.setAttribute('src', 'https://assets.ubuntu.com/v1/' + logoDatum.url);
-        logoImg.setAttribute('alt', logoDatum.altText);
-        logoWrapper.appendChild(logoImg);
-        parent.appendChild(logoWrapper);
-      }
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Integrated hardware diagnostics</h3>
+    {%- endif -%}
 
-      function publicCreate(logoStripData) {
-        var fragment = document.createDocumentFragment();
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Execute extensive pre-commissioning tests to establish a performance baseline and verify the integrity of critical components, ensuring only compliant and healthy machines are provisioned.
+      </p>
+      <p>
+        <a href="https://ubuntu.com/engage/maas-hardware-testing">Learn how HW can be tested at scale in data centers ›</a>
+      </p>
+    {%- endif -%}
 
-        Object.keys(logoStripData).forEach(function(key, index) {
-          var logoDatum = logoStripData[key];
-          appendLogo(fragment, logoDatum);
-        });
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Inventory</h3>
+    {%- endif -%}
 
-        target.appendChild(fragment);
-      }
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Discover every PCI and USB device in every server. Inventory disk models and serial numbers. Provision machines based on specific configuration details to optimize your applications.
+      </p>
+    {%- endif -%}
 
-      return {
-        create: publicCreate
-      }
-    })();
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">IPAM, DHCP, DNS</h3>
+    {%- endif -%}
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var localStorage = window.localStorage,
-        showAlternateStrip = localStorage.getItem('showAlternateStrip');
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Configure server network interfaces with bridges, VLANs, bonds and addresses. Integrated, best of breed, highly available, open source DHCP and DNS.
+      </p>
+    {%- endif -%}
 
-      if (showAlternateStrip === null) {
-        localStorage.setItem('showAlternateStrip', 'true');
-        logoStripRevealingModule.create(logoStripOneData);
-      } else {
-        localStorage.removeItem('showAlternateStrip');
-        logoStripRevealingModule.create(logoStripTwoData);
-      }
-    });
-  </script>
+    {%- if slot == 'list_item_title_6' -%}
+      <h3 class="p-heading--5">Authentication and identity</h3>
+    {%- endif -%}
 
-  <section class="p-strip">
-    <div class="row">
-      <div class="col-6">
-        <h2>
-          Real servers,
-          <br />
-          self-service
-        </h2>
-      </div>
-      <div class="col-6">
-        <p>
-          You run the data centre, but your end users decide what they want to do with the hardware. They love the cloud experience, but it’s more efficient for you to own the hardware.
-        </p>
-        <p>MAAS provides super-fast self-service provisioning of Windows, Ubuntu, CentOS and ESXi.</p>
-        <p>
-          <a href="https://pages.ubuntu.com/eBook-MAAS.html?source=maas_page&medium=Banner&campaign=MAAS_ebook&_ga=2.22106171.1851959601.1510602087-405342743.1460033629"
-             onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'External link', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about server provisioning with MAAS' });">Learn more about server provisioning with MAAS</a>
-        </p>
-      </div>
-    </div>
-  </section>
+    {%- if slot == 'list_item_description_6' -%}
+      <p>
+        Role-based access control (RBAC) and integration with LDAP, Active Directory or SAML for central identity management and single-sign-on (SSO) across multiple MAAS regions.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
 
-  <div class="p-strip u-no-padding--top u-no-padding--bottom">
-    <div class="row">
-      <hr class="u-no-margin--bottom" />
-    </div>
-  </div>
+  {# TODO EQUAL HEIGHTS MAAS use cases #}
+  {% call(slot) vf_equal_heights(
+    title_text="MAAS use cases",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
+    highlight_images=True,
+    items=[
+    {
+    "title_text": "Private cloud",
+    "image_html":
+    image(url="https://assets.ubuntu.com/v1/92d83e5d-private_cloud.png",
+    alt="",
+    width="852",
+    height="1279",
+    hi_def=True,
+    loading="lazy",
+    attrs={ "class": "p-image-container__image" }
+    ) | safe
+    ,
+    "description_html": "<p>Effortlessly deploy and manage your own <a href='https://canonical.com/solutions/infrastructure'>private cloud infrastructure</a>. Whether you choose <a href='https://canonical.com/openstack'>OpenStack</a> for a robust and scalable solution, or <a href='https://canonical.com/microcloud'>MicroCloud</a> for a lightweight and agile alternative, MAAS serves as the foundational infrastructure provider, streamlining the entire process from bare metal to a fully operational cloud environment.</p>",
+    "cta_html": "<a href='https://ubuntu.com/engage/epa-for-open-ran-infrastructure'>Access our guide to Open RAN infrastructure with EPA&nbsp;&rsaquo;</a>"
+    },
+    {
+    "title_text": "Bare metal Kubernetes",
+    "image_html":
 
-  <section class="p-strip">
-    <div class="row">
-      <div class="col-6">
-        <h2>
-          Bare-metal,
-          <br />
-          cloud experience
-        </h2>
-      </div>
-      <div class="col-6">
-        <p>
-          MAAS implements all the standard features of a public cloud &mdash; like instance metadata and cloud-init. Your customers get complete control of the deployed machine.
-        </p>
-        <p>
-          Canonical created cloud-init and leads the project globally; we ensure that MAAS provides a first-class cloud experience for physical servers based on x86, ARM64, POWER and Z architectures.
-        </p>
-      </div>
-    </div>
-  </section>
+    image(url="https://assets.ubuntu.com/v1/285db95c-bare_metal.png",
+    alt="",
+    width="852",
+    height="1279",
+    hi_def=True,
+    loading="lazy",
+    attrs={ "class": "p-image-container__image" }
+    ) | safe
 
-  <section class="p-strip--light">
-    <div class="u-fixed-width">
-      <h2>Real-world MAAS</h2>
-    </div>
-    <div class="p-strip is-shallow">
-      <div class="row">
-        <div class="col-4">
-          <div class="p-heading-icon-block">
-            <img class="p-heading-icon-block__icon"
-                 src="https://assets.ubuntu.com/v1/0ae9bd9c-MAAS-Real+world+icon-Flexibility.svg"
-                 alt=""
-                 style="padding: 1rem 1rem 1rem 0" />
-            <div class="p-heading-icon-block__copy-block">
-              <h5 class="u-no-margin--bottom">Flexibility</h5>
-              <p class="p-muted-heading u-no-margin--bottom">Edge</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <h4>
-            <a href="https://ubuntu.com/blog/maas-2-5-growing-the-ecosystem-and-support-for-kvm-micro-clouds">MAAS KVM for micro-clouds and edge computing</a>
-          </h4>
-          <p>Blog post</p>
-        </div>
-        <div class="col-4">
-          <h4>
-            <a href="https://www.brighttalk.com/webcast/6793/362201">The importance of bare metal provisioning in edge computing</a>
-          </h4>
-          <p>Webinar</p>
-        </div>
-      </div>
-    </div>
-    <div class="row" style="overflow:hidden;">
-      <hr class="u-indent" />
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <div class="p-heading-icon-block">
-          <img class="p-heading-icon-block__icon"
-               src="https://assets.ubuntu.com/v1/89815b24-MAAS-Real+world+icon-Ease-of-use.svg"
-               alt="" />
-          <div class="p-heading-icon-block__copy-block">
-            <h5 class="u-no-margin--bottom">Ease of use</h5>
-            <p class="p-muted-heading u-no-margin--bottom">Small &amp; medium business</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <h4>
-          <a href="https://ubuntu.com/blog/maas-fast-efficient-virtualisation-sme">MAAS &mdash; Fast and efficient virtualisation for small and medium enterprises</a>
-        </h4>
-        <p>Blog post</p>
-      </div>
-    </div>
-    <div class="row" style="overflow:hidden;">
-      <hr class="u-indent" />
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <div class="p-heading-icon-block">
-          <img class="p-heading-icon-block__icon"
-               src="https://assets.ubuntu.com/v1/36fe873f-MAAS-Real+world+icon-Scale.svg"
-               alt=""
-               style="padding-bottom: 0.8rem" />
-          <div class="p-heading-icon-block__copy-block">
-            <h5 class="u-no-margin--bottom">Scale</h5>
-            <p class="p-muted-heading u-no-margin--bottom">Data centre</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <h4>
-          <a href="https://ubuntu.com/engage/maas-hardware-testing">Large-scale automated hardware testing with MAAS</a>
-        </h4>
-        <p class="u-muted-text">Whitepaper</p>
-      </div>
-    </div>
-  </section>
+    ,
+    "description_html": "<p>Deploying Kubernetes directly on bare-metal servers (managed by MAAS) offers a significant advantage by avoiding the overhead of an underlying virtualization layer. This approach leads to superior performance and predictability for your applications. This architecture is particularly beneficial for high-performance computing (HPC).</p>",
+    "cta_html": "<a href='https://ubuntu.com/engage/bare-metal-kubernetes'>Learn more about running workloads on bare metal Kubernetes with MAAS
+    &nbsp;&rsaquo;</a>"
+    },
+    {
+    "title_text": "Server automation and lifecycle management",
+    "image_html":
 
-  <section class="p-strip">
-    <div class="row">
-      <div class="col-6">
-        <h2>Storage</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <h4>Inventory, testing and benchmarking</h4>
-        <p>
-          MAAS detects and inventories all the disks, in every server. You’ll have a single database of every model and serial number.
-        </p>
-        <p>
-          MAAS tests disks either non-destructively or destructively, with short or long write cycles, and learns about their performance.
-        </p>
-      </div>
-      <div class="col-6">
-        <h4>RAID, LVM, Bcache, ZFS and more</h4>
-        <p>Auto-tagging of SSD and rotary disk types makes it easy to know which disks to use for each application.</p>
-        <p>
-          Your users configure the storage of any server they control: RAID, LVM, Bcache and ZFS. Configure boot, applications and backup disks exactly where you want them &mdash; and get the installed machine, a few minutes later.
-        </p>
-      </div>
-    </div>
-  </section>
+    image(url="https://assets.ubuntu.com/v1/51efb27e-server_automation.png",
+    alt="",
+    width="852",
+    height="1279",
+    hi_def=True,
+    loading="lazy",
+    attrs={ "class": "p-image-container__image" }
+    ) | safe
 
-  <div class="p-strip--light">
-    <div class="row">
-      <h2>Network</h2>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <h4>Detection and configuration</h4>
-        <p>The most error-prone part of data centre operations is the network.</p>
-        <p>
-          MAAS enables rapid convergence on a correct network configuration &mdash; for every server, in every rack. All NICs are detected and inventoried when a machine is enlisted in MAAS.
-        </p>
-        <p>
-          Discover the topology of the network &mdash; which NIC is plugged into which port on which switch. MAAS tests access to specific VLANs from each NIC.
-        </p>
-        <p>
-          Network bonds and VLANs can be configured too. Set all significant network operating properties through MAAS &mdash; and then validate that configuration with ephemeral machine booting and testing.
-        </p>
-      </div>
-      <div class="col-6">
-        <h4>Monitoring</h4>
-        <p>
-          MAAS rack controllers provide local endpoints for all infrastructure services in the rack itself, and they also monitor the local network for rogue devices, IP addresses and MAC addresses.
-        </p>
-        <p>
-          Over time, you’ll know if there are ‘extra’ devices plugged into any fabric or VLAN that MAAS is asked to monitor.
-        </p>
-        <p>Solve network mysteries faster with distributed network analysis and observation.</p>
-      </div>
-    </div>
-  </div>
+    ,
+    "description_html": "<p>Streamline the entire <a href='https://canonical.com/maas/how-it-works'>lifecycle management</a> of your server fleet, from initial provisioning to eventual re-purposing. This automation ensures consistency, reduces human error, and significantly speeds up operations. Combine it with <a href='https://ubuntu.com/landscape'>Landscape</a> to automate security patching, application auditing, access management and compliance tasks across Ubuntu machines.</p>",
+    "cta_html": "<a href='https://pages.ubuntu.com/eBook-MAAS.html'>Get our free eBook on server provisioning&nbsp;&rsaquo;</a>"
+    },
+    ]
+    ) %}
+  {% endcall %}
 
-  <section class="p-strip--accent is-shallow">
-    <div class="row u-equal-height">
-      <div class="col-10">
-        <h3 class="p-heading--2">Learn how to configure and install MAAS</h3>
-        <br class="u-hide--medium u-hide--large" />
-      </div>
-      <div class="col-2 u-vertically-center">
-        <a class="p-button--positive u-no-margin--bottom" href="/maas/how-it-works">How it works</a>
-      </div>
-    </div>
-  </section>
+  {{ vf_divided_section(title={
+    "text": "What users say about MAAS",
+    },
+    blocks=[
+    {
+    "type": "divided-block",
+    "bullet_type": "none",
+    "items": [
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "text",
+    "content": "Discover how MAAS empowers our users to accelerate their businesses."
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5">T-Mobile implements bare-metal self-service</h3>
+    <p>Find out how T-Mobile built a self-service portal using MAAS to allow people to order servers like burgers.</p>
+    <p>One of the best talks to understand one of the greatest benefits of MAAS – faster time-to-delivery.</p>
+    '
+    }
+    },
+    {
+    "type": "video",
+    "item": {
+    "attrs": {
+    "src": "https://www.youtube.com/embed/dSZqax12Q7A?si=6NHwBl6f6kVGNZY-",
+    "allowfullscreen": ""
+    }
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "text",
+    "content": '
+    <a href="https://youtu.be/dSZqax12Q7A">Watch the presentation ›</a>
+    '
+    }
+    },
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5">From Windows to Ubuntu in 7 days</h3>
+    <p>Roblox is a gaming platform for 100 million kids all over the world, and serving them requires deploying edge compute globally for low latency gaming experiences. This means imaging, managing and rebuilding thousands of servers.</p>
+    <p>Find out how they migrated servers from Windows to Linux for approximately 200K containerized workloads in a seven-day timeframe, using MAAS for the path to full orchestration.</p>
+    '
+    }
+    },
+    {
+    "type": "video",
+    "item": {
+    "attrs": {
+    "src": "https://www.youtube.com/embed/SwlU4U-BWRo?si=8gQWKZ2jd_r2jN6W",
+    "allowfullscreen": ""
+    }
+    }
+    },
+    ]
+    },
+    ]
+    },
+    ],) 
+  }}
 
-  <section class="p-strip">
-    <div class="row">
-      <h2>Your future data centre, available now</h2>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <h4>Carrier-grade infrastructure DNS, DHCP, and IPAM</h4>
-        <p>
-          MAAS integrates best-of-breed ISC DHCP and Bind9 DNS, and will operate these in high availability mode whenever redundant MAAS services are provided. Deploy the MAAS API services on two systems and you will have high availability API endpoints; deploy two rack controllers and all rack services are automatically redundant. MAAS uses the PostgreSQL database which supports redundant and highly available scenarios.
-        </p>
-        <h4>Devops on bare metal is easy with dynamic server provisioning</h4>
-        <p>
-          Take devops to bare metal for apps like big data, kubernetes, analytics, machine learning, private cloud, OpenStack, PAAS and HPC. Specialists love MAAS.
-        </p>
-      </div>
-      <div class="col-6">
-        <h4>Open source software-defined data centre</h4>
-        <p>
-          MAAS is an open source SDDC solution used by telcos, financial institutions, media companies and supercomputer admins to take care of all the low-level details. PXE, IPMI, ILO and all the custom protocols needed for diverse vendor hardware support come together in one clean REST API with Python bindings for easy integration and automation. It includes full IPAM capabilities, providing a central database and REST API for all network addressing and naming information.
-        </p>
-        <h4>KVM MicroCloud for Edge Computing</h4>
-        <p>
-          MAAS offers the ability to create lean, on-demand KVM-based micro-clouds. This capability extends to fine-grained control over KVM storage and networking configuration, thereby accelerating deployment of applications in any environment constrained by physical footprint or requiring dedicated VM-based workloads.
-        </p>
-      </div>
-    </div>
-  </section>
+  {# TODO BLOG #}
 
-  <section class="p-strip p-strip--light">
-    <div class="row p-strip is-shallow u-no-padding--top">
-      <h2>Tackle your provisioning problems with MAAS</h2>
-    </div>
-    <div class="row">
-      <hr />
-      <div class="col-4">
-        <h3 class="p-heading--4 u-no-margin--top u-no-padding--top">Automated operations</h3>
-      </div>
-      <div class="col-8">
-        <div class="row">
-          <div class="col-2">
-            <h4 class="p-heading--5">Big data</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              Quickly provision and tear down both physical and virtual servers with a modern operating system deployment toolchain. Perfect for high-performance computing (HPC).
-            </p>
-          </div>
-        </div>
-        <div class="row is-bordered">
-          <div class="col-2">
-            <h4 class="p-heading--5">Smart data centres</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              MAAS transforms DevOps with complex server workflows, including dynamic partitioning, application-driven resource scaling, automatic workload rebalancing and immutable infrastructure.
-            </p>
-          </div>
-        </div>
-        <div class="row is-bordered">
-          <div class="col-2">
-            <h4 class="p-heading--5">Intelligent hybrid clouds</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              MAAS helps you build unified hybrid cloud operations by exposing a bare-metal provisioning operations API that can be used with service modelling tools, like Juju, or configuration management tools, like Chef.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <hr />
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <h3 class="p-heading--4">Lower cost of operations</h3>
-      </div>
-      <div class="col-8">
-        <div class="row">
-          <div class="col-2">
-            <h4 class="p-heading--5">Automated repurposing</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              MAAS helps you run different workloads at different times, using the same or different base operating systems, at both large and small scales.
-            </p>
-          </div>
-        </div>
-        <div class="row is-bordered">
-          <div class="col-2">
-            <h4 class="p-heading--5">Cost reduction</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              Decommission nodes during non-peak periods to save both energy and personnel requirements. Use the time to focus on day-to-day hardware management tasks, optimising usage patterns and internal processes.
-            </p>
-          </div>
-        </div>
-        <div class="row is-bordered">
-          <div class="col-2">
-            <h4 class="p-heading--5">Hardware and Virtual Machine management</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              Replace legacy in-house provisioning tools and their associated problems, such as development resources, debugging, QA, on-boarding and 'bus-factor', with a standard set of converged open source tools, at speed to any scale.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <hr />
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <h3 class="p-heading--4">Optimized testing</h3>
-      </div>
-      <div class="col-8">
-        <div class="row">
-          <div class="col-2">
-            <h4 class="p-heading--5">Continuous integration (CI) testing</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              MAAS's API allows storage and networking to be rapidly reconfigured to match each test case, generating a clean bare-metal environment for every run.
-            </p>
-          </div>
-        </div>
-        <div class="row is-bordered">
-          <div class="col-2">
-            <h4 class="p-heading--5">Hardware testing at scale</h4>
-          </div>
-          <div class="col-6">
-            <p>
-              Run sets of standard and customized tests on freshly provisioned machines and racks, transforming any new hardware provision and integration process.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_divided_section(title={
+    "text": "MAAS tutorials",
+    },
+    blocks=[
+    {
+    "type": "divided-block",
+    "bullet_type": "none",
+    "items": [
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5"><a href="https://canonical.com/maas/tutorials/build-your-own-bare-metal-cloud-using-a-raspberry-pi-cluster-with-maas">Build your own bare metal cloud using a Raspberry Pi cluster with MAAS</a></h3>
+    <p>Transform a handful of Raspberry Pis into a powerful, cost-effective bare metal private cloud for your home lab.</p>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5"><a href="https://canonical.com/maas/tutorials/maas-esxi-quickstart">Provision ESXi with MAAS</a></h3>
+    <p>Automate the provisioning of VMware ESXi hosts with MAAS, transforming a complex, manual process into a fast, repeatable, and error-free operation.</p>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5"><a href="https://canonical.com/maas/tutorials/build-a-maas-and-lxd-environment-in-30-minutes-with-multipass-on-ubuntu">Build a MAAS and LXD environment in 30 minutes with Multipass on Ubuntu</a></h3>
+    <p>Take your first steps with MAAS. This guide shows you the easiest way to build a fully virtualized sandbox on your laptop in just 30 minutes using Multipass—no extra hardware required.</p>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5"><a href="https://www.youtube.com/watch?v=sLADei_c9Qg">Bare metal Kubernetes hands on tutorial with MAAS and Juju</a></h3>
+    <p>Go from bare metal to a fully operational Kubernetes cluster. This hands-on video tutorial guides you through the entire process using MAAS and Juju.</p>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-heading--5"><a href="https://canonical.com/maas/tour">MAAS product tour</a></h3>
+    <p>Our tutorials offer clear, step-by-step instructions and practical demonstrations to help you master MAAS efficiently and effectively, from initial setup to advanced deployment.</p>
+    '
+    }
+    }
+    ]
+    },
+    ]
+    },
+    ],) 
+  }}
 
-  <section class="p-strip is-bordered u-no-padding--bottom">
-    <div class="row">
-      <div class="col-6">
-        <h2>
-          Enterprise support
-          <br class="u-hide--small" />
-          for MAAS
-        </h2>
-      </div>
-      <div class="col-6">
-        <div class="col-6">
-          <p>
-            MAAS is freely available, open source software from Canonical. Support and commercial capabilities for MAAS are included with <a href="https://www.ubuntu.com/pricing/pro">Ubuntu Pro for Infrastructure</a>. This support is charged on a per-machine basis. For example, if Ubuntu Pro for Infrastructure is purchased for 100 machines, then MAAS support is also included for those 100 machines.
-          </p>
-          <p>
-            In the case where Ubuntu Pro for Infrastructure is not purchased for managed machines, then MAAS support can be purchased as a standalone service.
-          </p>
-          <p>To be eligible for standalone support, Ubuntu Pro is always required for machines hosting MAAS itself.</p>
-          <p>The pricing for standalone support for machines managed by MAAS is as follows:</p>
-        </div>
-      </div>
-    </div>
-    <div class="p-strip">
-      <div class="row">
-        <div class="col-12" style="overflow-x: auto;">
-          <table class="maas-pricing-table" style="min-width: 380px; width: 100%;">
-            <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th>Free</th>
-                <th>Essential</th>
-                <th>Standard</th>
-                <th>Advanced</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Per managed machine - annual</td>
-                <td>&ndash;</td>
-                <td>$30</td>
-                <td>$50</td>
-                <td>$100</td>
-              </tr>
-              <tr>
-                <td>Phone and ticket support</td>
-                <td>&ndash;</td>
-                <td>&ndash;</td>
-                <td>Office hours</td>
-                <td>24 hours a day, everyday</td>
-              </tr>
-              <tr>
-                <td>Response time - SLA Sev 1</td>
-                <td>&ndash;</td>
-                <td>&ndash;</td>
-                <td>4 hours</td>
-                <td>1 hours</td>
-              </tr>
-              <tr>
-                <td>Knowledge Base</td>
-                <td>&ndash;</td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-              </tr>
-              <tr>
-                <td>Role based access control (RBAC)</td>
-                <td>&ndash;</td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-              </tr>
-              <tr>
-                <td>High availability (HA) support</td>
-                <td>&ndash;</td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-                <td>
-                  <img src="https://assets.ubuntu.com/v1/aeec264b-green-tick.svg"
-                       width="16"
-                       alt="Yes" />
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>&nbsp;</td>
-                <td>
-                  <a href="/maas/docs/how-to-get-maas-up-and-running">Install MAAS&nbsp;&rsaquo;</a>
-                </td>
-                <td>
-                  <a href="/maas/contact-us"
-                     onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Interested in Professional', 'eventAction' : 'Click', 'eventLabel' : 'Contact Us' });">Contact us&nbsp;&rsaquo;</a>
-                </td>
-                <td>
-                  <a href="/maas/contact-us"
-                     onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Interested in Professional', 'eventAction' : 'Click', 'eventLabel' : 'Contact Us' });">Contact us&nbsp;&rsaquo;</a>
-                </td>
-                <td>
-                  <a href="/maas/contact-us"
-                     onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Interested in Professional', 'eventAction' : 'Click', 'eventLabel' : 'Contact Us' });">Contact us&nbsp;&rsaquo;</a>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(title={"text": "Enterprise support for MAAS"},
+    items=[
+    {
+    "type": "image",
+    "padding": "shallow",
+    "item": {
+    "aspect_ratio": "16-9",
+    "attrs": {
+    "src": "https://assets.ubuntu.com/v1/50faa077-enterprise_support.png",
+    "alt": ""
+    }
+    }
+    },
+    {
+    "type": "description",
+    "padding": "shallow",
+    "item": {
+    "type": "html",
+    "content": '
+    <p>MAAS is freely available, open source software from Canonical. Support and commercial capabilities are available.</p>
+    <h3 class="p-heading--5 u-no-padding u-no-margin">Ubuntu Pro with Infra-only coverage</h3>
+    <p>Get security, compliance, and support for full Ubuntu deployments managed by MAAS. This coverage is charged on a per-machine basis.</p>
+    '
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "primary": {
+    "content_html": "Learn more about Ubuntu Pro",
+    "attrs": {
+    "href": "https://ubuntu.com/pricing/pro"
+    }
+    }
+    }
+    }
+    ]) }}
 
+  {% call(slot) vf_pricing_block(
+    title_text='MAAS standalone support',
+    top_rule_variant="highlighted",
+    tiers=[
+    {
+    'tier_name_text': 'Self-support',
+    'tier_price_text': 'Free',
+    'tier_price_explanation': 'for all machines',
+    'tier_label_text': 'What’s included',
+    'tier_offerings': [
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'High availability (HA) support'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Role based access control (RBAC)'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Knowledge Base'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Response time - SLA Sev 1'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Phone and ticket support'
+    }
+    ],
+    'cta_html': '<a href="/maas/docs/how-to-get-maas-up-and-running">Install MAAS ›</a>'
+    },
+
+    {
+    'tier_name_text': 'Essential',
+    'tier_price_text': '$30',
+    'tier_price_explanation': 'per year, per managed machine',
+    'tier_label_text': 'What’s included',
+    'tier_offerings': [
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'High availability (HA) support'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Role based access control (RBAC)'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Knowledge Base'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Response time - SLA Sev 1'
+    },
+    {
+    'list_item_style': 'crossed',
+    'list_item_content_html': 'Phone and ticket support'
+    }
+    ],
+    'cta_html': '<a href="/maas/contact-us">Contact us ›</a>'
+    },
+
+    {
+    'tier_name_text': 'Standard',
+    'tier_price_text': '$50',
+    'tier_price_explanation': 'per year, per managed machine',
+    'tier_label_text': 'What’s included',
+    'tier_offerings': [
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'High availability (HA) support'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Role based access control (RBAC)'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Knowledge Base'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Response time - SLA Sev 1: 4 hours'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Phone and ticket support: Office hours'
+    }
+    ],
+    'cta_html': '<a href="/maas/contact-us">Contact us ›</a>'
+    },
+    {
+    'tier_name_text': 'Advanced',
+    'tier_price_text': '$100',
+    'tier_price_explanation': 'per year, per managed machine',
+    'tier_label_text': 'What’s included',
+    'tier_offerings': [
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'High availability (HA) support'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Role based access control (RBAC)'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Knowledge Base'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Response time - SLA Sev 1: 1 hour'
+    },
+    {
+    'list_item_style': 'ticked',
+    'list_item_content_html': 'Phone and ticket support:<br /> 24 hours a day, everyday'
+    }
+    ],
+    'cta_html': '<a href="/maas/contact-us">Contact us ›</a>'
+    }
+    ]
+    ) -%}
+    {%- if slot == 'section_description' -%}
+      <p>For deployments that don't include Ubuntu machines, MAAS support can be purchased as a standalone service.</p>
+      <p>
+        To be eligible for MAAS standalone support, Ubuntu Pro is always required for machines hosting the MAAS controllers.
+      </p>
+      <p>The pricing for standalone support for the non-Ubuntu machines managed by MAAS is as follows:</p>
+    {%- endif -%}
+  {% endcall %}
+
+  {% call(slot) vf_cta_section(
+    variant='default',
+    layout='100',
+    ) -%}
+    {%- if slot == 'cta' -%}
+      Deploying MAAS at scale? <a href="/maas/contact-us">Talk to our team</a>
+    {%- endif -%}
+  {% endcall -%}
 {% endblock %}
