@@ -1,0 +1,531 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}Features{% endblock %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/1KcYwNK0pJyiDVEDq4vTpv6BX_rpSDnxUxtAvAnsRKyw/edit
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+MAAS (Metal as a Service) offers cloud-like provisioning and lifecycle management for physical servers. It is open
+source and free to use, with commercial support available from Canonical.
+{% endblock %}
+
+{% macro lightbox_image(img, description) -%}
+  <a class="venobox venobox--expand" href="{{ img }}" data-gall="tourGallery" title="MAAS {{ description }}"
+    aria-label="Modal link to view larger screenshot of the {{ description }}">
+    {{ image(url=img,
+      alt="Screenshot of " + description,
+      width="284",
+      height="160",
+      hi_def=True,
+      loading="lazy",
+      attrs={"class":"p-image-container__image" }) | safe
+    }}
+  </a>
+{%- endmacro %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='MAAS feature tour',
+    layout='25/75'
+  ) -%}
+    {%- if slot == 'signpost_image' -%}
+    <div>
+        {#- This div can be removed and instead set display_blank_signpost_image_space=true once the following PR has landed: https://github.com/canonical/vanilla-framework/pull/5665 -#}
+    </div>
+    {%- endif -%}
+    {% if slot == 'description' %}
+      <h2 class="p-text--default">Visual guide to bare metal provisioning, cloud integration, and automated server deployment with MAAS</h2>
+    {% endif %}
+  {% endcall -%}
+  {% call(slot) vf_equal_heights(
+    title_text="Automate your infrastructure setup",
+    image_aspect_ratio_small="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_large="auto",
+    items=[
+      {
+        "title_text": "Unattended server discovery",
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/d6241675-unattended_1.jpg",
+          description="node listing page",
+        ),
+        "description_html": '<p><abbr title="Preboot eXecution Environment">PXE</abbr> boot your servers and containers and they will be automatically discovered and enlisted in MAAS.</p>
+          <p><abbr title="Intelligent Platform Management Interface">IPMI</abbr> enabled machines work seamlessly with MAAS.</p>',
+        "cta_html": '<a href="/maas/docs/how-to-manage-machines" 
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Automation&quot; });" 
+          aria-label="Link to adding nodes page on MAAS documentation">
+            Learn more about adding new nodes to MAAS&nbsp;&rsaquo;
+          </a>'
+      },
+      {
+        "title_text": "Effortless network discovery",
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/32bee11a-effortless_1.jpg",
+          description="subnets listing page",
+        ),
+        "description_html": '<p class="u-no-margin--bottom">MAAS will automatically discover your network, including:</p>
+          <ul>
+            <li>Subnets</li>
+            <li>
+              Accessible <abbr title="Virtual Local Area Network">VLAN</abbr>s
+            </li>
+            <li>Attached switch fabrics</li>
+          </ul>',
+        "cta_html": '<a href="/maas/docs/about-maas-networking"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Network management&quot; });"
+          aria-label="Link to the configuring networking page on MAAS documentation">Find out more about MAAS
+          networking&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": "Simple device discovery",
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/bcebf265-simple_device_1.jpg",
+          description="device discovery page",
+        ),
+        "description_html": '<p class="u-no-margin--bottom">MAAS can discover new <a href="/maas/docs/about-maas-networking"
+              onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Interested in feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Learn more about interfaces&quot; });"
+              aria-label="Link to device discovery page on MAAS documentation">devices and network interfaces</a>:
+          </p>
+          <ul>
+            <li>Passively</li>
+            <li>On-demand</li>
+            <li>Periodically</li>
+          </ul>',
+        "cta_html": '<a href="/maas/docs/about-maas-networking"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Automation&quot; }); dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Interested in feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Learn more about device discovery and subnet mapping&quot; });"
+          aria-label="Link to the configuring networking page on MAAS documentation">Learn more about device discovery and
+          subnet mapping&nbsp;&rsaquo;</a>'
+      },
+    ]
+  ) %}
+  {% endcall %}
+  {% call(slot) vf_equal_heights(
+    title_text="Manage your servers without leaving your seat",
+    image_aspect_ratio_small="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_large="auto",
+    items=[
+      {
+        "title_text": "Operate your machines remotely",
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/2666e85c-operate_your_1.jpg",
+          description="node listing actions",
+        ),
+        "description_html": '<p>Manage individual or groups of servers.</p>
+        <ul>
+          <li>Power on/off</li>
+          <li>Commission</li>
+          <li>Deploy</li>
+          <li>Assign an owner</li>
+          <li>Mark a node fixed or broken</li>
+          <li>Enter rescue mode</li>
+          <li>Test your hardware</li>
+          <li>Assign to physical <a href="/maas/docs/how-to-manage-machine-groups#p-19384-manage-availability-zones">zones</a></li>
+        </ul>',
+        "cta_html": '<a href="/maas/docs/how-to-manage-machines"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Fast deployment&quot; });"
+          aria-label="Link to machine lifecycle page on MAAS documentation">Learn more about the node actions&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": 'Provision with any <abbr title="Operating system">OS</abbr> image',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/e2e4cbf4-provision_with_1.jpg",
+          description="operating system image page",
+        ),
+        "description_html": '<p>
+          Select the OS you require in your data centre
+        </p>
+        <ul>
+          <li>Ubuntu</li>
+          <li>CentOS</li>
+          <li>Windows</li>
+          <li>RHEL</li>
+        </ul>
+        <p>Import, update or sync the images or connect to an onsite mirror to work offline.</p>',
+        "cta_html": '<a href="/maas/docs/how-to-manage-images"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Learn more about images&quot; });"
+          aria-label="Link to the install config images page on MAAS documentation">Learn more about images&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": 'Deploy with the press of a button',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/3b72e050-deploy_with_1.jpg",
+          description="node deployment",
+        ),
+        "description_html": "<ol>
+            <li>Select the machine</li>
+            <li>Choose the OS and architecture</li>
+            <li>Press 'deploy'</li>
+          </ol>",
+        "cta_html": '<a href="/maas/docs/how-to-manage-machines#p-9078-deploy-machines"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Fast deployment&quot; });"
+          aria-label="Link to the install and config page of node deployment on MAAS documentation">Learn more about
+          deployment&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": 'Get all the information you need',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/4e398f57-get_all_the_1.jpg",
+          description="commissioning list",
+        ),
+        "description_html": "<ul>
+          <li>
+            Dig into your hardware details that MAAS gathers during commissioning including; processors, memory, storage,
+            networking, and other components.
+          </li>
+          <li>Event tracking allows you to monitor your machine throughout its lifecycle.</li>
+        </ul>",
+        "cta_html": '<a href="/maas/docs/about-commissioning-machines"
+          aria-label="Link to the about commissioning machines page on MAAS documentation">Learn more about commissioning machines&nbsp;&rsaquo;</a>'
+      },
+    ]
+  ) %}
+    {% if slot == "description" %}
+    <p>
+      Use the Web <abbr title="User interface">UI</abbr> or the command line (<abbr title="Command-line interface">CLI</abbr>)
+      to remotely manage your nodes or use the <abbr title="Application programming interface">API</abbr> to automate
+      management.
+    </p>
+    {% endif %}
+  {% endcall %}
+  {#- The empty title text params can be removed once the following PR has been released: https://github.com/canonical/vanilla-framework/pull/5666 -#}
+  {% call(slot) vf_equal_heights(
+    title_text="Keep an eye on your hardware",
+    image_aspect_ratio_small="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_large="auto",
+    items=[
+      {
+        "title_text": '',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/c95d1bf2-check_your_data_1.jpg",
+          description="node listing",
+        ),
+        "description_html": '<p style="margin-top: -1rem">Check your data centre health at a glance and easily identify faulty components.</p>',
+      },
+      {
+        "title_text": '',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/bf6f8586-run_tests_1.jpg",
+          description="machine details",
+        ),
+        "description_html": '<p style="margin-top: -1rem">Run tests for each component to get up to date information about their health.</p>
+          <p>Review captured metrics to better understand your hardware’s performance.</p>',
+      },
+      {
+        "title_text": '',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/8ce45789-access_all_1.jpg",
+          description="machine hardware tests",
+        ),
+        "description_html": '<p style="margin-top: -1rem">Access all historical testing data to discover trends of component metrics and failures.</p>',
+      },
+    ]
+  ) %}
+    {% if slot == "description" %}
+      <p>
+        Run MAAS provided tests or upload your own.
+      </p>
+      <p>
+        <a href="/maas/docs/reference-hardware-test-scripts"
+          onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Machine configuration' });dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Keep an eye on your hardware feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about hardware testing' });"
+          aria-label="Link to hardware testing on MAAS documentation">Learn more about hardware testing&nbsp;&rsaquo;</a>
+      </p>
+    {% endif %}
+  {% endcall %}
+  {#- This can be updated to use the macro once the following PR has been released: https://github.com/canonical/vanilla-framework/pull/5668 -#}
+  <div class="p-section">
+    <hr class="p-rule is-fixed-width">
+    <div class="p-section--shallow">
+      <div class="row--50-50-on-large">
+        <div class="col">
+          <h2>Configure your servers with a few clicks</h2>
+        </div>
+        <div class="col">
+          <p class="p-heading--5">Easily manage your network interfaces</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-start-large-7">
+        <div class="p-equal-height-row--wrap">
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container is-cover">
+                {{ lightbox_image(
+                  img="https://assets.ubuntu.com/v1/b50ca3e0-set_up_1.jpg",
+                  description="node details network management",
+                ) }}
+              </div>
+            </div>
+            <div class="p-equal-height-row__item">
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>
+                Set up your Ethernet interfaces easily, and get your nodes ready to work as soon as they're deployed. MAAS
+                supports:
+              </p>
+              <ul>
+                <li>
+                  <abbr title="Internet Protocol">IP</abbr> address assignment
+                </li>
+                <li>Bonding</li>
+                <li>VLAN configuration</li>
+                <li>Virtual bridges</li>
+                <li>Static routes and more…</li>
+              </ul>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p><a href="/maas/docs/how-to-manage-networks"
+                  onclick="dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Machine configuration' });dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Interested in feature', 'eventAction': 'Click', 'eventLabel': 'Learn more about interfaces' });"
+                  aria-label="Link to the install config and commission nodes page on MAAS documentation">Learn more about
+                  interfaces&nbsp;&raquo;</a></p>
+            </div>
+          </div>
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container is-cover">
+                {{ lightbox_image(
+                  img="https://assets.ubuntu.com/v1/fc3fe7fd-setup_your_storage_1.jpg",
+                  description="node details storage management",
+                ) }}
+              </div>
+            </div>
+            <div class="p-equal-height-row__item">
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>Set up your storage, from simple partitioning to complex storage layouts including:</p>
+              <ul>
+                <li>
+                  <abbr title="Block cache">Bcache</abbr>
+                </li>
+                <li>
+                  <abbr title="Redundant Array of Independent Disks">RAID</abbr>
+                </li>
+                <li>
+                  <abbr title="Logical Volume Management">LVM</abbr>
+                </li>
+              </ul>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p><a href="/maas/docs/reference-maas-storage"
+                  onclick="dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Machine configuration' });dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Learn more about storage' });"
+                  aria-label="Link to install and configure storage on MAAS documentation">Learn more about
+                  storage&nbsp;&raquo;</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Manage your network with MAAS</h2>
+    {%- endif -%}
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5"><abbr title="IP address management">IPAM</abbr> (IP address management) for operational efficiency</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_1' -%}
+      <p class="u-no-margin--bottom">
+        With MAAS managing <abbr title="Dynamic Host Configuration Protocol">DHCP</abbr>, you can&nbsp;easily:
+      </p>
+      <ul>
+        <li>
+          Define <abbr title="Internet Protocol address">IP address</abbr> ranges
+        </li>
+        <li>Create persistent leases</li>
+        <li>Boot your machines from the network</li>
+        <li>
+          Receive <abbr title="Dynamic Host Configuration Protocol">DHCP</abbr> requests relayed from remote networks
+        </li>
+      </ul>
+      <hr />
+      <p>
+        With full <abbr title="Domain name system">DNS</abbr> management you can:
+      </p>
+      <ul>
+        <li>
+          Create multiple <abbr title="Domain name system">DNS</abbr> domains
+        </li>
+        <li>Add multiple records per domain</li>
+        <li>Select the domain for machines and devices</li>
+        <li>
+          Assign additional names to <abbr title="Internet Protocol">IP</abbr> addresses and more&hellip;
+        </li>
+      </ul>
+      <div class="p-cta-block">
+        <a href="/maas/docs/how-to-manage-network-services"
+          onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Learn more about DHCP in MAAS' });"
+          class="u-sv2" aria-label="Link to install and configure network dhcp page on MAAS documentation">Learn more about
+          <abbr title="Dynamic Host Configuration Protocol">DHCP</abbr> in MAAS&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">And much more</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_2' -%}
+      <p class="u-no-margin--bottom">MAAS can easily manage the most complex network environments, including:</p>
+      <ul>
+        <li>
+          <abbr title="Internet Protocol version 4">IPv4</abbr> and <a href="/maas/docs/about-maas-networking"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure network Internet Protocol version 6 on MAAS documentation"><abbr
+              title="Internet Protocol version 6">IPv6</abbr></a>
+        </li>
+        <li>
+          <a href="/maas/docs/how-to-manage-networks#p-9070-manage-subnets"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure network subnet management on MAAS documentation">Subnets</a>
+        </li>
+        <li>
+          <a href="/maas/docs/reference-maas-glossary#p-9410-v"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to intro concepts about virtual local area networks on MAAS documentation"><abbr
+              title="Virtual local area network">VLAN</abbr></a>
+        </li>
+        <li>
+          <a href="/maas/docs/reference-maas-glossary#p-9410-f"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to intro concepts about fabrics on MAAS documentation">Fabrics</a>
+        </li>
+        <li>
+          <a href="/maas/docs/reference-maas-glossary#p-9410-s"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to intro concepts about spaces on MAAS documentation">Spaces</a>
+        </li>
+        <li>
+          <a href="/maas/docs/how-to-manage-networks"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure network ntp on MAAS documentation"><abbr
+              title="Network Time Protocol">NTP</abbr></a>
+        </li>
+        <li>
+          <a href="/maas/docs/how-to-enhance-maas-security#p-9102-use-tls-termination-maas-33"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure secure sockets layer on MAAS documentation"><abbr
+              title="Secure sockets layer">SSL</abbr></a>
+        </li>
+        <li>
+          <a href="/maas/docs/how-to-manage-networks"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure spanning tree protocol on MAAS documentation"><abbr
+              title="Spanning tree protocol">STP</abbr></a>
+        </li>
+        <li>
+          <a href="/maas/docs/how-to-manage-networks"
+            onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Feature', 'eventAction' : 'Click', 'eventLabel' : 'Network management' });"
+            aria-label="Link to install and configure network proxy on MAAS documentation">Proxy</a>
+        </li>
+      </ul>
+    {%- endif -%}
+  {%- endcall -%}
+  {% call(slot) vf_equal_heights(
+    title_text="Create and manage custom LXD VMs",
+    image_aspect_ratio_small="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_large="auto",
+    items=[
+      {
+        "title_text": 'Graphical overview of your KVM host’s resources',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/87982747-graphical_overview_1.jpg",
+          description="pod details",
+        ),
+        "description_html": '<p>MAAS shows your KVM pod’s CPU cores and RAM, as well as the free space in storage pools.</p>
+          <p>Manage and visualize overcommit ratios.</p>',
+      },
+      {
+        "title_text": 'Choose storage from multiple pools',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/8c09b579-choose_storage_1.jpg",
+          description="storage details",
+        ),
+        "description_html": '<p>Assign one or more volumes from the default and other available pools.</p>
+          <p>View the total size of your requests and the free space remaining.</p>',
+      },
+      {
+        "title_text": 'Customize a VM’s network interfaces',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/19d80432-customize_1.jpg",
+          description="network interfaces",
+        ),
+        "description_html": '<p>Create software defined networking as complex as you need.</p>
+          <p>Assign interfaces to spaces for Juju models, browse subnets by fabric and VLAN, or simply type an IP number.</p>',
+      },
+    ]
+  ) %}
+    {% if slot == "description" %}
+      <p>
+        Kernel-based Virtual Machine (KVM) is the core Linux kernel technology that enables hardware virtualization. LXD
+        leverages KVM to function as a modern hypervisor, allowing you to create both system containers and full virtual
+        machines. This powerful combination is packaged into <a href="/microcloud">Canonical MicroCloud</a>, which generalizes LXD into an automated,
+        self-healing private cloud.
+      </p>
+      <p>
+        MAAS integrates these capabilities directly, enabling you to create and manage these LXD-powered VMs through its
+        intuitive UI, CLI, and API, all from a single control plane.
+      </p>
+      <p>
+        <a href="/docs/add-a-vm-host"
+          aria-label="Link to hardware testing on MAAS documentation">Learn more about KVM in MAAS&nbsp;&rsaquo;</a>
+      </p>
+    {% endif %}
+  {% endcall %}
+  {{ vf_divided_section(
+    is_split_on_medium=true,
+    title={
+      "text": "Documentation",
+    },
+    blocks=[
+      {
+        "type": "description-block",
+        "items": [
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": '<a href="/maas/docs/maas"
+                onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;REST API, CLI&quot; });"
+                aria-label="Link to manage command line interface page on MAAS documentation">Get started with the MAAS CLI&nbsp;&raquo;</a>',
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": '<a href="/maas/docs/api"
+                  onclick="dataLayer.push({&quo;event&quo;: &quo;GAEvent&quo;, &quo;eventCategory&quo;: &quo;Feature&quo;, &quo;eventAction&quo;: &quo;Click&quo;, &quo;eventLabel&quo;: &quo;REST API, CLI&quo; });"
+                  aria-label="Link to application programming interface page on MAAS documentation">See the API documentation to automate and extend MAAS&nbsp;&raquo;</a>',
+            }
+          },
+        ]
+      },
+    ],
+  ) }}
+  {% call(slot) vf_cta_section(
+    title_text='Want to understand the core concepts and get a high-level overview of MAAS and its architecture?',
+    variant='default',
+    layout='100',
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="/maas/how-it-works" aria-label="Link to the how it works page on maas dot i o">Read how it
+        works&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+    <script src="{{ versioned_static('js/modules/venobox/venobox.min.js') }}"></script>
+    <script defer>
+      (function() {
+        new VenoBox();
+      })();
+    </script>
+{% endblock %}
