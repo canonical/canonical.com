@@ -1612,6 +1612,28 @@ def build_case_study_index(engage_docs):
     return case_study_index
 
 
+# Canonical Academy
+def cred_exam_content(**_):
+    exam_name = flask.request.args.get("exam")
+    syllabus_file = open(
+        "templates/academy/exam-content/exam-content.json", "r"
+    )
+    syllabus_data = json.load(syllabus_file)
+    if not any(exam_name == e["exam_name"] for e in syllabus_data):
+        exam_name = syllabus_data[0]["exam_name"]
+    return flask.render_template(
+        "academy/exam-content/index.html",
+        syllabus_data=syllabus_data,
+        exam_name=exam_name,
+    )
+
+
+app.add_url_rule(
+    "/academy/exam-content",
+    view_func=cred_exam_content,
+    methods=["GET"],
+)
+
 # Case study
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
 DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
