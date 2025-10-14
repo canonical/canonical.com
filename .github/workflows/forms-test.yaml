@@ -1,8 +1,5 @@
 name: Form e2e integration tests on canonical.com
 on:
-  # TODO: Remove after QA. The tests should run as a CRON and not on individual PRs.
-  pull_request:
-    types: [opened, synchronize, reopened]
   push:
     branches:
       - main
@@ -40,3 +37,7 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python3 -m unittest tests.test_marketo
+
+      - name: Send message on failure
+        if: failure()
+        run: curl -X POST -F "workflow=${GITHUB_WORKFLOW}" -F "repo_name=${GITHUB_REPOSITORY}" -F "action_id=${GITHUB_RUN_ID}" ${{ secrets.BOT_URL }}?room=webge-forms
