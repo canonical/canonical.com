@@ -45,3 +45,7 @@ class TestViews(unittest.TestCase):
                 result[0].get_json(), {"error": "Asset not found"}
             )
             mock_sentry.captureException.assert_called_once()
+
+
+if __name__ == "__main__":
+    unittest.main()
