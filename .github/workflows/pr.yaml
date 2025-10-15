@@ -127,8 +127,6 @@ jobs:
       - name: Run tests and generate coverage report
         run: |
           coverage run --source=webapp -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py")
-        env:
-          SEARCH_API_KEY: fake-key
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
