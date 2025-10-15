@@ -2,7 +2,7 @@
 
 **The new codebase, to replace [the old one](https://github.com/canonical-web-and-design/www.canonical.com/).**
 
-[![Code coverage](https://codecov.io/gh/canonical-web-and-design/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical-web-and-design/canonical.com)
+[![Code coverage](https://codecov.io/gh/canonical/canonical.com/branch/master/graph/badge.svg)](https://codecov.io/gh/canonical/canonical.com)
 
 This is the repository for the canonical.com website.
 
