@@ -1,11 +1,16 @@
-name: Tests for forms
+name: Form e2e integration tests on canonical.com
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "templates/**"
+  schedule:
+    - cron: "20 7 * * *"
 
 jobs:
   test-marketo-form-generator:
+    if: github.repository == 'canonical/canonical.com'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,10 +29,13 @@ jobs:
       - name: Run Marketo tests
         env:
           MARKETO_API_URL: "https://066-EOV-335.mktorest.com"
-          MARKETO_API_CLIENT: ${{ secrets.FLASK_MARKETO_API_CLIENT }}
-          MARKETO_API_SECRET: ${{ secrets.FLASK_MARKETO_API_SECRET }}
-          SECRET_KEY: ${{ vars.SECRET_KEY }}
+          MARKETO_API_CLIENT: ${{ secrets.MARKETO_API_CLIENT }}
+          MARKETO_API_SECRET: ${{ secrets.MARKETO_API_SECRET }}
 
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python3 -m unittest tests.test_marketo
+
+      - name: Send message on failure
+        if: failure()
+        run: curl -X POST -F "workflow=${GITHUB_WORKFLOW}" -F "repo_name=${GITHUB_REPOSITORY}" -F "action_id=${GITHUB_RUN_ID}" ${{ secrets.BOT_URL }}?room=webge-forms
