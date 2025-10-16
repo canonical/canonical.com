@@ -118,11 +118,11 @@ The terms for use of our Snap Store and services delivered via snapcraft.io.
 
 [View Snap Store terms ›](/legal/terms-and-policies/snap-store-terms)
 
-### Canonical Credentials Terms of Service
+### Canonical Academy Terms of Service
 
-The terms governing use of Canonical's Credentials service.
+The terms governing use of Canonical's Academy service.
 
-[View Canonical Credentials terms ›](/legal/terms-and-policies/credentials-terms)
+[View Canonical Academy terms ›](/legal/terms-and-policies/academy-terms)
 
 ### Canonical Ubuntu Community Discourse Forum Terms of Service
 

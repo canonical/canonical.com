@@ -1,15 +1,15 @@
 ---
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
-  title: "Canonical Credentials Terms of Service"
-  description: "Ubuntu and Canonical Legal - Canonical Credentials Terms of Service"
-  update_date: "February 2023"
+  title: "Canonical Academy Terms of Service"
+  description: "Ubuntu and Canonical Legal - Canonical Academy Terms of Service"
+  update_date: "October 2025"
   copydoc: "https://docs.google.com/document/d/1vRtCO-FDMC8rqthi4sgI1Fn3ofT6zqcCpjHbOyiyhjY/edit#"
 ---
 
-# Canonical Credentials - Terms of Service
+# Canonical Academy - Terms of Service
 
-These Terms of Service cover the provision of the Canonical Credentials services (the "**Service**") by Canonical Group Limited ("**Canonical**", "**us**", "**our**" or "**we**") to you ("**you**" or "**your**") subject to and in accordance with these Terms of Service.
+These Terms of Service cover the provision of the Canonical Academy services (the "**Service**") by Canonical Group Limited ("**Canonical**", "**us**", "**our**" or "**we**") to you ("**you**" or "**your**") subject to and in accordance with these Terms of Service.
 
 Please read these Terms of Service carefully before you use the Service. By using the Service, you agree to become bound by these Terms of Service. You may not use the Service for illegal or unauthorised purposes or otherwise not in accordance with these Terms of Service.
 
@@ -19,11 +19,11 @@ You must be at least 13 years old to use the Service. If you are between age 13 
 
 Any change or update to the Service or Terms of Service will be made in accordance with section 6 below.
 
-## 1\. Canonical Credentials Service
+## 1\. Canonical Academy Service
 
-The Canonical Credentials service is a certification program that grants you the opportunity to earn professional credentials in various Ubuntu subject areas. To this end, Canonical provides the following services:
+The Canonical Academy service is a certification program that grants you the opportunity to earn professional credentials in various Ubuntu subject areas. To this end, Canonical provides the following services:
 
-- A platform for recording certification progress, purchasing access to the Canonical Credentials service materials, and sharing earned credentials online.
+- A platform for recording certification progress, purchasing access to the Canonical Academy service materials, and sharing earned credentials online.
 - Access to purchased exams through the platform, if applicable.
 - Access to Paid Content through the platform, if applicable.
 
@@ -38,9 +38,9 @@ You will need to register for a Single Sign On (SSO) account and Ubuntu One acco
 
 If you do not have both an SSO account and Ubuntu One account you will need to create these. You are responsible for choosing an appropriate password for your accounts and for keeping such password secure. Canonical will not ask you for your password and you should not reveal it to anyone. You are responsible for keeping your account details up to date.
 
-You can view the exams that you have registered for at any time at: [https://ubuntu.com/credentials/your-exams](https://ubuntu.com/credentials/your-exams)
+You can view the exams that you have registered for at any time at: [https://academy.canonical.com/](https://academy.canonical.com/)
 
-You may cancel access to the Service at any time by emailing [skills@canonical.com](mailto:skills@canonical.com). Note that this does not delete your Ubuntu SSO account or Ubuntu One account, since you might be using it for other Canonical services. To delete your Ubuntu SSO or Ubuntu One account, visit [https://login.ubuntu.com](https://login.ubuntu.com/) and click **Permanently delete account**.
+You may cancel access to the Service at any time by emailing [exams@canonical.com](mailto:exams@canonical.com). Note that this does not delete your Ubuntu SSO account or Ubuntu One account, since you might be using it for other Canonical services. To delete your Ubuntu SSO or Ubuntu One account, visit [https://login.ubuntu.com](https://login.ubuntu.com/) and click **Permanently delete account**.
 
 ## 3\. Termination
 
@@ -92,7 +92,7 @@ You are responsible for any Taxes (as defined below), and must pay for the Servi
 
 In order to access and use the Service, you will be required to provide information about yourself such as your name and email address, as well as optional information such, timezone, country, IP address and related information. Any such information you provide to Canonical must always be accurate, correct and up to date. We may also ask you to participate in Service related surveys, for feedback purposes. Participating in surveys is optional, unless you have been selected to participate in the Service on a beta/trial basis, in which case you will need to complete the surveys in order to receive a badge and grade.
 
-Our [Privacy Policy](/legal/data-privacy) and Canonical Credentials Privacy Notice explain how we treat your personal data and protect your privacy when using our services. Canonical may need to provide limited personal data, such as your name and email address, to third parties for the purposes of providing you with the Service. By accessing and using the Service you are agreeing to the use of your personal data in this way.
+Our [Privacy Policy](/legal/data-privacy) and Canonical Academy Privacy Notice explain how we treat your personal data and protect your privacy when using our services. Canonical may need to provide limited personal data, such as your name and email address, to third parties for the purposes of providing you with the Service. By accessing and using the Service you are agreeing to the use of your personal data in this way.
 
 We may also collect certain non-personally-identifiable information, which is located on your computer. The information collected may include statistics relating to how often data is transferred, and performance metrics in relation to software and configuration. You agree this information may be retained and used by Canonical.
 
