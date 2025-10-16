@@ -45,7 +45,7 @@ Specific details about personal data collection can be found in the relevant pri
 - [Events privacy notice ›](/legal/data-privacy/events)
 - [Online competitions privacy notice ›](/legal/data-privacy/online-competitions)
 - [Confidentiality agreement privacy notice ›](/legal/data-privacy/unilateral-nda)
-- [Canonical Credentials privacy notice ›](/legal/data-privacy/credentials)
+- [Canonical Academy privacy notice ›](/legal/data-privacy/academy)
 - [Recruitment privacy notice ›](/legal/data-privacy/recruitment)
 - [Ubuntu Community Discourse Privacy Notice ›](/legal/data-privacy/community-discourse)
 - [Canonical Support Portal ›](/legal/data-privacy/support-portal)
