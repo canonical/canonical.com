@@ -126,7 +126,10 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: |
-          coverage run --source=webapp -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py")
+          coverage run --source=webapp -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
+          coverage report && 
+          coverage xml -o /app/coverage-reports/coverage.xml
+      # coverage run --source=webapp -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py")
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
