@@ -38,6 +38,17 @@ class TestSitemap(unittest.TestCase):
         assert response.status_code == 200
         assert response.headers["Content-Type"] == "application/json"
 
+    @patch(
+        "webapp.app.directory_parser.scan_directory",
+        side_effect=Exception("error"),
+    )
+    def test_get_sitemaps_tree_error(self, mock_scan_directory):
+        response = self.client.get("/sitemap_parser")
+
+        assert response.status_code == 500
+        assert response.get_json() == {"Error:": "error"}
+        mock_scan_directory.assert_called_once()
+
     def test_sitemap_sites(self):
         """
         Check that sites in sitemap tree are the same as in the sitemap parser
