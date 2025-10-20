@@ -125,7 +125,7 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: |
-          coverage run --source=webapp -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
+          coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
           coverage report && 
           coverage xml -o coverage.xml
 

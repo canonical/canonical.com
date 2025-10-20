@@ -117,6 +117,6 @@ def split_list(array, parts):
 
     k, m = divmod(len(array), parts)
     return [
-        array[i * k + min(i, m): (i + 1) * k + min(i + 1, m)]
+        array[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)]
         for i in range(parts)
     ]

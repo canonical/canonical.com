@@ -39,7 +39,9 @@ class TestGetCurrentPageBubble(unittest.TestCase):
 
         bubble = result["page_bubble"]
         self.assertEqual(bubble["path"], "/data")
-        self.assertTrue(any(child.get("active") for child in bubble["children"]))
+        self.assertTrue(
+            any(child.get("active") for child in bubble["children"])
+        )
         self.assertEqual(bubble["parent_title"], "Solutions")
         self.assertEqual(bubble["parent_path"], "/solutions")
 
@@ -54,7 +56,8 @@ class TestBuildNavigation(unittest.TestCase):
         mock_meganav = {"products": {"items": ["item-1"]}}
 
         with patch.object(navigation, "meganav_data", mock_meganav), patch(
-            "webapp.navigation.render_template_string", return_value="<div>nav</div>"
+            "webapp.navigation.render_template_string",
+            return_value="<div>nav</div>",
         ) as mock_render:
             result = navigation.build_navigation("products", "Products")
 
