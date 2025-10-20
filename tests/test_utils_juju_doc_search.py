@@ -6,14 +6,23 @@ from webapp.utils import juju_doc_search
 
 class TestExtractFullDomain(unittest.TestCase):
     def test_canonical_docs_domain(self):
-        result = {"domain": "https://documentation.ubuntu.com", "path": "/juju/some-page"}
+        result = {
+            "domain": "https://documentation.ubuntu.com",
+            "path": "/juju/some-page",
+        }
         self.assertEqual(
-            juju_doc_search.extract_full_domain(result), "documentation.ubuntu.com/juju"
+            juju_doc_search.extract_full_domain(result),
+            "documentation.ubuntu.com/juju",
         )
 
     def test_ops_docs_domain(self):
-        result = {"domain": "https://ops.readthedocs.io", "path": "/en/latest/"}
-        self.assertEqual(juju_doc_search.extract_full_domain(result), "ops.readthedocs.io")
+        result = {
+            "domain": "https://ops.readthedocs.io",
+            "path": "/en/latest/",
+        }
+        self.assertEqual(
+            juju_doc_search.extract_full_domain(result), "ops.readthedocs.io"
+        )
 
 
 class TestFetchSearchResults(unittest.TestCase):
@@ -38,7 +47,10 @@ class TestFetchSearchResults(unittest.TestCase):
     def test_fetch_results_handles_errors(self, mock_get):
         mock_get.side_effect = juju_doc_search.requests.exceptions.Timeout()
         self.assertEqual(
-            juju_doc_search.fetch_search_results("https://example.com", "juju"), []
+            juju_doc_search.fetch_search_results(
+                "https://example.com", "juju"
+            ),
+            [],
         )
 
 
@@ -76,7 +88,10 @@ class TestCalculateRelevance(unittest.TestCase):
 
 
 class TestProcessAndSortResults(unittest.TestCase):
-    @patch("webapp.utils.juju_doc_search.calculate_relevance", side_effect=[0.5, 0.9])
+    @patch(
+        "webapp.utils.juju_doc_search.calculate_relevance",
+        side_effect=[0.5, 0.9],
+    )
     def test_process_and_sort_results(self, mock_relevance):
         raw_results = [
             {
