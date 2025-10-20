@@ -16,6 +16,7 @@ import {
 import { toggleMenu, closeMenu, goBackOneLevel } from "./mobile";
 import populateCareersRoles from "./careers/populate-careers-roles";
 import initGATracking from "./ga-tracking";
+import initMeganavTracking from "./meganav-tracking";
 
 const ANIMATION_SNAP_DURATION = 100;
 
@@ -240,5 +241,6 @@ populateCareersRoles();
 
 // Init GA tracking
 initGATracking();
+initMeganavTracking();
 
 export default closeAllNavigationItems;
