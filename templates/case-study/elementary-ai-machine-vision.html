@@ -23,6 +23,15 @@
     title_text="Elementary scales AI machine vision solutions with Ubuntu core",
     layout="25/75",
     is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/837be02d-elementary_logo.png",
+            alt="Elementary logo",
+            width="852",
+            height="166",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
   {%- endcall -%}
 
   {%- call(slot) text_list(title="About Elementary") -%}
