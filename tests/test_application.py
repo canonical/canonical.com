@@ -4,7 +4,6 @@ import os
 from unittest.mock import MagicMock, patch
 import flask
 
-from werkzeug.exceptions import HTTPException
 from vcr_unittest import VCRTestCase
 from webapp.app import app
 from webapp.application import (
@@ -19,8 +18,6 @@ from webapp.application import (
     _sort_stages_by_milestone,
     _submitted_email_match,
     application_withdrawal,
-    application_index,
-    handle_application_report,
 )
 from webapp.greenhouse import Harvest
 from webapp.utils.cipher import Cipher, InvalidToken
@@ -150,17 +147,17 @@ class TestApplicationPageHelpers(VCRTestCase):
         result = _get_employee_directory_data("1234")
         self.assertDictEqual(fake_directory_data, result)
 
-    # def test_job_post_page(self):
-    #     """
-    #     When given the /careers/<id> URL,
-    #     we should return a 200 status code
-    #     check requisition id is contained
-    #     """
-    #     response = self.client.get("/careers/4754075")
-    #     self.assertEqual(response.status_code, 200)
-    #     html_content = response.data.decode("utf-8")
-    #     # Test Requistion ID is in the page
-    #     self.assertIn("<p>Requisition ID: 613</p>", html_content)
+    def test_job_post_page(self):
+        """
+        When given the /careers/<id> URL,
+        we should return a 200 status code
+        check requisition id is contained
+        """
+        response = self.client.get("/careers/4754075")
+        self.assertEqual(response.status_code, 200)
+        html_content = response.data.decode("utf-8")
+        # Test Requistion ID is in the page
+        self.assertIn("<p>Requisition ID: 613</p>", html_content)
 
     def test_cipher_encrypts_and_decrypts(self):
         """
@@ -492,8 +489,14 @@ class TestGetApplication(unittest.TestCase):
             "rejection_reason": {"type": {"id": 2}},
             "rejected_at": None,
         }
-        harvest.get_job_post.return_value = {"job_id": 1, "title": "Original Role"}
-        harvest.get_candidate.return_value = {"id": "cand-55", "email_addresses": []}
+        harvest.get_job_post.return_value = {
+            "job_id": 1,
+            "title": "Original Role",
+        }
+        harvest.get_candidate.return_value = {
+            "id": "cand-55",
+            "email_addresses": [],
+        }
         harvest.get_job.return_value = {
             "hiring_team": {
                 "recruiters": [
@@ -522,7 +525,9 @@ class TestGetApplication(unittest.TestCase):
                 "start": {"date_time": "2024-01-01T10:00:00+00:00"},
                 "end": {"date_time": "2024-01-01T11:00:00+00:00"},
                 "interview": {"id": 1, "name": "Initial call"},
-                "interviewers": [{"name": "Interviewer", "email": "int@example.com"}],
+                "interviewers": [
+                    {"name": "Interviewer", "email": "int@example.com"}
+                ],
                 "external_event_id": "evt-1",
             }
         ]
@@ -556,7 +561,9 @@ class TestGetApplicationFromToken(unittest.TestCase):
         mock_cipher = MagicMock()
         mock_cipher.decrypt.return_value = "123"
 
-        with patch("webapp.application._get_cipher", return_value=mock_cipher), patch(
+        with patch(
+            "webapp.application._get_cipher", return_value=mock_cipher
+        ), patch(
             "webapp.application._get_application", return_value={"id": 123}
         ) as mock_get_application:
             result = _get_application_from_token(harvest, "encrypted-token")
@@ -664,9 +671,6 @@ class TestConfirmationToken(unittest.TestCase):
         )
         mock_cipher.encrypt.assert_called_once_with(expected_payload)
         self.assertEqual(token, "encrypted-token")
-
-
-
 
 
 if __name__ == "__main__":
