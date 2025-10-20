@@ -153,6 +153,14 @@ class TestApplicationPageHelpers(VCRTestCase):
         # Test Requistion ID is in the page
         self.assertIn("<p>Requisition ID: 613</p>", html_content)
 
+    def test_cipher_encrypts_and_decrypts(self):
+        cipher = Cipher("unit-test-secret")
+        plaintext = "confidential data"
+        encrypted = cipher.encrypt(plaintext)
+
+        self.assertNotEqual(encrypted, plaintext)
+        self.assertEqual(cipher.decrypt(encrypted), plaintext)
+
 
 class TestGetGiaFeedback(unittest.TestCase):
     def test_gia_feedback_is_found_correctly(self):
