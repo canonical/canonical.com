@@ -1,15 +1,15 @@
 ---
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
-  title: "Privacy notice – Canonical Credentials"
-  description: This privacy notice tells you about the information collected from you when you access Canonical Credentials. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data.
+  title: "Privacy notice – Canonical Academy"
+  description: This privacy notice tells you about the information collected from you when you access Canonical Academy. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data.
   update_date: "February 2023"
   copydoc: https://docs.google.com/document/d/1Ovw3ypWDQwxWZ_tU_2U57uWUW-437v6R2UIMX6wfYYg/edit?ts=600ae156#
 ---
 
-# Privacy notice – The Canonical Credentials service
+# Privacy notice – The Canonical Academy service
 
-This privacy notice tells you about the information collected from you when you access the Canonical Credentials service. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data. For more information, please see our <a href="/legal/privacy-policy">privacy policy</a>.
+This privacy notice tells you about the information collected from you when you access the Canonical Academy service. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data. For more information, please see our <a href="/legal/privacy-policy">privacy policy</a>.
 
 ## Who are we?
 
@@ -19,11 +19,11 @@ We are not required to have a data protection officer, so any enquiries about ou
 
 ## What personal data do we collect?
 
-When you register to access the Canonical Credentials service we ask you for your name and email address, timezone, country, IP address and related information. These fields are mandatory for participation in the Canonical Credentials service.
+When you register to access the Canonical Academy service we ask you for your name and email address, timezone, country, IP address and related information. These fields are mandatory for participation in the Canonical Academy service.
 
 ## Why do we collect this information?
 
-We will use your information for carrying out the Canonical Credentials service, including but not limited to making available the exams and training materials, tracking the exams that you have completed and the badges that you have received for passing exams, as well as for user and product research purposes. We ask for your consent to do this and will only contact you for this purpose for as long as you continue to consent.
+We will use your information for carrying out the Canonical Academy service, including but not limited to making available the exams and training materials, tracking the exams that you have completed and the badges that you have received for passing exams, as well as for user and product research purposes. We ask for your consent to do this and will only contact you for this purpose for as long as you continue to consent.
 
 Where relevant, we will share your information with third party TrueAbility, Inc. with a registered office at 1150 N. 1604W, Suite 108-244, San Antonio, Texas, 78248. We may also use your information to send you other news and product updates from Canonical. This may involve us calling you, where we have your phone number in order to do so.
 
