@@ -1,26 +1,7 @@
-export default function initGATracking() {
-  addGANavEvents("#products-nav", "canonical.com-nav-products");
-  addGANavEvents("#solutions-nav", "canonical.com-nav-solutions");
-  addGANavEvents("#partners-nav", "canonical.com-nav-partners");
-  addGANavEvents("#careers-nav", "canonical.com-nav-careers");
-  addGANavEvents("#company-nav", "canonical.com-nav-careers");
+import initMeganavTracking from "./meganav-tracking";
 
-  function addGANavEvents(target, category) {
-    var t = document.querySelector(target);
-    if (t) {
-      t.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () {
-          dataLayer.push({
-            event: "GAEvent",
-            eventCategory: category,
-            eventAction: `from:${origin} to:${a.href}`,
-            eventLabel: a.text,
-            eventValue: undefined,
-          });
-        });
-      });
-    }
-  }
+export default function initGATracking() {
+  initMeganavTracking();
 
   addGAContentEvents("#main-content");
 
