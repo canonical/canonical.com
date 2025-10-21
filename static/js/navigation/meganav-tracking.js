@@ -1,5 +1,42 @@
 import { navigation, topLevelNavigationItems } from "./elements";
 
+// Performance caches and helpers for desktop tracking
+let desktopTopbarButtons = [];
+const desktopTopbarByControls = new Map(); // controls/id -> { index, el }
+
+function buildDesktopTopbarCache() {
+  const list = topLevelNavigationItems;
+  if (!list || desktopTopbarButtons.length) return;
+  desktopTopbarButtons = Array.from(
+    list.querySelectorAll(
+      ".p-navigation__item--dropdown-toggle > .js-dropdown-button"
+    )
+  );
+  desktopTopbarButtons.forEach((el, i) => {
+    const controls = el.getAttribute("aria-controls") || "";
+    if (controls) {
+      desktopTopbarByControls.set(controls, { index: i + 1, el });
+      // Also map the id without "-content" to match dropdown window ids
+      if (controls.endsWith("-content")) {
+        desktopTopbarByControls.set(
+          controls.slice(0, -"-content".length),
+          { index: i + 1, el }
+        );
+      }
+    }
+  });
+}
+
+function indexBySelector(el, selector) {
+  let idx = 0;
+  let node = el;
+  while (node) {
+    if (node.matches && node.matches(selector)) idx += 1;
+    node = node.previousElementSibling;
+  }
+  return idx;
+}
+
 function ensureDataLayer() {
   if (!window.dataLayer) {
     window.dataLayer = [];
@@ -15,14 +52,12 @@ function getLinkTitle(a) {
   if (!a) return "";
   const span = a.querySelector("span");
   if (span) return textify(span);
-  // Prefer direct text nodes to avoid nested <small> descriptions
   const directText = Array.from(a.childNodes)
     .filter((n) => n.nodeType === Node.TEXT_NODE)
     .map((n) => (n.textContent || "").trim())
     .join(" ")
     .trim();
   if (directText) return directText;
-  // As a fallback, remove known non-title elements and read remaining text
   const clone = a.cloneNode(true);
   clone.querySelectorAll("small, br").forEach((el) => el.remove());
   return (clone.textContent || "").trim();
@@ -34,32 +69,24 @@ function segmentString(index, label) {
 }
 
 function getTopbarInfo(contextEl) {
+  buildDesktopTopbarCache();
   const list = topLevelNavigationItems;
   if (!list) return null;
-  const items = Array.from(
-    list.querySelectorAll(
-      ".p-navigation__item--dropdown-toggle > .js-dropdown-button"
-    )
-  );
 
-  // If context is within a dropdown window, map its id back to the control button
+  // If context is within a dropdown window, map its id back to the button
   const dropdownWindow = contextEl?.closest?.(".js-dropdown-window");
   if (dropdownWindow && dropdownWindow.id) {
-    const control = list.querySelector(
-      `.js-dropdown-button[aria-controls="${dropdownWindow.id}-content"]`
-    );
-    if (control) {
-      const idx = items.indexOf(control) + 1;
-      return { index: idx, label: textify(control) };
+    const cached = desktopTopbarByControls.get(dropdownWindow.id);
+    if (cached) {
+      return { index: cached.index, label: textify(cached.el) };
     }
   }
 
   // Otherwise, use the active topbar item if available
   const active = list.querySelector(".is-active > .js-dropdown-button") || null;
-  const target = active || null;
-  if (target) {
-    const idx = items.indexOf(target) + 1;
-    return { index: idx, label: textify(target) };
+  if (active) {
+    const idx = desktopTopbarButtons.indexOf(active) + 1;
+    return { index: idx, label: textify(active) };
   }
   return null;
 }
@@ -71,44 +98,60 @@ function getSidebarInfo(contextEl) {
     ".p-side-navigation__list.js-tabs"
   );
   if (!tabsList) return null;
-  const tabs = Array.from(
-    tabsList.querySelectorAll(".p-side-navigation__link.js-navigation-tab")
-  );
   const active = tabsList.querySelector(
     ".p-side-navigation__link.js-navigation-tab.is-active"
   );
   if (!active) return null;
-  const idx = tabs.indexOf(active) + 1;
+  const idx = indexBySelector(active, ".p-side-navigation__link.js-navigation-tab");
   return { index: idx, label: textify(active) };
 }
 
 function getGroupInfo(contextEl) {
   const dropdownWindow = contextEl?.closest?.(".js-dropdown-window");
   if (!dropdownWindow) return null;
-  const container = contextEl.closest(
-    ".p-navigation__main-links, .p-navigation__link-list, .p-navigation__preview-links"
+  const active = dropdownWindow.querySelector(
+    ".p-side-navigation__link.js-navigation-tab.is-active"
   );
-  if (!container) return null;
-  const allGroups = Array.from(
-    dropdownWindow.querySelectorAll(
-      ".p-navigation__main-links, .p-navigation__link-list, .p-navigation__preview-links"
-    )
+  if (!active) return null;
+  const targetId = active.getAttribute("aria-controls");
+  const windowForTab = dropdownWindow.querySelector(`#${targetId}`);
+  const headings = windowForTab?.querySelectorAll?.(
+    "li.p-navigation--list-heading"
   );
-  const idx = allGroups.indexOf(container) + 1;
-  // Prefer a heading if available
-  const heading = container.querySelector(
-    ".p-navigation--list-heading, .p-navigation--list-heading a"
-  );
-  let label = heading ? textify(heading) : "";
-  return { index: idx, label };
+  if (!windowForTab || !headings?.length) return null;
+  const listItem = contextEl.closest("li");
+  if (!listItem) return null;
+  let headingEl = null;
+  let prev = listItem.previousElementSibling;
+  while (prev) {
+    if (prev.matches("li.p-navigation--list-heading")) {
+      headingEl = prev;
+      break;
+    }
+    prev = prev.previousElementSibling;
+  }
+  if (headingEl) {
+    const idx = indexBySelector(headingEl, "li.p-navigation--list-heading");
+    const labelEl =
+      headingEl.querySelector(".p-navigation__dropdown-item") || headingEl;
+    return { index: idx, label: textify(labelEl) };
+  }
+  return null;
 }
 
 function getItemInfo(target) {
-  // Primary/secondary list items
   const listItem = target.closest("li");
   if (listItem && listItem.parentElement) {
-    const siblings = Array.from(listItem.parentElement.children);
-    const idx = siblings.indexOf(listItem) + 1;
+    // Compute index without building arrays; ignore close items
+    let idx = 0;
+    let node = listItem.parentElement.firstElementChild;
+    while (node) {
+      if (!node.matches(".p-navigation__item--dropdown-close")) {
+        idx += 1;
+      }
+      if (node === listItem) break;
+      node = node.nextElementSibling;
+    }
     return { index: idx, label: getLinkTitle(target) };
   }
 
@@ -119,10 +162,16 @@ function getItemInfo(target) {
       ".p-navigation__preview-links, .p-navigation__preview-link--container"
     );
     if (container) {
-      const anchors = Array.from(
-        container.querySelectorAll("a.p-navigation__preview-link")
-      );
-      const idx = anchors.indexOf(previewLink) + 1;
+      // Compute index by counting previous matching siblings
+      let idx = 0;
+      let node = container.firstElementChild;
+      while (node) {
+        if (node.matches && node.matches("a.p-navigation__preview-link")) {
+          idx += 1;
+        }
+        if (node === previewLink) break;
+        node = node.nextElementSibling;
+      }
       return { index: idx, label: getLinkTitle(previewLink) };
     }
   }
@@ -164,29 +213,18 @@ function handleSidebarClick(a) {
 
 function handleDropdownLinkClick(a) {
   const topbar = getTopbarInfo(a);
-  if (!topbar) return;
-  const values = buildBaseValues();
-  // Links live in the dropdown content area; classify under topbar
-  values.mega_nav_area = "topbar";
-
-  const item = getItemInfo(a);
-  const itemSeg = segmentString(item.index, item.label);
-  values.click_label = itemSeg;
-
-  const topbarSeg = segmentString(topbar.index, topbar.label);
-  const sidebar = getSidebarInfo(a);
   const group = getGroupInfo(a);
+  const item = getItemInfo(a);
+  if (!topbar || !item) return;
+  const values = buildBaseValues();
+  values.mega_nav_area = "dropdown";
+  const itemSeg = segmentString(item.index, item.label);
+  const topbarSeg = segmentString(topbar.index, topbar.label);
   const parts = [topbarSeg];
-  if (sidebar) parts.push(segmentString(sidebar.index, sidebar.label));
   if (group && group.label) parts.push(segmentString(group.index, group.label));
   parts.push(itemSeg);
+  values.click_label = itemSeg;
   values.mega_nav_path = parts.join(" | ");
-
-  if (a.href) {
-    values.click_from = window.location.origin;
-    values.click_to = a.href;
-  }
-
   push(values);
 }
 
@@ -194,26 +232,54 @@ export default function initMeganavTracking() {
   const root = navigation;
   if (!root) return;
 
-  // Topbar toggle buttons
-  root
-    .querySelectorAll(
-      ".js-show-nav > .js-dropdown-list > .p-navigation__item--dropdown-toggle > a.js-dropdown-button"
-    )
-    .forEach((a) => {
-      a.addEventListener("click", () => handleTopbarClick(a));
-    });
+  const init = () => {
+    buildDesktopTopbarCache();
 
-  // Sidebar tabs within any dropdown window
-  root.querySelectorAll(".js-dropdown-window .js-navigation-tab").forEach((a) => {
-    a.addEventListener("click", () => handleSidebarClick(a));
-  });
+    root.addEventListener(
+      "click",
+      (e) => {
+        const target = e.target.closest("a, button");
+        if (!target) return;
 
-  // Links inside dropdowns: primary, secondary, and preview links
-  root
-    .querySelectorAll(
-      ".js-dropdown-window a.p-navigation__dropdown-item, .js-dropdown-window .p-navigation__link-list a, .js-dropdown-window a.p-navigation__preview-link"
-    )
-    .forEach((a) => {
-      a.addEventListener("click", () => handleDropdownLinkClick(a));
-    });
+        // Desktop topbar toggles (exclude mobile sliding context)
+        if (
+          target.matches(
+            ".p-navigation__item--dropdown-toggle > .js-dropdown-button"
+          ) && !target.closest(".p-navigation__dropdown-content--sliding")
+        ) {
+          handleTopbarClick(target);
+          return;
+        }
+
+        // Sidebar tabs within dropdown window
+        if (
+          target.matches(".js-navigation-tab") &&
+          target.closest(".js-dropdown-window")
+        ) {
+          handleSidebarClick(target);
+          return;
+        }
+
+        // Links inside dropdowns: primary, secondary, and preview links
+        if (
+          target.closest(".js-dropdown-window") &&
+          (target.matches("a.p-navigation__dropdown-item") ||
+            target.matches(".p-navigation__link-list a") ||
+            target.matches("a.p-navigation__preview-link"))
+        ) {
+          handleDropdownLinkClick(target);
+          return;
+        }
+      },
+      { capture: false }
+    );
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(init);
+  } else {
+    setTimeout(init, 0);
+  }
 }
+
+export { push, segmentString, textify, getLinkTitle };
