@@ -1,8 +1,10 @@
 import initMeganavTracking from "./meganav-tracking";
+import initMeganavTrackingMobile from "./meganav-tracking-mobile";
 
 export default function initGATracking() {
   initMeganavTracking();
-
+  initMeganavTrackingMobile();
+  
   addGAContentEvents("#main-content");
 
   function addGAContentEvents(target) {

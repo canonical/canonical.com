@@ -1,47 +1,56 @@
 import { navigation, topLevelNavigationItems } from "./elements";
-import { push, segmentString, textify, getLinkTitle } from "./meganav-tracking";
+import {
+  ensureDataLayerInitialized,
+  getText,
+  getElementTitle,
+  formatSegment,
+  joinSegments,
+  pushToDataLayer
+} from "./utils";
 
-function buildBaseValuesMobile() {
-  return { event: "meganav click mobile" };
+// ---------------------------------------------
+// DOM Lookups & Segment Builders (Mobile)
+// ---------------------------------------------
+function findMobileDropdownContainer(contextEl) {
+  return contextEl?.closest?.(".p-navigation__dropdown") || null;
 }
 
-function getTopbarInfoMobile(contextEl) {
-  const list = topLevelNavigationItems;
-  if (!list) return null;
-  const items = Array.from(
-    list.querySelectorAll(
+function getTopbarSegmentMobile(contextEl) {
+  const listEl = topLevelNavigationItems;
+  if (!listEl) return null;
+
+  const topbarButtons = Array.from(
+    listEl.querySelectorAll(
       ".p-navigation__item--dropdown-toggle > .js-dropdown-button"
     )
   );
 
   // Map mobile dropdown container back to its controlling topbar button
-  const dropdownContainer = contextEl?.closest?.(".p-navigation__dropdown");
+  const dropdownContainer = findMobileDropdownContainer(contextEl);
   if (dropdownContainer && dropdownContainer.id) {
-    const control = list.querySelector(
+    const controlButton = listEl.querySelector(
       `.js-dropdown-button[aria-controls="${dropdownContainer.id}"]`
     );
-    if (control) {
-      const idx = items.indexOf(control) + 1;
-      return { index: idx, label: textify(control) };
+    if (controlButton) {
+      const index = topbarButtons.indexOf(controlButton) + 1;
+      return { index, label: getText(controlButton) };
     }
   }
 
   // Fallbacks: if the element itself is a topbar toggle, or use active one
-  const selfTopbar = contextEl.matches?.(
-    ".js-dropdown-button[data-level='0']"
-  )
+  const selfTopbar = contextEl.matches?.(".js-dropdown-button[data-level='0']")
     ? contextEl
     : null;
-  const active =
-    list.querySelector(".is-active > .js-dropdown-button") || selfTopbar;
-  if (active) {
-    const idx = items.indexOf(active) + 1;
-    return { index: idx, label: textify(active) };
+  const activeButton =
+    listEl.querySelector(".is-active > .js-dropdown-button") || selfTopbar;
+  if (activeButton) {
+    const index = topbarButtons.indexOf(activeButton) + 1;
+    return { index, label: getText(activeButton) };
   }
   return null;
 }
 
-function getMobileGroupInfo(el) {
+function getMobileGroupSegment(el) {
   const container = el.closest(".p-navigation__dropdown-content--sliding");
   if (!container) return null;
 
@@ -57,8 +66,8 @@ function getMobileGroupInfo(el) {
       (btn) => btn.getAttribute("aria-controls") === nestedList.id
     );
     if (togglers.length && toggler) {
-      const idx = togglers.indexOf(toggler) + 1;
-      return { index: idx, label: textify(toggler) };
+      const index = togglers.indexOf(toggler) + 1;
+      return { index, label: getText(toggler) };
     }
   }
 
@@ -81,104 +90,136 @@ function getMobileGroupInfo(el) {
     }
   }
   if (headingEl) {
-    const idx = headings.indexOf(headingEl) + 1;
+    const index = headings.indexOf(headingEl) + 1;
     const labelEl =
       headingEl.querySelector(".p-navigation__dropdown-item") || headingEl;
-    return { index: idx, label: textify(labelEl) };
+    return { index, label: getText(labelEl) };
   }
   return null;
 }
 
-function getMobileItemInfo(a) {
+function getMobileItemSegment(a) {
   const li = a.closest("li");
   if (li && li.parentElement) {
     const siblings = Array.from(li.parentElement.children).filter(
       (el) => !el.matches(".p-navigation__item--dropdown-close")
     );
-    const idx = siblings.indexOf(li) + 1;
-    return { index: idx, label: getLinkTitle(a) };
+    const index = siblings.indexOf(li) + 1;
+    return { index, label: getElementTitle(a) };
   }
-  return { index: 0, label: getLinkTitle(a) };
+  return { index: 0, label: getElementTitle(a) };
 }
 
-function handleMobileMenuButtonClick() {
-  const values = buildBaseValuesMobile();
+function buildBaseEventMobile() {
+  return { event: "meganav click mobile" };
+}
+
+function buildClickEventMobile({ area, pathSegments, clickLabel, href }) {
+  const values = buildBaseEventMobile();
+  values.mega_nav_area = area;
+  values.click_label = clickLabel;
+  values.mega_nav_path = joinSegments(pathSegments);
+
+  if (href) {
+    values.click_from = window.location.origin;
+    values.click_to = href;
+  }
+  return values;
+}
+
+// ---------------------------------------------
+// Tracking Handlers (Mobile)
+// ---------------------------------------------
+function trackMobileMenuButtonClick() {
+  const values = buildBaseEventMobile();
   values.mega_nav_area = "menu";
   values.click_label = "menu";
   values.click_action = navigation.classList.contains("has-menu-open")
     ? "close"
     : "open";
-  push(values);
+  pushToDataLayer(values);
 }
 
-function handleMobileBackClick(btn) {
+function trackMobileBackClick(btn) {
   const level = parseInt(btn.getAttribute("data-level") || "1", 10);
-  const values = buildBaseValuesMobile();
+  const values = buildBaseEventMobile();
   values.mega_nav_area = `level-${level}`;
   values.click_label = "back";
-  push(values);
+  pushToDataLayer(values);
 }
 
-function handleMobileLevel1ToggleClick(a) {
-  const topbar = getTopbarInfoMobile(a);
+function trackMobileLevel1ToggleClick(a) {
+  const topbar = getTopbarSegmentMobile(a);
   if (!topbar) return;
-  const values = buildBaseValuesMobile();
-  values.mega_nav_area = "level-1";
-  values.click_label = segmentString(topbar.index, topbar.label);
-  values.mega_nav_path = values.click_label;
-  push(values);
+
+  const topbarSeg = formatSegment(topbar.index, topbar.label);
+  const values = buildClickEventMobile({
+    area: "level-1",
+    pathSegments: [topbarSeg],
+    clickLabel: topbarSeg,
+    href: null,
+  });
+
+  pushToDataLayer(values);
 }
 
-function handleMobileNavSectionToggleClick(a) {
-  const topbar = getTopbarInfoMobile(a);
+function trackMobileNavSectionToggleClick(a) {
+  const topbar = getTopbarSegmentMobile(a);
   if (!topbar) return;
+
   const container = a.closest(".p-navigation__dropdown-content--sliding");
   const togglers = Array.from(
     container.querySelectorAll(
       ".p-navigation__item--dropdown-toggle > a.js-dropdown-button[data-level='1']"
     )
   );
-  const idx = togglers.indexOf(a) + 1;
-  const values = buildBaseValuesMobile();
-  values.mega_nav_area = "level-2";
-  const groupSeg = segmentString(idx, textify(a));
-  const topbarSeg = segmentString(topbar.index, topbar.label);
-  values.click_label = groupSeg;
-  values.mega_nav_path = `${topbarSeg} | ${groupSeg}`;
-  push(values);
+  const index = togglers.indexOf(a) + 1;
+  const groupSeg = formatSegment(index, getText(a));
+  const topbarSeg = formatSegment(topbar.index, topbar.label);
+
+  const values = buildClickEventMobile({
+    area: "level-2",
+    pathSegments: [topbarSeg, groupSeg],
+    clickLabel: groupSeg,
+    href: null,
+  });
+
+  pushToDataLayer(values);
 }
 
-function handleMobileExternalLinkClick(a) {
-  const topbar = getTopbarInfoMobile(a);
+function trackMobileExternalLinkClick(a) {
+  const topbar = getTopbarSegmentMobile(a);
   if (!topbar) return;
-  const values = buildBaseValuesMobile();
-  values.mega_nav_area = "level-3";
 
-  const item = getMobileItemInfo(a);
-  const itemSeg = segmentString(item.index, item.label);
-  const topbarSeg = segmentString(topbar.index, topbar.label);
-  const group = getMobileGroupInfo(a);
-  const parts = [topbarSeg];
-  if (group && group.label) parts.push(segmentString(group.index, group.label));
-  parts.push(itemSeg);
-  values.click_label = itemSeg;
-  values.mega_nav_path = parts.join(" | ");
+  const item = getMobileItemSegment(a);
+  const itemSeg = formatSegment(item.index, item.label);
+  const topbarSeg = formatSegment(topbar.index, topbar.label);
+  const group = getMobileGroupSegment(a);
 
-  if (a.href) {
-    values.click_from = window.location.origin;
-    values.click_to = a.href;
-  }
+  const pathSegments = [topbarSeg];
+  if (group && group.label) pathSegments.push(formatSegment(group.index, group.label));
+  pathSegments.push(itemSeg);
 
-  push(values);
+  const values = buildClickEventMobile({
+    area: "level-3",
+    pathSegments,
+    clickLabel: itemSeg,
+    href: a.href || null,
+  });
+
+  pushToDataLayer(values);
 }
 
+// ---------------------------------------------
+// Init
+// ---------------------------------------------
 export default function initMeganavTrackingMobile() {
   const root = navigation;
   if (!root) return;
 
   // Mobile: menu button open/close
   root.querySelectorAll(".js-menu-button").forEach((btn) => {
-    btn.addEventListener("click", () => handleMobileMenuButtonClick());
+    btn.addEventListener("click", () => trackMobileMenuButtonClick());
   });
 
   // Mobile: back button clicks
@@ -187,16 +228,14 @@ export default function initMeganavTrackingMobile() {
       ".p-navigation__dropdown-content--sliding .js-back-button"
     )
     .forEach((btn) => {
-      btn.addEventListener("click", () => handleMobileBackClick(btn));
+      btn.addEventListener("click", () => trackMobileBackClick(btn));
     });
 
   // Mobile: top-level section toggles (Products, Solutions, etc.)
   root
-    .querySelectorAll(
-      ".js-dropdown-button[data-level='0']"
-    )
+    .querySelectorAll(".js-dropdown-button[data-level='0']")
     .forEach((a) => {
-      a.addEventListener("click", () => handleMobileLevel1ToggleClick(a));
+      a.addEventListener("click", () => trackMobileLevel1ToggleClick(a));
     });
 
   // Mobile: nav_section toggles inside a top-level section
@@ -205,14 +244,12 @@ export default function initMeganavTrackingMobile() {
       ".p-navigation__dropdown-content--sliding .p-navigation__item--dropdown-toggle > a.js-dropdown-button[data-level='1']"
     )
     .forEach((a) => {
-      a.addEventListener("click", () => handleMobileNavSectionToggleClick(a));
+      a.addEventListener("click", () => trackMobileNavSectionToggleClick(a));
     });
 
   // Mobile: external navigation clicks (links leading out of the menu)
   root
-    .querySelectorAll(
-      ".p-navigation__dropdown-content--sliding a"
-    )
+    .querySelectorAll(".p-navigation__dropdown-content--sliding a")
     .forEach((a) => {
       // Ignore menu-internal controls
       if (
@@ -222,6 +259,6 @@ export default function initMeganavTrackingMobile() {
       ) {
         return;
       }
-      a.addEventListener("click", () => handleMobileExternalLinkClick(a));
+      a.addEventListener("click", () => trackMobileExternalLinkClick(a));
     });
 }
