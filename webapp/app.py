@@ -1845,5 +1845,4 @@ if get_flask_env("DEBUG") or app.debug:
         """
         Expose all routes under templates/tests if in development/testing mode.
         """
-        print("subpath:", subpath)
         return flask.render_template(f"tests/{subpath}.html")
