@@ -47,13 +47,21 @@ function findDropdownWindow(contextEl) {
 
 function getTopbarSegment(contextEl) {
   const listEl = topLevelNavigationItems;
-  if (!listEl) return null;
+ if (!listEl) return null;
 
   const topbarButtons = Array.from(
     listEl.querySelectorAll(
       "[role='menuitem'].p-navigation__item--dropdown-toggle > .js-dropdown-button"
     )
   );
+
+  // If the clicked element itself is a topbar button, use it directly
+  if (contextEl?.matches?.(".js-dropdown-button")) {
+    const index = topbarButtons.indexOf(contextEl) + 1;
+    if (index > 0) {
+      return { index, label: getText(contextEl) };
+    }
+  }
 
   // If context is within a dropdown window, map its id back to the topbar control button
   const dropdownWindow = findDropdownWindow(contextEl);
@@ -145,7 +153,7 @@ function getItemSegment(targetEl) {
     }
   }
 
-  return { index: 0, label: getElementTitle(targetEl) };
+  return { index: -1, label: getElementTitle(targetEl) };
 }
 
 function pushToDataLayer(values) {
@@ -214,7 +222,7 @@ function trackDropdownLinkClick(linkEl) {
 
   const pathSegments = [topbarSeg];
   if (sidebar) pathSegments.push(formatSegment(sidebar.index, sidebar.label));
-  if (group && group.label) pathSegments.push(formatSegment(group.index, group.label));
+  if (group && group.label && group.index > 0) pathSegments.push(formatSegment(group.index, group.label));
   pathSegments.push(itemSeg);
 
   const values = buildClickEvent({
