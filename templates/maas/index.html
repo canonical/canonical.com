@@ -33,7 +33,9 @@
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <a href="/maas/docs/maas-in-thirty-minutes" class="p-button--positive">Try MAAS</a>
-      <a href="/maas/contact-us" class="p-button">Get in touch</a>
+      <a href="/maas/contact-us"
+         class="p-button js-invoke-modal"
+         aria-controls="maas-contact-form">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="u-embedded-media">
@@ -425,7 +427,7 @@
     },
     ]
     },
-    ],)
+    ],) 
   }}
 
   {% with tag_id="1304" %}
@@ -513,7 +515,7 @@
     },
     ]
     },
-    ],)
+    ],) 
   }}
 
   {{ vf_basic_section(title={"text": "Enterprise support for MAAS"},
@@ -553,7 +555,7 @@
     }
     }
     }
-    ])
+    ]) 
   }}
 
   {% call(slot) vf_pricing_block(
@@ -617,7 +619,7 @@
     'list_item_content_html': 'Phone and ticket support'
     }
     ],
-    'cta_html': '<a href="/maas/contact-us">Contact us&nbsp;&rsaquo;</a>'
+    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
     },
 
     {
@@ -647,7 +649,7 @@
     'list_item_content_html': 'Phone and ticket support: Office hours'
     }
     ],
-    'cta_html': '<a href="/maas/contact-us">Contact us&nbsp;&rsaquo;</a>'
+    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
     },
     {
     'tier_name_text': 'Advanced',
@@ -676,7 +678,7 @@
     'list_item_content_html': 'Phone and ticket support:<br /> 24 hours a day, everyday'
     }
     ],
-    'cta_html': '<a href="/maas/contact-us">Contact us&nbsp;&rsaquo;</a>'
+    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
     }
     ]
     ) -%}
@@ -694,7 +696,8 @@
     layout='100',
     ) -%}
     {%- if slot == 'cta' -%}
-      Deploying MAAS at scale? <a href="/maas/contact-us">Talk to our team</a>
+      Deploying MAAS at scale? <a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Talk to our team</a>
     {%- endif -%}
   {% endcall -%}
+  {{ load_form("/maas") | safe }}
 {% endblock %}
