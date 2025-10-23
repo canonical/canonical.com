@@ -1,10 +1,15 @@
 import initMeganavTracking from "./meganav-tracking";
 import initMeganavTrackingMobile from "./meganav-tracking-mobile";
+import { isDesktop } from "./utils";
 
 export default function initGATracking() {
-  initMeganavTracking();
-  initMeganavTrackingMobile();
-  
+  // Gate initialization by breakpoint at startup
+  if (isDesktop()) {
+    initMeganavTracking();
+  } else {
+    initMeganavTrackingMobile();
+  }
+
   addGAContentEvents("#main-content");
 
   function addGAContentEvents(target) {
