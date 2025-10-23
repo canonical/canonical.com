@@ -39,10 +39,6 @@ function joinSegments(segments) {
   return segments.filter(Boolean).join(" | ");
 }
 
-function isDesktop() {
-  return window.matchMedia("(min-width: 1035px)").matches;
-}
-
 function pushToDataLayer(values) {
   ensureDataLayerInitialized();
   window.dataLayer.push(values);
@@ -54,6 +50,5 @@ export {
   getElementTitle,
   formatSegment,
   joinSegments,
-  pushToDataLayer,
-  isDesktop
+  pushToDataLayer
 }

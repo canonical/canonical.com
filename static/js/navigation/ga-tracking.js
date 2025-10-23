@@ -1,14 +1,32 @@
-import initMeganavTracking from "./meganav-tracking";
-import initMeganavTrackingMobile from "./meganav-tracking-mobile";
-import { isDesktop } from "./utils";
+import initMeganavTracking, { destroyMeganavTracking } from "./meganav-tracking";
+import initMeganavTrackingMobile, { destroyMeganavTrackingMobile } from "./meganav-tracking-mobile";
+import initMeganavSearchTracking from "./meganav-tracking-searchbox";
+
+const mql = window.matchMedia("(min-width: 1035px)");
+let isDesktopMode = mql.matches;
 
 export default function initGATracking() {
   // Gate initialization by breakpoint at startup
-  if (isDesktop()) {
+  if (isDesktopMode) {
     initMeganavTracking();
   } else {
     initMeganavTrackingMobile();
   }
+  initMeganavSearchTracking();
+
+  mql.addEventListener("change", (e) => {
+    const nextIsDesktop = e.matches;
+    if (nextIsDesktop === isDesktopMode) return;
+
+    if (nextIsDesktop) {
+      destroyMeganavTrackingMobile();
+      initMeganavTracking();
+    } else {
+      destroyMeganavTracking();
+      initMeganavTrackingMobile();
+    }
+    isDesktopMode = nextIsDesktop;
+  });
 
   addGAContentEvents("#main-content");
 
