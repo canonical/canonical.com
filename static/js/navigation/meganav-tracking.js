@@ -197,6 +197,17 @@ function trackDropdownLinkClick(linkEl) {
   pushToDataLayer(values);
 }
 
+// ============================================================================
+// Search Tracking Functions
+// ============================================================================
+function trackSearchClick(label) {
+  const values = buildBaseEvent();
+  values.mega_nav_area = "search";
+  values.click_label = label;
+  values.mega_nav_path = label;
+  pushToDataLayer(values);
+}
+
 export default function initMeganavTracking() {
   const root = navigation;
   if (!root) return;
@@ -224,5 +235,30 @@ export default function initMeganavTracking() {
     )
     .forEach((linkEl) => {
       linkEl.addEventListener("click", () => trackDropdownLinkClick(linkEl));
+    });
+
+  // ============================================================================
+  // Search Event Listeners (click-only per requirements)
+  // ============================================================================
+
+  // Search toggle button clicks
+  root
+    .querySelectorAll(".js-search-button.p-navigation__link--search-toggle")
+    .forEach((buttonEl) => {
+      buttonEl.addEventListener("click", () => trackSearchClick("search toggle"));
+    });
+
+  // Track when the search input is clicked/focused to type
+  root
+    .querySelectorAll(".p-search-box__input")
+    .forEach((inputEl) => {
+      inputEl.addEventListener("focus", () => trackSearchClick("search input focused"));
+    });
+
+  // Track clicks on the close/reset icon button
+  root
+    .querySelectorAll(".p-search-box__reset")
+    .forEach((resetEl) => {
+      resetEl.addEventListener("click", () => trackSearchClick("search reset"));
     });
 }
