@@ -1,5 +1,3 @@
-import { navigation, topLevelNavigationItems } from "./elements";
-
 function ensureDataLayerInitialized() {
   if (!window.dataLayer) {
     window.dataLayer = [];
