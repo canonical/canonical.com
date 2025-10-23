@@ -197,7 +197,7 @@ function trackMobileExternalLinkClick(a) {
   const group = getMobileGroupSegment(a);
 
   const pathSegments = [topbarSeg];
-  if (group && group.label) pathSegments.push(formatSegment(group.index, group.label));
+  if (group && group.label && group.index > 0) pathSegments.push(formatSegment(group.index, group.label));
   pathSegments.push(itemSeg);
 
   const values = buildClickEventMobile({
@@ -213,13 +213,25 @@ function trackMobileExternalLinkClick(a) {
 // ---------------------------------------------
 // Init
 // ---------------------------------------------
+// Listener tracking for cleanup when switching breakpoints
+const mobileListeners = [];
+function addMobileListener(el, type, handler, options) {
+  el.addEventListener(type, handler, options);
+  mobileListeners.push({ el, type, handler, options });
+}
+export function destroyMeganavTrackingMobile() {
+  mobileListeners.forEach(({ el, type, handler, options }) => {
+    el.removeEventListener(type, handler, options);
+  });
+  mobileListeners.length = 0;
+}
 export default function initMeganavTrackingMobile() {
   const root = navigation;
   if (!root) return;
 
   // Mobile: menu button open/close
   root.querySelectorAll(".js-menu-button").forEach((btn) => {
-    btn.addEventListener("click", () => trackMobileMenuButtonClick());
+    addMobileListener(btn, "click", () => trackMobileMenuButtonClick());
   });
 
   // Mobile: back button clicks
@@ -228,14 +240,14 @@ export default function initMeganavTrackingMobile() {
       ".p-navigation__dropdown-content--sliding .js-back-button"
     )
     .forEach((btn) => {
-      btn.addEventListener("click", () => trackMobileBackClick(btn));
+      addMobileListener(btn, "click", () => trackMobileBackClick(btn));
     });
 
   // Mobile: top-level section toggles (Products, Solutions, etc.)
   root
     .querySelectorAll(".js-dropdown-button[data-level='0']")
     .forEach((a) => {
-      a.addEventListener("click", () => trackMobileLevel1ToggleClick(a));
+      addMobileListener(a, "click", () => trackMobileLevel1ToggleClick(a));
     });
 
   // Mobile: nav_section toggles inside a top-level section
@@ -244,7 +256,7 @@ export default function initMeganavTrackingMobile() {
       ".p-navigation__dropdown-content--sliding .p-navigation__item--dropdown-toggle > a.js-dropdown-button[data-level='1']"
     )
     .forEach((a) => {
-      a.addEventListener("click", () => trackMobileNavSectionToggleClick(a));
+      addMobileListener(a, "click", () => trackMobileNavSectionToggleClick(a));
     });
 
   // Mobile: external navigation clicks (links leading out of the menu)
@@ -259,6 +271,6 @@ export default function initMeganavTrackingMobile() {
       ) {
         return;
       }
-      a.addEventListener("click", () => trackMobileExternalLinkClick(a));
+      addMobileListener(a, "click", () => trackMobileExternalLinkClick(a));
     });
 }
