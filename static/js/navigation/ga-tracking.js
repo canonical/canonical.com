@@ -1,44 +1,13 @@
-import initMeganavTracking, { destroyMeganavTracking } from "./meganav-tracking";
-import initMeganavTrackingMobile, { destroyMeganavTrackingMobile } from "./meganav-tracking-mobile";
+import initMeganavTracking from "./meganav-tracking";
+import initMeganavTrackingMobile from "./meganav-tracking-mobile";
 import { isDesktop } from "./utils";
 
-// Track current mode and ensure we only attach one resize listener
-let isCurrentlyDesktop = null;
-let resizeListenerRegistered = false;
-
 export default function initGATracking() {
-  // Initialize tracking based on the current breakpoint.
+  // Gate initialization by breakpoint at startup
   if (isDesktop()) {
     initMeganavTracking();
-    isCurrentlyDesktop = true;
   } else {
     initMeganavTrackingMobile();
-    isCurrentlyDesktop = false;
-  }
-
-  // Listen for resize events to reinitialize tracking if the breakpoint changes.
-  if (!resizeListenerRegistered) {
-    window.addEventListener("resize", () => {
-      const isNowDesktop = isDesktop();
-
-      // Do nothing if the breakpoint hasn't changed
-      if (isNowDesktop === isCurrentlyDesktop) {
-        return;
-      }
-
-      // Destroy the old tracker and initialize the new one.
-      if (isNowDesktop) {
-        destroyMeganavTrackingMobile();
-        initMeganavTracking();
-      } else {
-        destroyMeganavTracking();
-        initMeganavTrackingMobile();
-      }
-
-      // Update the current breakpoint.
-      isCurrentlyDesktop = isNowDesktop;
-    });
-    resizeListenerRegistered = true;
   }
 
   addGAContentEvents("#main-content");

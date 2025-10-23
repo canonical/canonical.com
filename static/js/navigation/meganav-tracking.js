@@ -208,37 +208,24 @@ function trackSearchClick(label) {
   pushToDataLayer(values);
 }
 
-// Listener tracking for cleanup when switching breakpoints
-const desktopListeners = [];
-function addDesktopListener(el, type, handler, options) {
-  el.addEventListener(type, handler, options);
-  desktopListeners.push({ el, type, handler, options });
-}
-export function destroyMeganavTracking() {
-  desktopListeners.forEach(({ el, type, handler, options }) => {
-    el.removeEventListener(type, handler, options);
-  });
-  desktopListeners.length = 0;
-}
-
 export default function initMeganavTracking() {
   const root = navigation;
   if (!root) return;
-
+  
   // Topbar toggle buttons
   root
     .querySelectorAll(
       ".js-show-nav > .js-dropdown-list > .p-navigation__item--dropdown-toggle > a.js-dropdown-button"
     )
     .forEach((linkEl) => {
-      addDesktopListener(linkEl, "click", () => trackTopbarClick(linkEl));
+      linkEl.addEventListener("click", () => trackTopbarClick(linkEl));
     });
 
   // Sidebar tabs within any dropdown window
   root
     .querySelectorAll(".js-dropdown-window .js-navigation-tab")
     .forEach((linkEl) => {
-      addDesktopListener(linkEl, "click", () => trackSidebarClick(linkEl));
+      linkEl.addEventListener("click", () => trackSidebarClick(linkEl));
     });
 
   // Links inside dropdowns: primary, secondary, and preview links
@@ -247,7 +234,7 @@ export default function initMeganavTracking() {
       ".js-dropdown-window a.p-navigation__dropdown-item, .js-dropdown-window .p-navigation__link-list a, .js-dropdown-window a.p-navigation__preview-link"
     )
     .forEach((linkEl) => {
-      addDesktopListener(linkEl, "click", () => trackDropdownLinkClick(linkEl));
+      linkEl.addEventListener("click", () => trackDropdownLinkClick(linkEl));
     });
 
   // ============================================================================
@@ -258,20 +245,20 @@ export default function initMeganavTracking() {
   root
     .querySelectorAll(".js-search-button.p-navigation__link--search-toggle")
     .forEach((buttonEl) => {
-      addDesktopListener(buttonEl, "click", () => trackSearchClick("search toggle"));
+      buttonEl.addEventListener("click", () => trackSearchClick("search toggle"));
     });
 
   // Track when the search input is clicked/focused to type
   root
     .querySelectorAll(".p-search-box__input")
     .forEach((inputEl) => {
-      addDesktopListener(inputEl, "focus", () => trackSearchClick("search input focused"));
+      inputEl.addEventListener("focus", () => trackSearchClick("search input focused"));
     });
 
   // Track clicks on the close/reset icon button
   root
     .querySelectorAll(".p-search-box__reset")
     .forEach((resetEl) => {
-      addDesktopListener(resetEl, "click", () => trackSearchClick("search reset"));
+      resetEl.addEventListener("click", () => trackSearchClick("search reset"));
     });
 }
