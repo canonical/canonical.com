@@ -257,13 +257,15 @@ export default function initMeganavTrackingMobile() {
     });
 
   // Mobile: external navigation clicks (links leading out of the menu)
+  const internalMenuControls = ["js-back-button", "js-dropdown-button"]
   root
     .querySelectorAll(".p-navigation__dropdown-content--sliding a")
     .forEach((a) => {
       // Ignore menu-internal controls
       if (
-        a.classList.contains("js-back-button") ||
-        a.classList.contains("js-dropdown-button") ||
+        internalMenuControls.some((className) =>
+          a.classList.contains(className)
+        ) ||
         (a.getAttribute("href") || "").startsWith("#")
       ) {
         return;
