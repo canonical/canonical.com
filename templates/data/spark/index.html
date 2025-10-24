@@ -1,6 +1,7 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1sM8pgyM-N8VK8fyHgMsW21PdXUiqYrdRkPkipIljNd0/edit
@@ -327,12 +328,7 @@
         <h2>Customer story</h2>
       </div>
       <div class="grid-col">
-        <div class="u-embedded-media">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/JKZKpXaJsPI?si=bWMlnywbkw6N0Z1C"
-            title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+        {{ lite_video(video_id="JKZKpXaJsPI", video_title="The Tech Behind Europe's Space Missions | Canonical x ESA") }}
         <p>
           Explore how Canonical deployed infrastructure solutions and managed IT services for critical space mission
           operations
