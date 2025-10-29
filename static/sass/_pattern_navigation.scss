@@ -97,6 +97,28 @@ $navigation-heading-color: #fff9;
     }
   }
 
+  .p-navigation__content-panel {
+    background-color: $navigation-background;
+    padding-top: 2rem;
+
+    .p-navigation__main-links {
+      margin-left: -0.5rem;
+    }
+
+    .p-navigation__dropdown-item {
+      padding: 0.25rem 0.5rem;
+
+      small {
+        color: #aaa;
+      }
+    }
+
+    li:first-of-type .p-navigation__dropdown-item,
+    li:not(:last-of-type) .p-navigation__dropdown-item {
+      border-bottom: $dropdown-border;
+    }
+  }
+
   .p-navigation__content-panel--full-width {
     .p-navigation__dropdown-item small,
     .p-navigation__dropdown-item small:visited {
@@ -147,24 +169,6 @@ $navigation-heading-color: #fff9;
     }
   }
 
-  .p-navigation__content-panel {
-    background-color: $navigation-background;
-    padding-top: 2rem;
-
-    .p-navigation__main-links {
-      margin-left: -0.5rem;
-    }
-
-    .p-navigation__dropdown-item {
-      padding: 0.25rem 0.5rem;
-    }
-
-    li:first-of-type .p-navigation__dropdown-item,
-    li:not(:last-of-type) .p-navigation__dropdown-item {
-      border-bottom: $dropdown-border;
-    }
-  }
-
   .p-navigation__preview-link--container {
     row-gap: 2rem;
   }
@@ -188,13 +192,16 @@ $navigation-heading-color: #fff9;
     justify-content: space-between;
   }
 
-  .p-navigation--sliding .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content--full-width {
+  .p-navigation--sliding
+    .p-navigation__dropdown.is-full-width
+    .p-navigation__dropdown-content--full-width {
     @include vf-animation(all, brisk, out);
   }
 
   .p-navigation--reduced,
   .p-navigation--sliding {
-    .p-navigation__dropdown.is-full-width .p-navigation__dropdown-content--full-width {
+    .p-navigation__dropdown.is-full-width
+      .p-navigation__dropdown-content--full-width {
       background-color: $navigation-background;
     }
   }
@@ -240,7 +247,9 @@ $navigation-heading-color: #fff9;
   }
 
   // remove the border from the final tab item
-  .p-navigation__tab-panel .p-side-navigation__item:last-of-type .p-side-navigation__link {
+  .p-navigation__tab-panel
+    .p-side-navigation__item:last-of-type
+    .p-side-navigation__link {
     border-bottom: none;
   }
 }
