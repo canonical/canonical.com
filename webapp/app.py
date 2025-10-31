@@ -833,7 +833,7 @@ class BlogView(flask.views.View):
         self.blog_views = blog_views
 
 
-class PressCentre(BlogView):
+class PressCenter(BlogView):
     def dispatch_request(self):
         page_param = flask.request.args.get("page", default=1, type=int)
         category_param = flask.request.args.get(
@@ -903,7 +903,7 @@ app.add_url_rule(
 )
 app.add_url_rule(
     "/press-center",
-    view_func=PressCentre.as_view("press_center", blog_views=blog_views),
+    view_func=PressCenter.as_view("press_center", blog_views=blog_views),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
