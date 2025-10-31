@@ -83,15 +83,15 @@
               {% endif %}
             {% else %}
               <div class="grid-row u-no-padding">
-                {% for list in section.sibling_lists %}
-                  <div class="grid-col-2">
-                    {% with list=list, inverted_links=true %}
-                      {% include "navigation/partials/_link-list.html" %}
-                    {% endwith %}
-                  </div>
-                {% endfor %}
+                <div class="grid-col-2">
+                  {% for list in section.sibling_lists %}
+                      {% with list=list, inverted_links=true %}
+                        {% include "navigation/partials/_link-list.html" %}
+                      {% endwith %}
+                  {% endfor %}
+                </div>
                 {% if section.preview_secondary_links %}
-                  <div class="grid-col-4">
+                  <div class="grid-col-6">
                     {% with preview_secondary_links=section.preview_secondary_links %}
                       {% include "navigation/partials/_preview-links.html" %}
                     {% endwith %}

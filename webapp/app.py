@@ -833,7 +833,7 @@ class BlogView(flask.views.View):
         self.blog_views = blog_views
 
 
-class PressCentre(BlogView):
+class PressCenter(BlogView):
     def dispatch_request(self):
         page_param = flask.request.args.get("page", default=1, type=int)
         category_param = flask.request.args.get(
@@ -843,7 +843,7 @@ class PressCentre(BlogView):
             "canonical-announcements", page_param, category_param
         )
 
-        return flask.render_template("press-centre/index.html", **context)
+        return flask.render_template("press-center/index.html", **context)
 
 
 class BlogSitemapIndex(BlogView):
@@ -902,8 +902,8 @@ app.add_url_rule(
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
 app.add_url_rule(
-    "/press-centre",
-    view_func=PressCentre.as_view("press_centre", blog_views=blog_views),
+    "/press-center",
+    view_func=PressCenter.as_view("press_center", blog_views=blog_views),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
