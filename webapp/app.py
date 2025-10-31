@@ -71,6 +71,9 @@ from webapp.utils.juju_doc_search import (
     search_all_docs,
 )
 
+from webapp.cookie_consent_pkg import consent_bp
+from webapp.cookie_consent_pkg.client import fetch_preferences
+
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
@@ -137,6 +140,81 @@ form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
+# Cookie session
+app.config["COOKIE_SERVICE_API_KEY"] = get_flask_env(
+    "COOKIE_SERVICE_API_KEY"
+)
+app.config["CENTRAL_COOKIE_SERVICE_URL"] = "http://0.0.0.0:8118"
+app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
+
+app.register_blueprint(consent_bp)
+
+@app.before_request
+def redirect_to_cookie_service():
+    """
+    Redirects to the cookie consent service to create a session
+    """
+    
+    # Skip static files
+    if flask.request.endpoint == 'static':
+        return
+    
+    # Only run on HTML page requests
+    if 'text/html' not in flask.request.accept_mimetypes:
+        return
+    
+    # Ignore requests to the cookies endpoint
+    if flask.request.path.startswith('/cookies'):
+        return
+    
+    # Check if session was alread created
+    user_uuid = flask.session.get("user_uuid")
+    if user_uuid:
+        return
+    
+    response = flask.make_response(
+        flask.redirect(f"http://local-cookies.com:8118/api/v1/cookies/session?return_uri={flask.request.url}")
+    )
+
+    return response
+        
+@app.after_request
+def set_cookies(response):
+    if flask.request.endpoint == "static":
+        return response
+
+    if response.mimetype != "text/html":
+        return response
+    
+    if flask.request.path.startswith("/cookies"):
+        return response
+    user_uuid = flask.session.get("user_uuid")
+    local_preferences = flask.request.cookies.get("_cookies_accepted")
+
+    if not local_preferences and user_uuid:
+        preferences_data = fetch_preferences(user_uuid)
+        consent_value = preferences_data.get("preferences", {}).get("consent", "unset")
+        response.set_cookie(
+            "_cookies_accepted",
+            consent_value,
+            max_age=60 * 60 * 24 * 365,  # 1 year
+            samesite="Lax",
+            secure=False,
+        )
+
+    return response
+
+def set_persistent_cookie(response, key, value, days=365):
+    response.set_cookie(
+        key,
+        value,
+        max_age=60 * 60 * 24 * days,
+        samesite="Lax",
+        secure=False,
+    )
+    
 
 def _group_by_department(harvest, vacancies):
     """
