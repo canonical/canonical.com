@@ -132,6 +132,12 @@ The terms governing use of Canonical's Ubuntu Community Discourse Forum.
 
 ### Canonical Support Portal Terms of Service
 
-The terms governing use of Canonical’s support portal.
+The terms governing use of Canonical's support portal.
 
 [Access Canonical Support Portal terms ›](/legal/terms-and-policies/support-portal)
+
+### AI Support Knowbot Terms of Use
+
+The terms governing the use of Canonical's AI Support Knowbot. 
+
+[View Support Knowbot terms ›](https://assets.ubuntu.com/v1/291cefc5-ai_support_knowbot_terms_v1.pdf)
