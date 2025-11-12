@@ -11,7 +11,7 @@
   {% set column_links = split_list(links, columns) %}
 
   {% for i in range(columns) %}
-    <div class="col-3">
+    <div class="grid-col-2">
       <ul class="p-list">
         {% for link in column_links[i] %}
           {% with
@@ -32,7 +32,7 @@
 {# Macro for rendering secondary links panel #}
 
 {% macro render_secondary_panel(section_data) %}
-  <div class="col-3 dropdown-window__side-panel">
+  <div class="grid-col-2 dropdown-window__side-panel">
     {% if section_data.secondary_links %}
       <p class="p-text--small-caps u-text--muted">{{ section_data.secondary_links.title }}</p>
       <ul class="p-list">
@@ -67,10 +67,10 @@
     {% for section in nav %}
       <hr class="is-dark is-fixed-width p-rule--muted" />
       <nav class="dropdown-window__content-container desktop-dropdown-content">
-        <div class="dropdown-window__content row">
+        <div class="dropdown-window__content grid-row">
           {% include "navigation/partials/_section-heading-nojs.html" %}
           {% if "side_nav_sections" in nav[section] %}
-            <div class="p-navigation__tab-panel col-3">
+            <div class="p-navigation__tab-panel grid-col-2">
               <div class="p-side-navigation is-dark">
                 <div class="p-side-navigation__drawer">
                   <ul class="p-side-navigation__list u-no-margin--bottom">
@@ -85,23 +85,23 @@
               </div>
             </div>
 
-            <div class="col-9 u-no-padding">
+            <div class="grid-col-6 u-no-padding">
               {% for side_nav_section in nav[section].side_nav_sections %}
                 <div class="p-navigation__content-panel u-no-padding--top"
                      style="background-color: transparent"
                      id="{{ section }}-{{ side_nav_section.title | slug }}-navigation">
                   <hr class="is-dark is-fixed-width p-rule--muted" />
                   <h3 class="p-heading--2 u-no-padding--left u-sv3">{{ side_nav_section.title }}</h3>
-                  <div class="row u-no-padding u-sv3">
+                  <div class="grid-row u-no-padding u-sv3">
                     {% set has_secondary_links = side_nav_section.secondary_links and side_nav_section.secondary_links.links | length %}
                     {% set links_to_render = side_nav_section.primary_links.links %}
 
-                    <div class="col-{% if has_secondary_links %}6{% else %}9{% endif %}">
-                      <div class="row">{{ render_three_column_links(links_to_render, has_secondary_links) }}</div>
+                    <div class="grid-col-{% if has_secondary_links %}4{% else %}6{% endif %}">
+                      <div class="grid-row">{{ render_three_column_links(links_to_render, has_secondary_links) }}</div>
                     </div>
 
                     {% if has_secondary_links %}
-                      <div class="col-3 dropdown-window__side-panel">
+                      <div class="grid-col-2 dropdown-window__side-panel">
                         <p class="p-text--small-caps u-text--muted">{{ side_nav_section.secondary_links.title }}</p>
                         <ul class="p-list">
                           {% for link in side_nav_section.secondary_links.links %}
@@ -115,7 +115,7 @@
                   </div>
 
                   {% if side_nav_section.section_footer %}
-                    <div class="col-9 p-navigation__footer">
+                    <div class="grid-col-9 p-navigation__footer">
                       {% if "copy" in side_nav_section.section_footer %}<p>{{ side_nav_section.section_footer['copy'] }}</p>{% endif %}
 
                       <a href="{{ side_nav_section.section_footer['cta_url'] }}"
@@ -126,24 +126,24 @@
               {% endfor %}
             </div>
           {% elif "primary_links" in nav[section] %}
-            <div class="row p-navigation__content-panel"
+            <div class="grid-row p-navigation__content-panel"
                  style="background-color: transparent">
-              <div class="col-9">
+              <div class="grid-col-6">
                 {% if nav[section].primary_links.title %}
                   <p class="p-text--small-caps u-text--muted">{{ nav[section].primary_links.title }}</p>
                 {% endif %}
-                <div class="row u-sv3">{{ render_three_column_links(nav[section].primary_links.links) }}</div>
+                <div class="grid-row u-sv3">{{ render_three_column_links(nav[section].primary_links.links) }}</div>
               </div>
 
               {{ render_secondary_panel(nav[section]) }}
             </div>
           {% elif "sibling_lists" in nav[section] %}
-            <div class="row p-navigation__content-panel"
+            <div class="grid-row p-navigation__content-panel"
                  style="background-color: transparent">
-              <div class="col-9">
+              <div class="grid-col-6">
                 {% for sibling_list in nav[section].sibling_lists %}
                   {% if sibling_list.title %}<p class="p-text--small-caps u-text--muted">{{ sibling_list.title }}</p>{% endif %}
-                  <div class="row u-sv3">{{ render_three_column_links(sibling_list.links) }}</div>
+                  <div class="grid-row u-sv3">{{ render_three_column_links(sibling_list.links) }}</div>
                 {% endfor %}
               </div>
 
