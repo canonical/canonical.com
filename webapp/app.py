@@ -58,6 +58,7 @@ from webapp.handlers import init_handlers
 from webapp.navigation import (
     build_navigation,
     get_current_page_bubble,
+    get_navigation,
     split_list,
 )
 from webapp.openapi_parser import parse_openapi, read_yaml_from_url
@@ -984,6 +985,7 @@ def context():
         "build_navigation": build_navigation,
         "split_list": split_list,
         "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
+        "get_navigation": get_navigation,
     }
 
 
@@ -1772,6 +1774,13 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+def navigation_nojs():
+    return flask.render_template("navigation/navigation-nojs.html")
+
+
+app.add_url_rule("/navigation", view_func=navigation_nojs)
 
 
 @app.route("/solutions/infrastructure/private-cloud-pricing.json")
