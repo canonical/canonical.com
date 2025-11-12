@@ -257,3 +257,42 @@ $navigation-heading-color: #fff9;
     border-bottom: none;
   }
 }
+
+@mixin canonical-p-nojs-navigation {
+  .nojs-navigation {
+    background: #262626;
+    overflow-x: unset !important;
+
+    .p-heading--1,
+    .p-navigation__content-panel {
+      scroll-margin: 5rem;
+    }
+
+    h2 {
+      color: $color-light;
+      padding-left: 1.5rem;
+    }
+
+    .p-side-navigation {
+      padding-top: 1rem;
+    }
+
+    .dropdown-window__tab-panel,
+    .p-navigation__tab-panel {
+      height: fit-content;
+      padding-bottom: 3rem;
+      position: sticky;
+      top: 3rem;
+    }
+
+    .dropdown-window__footer {
+      padding-bottom: 3rem;
+    }
+
+    @media (max-width: $breakpoint-navigation-threshold - 1) {
+      .dropdown-window__tab-panel {
+        display: none;
+      }
+    }
+  }
+}

@@ -120,3 +120,25 @@ def split_list(array, parts):
         array[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)]
         for i in range(parts)
     ]
+
+
+# Read navigation.yaml
+with open("navigation.yaml") as navigation_file:
+    navigation = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
+
+
+def get_navigation(section):
+    """
+    Set "navigation_section" as global template variable
+    """
+    sections = {}
+    navigation_sections = copy.deepcopy(navigation)
+
+    if section == "all":
+        return navigation_sections
+
+    for section_name, navigation_section in navigation_sections.items():
+        if section_name == section:
+            sections = navigation_section
+
+    return {"sections": sections}
