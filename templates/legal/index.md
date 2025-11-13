@@ -83,3 +83,11 @@ context:
   <hr class="p-rule--muted">
   [View our Canonical's equal employment opportunity commitment&nbsp;&rsaquo;](/legal/equal-employment-opportunity-commitment)
 </section>
+
+<section class="p-section--shallow">
+  <hr class="p-rule--muted">
+  <h3>General conditions of purchase</h3>
+  <p>Canonical's General Conditions of Purchase apply to all purchase orders issued by Canonical and all procurement agreements signed by Canonical.</p>
+  <hr class="p-rule--muted">
+  [View our general conditions of purchase&nbsp;&rsaquo;](/legal/general-conditions-of-purchase)
+</section>
