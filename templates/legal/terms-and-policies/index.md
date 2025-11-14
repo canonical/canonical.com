@@ -34,6 +34,12 @@ Our intellectual property rights policy lets you use, modify and redistribute Ub
 
 [View intellectual property policy ›](/legal/intellectual-property-policy)
 
+### Canonical General Conditions of Purchase
+
+Terms and conditions are for when we purchase services from you.
+
+[View Canonical general conditions of purchase>](/legal/general-conditions-of-purchase)
+
 ### Online accounts
 
 Ubuntu online accounts are provided by Canonical. This legal notice applies to your use of Ubuntu online accounts and incorporates the terms of our legal notice and our privacy policy.
@@ -138,6 +144,6 @@ The terms governing use of Canonical's support portal.
 
 ### AI Support Knowbot Terms of Use
 
-The terms governing the use of Canonical's AI Support Knowbot. 
+The terms governing the use of Canonical's AI Support Knowbot.
 
 [View Support Knowbot terms ›](https://assets.ubuntu.com/v1/291cefc5-ai_support_knowbot_terms_v1.pdf)
