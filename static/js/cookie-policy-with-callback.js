@@ -7,16 +7,44 @@ import { v4 as uuidv4 } from "uuid";
 const getCookie = (targetCookie) =>
   document.cookie.match(new RegExp("(^| )" + targetCookie + "=([^;]+)"));
 let cookieAcceptanceValue = getCookie("_cookies_accepted");
+let setUserIdCalled = false;
 
 if (!cookieAcceptanceValue) {
-  cpNs.cookiePolicy(setUserId);
+  cpNs.cookiePolicy(postUpdatedPreferences);
 } else {
   setUserId();
-  cpNs.cookiePolicy();
+  cpNs.cookiePolicy(postUpdatedPreferences);
   setUtms();
 }
 
+function postUpdatedPreferences() {
+  console.log("Posting updated cookie preferences to server.");
+  const cookieMode = getCookie("_cookies_mode");
+  if (cookieMode && cookieMode[2] === "local") {
+    console.log("Local cookie mode - not sending preferences to server.");
+    return;
+  }
+
+  const cookieAcceptanceValue = getCookie("_cookies_accepted");
+  if (!cookieAcceptanceValue) {
+    console.log("No cookie acceptance value found.");
+    return;
+  }
+
+  fetch("/cookies/set-preferences", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({"preferences": {"consent": cookieAcceptanceValue[2]}})
+  })
+  .then(response => response.json())
+  .catch(err => console.error("Error sending preferences:", err));
+}
+
 function setUserId() {
+  if (setUserIdCalled) return;
+  setUserIdCalled = true;
   cookieAcceptanceValue = getCookie("_cookies_accepted");
   if (
     cookieAcceptanceValue?.[2] === "all" ||
