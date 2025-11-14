@@ -1,0 +1,158 @@
+<div class="grid-row--25-75">
+  <div class="grid-col">
+    {{ image(url="https://assets.ubuntu.com/v1/11ecbd2d-2018-logo-windows.svg",
+      alt="Windows",
+      width="145",
+      height="145",
+      hi_def=True,
+      loading="lazy"
+      ) | safe
+    }}
+  </div>
+  <div class="grid-col">
+    <ol class="p-stepped-list--detailed">
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Download the installer for Windows</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <p>
+                <a class="p-button--positive" href="/microk8s-installer.exe">Download MicroK8s for Windows</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Run the Installer</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <p>
+                <img src="https://assets.ubuntu.com/v1/40617546-win2.png" alt="Windows installer">
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Open a command line</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <p>
+                <img src="https://assets.ubuntu.com/v1/a2f7ab2a-win1.png" alt="Windows commandline">
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Check the status while Kubernetes starts</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <div class="p-code-snippet">
+                <pre class="p-code-snippet__block"><code>microk8s status --wait-ready</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Turn on the services you want</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <div class="p-code-snippet">
+                <pre class="p-code-snippet__block"><code>microk8s enable dashboard</code></pre>
+                <pre class="p-code-snippet__block"><code>microk8s enable dns</code></pre>
+                <pre class="p-code-snippet__block"><code>microk8s enable registry</code></pre>
+                <pre class="p-code-snippet__block"><code>microk8s enable istio</code></pre>
+              </div>
+              <p>
+                Try <code>microk8s enable --help</code> for a list of available services built in. microk8s disable turns off a service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Start using Kubernetes</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <div class="p-code-snippet">
+                <pre class="p-code-snippet__block"><code>microk8s kubectl get all --all-namespaces</code></pre>
+              </div>
+              <p>If you mainly use MicroK8s you can run the native Windows version of kubectl on your command-line.</p>
+              <p>
+                <a href="/docs/working-with-kubectl#heading--kubectl-windows">Learn how&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Access the Kubernetes dashboard</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <div class="p-code-snippet">
+                <pre class="p-code-snippet__block"><code>microk8s dashboard-proxy</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    
+      <li class="p-stepped-list__item">
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <p class="p-stepped-list__title p-heading--5">Start and stop Kubernetes to save battery</p>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-stepped-list__content">
+              <p>Kubernetes is a collection of system services that talk to each other all the time. If you don't need them running in the background then you will save battery by stopping them. <code>microk8s start</code> and <code>microk8s stop</code> will do the work for you.</p>
+              <p>
+                <a href="/docs">Read the docs to learn more&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <hr class="p-rule">
+    <div class="grid-row">
+      <div class="grid-col-2">
+        <p class="p-heading--5">Join the community</p>
+      </div>
+      <div class="grid-col-4">
+        <p>
+          <a href="https://discuss.kubernetes.io/c/general-discussions/microk8s/26">Connect with our community and see what others are doing with MicroK8s&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
