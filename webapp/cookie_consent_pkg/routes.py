@@ -1,13 +1,13 @@
+# routes.py
 import flask
 import json
-from flask import request, session, jsonify, redirect
-from . import consent_bp
-from . import client
+from flask import request, session, jsonify, redirect, Blueprint, current_app
+from .helpers import set_cookie_accepted_with_ts, get_client
+from .exceptions import UserNotFoundException
 
-@consent_bp.route("/session")
-def session_redirect():
-    return json({"hello": "world"})
-    return flask.redirect(f"{flask.client.get_base_url()}?return_uri=0.0.0.0:8002")
+
+consent_bp = Blueprint("cookie_consent", __name__)
+
 
 @consent_bp.route("/callback")
 def callback():
@@ -23,13 +23,14 @@ def callback():
     if not code:
         return jsonify({"error": "No code provided"}), 400
 
+    client = get_client()
     data = client.exchange_code_for_uuid(code)
-    
+
     if data is None:
         return jsonify({"error": "Failed to exchange code"}), 500
-    
+
     user_uuid = data.get("user_uuid")
-    
+
     if not user_uuid:
         return jsonify({"error": "No user_uuid in response"}), 500
 
@@ -38,19 +39,14 @@ def callback():
 
     response = flask.make_response(redirect(return_uri))
 
-    print("preferences_unset:", preferences_unset)
-
-    if preferences_unset == "False":
-        preferences = client.fetch_preferences(user_uuid)
-        print("fetched preferences:", preferences)
-        if preferences:
-            response.set_cookie(
-                "_cookie_preferences",
-                json.dumps(preferences),
-                max_age=60 * 60 * 24 * 365,  # 1 year
-                samesite="Lax",
-                secure=False,
-            )
+    try:
+        preferences = client.fetch_preferences(user_uuid).get("preferences").get("consent")
+    except UserNotFoundException:
+        session.pop("user_uuid", None)
+    if preferences:
+        set_cookie_accepted_with_ts(
+            response, "_cookies_accepted", preferences
+        )
 
     return response
 
@@ -64,9 +60,8 @@ def get_preferences():
     if not user_uuid:
         return jsonify({"error": "Not authenticated"}), 401
 
-    preferences = client.fetch_preferences(user_uuid)
+    preferences = get_client().fetch_preferences(user_uuid) 
     return jsonify(preferences), 200
-
 
 
 @consent_bp.route("/set-preferences", methods=["POST"])
@@ -83,8 +78,8 @@ def set_preferences():
         return jsonify({"error": "Invalid or missing JSON body"}), 400
 
     print("Setting preferences for user_uuid:", user_uuid, "with data:", data)
-    result = client.post_preferences(user_uuid, data)
+    result = get_client().post_preferences(user_uuid, data)
     if result is None:
         return jsonify({"error": "Failed to save preferences"}), 500
-    
+
     return jsonify({"message": "Preferences saved"}), 200

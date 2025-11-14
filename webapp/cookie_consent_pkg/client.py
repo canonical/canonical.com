@@ -1,81 +1,132 @@
+# client.py
 import requests
-from flask import current_app
 import logging
+import threading
+import time
+
+from .exceptions import UserNotFoundException
 
 logger = logging.getLogger(__name__)
 
 
-def get_base_url():
-    """
-    Get and validate base URL from config.
-    Raises ValueError if URL is not found.
-    """
-    base_url = current_app.config["CENTRAL_COOKIE_SERVICE_URL"]
-    if not base_url:
-        logger.error("CENTRAL_COOKIE_SERVICE_URL is not configured")
-        raise ValueError("CENTRAL_COOKIE_SERVICE_URL is not configured")
-    return base_url
+CACHE_KEY_COOKIE_SERVICE_UP = "cookie-service-up"
+COOKIE_SERVICE_HEALTHCHECK_PATH = "/api/v1/health"
 
 
-def get_central_service_auth_headers():
-    """
-    Builds the auth headers.
-    Raises ValueError if API key is not configured.
-    """
-    api_key = current_app.config.get("COOKIE_SERVICE_API_KEY")
-    if not api_key:
-        logger.error("COOKIE_SERVICE_API_KEY is not configured")
-        raise ValueError("COOKIE_SERVICE_API_KEY is not configured")
-    return {"Authorization": f"Bearer {api_key}"}
+class CookieServiceClient:
+    def __init__(
+        self, app, get_cache_func, set_cache_func, start_health_check
+    ):
+        """
+        Initializes the client.
 
+        :param app: The Flask app object.
+        :param get_cache_func: The function to call for cache GETs.
+        :param set_cache_func: The function to call for cache SETs.
+        """
+        self.app = app
+        self.get_cache = get_cache_func
+        self.set_cache = set_cache_func
+        self.start_health_check = start_health_check
 
-def exchange_code_for_uuid(code):
-    """
-    Exchanges the one-time code for a user_uuid at the central service.
-    Returns None if the exchange fails.
-    """
-    try:
-        url = f"{get_base_url()}/api/v1/token"
-        headers = get_central_service_auth_headers()
-        response = requests.post(
-            url, headers=headers, json={"code": code}, timeout=10
+        self.base_url = app.config.get("CENTRAL_COOKIE_SERVICE_URL")
+        self.api_key = app.config.get("COOKIE_SERVICE_API_KEY")
+        self.health_url = (
+            f"{self.base_url.rstrip('/')}{COOKIE_SERVICE_HEALTHCHECK_PATH}"
         )
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to exchange code for UUID: {e}")
-        return None
 
+        if not self.api_key:
+            raise ValueError("Cookie Service API Key is not configured.")
 
-def fetch_preferences(user_uuid):
-    """
-    Gets preferences from the central service.
-    Returns None if the fetch fails.
-    """
-    try:
-        url = f"{get_base_url()}/api/v1/users/{user_uuid}/preferences"
-        headers = get_central_service_auth_headers()
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to fetch preferences for user {user_uuid}: {e}")
-        return None
+    def _get_auth_headers(self):
+        """Builds auth headers."""
+        return {"Authorization": f"Bearer {self.api_key}"}
 
+    # Health check functions
 
-def post_preferences(user_uuid, preferences):
-    """
-    Sets preferences at the central service.
-    Returns None if the post fails.
-    """
-    try:
-        url = f"{get_base_url()}/api/v1/users/{user_uuid}/preferences"
-        headers = get_central_service_auth_headers()
-        response = requests.post(
-            url, headers=headers, json=preferences, timeout=10
-        )
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to post preferences for user {user_uuid}: {e}")
-        return None
+    def _ping_service(self):
+        """
+        Pings the health check endpoint and updates the cache.
+        If response time > 1s, consider it down for better UX.
+        """
+        try:
+            response = requests.get(self.health_url, timeout=1)
+            is_up = response.status_code == 200
+        except Exception:
+            is_up = False
+
+        self.set_cache(CACHE_KEY_COOKIE_SERVICE_UP, is_up, 60)
+
+    def start_health_check_thread(self):
+        """Starts a background thread to periodically ping the service."""
+
+        def health_check_loop():
+            while True:
+                self._ping_service()
+                time.sleep(15)
+
+        thread = threading.Thread(target=health_check_loop, daemon=True)
+        thread.start()
+
+    def is_service_up(self):
+        """
+        Checks the cache for status of the cookie service.
+        Returns False if None found.
+        If health checks are disabled, always returns True.
+        """
+        if self.start_health_check is False:
+            return True
+        return bool(self.get_cache(CACHE_KEY_COOKIE_SERVICE_UP))
+
+    #  API Call Methods
+
+    def exchange_code_for_uuid(self, code):
+        """Exchanges the one-time code for a user_uuid."""
+        try:
+            url = f"{self.base_url}/api/v1/token"
+            response = requests.post(
+                url,
+                headers=self._get_auth_headers(),
+                json={"code": code},
+                timeout=10,
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to exchange code for UUID: {e}")
+            return None
+
+    def fetch_preferences(self, user_uuid):
+        """Gets preferences from the central service."""
+        try:
+            url = f"{self.base_url}/api/v1/users/{user_uuid}/preferences"
+            response = requests.get(
+                url, headers=self._get_auth_headers(), timeout=10
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 404:
+                logger.warning(f"User {user_uuid} not found in cookie service")
+                raise UserNotFoundException(user_uuid) from e
+            logger.error(f"Failed to fetch preferences: {e}")
+            return None
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to fetch preferences: {e}")
+            return None
+
+    def post_preferences(self, user_uuid, preferences):
+        """Sets preferences at the central service."""
+        try:
+            url = f"{self.base_url}/api/v1/users/{user_uuid}/preferences"
+            response = requests.post(
+                url,
+                headers=self._get_auth_headers(),
+                json=preferences,
+                timeout=10,
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to post preferences: {e}")
+            return None
