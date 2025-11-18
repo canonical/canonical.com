@@ -100,7 +100,6 @@ CSP = {
         "cdn.livechatinc.com",
         "secure.livechatinc.com",
         "cdn.livechat-static.com",
-        "localhost:8118"
     ],
     "style-src": [
         "'self'",

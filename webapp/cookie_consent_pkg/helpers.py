@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 
 from .exceptions import UserNotFoundException
 
+
 def get_client():
     return current_app.extensions["cookie_consent_client"]
 
@@ -44,9 +45,7 @@ def check_cookie_stale(cookie_stale) -> bool:
     if timestamp_cookie:
         try:
             timestamp = datetime.fromisoformat(timestamp_cookie)
-            if datetime.now(timezone.utc) - timestamp > timedelta(
-                days=1
-            ):
+            if datetime.now(timezone.utc) - timestamp > timedelta(days=1):
                 cookie_stale = True
         except Exception:
             cookie_stale = True

@@ -101,14 +101,12 @@ class CookieServiceClient:
         try:
             url = f"{self.base_url}/api/v1/users/{user_uuid}/preferences"
             request_headers = self._get_auth_headers()
-            
+
             # Ensure we get fresh data
             request_headers["Cache-Control"] = "no-cache"
             request_headers["Pragma"] = "no-cache"
 
-            response = requests.get(
-                url, headers=request_headers, timeout=10
-            )
+            response = requests.get(url, headers=request_headers, timeout=10)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.HTTPError as e:

@@ -1,7 +1,6 @@
 # routes.py
 import flask
-import json
-from flask import request, session, jsonify, redirect, Blueprint, current_app
+from flask import request, session, jsonify, redirect, Blueprint
 from .helpers import set_cookie_accepted_with_ts, get_client
 from .exceptions import UserNotFoundException
 
@@ -18,7 +17,6 @@ def callback():
     """
     code = request.args.get("code")
     return_uri = request.args.get("return_uri") or "/"
-    preferences_unset = request.args.get("preferences_unset")
 
     if not code:
         return jsonify({"error": "No code provided"}), 400

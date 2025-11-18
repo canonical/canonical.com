@@ -70,6 +70,11 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+from webapp.cookie_consent_pkg import CookieConsent
+from webapp.cookie_consent_pkg.helpers import (
+    check_session_and_redirect,
+    sync_preferences_cookie,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -138,19 +143,12 @@ form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
-# TEMP imports for testing
-# Code will be moved to independent repo
-from webapp.cookie_consent_pkg import CookieConsent
-from webapp.cookie_consent_pkg.helpers import (
-    check_session_and_redirect,
-    sync_preferences_cookie,
-)
 
-
+# Cookie consent configuration
 app.config["CENTRAL_COOKIE_SERVICE_URL"] = (
     "https://cookies.staging.canonical.com"
     # "http://local-cookies.com:8118"  # Local testing value
-) 
+)
 app.config["SESSION_COOKIE_SECURE"] = False  # Local testing value
 
 # --- TEMP CACHE SETUP: START ---
@@ -172,7 +170,7 @@ cookie_service = CookieConsent().init_app(
     app,
     get_cache_func=get_cache,
     set_cache_func=set_cache,
-    start_health_check=not bool(app.debug), # only run in production
+    start_health_check=not bool(app.debug),  # only run in production
 )
 
 
@@ -194,7 +192,6 @@ def set_cookies(response):
     response = sync_preferences_cookie(response)
     if response:
         return response
-
 
 
 def _group_by_department(harvest, vacancies):
