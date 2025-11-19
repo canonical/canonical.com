@@ -75,7 +75,6 @@ def set_preferences():
     if not data:
         return jsonify({"error": "Invalid or missing JSON body"}), 400
 
-    print("Setting preferences for user_uuid:", user_uuid, "with data:", data)
     result = get_client().post_preferences(user_uuid, data)
     if result is None:
         return jsonify({"error": "Failed to save preferences"}), 500

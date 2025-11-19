@@ -147,7 +147,6 @@ form_loader.load_forms()
 # Cookie consent configuration
 app.config["CENTRAL_COOKIE_SERVICE_URL"] = (
     "https://cookies.staging.canonical.com"
-    # "http://local-cookies.com:8118"  # Local testing value
 )
 app.config["SESSION_COOKIE_SECURE"] = False  # Local testing value
 
@@ -161,8 +160,6 @@ def get_cache(key):
 
 def set_cache(key, value):
     _cache[key] = value
-
-
 # --- TEMP CACHE SETUP: END ---
 
 # Initialize cookie consent service

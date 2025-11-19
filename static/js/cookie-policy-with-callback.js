@@ -18,16 +18,13 @@ if (!cookieAcceptanceValue) {
 }
 
 function postUpdatedPreferences() {
-  console.log("Posting updated cookie preferences to server.");
   const cookieMode = getCookie("_cookies_mode");
   if (cookieMode && cookieMode[2] === "local") {
-    console.log("Local cookie mode - not sending preferences to server.");
     return;
   }
 
   const cookieAcceptanceValue = getCookie("_cookies_accepted");
   if (!cookieAcceptanceValue) {
-    console.log("No cookie acceptance value found.");
     return;
   }
 
