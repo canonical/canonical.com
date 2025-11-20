@@ -22,10 +22,8 @@
       "name": "Canonical",
       "value": "{{ job.id }}"
     },
-    "datePosted" : "{{ job.date }}",
-    {% if job.employment_type == "Full-time" %}
+    "datePosted" : "{{ job.first_published_at }}",
     "employmentType" : "FULL_TIME",
-    {% endif %}
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
     "applicantLocationRequirements": {{ job.location | job_location_countries | tojson }},
@@ -34,7 +32,7 @@
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "{{ job.location }}"
+        "addressLocality": "{{ job.location.name }}"
       }
     },
     {% endif %}
