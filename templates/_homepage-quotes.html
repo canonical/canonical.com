@@ -137,7 +137,6 @@
         }
     ] %}
 
-    <noscript>
         <nav class="p-tabs js-tabbed-content"
         aria-label="Trusted in every industry">
         <div class="row">
@@ -236,102 +235,4 @@
                 </div>
             </div>
         {% endfor %}
-    </noscript>
-    <div class="p-tabs js-tabbed-content js-dependent"
-         role="tablist"
-         aria-label="Trusted in every industry">
-        <div class="row">
-            <div class="p-tabs__list p-section--shallow col-9 col-start-large-4 col-medium-6"
-                 role="tablist"
-                 aria-label="Trusted in every industry">
-                {% for q in homepage_quotes %}
-                    <div class="p-tabs__item">
-                        <button class="p-tabs__link"
-                                role="tab"
-                                aria-selected="{{ 'true' if loop.first else 'false' }}"
-                                aria-controls="{{ q.id }}-tab"
-                                id="{{ q.id }}"
-                                {% if not loop.first %}tabindex="-1"{% endif %}>{{ q.title }}</button>
-                    </div>
-                {% endfor %}
-            </div>
-            {% for q in homepage_quotes %}
-                <div tabindex="0"
-                     role="tabpanel"
-                     id="{{ q.id }}-tab"
-                     class="p-tabs__panel"
-                     aria-labelledby="{{ q.id }}"
-                     aria-hidden="false">
-                    <div class="p-section">
-                        <div class="row">
-                            <div class="col-3" style="padding-top: 0.45rem;">
-                                {{ image(url=q.logo.src, alt=q.logo.alt, width=q.logo.width, height=q.logo.height, hi_def=True, loading="lazy") | safe }}
-                            </div>
-                            <div class="col-9 col-medium-6">
-                                <div class="p-section">
-                                    <div class="row">
-                                        <div class="col-9 col-medium-6">
-                                            <h3 class="p-heading--4">
-                                                {% if q.id == 'scale-confidence' %}
-                                                    Unlocking economies of scale
-                                                    <br class="u-hide--small u-hide--medium" />
-                                                    with open source infrastructure
-                                                {% elif q.id == 'gain-efficiency' %}
-                                                    Lowering the cost and complexity
-                                                    <br class="u-hide--small u-hide--medium" />
-                                                    of critical space missions
-                                                {% elif q.id == 'ensure-continuity' %}
-                                                    Putting business continuity
-                                                    <br class="u-hide--small u-hide--medium" />
-                                                    at the heart of cloud migration
-                                                {% elif q.id == 'enhance-security' %}
-                                                    Securing medical devices
-                                                    <br class="u-hide--small u-hide--medium" />
-                                                    to improve healthcare outcomes
-                                                {% elif q.id == 'simplify-compliance' %}
-                                                    Meeting FedRAMP compliance
-                                                    <br class="u-hide--small u-hide--medium" />
-                                                    for government contracts
-                                                {% endif %}
-                                            </h3>
-                                        </div>
-                                        <div class="p-image--container u-hide--large">
-                                            {{ image(url=q.hero.src, alt=q.hero.alt, width=q.hero.width, height=q.hero.height, hi_def=True, attrs={"class": "p-image--container__image"}, loading="lazy") | safe }}
-                                        </div>
-                                        <div class="col-6 col-medium-6">
-                                            <p>
-                                                <i>{{ q.quote }}</i>
-                                            </p>
-                                            <a class="p-cta-text u-hide--medium u-hide--small"
-                                               href="{{ q.cta.href }}">{{ q.cta.text }}<i class="p-icon--arrow-right"></i></a>
-                                        </div>
-                                        <div class="col-3 col-medium-3">
-                                            <p class="u-no-margin--bottom">
-                                                <b>{{ q.author.name }}</b>
-                                            </p>
-                                            {% if q.author.role %}
-                                                <p class="u-text--muted">
-                                                    {{ q.author.role }},
-                                                    {% if q.author.org %}
-                                                        <br />
-                                                        {{ q.author.org }}
-                                                    {% endif %}
-                                                </p>
-                                            {% endif %}
-                                        </div>
-                                        <a class="p-cta-text u-hide--large" href="{{ q.cta.href }}">{{ q.cta.text }}<i class="p-icon--arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="u-fixed-width">
-                            <div class="p-image--container u-hide--medium u-hide--small">
-                                {{ image(url=q.hero.src, alt=q.hero.alt, width=q.hero.width, height=q.hero.height, hi_def=True, attrs={"class": "p-image--container__image"}, loading="lazy") | safe }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
 </section>
