@@ -327,6 +327,46 @@
       margin-top: -0.5rem;
     }
   }
+
+  body.js-enabled .js-fallback {
+    display: none;
+  }
+  // No-JS overrides
+  body:not(.js-enabled) {
+    .js-dependent {
+      display: none;
+    }
+
+    .js-dependent-children > * {
+      display: none;
+    }
+
+    .nojs-p-section {
+      @extend .p-section;
+    }
+
+    // stack all slides and allow natural height
+    .p-homepage-carousel {
+      height: auto;
+    }
+
+    .p-homepage-carousel--slides {
+      display: block;
+    }
+
+    .p-homepage-carousel--slide {
+      opacity: 1;
+      transition: none;
+
+      &:not(:last-child) {
+        @extend .p-section;
+      }
+    }
+
+    .p-homepage-carousel--slide[aria-hidden="true"] {
+      opacity: 1;
+    }
+  }
   /* stylelint-enable scss/at-rule-no-unknown */
 
   @keyframes progress-bar-anim {
