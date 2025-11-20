@@ -28,7 +28,9 @@
       </p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
-      <a href="/microk8s/contact-us" class="p-button--positive js-invoke-modal" aria-controls="microk8s-modal">Get in touch</a>
+      <a href="/microk8s/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="microk8s-modal">Get in touch</a>
     {%- endif -%}
   {% endcall -%}
 
@@ -44,22 +46,31 @@
             <tr>
               <th style="width: 30%;">Feature</th>
               <th>
-                <img src="https://assets.ubuntu.com/v1/78679228-microk8s.svg"
-                     alt="MicroK8s"
-                     width="160"
-                     loading="lazy" />
+                {{ image(url="https://assets.ubuntu.com/v1/78679228-microk8s.svg",
+                                alt="MicroK8s",
+                                width="189",
+                                height="45",
+                                hi_def=True,
+                                loading="auto") | safe
+                }}
               </th>
               <th>
-                <img src="https://assets.ubuntu.com/v1/d07473a1-k3s.svg"
-                     alt="K3s"
-                     width="150"
-                     loading="lazy" />
+                {{ image(url="https://assets.ubuntu.com/v1/d07473a1-k3s.svg",
+                                alt="K3s",
+                                width="189",
+                                height="45",
+                                hi_def=True,
+                                loading="auto") | safe
+                }}
               </th>
               <th>
-                <img src="https://assets.ubuntu.com/v1/268abf4b-minikube-on-grey.png"
-                     alt="minikube"
-                     width="150"
-                     loading="lazy" />
+                {{ image(url="https://assets.ubuntu.com/v1/268abf4b-minikube-on-grey.png",
+                                alt="Minikube",
+                                width="171",
+                                height="45",
+                                hi_def=True,
+                                loading="auto") | safe
+                }}
               </th>
             </tr>
           </thead>
@@ -192,10 +203,13 @@
     </div>
     <div class="grid-row--50-50">
       <div class="grid-col u-vertically-center u-align--center u-hide--medium u-hide--small">
-        <img src="https://assets.ubuntu.com/v1/deac34ec-cloud.svg"
-             alt=""
-             loading="lazy"
-             class="" />
+        {{ image(url="https://assets.ubuntu.com/v1/deac34ec-cloud.svg",
+                alt="",
+                width="351",
+                height="201",
+                hi_def=True,
+                loading="lazy") | safe
+        }}
       </div>
       <div class="grid-col">
         <p>
@@ -246,16 +260,15 @@
             </li>
           </ul>
         </div>
-        
-          <hr class="p-rule--muted" />
-          <h3 class="p-text--small-caps">Whitepaper</h3>
-          <ul class="p-list">
-            <li class="p-list__item">
-              <a href="https://ubuntu.com/engage/microk8s-451research">Kubernetes: a secure, flexible and automated edge for IoT developers
-              </a>
-            </li>
-          </ul>
-              </div>
+        <hr class="p-rule--muted" />
+        <h3 class="p-text--small-caps">Whitepaper</h3>
+        <ul class="p-list">
+          <li class="p-list__item">
+            <a href="https://ubuntu.com/engage/microk8s-451research">Kubernetes: a secure, flexible and automated edge for IoT developers
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -278,13 +291,14 @@
           <li class="p-list__item has-bullet">Migration and embedding strategy</li>
         </ul>
         <div class="p-cta-block">
-          <a href="/microk8s/contact-us" class="p-button--positive js-invoke-modal"  aria-controls="microk8s-modal">Contact us</a>
+          <a href="/microk8s/contact-us"
+             class="p-button--positive js-invoke-modal"
+             aria-controls="microk8s-modal">Contact us</a>
         </div>
       </div>
     </div>
   </section>
 
+  {{ load_form("/microk8s") | safe }}
 
-   {{ load_form("/microk8s") | safe }}
-   
 {% endblock %}
