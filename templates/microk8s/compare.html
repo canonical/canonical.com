@@ -1,0 +1,290 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block title %}MicroK8s vs k3s vs Minikube{% endblock %}
+
+{% block meta_description %}
+  Feature comparison of lightweight Kubernetes distributions: MicroK8s, K3s and minikube.
+{% endblock meta_description %}
+
+{% block meta_image %}
+  https://assets.ubuntu.com/v1/920467d2-Compare_MicroK8s-K3S-Minikube.svg
+{% endblock meta_image %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1wWos3iWMTCqDbxZBDuSVqvY6ZwYux-goCrX0L0E5Weo/edit
+{% endblock %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='MicroK8s<br class="u-hide--small" /> vs K3s vs minikube',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Lightweight Kubernetes distributions are becoming increasingly popular for local development, edge/IoT container management and self-contained application deployments. If you are looking to run Kubernetes on devices lighter in resources, have a look at the table below. MicroK8s stands out for its simplicity, robustness and completeness.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/microk8s/contact-us" class="p-button--positive js-invoke-modal" aria-controls="microk8s-modal">Get in touch</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="p-section--shallow">
+        <h2>Compare features</h2>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%;">Feature</th>
+              <th>
+                <img src="https://assets.ubuntu.com/v1/78679228-microk8s.svg"
+                     alt="MicroK8s"
+                     width="160"
+                     loading="lazy" />
+              </th>
+              <th>
+                <img src="https://assets.ubuntu.com/v1/d07473a1-k3s.svg"
+                     alt="K3s"
+                     width="150"
+                     loading="lazy" />
+              </th>
+              <th>
+                <img src="https://assets.ubuntu.com/v1/268abf4b-minikube-on-grey.png"
+                     alt="minikube"
+                     width="150"
+                     loading="lazy" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th data-heading="Category">CNCF certified</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">yes</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Vanilla Kubernetes</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">
+                <span aria-label="No">&ndash;</span>
+              </td>
+              <td data-heading="minikube">yes</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Architecture support</th>
+              <td data-heading="MicroK8s">x86, ARM64, s390x, POWER9</td>
+              <td data-heading="K3s">x86, ARM64, ARMhf</td>
+              <td data-heading="minikube">x86, ARM64, ARMv7, ppc64,  s390x</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Enterprise support</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">
+                <span aria-label="No">&ndash;</span>
+              </td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Single-node support</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">yes</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Multi-node cluster support</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">
+                <span aria-label="No">&ndash;</span>
+              </td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Automatic high availability</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">
+                <span aria-label="No">&ndash;</span>
+              </td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Automatic updates</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">
+                <span aria-label="No">&ndash;</span>
+              </td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Memory requirements</th>
+              <td data-heading="MicroK8s">540 MB</td>
+              <td data-heading="K3s">512 MB</td>
+              <td data-heading="minikube">644 MB</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Add-on functionality</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">
+                <span aria-label="No">&ndash;</span>
+              </td>
+              <td data-heading="minikube">yes</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Container runtime</th>
+              <td data-heading="MicroK8s">containerd, kata</td>
+              <td data-heading="K3s">CRI-O, containerd</td>
+              <td data-heading="minikube">Docker, containerd, CRI-O</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Networking</th>
+              <td data-heading="MicroK8s">
+                Calico, Cilium, CoreDNS, Traefik,
+                <br class="u-hide--small" />
+                NGINX, Ambassador, Multus, MetalLB
+              </td>
+              <td data-heading="K3s">
+                Flannel, CoreDNS, Traefik, Canal,
+                <br class="u-hide--small" />
+                Klipper
+              </td>
+              <td data-heading="minikube">
+                Calico, Cilium, Flannel, ingress, DNS,
+                <br class="u-hide--small" />
+                Kindnet
+              </td>
+            </tr>
+            <tr>
+              <th data-heading="Category">Default storage options</th>
+              <td data-heading="MicroK8s">Hostpath storage, OpenEBS, Ceph</td>
+              <td data-heading="K3s">Hostpath storage, Longhorn</td>
+              <td data-heading="minikube">Hostpath storage</td>
+            </tr>
+            <tr>
+              <th data-heading="Category">GPU acceleration</th>
+              <td data-heading="MicroK8s">yes</td>
+              <td data-heading="K3s">yes</td>
+              <td data-heading="minikube">yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>Why MicroK8s?</h2>
+      </div>
+      <div class="grid-col">
+        <p class="p-heading--5">
+          Selecting your lightweight Kubernetes distribution depends on the use case, the resource constraints and your familiarity with the Kubernetes internals.
+        </p>
+      </div>
+    </div>
+    <div class="grid-row--50-50">
+      <div class="grid-col u-vertically-center u-align--center u-hide--medium u-hide--small">
+        <img src="https://assets.ubuntu.com/v1/deac34ec-cloud.svg"
+             alt=""
+             loading="lazy"
+             class="" />
+      </div>
+      <div class="grid-col">
+        <p>
+          MicroK8s is the easiest way to consume Kubernetes as it abstracts away much of the complexity of managing the lifecycle of clusters. Its low-touch UX automates or simplifies operations such as deployment, clustering, and enabling of auxiliary services required for a production-grade K8s environment. Compared to other lightweight distributions MicroK8s is the only option that provides a single-command installation, automatic high availability clustering and automatic updates.
+        </p>
+        <p>
+          Robustness is a key primitive, particularly for production environments. Transactional over-the-air patching and security fixes, provided through the snap package as well as self-healing high availability of the Kubernetes control plane services, give MicroK8s the edge for mission-critical workload support.
+        </p>
+        <p>
+          With MicroK8s you get a complete, CNCF-compliant Kubernetes environment and all the services you need to run your OCI containers at scale, such as networking &amp; load balancing, storage, service mesh, observability, GPU &amp; FPGA acceleration, multi-cluster management and more - something unique among lightweight Kubernetes distributions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>MicroK8s and Kubernetes resources</h2>
+      </div>
+      <div class="grid-col">
+        <div class="p-section--shallow">
+          <h3 class="p-text--small-caps">Webinars</h3>
+          <ul class="p-list--divided">
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/378029?utm_source=brighttalk-portal&utm_medium=web&utm_content=microk8s&utm_campaign=webcasts-search-results-feed">An intro to MicroK8s</a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/488796/kubernetes-at-the-edge-easy-as-pi">K8s at the edge: easy as “Pi”
+              </a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/522563">Embedded Kubernetes for secure IoT Edge</a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/519512?utm_source=brighttalk-portal&utm_medium=web&utm_content=canonical&utm_term=search-result-7&utm_campaign=webcasts-search-results-feed">MicroK8s on IBM Z — minimal footprint meets zero downtime</a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/508196?utm_source=brighttalk-portal&utm_medium=web&utm_content=canonical&utm_term=search-result-19&utm_campaign=webcasts-search-results-feed">Self-healing Kubernetes at the edge: MicroK8s, Raspberry Pis and Portainer</a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/481263?utm_source=brighttalk-portal&utm_medium=web&utm_content=microk8s&utm_term=search-result-1&utm_campaign=webcasts-search-results-feed">Simplifying Kubernetes across the Clouds: MicroK8s on NVIDIA Tech Stack</a>
+            </li>
+            <li class="p-list__item">
+              <a href="https://www.brighttalk.com/webcast/6793/451745">Micro clouds: Building your Kubernetes edge computing strategy
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+          <hr class="p-rule--muted" />
+          <h3 class="p-text--small-caps">Whitepaper</h3>
+          <ul class="p-list">
+            <li class="p-list__item">
+              <a href="https://ubuntu.com/engage/microk8s-451research">Kubernetes: a secure, flexible and automated edge for IoT developers
+              </a>
+            </li>
+          </ul>
+              </div>
+    </div>
+  </section>
+
+  <section class="p-section--deep">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2 class="p-text--small-caps">Get help with K8s</h2>
+        <p class="p-heading--2">
+          Our expert cloud team
+          <br class="u-hide--small" />
+          help with:
+        </p>
+      </div>
+      <div class="grid-col">
+        <ul class="p-list--divided">
+          <li class="p-list__item has-bullet">Project evaluation</li>
+          <li class="p-list__item has-bullet">Requirements and feature review</li>
+          <li class="p-list__item has-bullet">Pricing and TCO assessment</li>
+          <li class="p-list__item has-bullet">Migration and embedding strategy</li>
+        </ul>
+        <div class="p-cta-block">
+          <a href="/microk8s/contact-us" class="p-button--positive js-invoke-modal"  aria-controls="microk8s-modal">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+   {{ load_form("/microk8s") | safe }}
+   
+{% endblock %}
