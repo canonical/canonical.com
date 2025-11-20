@@ -1,0 +1,65 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}
+  MicroK8s features
+{% endblock title %}
+
+{% block meta_description %}
+  MicroK8s high availability is automatic when three or more nodes are joined into the cluster. If there are more than three nodes, then a spare one is automatically promoted if a data store node goes offline, creating a zero-ops resilient HA Kubernetes which can lose nodes and heal itself.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1G6FijpahZCSfxcuFAkv22wKCILEkF2u4Q0TQUfkW5i4/edit
+{% endblock meta_copydoc %}
+
+{% block content %}
+
+  <section class="p-strip is-shallow u-no-padding--bottom">
+    <div class="p-section">
+      <div class="row">
+        <div class="col-start-large-4 col-9">
+          <div class="p-section--shallow">
+            <h1>MicroK8s features</h1>
+          </div>
+          <p>
+            MicroK8s is a lightweight Kubernetes distribution. Run enterprise-grade Kubernetes on your laptop, Raspberry Pi, or Intel NUC, or in any public cloud while consuming minimal resources.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-3">{% include "/microk8s/features/_side-navigation-features.html" %}</div>
+      <div class="col-9">
+        <div id="high-availability">{% include "/microk8s/features/high-availability.html" %}</div>
+        <div id="strict-confinement">{% include "/microk8s/features/strict-confinement.html" %}</div>
+        <div id="automated-cluster-creation">{% include "/microk8s/features/automated-cluster-creation.html" %}</div>
+        <div id="nvidia-gpu-support">{% include "/microk8s/features/nvidia-gpu-support.html" %}</div>
+        <div id="custom-launch-configurations">{% include "/microk8s/features/custom-launch-configurations.html" %}</div>
+        <div id="addons">{% include "/microk8s/features/addons.html" %}</div>
+        <div id="microk8s-and-ubuntu-core">{% include "/microk8s/features/microk8s-and-ubuntu-core.html" %}</div>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_cta_section(
+    title_text='Get enterprise-grade security and support for MicroK8s with Ubuntu Pro',
+    variant='block',
+    layout='25-75'
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="/microk8s/contact-us" class="p-button--positive js-invoke-modal" aria-controls="microk8s-modal">Contact us</a>
+      <a href="https://ubuntu.com/pro" class="p-button">Get Ubuntu Pro</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ load_form("/microk8s") | safe }}
+
+  <script src="{{ versioned_static('js/side-navigation.js') }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+{% endblock %}
