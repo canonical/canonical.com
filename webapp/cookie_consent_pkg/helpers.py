@@ -8,12 +8,14 @@ from .exceptions import UserNotFoundException
 def get_client():
     return current_app.extensions["cookie_consent_client"]
 
+
 def is_secure_context():
     """
-    Determine if we are in development (not secure) 
+    Determine if we are in development (not secure)
     or production (secure).
     """
     return not bool(current_app.debug)
+
 
 def set_cookies_accepted_with_ts(response, value):
     """
@@ -38,7 +40,6 @@ def set_cookies_accepted_with_ts(response, value):
     )
 
 
-
 def set_cookie_for_session_life(response, key, value):
     """Sets a cookie that expires with the session."""
     response.set_cookie(
@@ -54,7 +55,7 @@ def check_cookie_stale() -> bool:
     timestamp_cookie = request.cookies.get("_cookies_accepted_ts")
     if not timestamp_cookie:
         return True
-    
+
     try:
         timestamp = datetime.fromisoformat(timestamp_cookie)
         return datetime.now(timezone.utc) - timestamp > timedelta(days=1)
@@ -121,22 +122,20 @@ def sync_preferences_cookie(response):
     The host app must call this from its own @after_request hook.
     """
     # If service is down or user doesn't want shared cookies, skip
-    if getattr(g, "cookies_service_up", False) != True:
+    if getattr(g, "cookies_service_up", False) is not True:
         return response
     else:
         # Otherwise we set a cookie for interaction with cookie-policy.js
         set_cookie_for_session_life(response, "_cookies_service_up", "1")
 
     # Check if we've already run sync in this request
-    if getattr(g, 'cookies_synced', False):
+    if getattr(g, "cookies_synced", False):
         return response
-    
-    
 
     # Only run on legitamate page requests
     if skip_non_html_requests(response):
         return response
-    
+
     cookie_stale = check_cookie_stale()
     user_uuid = session.get("user_uuid")
     local_preferences = request.cookies.get("_cookies_accepted")
@@ -149,13 +148,11 @@ def sync_preferences_cookie(response):
                 consent_value = preferences_data.get("preferences", {}).get(
                     "consent", "unset"
                 )
-                set_cookies_accepted_with_ts(
-                    response, consent_value
-                )
+                set_cookies_accepted_with_ts(response, consent_value)
         except UserNotFoundException:
             session.pop("user_uuid", None)
         except Exception:
             pass
-    
+
     g.cookies_synced = True
     return response

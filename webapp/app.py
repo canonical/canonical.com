@@ -150,6 +150,8 @@ def get_cache(key):
 
 def set_cache(key, value, timeout):
     _cache[key] = value
+
+
 # --- TEMP CACHE SETUP: END ---
 
 # Set default config for session

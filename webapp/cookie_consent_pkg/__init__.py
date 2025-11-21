@@ -1,28 +1,38 @@
 # __init__.py
 import os
 from flask import request, g
-import datetime
 from .routes import consent_bp
 from .client import CookieServiceClient
-from .helpers import sync_preferences_cookie, check_session_and_redirect, set_cookie_for_session_life
-
+from .helpers import (
+    sync_preferences_cookie,
+    check_session_and_redirect,
+    set_cookie_for_session_life,
+)
 
 
 class CookieConsent:
     def init_app(
-        self, app, get_cache_func, set_cache_func, start_health_check=True, auto_register_hooks=True
+        self,
+        app,
+        get_cache_func,
+        set_cache_func,
+        start_health_check=True,
+        auto_register_hooks=True,
     ):
         """
         Initializes the cookie consent module.
 
         :param app: The Flask app object.
         :param get_cache_func: A function that retrieves a value
-        from the cache given a key. If the key is not found, the function should return None.
+            from the cache given a key. If the key is not found,
+            the function should return None.
         :param set_cache_func: A function that sets a value in the cache
-        with a key, value and timeout. Signiture: `set_cache_func(key, value, timeout)`
+            with a key, value and timeout.
+            Signiture: `set_cache_func(key, value, timeout)`
         :param start_health_check: Whether to automatically start the
-        health check thread (default: True).
-        :param auto_register_hooks: Whether to automatically register Flask request hooks (default: True).
+            health check thread (default: True).
+        :param auto_register_hooks: Whether to automatically register
+            Flask request hooks (default: True).
         """
 
         self.get_cache = get_cache_func
@@ -59,7 +69,8 @@ class CookieConsent:
 
     def _before_request_handler(self):
         """
-        Before request hook that checks session and redirects to cookie service if needed.
+        Before request hook that checks for user session
+        and redirects to cookie service if needed.
         """
         # Check health, set flag, and stop processing if service is down
         # Uses flask.g so it resets on every request
@@ -77,7 +88,9 @@ class CookieConsent:
         print("here")
         # If we got a response (redirect), set flag cookie for this session
         if response:
-            set_cookie_for_session_life(response, "_cookies_redirect_completed", "true")
+            set_cookie_for_session_life(
+                response, "_cookies_redirect_completed", "true"
+            )
             return response
 
     def _after_request_handler(self, response):

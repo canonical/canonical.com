@@ -38,13 +38,15 @@ def callback():
     response = flask.make_response(redirect(return_uri))
 
     try:
-        preferences = client.fetch_preferences(user_uuid).get("preferences").get("consent")
+        preferences = (
+            client.fetch_preferences(user_uuid)
+            .get("preferences")
+            .get("consent")
+        )
     except UserNotFoundException:
         session.pop("user_uuid", None)
     if preferences:
-        set_cookies_accepted_with_ts(
-            response, preferences
-        )
+        set_cookies_accepted_with_ts(response, preferences)
 
     return response
 
@@ -59,7 +61,7 @@ def get_preferences():
     if not user_uuid:
         return jsonify({"error": "Not authenticated"}), 401
 
-    preferences = get_client().fetch_preferences(user_uuid) 
+    preferences = get_client().fetch_preferences(user_uuid)
     return jsonify(preferences), 200
 
 

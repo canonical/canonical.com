@@ -8,14 +8,9 @@ setup(
     author="Canonical webteam",
     author_email="webteam@canonical.com",
     url="https://github.com/canonical/canonicalwebteam.cookie_service",
-    description=(
-        "Flask extension to integrate with shared cookie service."
-    ),
+    description=("Flask extension to integrate with shared cookie service."),
     packages=find_packages(),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    install_requires=[
-        "Flask>=1.0.2",
-        "requests>=2.20.0"
-    ],
+    install_requires=["Flask>=1.0.2", "requests>=2.20.0"],
 )
