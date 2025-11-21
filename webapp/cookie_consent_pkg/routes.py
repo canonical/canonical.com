@@ -1,7 +1,7 @@
 # routes.py
 import flask
 from flask import request, session, jsonify, redirect, Blueprint
-from .helpers import set_cookie_accepted_with_ts, get_client
+from .helpers import set_cookies_accepted_with_ts, get_client
 from .exceptions import UserNotFoundException
 
 
@@ -42,8 +42,8 @@ def callback():
     except UserNotFoundException:
         session.pop("user_uuid", None)
     if preferences:
-        set_cookie_accepted_with_ts(
-            response, "_cookies_accepted", preferences
+        set_cookies_accepted_with_ts(
+            response, preferences
         )
 
     return response
@@ -54,6 +54,7 @@ def get_preferences():
     """
     Retrieves the user's ID from their session and fetches their preferences.
     """
+    print("Fetching preferences for user.")
     user_uuid = session.get("user_uuid")
     if not user_uuid:
         return jsonify({"error": "Not authenticated"}), 401
@@ -67,6 +68,7 @@ def set_preferences():
     """
     Retrieves the user's ID from their session and sets new preferences.
     """
+    print("Setting preferences for user.")
     user_uuid = session.get("user_uuid")
     if not user_uuid:
         return jsonify({"error": "Not authenticated"}), 401

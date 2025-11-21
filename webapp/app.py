@@ -71,10 +71,6 @@ from webapp.utils.juju_doc_search import (
     search_all_docs,
 )
 from webapp.cookie_consent_pkg import CookieConsent
-from webapp.cookie_consent_pkg.helpers import (
-    check_session_and_redirect,
-    sync_preferences_cookie,
-)
 
 
 logger = logging.getLogger(__name__)
@@ -144,12 +140,6 @@ form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
 
-# Cookie consent configuration
-app.config["CENTRAL_COOKIE_SERVICE_URL"] = (
-    "https://cookies.staging.canonical.com"
-)
-app.config["SESSION_COOKIE_SECURE"] = False  # Local testing value
-
 # --- TEMP CACHE SETUP: START ---
 _cache = {}
 
@@ -158,9 +148,22 @@ def get_cache(key):
     return _cache.get(key)
 
 
-def set_cache(key, value):
+def set_cache(key, value, timeout):
     _cache[key] = value
 # --- TEMP CACHE SETUP: END ---
+
+# Set default config for session
+app.config.setdefault(
+    "PERMANENT_SESSION_LIFETIME", datetime.timedelta(days=365)
+)
+app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
+app.config.setdefault("SESSION_COOKIE_SECURE", True)
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+
+# For testing, point to staging cookie service
+app.config["CENTRAL_COOKIE_SERVICE_URL"] = (
+    "https://cookies.staging.canonical.com"
+)
 
 # Initialize cookie consent service
 cookie_service = CookieConsent().init_app(
@@ -169,26 +172,6 @@ cookie_service = CookieConsent().init_app(
     set_cache_func=set_cache,
     start_health_check=not bool(app.debug),  # only run in production
 )
-
-
-@app.before_request
-def redirect_to_cookie_service():
-    """
-    Redirects to the cookie consent service to create a session
-    """
-    response = check_session_and_redirect()
-    if response:
-        return response
-
-
-@app.after_request
-def set_cookies(response):
-    """
-    Checks if cookies need to be synced after request
-    """
-    response = sync_preferences_cookie(response)
-    if response:
-        return response
 
 
 def _group_by_department(harvest, vacancies):
