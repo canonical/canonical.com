@@ -19,6 +19,7 @@ let config = {
         "static/*.md",
         "static/*.tsx",
         "static/*.xml",
+        "node_modules/@canonical/cookie-policy/build/js/cookie-policy.js",
         "node_modules/flickity/dist/flickity.pkgd.min.js",
         "node_modules/leaflet/dist/leaflet.js",
         "node_modules/venobox/dist/venobox.min.js",
@@ -27,8 +28,8 @@ let config = {
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
         standard: [
-          /^cookie-policy/,
-          /^form/,
+          /^cookie-policy/, // Cookie policy classes
+          /^form/, // Form related classes
           /^p-/, // Preserve form related classes
           /^u-/, // Utility classes
           /^js-/, // JavaScript-related classes
@@ -37,7 +38,7 @@ let config = {
           /^venobox/, // VenoBox classes
         ],
         greedy: [
-          /^iti/,
+          /^iti/, // intl-tel-input classes
           /^mktoForm/, // Marketo forms
           /^cc-/, // Cookie consent related
           /^optanon/, // Cookie consent related

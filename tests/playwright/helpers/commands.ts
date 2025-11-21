@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-export const isExistingField = async (page, fieldName) => {
+export const isExistingField = async (page: Page, fieldName: string) => {
   const field = page.locator(fieldName);
   return await field.isVisible();
 };
@@ -8,8 +8,9 @@ export const isExistingField = async (page, fieldName) => {
 export const acceptCookiePolicy = async (
   page: Page,
 ) => {
-  if (await isExistingField(page, '#cookie-policy-button-accept')) {
-    await page.locator('#cookie-policy-button-accept').click();
+  const acceptAllSelector = '#cookie-policy-button-accept-all';
+  if (await isExistingField(page, acceptAllSelector)) {
+    await page.locator(acceptAllSelector).click();
   }
 };
 
