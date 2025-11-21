@@ -329,19 +329,26 @@
   }
 
   // No-JS overrides: stack all slides and allow natural height
-  body:not(.js-enabled) .p-homepage-carousel {
-    height: auto;
-  }
-  body:not(.js-enabled) .p-homepage-carousel--slides {
-    display: block;
-  }
-  body:not(.js-enabled) .p-homepage-carousel--slide {
-    opacity: 1;
-    transition: none;
-    padding-bottom: 4rem;
-  }
-  body:not(.js-enabled) .p-homepage-carousel--slide[aria-hidden="true"] {
-    opacity: 1;
+  body:not(.js-enabled) {
+    .p-homepage-carousel {
+      height: auto;
+    }
+
+    .p-homepage-carousel--slides {
+      display: block;
+    }
+
+    .p-homepage-carousel--slide {
+      opacity: 1;
+      transition: none;
+      &:not(:last-child) {
+        padding-bottom: 4rem;
+      }
+    }
+
+    .p-homepage-carousel--slide[aria-hidden="true"] {
+      opacity: 1;
+    }
   }
   /* stylelint-enable scss/at-rule-no-unknown */
 

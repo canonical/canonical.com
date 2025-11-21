@@ -52,6 +52,9 @@
       document.querySelectorAll('[data-aria-hidden-on-js-load]').forEach(function(el) {
         el.setAttribute('aria-hidden', 'true');
       });
+      document.querySelectorAll('[data-aria-selected-on-js-load]').forEach(function(el) {
+        el.setAttribute('aria-selected', 'true');
+      });
     });
   </script>
   <script>
@@ -159,21 +162,24 @@
     <div class="p-section">
       <div class="p-homepage-carousel">
         <div class="row">
-          <div class="col-3 col-medium-6">
+          <div class="col-3 col-medium-6" style="position:sticky;height:fit-content;top:4rem">
             <ul class="p-homepage-carousel-tabs u-hide--medium u-hide--small">
               <li>
-                <button class="p-homepage-carousel-tabs__item"
-                        id="start-ubuntu"
-                        role="tab"
-                        data-index="0"
-                        aria-selected="true"
-                        aria-controls="start-ubuntu-tab">
-                  <div class="progress-bar--husk"></div>
-                  <div class="progress-bar"></div>
-                  Start with Ubuntu
-                </button>
+                <a href="#start-ubuntu-tab" class="p-side-navigation__link u-no-padding">
+                  <button class="p-homepage-carousel-tabs__item"
+                          id="start-ubuntu"
+                          role="tab"
+                          data-index="0"
+                          data-aria-selected-on-js-load="true"
+                          aria-controls="start-ubuntu-tab">
+                    <div class="progress-bar--husk"></div>
+                    <div class="progress-bar"></div>
+                    Start with Ubuntu
+                  </button>
+                </a>
               </li>
               <li>
+                <a href="#infrastructure-control-tab" class="p-side-navigation__link u-no-padding">
                 <button class="p-homepage-carousel-tabs__item"
                         id="infrastructure-control"
                         role="tab"
@@ -184,8 +190,10 @@
                   <div class="progress-bar"></div>
                   Take control of your infrastructure
                 </button>
+                </a>
               </li>
               <li>
+                <a href="#stay-secure-tab" class="p-side-navigation__link u-no-padding">
                 <button class="p-homepage-carousel-tabs__item"
                         id="stay-secure"
                         role="tab"
@@ -195,9 +203,11 @@
                   <div class="progress-bar--husk"></div>
                   <div class="progress-bar"></div>
                   Build apps at speed and stay secure
-                </button>
+              </button>
+              </a>
               </li>
               <li>
+                <a href="#optimized-ai-tab" class="p-side-navigation__link u-no-padding">
                 <button class="p-homepage-carousel-tabs__item"
                         id="optimized-ai"
                         role="tab"
@@ -208,9 +218,11 @@
                   <div class="progress-bar"></div>
                   Get an optimized stack for data and AI
 
-                </button>
+              </button>
+              </a>
               </li>
               <li>
+                <a href="#smart-edge-tab" class="p-side-navigation__link u-no-padding">
                 <button class="p-homepage-carousel-tabs__item"
                         id="smart-edge"
                         role="tab"
@@ -221,9 +233,10 @@
                   <div class="progress-bar"></div>
                   Deploy smart things at the edge
                 </button>
+                </a>
               </li>
             </ul>
-            <div class="row u-hide--large">
+            <div class="row u-hide--large js-dependent">
               <div class="col-medium-3 col-small-2">
                 <div>
                   <a class="p-homepage-carousel__previous" style="text-decoration: unset">
@@ -241,7 +254,7 @@
                 </button>
               </div>
             </div>
-            <button class="pause-btn u-hide--small u-hide--medium"
+            <button class="pause-btn u-hide--small u-hide--medium js-dependent"
                     aria-label="Pause carousel">
               <img src="https://assets.ubuntu.com/v1/398d9c17-pause.svg" alt="" />
             </button>
@@ -279,7 +292,7 @@
                 <noscript>
                     <h3 class="p-heading--4">Start with Ubuntu</h3>
                 </noscript>
-                <h3 class="u-hide--large p-heading--4">Start with Ubuntu</h3>
+                <h3 class="u-hide--large p-heading--4 js-dependent">Start with Ubuntu</h3>
                 <p>
                   Build with confidence on the world’s most popular open source OS, move faster with certified hardware, and empower your developers with access to trusted repositories for all your open source packages.
                 </p>
@@ -314,7 +327,7 @@
                 <noscript>
                     <h3 class="p-heading--4">Take control of your infrastructure</h3>
                 </noscript>
-                <h3 class="u-hide--large p-heading--4">Take control of your infrastructure</h3>
+                <h3 class="u-hide--large p-heading--4 js-dependent">Take control of your infrastructure</h3>
 
                 <p>
                   Drive down cloud costs and complexity with automation. Enjoy the freedom of open source infrastructure with a partner that understands your business, the criticality of operational stability and uptime, and the importance of reliable support.
@@ -350,7 +363,7 @@
                 <noscript>
                     <h3 class="p-heading--4">Build apps at speed and stay secure</h3>
                 </noscript>
-                <h3 class="u-hide--large p-heading--4">Build apps at speed and stay secure</h3>
+                <h3 class="u-hide--large p-heading--4 js-dependent">Build apps at speed and stay secure</h3>
                 <p>
                   Managing dependencies is hard, repetitive and not value-creating &ndash; why do that? Canonical offers you a composable approach to application modernization, providing trusted artifacts you can use to build, deploy and operate containerized apps the way that suits you best and on the cloud of your choice.
                 </p>
@@ -384,7 +397,7 @@
                 <noscript>
                     <h3 class="p-heading--4">Get an optimized stack for data and AI</h3>
                 </noscript>
-                <h3 class="u-hide--large p-heading--4">Get an optimized stack for data and AI</h3>
+                <h3 class="u-hide--large p-heading--4 js-dependent">Get an optimized stack for data and AI</h3>
 
                 <p>
                   Accelerate AI and data-driven workflows. Start training your models on the public cloud and scale on your own data center. Take the pain out of operations with our data solutions and MLOps portfolio.
@@ -422,7 +435,7 @@
                 <noscript>
                     <h3 class="p-heading--4">Deploy smart things at the edge</h3>
                 </noscript>
-                <h3 class="u-hide--large p-heading--4">Deploy smart things at the edge</h3>
+                <h3 class="u-hide--large p-heading--4 js-dependent">Deploy smart things at the edge</h3>
 
                 <p>
                   Outpace both vulnerabilities and competitors. Build, secure and scale your IoT devices with trusted open source for all parts of the device lifecycle.
@@ -933,8 +946,8 @@
       <div class="row">
         <div class="col-3 col-medium-6">
           <div class="scroll-section__sidebar">
-            <div class="scroll-section__indicator u-hide--medium u-hide--small"></div>
-            <div class="scroll-section__indicator--outline u-hide--medium u-hide--small"></div>
+            <div class="scroll-section__indicator u-hide--medium u-hide--small js-dependent"></div>
+            <div class="scroll-section__indicator--outline u-hide--medium u-hide--small js-dependent"></div>
             <div class="scroll-section__tabs">
               <button class="scroll-section__tab active"
                       data-lottie="/static/json/cloud_icon.json">
@@ -976,14 +989,7 @@
           <div class="scroll-section__contentArea">
             <div class="scroll-section__content active" aria-hidden="false">
               <noscript>
-                <div class="scroll-section__tab">
-                <div class="scroll-section__tab-icon">
-                  <img src="https://assets.ubuntu.com/v1/2370a9a8-cloud.svg"
-                       alt="" />
-                  <div class="p-lottie--container" style="opacity: 1;"></div>
-                </div>
-                <h3 class="p-text--small-caps">Cloud</h3>
-                </div>
+                <h3 class="p-heading--4">Cloud</h3>
               </noscript>
               <p>Get the scalability and performance you need with Ubuntu across clouds.</p>
               <a class="p-cta-text" href="/partners/public-cloud"> Discover our public cloud partners
@@ -1046,13 +1052,7 @@
             </div>
             <div class="scroll-section__content" data-aria-hidden-on-js-load="true">
               <noscript>
-                <div class="scroll-section__tab">
-                  <div class="scroll-section__tab-icon">
-                    <img src="https://assets.ubuntu.com/v1/9efb4b31-silicon.svg" alt="" />
-                    <div class="p-lottie--container"></div>
-                  </div>
-                  <h3 class="p-text--small-caps">Silicon</h3>
-                </div>
+                  <h3 class="p-heading--4">Silicon</h3>
               </noscript>
               <p>Go to market faster with Canonical’s silicon ecosystem.</p>
 
@@ -1133,13 +1133,7 @@
             </div>
             <div class="scroll-section__content" data-aria-hidden-on-js-load="true">
               <noscript>
-                <button class="scroll-section__tab">
-                  <div class="scroll-section__tab-icon">
-                    <img src="https://assets.ubuntu.com/v1/d036df5d-hardware.svg" alt="" />
-                    <div class="p-lottie--container"></div>
-                  </div>
-                  <h3 class="p-text--small-caps">Hardware</h3>
-                </button>
+                  <h3 class="p-heading--4">Hardware</h3>
               </noscript>
               <p>Build your cloud swiftly and get optimal performance with Ubuntu Certified Hardware.</p>
               <a class="p-cta-text" href="/partners/ihv-and-oem">The right hardware makes all the difference
@@ -1240,15 +1234,15 @@
       <div class="row">
         <div class="col-3 col-medium-6">
           <div class="scroll-section__sidebar">
-            <div class="scroll-section__indicator u-hide--medium u-hide--small"></div>
-            <div class="scroll-section__indicator--outline u-hide--medium u-hide--small"></div>
+            <div class="scroll-section__indicator u-hide--medium u-hide--small js-dependent"></div>
+            <div class="scroll-section__indicator--outline u-hide--medium u-hide--small js-dependent"></div>
             <div class="scroll-section__tabs">
-              <button class="scroll-section__tab active">
+              <button class="scroll-section__tab active js-dependent">
                 <h3 class="p-text--small-caps">Latest&nbsp;stories</h3>
                 <hr class="u-hide--large" />
 
               </button>
-              <button class="scroll-section__tab">
+              <button class="scroll-section__tab" onclick="window.location.hash = '#webinar'">
                 <h3 class="p-text--small-caps">Webinars&nbsp;and&nbsp;events</h3>
                 <hr class="u-hide--large" />
 
