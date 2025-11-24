@@ -66,14 +66,14 @@
         <nav class="p-side-navigation--raw-html" id="drawer">
           <a href="#drawer"
              class="p-side-navigation__toggle js-drawer-toggle"
-             aria-controls="drawer">Toggle side navigation</a>
+             aria-controls="drawer">{{ open_side_nav_text or "Toggle side navigation" }}</a>
           <div class="p-side-navigation__overlay js-drawer-toggle"
                aria-controls="drawer"></div>
           <div class="p-side-navigation__drawer">
             <div class="p-side-navigation__drawer-header">
               <a href="#"
                  class="p-side-navigation__toggle--in-drawer js-drawer-toggle"
-                 aria-controls="drawer">Toggle side navigation</a>
+                 aria-controls="drawer">{{ close_side_nav_text or "Toggle side navigation" }}</a>
             </div>
             {% for nav_group in navigation.nav_items %}
               {% if not nav_group.hidden %}
