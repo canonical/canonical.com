@@ -1714,7 +1714,7 @@ app.add_url_rule(
         app=app,
         session=search_session,
         site="canonical.com/microk8s/docs",
-        template_path="microk8s/docs/search.html",
+        template_path="microk8s/docs/search-results.html",
     ),
 )
 microk8s_discourse_api.init_app(app)
