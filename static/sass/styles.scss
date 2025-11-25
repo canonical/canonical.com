@@ -1034,7 +1034,32 @@ html {
 }
 
 // Removes border from first item in detailed stepped list
-.u-no-top-border.p-stepped-list--detailed 
+.u-no-top-border.p-stepped-list--detailed
   .p-stepped-list__item:first-child::after {
-    content: none !important;
+  content: none !important;
+}
+
+// Styles to make tables scrollable on smaller screens
+@media screen and (max-width: #{ $breakpoint-large - 1 }) and (min-width: $breakpoint-small) {
+  .u-table-scroll--medium {
+    overflow-x: hidden;
+
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media screen and (max-width: #{ $breakpoint-small - 1 }) {
+  .u-table-scroll--small {
+    overflow-x: hidden;
+
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
 }
