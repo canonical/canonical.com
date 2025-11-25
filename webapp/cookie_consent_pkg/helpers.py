@@ -1,6 +1,8 @@
 # helpers.py
 from flask import request, current_app, redirect, session, g
 from datetime import datetime, timezone, timedelta
+from urllib.parse import urlparse
+
 
 from .exceptions import UserNotFoundException
 
@@ -156,3 +158,8 @@ def sync_preferences_cookie(response):
 
     g.cookies_synced = True
     return response
+
+
+def is_safe_return_uri(uri):
+    p = urlparse(uri)
+    return not p.scheme and not p.netloc

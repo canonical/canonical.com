@@ -77,7 +77,7 @@ class CookieConsent:
         if self.client.is_service_up():
             g.cookies_service_up = True
         else:
-            return False
+            return None
 
         # Check if we have already redirected to create session
         if request.cookies.get("_cookies_redirect_completed") is not None:
@@ -85,7 +85,7 @@ class CookieConsent:
 
         # Perform session check and and create redirect if needed
         response = check_session_and_redirect()
-        print("here")
+
         # If we got a response (redirect), set flag cookie for this session
         if response:
             set_cookie_for_session_life(
