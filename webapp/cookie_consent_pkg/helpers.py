@@ -1,7 +1,7 @@
 # helpers.py
 from flask import request, current_app, redirect, session, g
 from datetime import datetime, timezone, timedelta
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
 
 
 from .exceptions import UserNotFoundException
@@ -111,8 +111,9 @@ def check_session_and_redirect():
 
     # Redirect to cookie service to create session
     service_url = current_app.config["CENTRAL_COOKIE_SERVICE_URL"]
+    params = urlencode({"return_uri": request.url})
     redirect_url = (
-        f"{service_url}/api/v1/cookies/session?return_uri={request.url}"
+        f"{service_url}/api/v1/cookies/session?{params}"
     )
 
     return redirect(redirect_url)
