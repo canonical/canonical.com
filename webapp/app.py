@@ -39,6 +39,7 @@ from canonicalwebteam.flask_base.env import get_flask_env
 from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.cookie_service import CookieConsent
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
@@ -70,7 +71,7 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
-from webapp.cookie_consent_pkg import CookieConsent
+
 
 
 logger = logging.getLogger(__name__)
@@ -159,7 +160,7 @@ app.config.setdefault(
     "PERMANENT_SESSION_LIFETIME", datetime.timedelta(days=365)
 )
 app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
-app.config.setdefault("SESSION_COOKIE_SECURE", True)
+app.config.setdefault("SESSION_COOKIE_SECURE", False) # For testing
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 
 # For testing, point to staging cookie service
