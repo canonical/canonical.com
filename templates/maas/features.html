@@ -33,14 +33,10 @@ source and free to use, with commercial support available from Canonical.
 
 {% block content %}
   {% call(slot) vf_hero(
+    display_blank_signpost_image_space=true,
     title_text='MAAS feature tour',
     layout='25/75'
   ) -%}
-    {%- if slot == 'signpost_image' -%}
-    <div>
-        {#- This div can be removed and instead set display_blank_signpost_image_space=true once the following PR has landed: https://github.com/canonical/vanilla-framework/pull/5665 -#}
-    </div>
-    {%- endif -%}
     {% if slot == 'description' %}
       <h2 class="p-text--default">Visual guide to bare metal provisioning, cloud integration, and automated server deployment with MAAS</h2>
     {% endif %}
@@ -196,7 +192,6 @@ source and free to use, with commercial support available from Canonical.
     </p>
     {% endif %}
   {% endcall %}
-  {#- The empty title text params can be removed once the following PR has been released: https://github.com/canonical/vanilla-framework/pull/5666 -#}
   {% call(slot) vf_equal_heights(
     title_text="Keep an eye on your hardware",
     image_aspect_ratio_small="auto",
@@ -204,29 +199,26 @@ source and free to use, with commercial support available from Canonical.
     image_aspect_ratio_large="auto",
     items=[
       {
-        "title_text": '',
         "image_html": lightbox_image(
           img="https://assets.ubuntu.com/v1/c95d1bf2-check_your_data_1.jpg",
           description="node listing",
         ),
-        "description_html": '<p style="margin-top: -1rem">Check your data center health at a glance and easily identify faulty components.</p>',
+        "description_html": '<p>Check your data center health at a glance and easily identify faulty components.</p>',
       },
       {
-        "title_text": '',
         "image_html": lightbox_image(
           img="https://assets.ubuntu.com/v1/bf6f8586-run_tests_1.jpg",
           description="machine details",
         ),
-        "description_html": '<p style="margin-top: -1rem">Run tests for each component to get up to date information about their health.</p>
+        "description_html": '<p>Run tests for each component to get up to date information about their health.</p>
           <p>Review captured metrics to better understand your hardware’s performance.</p>',
       },
       {
-        "title_text": '',
         "image_html": lightbox_image(
           img="https://assets.ubuntu.com/v1/8ce45789-access_all_1.jpg",
           description="machine hardware tests",
         ),
-        "description_html": '<p style="margin-top: -1rem">Access all historical testing data to discover trends of component metrics and failures.</p>',
+        "description_html": '<p>Access all historical testing data to discover trends of component metrics and failures.</p>',
       },
     ]
   ) %}
@@ -241,88 +233,61 @@ source and free to use, with commercial support available from Canonical.
       </p>
     {% endif %}
   {% endcall %}
-  {#- This can be updated to use the macro once the following PR has been released: https://github.com/canonical/vanilla-framework/pull/5668 -#}
-  <div class="p-section">
-    <hr class="p-rule is-fixed-width">
-    <div class="p-section--shallow">
-      <h2 class="u-fixed-width">Configure your servers with a few clicks</h2>
-    </div>
-    <div class="row">
-      <div class="col-6 col-start-large-7">
-        <div class="p-equal-height-row--wrap">
-          <div class="p-equal-height-row__col is-borderless">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-cover">
-                {{ lightbox_image(
-                  img="https://assets.ubuntu.com/v1/b50ca3e0-set_up_1.jpg",
-                  description="node details network management",
-                ) }}
-              </div>
-            </div>
-            <div class="p-equal-height-row__item">
-              <hr class="p-rule--highlight">
-              <p class="p-heading--5">Easily manage your network interfaces</p>
-            </div>
-            <div class="p-equal-height-row__item">
-              <p>
-                Set up your Ethernet interfaces easily, and get your nodes ready to work as soon as they're deployed. MAAS
-                supports:
-              </p>
-              <ul>
-                <li>
-                  <abbr title="Internet Protocol">IP</abbr> address assignment
-                </li>
-                <li>Bonding</li>
-                <li>VLAN configuration</li>
-                <li>Virtual bridges</li>
-                <li>Static routes and more…</li>
-              </ul>
-            </div>
-            <div class="p-equal-height-row__item">
-              <p><a href="/maas/docs/how-to-manage-networks"
-                  onclick="dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Machine configuration' });dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Interested in feature', 'eventAction': 'Click', 'eventLabel': 'Learn more about interfaces' });"
-                  aria-label="Link to the install config and commission nodes page on MAAS documentation">Learn more about
-                  interfaces&nbsp;&rsaquo;</a></p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col is-borderless">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-cover">
-                {{ lightbox_image(
-                  img="https://assets.ubuntu.com/v1/fc3fe7fd-setup_your_storage_1.jpg",
-                  description="node details storage management",
-                ) }}
-              </div>
-            </div>
-            <div class="p-equal-height-row__item">
-              <hr class="p-rule--highlight">
-              <p class="p-heading--5">Configure any storage layout no matter how complex</p>
-            </div>
-            <div class="p-equal-height-row__item">
-              <p>Set up your storage, from simple partitioning to complex storage layouts including:</p>
-              <ul>
-                <li>
-                  <abbr title="Block cache">Bcache</abbr>
-                </li>
-                <li>
-                  <abbr title="Redundant Array of Independent Disks">RAID</abbr>
-                </li>
-                <li>
-                  <abbr title="Logical Volume Management">LVM</abbr>
-                </li>
-              </ul>
-            </div>
-            <div class="p-equal-height-row__item">
-              <p><a href="/maas/docs/reference-maas-storage"
-                  onclick="dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Machine configuration' });dataLayer.push({'event': 'GAEvent', 'eventCategory': 'Feature', 'eventAction': 'Click', 'eventLabel': 'Learn more about storage' });"
-                  aria-label="Link to install and configure storage on MAAS documentation">Learn more about
-                  storage&nbsp;&rsaquo;</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% call(slot) vf_equal_heights(
+    title_text="Configure your servers with a few clicks",
+    image_aspect_ratio_small="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_large="auto",
+    items=[
+      {
+        "title_text": 'Easily manage your network interfaces',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/b50ca3e0-set_up_1.jpg",
+          description="node details network management",
+        ),
+        "description_html": '<p>
+          Set up your Ethernet interfaces easily, and get your nodes ready to work as soon as they&apos;re deployed. MAAS
+          supports:
+        </p>
+        <ul>
+          <li>
+            <abbr title="Internet Protocol">IP</abbr> address assignment
+          </li>
+          <li>Bonding</li>
+          <li>VLAN configuration</li>
+          <li>Virtual bridges</li>
+          <li>Static routes and more&hellip;</li>
+        </ul>',
+        "cta_html": '<a href="/maas/docs/how-to-manage-networks"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Machine configuration&quot; });dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Interested in feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Learn more about interfaces&quot; });"
+          aria-label="Link to the install config and commission nodes page on MAAS documentation">Learn more about
+          interfaces&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": 'Configure any storage layout no matter how complex',
+        "image_html": lightbox_image(
+          img="https://assets.ubuntu.com/v1/fc3fe7fd-setup_your_storage_1.jpg",
+          description="node details storage management",
+        ),
+        "description_html": '<p>Set up your storage, from simple partitioning to complex storage layouts including:</p>
+        <ul>
+          <li>
+            <abbr title="Block cache">Bcache</abbr>
+          </li>
+          <li>
+            <abbr title="Redundant Array of Independent Disks">RAID</abbr>
+          </li>
+          <li>
+            <abbr title="Logical Volume Management">LVM</abbr>
+          </li>
+        </ul>',
+        "cta_html": '<a href="/maas/docs/reference-maas-storage"
+          onclick="dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Machine configuration&quot; });dataLayer.push({&quot;event&quot;: &quot;GAEvent&quot;, &quot;eventCategory&quot;: &quot;Feature&quot;, &quot;eventAction&quot;: &quot;Click&quot;, &quot;eventLabel&quot;: &quot;Learn more about storage&quot; });"
+          aria-label="Link to install and configure storage on MAAS documentation">Learn more about storage&nbsp;&rsaquo;</a>'
+      },
+    ]
+  ) %}
+  {%- endcall -%}
   {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
     {%- if slot == 'title' -%}
       <h2>Manage your network with MAAS</h2>
