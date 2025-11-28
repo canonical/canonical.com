@@ -127,7 +127,10 @@ def _get_mapped_url_token(
 
     except Exception:
         logger.exception(
-            f"_get_mapped_url_token {initial_referrer=} {initial_url=} {job_id=}"
+            "_get_mapped_url_token "
+            f"{initial_referrer=} "
+            f"{initial_url=} "
+            f"{job_id=}"
         )
         return MappedUrlToken.HOME_DEFAULT
 
@@ -384,7 +387,10 @@ class Greenhouse:
             payload["resume_content"] = f"{len(resume_content)=}"
             payload["cover_letter_content"] = f"{len(cover_letter_content)=}"
             logger.info(
-                f"SKIP submit_application {initial_referrer=} {initial_url=} {payload=}"
+                "SKIP submit_application "
+                f"{initial_referrer=} "
+                f"{initial_url=} "
+                f"{payload=}"
             )
             response = requests.Response()
             response.status_code = 200
