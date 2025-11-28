@@ -286,6 +286,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             payload, {"mapped_url_token": MappedUrlToken.HOME_GOOGLE_DIRECT}
         )
 
+
 class TestGreenhouseHarvest(unittest.TestCase):
     def setUp(self):
         self.session = MagicMock()
