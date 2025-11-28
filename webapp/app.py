@@ -1713,7 +1713,7 @@ app.add_url_rule(
     build_search_view(
         app=app,
         session=search_session,
-        site="canonical.com/microk8s/docs",
+        site="microk8s.io/docs",
         template_path="microk8s/docs/search-results.html",
     ),
 )
