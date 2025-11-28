@@ -16,7 +16,7 @@ import flask
 from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
-from webapp.job_regions import regions
+from webapp.job_regions import REGION_COUNTRIES
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
 from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
@@ -749,10 +749,11 @@ def request_withdrawal(harvest, token):
 
 
 @application.app_template_filter()
-def job_location_countries(job_location):
+def job_location_countries(job_location_name: str):
+    job_location_name = job_location_name.lower()
     countries = []
-    for region in regions:
-        if region in job_location:
-            for country in regions[region]:
+    for region, region_countries in REGION_COUNTRIES.items():
+        if region in job_location_name or "worldwide" in job_location_name:
+            for country in region_countries:
                 countries.append({"@type": "Country", "name": country})
     return countries
