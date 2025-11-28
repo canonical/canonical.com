@@ -95,7 +95,7 @@ class MappedUrlToken:
 def _get_mapped_url_token(
     initial_referrer: str | None,
     initial_url: str | None,
-    job_id: int,
+    job_id: int | str,
 ) -> str | None:
     """mapped_url_token can be generated in jobboard configuration:
     https://canonical.greenhouse.io/jobboard
