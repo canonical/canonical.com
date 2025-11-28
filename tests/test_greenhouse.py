@@ -226,7 +226,6 @@ class TestGreenhouseAPI(unittest.TestCase):
         )
         self.assertEqual(token, MappedUrlToken.HOME_DEFAULT)
 
-        # import webapp.init_debug
         token = _get_mapped_url_token(
             initial_referrer="https://google.com/",
             initial_url="https://canonical.com/careers",
