@@ -1,3 +1,6 @@
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
 {% extends "base_index.html" %}
 
 {% block title %}Gain control of your infrastructure with a sovereign cloud{% endblock %}
@@ -11,61 +14,79 @@
 {% endblock meta_copydoc %}
 
 {% block content %}
-  <section class="p-strip is-shallow">
-    <div class="row--50-50 p-section">
-      <div class="col">
-        <h1>
-          Gain back control of your infrastructure with an
-          <br class="u-hide--small" />
-          open source sovereign cloud
-        </h1>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <p>
-            Geopolitical tensions, evolving regulations, and new security challenges linked to AI and machine learning (ML) have increased enterprises' needs to control and safeguard their data and infrastructure. Build a sovereign cloud using Canonical's software, tailored to meet your organization's individual compliance, data sovereignty, and operational needs.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <a href="/contact-us"
-           aria-controls="solutions-infrastructure-modal"
-           class="p-button--positive js-invoke-modal">Contact Canonical</a>
-      </div>
-    </div>
-    <div class="u-fixed-width p-section--shallow">
-      {{ image(url="https://assets.ubuntu.com/v1/a8c1a4b7-hero-img.jpg",
-            alt="",
-            width="2464",
-            height="1027",
-            hi_def=True,
-            loading="auto") | safe
-      }}
-    </div>
-  </section>
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>What is a sovereign cloud?</h2>
+  {% call(slot) vf_hero(
+    title_text='Gain back control of your infrastructure with an
+    open source sovereign cloud',
+    subtitle_text='',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Geopolitical tensions, evolving regulations, and new security challenges linked to AI and machine learning (ML) have increased enterprises' needs to control and safeguard their data and infrastructure. Build a sovereign cloud using Canonical's software, tailored to meet your organization's individual compliance, data sovereignty, and operational needs.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         aria-controls="solutions-infrastructure-modal"
+         class="p-button--positive js-invoke-modal">Contact Canonical</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        <img class="p-image-container__image"
+             src="https://assets.ubuntu.com/v1/a8c1a4b7-hero-img.jpg"
+             alt="" />
       </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <p>
-            Sovereign clouds allow nations or organizations to maintain control over every part of their infrastructure, including data, processing, storage, and access.
-          </p>
-          <p>
-            A sovereign cloud goes beyond simply cloud architecture and data processing. Truly sovereign clouds meet a comprehensive set of legal, operational, regulatory, and technical requirements that give the cloud owner full autonomy. They mitigate reliance on cloud providers outside of their country or region.
-          </p>
-          <p>
-            Find out more about sovereign clouds, including what features to look for, in our comprehensive free guide for enterprises.
-          </p>
-          <hr class="p-rule--muted" />
-          <a href="https://ubuntu.com/engage/sovereign-cloud-guide">Get the guide&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "What is a sovereign cloud?"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      Sovereign clouds allow nations or organizations to maintain control over every part of their infrastructure, including data, processing, storage, and access.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      A sovereign cloud goes beyond simply cloud architecture and data processing. Truly sovereign clouds meet a comprehensive set of legal, operational, regulatory, and technical requirements that give the cloud owner full autonomy. They mitigate reliance on cloud providers outside of their country or region.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      Find out more about sovereign clouds, including what features to look for, in our comprehensive free guide for enterprises.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Get the guide ›",
+    "attrs": {
+    "href": "https://ubuntu.com/engage/sovereign-cloud-guide"
+    }
+    }
+    }
+    }
+    ]) }}
 
   <section class="p-section">
     <div class="u-fixed-width p-section--shallow">
@@ -81,16 +102,16 @@
         <div class="p-equal-height-row--wrap ">
           <div class="p-equal-height-row__col">
             <div class="p-equal-height-row__item">
-                <div class="p-image-container--2-3 u-hide--small">
-                    {{ image(url="https://assets.ubuntu.com/v1/0871d97c-data.jpg",
-                            alt="",
-                            width="568",
-                            height="853",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-image-container__image"}) | safe
-                    }}
-                </div>
+              <div class="p-image-container--2-3 u-hide--small">
+                {{ image(url="https://assets.ubuntu.com/v1/0871d97c-data.jpg",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">1. Data</h3>
             <p class="p-equal-height-row__item">
@@ -100,16 +121,16 @@
           </div>
           <div class="p-equal-height-row__col">
             <div class="p-equal-height-row__item">
-                <div class="p-image-container--2-3 u-hide--small">
-                  {{ image(url="https://assets.ubuntu.com/v1/a8fb93d1-operations.jpg",
+              <div class="p-image-container--2-3 u-hide--small">
+                {{ image(url="https://assets.ubuntu.com/v1/a8fb93d1-operations.jpg",
                                 alt="",
                                 width="568",
                                 height="853",
                                 hi_def=True,
                                 loading="lazy",
                                 attrs={"class": "p-image-container__image"}) | safe
-                  }}
-                </div>
+                }}
+              </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">2. Operations</h3>
             <p class="p-equal-height-row__item">
@@ -119,16 +140,16 @@
           </div>
           <div class="p-equal-height-row__col">
             <div class="p-equal-height-row__item">
-                <div class="p-image-container--2-3 u-hide--small">
-                  {{ image(url="https://assets.ubuntu.com/v1/7b18db59-technology.jpg",
+              <div class="p-image-container--2-3 u-hide--small">
+                {{ image(url="https://assets.ubuntu.com/v1/7b18db59-technology.jpg",
                                 alt="",
                                 width="568",
                                 height="853",
                                 hi_def=True,
                                 loading="lazy",
                                 attrs={"class": "p-image-container__image"}) | safe
-                  }}
-                </div>
+                }}
+              </div>
             </div>
             <h3 class="p-equal-height-row__item p-heading--5">3. Technology</h3>
             <p class="p-equal-height-row__item">
@@ -772,7 +793,7 @@
     </div>
   </section>
 
-  {{ load_form("/solutions/infrastructure", 5906) | safe }}
+  {{ load_form('/solutions/infrastructure', 5906) | safe }}
 
   {% with %}
     {% set returnURL = "https://canonical.com/solutions/infrastructure/sovereign-cloud#contact-form-success" %}
