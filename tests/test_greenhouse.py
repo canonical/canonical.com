@@ -240,6 +240,13 @@ class TestGreenhouseAPI(unittest.TestCase):
         )
         self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_DIRECT)
 
+        token = _get_mapped_url_token(
+            initial_referrer="https://www.google.co.uk/",
+            initial_url="https://canonical.com/careers",
+            job_id="12345",
+        )
+        self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_INDIRECT)
+
     def test_payload_setup_mapped_url_token(self):
         payload = {}
         _payload_setup_mapped_url_token(

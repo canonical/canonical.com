@@ -92,6 +92,20 @@ class MappedUrlToken:
     HOME_GOOGLE_INDIRECT = "vph10yba1us"
 
 
+_SECOND_LEVEL_LABELS = {"co", "com", "gov"}
+
+
+def _extract_base_label(hostname: str) -> str:
+    parts = hostname.split(".")
+    if len(parts) == 1:
+        return parts[0]
+
+    if parts[-2] in _SECOND_LEVEL_LABELS and len(parts) >= 3:
+        return parts[-3]
+
+    return parts[-2]
+
+
 def _get_mapped_url_token(
     initial_referrer: str | None,
     initial_url: str | None,
@@ -114,11 +128,9 @@ def _get_mapped_url_token(
         if not referrer_hostname:
             return MappedUrlToken.HOME_DEFAULT
 
-        initial_referrer_parts = referrer_hostname.split(".")
-        if len(initial_referrer_parts) <= 1:
-            return MappedUrlToken.HOME_DEFAULT
+        base_label = _extract_base_label(referrer_hostname)
 
-        if initial_referrer_parts[-2] == "google":
+        if base_label == "google":
             if direct:
                 return MappedUrlToken.HOME_GOOGLE_DIRECT
             return MappedUrlToken.HOME_GOOGLE_INDIRECT
