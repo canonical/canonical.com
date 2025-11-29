@@ -39,6 +39,7 @@ from canonicalwebteam.flask_base.env import get_flask_env
 from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.cookie_service import CookieConsent
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
@@ -70,6 +71,8 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +139,42 @@ app.register_blueprint(application, url_prefix="/careers/application")
 form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
+
+
+# --- TEMP CACHE SETUP: START ---
+_cache = {}
+
+
+def get_cache(key):
+    return _cache.get(key)
+
+
+def set_cache(key, value, timeout):
+    _cache[key] = value
+
+
+# --- TEMP CACHE SETUP: END ---
+
+# Set default config for session
+app.config.setdefault(
+    "PERMANENT_SESSION_LIFETIME", datetime.timedelta(days=365)
+)
+app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
+app.config.setdefault("SESSION_COOKIE_SECURE", False) # For testing
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+
+# For testing, point to staging cookie service
+app.config["CENTRAL_COOKIE_SERVICE_URL"] = (
+    "https://cookies.staging.canonical.com"
+)
+
+# Initialize cookie consent service
+cookie_service = CookieConsent().init_app(
+    app,
+    get_cache_func=get_cache,
+    set_cache_func=set_cache,
+    start_health_check=not bool(app.debug),  # only run in production
+)
 
 
 def _group_by_department(harvest, vacancies):
