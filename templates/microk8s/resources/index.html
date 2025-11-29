@@ -1,0 +1,138 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Resources{% endblock %}
+
+{% block meta_description %}
+A collection of useful and educational material and information about MicroK8s. Learn more
+about Kubernetes from some of the industry's best.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+https://docs.google.com/document/d/1PB5-CamGmSjhbuyuGSariC9zUW-8krAJD0l8JyvNk20/edit#
+{% endblock %}
+
+{% block body_class %}
+is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+<section class="p-strip--whitesuru is-shallow u-no-padding--bottom">
+  <div class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <div class="p-section--shallow">
+          <h1>Understand MicroK8s:<br class="u-hide--small"> Resources</h1>
+        </div>
+        <p>Explore a collection of useful resources that will help you understand and evaluate MicroK8s when
+          building your Kubernetes cluster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-section">
+  <div class="grid-row">
+    <div class="grid-col-2 grid-col-medium-1">
+      <div class="p-side-navigation is-sticky u-hide--small" style="top: 5rem;">
+        <nav>
+          <ul class="p-side-navigation__list">
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link is-active" href="#videos-and-webinars">Videos and webinars</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#publications">Publications</a>
+            </li>
+            <li class="p-side-navigation__item">
+              <a class="p-side-navigation__link" href="#from-our-blog">From our blog </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="grid-col-6 grid-col-medium-3">
+      <nav class="p-navigation is-sticky u-hide--large u-hide--medium" style="top: 3.5rem;">
+        <div class="p-navigation__item--dropdown-toggle">
+          <a href="#dropdown-menu" aria-controls="dropdown-menu" class="p-link--soft"
+            style="text-decoration: none; color: black;" id="dropdown-menu-button">
+            <p>Toggle
+              menu </p>
+          </a>
+          <ul class="p-navigation__dropdown" id="dropdown-menu" aria-hidden="true"
+            aria-labelledby="dropdown-menu-button">
+            <li>
+              <a href="#videos-and-webinars" class="p-navigation__dropdown-item">Videos and webinars</a>
+            </li>
+            <li>
+              <a href="#publications" class="p-navigation__dropdown-item">Publications</a>
+            </li>
+            <li>
+              <a href="#from-our-blog" class="p-navigation__dropdown-item">From our blog </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="content-container">
+        {% include "microk8s/resources/_videos-and-webinars.html" %}
+      </div>
+      <div class="content-container">
+        {% include "microk8s/resources/_publications.html" %}
+      </div>
+      <div class="content-container">
+        {% include "microk8s/resources/_from-our-blog.html" %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ versioned_static('js/dist/active-nav-scroll.js') }}"></script>
+<script>
+  function toggleDropdown(toggle, open) {
+    var parentElement = toggle.parentNode;
+    var dropdown = document.getElementById(toggle.getAttribute('aria-controls'));
+    dropdown.setAttribute('aria-hidden', !open);
+
+    if (open) {
+      parentElement.classList.add('is-active');
+    } else {
+      parentElement.classList.remove('is-active');
+    }
+  }
+
+  function closeAllDropdowns(toggles) {
+    toggles.forEach(function (toggle) {
+      toggleDropdown(toggle, false);
+    });
+  }
+
+  function handleClickOutside(toggles, containerClass) {
+    document.addEventListener('click', function (event) {
+      var target = event.target;
+
+      if (target.closest) {
+        if (!target.closest(containerClass)) {
+          closeAllDropdowns(toggles);
+        }
+      }
+    });
+  }
+
+  function initNavDropdowns(containerClass) {
+    var toggles = [].slice.call(document.querySelectorAll(containerClass + ' [aria-controls]'));
+
+    handleClickOutside(toggles, containerClass);
+
+    toggles.forEach(function (toggle) {
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const shouldOpen = !toggle.parentNode.classList.contains('is-active');
+        closeAllDropdowns(toggles);
+        toggleDropdown(toggle, shouldOpen);
+      });
+    });
+  }
+
+  initNavDropdowns('.p-navigation__item--dropdown-toggle')
+</script>
+{% endblock %}
