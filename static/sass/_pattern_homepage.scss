@@ -327,6 +327,30 @@
       margin-top: -0.5rem;
     }
   }
+
+  // No-JS overrides: stack all slides and allow natural height
+  body:not(.js-enabled) {
+    .p-homepage-carousel {
+      height: auto;
+    }
+
+    .p-homepage-carousel--slides {
+      display: block;
+    }
+
+    .p-homepage-carousel--slide {
+      opacity: 1;
+      transition: none;
+
+      &:not(:last-child) {
+        padding-bottom: 4rem;
+      }
+    }
+
+    .p-homepage-carousel--slide[aria-hidden="true"] {
+      opacity: 1;
+    }
+  }
   /* stylelint-enable scss/at-rule-no-unknown */
 
   @keyframes progress-bar-anim {
