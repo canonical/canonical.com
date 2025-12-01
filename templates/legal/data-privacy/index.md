@@ -186,6 +186,14 @@ Please note that third parties (including, for example, advertising networks and
 
 You block cookies by activating the setting on your browser that allows you to refuse the setting of all or some cookies. However, if you use your browser settings to block all cookies (including essential cookies) you may not be able to access all or parts of our site.
 
+### Session storage
+
+Our website and services use `sessionStorage` to persist session data on the user's device when they navigate different pages of the website. These entries are only created after you grant consent for performance cookies. Entries are stored locally for the current browser session and deleted once the tab is closed.
+
+| Keys | Purpose |
+| --- | --- |
+| `canonical.initialReferrer`, `canonical.initialUrl` | Capture the referring domain and first Canonical URL seen in the current session so it can be used in submitted forms. |
+
 ## How do we protect the information we collect
 
 Canonical is very concerned about protecting the confidentiality of your personal information. We have security measures, including administrative, physical and electronic measures, to protect against the loss, exposure, misuse or alteration of information that we have collected from you in the use of the services. These measures include SSL data encryption to transmit your personal information as well as technical architectures and systems to prevent unauthorised third parties from accessing your personal information.
