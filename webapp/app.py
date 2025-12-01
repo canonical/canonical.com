@@ -1693,8 +1693,36 @@ app.add_url_rule(
 
 mir_docs.init_app(app)
 
+# Microk8s
+microk8s_url_prefix = "/microk8s/docs"
+microk8s_discourse_api = Docs(
+    parser=DocParser(
+        api=DiscourseAPI(
+            base_url="https://discuss.kubernetes.io/",
+            session=get_requests_session(),
+        ),
+        index_topic_id=11243,
+        url_prefix=microk8s_url_prefix,
+    ),
+    blueprint_name="microk8s-docs",
+    document_template="microk8s/docs/document.html",
+    url_prefix=microk8s_url_prefix,
+)
+app.add_url_rule(
+    "/microk8s/docs/search",
+    "microk8s-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/microk8s/docs",
+        template_path="microk8s/docs/search-results.html",
+    ),
+)
+microk8s_discourse_api.init_app(app)
 
 # Sitemap parser
+
+
 def build_sitemap_tree(exclude_paths=None):
     def create_sitemap(sitemap_path):
         directory_path = os.getcwd() + "/templates"

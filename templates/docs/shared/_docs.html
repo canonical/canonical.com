@@ -66,20 +66,20 @@
         <nav class="p-side-navigation--raw-html" id="drawer">
           <a href="#drawer"
              class="p-side-navigation__toggle js-drawer-toggle"
-             aria-controls="drawer">Toggle side navigation</a>
+             aria-controls="drawer">{{ open_side_nav_text or "Toggle side navigation" }}</a>
           <div class="p-side-navigation__overlay js-drawer-toggle"
                aria-controls="drawer"></div>
           <div class="p-side-navigation__drawer">
             <div class="p-side-navigation__drawer-header">
               <a href="#"
                  class="p-side-navigation__toggle--in-drawer js-drawer-toggle"
-                 aria-controls="drawer">Toggle side navigation</a>
+                 aria-controls="drawer">{{ close_side_nav_text or "Toggle side navigation" }}</a>
             </div>
             {% for nav_group in navigation.nav_items %}
               {% if not nav_group.hidden %}
                 {% if nav_group.navlink_text %}
                   {% if nav_group.navlink_href %}
-                    <h3 class="p-side-navigation__heading--linked u-no-padding--left"
+                    <h3 class="p-side-navigation__heading--linked u-no-padding--left u-no-padding--right"
                         data-level="{{ nav_group.level }}">
                       <a class="p-side-navigation__link"
                          href="{{ nav_group.navlink_href }}"
@@ -101,57 +101,59 @@
 
         {{ document.body_html | safe }}
 
-        <div class="p-strip">
-          <hr class="p-rule" />
-          <div class="p-article-pagination">
-            {% set nav_items = navigation.nav_items %}
-            {% set ns = namespace(use_next=false, outer_title=none) %}
+        {% if not hide_pagination %}
+          <div class="p-strip">
+            <hr class="p-rule" />
+            <div class="p-article-pagination">
+              {% set nav_items = navigation.nav_items %}
+              {% set ns = namespace(use_next=false, outer_title=none) %}
 
-            {%- for page in nav_items|reverse recursive %}
-              {% if ns.use_next and not page.hidden and page.navlink_text and not page.navlink_href %}
-                {% set ns.outer_title = page.navlink_text %}
-              {% endif %}
-              {{- loop(page.children|reverse) }}
-              {% if page.is_active %}
-                {% set ns.use_next = true %}
-              {% elif ns.use_next and not page.hidden and page.navlink_text %}
-                {% if page.navlink_href %}
-                  <a class="p-article-pagination__link--previous"
-                     href="{{ page.navlink_href }}">
-                    <span class="p-article-pagination__label">Previous</span>
-                    <span class="p-article-pagination__title">
-                      {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
-                    {{ page.navlink_text }}</span>
-                  </a>
-                  {% set ns.use_next = false %}
-                {% endif %}
-              {% endif %}
-            {%- endfor %}
-
-            {% set ns.outer_title = none %}
-            {% set ns.use_next = false %}
-
-            {%- for page in nav_items recursive %}
-              {% if page.is_active %}
-                {% set ns.use_next = true %}
-              {% elif ns.use_next and not page.hidden and page.navlink_text %}
-                {% if page.navlink_href %}
-                  <a class="p-article-pagination__link--next"
-                     href="{{ page.navlink_href }}">
-                    <span class="p-article-pagination__label">Next</span>
-                    <span class="p-article-pagination__title">
-                      {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
-                    {{ page.navlink_text }}</span>
-                  </a>
-                  {% set ns.use_next = false %}
-                {% else %}
+              {%- for page in nav_items|reverse recursive %}
+                {% if ns.use_next and not page.hidden and page.navlink_text and not page.navlink_href %}
                   {% set ns.outer_title = page.navlink_text %}
                 {% endif %}
-              {% endif %}
-              {{- loop(page.children) }}
-            {%- endfor %}
+                {{- loop(page.children|reverse) }}
+                {% if page.is_active %}
+                  {% set ns.use_next = true %}
+                {% elif ns.use_next and not page.hidden and page.navlink_text %}
+                  {% if page.navlink_href %}
+                    <a class="p-article-pagination__link--previous"
+                      href="{{ page.navlink_href }}">
+                      <span class="p-article-pagination__label">Previous</span>
+                      <span class="p-article-pagination__title">
+                        {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
+                      {{ page.navlink_text }}</span>
+                    </a>
+                    {% set ns.use_next = false %}
+                  {% endif %}
+                {% endif %}
+              {%- endfor %}
+
+              {% set ns.outer_title = none %}
+              {% set ns.use_next = false %}
+
+              {%- for page in nav_items recursive %}
+                {% if page.is_active %}
+                  {% set ns.use_next = true %}
+                {% elif ns.use_next and not page.hidden and page.navlink_text %}
+                  {% if page.navlink_href %}
+                    <a class="p-article-pagination__link--next"
+                      href="{{ page.navlink_href }}">
+                      <span class="p-article-pagination__label">Next</span>
+                      <span class="p-article-pagination__title">
+                        {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
+                      {{ page.navlink_text }}</span>
+                    </a>
+                    {% set ns.use_next = false %}
+                  {% else %}
+                    {% set ns.outer_title = page.navlink_text %}
+                  {% endif %}
+                {% endif %}
+                {{- loop(page.children) }}
+              {%- endfor %}
+            </div>
           </div>
-        </div>
+        {% endif %}
 
         <div class="p-strip is-shallow">
 
