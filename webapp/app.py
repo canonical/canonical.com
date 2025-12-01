@@ -498,7 +498,6 @@ def handle_job_details(job_id, job_title):
 
 def job_details(session, greenhouse, harvest, job_id):
     context = {
-        "bleach": bleach,
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
     }
 
@@ -507,6 +506,8 @@ def job_details(session, greenhouse, harvest, job_id):
         context["job"] = harvest.get_job_post(job_id)
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        context["job"]["is_remote"] = job_post.is_remote
+
     except HTTPError as error:
         if error.response.status_code == 404:
             logger.exception(
