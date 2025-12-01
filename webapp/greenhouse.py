@@ -3,6 +3,7 @@ import json
 from base64 import b64encode
 import os
 import logging
+from urllib.parse import urlparse
 
 # Packages
 from html import unescape
@@ -83,6 +84,87 @@ def _add_req_to_content(job):
             + "&lt;p&gt;"
         )
     return unescape(job["content"])
+
+
+class MappedUrlToken:
+    HOME_DEFAULT = "tirwqhj81us"
+    HOME_GOOGLE_DIRECT = "e4cnyg6y1us"
+    HOME_GOOGLE_INDIRECT = "vph10yba1us"
+
+
+_SECOND_LEVEL_LABELS = {"co", "com", "gov"}
+
+
+def _extract_base_label(hostname: str) -> str:
+    parts = hostname.split(".")
+    if len(parts) == 1:
+        return parts[0]
+
+    if parts[-2] in _SECOND_LEVEL_LABELS and len(parts) >= 3:
+        return parts[-3]
+
+    return parts[-2]
+
+
+def _get_mapped_url_token(
+    initial_referrer: str | None,
+    initial_url: str | None,
+    job_id: int | str,
+) -> str | None:
+    """mapped_url_token can be generated in jobboard configuration:
+    https://canonical.greenhouse.io/jobboard
+    """
+
+    try:
+        if not initial_referrer:
+            return MappedUrlToken.HOME_DEFAULT
+
+        if initial_url is None:
+            initial_url = ""
+
+        direct = str(job_id) in initial_url
+        parsed_referrer = urlparse(initial_referrer)
+        referrer_hostname = (parsed_referrer.hostname or "").lower()
+        if not referrer_hostname:
+            return MappedUrlToken.HOME_DEFAULT
+
+        base_label = _extract_base_label(referrer_hostname)
+
+        if base_label == "google":
+            if direct:
+                return MappedUrlToken.HOME_GOOGLE_DIRECT
+            return MappedUrlToken.HOME_GOOGLE_INDIRECT
+
+        return MappedUrlToken.HOME_DEFAULT
+
+    except Exception:
+        logger.exception(
+            "_get_mapped_url_token "
+            f"{initial_referrer=} "
+            f"{initial_url=} "
+            f"{job_id=}"
+        )
+        return MappedUrlToken.HOME_DEFAULT
+
+
+def _payload_setup_mapped_url_token(
+    payload,
+    initial_referrer,
+    initial_url,
+    job_id,
+):
+    mapped_url_token = payload.get("mapped_url_token")
+    if mapped_url_token:
+        return
+
+    payload.pop("mapped_url_token", None)
+    mapped_url_token = _get_mapped_url_token(
+        initial_referrer, initial_url, job_id
+    )
+    if not mapped_url_token:
+        return
+
+    payload["mapped_url_token"] = mapped_url_token
 
 
 class Department(object):
@@ -286,6 +368,14 @@ class Greenhouse:
         # Create payload for api submission
         payload = form_data.to_dict()
 
+        payload.pop("recaptcha_token", None)
+        initial_referrer = payload.pop("initial_referrer", None)
+        initial_url = payload.pop("initial_url", None)
+
+        _payload_setup_mapped_url_token(
+            payload, initial_referrer, initial_url, job_id
+        )
+
         # Add resume to the payload if exists
         if form_files.get("resume"):
             # Encode the resume file to base64
@@ -304,13 +394,15 @@ class Greenhouse:
             ].filename
 
         if self.debug:
-            resume_filename = payload.get("resume_content_filename")
-            cover_letter_filename = payload.get(
-                "cover_letter_content_filename"
-            )
+            resume_content = payload.get("resume_content") or ""
+            cover_letter_content = payload.get("cover_letter_content") or ""
+            payload["resume_content"] = f"{len(resume_content)=}"
+            payload["cover_letter_content"] = f"{len(cover_letter_content)=}"
             logger.info(
                 "SKIP submit_application "
-                f"{job_id} {resume_filename} {cover_letter_filename}"
+                f"{initial_referrer=} "
+                f"{initial_url=} "
+                f"{payload=}"
             )
             response = requests.Response()
             response.status_code = 200
