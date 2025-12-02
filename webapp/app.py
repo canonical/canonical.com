@@ -477,6 +477,23 @@ def careers_rss(greenhouse):
     return response
 
 
+def is_remote(job_post):
+    location = job_post.get("location")
+    if location is None:
+        logger.error(f"location is None for job_post_id={job_post.get('id')}")
+        return True
+    location_name = location.get("name")
+    if location_name is None:
+        logger.error(
+            f"location_name is None for job_post_id={job_post.get('id')}"
+        )
+        return True
+    location_name = location_name.lower()
+    if "home based" in location_name:
+        return True
+    
+    return False
+
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
     methods=["GET", "POST"],
@@ -495,7 +512,6 @@ def handle_job_details(job_id, job_title):
         harvest = Harvest.from_session(session)
         return job_details(session, greenhouse, harvest, job_id)
 
-
 def job_details(session, greenhouse, harvest, job_id):
     context = {
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
@@ -506,7 +522,7 @@ def job_details(session, greenhouse, harvest, job_id):
         context["job"] = harvest.get_job_post(job_id)
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
-        context["job"]["is_remote"] = job_post.is_remote
+        context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
         if error.response.status_code == 404:

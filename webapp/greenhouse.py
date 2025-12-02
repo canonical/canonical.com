@@ -219,7 +219,6 @@ class Vacancy:
         self.employment_type: str = _get_metadata(job, "employment_type")
         self.slug: str = _get_job_slug(job)
         self.skills: list = _get_metadata(job, "skills") or []
-        self.is_remote: bool = False if job["offices"][0]["location"] else True
         self.featured: str = _get_metadata(job, "is_featured")
         self.fast_track: str = _get_metadata(job, "is_fast_track")
 
