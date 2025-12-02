@@ -188,7 +188,7 @@ You block cookies by activating the setting on your browser that allows you to r
 
 ### Session storage
 
-Our website use `sessionStorage` to persist session data on the user's device when they navigate different pages of the website. These entries are only created after you grant consent for performance cookies. Entries are stored locally for the current browser session and deleted once the tab is closed.
+Our websites use `sessionStorage` to persist session data on the user's device when they navigate different pages of the website. These entries are only created after you grant consent for performance cookies. Entries are stored locally for the current browser session and deleted once the tab is closed.
 
 | Keys | Purpose |
 | --- | --- |
