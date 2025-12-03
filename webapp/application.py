@@ -762,7 +762,6 @@ def job_location_countries(job_location_name: str):
         Home Based - APAC
     """
 
-
     job_location_name = job_location_name.lower()
     if "home based" not in job_location_name:
         return []

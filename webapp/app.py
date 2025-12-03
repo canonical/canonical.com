@@ -491,8 +491,9 @@ def is_remote(job_post):
     location_name = location_name.lower()
     if "home based" in location_name:
         return True
-    
+
     return False
+
 
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
@@ -511,6 +512,7 @@ def handle_job_details(job_id, job_title):
         greenhouse = Greenhouse.from_session(session)
         harvest = Harvest.from_session(session)
         return job_details(session, greenhouse, harvest, job_id)
+
 
 def job_details(session, greenhouse, harvest, job_id):
     context = {
