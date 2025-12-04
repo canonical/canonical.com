@@ -144,7 +144,11 @@ def _get_mapped_url_token(
 
     except Exception:
         logger.exception(
-            f"_get_mapped_url_token {initial_referrer=} {initial_url=} {job_id=}"
+            "_get_mapped_url_token "
+            f"{initial_referrer=} "
+            f"{initial_url=} "
+            f"{utm_source=} "
+            f"{job_id=}"
         )
         return MappedUrlToken.HOME_DEFAULT
 
