@@ -199,7 +199,7 @@ REGION_COUNTRIES = {
         "Viet Nam",
         "Wallis and Futuna",
     ],
-    "amer": [
+    "americas": [
         "Anguilla",
         "Antigua and Barbuda",
         "Argentina",
