@@ -90,6 +90,7 @@ class MappedUrlToken:
     HOME_DEFAULT = "tirwqhj81us"
     HOME_GOOGLE_DIRECT = "e4cnyg6y1us"
     HOME_GOOGLE_INDIRECT = "vph10yba1us"
+    HOME_GOOGLE_JOBS = "2leak2sl1us"
 
 
 _SECOND_LEVEL_LABELS = {"co", "com", "gov"}
@@ -109,6 +110,7 @@ def _extract_base_label(hostname: str) -> str:
 def _get_mapped_url_token(
     initial_referrer: str | None,
     initial_url: str | None,
+    utm_source: str | None,
     job_id: int | str,
 ) -> str | None:
     """mapped_url_token can be generated in jobboard configuration:
@@ -116,6 +118,9 @@ def _get_mapped_url_token(
     """
 
     try:
+        if utm_source == "google_jobs_apply":
+            return MappedUrlToken.HOME_GOOGLE_JOBS
+
         if not initial_referrer:
             return MappedUrlToken.HOME_DEFAULT
 
@@ -142,6 +147,7 @@ def _get_mapped_url_token(
             "_get_mapped_url_token "
             f"{initial_referrer=} "
             f"{initial_url=} "
+            f"{utm_source=} "
             f"{job_id=}"
         )
         return MappedUrlToken.HOME_DEFAULT
@@ -151,6 +157,7 @@ def _payload_setup_mapped_url_token(
     payload,
     initial_referrer,
     initial_url,
+    utm_source,
     job_id,
 ):
     mapped_url_token = payload.get("mapped_url_token")
@@ -159,7 +166,10 @@ def _payload_setup_mapped_url_token(
 
     payload.pop("mapped_url_token", None)
     mapped_url_token = _get_mapped_url_token(
-        initial_referrer, initial_url, job_id
+        initial_referrer,
+        initial_url,
+        utm_source,
+        job_id,
     )
     if not mapped_url_token:
         return
@@ -219,7 +229,6 @@ class Vacancy:
         self.employment_type: str = _get_metadata(job, "employment_type")
         self.slug: str = _get_job_slug(job)
         self.skills: list = _get_metadata(job, "skills") or []
-        self.is_remote: bool = False if job["offices"][0]["location"] else True
         self.featured: str = _get_metadata(job, "is_featured")
         self.fast_track: str = _get_metadata(job, "is_fast_track")
 
@@ -371,9 +380,14 @@ class Greenhouse:
         payload.pop("recaptcha_token", None)
         initial_referrer = payload.pop("initial_referrer", None)
         initial_url = payload.pop("initial_url", None)
+        utm_source = payload.pop("utm_source", None)
 
         _payload_setup_mapped_url_token(
-            payload, initial_referrer, initial_url, job_id
+            payload,
+            initial_referrer,
+            initial_url,
+            utm_source,
+            job_id,
         )
 
         # Add resume to the payload if exists
