@@ -123,6 +123,7 @@
         <input type="submit" class="p-button--positive u-no-margin--bottom js-submit-button" name="submit_button" value="Submit application"/>
         <input type="hidden" name="initial_referrer" id="initial_referrer" value="" />
         <input type="hidden" name="initial_url" id="initial_url" value="" />
+        <input type="hidden" name="utm_source" id="utm_source" value="" />
         <input type="hidden" name="mapped_url_token" id="gh_src" value="" />
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
       </fieldset>
@@ -152,6 +153,39 @@
 
     try {
       input.value = sessionStorage.getItem("canonical.initialUrl");
+    } catch { }
+  })();
+</script>
+
+<script>
+  (function () {
+    const input = document.getElementById("utm_source");
+    if (!input) {
+      return;
+    }
+
+    try {
+      const getUtmSource = (url) => {
+        if (!url) {
+          return null;
+        }
+        try {
+          return new URL(url, window.location.origin).searchParams.get("utm_source");
+        } catch {
+          return null;
+        }
+      };
+
+      let utmSource = getUtmSource(window.location.href);
+
+      if (!utmSource) {
+        const initialUrl = sessionStorage.getItem("canonical.initialUrl");
+        utmSource = getUtmSource(initialUrl);
+      }
+
+      if (utmSource) {
+        input.value = utmSource;
+      }
     } catch { }
   })();
 </script>
