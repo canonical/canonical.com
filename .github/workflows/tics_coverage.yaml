@@ -1,0 +1,57 @@
+name: Upload TICS report
+on: pull_request
+# on:
+#   schedule:
+#     - cron: "0 22 * * 5"
+#   workflow_dispatch:
+permissions: read-all
+
+jobs:
+  TICS:
+    runs-on: [self-hosted, linux, amd64, tiobe, noble]
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+
+      - name: Install node dependencies
+        run: yarn install --immutable
+          
+      - name: Install python dependencies
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt coverage
+      
+      - name: Run tests and generate coverage report
+        run: |
+          source venv/bin/activate
+          coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
+          coverage report
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-com-coverage
+          path: coverage
+
+      - name: Run TICS analysis with github-action
+        uses: tiobe/tics-github-action@v3
+        with:
+          mode: qserver
+          project: canonical.com
+          branchdir: .
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
+          installTics: true
+          tmpdir: /tmp/tics
+          additionalFlags: -archivefile '${{ github.workspace }}/.github/workflows/tiobe_config.txt'

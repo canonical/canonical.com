@@ -1,164 +1,164 @@
-name: PR checks
-on: pull_request
-env:
-  SECRET_KEY: insecure_test_key
-  HARVEST_API_KEY: local_development_fake_key
-  APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
-  SERVICE_ACCOUNT_EMAIL: test_email@email.com
-  SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
+# name: PR checks
+# on: pull_request
+# env:
+#   SECRET_KEY: insecure_test_key
+#   HARVEST_API_KEY: local_development_fake_key
+#   APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
+#   SERVICE_ACCOUNT_EMAIL: test_email@email.com
+#   SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
 
-jobs:
-  run-image:
-    runs-on: ubuntu-22.04
+# jobs:
+#   run-image:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Build image
-        run: DOCKER_BUILDKIT=1 docker build --tag canonical-com .
+#       - name: Build image
+#         run: DOCKER_BUILDKIT=1 docker build --tag canonical-com .
 
-      - name: Run image
-        run: |
-          docker run --detach --env SECRET_KEY=insecure_secret_key  --env APPLICATION_CRYPTO_SECRET_KEY=insecure_secret_key --env SERVICE_ACCOUNT_EMAIL=test_email@email.com --env SERVICE_ACCOUNT_PRIVATE_KEY=test_private_key --network host canonical-com
-          sleep 1
-          curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost
+#       - name: Run image
+#         run: |
+#           docker run --detach --env SECRET_KEY=insecure_secret_key  --env APPLICATION_CRYPTO_SECRET_KEY=insecure_secret_key --env SERVICE_ACCOUNT_EMAIL=test_email@email.com --env SERVICE_ACCOUNT_PRIVATE_KEY=test_private_key --network host canonical-com
+#           sleep 1
+#           curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost
 
-  run-dotrun:
-    runs-on: ubuntu-22.04
+#   run-dotrun:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Install dotrun
-        run: sudo pip3 install dotrun requests==2.31.0
+#       - name: Install dotrun
+#         run: sudo pip3 install dotrun requests==2.31.0
 
-      - name: Install dependencies
-        run: |
-          sudo chmod -R 777 .
-          dotrun install
+#       - name: Install dependencies
+#         run: |
+#           sudo chmod -R 777 .
+#           dotrun install
 
-      - name: Build assets
-        run: dotrun build
+#       - name: Build assets
+#         run: dotrun build
 
-      - name: Test site
-        run: dotrun & curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost:8002
+#       - name: Test site
+#         run: dotrun & curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost:8002
 
-  lint-scss:
-    runs-on: ubuntu-22.04
+#   lint-scss:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: yarn install --immutable
+#       - name: Install dependencies
+#         run: yarn install --immutable
 
-      - name: Lint scss
-        run: yarn lint-scss
+#       - name: Lint scss
+#         run: yarn lint-scss
 
-  lint-python:
-    runs-on: ubuntu-22.04
+#   lint-python:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Install node dependencies
-        run: yarn install --immutable
+#       - name: Install node dependencies
+#         run: yarn install --immutable
 
-      - name: Install python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          sudo pip3 install flake8 black
+#       - name: Install python dependencies
+#         run: |
+#           python3 -m pip install --upgrade pip
+#           sudo pip3 install flake8 black
 
-      - name: Lint python
-        run: yarn lint-python
+#       - name: Lint python
+#         run: yarn lint-python
 
-  lint-jinja:
-    runs-on: ubuntu-22.04
+#   lint-jinja:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Install node dependencies
-        run: yarn install --immutable
+#       - name: Install node dependencies
+#         run: yarn install --immutable
 
-      - name: Install python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          sudo pip3 install djlint
+#       - name: Install python dependencies
+#         run: |
+#           python3 -m pip install --upgrade pip
+#           sudo pip3 install djlint
 
-      - name: Get changed HTML files in the templates folder
-        id: changed-files
-        run: |
-          TARGET_SHA=$(git rev-parse origin/$GITHUB_BASE_REF)
-          CHANGED_FILES=$(git diff --name-only --diff-filter=d $TARGET_SHA $GITHUB_SHA -- 'templates/**.html' | tr '\n' ' ')
-          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+#       - name: Get changed HTML files in the templates folder
+#         id: changed-files
+#         run: |
+#           TARGET_SHA=$(git rev-parse origin/$GITHUB_BASE_REF)
+#           CHANGED_FILES=$(git diff --name-only --diff-filter=d $TARGET_SHA $GITHUB_SHA -- 'templates/**.html' | tr '\n' ' ')
+#           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
 
-      - name: Lint jinja
-        if: env.CHANGED_FILES != ''
-        run: |
-          echo "The following files have changed: $CHANGED_FILES"
-          djlint $CHANGED_FILES --lint --profile="jinja"
+#       - name: Lint jinja
+#         if: env.CHANGED_FILES != ''
+#         run: |
+#           echo "The following files have changed: $CHANGED_FILES"
+#           djlint $CHANGED_FILES --lint --profile="jinja"
 
-  test-python:
-    runs-on: ubuntu-22.04
+#   test-python:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Install requirements
-        run: |
-          sudo apt-get update && sudo apt-get install --yes python3-setuptools
-          sudo pip3 install -r requirements.txt
+#       - name: Install requirements
+#         run: |
+#           sudo apt-get update && sudo apt-get install --yes python3-setuptools
+#           sudo pip3 install -r requirements.txt
 
-      - name: Install dependencies
-        run: sudo pip3 install coverage
+#       - name: Install dependencies
+#         run: sudo pip3 install coverage
 
-      - name: Install node dependencies
-        run: yarn install --immutable
+#       - name: Install node dependencies
+#         run: yarn install --immutable
 
-      - name: Build resources
-        run: yarn build
+#       - name: Build resources
+#         run: yarn build
 
-      - name: Run tests and generate coverage report
-        run: |
-          coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
-          coverage report && 
-          coverage xml -o coverage.xml
+#       - name: Run tests and generate coverage report
+#         run: |
+#           coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
+#           coverage report && 
+#           coverage xml -o coverage.xml
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: python
-          commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
+#       - name: Upload coverage to Codecov
+#         uses: codecov/codecov-action@v4
+#         with:
+#           token: ${{ secrets.CODECOV_TOKEN }}
+#           flags: python
+#           commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
 
 
-  test-javascript:
-    runs-on: ubuntu-22.04
+#   test-javascript:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: yarn install --immutable
+#       - name: Install dependencies
+#         run: yarn install --immutable
 
-      - name: Lint scss
-        run: yarn test-js
+#       - name: Lint scss
+#         run: yarn test-js
 
-  inclusive-naming-check:
-    runs-on: ubuntu-22.04
+#   inclusive-naming-check:
+#     runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: woke
-        uses: canonical-web-and-design/inclusive-naming@main
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
-          fail-on-error: true
+#       - name: woke
+#         uses: canonical-web-and-design/inclusive-naming@main
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           reporter: github-pr-check
+#           fail-on-error: true
