@@ -133,106 +133,67 @@
 
 <script>
   (function () {
-    const input = document.getElementById("initial_referrer");
-    if (!input) {
+    const formEl = document.getElementById("job-apply-form");
+    if (!formEl) {
       return;
     }
 
-    try {
-      input.value = sessionStorage.getItem("canonical.initialReferrer");
-    } catch { }
-  })();
-</script>
-
-<script>
-  (function () {
-    const input = document.getElementById("initial_url");
-    if (!input) {
-      return;
-    }
-
-    try {
-      input.value = sessionStorage.getItem("canonical.initialUrl");
-    } catch { }
-  })();
-</script>
-
-<script>
-  (function () {
-    const input = document.getElementById("utm_source");
-    if (!input) {
-      return;
-    }
-
-    try {
-      const getUtmSource = (url) => {
-        if (!url) {
-          return null;
-        }
-        try {
-          return new URL(url, window.location.origin).searchParams.get("utm_source");
-        } catch {
-          return null;
-        }
-      };
-
-      let utmSource = getUtmSource(window.location.href);
-
-      if (!utmSource) {
-        const initialUrl = sessionStorage.getItem("canonical.initialUrl");
-        utmSource = getUtmSource(initialUrl);
+    const getSessionValue = (key) => {
+      try {
+        return sessionStorage.getItem(key);
+      } catch {
+        return null;
       }
+    };
 
-      if (utmSource) {
-        input.value = utmSource;
+    const setHiddenField = (id, value) => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.value = value || "";
       }
-    } catch { }
-  })();
-</script>
+    };
 
-<script>
-  (function () {
-    const input = document.getElementById("gh_src");
-    if (!input) {
-      return;
-    }
-
-    try {
-      const getGhSrc = (url) => {
-        if (!url) {
-          return null;
-        }
-        try {
-          return new URL(url, window.location.origin).searchParams.get("gh_src");
-        } catch {
-          return null;
-        }
-      };
-
-      let ghSrc = getGhSrc(window.location.href);
-
-      if (!ghSrc) {
-        const initialUrl = sessionStorage.getItem("canonical.initialUrl");
-        ghSrc = getGhSrc(initialUrl);
+    const getQueryParam = (url, param) => {
+      if (!url) {
+        return null;
       }
-
-      if (ghSrc) {
-        input.value = ghSrc;
+      try {
+        return new URL(url, window.location.origin).searchParams.get(param);
+      } catch {
+        return null;
       }
-    } catch { }
-  })();
-</script>
+    };
 
-<script>
-  const formEl = document.getElementById("job-apply-form");
-  formEl.addEventListener('submit', (event) => {
-    event.preventDefault();
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute("{{ recaptcha_site_key }}", {action: "JOB_APPLY"});
-      document.getElementById("recaptcha_token").value = token;
-      formEl.submit();
+    const populateHiddenFields = () => {
+      const initialUrl = getSessionValue("canonical.initialUrl");
+      const initialReferrer = getSessionValue("canonical.initialReferrer");
+      const currentUrl = window.location.href;
+
+      setHiddenField("initial_referrer", initialReferrer);
+      setHiddenField("initial_url", initialUrl);
+      const utmSource =
+        getQueryParam(currentUrl, "utm_source") ||
+        getQueryParam(initialUrl, "utm_source");
+      setHiddenField("utm_source", utmSource);
+
+      const ghSrc =
+        getQueryParam(currentUrl, "gh_src") ||
+        getQueryParam(initialUrl, "gh_src");
+      setHiddenField("gh_src", ghSrc);
+    };
+
+    formEl.addEventListener('submit', (event) => {
+      event.preventDefault();
+      try {
+        populateHiddenFields();
+      } catch { }
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute("{{ recaptcha_site_key }}", {action: "JOB_APPLY"});
+        document.getElementById("recaptcha_token").value = token;
+        formEl.submit();
+      });
     });
-  });
+  })();
 </script>
 
 <script defer>
