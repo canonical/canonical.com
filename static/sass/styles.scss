@@ -993,6 +993,40 @@ html {
   margin-top: 0;
 }
 
+body:not(.js-enabled) {
+  .scroll-section__contentArea {
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .scroll-section__content {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    opacity: 1;
+    height: auto;
+    transform: none;
+    pointer-events: auto;
+    transition: none;
+    z-index: auto;
+  }
+
+  .scroll-section__content.active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    z-index: auto;
+  }
+
+  .scroll-section__content.slide-out-up {
+    transform: none;
+    opacity: 1;
+    z-index: auto;
+  }
+}
+
 // This override can be removed once the following PR has been released
 // https: //github.com/canonical/vanilla-framework/pull/5668
 .row > .col-6 {
