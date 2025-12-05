@@ -94,10 +94,12 @@ test.describe("Navigation Flows - E2E Tests", () => {
           await test.step(`Close ${navItem.title} dropdown`, async () => {
             // Click elsewhere to close dropdown
             await clickNavigationItem(page, navItem.selector!);
-            await page.waitForTimeout(300);
+            
+            const dropdownId = navItem.selector!.replace('#', '').replace('-nav', '');
+            await expect(page.locator(`#${dropdownId}-content`)).not.toBeVisible();
             
             // Verify dropdown is closed
-            const isOpen = await isDropdownOpen(page, navItem.selector!.replace('#', '').replace('-nav', ''));
+            const isOpen = await isDropdownOpen(page, dropdownId);
             expect(isOpen).toBe(false);
           });
         });
@@ -264,7 +266,6 @@ test.describe("Navigation Flows - E2E Tests", () => {
       for (const path of testPaths) {
         await test.step(`Navigate to ${path}`, async () => {
           await page.goto(path);
-          await acceptCookiePolicy(page);
           
           // Verify primary nav is still present
           await expect(page.locator('#navigation')).toBeVisible();
@@ -306,6 +307,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
     test("should display mobile menu toggle on small screens", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 667 });
       await page.reload();
+      await acceptCookiePolicy(page)
       
       // Verify mobile menu button is visible
       const menuButton = page.locator('.js-menu-button');
@@ -325,6 +327,8 @@ test.describe("Navigation Flows - E2E Tests", () => {
       
       // Close mobile menu
       await toggleMobileMenuIfNeeded(page);
+
+      await expect(page.locator('#navigation')).not.toHaveClass(/has-menu-open/)
     });
   });
 
@@ -342,11 +346,14 @@ test.describe("Navigation Flows - E2E Tests", () => {
 });
 
 test.describe("Responsive Navigation Tests", () => {
+
+  test.beforeEach(async ({ page }) => {
+    await navigateToHomepage(page);
+  });
   
   VIEWPORTS.forEach(viewport => {
     test(`should work correctly on ${viewport.name} (${viewport.width}x${viewport.height})`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await navigateToHomepage(page);
       
       // Verify navigation is visible
       await expect(page.locator('#navigation')).toBeVisible();
@@ -389,9 +396,12 @@ test.describe("Responsive Navigation Tests", () => {
 });
 
 test.describe("Navigation Accessibility", () => {
+
+  test.beforeEach(async ({ page }) => {
+    await navigateToHomepage(page);
+  });
   
   test("should have proper ARIA attributes and keyboard navigation", async ({ page }) => {
-    await navigateToHomepage(page);
     // Check main navigation has proper ARIA
     const mainNav = page.locator('#navigation nav');
     await expect(mainNav).toHaveAttribute('aria-label');
@@ -408,19 +418,13 @@ test.describe("Navigation Accessibility", () => {
   });
 
   test("should support keyboard navigation", async ({ page }) => {
-    await navigateToHomepage(page);
-    
-    // Focus on first navigation item
     const firstNavButton = page.locator('.js-dropdown-button').first();
     await firstNavButton.focus();
-    
-    // Verify focus is visible
     await expect(firstNavButton).toBeFocused();
-    
-    // Test Tab navigation
-    await page.keyboard.press('Tab');
-    
-    // Test Enter key to open dropdown
     await page.keyboard.press('Enter');
+    const controls = await firstNavButton.getAttribute('aria-controls');
+    expect(controls).toBeTruthy();
+    const dropdownContent = page.locator(`#${controls}`);
+    await expect(dropdownContent).toBeVisible();
   });
 });

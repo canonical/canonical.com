@@ -11,7 +11,7 @@ This directory contains end-to-end tests for the Canonical.com navigation system
 
 ### Dropdown Navigation Tests
 - **Click Interactions**: Tests dropdown opening/closing on desktop click
-- **Click Interactions**: Tests dropdown behavior on mobile/touch devices
+- **Touch Interactions**: Tests dropdown behavior on mobile/touch devices
 - **Link Validation**: Verifies all dropdown links are functional and lead to valid pages
 - **Content Verification**: Ensures dropdown content matches navigation.yaml structure
 - **Closing Behavior**: Verifies dropdown collapses when clicking the same item or outside the navigation

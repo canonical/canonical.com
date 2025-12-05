@@ -57,7 +57,7 @@ export const acceptCookiePolicy = async (page: Page): Promise<void> => {
   if (await isElementVisible(page, '#cookie-policy-button-accept-all')) {
     await page.locator('#cookie-policy-button-accept-all').click();
     // Wait for cookie banner to disappear
-    await page.waitForTimeout(100);
+    await expect(page.locator('#cookie-policy-button-accept-all')).not.toBeVisible();
   }
 };
 
@@ -119,8 +119,8 @@ export const getDropdownLinks = async (page: Page, navItemId: string): Promise<s
 /**
  * Test search functionality
  */
-export const clickSearchButton = async (page: Page, isMobile: boolean = false): Promise<void> => {
-  const searchButton = page.locator(isMobile ? '#js-search-button-mobile' : '#js-search-button-desktop');
+export const clickSearchButton = async (page: Page): Promise<void> => {
+  const searchButton = page.locator((await isMobileViewport(page)) ? '#js-search-button-mobile' : '#js-search-button-desktop');
   await searchButton.click();
 };
 
