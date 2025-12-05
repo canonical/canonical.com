@@ -83,6 +83,9 @@ jobs:
 
   deploy-staging:
     runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    concurrency: 
+      group: staging-deployment
+      cancel-in-progress: false
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
@@ -123,6 +126,9 @@ jobs:
 
   deploy-production:
     runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    concurrency: 
+      group: production-deployment
+      cancel-in-progress: false
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
