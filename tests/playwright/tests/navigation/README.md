@@ -122,14 +122,6 @@ Navigation tests include accessibility validation:
 - Focus management
 - Screen reader compatibility
 
-## Integration with CI/CD
-
-These tests are configured to run as part of the main test suite and will:
-- Run automatically on pull requests
-- Retry failed tests on CI (configured in playwright.config.ts)
-- Generate HTML reports for test results
-- Fail the build if critical navigation functionality is broken
-
 ## Maintenance
 
 When updating navigation structure:
