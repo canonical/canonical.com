@@ -17,13 +17,14 @@ export interface ViewportSize {
   name: string;
 }
 
-// Common viewport sizes for responsive testing
+// Vanilla viewport sizes for responsive testing
+// https://vanillaframework.io/docs/settings/breakpoint-settings
 export const VIEWPORTS: ViewportSize[] = [
   { width: 1920, height: 1080, name: "Desktop Large" },
-  { width: 1366, height: 768, name: "Desktop Standard" },
-  { width: 1024, height: 768, name: "Tablet Landscape" },
-  { width: 768, height: 1024, name: "Tablet Portrait" },
-  { width: 375, height: 667, name: "Mobile" },
+  { width: 1681, height: 768, name: "Desktop Standard" },
+  { width: 620, height: 1024, name: "Tablet Portrait" },
+  { width: 1024, height: 620, name: "Tablet Landscape" },
+  { width: 460, height: 667, name: "Mobile" },
   { width: 320, height: 568, name: "Mobile Small" }
 ];
 

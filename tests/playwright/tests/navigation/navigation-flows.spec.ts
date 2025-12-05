@@ -22,7 +22,6 @@ test.describe("Navigation Flows - E2E Tests", () => {
   
   test.beforeEach(async ({ page }) => {
     await navigateToHomepage(page);
-    await acceptCookiePolicy(page);
   });
 
   test.describe("Primary Navigation Structure", () => {
