@@ -39,9 +39,11 @@ from canonicalwebteam.flask_base.env import get_flask_env
 from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
+from canonicalwebteam.cookie_service import CookieConsent
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from slugify import slugify
+from flask_caching import Cache
 
 # Local
 from webapp.views import json_asset_query
@@ -131,6 +133,32 @@ discourse_session = get_requests_session()
 
 app.register_blueprint(application, url_prefix="/careers/application")
 
+# Configure Flask session
+app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(days=365)
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SECURE"] = True
+
+# Initialize Flask-Caching
+app.config["CACHE_TYPE"] = "SimpleCache"
+cache = Cache(app)
+
+
+# Set up cache functions for cookie consent service health check
+def get_cache(key):
+    return cache.get(key)
+
+
+def set_cache(key, value, timeout):
+    cache.set(key, value, timeout)
+
+
+cookie_service = CookieConsent().init_app(
+    app,
+    get_cache_func=get_cache,
+    set_cache_func=set_cache,
+    start_health_check=True,
+)
 
 # Prepare forms
 form_template_path = "shared/forms/form-template.html"
