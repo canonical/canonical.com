@@ -6,6 +6,10 @@ on:
       - add-charm
       - main
 
+concurrency: 
+  group: canonical-com-deploy
+  cancel-in-progress: false
+
 env:
   CHARMCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS: true
   ROCKCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS: true
@@ -83,9 +87,6 @@ jobs:
 
   deploy-staging:
     runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
-    concurrency: 
-      group: staging-deployment
-      cancel-in-progress: false
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
@@ -126,9 +127,6 @@ jobs:
 
   deploy-production:
     runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
-    concurrency: 
-      group: production-deployment
-      cancel-in-progress: false
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
