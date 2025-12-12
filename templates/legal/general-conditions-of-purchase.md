@@ -28,7 +28,7 @@ Any terms and conditions proposed by the Supplier that are not
 expressly accepted in writing by Canonical shall be deemed null and
 void and shall not form part of the Agreement.<br />
 This Agreement shall come into effect upon the earlier of:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;(a) Supplier's signature, or<br />
+&nbsp;&nbsp;&nbsp;&nbsp;(a) Supplier's signature or acknowledgement of receipt of the PO, or<br />
 &nbsp;&nbsp;&nbsp;&nbsp;(b) Supplier's commencement of performance.
 
 The Agreement is entered into between the Canonical entity set out
