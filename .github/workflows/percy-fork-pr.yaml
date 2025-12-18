@@ -26,7 +26,7 @@ jobs:
     # Only run for PRs from forks
     if: github.event.pull_request.head.repo.full_name != github.repository
     outputs:
-      approved: ${{ steps.check.outputs.approved }}
+      approved: ${{ steps.check.outputs.approved == 'true' || steps.label_check.outputs.approved == 'true' }}
     steps:
       - name: Check PR author association
         id: check
@@ -53,6 +53,7 @@ jobs:
             }
 
       - name: Check for safe-for-percy label
+        id: label_check
         if: steps.check.outputs.approved != 'true'
         uses: actions/github-script@v7
         with:
