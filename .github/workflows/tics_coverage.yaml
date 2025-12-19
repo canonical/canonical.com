@@ -17,9 +17,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.base_ref }}
 
       - name: Install Python requirements
         run: |
