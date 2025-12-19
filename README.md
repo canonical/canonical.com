@@ -24,7 +24,7 @@ When you start changing files, the server should reload and make the changes ava
 
 ### Testing with Percy
 - Ensure your local setup is up and running at localhost:8002
-- Please ask for PERCY_TOKEN and save it in .env
+- Please ask for PERCY_TOKEN and save it in .env.local
 - On linux, simply run `dotrun percy-snapshot`
 - On mac, add the variables below to your .env.local and run `yarn percy-snapshot`
 ```
