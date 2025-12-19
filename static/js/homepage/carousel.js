@@ -69,7 +69,8 @@ function startAutoRotate() {
 
 // Event listeners for navigation items
 navItems.forEach((nav) => {
-  nav.addEventListener("click", () => {
+  nav.addEventListener("click", (event) => {
+    event.preventDefault();
     const index = parseInt(nav.getAttribute("data-index"), 10);
     activateSlide(index);
     if (!isPaused) {

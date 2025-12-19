@@ -252,39 +252,6 @@
             }
           </script>
 
-          <!-- set canonical.initialReferrer, canonical.initialUrl -->
-          <script>
-            (function() {
-              const initialReferrerKey = "canonical.initialReferrer";
-              const initialUrlKey = "canonical.initialUrl";
-
-              function stripReferrer(url) {
-                if (!url) {
-                  return "";
-                }
-                try {
-                  const parsed = new URL(url, window.location.href);
-                  return parsed.origin || "";
-                } catch (error) {
-                  return "";
-                }
-              }
-
-              try {
-                if (!sessionStorage.getItem(initialReferrerKey)) {
-                  const refDomain = stripReferrer(document.referrer);
-                  if (refDomain) {
-                    sessionStorage.setItem(initialReferrerKey, refDomain);
-                  }
-                }
-
-                if (!sessionStorage.getItem(initialUrlKey)) {
-                  sessionStorage.setItem(initialUrlKey, window.location.href);
-                }
-              } catch {}
-            })();
-          </script>
-
         </body>
 
       </html>

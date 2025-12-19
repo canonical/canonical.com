@@ -1,0 +1,13 @@
+{% macro get_bug_link(product_name) %}
+  {% if product_name %}
+    {% if product_name.lower() == "mir" %}
+      https://github.com/canonical/mir/issues/new/choose
+    {% elif product_name.lower() == "maas" %}
+      https://github.com/canonical/maas/issues
+    {% elif product_name.lower() == "dqlite" %}
+      https://github.com/canonical/dqlite/issues/new/choose
+    {% elif product_name.lower() == "microk8s" %}
+      https://github.com/canonical/microk8s/issues/new/choose
+    {% endif %}
+  {% endif %}
+{% endmacro %}

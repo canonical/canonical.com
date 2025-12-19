@@ -36,8 +36,7 @@
   const backDetails = document.getElementById("back-details");
   const jobDetails = document.getElementById("details");
   const applicationForm = document.getElementById("application");
-  const originURL = window.location.pathname;
-  const URLSplit = originURL.split("/");
+  const currentSearch = window.location.search;
 
   // If loading the page with application switch to that state
   if (onApplicationScreen()) {
@@ -46,20 +45,26 @@
 
   applyButton.addEventListener("click", function() {
     show_application();
-    window.history.pushState({}, document.title, `${window.location.pathname}/application`);
+    const basePath = window.location.pathname.replace(/\/application$/, "");
+    window.history.pushState(
+      {},
+      document.title,
+      `${basePath}/application${currentSearch}`
+    );
   })
 
   backDetails.addEventListener("click", function(e) {
     e.preventDefault();
     hide_application();
-    const currentPath = window.location.pathname;
-    const returnPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
-    window.history.pushState({}, document.title, returnPath);
+    const currentPath = window.location.pathname.replace(/\/application$/, "");
+    window.history.pushState({}, document.title, `${currentPath}${currentSearch}`);
   })
 
   // When the "Back to list" link is clicked handle transitioning to the JD
-  window.addEventListener('popstate', function (event) {
-    if(!onApplicationScreen()) {
+  window.addEventListener('popstate', function () {
+    if (onApplicationScreen()) {
+      show_application();
+    } else {
       hide_application();
     }
   });
@@ -81,10 +86,7 @@
   }
 
   function onApplicationScreen() {
-    if(URLSplit[URLSplit.length - 1] === "application") {
-      return true;
-    }
-    return false;
+    return window.location.pathname.endsWith("/application");
   }
 </script>
 {% endblock %}

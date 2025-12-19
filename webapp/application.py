@@ -750,7 +750,24 @@ def request_withdrawal(harvest, token):
 
 @application.app_template_filter()
 def job_location_countries(job_location_name: str):
+    """
+    locations as of 2025-12-02:
+        Office Based - London, UK
+        Home based - EMEA
+        Home Based - Americas
+        Office Based - Toronto, Canada
+        Home based - Worldwide
+        Office Based - Taipei, Taiwan
+        Office Based - Beijing, China
+        Home Based - APAC
+    """
+
+    if job_location_name is None:
+        return []
     job_location_name = job_location_name.lower()
+    if "home based" not in job_location_name:
+        return []
+
     countries = []
     for region, region_countries in REGION_COUNTRIES.items():
         if region in job_location_name or "worldwide" in job_location_name:

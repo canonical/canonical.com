@@ -39,7 +39,6 @@
 {% endmacro %}
 
 {% block content %}
-
   {% with
     search_action=search_action,
     siteSearch=siteSearch,
@@ -118,7 +117,7 @@
                 {% elif ns.use_next and not page.hidden and page.navlink_text %}
                   {% if page.navlink_href %}
                     <a class="p-article-pagination__link--previous"
-                      href="{{ page.navlink_href }}">
+                       href="{{ page.navlink_href }}">
                       <span class="p-article-pagination__label">Previous</span>
                       <span class="p-article-pagination__title">
                         {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
@@ -138,7 +137,7 @@
                 {% elif ns.use_next and not page.hidden and page.navlink_text %}
                   {% if page.navlink_href %}
                     <a class="p-article-pagination__link--next"
-                      href="{{ page.navlink_href }}">
+                       href="{{ page.navlink_href }}">
                       <span class="p-article-pagination__label">Next</span>
                       <span class="p-article-pagination__title">
                         {% if ns.outer_title %}{{ ns.outer_title }}:{% endif %}
@@ -169,16 +168,20 @@
 
         </div>
       </main>
-      
+
       <div class="col-3">
         <nav class="p-table-of-contents__nav" aria-label="Table of contents">
           <ul class="p-table-of-contents__list">
             {% for heading in document.headings_map %}
-              <li class="p-table-of-contents__item"><a class="p-table-of-contents__link" href="#{{ heading.heading_slug }}">{{ heading.heading_text }}</a></li>
+              <li class="p-table-of-contents__item">
+                <a class="p-table-of-contents__link" href="#{{ heading.heading_slug }}">{{ heading.heading_text }}</a>
+              </li>
               {% if heading.children %}
                 <ul class="p-table-of-contents__list">
-                {% for child in heading.children %}
-                  <li class="p-table-of-contents__item"><a class="p-table-of-contents__link" href="#{{ child.heading_slug }}">{{ child.heading_text }}</a></li>
+                  {% for child in heading.children %}
+                    <li class="p-table-of-contents__item">
+                      <a class="p-table-of-contents__link" href="#{{ child.heading_slug }}">{{ child.heading_text }}</a>
+                    </li>
                   {% endfor %}
                 </ul>
               {% endif %}
@@ -247,5 +250,7 @@
 {% endblock %}
 
 {% block footer %}
-  {% include "docs/shared/_footer.html" %}
+  {% with product_name=product_name %}
+    {% include "docs/shared/_footer.html" %}
+  {% endwith %}
 {% endblock footer %}

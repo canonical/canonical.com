@@ -215,6 +215,7 @@ class TestGreenhouseAPI(unittest.TestCase):
         token = _get_mapped_url_token(
             initial_referrer="https://canonical.com/",
             initial_url="https://canonical.com/careers/12345",
+            utm_source=None,
             job_id="12345",
         )
         self.assertEqual(token, MappedUrlToken.HOME_DEFAULT)
@@ -222,6 +223,7 @@ class TestGreenhouseAPI(unittest.TestCase):
         token = _get_mapped_url_token(
             initial_referrer="",
             initial_url="",
+            utm_source=None,
             job_id="12345",
         )
         self.assertEqual(token, MappedUrlToken.HOME_DEFAULT)
@@ -229,6 +231,7 @@ class TestGreenhouseAPI(unittest.TestCase):
         token = _get_mapped_url_token(
             initial_referrer="https://google.com/",
             initial_url="https://canonical.com/careers",
+            utm_source=None,
             job_id="12345",
         )
         self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_INDIRECT)
@@ -236,6 +239,7 @@ class TestGreenhouseAPI(unittest.TestCase):
         token = _get_mapped_url_token(
             initial_referrer="https://google.com/",
             initial_url="https://canonical.com/careers/12345",
+            utm_source=None,
             job_id="12345",
         )
         self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_DIRECT)
@@ -243,9 +247,18 @@ class TestGreenhouseAPI(unittest.TestCase):
         token = _get_mapped_url_token(
             initial_referrer="https://www.google.co.uk/",
             initial_url="https://canonical.com/careers",
+            utm_source="smth",
             job_id="12345",
         )
         self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_INDIRECT)
+
+        token = _get_mapped_url_token(
+            initial_referrer="https://www.google.co.uk/",
+            initial_url="https://canonical.com/careers",
+            utm_source="google_jobs_apply",
+            job_id="12345",
+        )
+        self.assertEqual(token, MappedUrlToken.HOME_GOOGLE_JOBS)
 
     def test_payload_setup_mapped_url_token(self):
         payload = {}
@@ -253,6 +266,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             payload=payload,
             initial_referrer="https://canonical.com/",
             initial_url="https://canonical.com/careers/12345",
+            utm_source=None,
             job_id="12345",
         )
         self.assertDictEqual(
@@ -264,6 +278,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             payload=payload,
             initial_referrer="",
             initial_url="",
+            utm_source=None,
             job_id="12345",
         )
         self.assertDictEqual(
@@ -275,6 +290,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             payload=payload,
             initial_referrer="https://google.com/",
             initial_url="https://canonical.com/careers",
+            utm_source=None,
             job_id="12345",
         )
         self.assertDictEqual(
@@ -286,6 +302,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             payload=payload,
             initial_referrer="https://google.com/",
             initial_url="https://canonical.com/careers/12345",
+            utm_source=None,
             job_id="12345",
         )
         self.assertDictEqual(
