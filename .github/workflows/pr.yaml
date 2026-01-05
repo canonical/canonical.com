@@ -123,6 +123,15 @@ jobs:
       - name: Build resources
         run: yarn build
 
+      - name: Check for uncommitted changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Error: Uncommitted changes detected after build"
+            git status
+            git diff
+            exit 1
+          fi
+
       - name: Run tests and generate coverage report
         run: |
           coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name "test_*.py" ! -name "test_marketo.py") && 
