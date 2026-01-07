@@ -90,35 +90,58 @@
 </section>
 
 {% if not exclude_socials %}
-  <section class="p-section">
-    <hr class="is-fixed-width p-rule" />
-    <div class="u-fixed-width">
-      <h2>See for yourself the work we're doing</h2>
-    </div>
-    <div class="row">
-      <div class="col-6 col-medium-3 col-start-large-7 col-start-medium-4">
-        <ul class="p-inline-list is-inlined-with-h2">
-          <li class="p-inline-list__item">
-            <a class="p-icon--github"
-               href="https://github.com/canonical"
-               data-size="large"
-               aria-label="Follow @canonical on GitHub"></a>
-          </li>
-          <li class="p-inline-list__item">
-            <a href="https://www.linkedin.com/company/234280"
-               class="p-icon--linkedin">LinkedIn</a>
-          </li>
-          <li class="p-inline-list__item">
-            <a href="https://twitter.com/Canonical" class="p-icon--twitter">Twitter</a>
-          </li>
-          <li class="p-inline-list__item">
-            <a href="https://www.youtube.com/user/celebrateubuntu"
-               class="p-icon--youtube">YouTube</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  {% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
+
+  {{ vf_linked_logo_section(
+    title_text="See for yourself the work we're doing",
+    layout="50/50",
+    links=[
+      {
+        "href": "https://github.com/canonical",
+        "text": "Follow Canonical on GitHub &rsaquo;",
+        "label": "Follow Canonical on GitHub",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/3db99442-github.png",
+          "alt": "",
+          "width": "222",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://www.linkedin.com/company/234280",
+        "text": "Follow Canonical on LinkedIn &rsaquo;",
+        "label": "Follow Canonical on LinkedIn",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/eb5aa7d8-linkedin.png",
+          "alt": "",
+          "width": "432",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://twitter.com/Canonical",
+        "text": "Follow Canonical on Twitter &rsaquo;",
+        "label": "Follow Canonical on Twitter",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/70b8bc44-x-twitter.png",
+          "alt": "",
+          "width": "240",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://www.youtube.com/user/celebrateubuntu",
+        "text": "Follow Canonical on YouTube &rsaquo;",
+        "label": "Follow Canonical on YouTube",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/5c805b49-youtube.png",
+          "alt": "",
+          "width": "240",
+          "height": "481"
+        }
+      },
+    ],
+  ) }}
 {% endif %}
 
 {% if blog_heading_topic and blog_tag_id %}
