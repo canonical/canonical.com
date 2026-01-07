@@ -392,11 +392,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/spark#success" %}
-    {% include "data/_form-data-spark.html" %}
-  {% endwith %}
+  {{ load_form("/data/spark") | safe }}
 
 {% endblock %}
