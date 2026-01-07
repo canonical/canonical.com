@@ -544,12 +544,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set formid = "4903" %}
-    {% set returnURL = "https://canonical.com/data/mongodb#success" %}
-    {% include "data/_form-data-mongodb.html" %}
-  {% endwith %}
+  {{ load_form("/data/mongodb") | safe }}
 
 {% endblock %}
