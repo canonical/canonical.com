@@ -591,10 +591,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/data/opensearch") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/opensearch#success" %}
-    {% include "data/_form-data-opensearch.html" %}
-  {% endwith %}
 {% endblock content %}
