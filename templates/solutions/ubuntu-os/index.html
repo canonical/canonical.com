@@ -692,12 +692,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ubuntu-os#contact-form-success" %}
-    {% set formid = "5909" %}
-    {% include "solutions/ubuntu-os/_form-ubuntu-os.html" %}
-  {% endwith %}
+  {{ load_form("/ubuntu-os") | safe }}
 
 {% endblock %}
