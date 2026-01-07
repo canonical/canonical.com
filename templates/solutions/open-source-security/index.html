@@ -622,11 +622,6 @@
       </div>
     </section>
 
-    <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-    {% with %}
-      {% set returnURL = "https://canonical.com/solutions/open-source-security#contact-form-success" %}
-      {% include "solutions/open-source-security/_form-open-source-security.html" %}
-    {% endwith %}
+    {{ load_form("/open-source-security") | safe }}
 
   {% endblock %}
