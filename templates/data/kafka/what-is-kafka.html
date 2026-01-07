@@ -571,10 +571,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/data/kafka") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/kafka#success" %}
-    {% include "data/_form-data-kafka.html" %}
-  {% endwith %}
 {% endblock %}
