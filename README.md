@@ -22,6 +22,16 @@ Afterwards the website will be available at <http://localhost:8002>.
 
 When you start changing files, the server should reload and make the changes available immediately.
 
+### Testing with Percy
+- Ensure your local setup is up and running at localhost:8002
+- Please ask for PERCY_TOKEN and save it in .env.local
+- On linux, simply run `dotrun percy-snapshot`
+- On mac, add the variables below to your .env.local and run `yarn percy-snapshot`
+```
+PERCY_BROWSER_EXECUTABLE=/Applications/Chromium.app/Contents/MacOS/Chromium
+PERCY_POSTINSTALL_BROWSER=false
+```
+
 ## Environment variables
 
 Environment variables are read from the available shell. For the charm, these are prepended with the prefix `FLASK_`, which we strip before re-inserting them into the environment.

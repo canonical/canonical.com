@@ -21,8 +21,7 @@
       <div class="{% if loop.index != fieldsets|length %}p-section{% endif %}">
         <hr class="p-rule is-fixed-width" />
         <fieldset class="p-fieldset-section{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility{% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox{% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %} {% if fieldset.inputType == 'checkbox' or fieldset.inputType == 'checkbox-visibility' %}js-remove-checkbox-names{% endif %}"
-                  id="{{ fieldset_id }}"
-                  aria-labelledby="{{ fieldset_id }}">
+                  aria-labelledby="{{ fieldset_id }}-legend">
           <div class="row--50-50 {% if fieldset.noCommentsFromLead != True %}js-formfield{% endif %}">
             <div class="col">
               <legend class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
@@ -103,6 +102,7 @@
                               type="{{ field.type }}"
                               {% if field.type=="email" %}pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"{% endif %} />
                     {% elif field.type == "long-text" %}
+                      <label class="u-hide" for="{{ field_id }}">{{ field.label }}</label>
                       <textarea {% if fieldset.isRequired %}required{% endif %}
                                 id="{{ field_id }}"
                                 rows="5"
