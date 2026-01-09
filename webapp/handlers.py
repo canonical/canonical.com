@@ -36,6 +36,7 @@ CSP = {
         "cdn.livechatinc.com",
         "api.livechatinc.com",
         "secure.livechatinc.com",
+        "www.tfaforms.com",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -87,6 +88,7 @@ CSP = {
         "cdn.livechatinc.com",
         "secure.livechatinc.com",
         "web.facebook.com",
+        "www.tfaforms.com",
     ],
     "frame-src": [
         "'self'",
@@ -105,6 +107,7 @@ CSP = {
         "'self'",
         "cdn.jsdelivr.net",
         "'unsafe-inline'",
+        "www.tfaforms.com",
     ],
     "media-src": [
         "'self'",
