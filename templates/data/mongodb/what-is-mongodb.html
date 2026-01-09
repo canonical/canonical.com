@@ -15,6 +15,8 @@
 {% block body_class %}
   is-paper
 {% endblock body_class %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+
 
 {% block content %}
 
@@ -71,7 +73,6 @@
       </div>
     </div>
   </section>
-
   <section class="p-section">
     <div class="u-fixed-width p-section--shallow">
       <hr class="p-rule" />
@@ -118,98 +119,72 @@
     </div>
   </section>
 
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule" />
-    <div class="p-section--shallow">
-      <h2>
-        How do companies use MongoDB<sup>&reg;</sup>?
-      </h2>
-    </div>
-    <div class="p-equal-height-row">
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/dc0a03f3-Rectangle 5.png",
-                        alt="",
-                        width="852",
-                        height="1278",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-          <h3 class="p-heading--5">Web and mobile applications</h3>
-        </div>
-        <p class="p-equal-height-row__item">
-          MongoDB provides the high availability and scalability required by use cases in web and mobile, such as content management systems, e-commerce, location based applications, user profile and personalisation.
-        </p>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/9969e00e-Healthcare@3x.png",
-                        alt="",
-                        width="853",
-                        height="1279",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-          <h3 class="p-heading--5">Internet of Things (IoT)</h3>
-        </div>
-        <p class="p-equal-height-row__item">
-          MongoDB can handle a high volume of small, sensor-generated data points for real-time and batch analytics.
-        </p>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/e4c77ae5-Canonical Industry Illustrations_Smart City (1) (1).png",
-                        alt="",
-                        width="852",
-                        height="1278",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-          <h3 class="p-heading--5">Logging and monitoring</h3>
-        </div>
-        <p class="p-equal-height-row__item">
-          MongoDB's ability to handle large volumes of log data and its fast write capabilities make it a perfect database for observability.
-        </p>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/90d3769e-atm-image.png",
-                        alt="",
-                        width="568",
-                        height="852",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-          <h3 class="p-heading--5">Payments</h3>
-        </div>
-        <p class="p-equal-height-row__item">
-          MongoDB can handle high-volume transactional data efficiently, making it suitable for banking operations that require quick and reliable transaction processing.
-        </p>
-      </div>
-    </div>
-  </section>
-
+  {% call(slot) vf_equal_heights(
+  title_text="Keep this heading to 2 lines on large screens.",
+  image_aspect_ratio_medium="2-3",
+  image_aspect_ratio_small="2-3",
+  highlight_images=True,
+    items=[
+      {
+      "title_text": "Web and mobile applications",
+      "image_html":
+        image(url="https://assets.ubuntu.com/v1/5f923891-web_and_mobile_applications.png",
+        alt="",
+        width="852",
+        height="1279",
+        hi_def=True,
+        loading="lazy",
+        attrs={ "class": "p-image-container__image" }
+        ) | safe
+      ,
+      "description_html": "MongoDB provides the high availability and scalability required by use cases in web and mobile, such as content management systems, e-commerce, location based applications, user profile and personalisation.",
+      },
+      {
+        "title_text": "Internet of Things (IoT)",
+        "image_html":
+        image(url="https://assets.ubuntu.com/v1/0cf42219-internet_of_things_iot.png",
+              alt="",
+              width="852",
+              height="1278",
+              hi_def=True,
+              loading="lazy",
+              attrs={ "class": "p-image-container__image" }
+              ) | safe 
+              ,
+        "description_html": "MongoDB can handle a high volume of small, sensor-generated data points for real-time and batch analytics.",
+      },
+      {
+        "title_text": "Logging and monitoring",
+        "image_html":
+        image(url="https://assets.ubuntu.com/v1/296e5b76-logging_and_monitoring.png",
+              alt="",
+              width="852",
+              height="1278",
+              hi_def=True,
+              loading="lazy",
+              attrs={ "class": "p-image-container__image" }
+              ) | safe 
+              ,
+        "description_html": "MongoDB's ability to handle large volumes of log data and its fast write capabilities make it a perfect database for observability.",
+      },
+      {
+        "title_text": "Payments",
+        "image_html":
+        image(url="https://assets.ubuntu.com/v1/c6143d6a-payments.png",
+              alt="",
+              width="852",
+              height="1278",
+              hi_def=True,
+              loading="lazy",
+              attrs={ "class": "p-image-container__image" }
+              ) | safe 
+              ,
+        "description_html": "MongoDB can handle high-volume transactional data efficiently, making it suitable for banking operations that require quick and reliable transaction processing.",
+      }
+    ]
+  ) %}
+  {% endcall %}
+  
   <section class="p-section">
     <div class="row--50-50">
       <hr class="p-rule" />
