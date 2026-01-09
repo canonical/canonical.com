@@ -1,11 +1,18 @@
 name: TICS Analysis and Coverage
-on: pull_request
 # on:
 #   schedule:
 #     - cron: "0 22 * * 5"
-#   workflow_dispatch:
+on: 
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      detach:
+        description: "Detach TICS QServer before the run"
+        required: false
+        default: "true"
 permissions: read-all
 env:
+  detach: true
   SECRET_KEY: insecure_test_key
   APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
   MARKETO_API_URL: "https://066-EOV-335.mktorest.com"
@@ -96,6 +103,14 @@ jobs:
         run: |
           mkdir -p .coverage &&
           mv coverage/coverage.xml .coverage/coverage.xml
+      
+      - if: ${{ env.detach == 'true' }}
+        name: Detach TICS QServer to prevent "project already connected" issue
+        env:
+          TICSAUTHTOKEN: ${{ secrets.TICSAUTHTOKEN }}
+        run: &tics-detach |
+          source ~/.profile
+          TICSMaintenance -project canonical.com -detach
 
       - name: Run TICS analysis with github-action
         uses: tiobe/tics-github-action@v3
@@ -107,4 +122,4 @@ jobs:
           ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
           installTics: true
           tmpdir: /tmp/tics
-          additionalFlags: -archivefile ${{ github.workspace }}/.github/workflows/tiobe_config.txt -nosanity
+          additionalFlags: -archivefile ${{ github.workspace }}/.github/workflows/tiobe_config.txt
