@@ -59,7 +59,7 @@ CSP = {
         "ubuntu.com",
         "analytics.google.com",
         "www.googletagmanager.com",
-        "sentry.is.canonical.com",
+        "o4510662863749120.ingest.de.sentry.io",
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
