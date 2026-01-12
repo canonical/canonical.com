@@ -210,10 +210,6 @@
     </div>
   </section>
 
-  {% with %}
-    {% set formid = "5121" %}
-    {% set returnURL = "https://canonical.com/partners/executive-summit#success" %}
-    {% include "partners/partial/_executive-summit-form.html" %}
-  {% endwith %}
+  {{ load_form("/partners/executive-summit") | safe }}
 
 {% endblock %}

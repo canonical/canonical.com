@@ -436,10 +436,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ubuntu-os/workstations#contact-form-success" %}
-    {% set formid = "1253" %}
-    {% include "solutions/ubuntu-os/_form-ubuntu-os.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ubuntu-os/workstations", 1253) | safe }}
+
 {% endblock %}

@@ -449,11 +449,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/valkey#success" %}
-    {% include "data/_form-data-valkey.html" %}
-  {% endwith %}
+  {{ load_form("/data/valkey") | safe }}
 
 {% endblock %}

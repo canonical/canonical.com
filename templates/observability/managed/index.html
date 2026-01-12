@@ -532,11 +532,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-  {# Include the contact us form #}
-  {% with %}
-    {% set returnURL = "https://canonical.com/observability#success" %}
-    {% include "observability/_managed-observability-modal.html" %}
-  {% endwith %}
+
+  {{ load_form("/observability/managed") | safe }}
 
 {% endblock content %}
