@@ -22,6 +22,7 @@ import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
 import yaml
+import sentry_sdk
 
 # Packages
 from canonicalwebteam import image_template
@@ -259,9 +260,12 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
     return all_departments, departments_overview
 
 
-sentry = app.extensions["sentry"]
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),
+    send_default_pii=True,
+)
 
-init_handlers(app, sentry)
+init_handlers(app)
 
 
 @app.route("/")
