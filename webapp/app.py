@@ -1904,3 +1904,10 @@ if get_flask_env("DEBUG") or app.debug:
         Expose all routes under templates/tests if in development/testing mode.
         """
         return flask.render_template(f"tests/{subpath}.html")
+
+
+@app.route("/sentry-debug")
+def trigger_error():
+    """Endpoint to trigger a Sentry error for testing purposes."""
+    division_by_zero = 1 / 0
+    return str(division_by_zero)
