@@ -395,6 +395,8 @@ def get_latest_versions():
         juju_json_response = juju_response.json()
         juju_versions = []
         for release in juju_json_response:
+            if release["draft"] or release["prerelease"]:
+                continue
             # get semver
             version = semver.VersionInfo.parse(
                 release["tag_name"].replace("juju-", "").lstrip("v")
