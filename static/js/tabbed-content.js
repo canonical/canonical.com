@@ -5,6 +5,7 @@
   const keys = {
     left: "ArrowLeft",
     right: "ArrowRight",
+    tab: "Tab",
   };
 
   const direction = {
@@ -18,6 +19,7 @@
   const IEKeys = {
     left: 37,
     right: 39,
+    tab: 9,
   };
 
   const IEDirection = {
@@ -67,6 +69,30 @@
     nextButton,
     tabContainer
   ) => {
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    // Handle the "Backwards" navigation from the panel
+    panels.forEach((panel) => {
+      panel.addEventListener("keydown", (e) => {
+        let compatibleKeys = IEKeys;
+        let key = e.keyCode;
+
+        if (e.code) {
+          compatibleKeys = keys;
+          key = e.code;
+        }
+        if (e.shiftKey && e.key === compatibleKeys.tab) {
+          // Find the tab that controls this panel
+          const controller = document.querySelector(
+            `[aria-controls="${panel.id}"]`
+          );
+          if (controller) {
+            e.preventDefault();
+            controller.focus();
+          }
+        }
+      });
+    });
+
     tabs.forEach(function (tab, index) {
       tab.addEventListener("keyup", function (e) {
         let compatibleKeys = IEKeys;
