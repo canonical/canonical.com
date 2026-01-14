@@ -127,7 +127,7 @@ CSP = {
 }
 
 
-def init_handlers(app, sentry):
+def init_handlers(app):
 
     @app.after_request
     def add_headers(response):
