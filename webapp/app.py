@@ -260,10 +260,14 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
     return all_departments, departments_overview
 
 
-sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN"),
-    send_default_pii=True,
-)
+# Sentry setup
+sentry_dsn = os.getenv("SENTRY_DSN")
+
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        send_default_pii=True,
+    )
 
 init_handlers(app)
 
