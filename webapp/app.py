@@ -22,6 +22,7 @@ import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
 import yaml
+import sentry_sdk
 
 # Packages
 from canonicalwebteam import image_template
@@ -259,9 +260,16 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
     return all_departments, departments_overview
 
 
-sentry = app.extensions["sentry"]
+# Sentry setup
+sentry_dsn = os.getenv("SENTRY_DSN")
 
-init_handlers(app, sentry)
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        send_default_pii=True,
+    )
+
+init_handlers(app)
 
 
 @app.route("/")
@@ -1904,3 +1912,10 @@ if get_flask_env("DEBUG") or app.debug:
         Expose all routes under templates/tests if in development/testing mode.
         """
         return flask.render_template(f"tests/{subpath}.html")
+
+
+@app.route("/sentry-debug")
+def trigger_error():
+    """Endpoint to trigger a Sentry error for testing purposes."""
+    division_by_zero = 1 / 0
+    return str(division_by_zero)
