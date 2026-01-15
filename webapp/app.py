@@ -25,6 +25,7 @@ import yaml
 import sentry_sdk
 
 # Packages
+from sentry_sdk.integrations.flask import FlaskIntegration
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.discourse import (
@@ -261,12 +262,15 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
 
 
 # Sentry setup
-sentry_dsn = os.getenv("SENTRY_DSN")
+sentry_dsn = get_flask_env("SENTRY_DSN")
+environment = get_flask_env("FLASK_ENV", "production")
 
 if sentry_dsn:
     sentry_sdk.init(
         dsn=sentry_dsn,
         send_default_pii=True,
+        environment=environment,
+        integrations=[FlaskIntegration()],
     )
 
 init_handlers(app)
@@ -1914,8 +1918,10 @@ if get_flask_env("DEBUG") or app.debug:
         return flask.render_template(f"tests/{subpath}.html")
 
 
-@app.route("/sentry-debug")
-def trigger_error():
-    """Endpoint to trigger a Sentry error for testing purposes."""
-    division_by_zero = 1 / 0
-    return str(division_by_zero)
+if environment != "production":
+
+    @app.route("/sentry-debug")
+    def trigger_error():
+        """Endpoint to trigger a Sentry error for testing purposes."""
+        1 / 0
+        return "This won't be reached"
