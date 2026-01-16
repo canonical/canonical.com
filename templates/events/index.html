@@ -1,0 +1,149 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+
+{% block title %}
+  Canonical Events
+{% endblock title %}
+
+{% block meta_description %}  
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1ynfzGMrXaCjKcQ03umi7iRISEd4C4aXbkwywuG-WYdw/edit?tab=t.nu320wnvfi4q#heading=h.mo74fbjcid34
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-dark
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Find the next big event',
+    subtitle_text='Amplify open source',
+    layout='50/50-full-width-image'
+  ) -%}
+    {%- if slot == 'description' -%}
+    <p>
+      Whether it's in person or virtual, there are always things happening in the Canonical world. 
+      Come make some new friends, share your knowledge, and join the fun.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+    <div class="p-image-container--cinematic is-cover">
+      {{ image(url="https://assets.ubuntu.com/v1/17c8d6de-index_hero_img.jpg",
+        alt="",
+        width="2464",
+        height="1027",
+        hi_def=True,
+        loading="auto",
+        attrs={"class":"p-image-container__image"}
+        ) | safe
+      }}
+    </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Ubuntu Summit 2026"},
+    items=[
+    {
+      "type": "description",
+      "item": {
+        "type": "text",
+        "content": "A showcase for the innovative and the ambitious. Tune in to our London livestream from the comfort of your home, from an Ubuntu release watch party, or from anywhere else around the world."
+      }
+    },
+    {
+      "type": "cta-block",
+      "item": {
+        "link": {
+          "content_html": "Visit the Ubuntu Summit page&nbsp;&rsaquo;",
+          "attrs": {
+            "href": "#"
+          }
+        }
+      }
+    },
+    ])
+  }}
+
+  {{ vf_basic_section(
+    title={"text": "Browse upcoming events"},
+    padding="shallow",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Where in the world can you find Canonical? Everywhere."
+        }
+      }
+    ]
+  ) }}
+
+  <section class="p-section--shallow">
+    {# search form for docs #}
+    <div class="grid-row--50-50">
+      <div class="grid-col">
+        <form class="p-search-box u-no-margin--bottom" action="{{ search_action }}">
+        <input class="p-search-box__input" name="q" id="search-input" type="search" {% if query %}value="{{ query }}"{% endif %} placeholder="Search by keyword or location" required/>
+        <button type="submit" alt="search" class="p-search-box__button" alt="search"><i class="p-icon--search">Submit</i></button>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+  <section class="p-section--deep">
+    <div class="grid-row">
+    </div>
+
+    <div class="grid-row">
+      <table class="p-table--mobile-card u-no-margin--bottom"
+              data-heading="Table for Canonical events">
+        <thead>
+          <tr>
+            <th>
+              <strong>Event name</strong>
+              <i class="p-icon--sort-both"></i>
+            </th>
+            <th>
+              <strong>Location</strong>
+              <i class="p-icon--sort-both"></i>
+            </th>
+            <th>
+              <strong>Region</strong>
+              <i class="p-icon--sort-both"></i>
+            </th>
+            <th>
+              <strong>Date</strong>
+              <i class="p-icon--sort-both"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in metadata %}    
+            <tr>
+              <th data-heading="Event name">
+                <a href="{{ data.path }}">{{ data.topic_name }}</a>
+              </th>
+              <td data-heading="Location">
+                {{ data.event_location }}
+              </td>
+              <td data-heading="Region">
+                {{ data.event_region }}
+              </td>
+              <td data-heading="Date">
+                {{ data.event_date }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+{% endblock content %}
