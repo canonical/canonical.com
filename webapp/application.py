@@ -425,10 +425,10 @@ def add_headers(response):
     return response
 
 
-@application.route("/faq")
-def faq():
+@application.route("/exam-guide")
+def exam_guide():
     return flask.render_template(
-        "careers/application/faq.html",
+        "careers/application/exam-guide.html",
     )
 
 
