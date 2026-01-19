@@ -38,7 +38,7 @@
           <p>
             <a class="p-button--positive js-invoke-modal"
                href="/contact-us"
-               aria-controls="data-fabric-modal">Get in touch</a>
+               aria-controls="data-modal">Get in touch</a>
           </p>
         </div>
       </div>
@@ -398,7 +398,7 @@
     <div class="row">
       <div class="col-9">
         <p class="p-heading--2">
-          Tell us your story and talk about your needs with our experts. <a aria-controls="data-fabric-modal"
+          Tell us your story and talk about your needs with our experts. <a aria-controls="data-modal"
     href="https://ubuntu.com/openstack/contact-us?product=openstack"
     class="js-invoke-modal">Get in touch&nbsp;&rsaquo;</a>
         </p>
@@ -406,12 +406,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/data#success" %}
-
-    {% include "data/_data-form.html" %}
-  {% endwith %}
+  {{ load_form("/data") | safe }}
 
 {% endblock content %}

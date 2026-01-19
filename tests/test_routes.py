@@ -1,7 +1,9 @@
 import logging
+import responses
+import unittest
 
 from vcr_unittest import VCRTestCase
-from webapp.app import app
+from webapp.app import app, get_latest_versions
 
 
 logging.getLogger("talisker.context").disabled = True
@@ -13,7 +15,13 @@ class TestRoutes(VCRTestCase):
         This removes the authorization header
         from VCR so we don't record auth parameters
         """
-        return {"filter_headers": ["Authorization"]}
+        return {
+            "filter_headers": ["Authorization"],
+            # Our cassettes include gzip-compressed response bodies.
+            # Enable transparent decoding during playback so callers can
+            # safely call `response.json()`.
+            "decode_compressed_response": True,
+        }
 
     def setUp(self):
         """
@@ -153,3 +161,92 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
+
+
+class TestJujuVersion(unittest.TestCase):
+    def setUp(self):
+        """
+        Set up Flask app for testing
+        """
+        app.testing = True
+        self.client = app.test_client()
+        # The /juju/latest.json response is cached, so the cache is cleared to
+        # prevent leakage between tests.
+        get_latest_versions.cache_clear()
+        return super().setUp()
+
+    @responses.activate
+    def test_latest_release(self):
+        """
+        Check that the latest Juju and Juju Dashboard release versions are
+        returned as JSON.
+        """
+        responses.get(
+            "https://api.github.com/repos/canonical/"
+            "juju-dashboard/releases/latest",
+            json={
+                "tag_name": "v1.2.3",
+            },
+        )
+        responses.get(
+            "https://api.github.com/repos/juju/juju/releases",
+            json=[
+                {
+                    "tag_name": "v4.5.6",
+                    "draft": False,
+                    "prerelease": False,
+                },
+                {
+                    "tag_name": "v4.5.5",
+                    "draft": False,
+                    "prerelease": False,
+                },
+                {
+                    "tag_name": "v3.4.5",
+                    "draft": False,
+                    "prerelease": False,
+                },
+            ],
+        )
+        self.assertEqual(
+            self.client.get("/juju/latest.json").json,
+            {"dashboard": "v1.2.3", "juju": ["3.4.5", "4.5.6"]},
+        )
+
+    @responses.activate
+    def test_latest_prerelease(self):
+        """
+        Check that drafts and pre-releases are ignored from the Juju and
+        version response.
+        """
+        responses.get(
+            "https://api.github.com/repos/canonical/"
+            "juju-dashboard/releases/latest",
+            json={
+                "tag_name": "v1.2.3",
+            },
+        )
+        responses.get(
+            "https://api.github.com/repos/juju/juju/releases",
+            json=[
+                {
+                    "tag_name": "v5.6.7",
+                    "draft": True,
+                    "prerelease": False,
+                },
+                {
+                    "tag_name": "v4.5.6",
+                    "draft": False,
+                    "prerelease": True,
+                },
+                {
+                    "tag_name": "v3.4.5",
+                    "draft": False,
+                    "prerelease": False,
+                },
+            ],
+        )
+        self.assertEqual(
+            self.client.get("/juju/latest.json").json,
+            {"dashboard": "v1.2.3", "juju": ["3.4.5"]},
+        )

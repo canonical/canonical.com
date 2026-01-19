@@ -201,12 +201,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai#contact-form-success" %}
-
-    {% include "solutions/ai/_form-ai.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ai/genai") | safe }}
 
 {% endblock %}

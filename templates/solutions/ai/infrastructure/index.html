@@ -451,12 +451,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai/infrastructure#contact-form-success" %}
-
-    {% include "solutions/ai/infrastructure/_form-ai-infrastructure.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ai/infrastructure") | safe }}
 
 {% endblock %}

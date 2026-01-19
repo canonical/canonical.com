@@ -21,6 +21,11 @@ context:
       <ul class="p-side-navigation__list" id="side-navigation">
         <li class="p-side-navigation__item--title"><span class="p-side-navigation__text">Releases</span></li>
         <li class="p-side-navigation__item">
+          <a class="p-side-navigation__link" href="/legal/open-source-licences?release=noble" data-file="45d39226-licensing_noble_base_install.json">
+            24.04 LTS (Noble Nautilus)
+          </a>
+        </li>
+        <li class="p-side-navigation__item">
           <a class="p-side-navigation__link" href="/legal/open-source-licences?release=jammy" data-file="56889593-licensing-jammy-base-install.json">
             22.04 LTS (Jammy Jellyfish)
           </a>
@@ -124,7 +129,7 @@ context:
         .then(json => {
           try {
             elements.loading.classList.add("u-hide");
-            const packages = json.Packages;
+            const packages = json.Packages || json.packages || [];
             renderTable(packages)
           }
           catch(error) {
@@ -170,13 +175,17 @@ context:
   function renderTableRows(packages) {
     let rows = "";
     packages.forEach(function(package) {
+      // schema difference, starting from noble
+      const name = package.name || package.package;
+      const version = package.version || package.source_version;
+      const licenses = package.license_info ? package.license_info.spdx_identifiers : package.licenses;
       let licence = ''
-      if (package.copyright_url && package.licenses) {
-        licence = `<td data-heading="Licenses"><a href="${package.copyright_url}">${package.licenses}</a></td>`;
+      if (package.copyright_url && (package.licenses || package.license_info)) {
+        licence = `<td data-heading="Licenses"><a href="${package.copyright_url}">${licenses}</a></td>`;
       }
       rows += `<tr>
-        <td data-heading="Name">${package.name}</td>
-        <td data-heading="Version">${package.version}</td>
+        <td data-heading="Name">${name}</td>
+        <td data-heading="Version">${version}</td>
         <td data-heading="Architecture">${package.component}</td>
         ${licence}
       </tr>`;

@@ -138,16 +138,28 @@ function setupOtherInputs() {
   const otherTextarea = document.querySelectorAll(".js-other-input");
   otherTextarea.forEach((textarea) => {
     const triggerInputEle = document.querySelector(
-      `#${textarea.dataset.inputId}`
+      `#${textarea.dataset.inputId}`,
     );
     document
       .querySelectorAll(`[name=${triggerInputEle.name}]`)
       .forEach((input) => {
         input.onclick = () => {
-          if (input == triggerInputEle) {
-            textarea.classList.remove("u-hide");
-          } else {
-            textarea.classList.add("u-hide");
+          if (input.type === "radio") {
+            if (input == triggerInputEle) {
+              textarea.classList.remove("u-hide");
+            } else {
+              textarea.value = "";
+              textarea.classList.add("u-hide");
+            }
+          } else if (input.type === "checkbox") {
+            if (input === triggerInputEle) {
+              if (input.checked) {
+                textarea.classList.remove("u-hide");
+              } else {
+                textarea.value = "";
+                textarea.classList.add("u-hide");
+              }
+            }
           }
         };
       });

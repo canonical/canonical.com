@@ -38,7 +38,7 @@
     {%- if slot == 'cta' -%}
       <a href="/contact-us"
          class="p-button--positive js-invoke-modal"
-         aria-controls="homepage-modal">Talk to us about your edge needs</a>
+         aria-controls="edge-computing-modal">Talk to us about your edge needs</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--cinematic is-highlighted is-cover">
@@ -699,16 +699,12 @@
     <div class="u-fixed-width">
       <a href="/contact-us"
          class="p-heading--2 js-invoke-modal"
-         aria-controls="homepage-modal">Talk to us about your edge needs&nbsp;&rsaquo;</a>
+         aria-controls="edge-computing-modal">Talk to us about your edge needs&nbsp;&rsaquo;</a>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
   <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/infrastructure/edge-computing#success" %}
-    {% include "solutions/infrastructure/edge-computing/_contact-form.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/infrastructure/edge-computing") | safe }}
 
 {% endblock content %}

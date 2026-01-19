@@ -430,11 +430,6 @@ meta_copydoc %}
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/relational-databases#success" %}
-    {% include "data/_form-data-relational-dbs.html" %}
-  {% endwith %}
+  {{ load_form("/data/relational-databases") | safe }}
 
 {% endblock content %}
