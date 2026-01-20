@@ -126,7 +126,31 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="js-events-truncated">
+          {% set ns = namespace(counter=0) %}
+          {% for data in metadata %}    
+            {% set ns.counter = ns.counter + 1 %}
+            {% if ns.counter <= 5 %}
+              <tr>
+                <th data-heading="Event name">
+                  <a href="{{ data.path }}">{{ data.topic_name }}</a>
+                </th>
+                <td data-heading="Location">
+                  {{ data.event_location }}
+                </td>
+                <td data-heading="Region">
+                  {{ data.event_region }}
+                </td>
+                <td data-heading="Date">
+                  {{ data.event_date }}
+                </td>
+              </tr>
+            {% else %}
+              {% set ns.showmore = True %}
+            {% endif %}
+          {% endfor %}
+        </tbody>
+        <tbody class="js-events-all u-hide">
           {% for data in metadata %}    
             <tr>
               <th data-heading="Event name">
@@ -145,9 +169,13 @@
           {% endfor %}
         </tbody>
       </table>
+      {% if metadata | length > 5 %}
+      <div>
+        <button class="p-button--link js-toggle-show-events">Show all events</button>
+      </div>
+      {% endif %}
     </div>
   </section>
 
   <script src="/static/js/dist/events.js"></script>
-
 {% endblock content %}

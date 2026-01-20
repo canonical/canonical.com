@@ -3,6 +3,26 @@ document.getElementById('event-search-form').addEventListener('submit', function
   this.action = '/events#events-table';
 });
 
+// Show more/less functionality
+const toggleBtn = document.querySelector('.js-toggle-show-events');
+const truncatedBody = document.querySelector('tbody.js-events-truncated');
+const allBody = document.querySelector('tbody.js-events-all');
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', function() {
+    const isHidden = truncatedBody.classList.contains('u-hide');
+    if (isHidden) {
+      truncatedBody.classList.remove('u-hide');
+      allBody.classList.add('u-hide');
+      toggleBtn.innerHTML = 'Show all events';
+    } else {
+      truncatedBody.classList.add('u-hide');
+      allBody.classList.remove('u-hide');
+      toggleBtn.innerHTML = 'Show less';
+    }
+  });
+}
+
 // Table sorting functionality
 const table = document.getElementById('browse-events-table');
 if (table) {
