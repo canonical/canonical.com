@@ -1747,7 +1747,7 @@ def build_events_index(engage_docs):
                 is_location_search = False
 
             # Keyword search
-            if search_location is None:
+            if not is_location_search:
                 search_lower = search_query.lower()
                 metadata = [
                     event

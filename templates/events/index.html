@@ -104,24 +104,25 @@
 
     <div class="grid-row">
       <table class="p-table--mobile-card u-no-margin--bottom"
-              data-heading="Browse upcoming events">
+              data-heading="Browse upcoming events"
+              id="browse-events-table">
         <thead>
           <tr>
-            <th>
+            <th data-column="0" data-type="string">
               <strong>Event name</strong>
-              <i class="p-icon--sort-both"></i>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
             </th>
-            <th>
+            <th data-column="1" data-type="string">
               <strong>Location</strong>
-              <i class="p-icon--sort-both"></i>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
             </th>
-            <th>
+            <th data-column="2" data-type="string">
               <strong>Region</strong>
-              <i class="p-icon--sort-both"></i>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
             </th>
-            <th>
+            <th data-column="3" data-type="date">
               <strong>Date</strong>
-              <i class="p-icon--sort-both"></i>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
             </th>
           </tr>
         </thead>
@@ -147,10 +148,6 @@
     </div>
   </section>
 
-  <script>
-    document.getElementById('event-search-form').addEventListener('submit', function(e) {
-      this.action = '/events#events-table';
-    });
-  </script>
+  <script src="/static/js/dist/events.js"></script>
 
 {% endblock content %}
