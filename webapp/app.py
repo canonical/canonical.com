@@ -15,6 +15,8 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
