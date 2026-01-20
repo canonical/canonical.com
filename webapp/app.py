@@ -16,6 +16,8 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
@@ -1575,6 +1577,47 @@ def no_cache(response):
     return response
 
 
+# Canonical Academy
+def cred_exam_content(**_):
+    exam_name = flask.request.args.get("exam")
+    syllabus_file = open(
+        "templates/academy/exam-content/exam-content.json", "r"
+    )
+    syllabus_data = json.load(syllabus_file)
+    if not any(exam_name == e["exam_name"] for e in syllabus_data):
+        exam_name = syllabus_data[0]["exam_name"]
+    return flask.render_template(
+        "academy/exam-content/index.html",
+        syllabus_data=syllabus_data,
+        exam_name=exam_name,
+    )
+
+
+app.add_url_rule(
+    "/academy/exam-content",
+    view_func=cred_exam_content,
+    methods=["GET"],
+)
+
+# Engage pages
+DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
+DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
+engage_pages_discourse_api = DiscourseAPI(
+    base_url="https://discourse.ubuntu.com/",
+    session=get_requests_session(),
+    get_topics_query_id=14,
+    api_key=DISCOURSE_API_KEY,
+    api_username=DISCOURSE_API_USERNAME,
+)
+engage_pages = EngagePages(
+    api=engage_pages_discourse_api,
+    category_id=51,
+    page_type="engage-pages",
+    exclude_topics=[17229, 18033, 17250],
+)
+
+
+# Case studies
 def build_case_study_index(engage_docs):
     def case_study_index():
         page = flask.request.args.get("page", default=1, type=int)
@@ -1635,49 +1678,136 @@ def build_case_study_index(engage_docs):
     return case_study_index
 
 
-# Canonical Academy
-def cred_exam_content(**_):
-    exam_name = flask.request.args.get("exam")
-    syllabus_file = open(
-        "templates/academy/exam-content/exam-content.json", "r"
-    )
-    syllabus_data = json.load(syllabus_file)
-    if not any(exam_name == e["exam_name"] for e in syllabus_data):
-        exam_name = syllabus_data[0]["exam_name"]
-    return flask.render_template(
-        "academy/exam-content/index.html",
-        syllabus_data=syllabus_data,
-        exam_name=exam_name,
-    )
-
-
-app.add_url_rule(
-    "/academy/exam-content",
-    view_func=cred_exam_content,
-    methods=["GET"],
-)
-
-# Case study
-DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
-DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
-engage_pages_discourse_api = DiscourseAPI(
-    base_url="https://discourse.ubuntu.com/",
-    session=get_requests_session(),
-    get_topics_query_id=14,
-    api_key=DISCOURSE_API_KEY,
-    api_username=DISCOURSE_API_USERNAME,
-)
 case_study_path = "/case-study"
-case_studies = EngagePages(
-    api=engage_pages_discourse_api,
-    category_id=51,
-    page_type="engage-pages",
-    exclude_topics=[17229, 18033, 17250],
+app.add_url_rule(
+    case_study_path, view_func=build_case_study_index(engage_pages)
 )
 
-app.add_url_rule(
-    case_study_path, view_func=build_case_study_index(case_studies)
-)
+
+# Events
+def build_events_index(engage_docs):
+    def events_index():
+        limit = 50
+        search_query = flask.request.args.get("q", default=None, type=str)
+
+        (
+            metadata,
+            count,
+            active_count,
+            current_total,
+        ) = engage_docs.get_index(
+            limit, offset=None, tag_value=None, key="type", value="event"
+        )
+        total_pages = math.ceil(current_total / limit)
+
+        geolocator = Nominatim(user_agent="canonical-events")
+        is_location_search = False
+        clean_search = search_query.strip() if search_query else None
+
+        # Search by location or keyword
+        if clean_search:
+            # Geolocation search
+            try:
+                search_location = geolocator.geocode(search_query, timeout=5)
+                if search_location:
+                    is_location_search = True
+                    search_coords = (
+                        search_location.latitude,
+                        search_location.longitude,
+                    )
+
+                    # Get coordinates of all event_locations if available
+                    for event in metadata:
+                        location = event.get("event_location")
+                        if location:
+                            try:
+                                event_location = geolocator.geocode(
+                                    location, timeout=5
+                                )
+                                if event_location:
+                                    event_coords = (
+                                        event_location.latitude,
+                                        event_location.longitude,
+                                    )
+                                    distance = geodesic(
+                                        search_coords, event_coords
+                                    ).km
+                                    event["distance"] = round(distance, 2)
+                            except Exception:
+                                pass
+
+                    # Filter and sort events by distance
+                    metadata = [
+                        event for event in metadata if "distance" in event
+                    ]
+                    metadata.sort(
+                        key=lambda x: x.get("distance", float("inf"))
+                    )
+            except Exception:
+                is_location_search = False
+
+            # Keyword search
+            if search_location is None:
+                search_lower = search_query.lower()
+                metadata = [
+                    event
+                    for event in metadata
+                    if (
+                        search_lower in event.get("topic_name", "").lower()
+                        or search_lower
+                        in event.get("event_location", "").lower()
+                    )
+                ]
+
+            # Convert to DD Month YYYY format
+            for events in metadata:
+                date = events.get("event_date")
+                if date:
+                    formatted_date = datetime.datetime.strptime(
+                        date, "%d/%m/%Y"
+                    ).strftime("%d %B %Y")
+                    events["event_date"] = formatted_date
+
+        # Default events
+        else:
+            print("Default events listing")
+            for events in metadata:
+                # Prefix all engage paths with full URL
+                path = events["path"]
+                if path.startswith("/engage"):
+                    events["path"] = "https://ubuntu.com" + path
+
+                # Convert date to DD Month YYYY format
+                date = events.get("event_date")
+                if date:
+                    formatted_date = datetime.datetime.strptime(
+                        date, "%d/%m/%Y"
+                    ).strftime("%d %B %Y")
+                    events["event_date"] = formatted_date
+
+            # Sort by latest event
+            metadata.sort(
+                key=lambda x: datetime.datetime.strptime(
+                    x.get("event_date", "31 December 1999"), "%d %B %Y"
+                ),
+                reverse=True,
+            )
+
+        return flask.render_template(
+            "events/index.html",
+            forum_url=engage_docs.api.base_url,
+            metadata=metadata,
+            posts_per_page=limit,
+            total_pages=total_pages,
+            query=search_query,
+            is_location_search=is_location_search,
+        )
+
+    return events_index
+
+
+events_path = "/events"
+app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
 
 # Mir Server
 discourse_api = DiscourseAPI(

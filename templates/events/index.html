@@ -79,18 +79,19 @@
         "type": "description",
         "item": {
           "type": "text",
-          "content": "Where in the world can you find Canonical? Everywhere."
+          "content": "Where in the world can you find Canonical? Everywhere.",
         }
       }
-    ]
+    ],
+    attrs= {"id": "events-table"}
   ) }}
 
   <section class="p-section--shallow">
     {# search form for docs #}
     <div class="grid-row--50-50">
       <div class="grid-col">
-        <form class="p-search-box u-no-margin--bottom" action="{{ search_action }}">
-        <input class="p-search-box__input" name="q" id="search-input" type="search" {% if query %}value="{{ query }}"{% endif %} placeholder="Search by keyword or location" required/>
+        <form class="p-search-box u-no-margin--bottom" action="/events" id="event-search-form">
+        <input class="p-search-box__input" name="q" id="search-input" type="search" {% if query %}value="{{ query }}"{% endif %} placeholder="Search by keyword or location"/>
         <button type="submit" alt="search" class="p-search-box__button" alt="search"><i class="p-icon--search">Submit</i></button>
         </form>
       </div>
@@ -103,7 +104,7 @@
 
     <div class="grid-row">
       <table class="p-table--mobile-card u-no-margin--bottom"
-              data-heading="Table for Canonical events">
+              data-heading="Browse upcoming events">
         <thead>
           <tr>
             <th>
@@ -145,5 +146,11 @@
       </table>
     </div>
   </section>
+
+  <script>
+    document.getElementById('event-search-form').addEventListener('submit', function(e) {
+      this.action = '/events#events-table';
+    });
+  </script>
 
 {% endblock content %}
