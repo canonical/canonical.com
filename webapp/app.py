@@ -43,6 +43,7 @@ from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
+from werkzeug.exceptions import HTTPException
 from slugify import slugify
 
 # Local
@@ -265,12 +266,32 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
 sentry_dsn = get_flask_env("SENTRY_DSN")
 environment = get_flask_env("FLASK_ENV", "production")
 
+
+def sentry_before_send(event, hint):
+    """
+    Filter Sentry events.
+    Excludes all 4xx errors.
+    """
+    if "exc_info" in hint:
+        _, exc_value, _ = hint["exc_info"]
+        # Check if the exception is an HTTPException
+        # (which includes 4xx errors)
+        if (
+            isinstance(exc_value, HTTPException)
+            and 400 <= exc_value.code < 500
+        ):
+            # return None to discard the event
+            return None
+    return event
+
+
 if sentry_dsn:
     sentry_sdk.init(
         dsn=sentry_dsn,
         send_default_pii=True,
         environment=environment,
         integrations=[FlaskIntegration()],
+        before_send=sentry_before_send,
     )
 
 init_handlers(app)
@@ -1479,7 +1500,7 @@ def handle_maas_goget():
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
