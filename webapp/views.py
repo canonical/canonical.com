@@ -2,8 +2,10 @@
 import flask
 import requests
 import math
+import datetime
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+from cachetools import TTLCache, cached
 
 
 def json_asset_query(file_name):
@@ -84,6 +86,21 @@ def build_case_study_index(engage_docs):
 
 
 # Events
+# Cache geocoding results for 24 hours (86400 seconds)
+geocode_cache = TTLCache(maxsize=1000, ttl=86400)
+
+
+@cached(cache=geocode_cache)
+def geocode_location(location_name, timeout=3):
+    """Geocode a location and cache the result"""
+    try:
+        geolocator = Nominatim(user_agent="canonical-events")
+        result = geolocator.geocode(location_name, timeout=timeout)
+        return result
+    except Exception:
+        return None
+
+
 def build_events_index(engage_docs):
     def events_index():
         limit = 50
@@ -98,8 +115,6 @@ def build_events_index(engage_docs):
             limit, offset=None, tag_value=None, key="type", value="event"
         )
         total_pages = math.ceil(current_total / limit)
-
-        geolocator = Nominatim(user_agent="canonical-events")
         is_location_search = False
         clean_search = search_query.strip() if search_query else None
 
@@ -107,7 +122,7 @@ def build_events_index(engage_docs):
         if clean_search:
             # Geolocation search
             try:
-                search_location = geolocator.geocode(search_query, timeout=5)
+                search_location = geocode_location(search_query)
                 if search_location:
                     is_location_search = True
                     search_coords = (
@@ -120,9 +135,7 @@ def build_events_index(engage_docs):
                         location = event.get("event_location")
                         if location:
                             try:
-                                event_location = geolocator.geocode(
-                                    location, timeout=5
-                                )
+                                event_location = geocode_location(location)
                                 if event_location:
                                     event_coords = (
                                         event_location.latitude,
@@ -169,7 +182,6 @@ def build_events_index(engage_docs):
 
         # Default events
         else:
-            print("Default events listing")
             for events in metadata:
                 # Prefix all engage paths with full URL
                 path = events["path"]
