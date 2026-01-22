@@ -22,6 +22,8 @@
     {%- else -%}
       {%- set caption_id = caption | generate_image_id("image-caption") -%}
     {%- endif -%}
+    {# Inject aria-describedby into the <img> tag for screen reader support #}
+    {%- set image_content = image_content|replace('<img', '<img aria-describedby="' + caption_id + '"') -%}
   {%- endif -%}
 
   <section class="p-section">
@@ -31,7 +33,7 @@
       {# Use figure element when we have both image and caption #}
       {% if has_image and has_caption %}
         <figure>
-          <div class="p-image-container u-align--{% if right_align %}right{% else %}center{% endif %} u-vertically-center u-no-padding--bottom" aria-describedby="{{ caption_id }}">
+          <div class="p-image-container u-align--{% if right_align %}right{% else %}center{% endif %} u-vertically-center u-no-padding--bottom">
             {{ image_content }}
           </div>
           <figcaption id="{{ caption_id }}">
