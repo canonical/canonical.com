@@ -1637,6 +1637,7 @@ app.add_url_rule(
 events_path = "/events"
 app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
 
+
 # Mir Server
 discourse_api = DiscourseAPI(
     base_url="https://discourse.ubuntu.com/",

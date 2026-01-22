@@ -99,12 +99,8 @@
   
   <section class="p-section--deep">
     <div class="grid-row">
-    </div>
-
-    <div class="grid-row">
-      <table class="p-table--mobile-card"
-              data-heading="Browse upcoming events"
-              id="browse-events-table">
+      <table class="p-table--mobile-card js-sortable-table"
+              data-heading="Browse upcoming events">
         <thead>
           <tr>
             <th data-column="0" data-type="string">
@@ -131,9 +127,9 @@
             {% set ns.counter = ns.counter + 1 %}
             {% if ns.counter <= 5 %}
               <tr>
-                <th data-heading="Event name">
+                <td data-heading="Event name">
                   <a href="{{ data.path }}">{{ data.topic_name }}</a>
-                </th>
+                </td>
                 <td data-heading="Location">
                   {{ data.event_location or '—' }}
                 </td>
@@ -152,9 +148,9 @@
         <tbody class="js-events-all u-hide">
           {% for data in metadata %}    
             <tr>
-              <th data-heading="Event name">
+              <td data-heading="Event name">
                 <a href="{{ data.path }}">{{ data.topic_name }}</a>
-              </th>
+              </td>
               <td data-heading="Location">
                 {{ data.event_location or '—' }}
               </td>
