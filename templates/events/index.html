@@ -102,7 +102,7 @@
     </div>
 
     <div class="grid-row">
-      <table class="p-table--mobile-card u-no-margin--bottom"
+      <table class="p-table--mobile-card"
               data-heading="Browse upcoming events"
               id="browse-events-table">
         <thead>
@@ -135,10 +135,10 @@
                   <a href="{{ data.path }}">{{ data.topic_name }}</a>
                 </th>
                 <td data-heading="Location">
-                  {{ data.event_location }}
+                  {{ data.event_location or '—' }}
                 </td>
                 <td data-heading="Region">
-                  {{ data.event_region }}
+                  {{ data.event_region or '—' }}
                 </td>
                 <td data-heading="Date">
                   {{ data.event_date }}
@@ -156,10 +156,10 @@
                 <a href="{{ data.path }}">{{ data.topic_name }}</a>
               </th>
               <td data-heading="Location">
-                {{ data.event_location }}
+                {{ data.event_location or '—' }}
               </td>
               <td data-heading="Region">
-                {{ data.event_region }}
+                {{ data.event_region or '—' }}
               </td>
               <td data-heading="Date">
                 {{ data.event_date }}
@@ -170,7 +170,7 @@
       </table>
       {% if metadata | length > 5 %}
       <div>
-        <button class="p-button--link js-toggle-show-events">Show all events</button>
+        <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
       {% endif %}
     </div>

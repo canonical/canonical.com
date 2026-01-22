@@ -172,16 +172,28 @@ def build_events_index(engage_docs):
                 ]
 
             # Convert to DD Month YYYY format
+            today = datetime.datetime.now().date()
+            valid_events = []
             for events in metadata:
                 date = events.get("event_date")
                 if date:
-                    formatted_date = datetime.datetime.strptime(
-                        date, "%d/%m/%Y"
-                    ).strftime("%d %B %Y")
-                    events["event_date"] = formatted_date
+                    try:
+                        event_date = datetime.datetime.strptime(
+                            date, "%d/%m/%Y"
+                        ).date()
+                        # Filter past events
+                        if event_date >= today:
+                            formatted_date = event_date.strftime("%d %B %Y")
+                            events["event_date"] = formatted_date
+                            valid_events.append(events)
+                    except ValueError:
+                        pass
+            metadata = valid_events
 
         # Default events
         else:
+            today = datetime.datetime.now().date()
+            valid_events = []
             for events in metadata:
                 # Prefix all engage paths with full URL
                 path = events["path"]
@@ -191,10 +203,18 @@ def build_events_index(engage_docs):
                 # Convert date to DD Month YYYY format
                 date = events.get("event_date")
                 if date:
-                    formatted_date = datetime.datetime.strptime(
-                        date, "%d/%m/%Y"
-                    ).strftime("%d %B %Y")
-                    events["event_date"] = formatted_date
+                    try:
+                        event_date = datetime.datetime.strptime(
+                            date, "%d/%m/%Y"
+                        ).date()
+                        # Filter past events
+                        if event_date >= today:
+                            formatted_date = event_date.strftime("%d %B %Y")
+                            events["event_date"] = formatted_date
+                            valid_events.append(events)
+                    except ValueError:
+                        pass
+            metadata = valid_events
 
             # Sort by latest event
             metadata.sort(
