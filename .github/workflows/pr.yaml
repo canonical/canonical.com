@@ -72,6 +72,26 @@ jobs:
       - name: Lint python
         run: yarn lint-python
 
+  lint-python-2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dotrun
+        run: sudo pip3 install dotrun
+
+      - name: Install dependencies
+        run: |
+          sudo chmod -R 777 .
+          dotrun install
+
+      - name: Build assets
+        run: dotrun build
+
+      - name: Lint python
+        run: dotrun lint-python
+
   lint-jinja:
     runs-on: ubuntu-22.04
 
@@ -135,7 +155,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: python
           commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
-
 
   test-javascript:
     runs-on: ubuntu-22.04
