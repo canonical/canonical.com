@@ -1,5 +1,5 @@
 // Add anchor to search form submission
-document.getElementById('event-search-form').addEventListener('submit', function(e) {
+document.getElementById('event-search-form')?.addEventListener('submit', function(e) {
   this.action = '/events#events-table';
 });
 
@@ -23,8 +23,41 @@ if (toggleBtn) {
   });
 }
 
+// Helper function to extract sort value from a cell
+function getSortValue(cell, dataType) {
+  let value;
+
+  if (dataType === "link") {
+    const link = cell?.querySelector('a');
+    value = link ? link.textContent.toLowerCase().trim() : (cell ? cell.textContent.toLowerCase().trim() : '');
+  } else if (dataType === "string" || dataType === "date") {
+    value = cell ? cell.textContent.toLowerCase().trim() : '';
+  }
+
+  return value;
+}
+
+// Helper function to sort rows
+function sortRows(rows, column, dataType, ascending) {
+  return rows.sort((a, b) => {
+    const aCells = a.querySelectorAll('td');
+    const bCells = b.querySelectorAll('td');
+    const aCell = aCells[column];
+    const bCell = bCells[column];
+
+    const aValue = getSortValue(aCell, dataType);
+    const bValue = getSortValue(bCell, dataType);
+
+    if (ascending) {
+      return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+    } else {
+      return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+    }
+  });
+}
+
 // Table sorting functionality
-const table = document.getElementById('browse-events-table');
+const table = document.querySelector('.js-sortable-table');
 if (table) {
   const sortBtns = table.querySelectorAll('.js-table-sort');
   let currentSort = { column: null, ascending: true };
@@ -34,8 +67,6 @@ if (table) {
       const th = this.parentElement;
       const column = parseInt(th.getAttribute('data-column'));
       const dataType = th.getAttribute('data-type') || 'string';
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
 
       // Toggle sort direction if clicking the same column
       if (currentSort.column === column) {
@@ -45,43 +76,27 @@ if (table) {
         currentSort.ascending = true;
       }
 
-      // Sort rows
-      rows.sort((a, b) => {
-        let aValue, bValue;
+      // Get table bodies
+      const allBody = table.querySelector('tbody.js-events-all');
+      const truncatedBody = table.querySelector('tbody.js-events-truncated');
+      
+      // If there are two table bodies, sort from the "all" tbody
+      if (allBody && truncatedBody) {
+        const allRows = sortRows(Array.from(allBody.querySelectorAll('tr')), column, dataType, currentSort.ascending);
 
-        if (column === 0) {
-          // Event name - get text from link
-          aValue = a.querySelector('a').textContent.toLowerCase().trim();
-          bValue = b.querySelector('a').textContent.toLowerCase().trim();
-        } else {
-          // Get value from TD at index
-          const aTd = a.querySelectorAll('td')[column - 1];
-          const bTd = b.querySelectorAll('td')[column - 1];
-          aValue = aTd ? aTd.textContent.toLowerCase().trim() : '';
-          bValue = bTd ? bTd.textContent.toLowerCase().trim() : '';
-        }
+        // Update "all" tbody
+        allRows.forEach(row => allBody.appendChild(row));
 
-        // Parse dates for date column
-        if (dataType === 'date') {
-          try {
-            aValue = new Date(aValue).getTime() || 0;
-            bValue = new Date(bValue).getTime() || 0;
-          } catch (e) {
-            aValue = 0;
-            bValue = 0;
-          }
-        }
+        // Update truncated tbody with first 5 values
+        const firstFive = allRows.slice(0, 5);
+        truncatedBody.innerHTML = '';
+        firstFive.forEach(row => truncatedBody.appendChild(row.cloneNode(true)));
 
-        // Compare values
-        if (currentSort.ascending) {
-          return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-        } else {
-          return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-        }
-      });
-
-      // Re-append sorted rows
-      rows.forEach(row => tbody.appendChild(row));
+      } else if (truncatedBody) {
+        // Update truncated tbody only
+        const rows = sortRows(Array.from(truncatedBody.querySelectorAll('tr')), column, dataType, currentSort.ascending);
+        rows.forEach(row => truncatedBody.appendChild(row));
+      }
     });
   });
 }
