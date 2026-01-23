@@ -277,7 +277,7 @@ def build_canonical_days_index(engage_docs):
             forum_url=engage_docs.api.base_url,
             metadata=metadata,
             posts_per_page=limit,
-            total_pages=total_pages
+            total_pages=total_pages,
         )
 
     return canonical_days_index
