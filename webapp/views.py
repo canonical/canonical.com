@@ -208,9 +208,7 @@ def build_events_index(engage_docs):
                             date, "%d/%m/%Y"
                         ).date()
                         # Filter past events
-                        # TODO: Remove after QA
-                        # if event_date >= today:
-                        if True:
+                        if event_date >= today:
                             formatted_date = event_date.strftime("%d %B %Y")
                             events["event_date"] = formatted_date
                             valid_events.append(events)
@@ -222,8 +220,7 @@ def build_events_index(engage_docs):
             metadata.sort(
                 key=lambda x: datetime.datetime.strptime(
                     x.get("event_date", "31 December 1999"), "%d %B %Y"
-                ),
-                reverse=True,
+                )
             )
 
         return flask.render_template(
