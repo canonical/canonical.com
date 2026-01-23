@@ -65,8 +65,8 @@
 
   <section class="p-section u-padding-bottom--64">
     <div class="row">
-      <div class="col-12">
-        {{ image(url="https://assets.ubuntu.com/v1/cbc3f7c3-ai_infra_diagram_updated.jpg",
+      <div class="col-12 u-hide--small u-hide--medium">
+        {{ image(url="https://assets.ubuntu.com/v1/5e0d19f2-ai_infra_diagram_3.png",
                 alt="Technology stack diagram depicting full-stack AI infrastructure starting with silicon partners Intel, NVIDIA, AMD, MediaTek, Arm, Qualcomm, and Ampere. Above this, Canonical MAAS handles hardware automation and Canonical Ubuntu serves as the operating system. The infrastructure management layer displays Canonical OpenStack, Kubernetes, Landscape, and MicroCloud. Data solutions include PostgreSQL, Cassandra, Apache Spark, etcd, MySQL, MongoDB, Redis, Kafka, Ceph, OpenSearch, and Valkey. The top AI/ML layer features Kubeflow, MLflow, Feast, and vLLM",
                 width="3696",
                 height="2016",
@@ -77,7 +77,7 @@
     </div>
   </section>
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>Full-stack AI infrastructure</h2>
     {%- endif -%}
@@ -88,7 +88,7 @@
 
     {%- if slot == 'list_item_description_1' -%}
       <p>
-        Automate the provisioning and management of your data center hardware at scale, including the GPUs, SmartNICs, and DPUs you need to drive your AI workloads.
+        Automate the provisioning and management of your data center hardware, including the GPUs, SmartNICs, and DPUs you need to drive your AI workloads.
       </p>
     {%- endif -%}
 
@@ -123,7 +123,7 @@
     {%- endif -%}
 
     {%- if slot == 'list_item_title_5' -%}
-      <h3 class="p-heading--5">AI/ML</h3>
+      <h3 class="p-heading--5">MLOps</h3>
     {%- endif -%}
 
     {%- if slot == 'list_item_description_5' -%}
@@ -192,7 +192,7 @@
     "item": {
     "logos": [
     {"src": "https://assets.ubuntu.com/v1/3ba0891e-dell_logo.png", "alt": "Dell"},
-    {"src": "https://assets.ubuntu.com/v1/e90e05e7-HPE-logo.png", "alt": "HPE"},
+    {"src": "https://assets.ubuntu.com/v1/d333a5a9-hp_enterprise_logo.png", "alt": "HPE"},
     {"src": "https://assets.ubuntu.com/v1/fe23c2e5-huawei_logo.png", "alt": "Huawei"},
     {"src": "https://assets.ubuntu.com/v1/7e02dc6b-ibm_logo_1.png", "alt": "IBM"},
     {"src": "https://assets.ubuntu.com/v1/72e55986-lenovo_logo.png", "alt": "Lenovo"},
@@ -229,7 +229,7 @@
     "link": {
     "content_html": "Build your cloud &nbsp;&rsaquo;",
     "attrs": {
-    "href": "https://ubuntu.com/openstack"
+    "href": "/solutions/infrastructure"
     }
     }
     }
@@ -303,7 +303,7 @@
     "item": {
     "type": "html",
     "content": '
-    <div class="p-strip is-shallow">
+    <div class="p-strip">
       '
       +
       image(url="https://assets.ubuntu.com/v1/bd2e66a5-esa_logo.png",
@@ -317,15 +317,16 @@
   </div>
   <h3>Lowering the cost and complexity of critical space missions</h3>
   <blockquote class="p-pull-quote--small">
-    <p class="p-pull-quote__quote">
+    <p>
       We wanted one partner for the whole on-premise cloud because we’re not just supporting Kubernetes but also our Ceph clusters, managed Postgres, Kafka, and AI tools such as Kubeflow and Spark. These were all the services that were needed and with this we could have one nice, easy joined-up approach.
     </p>
     <cite class="p-pull-quote__citation">Michael Hawkshaw, IT Service Manager, European Space Agency</cite>
   </blockquote>
-  <hr class="p-rule--muted" />
-  <a class="p-button"
-     href="/case-study/esa"
-     aria-label="Get the full case study">Get the full case study</a>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="/case-study/esa"
+       aria-label="Get the full case study">Get the full case study</a>
+  </div>
   '
   }
   }
@@ -344,15 +345,16 @@
   "content": '
   <h3>Fortune 500 fintech company goes from constant troubleshooting to scalable machine learning</h3>
   <blockquote class="p-pull-quote--small">
-    <p class="p-pull-quote__quote">
+    <p>
       We like the whole integration umbrella that Canonical offers with Canonical Kubeflow. We have easy access to popular ML frameworks like TensorFlow, PyTorch, and XGBoost, as well as the native Kubernetes tools for monitoring and logging. It helps our data scientists quickly build and experiment with their models in an efficient manner.
     </p>
     <cite class="p-pull-quote__citation">Senior data scientist, Fortune 500 financial services company</cite>
   </blockquote>
-  <hr class="p-rule--muted" />
-  <a class="p-button"
-     href="/case-study/machine-learning-for-financial-services"
-     aria-label="Get the full case study">Get the full case study</a>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="/case-study/machine-learning-for-financial-services"
+       aria-label="Get the full case study">Get the full case study</a>
+  </div>
   '
   }
   }
@@ -369,7 +371,7 @@
   "item": {
   "type": "html",
   "content": ('
-  <div class="p-strip is-shallow">
+  <div class="p-strip">
     '
     +
 
@@ -386,15 +388,16 @@
 
   <h3>Building a sustainable cloud for AI workloads</h3>
   <blockquote class="p-pull-quote--small">
-    <p class="p-pull-quote__quote">
+    <p>
       The level of engagement from the Canonical team was remarkable. Even before we entered into a commercial agreement, Canonical offered valuable advice around OEMs and hardware choices. They were dedicated to our project from the get-go.
     </p>
     <cite class="p-pull-quote__citation">Tim Rosenfield, CEO and Co-Founder, Firmus</cite>
   </blockquote>
-  <hr class="p-rule--muted" />
-  <a class="p-button"
-     href="https://pages.ubuntu.com/rs/066-EOV-335/images/Firmus+Case+study.pdf"
-     aria-label="Download the full case study">Download the full case study</a>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="https://pages.ubuntu.com/rs/066-EOV-335/images/Firmus+Case+study.pdf"
+       aria-label="Download the full case study">Download the full case study</a>
+  </div>
   ')
   }
   }
@@ -413,15 +416,16 @@
   "content": '
   <h3>Machine learning drives down operational costs</h3>
   <blockquote class="p-pull-quote--small">
-    <p class="p-pull-quote__quote">
+    <p>
       Partnering with Canonical lets us concentrate on our core business. Our data scientists can focus on data manipulation and model training rather than managing infrastructure.
     </p>
     <cite class="p-pull-quote__citation">Machine learning engineer, entertainment technology company</cite>
   </blockquote>
-  <hr class="p-rule--muted" />
-  <a class="p-button"
-     href="https://pages.ubuntu.com/rs/066-EOV-335/images/Canonical%20%7C%20AIML%20Entertainment%20Case%20Study.pdf?version=0"
-     aria-label="Download the full case study">Download the full case study</a>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="https://pages.ubuntu.com/rs/066-EOV-335/images/Canonical%20%7C%20AIML%20Entertainment%20Case%20Study.pdf?version=0"
+       aria-label="Download the full case study">Download the full case study</a>
+  </div>
   '
   }
   }
@@ -441,7 +445,7 @@
       Canonical maintains and supports all the open source tooling in your AI infrastructure stack, including Kubernetes and open source cloud management solutions like OpenStack.
     </p>
     <p>
-      Enterprise support for the entire stack is available with a transparent Ubuntu Pro subscription, so you have full control over your TCO.
+      Enterprise support for the entire stack is available with a transparent subscription, Ubuntu Pro, so you have full control over your TCO.
     </p>
     <p>Fast-track compliance and run AI projects securely. Let us handle the CVEs.</p>
     "
@@ -488,12 +492,15 @@
     "link": {
     "content_html": "Contact the team",
     "attrs": {
-    "href": "/contact-us"
+    "href": "/contact-us",
+    "class": "js-invoke-modal",
+    "aria-controls": "ai-infrastructure-modal"
     }
     }
     }
     }
-    ]) 
+    ],
+    attrs={"class": "p-section--deep"}) 
   }}
 
   {{ load_form("/solutions/ai/infrastructure") | safe }}
