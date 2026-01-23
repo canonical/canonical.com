@@ -25,7 +25,7 @@
 {% block content %}
   {% call(slot) vf_hero(
     title_text='Join your local Canonical Day',
-    subtitle_text='Meet other innovators and open source experts',
+    subtitle_text='Meet other innovators <br/>and open source experts',
     layout='50/50-full-width-image'
     ) -%}
     {%- if slot == 'description' -%}
@@ -37,10 +37,10 @@
 
     {%- if slot == 'image' -%}
     <div class="p-image-container--cinematic is-cover">
-      {{ image(url="https://assets.ubuntu.com/v1/49e883d1-hero_img.jpg",
+      {{ image(url="https://assets.ubuntu.com/v1/40a89294-hero_img_updated.jpg",
         alt="",
-        width="2464",
-        height="1027",
+        width="2462",
+        height="1024",
         hi_def=True,
         loading="auto",
         attrs={"class":"p-image-container__image"}
@@ -50,7 +50,7 @@
     {% endif -%}
   {% endcall -%}
 
-  {{ vf_basic_section(title={"text": "Find a Canonical Day near you"})}}
+  {{ vf_basic_section(title={"text": "Find a Canonical Day near you"}, padding="shallow")}}
 
   <section class="p-section">
     <div class="grid-row">
@@ -96,31 +96,6 @@
       </table>
     </div>
   </section>
-
-
-  {{ vf_basic_section(
-    title={"text": "You bring the ideas, we bring the open source"},
-    padding="deep",
-    items=[
-    {
-      "type": "description",
-      "item": {
-        "type": "text",
-        "content": "The best of open source comes to you at our Canonical Roadshow events. You get exclusive access and updates, we get inspired by your commitment to open source and ideas."
-      }
-    },
-    {
-      "type": "image",
-      "item": {
-        "aspect_ratio": "",
-        "attrs": {
-          "src": "https://assets.ubuntu.com/v1/2a4df60f-you_bring_ideas.jpg",
-          "alt": "16:9 aspect ratio image"
-        }
-      }
-    }
-    ])
-  }}
 
   {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
     {%- if slot == 'title' -%}
@@ -193,6 +168,30 @@
   ) -%}
 
   {% endcall -%}
+
+
+  {{ vf_basic_section(
+    title={"text": "You bring the ideas, <br/>we bring the open source"},
+    items=[
+    {
+      "type": "description",
+      "item": {
+        "type": "text",
+        "content": "The best of open source comes to you at our Canonical Roadshow events. You get exclusive access and updates, we get inspired by your commitment to open source and ideas."
+      }
+    },
+    {
+      "type": "image",
+      "item": {
+        "aspect_ratio": "",
+        "attrs": {
+          "src": "https://assets.ubuntu.com/v1/2a4df60f-you_bring_ideas.jpg",
+          "alt": "16:9 aspect ratio image"
+        }
+      }
+    }
+    ])
+  }}
 
   <script src="/static/js/dist/events.js"></script>
 {% endblock content %}
