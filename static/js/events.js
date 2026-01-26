@@ -10,15 +10,15 @@ const allBody = document.querySelector('tbody.js-events-all');
 
 if (toggleBtn) {
   toggleBtn.addEventListener('click', function() {
-    const isHidden = truncatedBody.classList.contains('u-hide');
+    const isHidden = allBody.classList.contains('u-hide');
     if (isHidden) {
-      truncatedBody.classList.remove('u-hide');
-      allBody.classList.add('u-hide');
-      toggleBtn.innerHTML = 'Show all events';
-    } else {
-      truncatedBody.classList.add('u-hide');
       allBody.classList.remove('u-hide');
+      truncatedBody.classList.add('u-hide');
       toggleBtn.innerHTML = 'Show less';
+    } else {
+      allBody.classList.add('u-hide');
+      truncatedBody.classList.remove('u-hide');
+      toggleBtn.innerHTML = 'Show all events';
     }
   });
 }
@@ -75,10 +75,6 @@ if (table) {
         currentSort.column = column;
         currentSort.ascending = true;
       }
-
-      // Get table bodies
-      const allBody = table.querySelector('tbody.js-events-all');
-      const truncatedBody = table.querySelector('tbody.js-events-truncated');
       
       // If there are two table bodies, sort from the "all" tbody
       if (allBody && truncatedBody) {

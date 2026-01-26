@@ -114,6 +114,10 @@ def build_events_index(engage_docs):
         ) = engage_docs.get_index(
             limit, offset=None, tag_value=None, key="type", value="event"
         )
+        # Filter out events without topic_name
+        metadata = [
+            event for event in metadata if event.get("topic_name")
+        ]
         total_pages = math.ceil(current_total / limit)
         is_location_search = False
         clean_search = search_query.strip() if search_query else None
@@ -207,8 +211,10 @@ def build_events_index(engage_docs):
                         event_date = datetime.datetime.strptime(
                             date, "%d/%m/%Y"
                         ).date()
+                        # TODO: commented out for QA purposes
                         # Filter past events
-                        if event_date >= today:
+                        # if event_date >= today:
+                        if True:
                             formatted_date = event_date.strftime("%d %B %Y")
                             events["event_date"] = formatted_date
                             valid_events.append(events)
