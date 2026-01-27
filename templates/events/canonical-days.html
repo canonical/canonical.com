@@ -53,7 +53,7 @@
 
   <section class="p-section">
     <div class="grid-row">
-      <table class="p-table--mobile-card u-no-margin--bottom js-sortable-table"
+      <table class="p-table--mobile-card js-sortable-table"
               data-heading="Find a Canonical Day near you">
         <thead>
           <tr>
@@ -78,20 +78,39 @@
             {% if ns.counter <= 5 %}
               <tr>
                 <td data-heading="Location">
-                  {{ data.event_location }}
+                  {{ data.event_location or '—' }}
                 </td>
                 <td data-heading="Region">
-                  {{ data.event_region }}
+                  {{ data.event_region or '—' }}
                 </td>
                 <td data-heading="Date">
-                  {{ data.event_date }}
+                  {{ data.event_date or '—' }}
                 </td>
               </tr>
-            {% else %}
-              {% set ns.showmore = True %}
             {% endif %}
           {% endfor %}
         </tbody>
+        <tbody class="js-events-all u-hide">
+          {% for data in metadata %}    
+            <tr>
+              <td data-heading="Location">
+                {{ data.event_location or '—' }}
+              </td>
+              <td data-heading="Region">
+                {{ data.event_region or '—' }}
+              </td>
+              <td data-heading="Date">
+                {{ data.event_date or '—' }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if metadata | length > 5 %}
+      <div>
+        <button class="p-button js-toggle-show-events">Show all events</button>
+      </div>
+      {% endif %}
       </table>
     </div>
   </section>
