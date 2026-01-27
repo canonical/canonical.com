@@ -210,7 +210,8 @@ def build_events_index(engage_docs):
                             date, "%d/%m/%Y"
                         ).date()
                         # Filter past events
-                        if event_date >= today:
+                        # if event_date >= today:
+                        if True:
                             formatted_date = event_date.strftime("%d %B %Y")
                             events["event_date"] = formatted_date
                             valid_events.append(events)
@@ -222,7 +223,8 @@ def build_events_index(engage_docs):
             metadata.sort(
                 key=lambda x: datetime.datetime.strptime(
                     x.get("event_date", "31 December 1999"), "%d %B %Y"
-                )
+                ),
+                reverse=True,
             )
 
         return flask.render_template(
@@ -240,6 +242,7 @@ def build_events_index(engage_docs):
 def build_canonical_days_index(engage_docs):
     def canonical_days_index():
         limit = 50
+        # TODO: Showing all events now for QA purposes
         (
             metadata,
             count,
@@ -251,8 +254,8 @@ def build_canonical_days_index(engage_docs):
             tag_value=None,
             key="type",
             value="event",
-            second_key="tag",
-            second_value="roadshow"
+            # second_key="tag",
+            # second_value="roadshow"
         )
         total_pages = math.ceil(current_total / limit)
 
@@ -269,6 +272,17 @@ def build_canonical_days_index(engage_docs):
                     date, "%d/%m/%Y"
                 ).strftime("%d %B %Y")
                 events["event_date"] = formatted_date
+
+        # Only show events with event metadata
+        valid_events = []
+        for events in metadata:
+            if (
+                events.get("event_location")
+                and events.get("event_region")
+                and events.get("event_date")
+            ):
+                valid_events.append(events)
+        metadata = valid_events
 
         # Sort by latest event
         metadata.sort(
