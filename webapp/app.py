@@ -48,9 +48,9 @@ from slugify import slugify
 
 # Local
 from webapp.views import (
-  json_asset_query,
-  build_case_study_index,
-  build_events_index
+    json_asset_query,
+    build_case_study_index,
+    build_events_index,
 )
 from webapp.application import application
 from webapp.canonical_cla.views import (
