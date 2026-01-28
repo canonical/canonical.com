@@ -1235,30 +1235,6 @@ app.add_url_rule(
 )
 data_mongodb_k8s_docs.init_app(app)
 
-# Data Platform OpenSearch on IaaS docs
-data_opensearch_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9729,
-        url_prefix="/data/docs/opensearch/iaas",
-    ),
-    document_template="/data/docs/opensearch/iaas/document.html",
-    url_prefix="/data/docs/opensearch/iaas",
-    blueprint_name="data-docs-opensearch-iaas",
-)
-app.add_url_rule(
-    "/data/docs/opensearch/iaas/search",
-    "data-docs-opensearch-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/opensearch/iaas",
-        template_path="/data/docs/opensearch/iaas/search-results.html",
-    ),
-)
-data_opensearch_iaas_docs.init_app(app)
-
-
 # Data Platform index docs
 data_docs = Docs(
     parser=DocParser(
