@@ -115,9 +115,7 @@ def build_events_index(engage_docs):
             limit, offset=None, tag_value=None, key="type", value="event"
         )
         # Filter out events without topic_name
-        metadata = [
-            event for event in metadata if event.get("topic_name")
-        ]
+        metadata = [event for event in metadata if event.get("topic_name")]
         total_pages = math.ceil(current_total / limit)
         is_location_search = False
         clean_search = search_query.strip() if search_query else None
@@ -235,7 +233,7 @@ def build_events_index(engage_docs):
             metadata=metadata,
             posts_per_page=limit,
             total_pages=total_pages,
-            query=search_query
+            query=search_query,
         )
 
     return events_index
