@@ -209,10 +209,8 @@ def build_events_index(engage_docs):
                         event_date = datetime.datetime.strptime(
                             date, "%d/%m/%Y"
                         ).date()
-                        # TODO: commented out for QA purposes
                         # Filter past events
-                        # if event_date >= today:
-                        if True:
+                        if event_date >= today:
                             formatted_date = event_date.strftime("%d %B %Y")
                             events["event_date"] = formatted_date
                             valid_events.append(events)

@@ -92,7 +92,14 @@
         <form class="p-search-box u-no-margin--bottom" action="/events" id="event-search-form">
         <input class="p-search-box__input" name="q" id="search-input" type="search" {% if query %}value="{{ query }}"{% endif %} placeholder="Search by keyword or location"/>
         <button type="submit" alt="search" class="p-search-box__button" alt="search"><i class="p-icon--search">Submit</i></button>
-        </form>
+        </form>        
+      </div>
+      <div class="grid-col">
+        <div class="p-cta-block">
+          {% if query %}
+          <a href="/events#events-table" class="p-button">Clear search results</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </section>
