@@ -68,11 +68,6 @@ class TestFormGenerator(MarketoFormTestCase):
                                     "marketo", field_id, marketo_fields
                                 )
                             )
-                            print("clean_field_id", clean_field_id)
-                            print("marketo_field_ids", marketo_field_ids)
-                            print("form_path", form_path)
-                            print("form_id", form_id)
-                            print("field_id", field_id)
                             self.assertIn(
                                 clean_field_id,
                                 marketo_field_ids,
