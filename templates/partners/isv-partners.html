@@ -5,95 +5,850 @@
 {% block title %}ISV Embedding Programme{% endblock %}
 
 {% block meta_description %}
-  Ubuntu is the most popular guest OS on both public and private clouds, thanks to its security, versatility and continually updated features.
+  Canonical's ISV program helps software vendors build products and solutions at speed with a trusted open source ecosystem.
 {% endblock %}
 
 {% block body_class %}
   is-paper
 {% endblock body_class %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+
 {% block content %}
 
-  {% set breadcrumbs = [{"name": "Partners", "href": "/partners"}, {"name": "ISV Embedding programme"}] %}
+  {% set breadcrumbs = [{"name": "Partners", "href": "/partners"}, {"name": "ISV program"}] %}
   {% include '/partial/_breadcrumbs.html' %}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <div class="col">
-        <h1>
-          ISV Embedding
-          <br class="u-hide--small" />
-          Programme
-        </h1>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <p>
-            From Ubuntu Server to containers, Canonical's portfolio is used by independent software vendors (ISVs) around the world to power SaaS, appliances and software solutions deployed within public clouds, data centres, edge infrastructure and workstations. Our ISV Embedding programme offers the optimal technical, commercial and legal framework to enjoy cost-effective support across the lifecycle of your product.
-          </p>
-        </div>
-        <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+  title_text='ISV Program',
+  subtitle_text='The open source ecosystem you can trust to build your software',
+  layout='50/50-full-width-image'
+  ) -%}
+  {%- if slot == 'description' -%}
+  <p>
+    Independent software vendors (ISVs) around the world rely on Canonical's comprehensive open source ecosystem to support their solutions, products, and software. Our ISV partners benefit from trusted open source, with long-term support, security maintenance, and compliance-certified components. Become an ISV partner today, and embed Canonical's software into your products.
+  </p>
+  {%- endif -%}
+  {%- if slot == 'cta' -%}
+  <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
+  {%- endif -%}
+  {%- if slot == 'image' -%}
+  <div class="p-image-container--cinematic is-cover">
+    <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/49a7de9e-desktop_work_station_workplace_1.jpg" alt="">
+  </div>
+  {% endif -%}
+  {% endcall -%}
 
-  <section class="p-section">
-    <div class="u-fixed-width p-section">
-      <hr class="p-rule" />
-      <h2>Benefits of the ISV Embedding programme</h2>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <hr class="p-rule" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Programmme entitlements</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">Direct L3 engineering support for your engineering team</li>
-              <li class="p-list__item is-ticked">You support your end -customers</li>
-              <li class="p-list__item is-ticked">
-                Security patches for up to 10 years with <a href="https://ubuntu.com/pro">Ubuntu Pro</a>
-              </li>
-              <li class="p-list__item is-ticked">Trademark, modification and redistribution rights</li>
-              <li class="p-list__item is-ticked">
-                Be featured as a partner on the Canonical website, including the ability to use our trademarks and logos
-              </li>
-              <li class="p-list__item is-ticked">Joint marketing: blogs, webinars and PR</li>
-            </ul>
-          </div>
-        </div>
-        <hr class="p-rule" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Custom image builds</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">
-                Canonical-created images tailored for your performance, platform, compliance and governance requirements
-              </li>
-              <li class="p-list__item is-ticked">Design workshop</li>
-              <li class="p-list__item is-ticked">Ongoing image maintenance and delivery for easy CI pipeline ingestion</li>
-            </ul>
-          </div>
-        </div>
-        <hr class="p-rule" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Dedicated partner team</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">Named resources within Canonical for GTM, technical training and marketing</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>What is Canonical's ISV program?</h2>
+  {%- endif -%}
+
+  {%- if slot == 'description' -%}
+  <p>Through our ISV program, Canonical offers software partners the opportunity to work with Canonical, and integrate 
+    elements of our open source ecosystem into their solutions and products.</p>
+  <p>We offer a transparent pricing model per instance and use case, as well as engineering support and joint marketing 
+    efforts, to drive your solution's success.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Embedding</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>Embed Canonical's trusted open source catalog into your solutions. Benefit from a familiar ecosystem for your developers,
+     the stability of long term security maintenance, and software that helps you meet major compliance requirements.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Tailored solutions</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Get better performance with optimized solutions from Canonical's open source ecosystem, tailored to fit your needs 
+    and use cases.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Validation</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Canonical checks and provides licenses to confirm our software is compatible with your solutions. This helps to expand 
+    the open source ecosystem, and ensures the end user can be confident that they can run Canonical products on your software, and vice versa.</p>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+  title={
+    "text": "Meet some of our ISV partners"
+  },
+  blocks=[
+    {
+      "type": "logo-block",
+      "item": {
+        "logos": [
+          {
+            "src": "https://assets.ubuntu.com/v1/db869316-vmware_logo_s.png",
+            "alt": "VMware"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/b65295d8-nutanix_logo_s.png",
+            "alt": "Nutanix"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/09aa0942-ironbank_logo_s.png",
+            "alt": "IronBank"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/89bddb9e-snyk_logo_s.jpg",
+            "alt": "Snyk"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/ff17b1ae-launchdarkly_logo_s.png",
+            "alt": "LaunchDarkly"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/2a2a7531-lucid_logo_s.png",
+            "alt": "Lucid"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/9b77f99b-datado_logo_s.jpg",
+            "alt": "Datadog"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/e9f2af8c-microsoft_logo_s.png",
+            "alt": "Microsoft"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/1134a954-blender_logo_r.png",
+            "alt": "Blender"
+          },
+          {
+            "src": "https://assets.ubuntu.com/v1/b10b0dc8-clearml_logo_1_1.png",
+            "alt": "ClearML"
+          }
+        ]
+      }
+    }]
+  ) -%}
+  {% endcall -%}
+
+  {{ vf_divided_section(
+  title={
+    "text": "Why embed Canonical software?",
+  },
+  blocks=[
+  {
+    "type": "description-block",
+    "items": [
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Canonical offers solutions for every layer of your stack. Build exactly what you need using our enterprise grade, trusted, and security-maintained open source ecosystem."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about adopting open source in your enterprise &rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/open-source-adoption"
+            }
+          }
+        },
+        "padding": "shallow",
+      },
+    ]
+  },
+  {
+    "type": "divided-block",
+    "bullet_type": "none",
+    "items": [
+          {
+            "title_text": "Use open source to build better, faster",
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "text",
+                  "content": "As a recent <a href='https://canonical.com/blog/state-of-global-open-source-2025'> Linux Foundation report </a> reveals, 
+                  enterprises worldwide are increasingly adopting open source software. The report found:"
+                }
+              },
+              {
+                "type": "description",
+                "item": {
+                  "type": "text",
+                  "content": "<ul>
+                  <li>86% believe open source software improves productivity</li>
+                  <li>82% believe open source software enables innovation</li>
+                  <li>79% report improved software quality due to open source</li>
+                  </ul>"
+                }
+              },
+              {
+                "type": "description",
+                "item": {
+                  "type": "text",
+                  "content": "Open source software enables you to deliver innovation faster, and you won't be held back by proprietary lock in and limited portability. Embedding open source in your solutions will help to ensure that you stay at the cutting edge, whilst enjoying enterprise-grade support and security maintenance."
+                }
+              }
+            ]
+         },
+         {
+            "title_text": "Reduce support complexity",
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "text",
+                  "content": "Working with multiple vendors for different open source components across different layers of the stack creates complicated contracts with multiple vendors – not to mention integration challenges. "
+                }
+              },
+              {
+                "type": "description",
+                "item": {
+                  "type": "text",
+                  "content": "Canonical's extensive open source ecosystem gives you the choice you want, whilst simplifying access to support and security maintenance."
+                }
+              },
+            ]
+         }
+      ]
+  },
+  ],
+  ) 
+  }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>Technical excellence and support for your solution</h2>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Security</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>Security vulnerabilities in unmaintained software can create serious risks. As <a href='https://ubuntu.com/engage/2025-state-of-software-supply-chain?_gl=1*140f5oc*_gcl_au*MTQ1MTcwMTUxLjE3NjI3NzE5Mzc.'> recent IDC research </a> 
+     demonstrates, almost 60% of IT decision-makers are not confident in their organization's ability to patch critical vulnerabilities 
+     within 24 hours.</p>
+  
+  <p>With Ubuntu Pro, software is security maintained and patched for up to 15 years, ensuring business continuity for
+       your end customers, without forcing major upgrades.</p>
+
+  <div class="p-cta-block">
+    <a href="https://ubuntu.com/pro">Learn more about Ubuntu Pro &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Certified components</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Regulated industries can provide stable revenue streams – however, meeting regulations requires lengthy and expensive 
+    certification journeys. Accelerate your time to market and reduce the cost of initial investment with components that have
+    already been certified.</p>
+  
+  <p>Canonical offers certified components for compliance and hardening, including FIPS 140-2 and 140-3, DISA STIG profiles, 
+    CIS level 1 and 2 hardening, and Common Criteria.</p>
+
+  <div class="p-cta-block">
+    <a href="https://trust.canonical.com/">Learn more about our certified components &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Engineering support</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>ISV partners benefit from Direct L3 engineering support, providing access to the technical expertise needed to help 
+    resolve complex code-related issues.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_4' -%}
+  <h3 class="p-heading--5">Custom image builds</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_4' -%}
+  <p>Canonical can provide custom image builds for specialized compute environments. These are tailored for your performance,
+     platform, compliance, and governance requirements, to help your solution function as smoothly as possible. We also 
+     provide ongoing image maintenance and delivery, supporting easier Continuous Integration (CI) pipeline ingestion.
+  </p>
+
+  <div class="p-cta-block">
+    <a href="https://ubuntu.com/containers/container-build-service">Explore our container build service &rsaquo;</a>
+  </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>Joint go to market support</h2>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Ownership, branding, and commercial control</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>ISV partners provide direct support to end customers, ensuring a cohesive and unified brand experience for users.</p>
+  
+  <p>Likewise, Canonical's ISV partners get trademark, modification, and redistribution rights, so you can brand, 
+    customize, and commercialize joint solutions effectively.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Widen your brand's reach and establish authority</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Through our ISV program, members can broaden their brand exposure. To support our partners, Canonical:</p>
+  <ul>
+    <li><b>Features partners on the Canonical website</b>, and provides the ability to use our trademarks and logos</li>
+    <li><b>Takes part in joint marketing</b>: Canonical partners with you on promotional and go to market activities</li>
+    <li><b>Provides a dedicated partner team</b>, including resources for GTM, technical training, and marketing efforts</li>
+  </ul>
+  {%- endif -%} 
+  {%- endcall -%}
+
+  {{ vf_divided_section(
+  title={
+    "text": "How ISVs accelerated growth with our software ecosystem",
+  },
+  top_rule_variant="muted",
+  blocks=[
+  {
+    "type": "description-block",
+    "items": [
+      {
+        "type": "video",
+        "item": {
+          "attrs": {
+            "src": "https://www.youtube.com/embed/vK0bC8jtz3o?si=T3oxZPulg1ggVzmN",
+            "allowfullscreen": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<img class="p-image-container__image"
+                   src="https://assets.ubuntu.com/v1/89bddb9e-snyk_logo_s.jpg"
+                   alt=""
+                   width="80" />'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<i>&quot;Our FedRAMP solution is powered by AWS… it's a very big deal when it comes to how we're servicing our public sector customers. We're very 
+            excited to partner with Canonical to provide that solution to the public sector market.&quot;</i>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<b> &mdash; Phoebe Nerdahl</b>"
+        }
+      },
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": '<p class="u-text--muted">Senior Director, U.S. Public Sector, SNYK</p>'
+        }
+      },
+    ]
+  },
+  {
+    "type": "divided-block",
+    "bullet_type": "none",
+    "items": [
+      {
+        "title_text": "",
+        "contents": [
+          {
+            "type": "description",
+            "item": {
+                "type": "html",
+                "content": '<img class="p-image-container__image"
+                  src="https://assets.ubuntu.com/v1/2a2a7531-lucid_logo_s.png"
+                  alt=""
+                  width="80" />'
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "<i>&quot;We built our FedRAMP environment at breakneck speeds. We got everything up and running in six months, and
+                mirroring and understanding the Ubuntu Pro packages took less than two weeks. It was just so fast.&quot;</i>"
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "<b> &mdash; Rocky Olsen</b>"
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": '<p class="u-text--muted">Principal Software Engineer, SRE Operations, Lucid Software</p>'
+            }
+          },
+        ]
+      },
+      {
+        "title_text": "",
+        "contents": [
+          {
+            "type": "description",
+            "item": {
+              "type": "html",
+                "content": '<img class="p-image-container__image"
+                  src="https://assets.ubuntu.com/v1/ff17b1ae-launchdarkly_logo_s.png"
+                  alt=""
+                  width="150" />'
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "content": "<i>&quot;It just works. Of all the things that give me trouble and keep me up at night, Ubuntu is not one of them.&quot;</i>"
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "<b> &mdash; Patrick Kaeding</b>"
+            }
+          },
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": '<p class="u-text--muted">Staff Security Engineer, LaunchDarkly</p>'
+            }
+          }
+        ]
+      }
+    ]
+  },
+  ],
+  ) 
+  }}
+
+  {{- vf_tab_section(
+    title={
+        "text": "What software can you embed?"
+    },
+    description={
+        "content": ""
+    },
+    tabs=[
+        {
+            "tab_html": "Ubuntu",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Enterprise-grade Linux OS",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Ubuntu is the most popular open source Linux OS, and the only free, multi-cloud-friendly option 
+                                          with commercial support available via Ubuntu Pro."
+                                      }
+                                  },
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Ubuntu Pro extends enterprise security and compliance directly to your developers' workstations. 
+                                          Get up to 15 years of security coverage for both the OS and your mission-critical open source application stack, ensuring your desktops meet stringent compliance standards. Provide your team with a secure development environment, complete with the latest toolchains and patches for all major apps and libraries."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about Ubuntu Pro &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://ubuntu.com/pro"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "Containers",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Security-maintained, ultra-small containers",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Elevate your security posture and improve resource efficiency with Canonical’s production-ready OCI-compliant containers."
+                                      }
+                                  },
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Our chiseled containers reduce attack surface and potential vulnerabilities by eliminating excess components, helping to keep your 
+                                          systems safer. We simplify meeting compliance benchmarks even in highly regulated industries through long-term support, security maintenance, and cryptographic assurance."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about containers &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://ubuntu.com/containers"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "Canonical Kubernetes",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Simplify multi-cloud operations with Kubernetes",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Integrating with our CNCF-conformant Canonical Kubernetes reduces the complexity of managing 
+                                          containerized applications across diverse cloud environments by automating container deployment, scaling, and 
+                                          lifecycle management. It provides an abstraction layer, making Data & AI applications portable across 
+                                          development frameworks, with minimal necessary adaptations. We also support popular Kubernetes add-ons."
+                                      }
+                                  },
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Canonical Kubernetes offers an efficient cloud-native platform for massive cloud infrastructures as well as edge deployments and SOHO (small office/home office) data centers."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about Kubernetes &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://ubuntu.com/kubernetes"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "AI/ML",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Enterprise AI and ML solutions",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Run your entire AI/ML lifecycle on a single, integrated stack with your trusted software provider. 
+                                        Through our partnerships with hardware and silicon vendors like NVIDIA, Dell Technologies, Advantech, and AMD, we 
+                                        ensure our solutions run smoothly across hardware types and architectures."
+                                      }
+                                  },
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Canonical offers security-maintained, supported AI and ML software, with predictable TCO."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about our solutions &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://canonical.com/solutions/ai"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "Data Portfolio",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Canonical's open source data solutions are engineered for critical workloads, delivering optimized
+                                         return on investment &mdash; even across multi-cloud environments."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about our data solutions &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://canonical.com/data"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "MAAS",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Hardware automation for your data center",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Managing data center hardware takes a lot of resources: time, money, and effort. But it doesn't need
+                                         to. Metal-as-a-Service (MAAS) automates the discovery, provisioning, and deployment of bare metal servers, 
+                                         transforming your data center into a cloud-like on-demand pool of resources. "
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about MAAS &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://canonical.com/maas"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "Cloud Platforms",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "OpenStack",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Canonical OpenStack is our highly customizable private cloud platform. Canonical's tooling streamlines
+                                         OpenStack deployment, modelling, implementations, and orchestration. Try our 
+                                         <a href='https://canonical.com/solutions/infrastructure/private-cloud-pricing'> private cloud pricing calculator </a> 
+                                         to find out how cost-effective Canonical OpenStack would be for your organization."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about OpenStack &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://canonical.com/openstack"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                  {
+                                    "type": "description",
+                                    "item": {
+                                      "content": '<hr class="p-rule--muted" />'
+                                    }
+                                  }
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "MicroCloud",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "MicroCloud is our straightforward, featureful, low entry barrier cloud. Designed for smaller 
+                                        on-premise environments, MicroCloud means users can spin up a private cloud in minutes. "
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about MicroCloud &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://canonical.com/microcloud"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  },
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+        {
+            "tab_html": "Ceph",
+            "type": "divided-section",
+            "item": {
+                "blocks": [
+                    {
+                        "type": "divided-block",
+                        "bullet_type": "none",
+                        "items": [
+                            {
+                                "title_text": "Streamlined storage",
+                                "contents": [
+                                  {
+                                      "type": "description",
+                                      "item": {
+                                        "content": "Ceph is an elastic distributed storage system which combines block, file, and object storage at scale.
+                                         Open Container Initiative (OCI) compliant containers (Rocks) are available. Ceph is a cost-effective solution, 
+                                         helping organizations <a href='https://canonical.com/blog/how-to-reduce-data-storage-costs-by-up-to-50-with-ceph'> 
+                                         save as much as 50% on data storage </a>. For a hands-on example, try the <a href='https://ubuntu.com/ceph/pricing-calculator' 
+                                         Canonical Ceph pricing calculator </a> to find out how much a Ceph cluster could save."
+                                      }
+                                  },
+                                  {
+                                      "type": "cta-block",
+                                      "item": {
+                                        "link": {
+                                          "content_html": "Find out more about Ceph &rsaquo;",
+                                          "attrs": {
+                                            "href": "https://ubuntu.com/ceph"
+                                          }
+                                        }
+                                      },
+                                      "padding": "shallow",
+                                  }
+                                ]
+                            },
+                        ]
+                    },
+                ]
+            }
+        },
+    ]
+  ) -}}
+
 
   {% include '/partners/partial/_footer.html' %}
 
+  <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
 {% endblock %}
