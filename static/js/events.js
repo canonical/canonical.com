@@ -56,6 +56,39 @@ function sortRows(rows, column, dataType, ascending) {
   });
 }
 
+// Helper function to extract sort value from a cell
+function getSortValue(cell, dataType) {
+  let value;
+
+  if (dataType === "link") {
+    const link = cell?.querySelector('a');
+    value = link ? link.textContent.toLowerCase().trim() : (cell ? cell.textContent.toLowerCase().trim() : '');
+  } else if (dataType === "string" || dataType === "date") {
+    value = cell ? cell.textContent.toLowerCase().trim() : '';
+  }
+
+  return value;
+}
+
+// Helper function to sort rows
+function sortRows(rows, column, dataType, ascending) {
+  return rows.sort((a, b) => {
+    const aCells = a.querySelectorAll('td');
+    const bCells = b.querySelectorAll('td');
+    const aCell = aCells[column];
+    const bCell = bCells[column];
+
+    const aValue = getSortValue(aCell, dataType);
+    const bValue = getSortValue(bCell, dataType);
+
+    if (ascending) {
+      return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+    } else {
+      return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+    }
+  });
+}
+
 // Table sorting functionality
 const table = document.querySelector('.js-sortable-table');
 if (table) {

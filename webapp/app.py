@@ -5,7 +5,6 @@ import gzip
 import hashlib
 import json
 import logging
-import math
 import os
 import re
 from http.client import responses
@@ -48,6 +47,7 @@ from webapp.views import (
     json_asset_query,
     build_case_study_index,
     build_events_index,
+    build_canonical_days_index,
 )
 from webapp.application import application
 from webapp.canonical_cla.views import (
@@ -1628,6 +1628,10 @@ app.add_url_rule(
 events_path = "/events"
 app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
 
+canonical_days_path = "/events/canonical-days"
+app.add_url_rule(
+    canonical_days_path, view_func=build_canonical_days_index(engage_pages)
+)
 
 # Mir Server
 discourse_api = DiscourseAPI(
