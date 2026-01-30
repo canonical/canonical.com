@@ -56,7 +56,9 @@
     {%- endif -%}
   {% endcall -%}
 
-  {{ vf_basic_section(title={"text": "What is a sovereign cloud?"},
+  {{ vf_basic_section(
+    title={"text": "What is a sovereign cloud?"},
+    is_split_on_medium=true,
     items=[
       {
         "type": "description",
@@ -120,6 +122,17 @@
           "title": {"text": "The foundational level of control"},
           "items": [
             {
+              "type": "image",
+              "padding": "shallow",
+              "item": {
+                "aspect_ratio": "16-9",
+                "attrs": {
+                  "src": "https://assets.ubuntu.com/v1/da705e19-data_sovereignty.png",
+                  "alt": "A diagram linking different types of cloud computing with different levels of sovereignty. It shows that the lowest level, data sovereignty – where the provider offers control over data residency and security – is provided by some public clouds. Some hosted private clouds and proprietary private clouds offer a higher level of control, which is operational sovereignty, where the provider offers control and oversight of cloud management and maintenance. The highest level of control, software sovereignty, is provided by sovereign clouds which offer control and autonomy over software and reduced vendor lock-in."
+                }
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -145,6 +158,17 @@
           "title": {"text": "Control and oversight"},
           "items": [
             {
+              "type": "image",
+              "padding": "shallow",
+              "item": {
+                "aspect_ratio": "16-9",
+                "attrs": {
+                  "src": "https://assets.ubuntu.com/v1/974d7bb7-operational_soverreignty.png",
+                  "alt": "A diagram linking different types of cloud computing with different levels of sovereignty. It shows that the lowest level, data sovereignty – where the provider offers control over data residency and security – is provided by some public clouds. Some hosted private clouds and proprietary private clouds offer a higher level of control, which is operational sovereignty, where the provider offers control and oversight of cloud management and maintenance. The highest level of control, software sovereignty, is provided by sovereign clouds which offer control and autonomy over software and reduced vendor lock-in."
+                }
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -167,6 +191,17 @@
           "title": {"text": "The ultimate level of control"},
           "items": [
             {
+              "type": "image",
+              "padding": "shallow",
+              "item": {
+                "aspect_ratio": "16-9",
+                "attrs": {
+                  "src": "https://assets.ubuntu.com/v1/c21c3aa4-software_sovereignty.png",
+                  "alt": "A diagram linking different types of cloud computing with different levels of sovereignty. It shows that the lowest level, data sovereignty – where the provider offers control over data residency and security – is provided by some public clouds. Some hosted private clouds and proprietary private clouds offer a higher level of control, which is operational sovereignty, where the provider offers control and oversight of cloud management and maintenance. The highest level of control, software sovereignty, is provided by sovereign clouds which offer control and autonomy over software and reduced vendor lock-in."
+                }
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -187,7 +222,7 @@
     ]) 
   }}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>Why build a sovereign cloud?</h2>
     {%- endif -%}
@@ -204,7 +239,7 @@
 
     {%- if slot == 'list_item_description_1' -%}
       <p>
-        Sensitive data, including military information and personal medical records, can be at high risk of cyber threats. 
+        Sensitive data, including military information and personal medical records, can be at high risk of cyber threats and foreign interference. 
         Gaining control over both physical infrastructure and code helps you to support robust, safe operations.
       </p>
     {%- endif -%}
@@ -254,7 +289,7 @@
     {%- endif -%}
 
     {%- if slot == 'list_item_title_5' -%}
-      <h3 class="p-heading--5">Improving resilience and disaster recovery</h3>
+      <h3 class="p-heading--5">Improve resilience and disaster recovery</h3>
     {%- endif -%}
 
     {%- if slot == 'list_item_description_5' -%}
@@ -267,7 +302,7 @@
     {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>How are sovereign clouds used in industry?</h2>
     {%- endif -%}
@@ -299,7 +334,7 @@
 
     {%- if slot == 'list_item_description_3' -%}
       <p>
-        Medical organizations are tasked with safeguarding individuals' most sensitive medical and personal information. They also need to protect safeguard 
+        Medical organizations are tasked with safeguarding individuals' most sensitive medical and personal information. They also need to protect 
         their operations and life-saving equipment against disruptions.
       </p>
     {%- endif -%}
@@ -324,10 +359,10 @@
         These are just some examples of the verticals that are taking advantage of sovereign clouds. The benefits of digital sovereignty extend 
         to any heavily regulated industry that has a vital interest in controlling its infrastructure and guarding its data
       </p>
-      <div class="p-cta-block">
-        <hr class="p-rule--muted" />
-        <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Canonical%20infrastructure%20for%20the%20public%20sector_Sovereign%20Cloud.pdf">How to build a sovereign cloud with Canonical&nbsp;&rsaquo;</a>
-      </div>
+    {%- endif -%}
+
+    {%- if slot == "cta" -%}
+      <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Canonical%20infrastructure%20for%20the%20public%20sector_Sovereign%20Cloud.pdf">How to build a sovereign cloud with Canonical&nbsp;&rsaquo;</a>
     {%- endif -%}
 
   {%- endcall -%}
@@ -377,6 +412,19 @@
           "title": {"text": "MAAS"},
           "items": [
             {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/e3e0011e-maas_logo.png",
+                          "alt": "MAAS"
+                      }
+                  }
+                ]
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -403,6 +451,19 @@
           "title": {"text": "Ceph"},
           "items": [
             {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/4552b55f-ceph_logo.png",
+                          "alt": "Ceph"
+                      }
+                  }
+                ]
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -425,6 +486,19 @@
         "item": {
           "title": {"text": "Landscape"},
           "items": [
+            {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/0857fd9d-landscape_logo.png",
+                          "alt": "Landscape"
+                      }
+                  }
+                ]
+              }
+            },
             {
               "type": "description",
               "item": {
@@ -453,6 +527,19 @@
           "title": {"text": "Ubuntu OS"},
           "items": [
             {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/3217ac3a-ubuntu_logo.png",
+                          "alt": "Ubuntu OS"
+                      }
+                  }
+                ]
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -479,6 +566,19 @@
           "title": {"text": "MicroCloud"},
           "items": [
             {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/2f48995a-microcloud_logo.png",
+                          "alt": "MicroCloud"
+                      }
+                  }
+                ]
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -502,6 +602,19 @@
           "title": {"text": "OpenStack"},
           "items": [
             {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/23803f8d-openstack_logo.png",
+                          "alt": "OpenStack"
+                      }
+                  }
+                ]
+              }
+            },
+            {
               "type": "description",
               "item": {
                 "type": "html",
@@ -522,15 +635,29 @@
         "tab_html": "Kubernetes",
         "type": "basic-section",
         "item": {
-          "title": {"text": "OpenStack"},
+          "title": {"text": "Kubernetes"},
           "items": [
+            {
+              "type": "logo-block",
+              "item": {
+                "logos": [
+                  {
+                      "attrs": {
+                          "src": "https://assets.ubuntu.com/v1/69eaef41-kubernetes_logo.png",
+                          "alt": "Kubernetes"
+                      }
+                  }
+                ]
+              }
+            },
             {
               "type": "description",
               "item": {
                 "type": "html",
                 "content": "
                   <p>
-                    Canonical Kubernetes makes building sovereign clouds across multiple environments that align with your compliance and IT requirements much easier. It provides a layer that makes dData & AI applications portable across development frameworks, with minimal adaptations or configuration changes. 
+                    Canonical Kubernetes makes building sovereign clouds across multiple environments that align with your compliance and IT requirements much easier. 
+                    It provides a layer that makes data and AI applications portable across development frameworks, with minimal adaptations or configuration changes. 
                   </p>
                   <div class='p-cta-block'>
                     <a href='https://ubuntu.com/kubernetes'>Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
@@ -710,11 +837,12 @@
     </a>
     {%- endif -%}
   {% endcall -%}
-
+  
   {% call(slot) vf_resources(
     title={
-      "text": "Take the next step<br class='u-hide--small' />in your journey",
+      "text": "Take the next step <br class='u-hide--small u-hide--medium' />in your journey",
     },
+    padding="deep",
     blocks=[
       {
         "type": "resources",
@@ -773,7 +901,7 @@
       }
     ]
     ) -%}
-{% endcall -%}
+  {% endcall -%}
 
   {{ load_form('/solutions/infrastructure/sovereign-cloud', 5906) | safe }}
   <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
