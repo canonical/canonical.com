@@ -5,7 +5,6 @@ import gzip
 import hashlib
 import json
 import logging
-import math
 import os
 import re
 from http.client import responses
@@ -47,7 +46,12 @@ from werkzeug.exceptions import HTTPException
 from slugify import slugify
 
 # Local
-from webapp.views import json_asset_query
+from webapp.views import (
+    json_asset_query,
+    build_case_study_index,
+    build_events_index,
+    build_canonical_days_index,
+)
 from webapp.application import application
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
@@ -1584,66 +1588,6 @@ def no_cache(response):
     return response
 
 
-def build_case_study_index(engage_docs):
-    def case_study_index():
-        page = flask.request.args.get("page", default=1, type=int)
-        preview = flask.request.args.get("preview")
-        language = flask.request.args.get("language", default=None, type=str)
-        tag = flask.request.args.get("tag", default=None, type=str)
-        limit = 21
-        offset = (page - 1) * limit
-
-        if tag or language:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit,
-                offset,
-                tag_value=tag,
-                key="type",
-                value="case study",
-                second_key="language",
-                second_value=language,
-            )
-        else:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit, offset, key="type", value="case study"
-            )
-        total_pages = math.ceil(current_total / limit)
-
-        for case_study in metadata:
-            path = case_study["path"]
-            if path.startswith("/engage"):
-                case_study["path"] = "https://ubuntu.com" + path
-
-        tags = engage_docs.get_engage_pages_tags()
-        # strip whitespace, remove dupes and order alphabetically
-        processed_tags = sorted({tag.strip() for tag in tags if tag.strip()})
-
-        return flask.render_template(
-            "case-study/index.html",
-            forum_url=engage_docs.api.base_url,
-            metadata=metadata,
-            page=page,
-            preview=preview,
-            language=language,
-            posts_per_page=limit,
-            total_pages=total_pages,
-            current_page=page,
-            tags=processed_tags,
-        )
-
-    return case_study_index
-
-
 # Canonical Academy
 def cred_exam_content(**_):
     exam_name = flask.request.args.get("exam")
@@ -1666,7 +1610,7 @@ app.add_url_rule(
     methods=["GET"],
 )
 
-# Case study
+# Engage pages
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
 DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
 engage_pages_discourse_api = DiscourseAPI(
@@ -1676,16 +1620,26 @@ engage_pages_discourse_api = DiscourseAPI(
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
 )
-case_study_path = "/case-study"
-case_studies = EngagePages(
+engage_pages = EngagePages(
     api=engage_pages_discourse_api,
     category_id=51,
     page_type="engage-pages",
     exclude_topics=[17229, 18033, 17250],
 )
 
+
+case_study_path = "/case-study"
 app.add_url_rule(
-    case_study_path, view_func=build_case_study_index(case_studies)
+    case_study_path, view_func=build_case_study_index(engage_pages)
+)
+
+
+events_path = "/events"
+app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
+
+canonical_days_path = "/events/canonical-days"
+app.add_url_rule(
+    canonical_days_path, view_func=build_canonical_days_index(engage_pages)
 )
 
 # Mir Server
