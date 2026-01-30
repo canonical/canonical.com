@@ -28,5 +28,6 @@ cp node_modules/leaflet/dist/leaflet.js static/js/modules/leaflet
 mkdir -p static/js/modules/venobox
 cp node_modules/venobox/dist/venobox.min.js static/js/modules/venobox/venobox.min.js
 
-mkdir -p static/js/modules/vanilla-framework
+mkdir -p static/js/modules/vanilla-framework/js
 cp -r node_modules/vanilla-framework/templates/_macros/ static/js/modules/vanilla-framework
+cp -r node_modules/vanilla-framework/templates/static/js/tabs.js static/js/modules/vanilla-framework/js/.

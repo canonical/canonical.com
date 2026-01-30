@@ -126,6 +126,9 @@ production:
     - name: CANONICAL_CLA_API_URL
       value: https://cla.canonical.com
 
+    - name: FLASK_ENV
+      value: "production"
+
   routes:
     - paths: [/blog]
       name: canonical-com-blog
@@ -193,6 +196,9 @@ staging:
             key: application-crypto-key
             name: greenhouse-credentials
 
+        - name: FLASK_ENV
+          value: "staging"
+
         - name: SENTRY_DSN
           value: https://c6217b27586626e049f00f21a2def0c6@o4510662863749120.ingest.de.sentry.io/4510673678499920
 
@@ -236,3 +242,6 @@ demo:
 
     - name: GREENHOUSE_DEBUG
       value: "true"
+
+    - name: FLASK_ENV
+      value: "demo"

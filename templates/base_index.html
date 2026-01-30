@@ -122,58 +122,8 @@
         style="display:none;
                visibility:hidden"></iframe></noscript>
           <a href="#main-content" class="u-off-screen">Skip to main content</a>
-          <div id="success" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Your submission was sent successfully! <a href="#"
-    onclick="document.querySelector('#success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="newsletter-signup" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Thank you for signing up for our newsletter!
-                  <br />
-                  In these regular emails you will find the latest updates from Canonical and upcoming events where you can meet our team.<a href="#"
-   onclick="document.querySelector('#newsletter-signup').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="contact-form-success" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Thank you for contacting us. A member of our team will be in touch shortly. <a href="#"
-   onclick="document.querySelector('#contact-form-success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="contact-form-fail" class="u-hide">
-            <div class="p-notification--negative u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  {% with messages = get_flashed_messages(with_categories=True) %}
-                    {% for category, message in messages %}
-                      {% if category == "contact-form-fail" %}{{ message }}{% endif %}
-                    {% endfor %}
-                    {% if not messages %}
-                      An error occurred while submitting your form.
-                    {% endif %}
-                    Please try again or 
-                    <a href="https://github.com/canonical/canonical.com/issues/new?template=ISSUE_TEMPLATE.md">file a bug report</a>.
-                  {% endwith %}
-                  <a href="#" onclick="document.querySelector('#contact-form-fail').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
 
+          {% include "partial/_notifications.html" %}
           {% include "navigation/navigation.html" %}
 
           <div id="main-content">
