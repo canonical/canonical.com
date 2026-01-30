@@ -25,7 +25,8 @@
   {% call(slot) vf_hero(
     title_text='Join your local Canonical Day',
     subtitle_text='Meet other innovators <br/>and open source experts',
-    layout='50/50-full-width-image'
+    layout='50/50-full-width-image',
+    is_split_on_medium=true
     ) -%}
     {%- if slot == 'description' -%}
     <p>
@@ -59,15 +60,15 @@
           <tr>
             <th data-column="0" data-type="string">
               <strong>Location</strong>
-              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Location" style="border-style: none;"></button>
             </th>
             <th data-column="1" data-type="string">
               <strong>Region</strong>
-              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Region" style="border-style: none;"></button>
             </th>
             <th data-column="2" data-type="date">
               <strong>Date</strong>
-              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Date" style="border-style: none;"></button>
             </th>
           </tr>
         </thead>
@@ -90,32 +91,34 @@
             {% endif %}
           {% endfor %}
         </tbody>
-        <tbody class="js-events-all u-hide">
-          {% for data in metadata %}    
-            <tr>
-              <td data-heading="Location">
-                {{ data.event_location or '—' }}
-              </td>
-              <td data-heading="Region">
-                {{ data.event_region or '—' }}
-              </td>
-              <td data-heading="Date">
-                {{ data.event_date or '—' }}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
+
+        {% if metadata | length > 5 %}
+          <tbody class="js-events-all u-hide">
+            {% for data in metadata %}    
+              <tr>
+                <td data-heading="Location">
+                  <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
+                </td>
+                <td data-heading="Region">
+                  {{ data.event_region or '—' }}
+                </td>
+                <td data-heading="Date">
+                  {{ data.event_date or '—' }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
       </table>
       {% if metadata | length > 5 %}
       <div>
         <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
       {% endif %}
-      </table>
     </div>
   </section>
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>What to expect</h2>
     {%- endif -%}
