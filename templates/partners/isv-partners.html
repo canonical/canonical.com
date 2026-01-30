@@ -50,7 +50,7 @@
   {% endif -%}
   {% endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_description_full_width_on_desktop=false) -%}
   {%- if slot == 'title' -%}
   <h2>What is Canonical's ISV program?</h2>
   {%- endif -%}
@@ -235,7 +235,7 @@
   ) 
   }}
 
-  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_description_full_width_on_desktop=false) -%}
   {%- if slot == 'title' -%}
   <h2>Technical excellence and support for your solution</h2>
   {%- endif -%}
@@ -299,7 +299,7 @@
   {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_description_full_width_on_desktop=false) -%}
   {%- if slot == 'title' -%}
   <h2>Joint go to market support</h2>
   {%- endif -%}
@@ -321,11 +321,12 @@
 
   {%- if slot == 'list_item_description_2' -%}
   <p>Through our ISV program, members can broaden their brand exposure. To support our partners, Canonical:</p>
-  <ul>
-    <li><b>Features partners on the Canonical website</b>, and provides the ability to use our trademarks and logos</li>
-    <li><b>Takes part in joint marketing</b>: Canonical partners with you on promotional and go to market activities</li>
-    <li><b>Provides a dedicated partner team</b>, including resources for GTM, technical training, and marketing efforts</li>
+  <ul class="p-list--divided">
+    <li class="p-list__item has-bullet"><b>Features partners on the Canonical website</b>, and provides the ability to use our trademarks and logos</li>
+    <li class="p-list__item has-bullet"><b>Takes part in joint marketing</b>: Canonical partners with you on promotional and go to market activities</li>
+    <li class="p-list__item has-bullet"><b>Provides a dedicated partner team</b>, including resources for GTM, technical training, and marketing efforts</li>
   </ul>
+
   {%- endif -%} 
   {%- endcall -%}
 
@@ -348,12 +349,16 @@
         }
       },
       {
-        "type": "description",
+        "type": "logo-block",
         "item": {
-          "type": "html",
-          "content": '<img class="p-image-container__image"
-                   src="https://assets.ubuntu.com/v1/f7055149-snyk_quote.png"
-                   alt="" />'
+          "logos": [
+            {
+              "attrs": {
+                "src": "https://assets.ubuntu.com/v1/f7055149-snyk_quote.png",
+                "alt": "Snyk"
+              }
+            },
+          ]
         }
       },
       {
@@ -389,12 +394,16 @@
         "title_text": "",
         "contents": [
           {
-            "type": "description",
+            "type": "logo-block",
             "item": {
-                "type": "html",
-                "content": '<img class="p-image-container__image"
-                  src="https://assets.ubuntu.com/v1/2c478d3f-lucid_quote.png"
-                  alt="" />'
+              "logos": [
+                {
+                  "attrs": {
+                    "src": "https://assets.ubuntu.com/v1/2c478d3f-lucid_quote.png",
+                    "alt": "Lucid Software"
+                  }
+                },
+              ]
             }
           },
           {
@@ -425,12 +434,16 @@
         "title_text": "",
         "contents": [
           {
-            "type": "description",
+            "type": "logo-block",
             "item": {
-              "type": "html",
-                "content": '<img class="p-image-container__image"
-                  src="https://assets.ubuntu.com/v1/afca8dc8-launchdarkly_quote.png"
-                  alt="" />'
+              "logos": [
+                {
+                  "attrs": {
+                    "src": "https://assets.ubuntu.com/v1/afca8dc8-launchdarkly_quote.png",
+                    "alt": "LaunchDarkly"
+                  }
+                },
+              ]
             }
           },
           {
