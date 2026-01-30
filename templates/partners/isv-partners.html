@@ -22,6 +22,9 @@
 
 {% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
 
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+
 {% block content %}
 
   {% set breadcrumbs = [{"name": "Partners", "href": "/partners"}, {"name": "ISV program"}] %}
@@ -30,7 +33,8 @@
   {% call(slot) vf_hero(
   title_text='ISV Program',
   subtitle_text='The open source ecosystem you can trust to build your software',
-  layout='50/50-full-width-image'
+  layout='50/50-full-width-image',
+  is_split_on_medium=true,
   ) -%}
   {%- if slot == 'description' -%}
   <p>
@@ -47,7 +51,7 @@
   {% endif -%}
   {% endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
   {%- if slot == 'title' -%}
   <h2>What is Canonical's ISV program?</h2>
   {%- endif -%}
@@ -97,43 +101,43 @@
       "item": {
         "logos": [
           {
-            "src": "https://assets.ubuntu.com/v1/db869316-vmware_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/1d4d519f-vmware_logo.png",
             "alt": "VMware"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/b65295d8-nutanix_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/934899c8-nutanix_logo.png",
             "alt": "Nutanix"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/09aa0942-ironbank_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/2acbbbf6-ironbank_logo.png",
             "alt": "IronBank"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/89bddb9e-snyk_logo_s.jpg",
+            "src": "https://assets.ubuntu.com/v1/84fd5f30-snyk_logo.png",
             "alt": "Snyk"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/ff17b1ae-launchdarkly_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/100a5dc2-launchdarkly_logo.png",
             "alt": "LaunchDarkly"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/2a2a7531-lucid_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/e3dbc153-lucid_logo.png",
             "alt": "Lucid"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/9b77f99b-datado_logo_s.jpg",
+            "src": "https://assets.ubuntu.com/v1/84510624-datadog_logo.png",
             "alt": "Datadog"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/e9f2af8c-microsoft_logo_s.png",
+            "src": "https://assets.ubuntu.com/v1/31039875-microsoft_logo.png",
             "alt": "Microsoft"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/1134a954-blender_logo_r.png",
+            "src": "https://assets.ubuntu.com/v1/2c04bf98-blender_logo.png",
             "alt": "Blender"
           },
           {
-            "src": "https://assets.ubuntu.com/v1/b10b0dc8-clearml_logo_1_1.png",
+            "src": "https://assets.ubuntu.com/v1/ea7e8a99-clearml_logo.png",
             "alt": "ClearML"
           }
         ]
@@ -143,6 +147,7 @@
   {% endcall -%}
 
   {{ vf_divided_section(
+  is_split_on_medium=true,
   title={
     "text": "Why embed Canonical software?",
   },
@@ -189,8 +194,8 @@
               {
                 "type": "description",
                 "item": {
-                  "type": "text",
-                  "content": "<ul>
+                  "type": "html",
+                  "content": "<ul style='list-style-type: disc;'>
                   <li>86% believe open source software improves productivity</li>
                   <li>82% believe open source software enables innovation</li>
                   <li>79% report improved software quality due to open source</li>
@@ -231,7 +236,7 @@
   ) 
   }}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
   {%- if slot == 'title' -%}
   <h2>Technical excellence and support for your solution</h2>
   {%- endif -%}
@@ -295,7 +300,7 @@
   {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
   {%- if slot == 'title' -%}
   <h2>Joint go to market support</h2>
   {%- endif -%}
@@ -348,9 +353,8 @@
         "item": {
           "type": "html",
           "content": '<img class="p-image-container__image"
-                   src="https://assets.ubuntu.com/v1/89bddb9e-snyk_logo_s.jpg"
-                   alt=""
-                   width="80" />'
+                   src="https://assets.ubuntu.com/v1/f7055149-snyk_quote.png"
+                   alt="" />'
         }
       },
       {
@@ -365,7 +369,7 @@
         "type": "description",
         "item": {
           "type": "text",
-          "content": "<b> &mdash; Phoebe Nerdahl</b>"
+          "content": "<b>Phoebe Nerdahl</b>"
         }
       },
       {
@@ -390,9 +394,8 @@
             "item": {
                 "type": "html",
                 "content": '<img class="p-image-container__image"
-                  src="https://assets.ubuntu.com/v1/2a2a7531-lucid_logo_s.png"
-                  alt=""
-                  width="80" />'
+                  src="https://assets.ubuntu.com/v1/2c478d3f-lucid_quote.png"
+                  alt="" />'
             }
           },
           {
@@ -407,7 +410,7 @@
             "type": "description",
             "item": {
               "type": "text",
-              "content": "<b> &mdash; Rocky Olsen</b>"
+              "content": "<b>Rocky Olsen</b>"
             }
           },
           {
@@ -427,9 +430,8 @@
             "item": {
               "type": "html",
                 "content": '<img class="p-image-container__image"
-                  src="https://assets.ubuntu.com/v1/ff17b1ae-launchdarkly_logo_s.png"
-                  alt=""
-                  width="150" />'
+                  src="https://assets.ubuntu.com/v1/afca8dc8-launchdarkly_quote.png"
+                  alt="" />'
             }
           },
           {
@@ -442,7 +444,7 @@
             "type": "description",
             "item": {
               "type": "text",
-              "content": "<b> &mdash; Patrick Kaeding</b>"
+              "content": "<b>Patrick Kaeding</b>"
             }
           },
           {
@@ -731,42 +733,37 @@
             "item": {
                 "blocks": [
                     {
-                        "type": "divided-block",
-                        "bullet_type": "none",
-                        "items": [
-                            {
-                                "title_text": "OpenStack",
-                                "contents": [
-                                  {
-                                      "type": "description",
-                                      "item": {
-                                        "content": "Canonical OpenStack is our highly customizable private cloud platform. Canonical's tooling streamlines
-                                         OpenStack deployment, modelling, implementations, and orchestration. Try our 
-                                         <a href='https://canonical.com/solutions/infrastructure/private-cloud-pricing'> private cloud pricing calculator </a> 
-                                         to find out how cost-effective Canonical OpenStack would be for your organization."
-                                      }
-                                  },
-                                  {
-                                      "type": "cta-block",
-                                      "item": {
-                                        "link": {
-                                          "content_html": "Find out more about OpenStack &rsaquo;",
-                                          "attrs": {
-                                            "href": "https://canonical.com/openstack"
-                                          }
-                                        }
-                                      },
-                                      "padding": "shallow",
-                                  },
-                                  {
-                                    "type": "description",
-                                    "item": {
-                                      "content": '<hr class="p-rule--muted" />'
-                                    }
-                                  }
-                                ]
+                      "type": "description-block",
+                      "items": [
+                        {
+                            "type": "description",
+                            "item": {
+                              "type": "html",
+                              "content": "<h5>OpenStack</h5>"
+                            }
+                        },
+                        {
+                            "type": "description",
+                            "item": {
+                              "content": "Canonical OpenStack is our highly customizable private cloud platform. Canonical's tooling streamlines
+                                OpenStack deployment, modelling, implementations, and orchestration. Try our 
+                                <a href='https://canonical.com/solutions/infrastructure/private-cloud-pricing'> private cloud pricing calculator </a> 
+                                to find out how cost-effective Canonical OpenStack would be for your organization."
+                            }
+                        },
+                        {
+                            "type": "cta-block",
+                            "padding": "shallow",
+                            "item": {
+                              "link": {
+                                "content_html": "Find out more about OpenStack &rsaquo;",
+                                "attrs": {
+                                  "href": "https://canonical.com/openstack"
+                                }
+                              }
                             },
-                        ]
+                        },
+                      ]
                     },
                     {
                         "type": "divided-block",
@@ -778,8 +775,8 @@
                                   {
                                       "type": "description",
                                       "item": {
-                                        "content": "MicroCloud is our straightforward, featureful, low entry barrier cloud. Designed for smaller 
-                                        on-premise environments, MicroCloud means users can spin up a private cloud in minutes. "
+                                        "content": "MicroCloud is our straightforward, featureful, low entry barrier cloud. Designed for smaller on-premise 
+                                        environments, MicroCloud means users can spin up a private cloud in minutes. ."
                                       }
                                   },
                                   {
@@ -792,7 +789,6 @@
                                           }
                                         }
                                       },
-                                      "padding": "shallow",
                                   },
                                 ]
                             },
@@ -845,7 +841,18 @@
     ]
   ) -}}
 
-  {% include '/partners/partial/_footer.html' %}
+  {% call(slot) vf_cta_section(
+        title_text='',
+        variant='default',
+        layout='100',
+        attrs={'id': 'full-width-default'}
+        ) -%}
+  {%- if slot == 'cta' -%}
+    <a href="https://canonical.com/partners/find-a-partner">Find a partner &rsaquo;</a> <br />
+    <a href="https://canonical.com/partners/become-a-partner">Become a partner &rsaquo;</a>
+  {%- endif -%}
+  {% endcall -%}
+
 
   <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
   <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
