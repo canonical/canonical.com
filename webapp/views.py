@@ -177,7 +177,7 @@ def build_events_index(engage_docs):
             today = datetime.datetime.now().date()
             valid_events = []
             for events in metadata:
-                date = events.get("event_date")
+                date = events.get("event_date", None)
                 if date:
                     try:
                         event_date = datetime.datetime.strptime(
@@ -198,19 +198,20 @@ def build_events_index(engage_docs):
             valid_events = []
             for events in metadata:
                 # Prefix all engage paths with full URL
-                path = events["path"]
+                path = events.get("path", "")
                 if path.startswith("/engage"):
                     events["path"] = "https://ubuntu.com" + path
 
                 # Convert date to DD Month YYYY format
-                date = events.get("event_date")
+                date = events.get("event_date", None)
                 if date:
                     try:
                         event_date = datetime.datetime.strptime(
                             date, "%d/%m/%Y"
                         ).date()
                         # Filter past events
-                        if event_date >= today:
+                        # if event_date >= today:
+                        if True:
                             formatted_date = event_date.strftime("%d %B %Y")
                             events["event_date"] = formatted_date
                             valid_events.append(events)
@@ -222,7 +223,8 @@ def build_events_index(engage_docs):
             metadata.sort(
                 key=lambda x: datetime.datetime.strptime(
                     x.get("event_date", "31 December 1999"), "%d %B %Y"
-                )
+                ),
+                reverse=True,
             )
 
         return flask.render_template(
@@ -235,3 +237,66 @@ def build_events_index(engage_docs):
         )
 
     return events_index
+
+
+def build_canonical_days_index(engage_docs):
+    def canonical_days_index():
+        limit = 50
+        (
+            metadata,
+            count,
+            active_count,
+            current_total,
+        ) = engage_docs.get_index(
+            limit, offset=None, tag_value="roadshow", key="type", value="event"
+        )
+        total_pages = math.ceil(current_total / limit)
+
+        for events in metadata:
+            # Prefix all engage paths with full URL
+            path = events.get("path", "")
+            if path.startswith("/engage"):
+                events["path"] = "https://ubuntu.com" + path
+
+            # Convert date to DD Month YYYY format
+            date = events.get("event_date")
+            if date:
+                formatted_date = datetime.datetime.strptime(
+                    date, "%d/%m/%Y"
+                ).strftime("%d %B %Y")
+                events["event_date"] = formatted_date
+
+        # Only show events with event metadata
+        valid_events = []
+        for events in metadata:
+            if (
+                events.get("event_location")
+                and events.get("event_region")
+                and events.get("event_date")
+            ):
+                # Check if event_date is in the future then append
+                event_date = datetime.datetime.strptime(
+                    events["event_date"], "%d %B %Y"
+                ).date()
+                today = datetime.datetime.now().date()
+                if event_date >= today:
+                    valid_events.append(events)
+        metadata = valid_events
+
+        # Sort by latest event
+        metadata.sort(
+            key=lambda x: datetime.datetime.strptime(
+                x.get("event_date", "31 December 1999"), "%d %B %Y"
+            ),
+            reverse=True,
+        )
+
+        return flask.render_template(
+            "events/canonical-days.html",
+            forum_url=engage_docs.api.base_url,
+            metadata=metadata,
+            posts_per_page=limit,
+            total_pages=total_pages,
+        )
+
+    return canonical_days_index
