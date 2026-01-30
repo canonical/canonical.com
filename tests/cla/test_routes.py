@@ -93,7 +93,9 @@ class TestCLARoutes(unittest.TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/legal/contributors/agreement")
-        self.assertIn("github_oauth2_session", response.headers["Set-Cookie"])
+        self.assertIn(
+            "github_access_token_session", response.headers["Set-Cookie"]
+        )
         self.assertEqual(response.headers["Cache-Control"], "no-store")
 
     @patch("webapp.canonical_cla.views.get_query_param")
@@ -113,7 +115,9 @@ class TestCLARoutes(unittest.TestCase):
         self.assertEqual(
             response.location, "/legal/contributors/agreement?github_error="
         )
-        self.assertIn("github_oauth2_session", response.headers["Set-Cookie"])
+        self.assertIn(
+            "github_access_token_session", response.headers["Set-Cookie"]
+        )
         self.assertEqual(response.headers["Cache-Control"], "no-store")
 
     def test_canonical_cla_api_launchpad_logout(self):
@@ -124,7 +128,7 @@ class TestCLARoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/legal/contributors/agreement")
         self.assertIn(
-            "launchpad_oauth_session", response.headers["Set-Cookie"]
+            "launchpad_access_token_session", response.headers["Set-Cookie"]
         )
         self.assertEqual(response.headers["Cache-Control"], "no-store")
 
@@ -146,7 +150,7 @@ class TestCLARoutes(unittest.TestCase):
             response.location, "/legal/contributors/agreement?launchpad_error="
         )
         self.assertIn(
-            "launchpad_oauth_session", response.headers["Set-Cookie"]
+            "launchpad_access_token_session", response.headers["Set-Cookie"]
         )
         self.assertEqual(response.headers["Cache-Control"], "no-store")
 
