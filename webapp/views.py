@@ -177,7 +177,7 @@ def build_events_index(engage_docs):
             today = datetime.datetime.now().date()
             valid_events = []
             for events in metadata:
-                date = events.get("event_date")
+                date = events.get("event_date", None)
                 if date:
                     try:
                         event_date = datetime.datetime.strptime(
@@ -198,12 +198,12 @@ def build_events_index(engage_docs):
             valid_events = []
             for events in metadata:
                 # Prefix all engage paths with full URL
-                path = events["path"]
+                path = events.get("path", "")
                 if path.startswith("/engage"):
                     events["path"] = "https://ubuntu.com" + path
 
                 # Convert date to DD Month YYYY format
-                date = events.get("event_date")
+                date = events.get("event_date", None)
                 if date:
                     try:
                         event_date = datetime.datetime.strptime(
@@ -242,26 +242,19 @@ def build_events_index(engage_docs):
 def build_canonical_days_index(engage_docs):
     def canonical_days_index():
         limit = 50
-        # TODO: Showing all events now for QA purposes
         (
             metadata,
             count,
             active_count,
             current_total,
         ) = engage_docs.get_index(
-            limit,
-            offset=None,
-            tag_value=None,
-            key="type",
-            value="event",
-            # second_key="tag",
-            # second_value="roadshow"
+            limit, offset=None, tag_value="roadshow", key="type", value="event"
         )
         total_pages = math.ceil(current_total / limit)
 
         for events in metadata:
             # Prefix all engage paths with full URL
-            path = events["path"]
+            path = events.get("path", "")
             if path.startswith("/engage"):
                 events["path"] = "https://ubuntu.com" + path
 
@@ -281,7 +274,13 @@ def build_canonical_days_index(engage_docs):
                 and events.get("event_region")
                 and events.get("event_date")
             ):
-                valid_events.append(events)
+                # Check if event_date is in the future then append
+                event_date = datetime.datetime.strptime(
+                    events["event_date"], "%d %B %Y"
+                ).date()
+                today = datetime.datetime.now().date()
+                if event_date >= today:
+                    valid_events.append(events)
         metadata = valid_events
 
         # Sort by latest event

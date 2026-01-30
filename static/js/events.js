@@ -56,20 +56,6 @@ function sortRows(rows, column, dataType, ascending) {
   });
 }
 
-// Helper function to extract sort value from a cell
-function getSortValue(cell, dataType) {
-  let value;
-
-  if (dataType === "link") {
-    const link = cell?.querySelector('a');
-    value = link ? link.textContent.toLowerCase().trim() : (cell ? cell.textContent.toLowerCase().trim() : '');
-  } else if (dataType === "string" || dataType === "date") {
-    value = cell ? cell.textContent.toLowerCase().trim() : '';
-  }
-
-  return value;
-}
-
 // Helper function to sort rows
 function sortRows(rows, column, dataType, ascending) {
   return rows.sort((a, b) => {
@@ -92,7 +78,7 @@ function sortRows(rows, column, dataType, ascending) {
 // Table sorting functionality
 const table = document.querySelector('.js-sortable-table');
 if (table) {
-  const sortBtns = table.querySelectorAll('.js-table-sort');
+  const sortBtns = table.querySelectorAll('.js-sortable-table__button');
   let currentSort = { column: null, ascending: true };
 
   sortBtns.forEach(btn => {
@@ -114,6 +100,7 @@ if (table) {
         const allRows = sortRows(Array.from(allBody.querySelectorAll('tr')), column, dataType, currentSort.ascending);
 
         // Update "all" tbody
+        allBody.innerHTML = '';
         allRows.forEach(row => allBody.appendChild(row));
 
         // Update truncated tbody with first 5 values
