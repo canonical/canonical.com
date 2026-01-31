@@ -11,16 +11,14 @@ import re
 from http.client import responses
 from pathlib import Path
 from typing import List
-from urllib.parse import parse_qs, urlencode, urlparse
+from urllib.parse import parse_qs, urlencode
 from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
 
-import bleach
 import canonicalwebteam.directory_parser as directory_parser
 import flask
-import markdown
 import yaml
 import sentry_sdk
 
@@ -44,11 +42,11 @@ from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
 from werkzeug.exceptions import HTTPException
-from slugify import slugify
 
 # Local
 from webapp.views import json_asset_query
 from webapp.application import application
+from webapp.template_filters import register_template_filters
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -95,6 +93,9 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Register custom template filters
+register_template_filters(app)
 
 # Load env variables after the app is initialized
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
@@ -1041,83 +1042,6 @@ def context():
         "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
         "get_navigation": get_navigation,
     }
-
-
-@app.template_filter()
-def convert_to_kebab(kebab_input):
-    words = re.findall(
-        r"[A-Z]?[a-z]+|[A-Z]{2,}(?=[A-Z][a-z]|\d|\W|$)|\d+", kebab_input
-    )
-
-    return "-".join(map(str.lower, words))
-
-
-@app.template_filter()
-def get_nav_path(path):
-    short_path = ""
-    split_path = path.split("/")
-    if len(split_path) > 1:
-        short_path = path.split("/")[1]
-    return short_path
-
-
-@app.template_filter()
-def get_secondary_nav_path(path):
-    secondary_path = ""
-    split_path = path.split("/")
-    if len(split_path) > 2:
-        secondary_path = path.split("/")[2]
-    return secondary_path
-
-
-@app.template_filter()
-def slug(text):
-    return slugify(text)
-
-
-@app.template_filter()
-def markup(text):
-    return markdown.markdown(text)
-
-
-@app.template_filter()
-def filtered_html_tags(content):
-    content = content.replace("<p>&nbsp;</p>", "")
-    allowed_tags = [
-        "iframe",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "p",
-        "a",
-        "strong",
-        "ul",
-        "ol",
-        "li",
-        "i",
-        "em",
-        "br",
-    ]
-    allowed_attributes = {"iframe": allow_src, "a": "href"}
-
-    return bleach.clean(
-        content,
-        tags=allowed_tags,
-        attributes=allowed_attributes,
-        strip=True,
-    )
-
-
-def allow_src(tag, name, value):
-    allowed_sources = ["www.youtube.com", "www.vimeo.com"]
-    if name in ("alt", "height", "width"):
-        return True
-    if name == "src":
-        p = urlparse(value)
-        return (not p.netloc) or p.netloc in allowed_sources
-    return False
 
 
 # Data Platform Spark on K8s docs
