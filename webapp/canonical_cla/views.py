@@ -6,7 +6,9 @@ import flask
 import requests
 from canonicalwebteam.flask_base.env import get_flask_env
 
-CANONICAL_CLA_API_URL = str(get_flask_env("CANONICAL_CLA_API_URL", error=True))
+CANONICAL_CLA_API_URL = str(
+    get_flask_env("CANONICAL_CLA_API_URL", default="https://cla.canonical.com")
+)
 
 ALLOWED_ENDPOINTS = [
     "/github/login",
