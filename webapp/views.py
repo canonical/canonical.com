@@ -6,6 +6,7 @@ import datetime
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
+import re
 
 
 def json_asset_query(file_name):
@@ -299,3 +300,27 @@ def build_canonical_days_index(engage_docs):
         )
 
     return canonical_days_index
+
+
+def append_utms_cookie_to_ubuntu_links(response):
+    """
+    Append utms cookie parameter to all ubuntu.com links in HTML responses
+    """
+    if response.mimetype == "text/html" and response.is_sequence:
+        cookie_value = flask.request.cookies.get("utms")
+
+        if cookie_value:
+            data = response.get_data(as_text=True)
+            # Find all href attributes pointing to ubuntu.com
+            pattern = r'href=["\']([^"\']*ubuntu\.com[^"\']*)["\']'
+
+            def add_cookie_to_url(match):
+                url = match.group(1)
+                separator = "&" if "?" in url else "?"
+                new_url = f"{url}{separator}{cookie_value}"
+                return f'href="{new_url}"'
+
+            data = re.sub(pattern, add_cookie_to_url, data)
+            response.set_data(data)
+
+    return response
