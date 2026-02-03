@@ -560,6 +560,7 @@ def job_details(session, greenhouse, harvest, job_id):
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
         context["job"]["is_remote"] = is_remote(context["job"])
+        context["job"]["unlisted"] = job_post.unlisted
 
     except HTTPError as error:
         if error.response.status_code == 404:
