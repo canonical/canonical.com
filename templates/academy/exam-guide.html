@@ -969,27 +969,6 @@ body_class %}
 </section>
 
 <script>
-  const anchorTags = document.querySelectorAll(".custom-link");
-  anchorTags.forEach((anchor) => {
-    anchor.removeAttribute("onclick");
-    anchor.addEventListener("click", function (event) {
-      event.preventDefault();
-      const targetId = this.getAttribute("href").substring(1);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        const navbarHeight = 60;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition =
-          elementPosition + window.pageYOffset - navbarHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      }
-    });
-  });
-
   /**
     Toggles the necessary aria- attributes' values on the accordion panels
     and handles to show or hide them.
