@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": { "const": "hero" },
+    "data": {
+      "type": "object",
+      "required": ["title_text", "layout", "blocks"],
+      "properties": {
+        "title_text": { "type": "string" },
+        "subtitle_text": { "type": "string" },
+        "layout": {
+          "enum": [
+            "50/50",
+            "50/50-full-width-image",
+            "25/75",
+            "75/25",
+            "fallback"
+          ]
+        },
+        "is_split_on_medium": { "type": "boolean" },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/descriptionBlock" },
+              { "$ref": "#/definitions/ctaBlock" },
+              { "$ref": "#/definitions/imageBlock" },
+              { "$ref": "#/definitions/signpostBlock" }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "descriptionBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "description" },
+        "padding": { "type": "string" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["text", "html"] },
+            "content": { "type": "string" }
+          }
+        }
+      }
+    },
+    "ctaBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "cta-block" },
+        "padding": { "type": "string" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "primary": { "$ref": "#/definitions/linkObject" },
+            "link": { "$ref": "#/definitions/linkObject" }
+          }
+        }
+      }
+    },
+    "imageBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "image" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "aspect_ratio": { "type": "string" },
+            "is_highlighted": { "type": "boolean" },
+            "is_cover": { "type": "boolean" },
+            "attrs": { "$ref": "#/definitions/imageAttrs" }
+          }
+        }
+      }
+    },
+    "signpostBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "signpost_image" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "is_highlighted": { "type": "boolean" },
+            "attrs": { "$ref": "#/definitions/imageAttrs" }
+          }
+        }
+      }
+    },
+    "linkObject": {
+      "type": "object",
+      "properties": {
+        "content_html": { "type": "string" },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string" }
+          }
+        }
+      }
+    },
+    "imageAttrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": "string", "format": "uri" },
+        "alt": { "type": "string" }
+      }
+    }
+  }
+}
