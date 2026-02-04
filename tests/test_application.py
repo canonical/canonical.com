@@ -18,6 +18,7 @@ from webapp.application import (
     _sort_stages_by_milestone,
     _submitted_email_match,
     application_withdrawal,
+    job_location_countries,
 )
 from webapp.greenhouse import Harvest
 from webapp.utils.cipher import Cipher, InvalidToken
@@ -45,7 +46,13 @@ class TestApplicationPageHelpers(VCRTestCase):
         This removes the authorization header
         from VCR so we don't record auth parameters
         """
-        return {"filter_headers": ["Authorization"]}
+        return {
+            "filter_headers": ["Authorization"],
+            # Our cassettes include gzip-compressed response bodies.
+            # Enable transparent decoding during playback so callers can
+            # safely call `response.json()`.
+            "decode_compressed_response": True,
+        }
 
     def setUp(self):
         """
@@ -671,6 +678,46 @@ class TestConfirmationToken(unittest.TestCase):
         )
         mock_cipher.encrypt.assert_called_once_with(expected_payload)
         self.assertEqual(token, "encrypted-token")
+
+
+class TestJobLocationCountries(unittest.TestCase):
+    def setUp(self):
+        self.patcher = patch(
+            "webapp.application.REGION_COUNTRIES",
+            {
+                "emea": ["France", "Germany"],
+                "apac": ["Japan"],
+            },
+        )
+        self.mock_regions = self.patcher.start()
+
+    def tearDown(self):
+        self.patcher.stop()
+
+    def test_returns_empty_for_non_remote_role(self):
+        result = job_location_countries("Office Based - London, UK")
+        self.assertEqual(result, [])
+
+    def test_returns_countries_for_matching_region(self):
+        result = job_location_countries("Home Based - EMEA")
+        self.assertEqual(
+            result,
+            [
+                {"@type": "Country", "name": "France"},
+                {"@type": "Country", "name": "Germany"},
+            ],
+        )
+
+    def test_worldwide_returns_all_regions(self):
+        result = job_location_countries("Home based - Worldwide")
+        self.assertEqual(
+            result,
+            [
+                {"@type": "Country", "name": "France"},
+                {"@type": "Country", "name": "Germany"},
+                {"@type": "Country", "name": "Japan"},
+            ],
+        )
 
 
 if __name__ == "__main__":

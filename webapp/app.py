@@ -22,8 +22,10 @@ import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
 import yaml
+import sentry_sdk
 
 # Packages
+from sentry_sdk.integrations.flask import FlaskIntegration
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.discourse import (
@@ -41,6 +43,7 @@ from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
+from werkzeug.exceptions import HTTPException
 from slugify import slugify
 
 # Local
@@ -259,9 +262,39 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
     return all_departments, departments_overview
 
 
-sentry = app.extensions["sentry"]
+# Sentry setup
+sentry_dsn = get_flask_env("SENTRY_DSN")
+environment = get_flask_env("FLASK_ENV", "production")
 
-init_handlers(app, sentry)
+
+def sentry_before_send(event, hint):
+    """
+    Filter Sentry events.
+    Excludes all 4xx errors.
+    """
+    if "exc_info" in hint:
+        _, exc_value, _ = hint["exc_info"]
+        # Check if the exception is an HTTPException
+        # (which includes 4xx errors)
+        if (
+            isinstance(exc_value, HTTPException)
+            and 400 <= exc_value.code < 500
+        ):
+            # return None to discard the event
+            return None
+    return event
+
+
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        send_default_pii=True,
+        environment=environment,
+        integrations=[FlaskIntegration()],
+        before_send=sentry_before_send,
+    )
+
+init_handlers(app)
 
 
 @app.route("/")
@@ -395,6 +428,8 @@ def get_latest_versions():
         juju_json_response = juju_response.json()
         juju_versions = []
         for release in juju_json_response:
+            if release["draft"] or release["prerelease"]:
+                continue
             # get semver
             version = semver.VersionInfo.parse(
                 release["tag_name"].replace("juju-", "").lstrip("v")
@@ -477,6 +512,24 @@ def careers_rss(greenhouse):
     return response
 
 
+def is_remote(job_post):
+    location = job_post.get("location")
+    if location is None:
+        logger.error(f"location is None for job_post_id={job_post.get('id')}")
+        return True
+    location_name = location.get("name")
+    if location_name is None:
+        logger.error(
+            f"location_name is None for job_post_id={job_post.get('id')}"
+        )
+        return True
+    location_name = location_name.lower()
+    if "home based" in location_name:
+        return True
+
+    return False
+
+
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
     methods=["GET", "POST"],
@@ -506,7 +559,7 @@ def job_details(session, greenhouse, harvest, job_id):
         context["job"] = harvest.get_job_post(job_id)
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
-        context["job"]["is_remote"] = job_post.is_remote
+        context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
         if error.response.status_code == 404:
@@ -1181,30 +1234,6 @@ app.add_url_rule(
     ),
 )
 data_mongodb_k8s_docs.init_app(app)
-
-# Data Platform OpenSearch on IaaS docs
-data_opensearch_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9729,
-        url_prefix="/data/docs/opensearch/iaas",
-    ),
-    document_template="/data/docs/opensearch/iaas/document.html",
-    url_prefix="/data/docs/opensearch/iaas",
-    blueprint_name="data-docs-opensearch-iaas",
-)
-app.add_url_rule(
-    "/data/docs/opensearch/iaas/search",
-    "data-docs-opensearch-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/opensearch/iaas",
-        template_path="/data/docs/opensearch/iaas/search-results.html",
-    ),
-)
-data_opensearch_iaas_docs.init_app(app)
-
 
 # Data Platform index docs
 data_docs = Docs(
@@ -1884,3 +1913,12 @@ if get_flask_env("DEBUG") or app.debug:
         Expose all routes under templates/tests if in development/testing mode.
         """
         return flask.render_template(f"tests/{subpath}.html")
+
+
+if environment != "production":
+
+    @app.route("/sentry-debug")
+    def trigger_error():
+        """Endpoint to trigger a Sentry error for testing purposes."""
+        1 / 0
+        return "This won't be reached"

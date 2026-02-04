@@ -855,6 +855,22 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   max-width: none;
 }
 
+// Styling to display a success message when forms are successfully submitted.
+.p-popup-notification {
+  display: none;
+  position: relative;
+  padding-bottom: 0;
+  
+  .p-notification__content {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.p-popup-notification:target {
+  display: block;
+  z-index: 9;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 4rem;
@@ -993,14 +1009,37 @@ html {
   margin-top: 0;
 }
 
-// This override can be removed once the following PR has been released
-// https: //github.com/canonical/vanilla-framework/pull/5668
-.row > .col-6 {
-  & .p-equal-height-row,
-  & .p-equal-height-row--wrap {
-    @media screen and (width >= $breakpoint-large) {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
+body:not(.js-enabled) {
+  .scroll-section__contentArea {
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .scroll-section__content {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    opacity: 1;
+    height: auto;
+    transform: none;
+    pointer-events: auto;
+    transition: none;
+    z-index: auto;
+  }
+
+  .scroll-section__content.active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    z-index: auto;
+  }
+
+  .scroll-section__content.slide-out-up {
+    transform: none;
+    opacity: 1;
+    z-index: auto;
   }
 }
 

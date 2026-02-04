@@ -1,11 +1,17 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
 {% block title %}Full-stack AI infrastructure{% endblock %}
 
 {% block meta_description %}
-  Fast-track your AI journey with a proven and supported open source
+  Fast-track your AI projects with a proven and supported open source
   AI infrastructure stack. Start quickly in the public cloud, then run
-  your models at scale in the data centre and at the edge.
+  your models at scale in your private infrastructure and at the edge.
 {% endblock meta_description %}
 
 {% block meta_copydoc %}
@@ -17,29 +23,24 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-strip is-shallow u-no-padding--bottom">
-    <div class="p-section">
-      <div class="row">
-        <div class="col-start-large-4 col-9">
-          <div class="p-section--shallow">
-            <h1 class="u-no-margin--bottom">Your full stack for AI infrastructure at scale</h1>
-          </div>
-          <div class="p-section--shallow">
-            <p>
-              We make AI infrastructure easy so you can focus on your models. Get all the infrastructure components you need for AI, from the operating system to the MLOps platform and all the way to the secure edge.
-            </p>
-          </div>
-          <hr class="p-rule--muted u-hide--small u-hide--medium" />
-          <a class="p-button--positive js-invoke-modal"
-             href="/contact-us"
-             aria-controls="ai-infrastructure-modal">Contact Canonical</a>
-        </div>
-      </div>
-      <div class="p-suru"></div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Build your AI infrastructure for scale',
+    layout='50/50',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        From silicon to software. From development to production. Get all the open source components you need to build your AI infrastructure. Go to market quickly with an integrated end-to-end stack and start extracting value from your data at scale.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive js-invoke-modal"
+         href="/contact-us"
+         aria-controls="ai-infrastructure-modal">Get in touch</a>
+    {%- endif -%}
+  {%- endcall -%}
 
-  <section class="p-section">
+  <section class="p-section--shallow">
     <div class="row--50-50">
       <hr class="p-rule" />
       <div class="col">
@@ -51,217 +52,24 @@
       </div>
       <div class="col">
         <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Stable and supported end-to-end stack optimised for AI performance</li>
-          <li class="p-list__item is-ticked">Control your TCO with predictable pricing per node</li>
-          <li class="p-list__item is-ticked">Design and deploy your AI infrastructure with expert guidance</li>
-          <li class="p-list__item is-ticked">Fast-track compliance with security across all layers of the stack</li>
+          <li class="p-list__item is-ticked">Deep hardware enablement optimized for AI performance</li>
+          <li class="p-list__item is-ticked">Cost-effective model with one subscription for the entire stack</li>
+          <li class="p-list__item is-ticked">
+            Run your workloads anywhere – on premises, in public clouds, or hybrid environments
+          </li>
+          <li class="p-list__item is-ticked">100% open source with enterprise support</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="p-section--shallow">
-      <div class="row--50-50">
-        <hr class="p-rule" />
-        <div class="col">
-          <h2>Deploy on any platform, scale with a hybrid cloud strategy</h2>
-        </div>
-        <div class="col">
-          <p>
-            Choose the ideal AI infrastructure for your use cases &mdash; for instance, start quickly with no risk and low investment on public clouds, then move workloads to your own data centre as you scale.
-          </p>
-          <p class="p-section--shallow">
-            With Canonical’s solutions, you can run your workloads anywhere, including hybrid and multi-cloud environments.
-          </p>
-          <hr class="p-rule--muted" />
-          <a href="https://ubuntu.com/engage/hybrid-cloud-strategy-playbook">Download our hybrid cloud strategy playbook&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="p-section--shallow">
-      <div class="row--50-50">
-        <hr class="p-rule" />
-        <div class="col">
-          <h2>Deploy machine learning models to the edge</h2>
-        </div>
-        <div class="col">
-          <p>
-            Unlock real-time data processing in distributed environments by deploying machine learning models to your edge devices.
-          </p>
-          <p class="p-section--shallow">Canonical infrastructure spans the entire AI journey, from the desktop to the edge.</p>
-          <hr class="p-rule--muted" />
-          <a href="https://ubuntu.com/engage/guide-to-deploying-ai-at-the-edge">Access our guide to open source edge AI&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="p-section--shallow">
-      <div class="row--50-50">
-        <hr class="p-rule" />
-        <div class="col">
-          <h2>
-            Stay in control
-            <br />
-            of AI infrastructure costs
-          </h2>
-        </div>
-        <div class="col">
-          <p>
-            Data volumes involved in AI projects can scale rapidly, making public cloud prohibitively costly. If operated efficiently, a private cloud is more cost-effective for running workloads long-term and at scale.
-          </p>
-          <p class="p-section--shallow">
-            Build your private cloud with our AI infrastructure solutions and enjoy predictable pricing per node with no licence fees.
-          </p>
-          <hr class="p-rule--muted" />
-          <a href="https://ubuntu.com/engage/cloud-pricing-report">Check out our cloud pricing report&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <h2 class="p-text--small-caps">What customers say</h2>
-    </div>
+  <section class="p-section u-padding-bottom--64">
     <div class="row">
-      <hr class="p-rule" />
-      <div class="col-3 col-medium-2 p-image-wrapper p-section">
-        {{ image(url="https://assets.ubuntu.com/v1/5dacced3-firmus-logo.png",
-                alt="Firmus",
-                width="200",
-                height="45",
-                hi_def=True,
-                loading="lazy") | safe
-        }}
-      </div>
-      <div class="col-6 col-medium-4">
-        <blockquote class="p-pull-quote u-no-margin u-no-padding">
-          <div class="p-section--shallow">
-            <p class="p-heading--4">
-              <i>“The level of engagement from the Canonical team was remarkable. Even before we entered into a commercial agreement, Canonical offered valuable advice around
-              OEMs and hardware choices. They were dedicated to our project from the get-go.” </i>
-            </p>
-          </div>
-          <hr class="p-rule--muted" />
-          <cite class="p-section--shallow">
-            <span class="p-heading--5">Tim Rosenfield</span>
-            <span class="u-float-right u-text--muted">CEO and Co-Founder, Firmus</span>
-          </cite>
-          <a class="col-8 col-medium-2"
-             href="https://ubuntu.com/engage/kubernetes-openstack-case-study-firmus">Download the full case study&nbsp;&rsaquo;</a>
-        </blockquote>
-      </div>
-      <div class="p-section col-3 col-medium-4 col-start-medium-3">
-        <div class=" u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  src="https://www.youtube.com/embed/4788ZhDqLa4?si=HKuwLsSZXL5z77Sd"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen></iframe>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>The #1 Linux in the cloud</h2>
-      </div>
-      <div class="col">
-        <p>
-          Thanks to its security, versatility and policy of regular updates, Ubuntu is the most popular operating system across public clouds. And the best part is: it's free. You pay only for the commercial support you need.
-        </p>
-        <p class="p-section--shallow">Get started easily on your cloud of choice with optimised and certified images.</p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/cloud/public-cloud">Learn more about Ubuntu on public cloud&nbsp;&rsaquo;</a>
-        </p>
-        <div class="u-fixed-width">
-          <div class="p-logo-section">
-            <div class="p-logo-section__items">
-              <div class="p-logo-section__item" style="margin-right: 2rem;">
-                {{ image(url="https://assets.ubuntu.com/v1/55c9da63-aws-logo.png",
-                                alt="AWS",
-                                width="50",
-                                height="104",
-                                hi_def=True,
-                                loading="lazy") | safe
-                }}
-              </div>
-              <div class="p-logo-section__item" style="margin-right: 2rem;">
-                {{ image(url="https://assets.ubuntu.com/v1/6243ef72-microsoft-azure-logo.png",
-                                alt="Microsoft Azure",
-                                width="90",
-                                height="104",
-                                hi_def=True,
-                                loading="lazy") | safe
-                }}
-              </div>
-              <div class="p-logo-section__item" style="margin-right: 2rem;">
-                {{ image(url="https://assets.ubuntu.com/v1/08e30ad0-google-cloud-logo.png",
-                                alt="Google Cloud",
-                                width="161",
-                                height="104",
-                                hi_def=True,
-                                loading="lazy") | safe
-                }}
-              </div>
-              <div class="p-logo-section__item" style="margin-right: 2rem;">
-                {{ image(url="https://assets.ubuntu.com/v1/c8792945-ibm-logo.png",
-                                alt="IBM",
-                                width="50",
-                                height="104",
-                                hi_def=True,
-                                loading="lazy") | safe
-                }}
-              </div>
-              <div class="p-logo-section__item" style="margin-right: 2rem;">
-                {{ image(url="https://assets.ubuntu.com/v1/5b105a01-oracle-new-logo.png",
-                                alt="Oracle",
-                                width="80",
-                                height="104",
-                                hi_def=True,
-                                loading="lazy") | safe
-                }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Accelerate innovation with certified hardware</h2>
-      </div>
-      <div class="col">
-        <p>
-          Get peace of mind with Ubuntu certified hardware from all major OEMs. Choosing validated platforms significantly reduces deployment time and costs for end-customers, in addition to improving reliability and providing bug-fixes faster.
-        </p>
-        <p class="p-section--shallow">
-          For example, combined with NVIDIA DGX systems or NVIDIA-Certified systems, choosing an Ubuntu-certified platform provides secure, performant hardware that is guaranteed to deploy quickly and run smoothly.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/certified">Explore certified hardware&nbsp;&rsaquo;</a>
-        </p>
-        {{ image(url="https://assets.ubuntu.com/v1/e301f02e-Canonical%20+%20nvidia.png",
-                alt="Canonical and NVIDIA logos",
-                width="554",
-                height="172",
+      <div class="col-12 u-hide--small u-hide--medium">
+        {{ image(url="https://assets.ubuntu.com/v1/5e0d19f2-ai_infra_diagram_3.png",
+                alt="Technology stack diagram depicting full-stack AI infrastructure starting with silicon partners Intel, NVIDIA, AMD, MediaTek, Arm, Qualcomm, and Ampere. Above this, Canonical MAAS handles hardware automation and Canonical Ubuntu serves as the operating system. The infrastructure management layer displays Canonical OpenStack, Kubernetes, Landscape, and MicroCloud. Data solutions include PostgreSQL, Cassandra, Apache Spark, etcd, MySQL, MongoDB, Redis, Kafka, Ceph, OpenSearch, and Valkey. The top AI/ML layer features Kubeflow, MLflow, Feast, and vLLM",
+                width="3696",
+                height="2016",
                 hi_def=True,
                 loading="lazy") | safe
         }}
@@ -269,194 +77,434 @@
     </div>
   </section>
 
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Full-stack AI infrastructure</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Hardware automation</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Automate the provisioning and management of your data center hardware, including the GPUs, SmartNICs, and DPUs you need to drive your AI workloads.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Operating system</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Ubuntu is the operating system of choice for AI. Get access to the broadest ecosystem of machine learning tools and libraries, and diversify your silicon supply chain for resiliency with an OS optimized for all the leading architectures.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Infrastructure management</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Build your cloud, modernize your workloads for AI, manage your entire Ubuntu estate. Enjoy bottom-up infrastructure automation so you can focus on your business.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Data solutions</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        There's no AI without data. Canonical delivers a comprehensive portfolio of integrated open source solutions for database management, data processing, search, and caching.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">MLOps</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Our modular MLOps platform equips you with everything you need to bring your models all the way from experimentation to production.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+    "text": "Optimized for leading silicons",
+    },
+    blocks=[
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    {
+    "src": "https://assets.ubuntu.com/v1/bfc18c93-nvidia_logo.png",
+    "alt": "Nvidia"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/bce3b841-amd_logo.png",
+    "alt": "AMD"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/201c84e3-intel_new_logo.png",
+    "alt": "Intel"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/2311cd1a-qualcomm_logo.png",
+    "alt": "Qualcomm"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/bdf87524-mediatek_logo.png",
+    "alt": "Mediatek"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/3fbd9a65-arm_logo.png",
+    "alt": "ARM"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/1e07a4e1-ampere_logo.png",
+    "alt": "Ampere"
+    },
+    ]
+    }
+    }
+    ]
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Solve the challenge of silicon enablement with AI infrastructure solutions that run optimally across all major architectures.
+      </p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+    "text": "Tested and certified with the world's largest hardware vendors",
+    },
+    blocks=[
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    {"src": "https://assets.ubuntu.com/v1/3ba0891e-dell_logo.png", "alt": "Dell"},
+    {"src": "https://assets.ubuntu.com/v1/d333a5a9-hp_enterprise_logo.png", "alt": "HPE"},
+    {"src": "https://assets.ubuntu.com/v1/fe23c2e5-huawei_logo.png", "alt": "Huawei"},
+    {"src": "https://assets.ubuntu.com/v1/7e02dc6b-ibm_logo_1.png", "alt": "IBM"},
+    {"src": "https://assets.ubuntu.com/v1/72e55986-lenovo_logo.png", "alt": "Lenovo"},
+    {"src": "https://assets.ubuntu.com/v1/f3396b77-Supermicro-logo.png", "alt": "Supermicro"}
+    ]
+    }
+    }
+    ]
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>Accelerate time-to-value with validated hardware.</p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "Private, public, sovereign, or hybrid"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      Choose the ideal AI infrastructure for your use cases. For instance, start quickly with no risk and low investment on public clouds, then migrate your workloads to your private cloud as you scale.
+    </p>
+    <p>
+      With Canonical's solutions, you can run your workloads anywhere, including sovereign, hybrid, and multi-cloud environments.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Build your cloud &nbsp;&rsaquo;",
+    "attrs": {
+    "href": "/solutions/infrastructure"
+    }
+    }
+    }
+    }
+    ]) }}
+
+  {% call(slot) vf_logo_section(
+    title={
+    "text": "Trusted across clouds",
+    },
+    blocks=[
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    {"src": "https://assets.ubuntu.com/v1/7dc7cee1-aws_logo.png", "alt": "AWS"},
+    {"src": "https://assets.ubuntu.com/v1/f53b5c3a-microsoft_azure_logo.png", "alt": "Azure"},
+    {"src": "https://assets.ubuntu.com/v1/8d5a29d2-google-cloud-logo.png", "alt": "Google Cloud"},
+    {"src": "https://assets.ubuntu.com/v1/7e02dc6b-ibm_logo_1.png", "alt": "IBM"},
+    {"src": "https://assets.ubuntu.com/v1/4f887a5b-oracle_cloud_logo.png", "alt": "Oracle"}
+    ]
+    }
+    }
+    ]
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>Get started easily on your cloud of choice with optimized and certified Ubuntu images.</p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "Kubernetes optimized for AI"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      Doing more with AI means modernizing your workloads. Modernized workloads mean containerization – and containers need Kubernetes.
+    </p>
+    <p>
+      Canonical Kubernetes is optimized to enhance AI/ML performance, incorporating features that amplify processing power and reduce latency, developed and integrated in a tight collaboration with NVIDIA.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Download the solution brief: <br /> Kubernetes by Canonical delivered on NVIDIA DGX systems&nbsp;&rsaquo;" ,
+    "attrs": {
+    "href": "https://ubuntu.com/engage/kubernetes-by-canonical-delivered-on-nvidia-dgx-systems"
+    }
+    }
+    }
+    }
+    ]) }}
+
+  {{ vf_tab_section(title={
+    "text": "AI infrastructure in the real world, powered by Canonical"
+    },
+    tabs=[
+    {
+    "tab_html": "Space exploration",
+    "type": "basic-section",
+    "item": {
+    "items": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <div class="p-strip">
+      '
+      +
+      image(url="https://assets.ubuntu.com/v1/bd2e66a5-esa_logo.png",
+      alt="ESA",
+      width="104",
+      height="104",
+      hi_def=True,
+      loading="lazy") 
+    +
+    '
   </div>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a href="https://ubuntu.com/engage/guide-to-managed-ai-infrastructure">Read the executive’s guide to managed AI infrastructure&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Kubernetes optimised for AI</h2>
-      </div>
-      <div class="col">
-        <p>
-          Kubernetes plays a pivotal role in orchestrating AI applications. Canonical delivers easy-to-use, CNCF conformant Kubernetes distributions for hybrid and multi-cloud operations.
-        </p>
-        <p class="p-section--shallow">
-          Canonical Kubernetes is optimised to enhance AI/ML performance, incorporating features that amplify processing power and reduce latency developed and integrated in a tight collaboration with NVIDIA. For instance, you can optimise hardware utilisation through NVIDIA operators and the Volcano scheduler.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/engage/kubernetes-by-canonical-delivered-on-nvidia-dgx-systems">Download the solution brief:
-            <br />
-          Kubernetes by Canonical delivered on NVIDIA DGX systems&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          From experimentation to production with a modular
-          <br />
-          MLOps platform
-        </h2>
-      </div>
-      <div class="col">
-        <p>
-          Machine learning operations (MLOps) is like DevOps for machine learning. It is a set of practices that automates machine learning workflows, ensuring scalability, portability and reproducibility.
-        </p>
-        <p class="p-section--shallow">
-          Our modular MLOps platform equips you with everything you need to bring your models all the way from experimentation to production. With easy access to key tools, you can move quickly and at scale.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="/mlops">Discover our MLOps platform&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
+  <h3>Lowering the cost and complexity of critical space missions</h3>
+  <blockquote class="p-pull-quote--small">
+    <p>
+      We wanted one partner for the whole on-premise cloud because we’re not just supporting Kubernetes but also our Ceph clusters, managed Postgres, Kafka, and AI tools such as Kubeflow and Spark. These were all the services that were needed and with this we could have one nice, easy joined-up approach.
+    </p>
+    <cite class="p-pull-quote__citation">Michael Hawkshaw, IT Service Manager, European Space Agency</cite>
+  </blockquote>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="/case-study/esa"
+       aria-label="Get the full case study">Get the full case study</a>
   </div>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a href="https://ubuntu.com/engage/mlops-toolkit">Jumpstart your AI journey, download the MLOps toolkit&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Security across all layers of
-          <br />
-          the stack
-        </h2>
-      </div>
-      <div class="col">
-        <p class="p-section--shallow">
-          Canonical maintains and supports all the open source tooling in your AI infrastructure stack, including Kubernetes and open source cloud management solutions like OpenStack. Fast-track compliance and run AI projects securely with critical CVEs fixed in under 24h on average.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="/solutions/open-source-security">Explore open source security with Canonical&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Confidential AI</h2>
-      </div>
-      <div class="col">
-        <p>
-          Confidential AI on Ubuntu protects data in use at the hardware level. Building on Ubuntu confidential VMs, you can now safeguard your sensitive data and intellectual property with a hardware-rooted execution environment that spans both the CPU and GPU.
-        </p>
-        <p>Ubuntu confidential VMs are available on Azure, Google Cloud and AWS.</p>
-        <p class="p-section--shallow">
-          You can enable confidential computing in the datacenter and at the edge thanks to Ubuntu Intel TDX build, which comes with all the required pieces for both the guest and host.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/confidential-computing/ai">Read more about confidential AI&nbsp;&rsaquo;</a>
-        </p>
-        {{ image(url="https://assets.ubuntu.com/v1/b95f7e9b-Canonical%20+%20intel.png",
-                alt="Canonical and Intel logos",
-                width="483",
-                height="172",
-                hi_def=True,
-                loading="lazy") | safe
-        }}
-      </div>
-    </div>
-  </section>
-
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
+  '
+  }
+  }
+  ]
+  }
+  },
+  {
+  "tab_html": "Financial services",
+  "type": "basic-section",
+  "item": {
+  "items": [
+  {
+  "type": "description",
+  "item": {
+  "type": "html",
+  "content": '
+  <h3>Fortune 500 fintech company goes from constant troubleshooting to scalable machine learning</h3>
+  <blockquote class="p-pull-quote--small">
+    <p>
+      We like the whole integration umbrella that Canonical offers with Canonical Kubeflow. We have easy access to popular ML frameworks like TensorFlow, PyTorch, and XGBoost, as well as the native Kubernetes tools for monitoring and logging. It helps our data scientists quickly build and experiment with their models in an efficient manner.
+    </p>
+    <cite class="p-pull-quote__citation">Senior data scientist, Fortune 500 financial services company</cite>
+  </blockquote>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="/case-study/machine-learning-for-financial-services"
+       aria-label="Get the full case study">Get the full case study</a>
   </div>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a href="/solutions/infrastructure">Build your cloud with Canonical&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
+  '
+  }
+  }
+  ]
+  }
+  },
+  {
+  "tab_html": "Cloud hosting",
+  "type": "basic-section",
+  "item": {
+  "items": [
+  {
+  "type": "description",
+  "item": {
+  "type": "html",
+  "content": ('
+  <div class="p-strip">
+    '
+    +
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Open source AI infrastructure
-          <br />
-          in action
-        </h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item">
-            <a href="https://ubuntu.com/engage/ai-ml-casestudy-tasmania">University of Tasmania unlocks real-time space tracking with AI/ML supercomputing</a>
-            <br />
-            Learn how University of Tasmania is modernising its space-tracking data processing with the Firmus Supercloud, built on Canonical’s open AI infrastructure stack.
-          </li>
-          <li class="p-list__item">
-            <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Machine learning drives down operational costs in media and entertainment industry</a>
-            <br />
-            Discover how a global entertainment technology leader is putting Canonical Managed Kubeflow at the heart of a modernised AI strategy.
-          </li>
-          <li class="p-list__item">
-            <a href="https://ubuntu.com/engage/ai-on-private-cloud">AI on Private Cloud: why is it relevant in the hyperscalers era?</a>
-            <br />
-            Watch the webinar to learn how a private cloud can address critical AI challenges including cost optimisation, digital sovereignty and performance.
-          </li>
-          <li class="p-list__item">
-            <a href="https://ubuntu.com/engage/run-ai-at-scale">Run AI at scale with NVIDIA DGX and Charmed Kubeflow</a>
-            <br />
-            Running AI at scale requires seamlessly integrated application and hardware layers. Read the whitepaper to see how NVIDIA DGX and Charmed Kubeflow can provide an optimised foundation for your AI operations.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    image(url="https://assets.ubuntu.com/v1/42bf0beb-firmus%2520logo.png",
+    alt="Firmus",
+    width="104",
+    height="104",
+    hi_def=True,
+    loading="lazy")
 
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
+    +
+    '
   </div>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a href="/contact-us"
-           class="js-invoke-modal"
-           aria-controls="ai-infrastructure-modal">Send us a message to discuss your AI infrastructure needs&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <h3>Building a sustainable cloud for AI workloads</h3>
+  <blockquote class="p-pull-quote--small">
+    <p>
+      The level of engagement from the Canonical team was remarkable. Even before we entered into a commercial agreement, Canonical offered valuable advice around OEMs and hardware choices. They were dedicated to our project from the get-go.
+    </p>
+    <cite class="p-pull-quote__citation">Tim Rosenfield, CEO and Co-Founder, Firmus</cite>
+  </blockquote>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="https://pages.ubuntu.com/rs/066-EOV-335/images/Firmus+Case+study.pdf"
+       aria-label="Download the full case study">Download the full case study</a>
+  </div>
+  ')
+  }
+  }
+  ]
+  }
+  },
+  {
+  "tab_html": "Media and entertainment",
+  "type": "basic-section",
+  "item": {
+  "items": [
+  {
+  "type": "description",
+  "item": {
+  "type": "html",
+  "content": '
+  <h3>Machine learning drives down operational costs</h3>
+  <blockquote class="p-pull-quote--small">
+    <p>
+      Partnering with Canonical lets us concentrate on our core business. Our data scientists can focus on data manipulation and model training rather than managing infrastructure.
+    </p>
+    <cite class="p-pull-quote__citation">Machine learning engineer, entertainment technology company</cite>
+  </blockquote>
+  <div class="p-cta-block">
+    <a class="p-button"
+       href="https://pages.ubuntu.com/rs/066-EOV-335/images/Canonical%20%7C%20AIML%20Entertainment%20Case%20Study.pdf?version=0"
+       aria-label="Download the full case study">Download the full case study</a>
+  </div>
+  '
+  }
+  }
+  ]
+  }
+  }
+  ]) }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai/infrastructure#contact-form-success" %}
+  {{ vf_basic_section(title={"text": "Cost-effective, security-maintained, and supported"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      Canonical maintains and supports all the open source tooling in your AI infrastructure stack, including Kubernetes and open source cloud management solutions like OpenStack.
+    </p>
+    <p>
+      Enterprise support for the entire stack is available with a transparent subscription, Ubuntu Pro, so you have full control over your TCO.
+    </p>
+    <p>Fast-track compliance and run AI projects securely. Let us handle the CVEs.</p>
+    "
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "link": {
+    "content_html": "Explore Ubuntu Pro&nbsp;&rsaquo;",
+    "attrs": {
+    "href": "/pro"
+    }
+    }
+    }
+    }
+    ]) }}
 
-    {% include "solutions/ai/infrastructure/_form-ai-infrastructure.html" %}
-  {% endwith %}
+  {{ vf_basic_section(title={"text": "Start your journey with a workshop"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>Feeling stuck? Our consulting services and workshop can help you move forward.</p>
+    <p>
+      Our experts will work with you to define an optimal architecture tailored to your existing ecosystem and implement a scalable, resilient infrastructure across any environment – private, public, or hybrid cloud.
+    </p>
+    "
+    }
+    },
+    {
+    "type": "cta-block",
+    "item": {
+    "secondaries": [
+    {
+    "content_html": "Learn more about our workshop",
+    "attrs": {
+    "href": "/mlops/mlops-workshop"
+    }
+    },
+    ],
+    "link": {
+    "content_html": "Contact the team",
+    "attrs": {
+    "href": "/contact-us",
+    "class": "js-invoke-modal",
+    "aria-controls": "ai-infrastructure-modal"
+    }
+    }
+    }
+    }
+    ],
+    attrs={"class": "p-section--deep"}) 
+  }}
 
+  {{ load_form("/solutions/ai/infrastructure") | safe }}
+
+  <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
 {% endblock %}
