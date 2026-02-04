@@ -30,31 +30,43 @@
   {% include '/partial/_breadcrumbs.html' %}
 
   {% call(slot) vf_hero(
-  title_text='ISV Program',
-  subtitle_text='The open source ecosystem you can trust to build your software',
-  layout='50/50-full-width-image',
-  is_split_on_medium=true,
-  ) -%}
-  {%- if slot == 'description' -%}
-  <p>
-    Independent software vendors (ISVs) around the world rely on Canonical's comprehensive open source ecosystem to support their solutions, products, and software. Our ISV partners benefit from trusted open source, with long-term support, security maintenance, and compliance-certified components. Become an ISV partner today, and embed Canonical's software into your products.
-  </p>
-  {%- endif -%}
-  {%- if slot == 'cta' -%}
-  <a href="/partners/become-a-partner" class="p-button--positive">Become a partner</a>
-  {%- endif -%}
-  {%- if slot == 'image' -%}
-  <div class="p-image-container--cinematic is-cover">
-    {{ image(url="https://assets.ubuntu.com/v1/49a7de9e-desktop_work_station_workplace_1.jpg",
-                      alt="",
-                      width="6144",
-                      height="3456",
-                      attrs={"class": "p-image-container__image", "fetchpriority":"high"},
-                      hi_def=True,
-                      loading="auto") | safe
-    }}
-  </div>
-  {% endif -%}
+    title_text='ISV Program',
+    subtitle_text='The open source ecosystem you can trust to build your software',
+    layout='50/50-full-width-image',
+    is_split_on_medium=true,
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Independent software vendors (ISVs) around the world rely on Canonical's comprehensive open source ecosystem to support their solutions, products, and software. Our ISV partners benefit from trusted open source, with long-term support, security maintenance, and compliance-certified components. Become an ISV partner today, and embed Canonical's software into your products."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Become a partner",
+            "attrs": {"href": "/partners/become-a-partner"}
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "cinematic",
+          "is_highlighted": false,
+          "is_cover": true,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/49a7de9e-desktop_work_station_workplace_1.jpg",
+            "alt": ""
+          }
+        }
+      }
+    ]
+    ) -%}
   {% endcall -%}
 
   {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_description_full_width_on_desktop=false) -%}
