@@ -425,13 +425,13 @@ def add_headers(response):
     return response
 
 
-@application.route("/exam-guide")
-def exam_guide():
+@application.route("/faq")
+def faq():
     return flask.render_template(
-        "careers/application/exam-guide.html",
-    )
+        "careers/application/faq.html",
+    ) 
 
-
+    
 @application.route("/")
 def application_access_denied():
     flask.abort(401, "No authentication token provided.")
