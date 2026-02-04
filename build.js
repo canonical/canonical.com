@@ -18,6 +18,7 @@ let entries = {
   "canonical-cla": "./static/js/canonical-cla/app.tsx",
   "table-of-contents": "./static/js/table-of-contents.js",
   "watch-consent-changes": "./static/js/watch-consent-changes.js",
+  "events": "./static/js/events.js"
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";

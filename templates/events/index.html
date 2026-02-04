@@ -1,0 +1,183 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+{% block title %}
+  Canonical Events
+{% endblock title %}
+
+{% block meta_description %}  
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1ynfzGMrXaCjKcQ03umi7iRISEd4C4aXbkwywuG-WYdw/edit?tab=t.nu320wnvfi4q#heading=h.mo74fbjcid34
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-dark
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Find the next big event',
+    subtitle_text='Amplify open source',
+    layout='50/50-full-width-image'
+  ) -%}
+    {%- if slot == 'description' -%}
+    <p>
+      Whether it's in person or virtual, there are always things happening in the Canonical world. 
+      Come make some new friends, share your knowledge, and join the fun.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+    <div class="p-image-container--cinematic is-cover">
+      {{ image(url="https://assets.ubuntu.com/v1/2804e0bd-hero_img_updated.jpg",
+        alt="",
+        width="2462",
+        height="1024",
+        hi_def=True,
+        loading="auto",
+        attrs={"class":"p-image-container__image"}
+        ) | safe
+      }}
+    </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Ubuntu Summit 2026"},
+    items=[
+    {
+      "type": "description",
+      "item": {
+        "type": "text",
+        "content": "A showcase for the innovative and the ambitious. Tune in to our London livestream from the comfort of your home, from an Ubuntu release watch party, or from anywhere else around the world."
+      }
+    },
+    {
+      "type": "cta-block",
+      "item": {
+        "link": {
+          "content_html": "Visit the Ubuntu Summit page&nbsp;&rsaquo;",
+          "attrs": {
+            "href": "https://ubuntu.com/summit"
+          }
+        }
+      }
+    },
+    ])
+  }}
+
+  {{ vf_basic_section(
+    title={"text": "Browse upcoming events"},
+    padding="shallow",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Where in the world can you find Canonical? Everywhere.",
+        }
+      }
+    ],
+    attrs= {"id": "events-table"}
+  ) }}
+
+  <section class="p-section--shallow">
+    {# search form for docs #}
+    <div class="grid-row--50-50">
+      <div class="grid-col">
+        <form class="p-search-box u-no-margin--bottom" action="/events" id="event-search-form">
+        <input class="p-search-box__input" name="q" id="search-input" type="search" {% if query %}value="{{ query }}"{% endif %} placeholder="Search by keyword or location"/>
+        <button type="submit" alt="search" class="p-search-box__button" alt="search"><i class="p-icon--search">Submit</i></button>
+        </form>        
+      </div>
+      <div class="grid-col">
+        <div class="p-cta-block">
+          {% if query %}
+          <a href="/events#events-table" class="p-button">Clear search results</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="p-section--deep">
+    <div class="grid-row">
+      <table class="p-table--mobile-card js-sortable-table"
+              data-heading="Browse upcoming events">
+        <thead>
+          <tr>
+            <th data-column="0" data-type="link">
+              <strong>Event name</strong>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+            </th>
+            <th data-column="1" data-type="string">
+              <strong>Location</strong>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+            </th>
+            <th data-column="2" data-type="string">
+              <strong>Region</strong>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+            </th>
+            <th data-column="3" data-type="date">
+              <strong>Date</strong>
+              <button class="js-table-sort p-icon--sort-both" style="border-style: none;"></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="js-events-truncated">
+          {% set ns = namespace(counter=0) %}
+          {% for data in metadata %}    
+            {% set ns.counter = ns.counter + 1 %}
+            {% if ns.counter <= 5 %}
+              <tr>
+                <td data-heading="Event name">
+                  <a href="{{ data.path }}">{{ data.topic_name }}</a>
+                </td>
+                <td data-heading="Location">
+                  {{ data.event_location or '—' }}
+                </td>
+                <td data-heading="Region">
+                  {{ data.event_region or '—' }}
+                </td>
+                <td data-heading="Date">
+                  {{ data.event_date or '—' }}
+                </td>
+              </tr>
+            {% else %}
+              {% set ns.showmore = True %}
+            {% endif %}
+          {% endfor %}
+        </tbody>
+        <tbody class="js-events-all u-hide">
+          {% for data in metadata %}    
+            <tr>
+              <td data-heading="Event name">
+                <a href="{{ data.path }}">{{ data.topic_name }}</a>
+              </td>
+              <td data-heading="Location">
+                {{ data.event_location or '—' }}
+              </td>
+              <td data-heading="Region">
+                {{ data.event_region or '—' }}
+              </td>
+              <td data-heading="Date">
+                {{ data.event_date or '—' }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if metadata | length > 5 %}
+      <div>
+        <button class="p-button js-toggle-show-events">Show all events</button>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <script src="/static/js/dist/events.js"></script>
+{% endblock content %}
