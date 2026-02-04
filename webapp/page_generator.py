@@ -4,6 +4,7 @@ import subprocess
 from flask import current_app
 from abc import ABC, abstractmethod
 from typing import List, Optional, Protocol
+from jsonschema import validate, ValidationError
 
 
 class FileWriter(Protocol):
@@ -181,6 +182,12 @@ class PageGenerator:
         # Create patterns
         self._create_patterns()
 
+        # validate patterns payload
+        for pattern in self.patterns:
+            is_valid, error_msg = pattern.validate_payload()
+            if not is_valid:
+                raise ValueError(f"Pattern validation failed: {error_msg}")
+
         # Build HTML
         html_parts = [
             self.html_builder.init_html(),
@@ -280,6 +287,25 @@ class HeroSection(Pattern):
 
     def write_import(self):
         return '{% from "_macros/vf_hero.jinja" import vf_hero %}'
+
+    def validate_payload(self):
+        # load json schema for hero
+        with open(
+            Path(current_app.root_path).resolve().parent
+            / "static/json/page-generator/schemas/hero.json",
+            "r",
+        ) as f:
+            HERO_SCHEMA = json.load(f)
+
+        try:
+            # This matches the payload against your schema including definitions
+            print(f"Validating HeroSection with data: {self.data}")
+            validate(instance=self.data, schema=HERO_SCHEMA)
+            return True, None
+        except ValidationError as e:
+            # Returns a readable error message and the path to the failing field
+            error_path = " -> ".join([str(p) for p in e.path])
+            return False, f"Validation Error at [{error_path}]: {e.message}"
 
 
 class BasicSection(Pattern):
