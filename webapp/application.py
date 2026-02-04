@@ -429,9 +429,9 @@ def add_headers(response):
 def faq():
     return flask.render_template(
         "careers/application/faq.html",
-    ) 
+    )
 
-    
+
 @application.route("/")
 def application_access_denied():
     flask.abort(401, "No authentication token provided.")
