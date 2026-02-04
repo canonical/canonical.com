@@ -43,6 +43,7 @@ from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import ConnectionError, HTTPError, RetryError
+from webapp.page_generator import create_page_generator
 from werkzeug.exceptions import HTTPException
 from urllib3.exceptions import MaxRetryError
 from slugify import slugify
@@ -1829,3 +1830,14 @@ if environment != "production":
 @app.after_request
 def check_redirect(response):
     return append_utms_cookie_to_ubuntu_links(response)
+
+
+# TODO(WD-32786) - create a POST endpoint that accepts a form payload, and generates webpage
+@app.route("/create-page")
+def generator():
+    with open("webapp/page_generator/examples/hero.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    page = create_page_generator(data)
+    page_path = page.generate()
+    return flask.redirect(str(page_path))
