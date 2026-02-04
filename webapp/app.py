@@ -5,7 +5,6 @@ import gzip
 import hashlib
 import json
 import logging
-import math
 import os
 import re
 from http.client import responses
@@ -43,10 +42,16 @@ from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
+from werkzeug.exceptions import HTTPException
 from slugify import slugify
 
 # Local
-from webapp.views import json_asset_query
+from webapp.views import (
+    json_asset_query,
+    build_case_study_index,
+    build_events_index,
+    build_canonical_days_index,
+)
 from webapp.application import application
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
@@ -265,12 +270,32 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
 sentry_dsn = get_flask_env("SENTRY_DSN")
 environment = get_flask_env("FLASK_ENV", "production")
 
+
+def sentry_before_send(event, hint):
+    """
+    Filter Sentry events.
+    Excludes all 4xx errors.
+    """
+    if "exc_info" in hint:
+        _, exc_value, _ = hint["exc_info"]
+        # Check if the exception is an HTTPException
+        # (which includes 4xx errors)
+        if (
+            isinstance(exc_value, HTTPException)
+            and 400 <= exc_value.code < 500
+        ):
+            # return None to discard the event
+            return None
+    return event
+
+
 if sentry_dsn:
     sentry_sdk.init(
         dsn=sentry_dsn,
         send_default_pii=True,
         environment=environment,
         integrations=[FlaskIntegration()],
+        before_send=sentry_before_send,
     )
 
 init_handlers(app)
@@ -1214,30 +1239,6 @@ app.add_url_rule(
 )
 data_mongodb_k8s_docs.init_app(app)
 
-# Data Platform OpenSearch on IaaS docs
-data_opensearch_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9729,
-        url_prefix="/data/docs/opensearch/iaas",
-    ),
-    document_template="/data/docs/opensearch/iaas/document.html",
-    url_prefix="/data/docs/opensearch/iaas",
-    blueprint_name="data-docs-opensearch-iaas",
-)
-app.add_url_rule(
-    "/data/docs/opensearch/iaas/search",
-    "data-docs-opensearch-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/opensearch/iaas",
-        template_path="/data/docs/opensearch/iaas/search-results.html",
-    ),
-)
-data_opensearch_iaas_docs.init_app(app)
-
-
 # Data Platform index docs
 data_docs = Docs(
     parser=DocParser(
@@ -1587,66 +1588,6 @@ def no_cache(response):
     return response
 
 
-def build_case_study_index(engage_docs):
-    def case_study_index():
-        page = flask.request.args.get("page", default=1, type=int)
-        preview = flask.request.args.get("preview")
-        language = flask.request.args.get("language", default=None, type=str)
-        tag = flask.request.args.get("tag", default=None, type=str)
-        limit = 21
-        offset = (page - 1) * limit
-
-        if tag or language:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit,
-                offset,
-                tag_value=tag,
-                key="type",
-                value="case study",
-                second_key="language",
-                second_value=language,
-            )
-        else:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit, offset, key="type", value="case study"
-            )
-        total_pages = math.ceil(current_total / limit)
-
-        for case_study in metadata:
-            path = case_study["path"]
-            if path.startswith("/engage"):
-                case_study["path"] = "https://ubuntu.com" + path
-
-        tags = engage_docs.get_engage_pages_tags()
-        # strip whitespace, remove dupes and order alphabetically
-        processed_tags = sorted({tag.strip() for tag in tags if tag.strip()})
-
-        return flask.render_template(
-            "case-study/index.html",
-            forum_url=engage_docs.api.base_url,
-            metadata=metadata,
-            page=page,
-            preview=preview,
-            language=language,
-            posts_per_page=limit,
-            total_pages=total_pages,
-            current_page=page,
-            tags=processed_tags,
-        )
-
-    return case_study_index
-
-
 # Canonical Academy
 def cred_exam_content(**_):
     exam_name = flask.request.args.get("exam")
@@ -1669,7 +1610,7 @@ app.add_url_rule(
     methods=["GET"],
 )
 
-# Case study
+# Engage pages
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
 DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
 engage_pages_discourse_api = DiscourseAPI(
@@ -1679,16 +1620,26 @@ engage_pages_discourse_api = DiscourseAPI(
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
 )
-case_study_path = "/case-study"
-case_studies = EngagePages(
+engage_pages = EngagePages(
     api=engage_pages_discourse_api,
     category_id=51,
     page_type="engage-pages",
     exclude_topics=[17229, 18033, 17250],
 )
 
+
+case_study_path = "/case-study"
 app.add_url_rule(
-    case_study_path, view_func=build_case_study_index(case_studies)
+    case_study_path, view_func=build_case_study_index(engage_pages)
+)
+
+
+events_path = "/events"
+app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
+
+canonical_days_path = "/events/canonical-days"
+app.add_url_rule(
+    canonical_days_path, view_func=build_canonical_days_index(engage_pages)
 )
 
 # Mir Server

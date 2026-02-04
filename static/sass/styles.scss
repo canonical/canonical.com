@@ -45,6 +45,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
+@include vf-p-icon-sort-both;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
 @include canonical-p-card;
@@ -855,6 +856,22 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   max-width: none;
 }
 
+// Styling to display a success message when forms are successfully submitted.
+.p-popup-notification {
+  display: none;
+  position: relative;
+  padding-bottom: 0;
+  
+  .p-notification__content {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.p-popup-notification:target {
+  display: block;
+  z-index: 9;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 4rem;
@@ -1027,17 +1044,6 @@ body:not(.js-enabled) {
   }
 }
 
-// This override can be removed once the following PR has been released
-// https: //github.com/canonical/vanilla-framework/pull/5668
-.row > .col-6 {
-  & .p-equal-height-row,
-  & .p-equal-height-row--wrap {
-    @media screen and (width >= $breakpoint-large) {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-  }
-}
-
 .u-align--cta {
   align-self: center;
   margin-bottom: 1.25rem;
@@ -1096,4 +1102,9 @@ body:not(.js-enabled) {
       white-space: nowrap;
     }
   }
+}
+
+// Events and roadshows
+#browse-events-table tbody tr:last-child {
+  border-bottom: 1px solid $colors--theme--border-low-contrast;
 }
