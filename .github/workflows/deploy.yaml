@@ -94,7 +94,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo snap install juju --channel=3.4/stable --classic
+          sudo snap install juju --channel=3.6/stable --classic
           sudo snap install vault --classic
 
       - name: Download Charm Artifact
@@ -112,10 +112,10 @@ jobs:
           VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id=${TF_VAR_login_approle_role_id} secret_id=${TF_VAR_login_approle_secret_id}) 
           export VAULT_TOKEN
           mkdir -p ~/.local/share/juju
-          vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-35-staging-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
+          vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-36-migration-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
-          printf "controllers:\n  juju-controller-35-staging-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
+          printf "controllers:\n  juju-controller-36-migration-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
 
       - name: Deploy Application to staging
         run: |
