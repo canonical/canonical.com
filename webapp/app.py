@@ -42,6 +42,7 @@ from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import HTTPError
+from webapp.page_generator import create_page_generator
 from werkzeug.exceptions import HTTPException
 from slugify import slugify
 
@@ -1876,3 +1877,20 @@ if environment != "production":
         """Endpoint to trigger a Sentry error for testing purposes."""
         1 / 0
         return "This won't be reached"
+
+
+# TODO(WD-32786) - create a POST endpoint that accepts a form payload
+# and generates webpage
+@app.route("/create-page")
+def generator():
+    with open(
+        Path(app.root_path).resolve().parent
+        / "static/json/page-generator/examples/hero.json",
+        "r",
+        encoding="utf-8",
+    ) as f:
+        data = json.load(f)
+
+    page = create_page_generator(data)
+    page_path = page.generate()
+    return flask.redirect(str(page_path))
