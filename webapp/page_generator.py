@@ -73,7 +73,9 @@ class PatternFactory:
     def register_pattern(self, pattern_type: str, pattern_class: type):
         self._patterns[pattern_type] = pattern_class
 
-    def create(self, pattern_type: str, pattern_data: dict) -> Optional["Pattern"]:
+    def create(
+        self, pattern_type: str, pattern_data: dict
+    ) -> Optional["Pattern"]:
         """Create a pattern instance based on type."""
         pattern_class = self._patterns.get(pattern_type)
         if pattern_class:
@@ -100,9 +102,11 @@ class HTMLContentBuilder:
 
     def add_content_start(self) -> None:
         """Add the content block start."""
-        self.content_parts.append("""
+        self.content_parts.append(
+            """
             {% block content %}
-        """)
+        """
+        )
 
     def add_patterns(self, patterns: List["Pattern"]) -> None:
         """Process patterns and add their HTML."""
@@ -159,7 +163,9 @@ class PageGenerator:
         for pattern in self.data.get("patterns", []):
             pattern_type = pattern.get("name")
             pattern_data = pattern.get("data", {})
-            pattern_instance = self.pattern_factory.create(pattern_type, pattern_data)
+            pattern_instance = self.pattern_factory.create(
+                pattern_type, pattern_data
+            )
             if pattern_instance:
                 self.patterns.append(pattern_instance)
 
@@ -252,7 +258,8 @@ class Pattern(ABC):
 
     @abstractmethod
     def write_import(self):
-        """Return the import statement for this pattern, or None if not needed."""
+        """Return the import statement for this pattern,
+        or None if not needed."""
         pass
 
 
@@ -271,7 +278,8 @@ class HeroSection(Pattern):
                 # Lowercase booleans for Jinja
                 params_list.append(f"{key}={str(value).lower()}")
             else:
-                # For dicts, lists, numbers: convert to JSON so Jinja sees a valid object literal
+                # For dicts, lists, numbers: convert to JSON
+                # so Jinja sees a valid object literal
                 params_list.append(f"{key}={json.dumps(value)}")
 
         # Join all parameters with commas
@@ -298,12 +306,14 @@ class HeroSection(Pattern):
             HERO_SCHEMA = json.load(f)
 
         try:
-            # This matches the payload against your schema including definitions
+            # This matches the payload
+            # against your schema including definitions
             print(f"Validating HeroSection with data: {self.data}")
             validate(instance=self.data, schema=HERO_SCHEMA)
             return True, None
         except ValidationError as e:
-            # Returns a readable error message and the path to the failing field
+            # Returns a readable error message
+            # and the path to the failing field
             error_path = " -> ".join([str(p) for p in e.path])
             return False, f"Validation Error at [{error_path}]: {e.message}"
 

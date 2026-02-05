@@ -1832,7 +1832,8 @@ def check_redirect(response):
     return append_utms_cookie_to_ubuntu_links(response)
 
 
-# TODO(WD-32786) - create a POST endpoint that accepts a form payload, and generates webpage
+# TODO(WD-32786) - create a POST endpoint that accepts a form payload
+# and generates webpage
 @app.route("/create-page")
 def generator():
     with open(
