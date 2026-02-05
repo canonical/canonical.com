@@ -126,7 +126,7 @@ jobs:
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
 
   deploy-production:
-    runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
