@@ -86,7 +86,7 @@ jobs:
         run: skopeo --insecure-policy copy oci-archive:$(ls *.rock) docker://${{ steps.set_image_url.outputs.image_url }} --dest-creds "canonical:${{ secrets.GITHUB_TOKEN }}"
 
   deploy-staging:
-    runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
