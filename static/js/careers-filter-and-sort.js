@@ -3,10 +3,13 @@
   const baseURL = window.location.origin + window.location.pathname;
   const search_input = document.querySelector(".js-careers__search-input");
   const domList = document.querySelector(".js-job-list");
+  /** @type {NodeListOf<HTMLInputElement>} */
   const departmentFilters = document.querySelectorAll(".js-filter");
+  /** @type {NodeListOf<HTMLInputElement>} */
   const locationFilters = document.querySelectorAll(".js-filter--location");
   const noResults = document.querySelector(".js-filter__no-results");
   const jobContainer = document.querySelector(".js-filter-jobs-container");
+  /** @type {HTMLInputElement | null} */
   const searchBox = document.querySelector(".js-careers__search-input");
   const showMoreButton = document.querySelector("#show-20-more");
   const showAllButton = document.querySelector("#show-all");
@@ -139,7 +142,7 @@
 
       if (departmentFilters) {
         departmentFilters.forEach(
-          (el) =>
+          (/** @type {HTMLInputElement} */ el) =>
             (el.onclick = function () {
               filtersListener(el, jobList);
             })
@@ -148,7 +151,7 @@
 
       if (locationFilters) {
         locationFilters.forEach(
-          (el) =>
+          (/** @type {HTMLInputElement} */ el) =>
             (el.onclick = function () {
               filtersListener(el, jobList);
             })
@@ -300,7 +303,9 @@
 
   // handle search input clear, retain existing filters
   search_input.addEventListener("input", (e) => {
-    search_term = e.target.value;
+    /** @type {HTMLInputElement} */
+    const target = e.target;
+    search_term = target.value;
     updateURL();
   });
 

@@ -2,7 +2,7 @@ import { prepareInputFields } from "./prepare-form-inputs";
 
 /**
  *
- * @param {Node} submitButton
+ * @param {HTMLElement} submitButton
  *
  * Attaches a loading spinner to the submit button on
  * form submission
@@ -83,6 +83,7 @@ function toggleCheckboxVisibility(fieldset, checklistItem) {
  * Disables submit button for required checkboxes field
  */
 function requiredCheckbox(fieldset, target) {
+  /** @type {HTMLButtonElement} */
   const submitButton = document.querySelector(".js-submit-button");
   const checkboxes = fieldset.querySelectorAll("input[type='checkbox']");
   if (target.checked) {
@@ -100,7 +101,8 @@ function requiredCheckbox(fieldset, target) {
  * Sets the consent info from the data layer into the consent_info cookie
  */
 function setDataLayerConsentInfo() {
-  const dataLayer = window.dataLayer || [];
+  /** @type {Array} */
+  const dataLayer = (window.dataLayer) || [];
   const latestConsentUpdateElements = dataLayer
     .slice()
     .reverse()
@@ -165,6 +167,7 @@ forms.forEach((form) => {
     toggleCheckboxVisibility(ubuntuVersionCheckboxes, event.target);
   });
 
+  /** @type {HTMLButtonElement} */
   const submitButton = form.querySelector('button[type="submit"]');
   const requiredFieldset = form.querySelectorAll(
     "fieldset.js-required-checkbox"
