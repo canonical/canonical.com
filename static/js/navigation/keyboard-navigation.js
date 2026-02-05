@@ -180,7 +180,7 @@ function handleEscapeKey(e) {
  */
 export function handleSearchKeyboardControls(e) {
   if (e.key === "Escape") {
-    handleEscapeKey();
+    handleEscapeKey(e);
   }
 }
 
