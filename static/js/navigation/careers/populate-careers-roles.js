@@ -2,7 +2,7 @@ import { navigation } from "../elements";
 
 /**
  * Populate available roles for careers roles.
- * @param {String} departments - Array of objects containing department slug and count of roles
+ * @param {Array} departments - Array of objects containing department slug and count of roles
  */
 function updateHtmlWithRoles(departments) {
   departments.forEach((dpt) => {

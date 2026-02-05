@@ -140,13 +140,15 @@
 
   // Add click handler for clicks on elements with aria-controls
   document.addEventListener("click", function (e) {
-    const isModalTrigger = e.target.closest(".js-invoke-modal");
-    const isCloseButton = e.target.closest(".p-modal-close-button");
+    /** @type {HTMLElement} */
+    const target = e.target;
+    const isModalTrigger = target.closest(".js-invoke-modal");
+    const isCloseButton = target.closest(".p-modal-close-button");
     if (isModalTrigger) modalTrigger = isModalTrigger;
     if (isModalTrigger || isCloseButton) {
       e.preventDefault();
 
-      const targetControls = e.target.getAttribute("aria-controls");
+      const targetControls = target.getAttribute("aria-controls");
       const toggleValue = Boolean(isModalTrigger);
       toggleModal(
         document.getElementById(targetControls),
@@ -187,7 +189,9 @@
   modalPaginationButtons.forEach(function (modalPaginationButton) {
     modalPaginationButton.addEventListener("click", function (e) {
       e.preventDefault();
-      const button = e.target.closest("a");
+      /** @type {HTMLElement} */
+      const target = e.target;
+      const button = target.closest("a");
       let index = contactIndex;
       if (button.classList.contains("pagination__link--previous")) {
         index = index - 1;
@@ -241,7 +245,8 @@ function getCustomFields(event) {
     const includeFormField = formField.querySelector(".js-formfield");
     var comma = ",";
     var fieldsetForm = formField.querySelector(".js-formfield-title");
-    var fieldTitle = "";
+    /** @type {HTMLElement | null} */
+    var fieldTitle = null;
     if (fieldsetForm) {
       fieldTitle = fieldsetForm;
     } else {
@@ -249,6 +254,7 @@ function getCustomFields(event) {
         formField.querySelector(".p-heading--5") ??
         formField.querySelector(".p-modal__question-heading");
     }
+    /** @type {NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} */
     var inputs = formField.querySelectorAll(
       "input, textarea:not(.js-other-input), select"
     );
@@ -259,41 +265,49 @@ function getCustomFields(event) {
     inputs.forEach(function (input) {
       switch (input.type) {
         case "select-one":
+          /** @type {HTMLSelectElement} */
+          const selectInput = input;
           message +=
-            input.options[input.selectedIndex]?.textContent + comma + " ";
+            selectInput.options[selectInput.selectedIndex]?.textContent + comma + " ";
           break;
         case "radio":
-          if (input.checked) {
-            message += input.value + comma + " ";
+          /** @type {HTMLInputElement} */
+          const radioInput = input;
+          if (radioInput.checked) {
+            message += radioInput.value + comma + " ";
           }
           break;
         case "checkbox":
-          if (input.checked) {
+          /** @type {HTMLInputElement} */
+          const checkboxInput = input;
+          if (checkboxInput.checked) {
             if (fieldsetForm) {
-              message += input.value + comma + " ";
+              message += checkboxInput.value + comma + " ";
             } else {
               // Forms that have column separation
               var subSectionText = "";
               if (
-                input.closest('[class*="col-"]') &&
-                input
+                checkboxInput.closest('[class*="col-"]') &&
+                checkboxInput
                   .closest('[class*="col-"]')
                   .querySelector(".js-sub-section")
               ) {
-                var subSection = input
+                /** @type {HTMLElement} */
+                var subSection = checkboxInput
                   .closest('[class*="col-"]')
                   .querySelector(".js-sub-section");
                 subSectionText = subSection.innerText + ": ";
               }
 
+              /** @type {HTMLElement | null} */
               var label = formField.querySelector(
-                "span#" + input.getAttribute("aria-labelledby")
+                "span#" + checkboxInput.getAttribute("aria-labelledby")
               );
 
               if (label) {
                 label = subSectionText + label.innerText;
               } else {
-                label = input.getAttribute("aria-labelledby");
+                label = checkboxInput.getAttribute("aria-labelledby");
               }
               message += label + comma + "\r\n\r\n";
             }
@@ -338,6 +352,7 @@ function getCustomFields(event) {
     });
   }
 
+  /** @type {HTMLTextAreaElement} */
   const textarea = document.getElementById("Comments_from_lead__c");
   textarea.value = message;
 }

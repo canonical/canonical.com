@@ -102,7 +102,7 @@ jobs:
           mkdir -p .coverage &&
           mv coverage/coverage.xml .coverage/coverage.xml
       
-      - if: ${{ env.detach == 'true' }}
+      - if: always()
         name: Detach TICS QServer to prevent "project already connected" issue
         env:
           TICSAUTHTOKEN: ${{ secrets.TICSAUTHTOKEN }}

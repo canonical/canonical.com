@@ -34,7 +34,7 @@ export function setFocusable(target) {
 /**
  * Delegation handler for keybaord navigaton in the DESKTOP view of the
  * navigation.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 export function handleDesktopKeyboardEvents(e) {
   if (e.key === "Escape") {
@@ -50,7 +50,7 @@ export function handleDesktopKeyboardEvents(e) {
 
 /**
  * Handles Shift + Tab key on DESKTOP.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 function handleDesktopShiftTabKey(e) {
   const currentItem = document.activeElement;
@@ -63,7 +63,7 @@ function handleDesktopShiftTabKey(e) {
 
 /**
  * Handle tab key when DESKTOP navigation is open.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 function handleDesktopTabKey(e) {
   const currentItem = document.activeElement;
@@ -78,13 +78,13 @@ function handleDesktopTabKey(e) {
 /**
  * Handle Enter key presses in the desktop navigation. If Enter is clicked
  * on a table panel item, it will focus the first item.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 function handleDesktopEnterkey(e) {
   const currentList = getContainingDropdown(e.target);
   const tabPanel = isInTabPanel(currentList);
   if (tabPanel) {
-    const targetId = e.target.getAttribute("aria-controls");
+    const targetId = (e.target).getAttribute("aria-controls");
     const targetPanel = document.querySelector(
       `.js-dropdown-window #${targetId}`
     );
@@ -97,6 +97,7 @@ function handleDesktopEnterkey(e) {
  */
 function returnFocusToMenuItems(e) {
   e.preventDefault();
+  /** @type {HTMLElement} */
   const currentActiveDropdown =
     topLevelNavigationItems.querySelector(".is-active > a");
   currentActiveDropdown?.focus();
@@ -129,7 +130,7 @@ function getContainingDropdown(target) {
 /**
  * Delegation handler for keybaord navigaton in the MOBILE view of the
  * navigation.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 export function handleMobileKeyboardEvents(e) {
   if (e.key === "Escape") {
@@ -142,7 +143,7 @@ export function handleMobileKeyboardEvents(e) {
 /**
  * Handle tab key when MOBILE navigation is open. If tab key is pressed on
  * last item of a list, focus the first item.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 function handleMobileTabKey(e) {
   const currentItem = document.activeElement;
@@ -158,6 +159,7 @@ function handleMobileTabKey(e) {
     const isLastItem =
       siblingListItems[siblingListItems.length - 1] === currentItem;
     if (lastFocusableItem === currentItem) {
+      /** @type {HTMLElement} */
       const firstFocusableItem =
         siblingListItems[0].querySelector(".js-focus-target");
       e.preventDefault();
@@ -176,7 +178,7 @@ function handleEscapeKey(e) {
 
 /**
  * Handles escape key presses when search is open.
- * @param {Event} e
+ * @param {KeyboardEvent} e
  */
 export function handleSearchKeyboardControls(e) {
   if (e.key === "Escape") {
