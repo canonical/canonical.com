@@ -1,13 +1,14 @@
 name: TICS Analysis and Coverage
-on:
-  schedule:
-    - cron: "0 22 * * 5"
-  workflow_dispatch:
-    inputs:
-      detach:
-        description: "Detach TICS QServer before the run"
-        required: false
-        default: "true"
+on: pull_request
+# on:
+#   schedule:
+#     - cron: "0 22 * * 5"
+  # workflow_dispatch:
+  #   inputs:
+  #     detach:
+  #       description: "Detach TICS QServer before the run"
+  #       required: false
+  #       default: "true"
 permissions: read-all
 env:
   SECRET_KEY: insecure_test_key
