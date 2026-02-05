@@ -165,7 +165,7 @@
     showButtons(filteredJobList);
     showJobs(filteredJobList);
     handleShowMoreClick();
-    handleShowAllClick(filteredJobList);
+    handleShowAllClick();
   }
 
   function updateTotalNumber(shownJobs, jobList) {
@@ -276,12 +276,12 @@
       filteredJobList = jobsToShow;
       showJobs(filteredJobList);
       showButtons(filteredJobList);
-      handleShowAllClick(filteredJobList);
+      handleShowAllClick();
     } else {
       limit = showMoreIncrement;
       showJobs(jobList);
       showButtons(jobList);
-      handleShowAllClick(jobList);
+      handleShowAllClick();
     }
   }
 
