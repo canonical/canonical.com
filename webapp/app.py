@@ -1882,7 +1882,12 @@ if environment != "production":
 # TODO(WD-32786) - create a POST endpoint that accepts a form payload, and generates webpage
 @app.route("/create-page")
 def generator():
-    with open("webapp/page_generator/examples/hero.json", "r", encoding="utf-8") as f:
+    with open(
+        Path(app.root_path).resolve().parent
+        / "static/json/page-generator/examples/hero.json",
+        "r",
+        encoding="utf-8",
+    ) as f:
         data = json.load(f)
 
     page = create_page_generator(data)

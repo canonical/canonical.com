@@ -16,9 +16,11 @@
             "25/75",
             "75/25",
             "fallback"
-          ]
+          ],
+          "default": "fallback"
         },
         "is_split_on_medium": { "type": "boolean" },
+        "display_blank_signpost_image_space": { "type": "boolean" },
         "blocks": {
           "type": "array",
           "items": {
@@ -38,7 +40,7 @@
       "type": "object",
       "properties": {
         "type": { "const": "description" },
-        "padding": { "type": "string" },
+        "padding": { "enum": ["shallow"] },
         "item": {
           "type": "object",
           "properties": {
@@ -52,11 +54,15 @@
       "type": "object",
       "properties": {
         "type": { "const": "cta-block" },
-        "padding": { "type": "string" },
+        "padding": { "enum": ["shallow"] },
         "item": {
           "type": "object",
           "properties": {
             "primary": { "$ref": "#/definitions/linkObject" },
+            "secondaries": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/linkObject" }
+            },
             "link": { "$ref": "#/definitions/linkObject" }
           }
         }
@@ -69,7 +75,8 @@
         "item": {
           "type": "object",
           "properties": {
-            "aspect_ratio": { "type": "string" },
+            "aspect_ratio": { "enum": ["16-9", "3-2", "2-3", "cinematic"] },
+            "caption_html": { "type": "string" },
             "is_highlighted": { "type": "boolean" },
             "is_cover": { "type": "boolean" },
             "attrs": { "$ref": "#/definitions/imageAttrs" }
