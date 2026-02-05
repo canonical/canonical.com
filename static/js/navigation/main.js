@@ -2,9 +2,7 @@ import throttle from "../utils/throttle";
 
 import {
   navigation,
-  secondaryNavigation,
   toggles,
-  topLevelNavigationItems,
 } from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
@@ -91,7 +89,7 @@ function toggleDropdown(toggle) {
       navigation.addEventListener("keydown", handleDesktopKeyboardEvents);
     } else {
       collapseDropdown(toggle, target, true);
-      setFocusable();
+      setFocusable(target);
       navigation.classList.remove("has-menu-open");
       navigation.removeEventListener("keydown", handleDesktopKeyboardEvents);
     }
