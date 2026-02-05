@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - add-charm
+      - samhotep-patch-3 #remove after approval
       - main
 
 concurrency: 
@@ -31,7 +31,6 @@ jobs:
         run: |
           cd charm
           charmcraft pack -v --project-dir ./
-
       - name: Upload charm
         uses: actions/upload-artifact@v4
         with:
@@ -51,7 +50,6 @@ jobs:
         run: |
           yarn install
           yarn run build
-
       - name: Setup LXD
         uses: canonical/setup-lxd@main
 
@@ -86,7 +84,7 @@ jobs:
         run: skopeo --insecure-policy copy oci-archive:$(ls *.rock) docker://${{ steps.set_image_url.outputs.image_url }} --dest-creds "canonical:${{ secrets.GITHUB_TOKEN }}"
 
   deploy-staging:
-    runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
@@ -96,7 +94,6 @@ jobs:
         run: |
           sudo snap install juju --channel=3.6/stable --classic
           sudo snap install vault --classic
-
       - name: Download Charm Artifact
         uses: actions/download-artifact@v4
         with:
@@ -116,7 +113,6 @@ jobs:
           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
           printf "controllers:\n  juju-controller-36-migration-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
-
       - name: Deploy Application to staging
         run: |
           export JUJU_MODEL=admin/stg-staging-canonical-com
@@ -124,9 +120,8 @@ jobs:
           juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
           juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
-
   deploy-production:
-    runs-on: [self-hosted, self-hosted-linux-amd64-jammy-private-endpoint-medium]
+    runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
@@ -136,7 +131,6 @@ jobs:
         run: |
           sudo snap install juju --channel=3.6/stable --classic
           sudo snap install vault --classic
-
       - name: Download Charm Artifact
         uses: actions/download-artifact@v4
         with:
@@ -156,7 +150,6 @@ jobs:
           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
           printf "controllers:\n  juju-controller-36-production-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
-
       - name: Deploy Application to production
         run: |
           export JUJU_MODEL=admin/prod-canonical-com
