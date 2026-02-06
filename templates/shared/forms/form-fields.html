@@ -22,8 +22,10 @@
         <hr class="p-rule is-fixed-width" />
         <fieldset class="p-fieldset-section{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility{% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox{% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %} {% if fieldset.inputType == 'checkbox' or fieldset.inputType == 'checkbox-visibility' %}js-remove-checkbox-names{% endif %}"
                   aria-labelledby="{{ fieldset_id }}-legend">
-          <!-- hidden legend tag -- silences pa11y -->
-          <legend class="u-off-screen">{{ fieldset.title }}</legend>
+          <!--  legend tag only visible to screenreaders -- silences pa11y -->
+          <legend>
+            <span class="u-off-screen">{{ fieldset.title }}</span>
+          </legend>
           <div class="row--50-50 {% if fieldset.noCommentsFromLead != True %}js-formfield{% endif %}">
             <div class="col">
               <legend class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
