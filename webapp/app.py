@@ -79,6 +79,8 @@ from webapp.utils.juju_doc_search import (
     search_all_docs,
 )
 
+tag_mapping = json.loads(Path("tag_mapping.json").read_text())
+
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
@@ -337,6 +339,7 @@ def render_openstack_blogs():
     blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
         excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
+        tag_mapping=tag_mapping,
         tag_ids=[1327],
         per_page=4,
         blog_title="OpenStack blogs",
@@ -950,6 +953,7 @@ class BlogSitemapPage(BlogView):
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
+    tag_mapping=tag_mapping,
     per_page=11,
 )
 
@@ -1441,6 +1445,7 @@ maas_blog = build_blueprint(
         blog_title="MAAS Blog",
         tag_ids=[1304],
         excluded_tags=[3184, 3265, 3408],
+        tag_mapping=tag_mapping,
     ),
 )
 
@@ -1481,7 +1486,7 @@ def handle_maas_goget():
 def bad_gateway(e):
     prefix = "502 Bad Gateway: "
     if str(e).find(prefix) != -1:
-        message = str(e)[len(prefix) :]
+        message = str(e)[len(prefix):]
     return flask.render_template("502.html", message=message), 502
 
 
