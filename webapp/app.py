@@ -605,9 +605,18 @@ def job_details(session, greenhouse, harvest, job_id):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
-
-    return flask.render_template("/careers/job-detail.html", **context)
-
+            
+    response = flask.make_response(
+        flask.render_template("careers/job-detail.html", **context)
+    )
+    response.headers["Cache-Control"] = (
+        "public, "
+        "max-age=3600, "
+        "must-revalidate, "
+        "stale-while-revalidate=0, "
+        "stale-if-error=0"
+    )
+    return response
 
 @app.route("/careers/career-explorer")
 def start_career():
