@@ -51,6 +51,7 @@ from webapp.views import (
     build_case_study_index,
     build_events_index,
     build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
 )
 from webapp.application import application
 from webapp.canonical_cla.views import (
@@ -1876,3 +1877,9 @@ if environment != "production":
         """Endpoint to trigger a Sentry error for testing purposes."""
         1 / 0
         return "This won't be reached"
+
+
+# Append utms cookie to Ubuntu redirect links
+@app.after_request
+def check_redirect(response):
+    return append_utms_cookie_to_ubuntu_links(response)
