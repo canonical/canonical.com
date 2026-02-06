@@ -7,6 +7,7 @@ from webapp.views import (
     json_asset_query,
     build_events_index,
     build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
 )
 
 
@@ -424,6 +425,141 @@ class TestViews(unittest.TestCase):
             self.assertEqual(
                 metadata[0]["path"], "https://ubuntu.com/engage/roadshow"
             )
+
+    # append_utms_cookie_to_ubuntu_links Tests
+    def test_append_utms_cookie_no_cookie(self):
+        """
+        Test that function returns unchanged response
+        when no cookie exists
+        """
+        with self.app.test_request_context():
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            response.get_data.return_value = (
+                '<a href="https://ubuntu.com/test">Link</a>'
+            )
+
+            result = append_utms_cookie_to_ubuntu_links(response)
+            self.assertEqual(result, response)
+            response.set_data.assert_not_called()
+
+    def test_append_utms_cookie_non_html_response(self):
+        """
+        Test that function returns unchanged response for non-HTML content
+        """
+        with self.app.test_request_context():
+            response = MagicMock()
+            response.mimetype = "application/json"
+            response.is_sequence = True
+
+            result = append_utms_cookie_to_ubuntu_links(response)
+            self.assertEqual(result, response)
+
+    def test_append_utms_cookie_simple_append_with_question_mark(self):
+        """
+        Test appending cookie to URL without existing parameters
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1&utm_medium:test2"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            # Verify set_data was called
+            response.set_data.assert_called_once()
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("utm_source:test1&utm_medium:test2", updated_html)
+            self.assertIn("?", updated_html)
+
+    def test_append_utms_cookie_simple_append_with_ampersand(self):
+        """
+        Test appending cookie to URL with existing parameters
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test?existing=param">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("existing=param&utm_source:test1", updated_html)
+
+    def test_append_utms_cookie_multiple_links(self):
+        """
+        Test appending cookie to multiple ubuntu.com links
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = """
+                <a href="https://ubuntu.com/test1">Link 1</a>
+                <a href="https://ubuntu.com/test2">Link 2</a>
+                <a href="https://other.com/test">Other Link</a>
+            """
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            # Count occurrences of utm_source
+            utm_count = updated_html.count("utm_source:test1")
+            self.assertEqual(utm_count, 2)
+            # Verify non-ubuntu.com link is unchanged
+            self.assertIn('href="https://other.com/test"', updated_html)
+
+    def test_append_utms_cookie_ignores_non_ubuntu_links(self):
+        """
+        Test that non-ubuntu.com links are not modified
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://google.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertEqual(updated_html, html)
+
+    def test_append_utms_cookie_with_duplicate_values(self):
+        """
+        Test handling of cookie with duplicate parameter values
+        """
+        with self.app.test_request_context(
+            "/",
+            headers={
+                "Cookie": "utms=utm_content:test1,test2&utm_medium:test2"
+            },
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("utm_content:test1,test2", updated_html)
+            self.assertIn("utm_medium:test2", updated_html)
 
 
 if __name__ == "__main__":
