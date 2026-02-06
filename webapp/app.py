@@ -605,7 +605,7 @@ def job_details(session, greenhouse, harvest, job_id):
                 "title": f"Error {response.status_code}",
                 "text": f"{response.reason}. Please try again!",
             }
-            
+
     response = flask.make_response(
         flask.render_template("careers/job-detail.html", **context)
     )
@@ -617,6 +617,7 @@ def job_details(session, greenhouse, harvest, job_id):
         "stale-if-error=0"
     )
     return response
+
 
 @app.route("/careers/career-explorer")
 def start_career():
