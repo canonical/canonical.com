@@ -13,8 +13,8 @@ if (!cookieAcceptanceValue) {
 } else {
   setUserId();
   cpNs.cookiePolicy();
-  setUtms();
 }
+setUtms();
 
 function setUserId() {
   cookieAcceptanceValue = getCookie("_cookies_accepted");
