@@ -65,7 +65,7 @@
     <div class="job-desc">
       {{ job.content | filtered_html_tags | safe }}
     </div>
-    {% if job.active %}
+    {% if job.active and not job.unlisted %}
       <button class="p-button--positive" id="apply-button">Apply</button>
     {% else %}
       <button class="p-button--positive" disabled="">No longer accepting applications</button>

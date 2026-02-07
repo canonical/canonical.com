@@ -137,6 +137,7 @@ class TestGreenhouseAPI(unittest.TestCase):
         self.assertEqual(
             [dept.name for dept in vacancy.departments], ["Engineering"]
         )
+        self.assertFalse(vacancy.unlisted)
 
     def test_get_vacancy_fallback_on_404(self):
         """
@@ -162,6 +163,7 @@ class TestGreenhouseAPI(unittest.TestCase):
             f"{gh.canonicaljobs_url}/404-job?questions=true", timeout=15
         )
         self.assertEqual(vacancy.id, "404-job")
+        self.assertTrue(vacancy.unlisted)
 
     def test_submit_application_builds_payload(self):
         """

@@ -206,7 +206,7 @@ class Department(object):
 
 
 class Vacancy:
-    def __init__(self, job: dict):
+    def __init__(self, job: dict, unlisted: bool):
         self.id: str = job["id"]
         self.title: str = job["title"]
         self.meta_title: str = _get_meta_title(job)
@@ -231,6 +231,7 @@ class Vacancy:
         self.skills: list = _get_metadata(job, "skills") or []
         self.featured: str = _get_metadata(job, "is_featured")
         self.fast_track: str = _get_metadata(job, "is_fast_track")
+        self.unlisted: bool = unlisted
 
     def parse_questions(self, job):
         questions = job.get("questions", {})
@@ -303,7 +304,7 @@ class Greenhouse:
         for job in feed["jobs"]:
             # Filter out those without departments or offices
             if _get_metadata(job, "departments") and job["offices"]:
-                vacancies.append(Vacancy(job))
+                vacancies.append(Vacancy(job, False))
 
         return vacancies
 
@@ -355,7 +356,7 @@ class Greenhouse:
                 f"{self.base_url}/{job_id}?questions=true", timeout=15
             )
             response.raise_for_status()
-            return Vacancy(response.json())
+            return Vacancy(response.json(), False)
         except requests.exceptions.HTTPError as e:
             if e.response.status_code == 404:
                 # try canonicaljobs board as fallback
@@ -364,7 +365,7 @@ class Greenhouse:
                     timeout=15,
                 )
                 response.raise_for_status()
-                return Vacancy(response.json())
+                return Vacancy(response.json(), True)
             # re-raise any other HTTP errors
             raise
 
