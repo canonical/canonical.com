@@ -1,6 +1,6 @@
 function ensureDataLayerInitialized() {
-  if (!window.dataLayer) {
-    window.dataLayer = [];
+  if (!(window.dataLayer)) {
+    (window.dataLayer) = [];
   }
 }
 
@@ -41,7 +41,7 @@ function joinSegments(segments) {
 
 function pushToDataLayer(values) {
   ensureDataLayerInitialized();
-  window.dataLayer.push(values);
+  (window.dataLayer).push(values);
 }
 
 export {

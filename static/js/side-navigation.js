@@ -13,9 +13,11 @@
  @param {Boolean} ignoreTogglerFocus when we click on menu there is no redirect, the focus should jump into selected section
  */
 function toggleDrawer(sideNavigation, show, ignoreTogglerFocus = false) {
+  /** @type {HTMLElement} */
   const toggleButtonOutsideDrawer = sideNavigation.querySelector(
     ".p-side-navigation__toggle"
   );
+  /** @type {HTMLElement} */
   const toggleButtonInsideDrawer = sideNavigation.querySelector(
     ".p-side-navigation__toggle--in-drawer"
   );
@@ -70,7 +72,10 @@ const setupToggleMenu = (toggleMenu) => {
  @param {Event} e
  */
 const handleToggleMenu = (e) => {
-  const item = e.currentTarget.closest(".p-side-navigation__item");
+  /** @type {HTMLElement} */
+  const currentTarget = e.currentTarget;
+
+  const item = currentTarget.closest(".p-side-navigation__item");
   const button = item.querySelector(".p-side-navigation__expand");
   const link = item.querySelector(".p-side-navigation__link");
   const nestedList = item.querySelector(".p-side-navigation__list");
