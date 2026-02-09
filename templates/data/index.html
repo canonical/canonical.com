@@ -16,33 +16,23 @@
   is-paper
 {% endblock body_class %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block content %}
 
-  <section class="p-section--hero p-section--shallow">
-      <div class="row--50-50">
-        <div class="col">
-          <div>
-            <h1 class="u-no-margin--bottom">
-              Enterprise-grade solutions
-              <br class="u-hide--small" />
-              for your mission critical data
-            </h1>
-          </div>
-        </div>
-        <div class="col">
-          <div class="p-section--shallow">
-            <p>
-              Data flows better with the right tools. Canonical offers security, compliance and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.
-            </p>
-          </div>
-          <div>
-            <a class="p-button--positive js-invoke-modal"
-              href="get-in-touch"
-              aria-controls="data-modal">Get in touch</a>
-          </div>
-        </div>
-      </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Enterprise-grade solutions for your mission critical data',
+    layout='50/50'
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Data flows better with the right tools. Canonical offers security, compliance and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a aria-controls="data-modal" class="js-invoke-modal p-button--positive">Get in touch</a>
+    {%- endif -%}
+  {% endcall %}
 
   <section class="p-section">
     <div class="grid-row">
