@@ -1,14 +1,13 @@
 name: TICS Analysis and Coverage
-on: pull_request
-# on:
-#   schedule:
-#     - cron: "0 22 * * 5"
-  # workflow_dispatch:
-  #   inputs:
-  #     detach:
-  #       description: "Detach TICS QServer before the run"
-  #       required: false
-  #       default: "true"
+on:
+  schedule:
+    - cron: "0 22 * * 5"
+  workflow_dispatch:
+    inputs:
+      detach:
+        description: "Detach TICS QServer before the run"
+        required: false
+        default: "true"
 permissions: read-all
 env:
   SECRET_KEY: insecure_test_key
@@ -102,7 +101,7 @@ jobs:
           mkdir -p .coverage &&
           mv coverage/coverage.xml .coverage/coverage.xml
       
-      - if: always()
+      - if: ${{ env.detach == 'true' }}
         name: Detach TICS QServer to prevent "project already connected" issue
         env:
           TICSAUTHTOKEN: ${{ secrets.TICSAUTHTOKEN }}

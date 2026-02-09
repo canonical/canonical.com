@@ -89,7 +89,7 @@ function toggleDropdown(toggle) {
       navigation.addEventListener("keydown", handleDesktopKeyboardEvents);
     } else {
       collapseDropdown(toggle, target, true);
-      setFocusable(target);
+      setFocusable();
       navigation.classList.remove("has-menu-open");
       navigation.removeEventListener("keydown", handleDesktopKeyboardEvents);
     }

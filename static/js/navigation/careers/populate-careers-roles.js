@@ -10,7 +10,7 @@ function updateHtmlWithRoles(departments) {
       `[data-id="${dpt.slug}"]`
     );
     departmentElements.forEach((element) => {
-      element.innerHTML = `${dpt.count} roles`;
+      element.textContent = `${dpt.count} roles`;
       element.classList.add("u-animation--slide-from-top");
     });
   });

@@ -3,7 +3,7 @@ import closeAllNavigationItems from "./main";
 
 /**
  * Sets tabindex for appropriate navigation items to allow keyboard navigation
- * @param {HTMLElement} target - The ul to target
+ * @param {HTMLElement} [target] - The ul to target (optional, defaults to topLevelNavigationItems)
  */
 export function setFocusable(target) {
   if (!target) {
