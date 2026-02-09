@@ -21,20 +21,23 @@
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 
 {% block content %}
-
-  {% call(slot) vf_hero(
-    title_text='Enterprise-grade solutions<br />for your mission critical data',
-    layout='50/50'
-  ) -%}
-    {%- if slot == 'description' -%}
-      <p>
-        Data flows better with the right tools. Canonical offers security, compliance and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.
-      </p>
-    {%- endif -%}
-    {%- if slot == 'cta' -%}
-      <a aria-controls="data-modal" class="js-invoke-modal p-button--positive">Get in touch</a>
-    {%- endif -%}
-  {% endcall %}
+  <section class="p-section--hero u-no-padding--bottom">
+    <div class="row--50-50-on-large">
+      <div class="col">
+        <h1>Enterprise-grade solutions<br>for your mission critical data</h1>
+      </div>
+      <div class="col">    
+        <div class="p-section--shallow">
+          <p>
+            Data flows better with the right tools. Canonical offers security, compliance and lifecycle management solutions for the most popular open source databases and big data applications, on any cloud.
+          </p>
+        </div>
+        <div class="p-cta-block">
+          <a aria-controls="data-modal" class="js-invoke-modal p-button--positive">Get in touch</a>
+        </div>
+      </div>  
+    </div>
+  </section>
 
   {{ vf_linked_logo_section(
     title_text="",
@@ -44,7 +47,7 @@
       {
         "href": "/data/postgresql",
         "text": "PostgreSQL&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about PostgreSQL",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/44403a2d-postgresql_logo_mark.png",
           "alt": "",
@@ -55,7 +58,7 @@
       {
         "href": "/data/mysql",
         "text": "MySQL&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about MySQL",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/ec74a6a5-mysql.png",
           "alt": "",
@@ -66,7 +69,7 @@
       {
         "href": "/data/mongodb",
         "text": "MongoDB&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about MongoDB",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/da9761f5-mongodb.png",
           "alt": "",
@@ -77,7 +80,7 @@
       {
         "href": "/data/valkey",
         "text": "Valkey&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about Valkey",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/fc75b6bf-valkey.png",
           "alt": "",
@@ -88,7 +91,7 @@
       {
         "href": "/data/spark",
         "text": "Spark&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about Spark",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/4527eb20-apache_spark.png",
           "alt": "",
@@ -99,7 +102,7 @@
       {
         "href": "/data/kafka",
         "text": "Kafka&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about Kafka",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/7118eb45-kafka.png",
           "alt": "",
@@ -110,7 +113,7 @@
       {
         "href": "/data/opensearch",
         "text": "OpenSearch&nbsp;&rsaquo;",
-        "label": "",
+        "label": "Learn more about OpenSearch",
         "image_attrs": {
           "src": "https://assets.ubuntu.com/v1/d79505ed-opensearch.png",
           "alt": "",
@@ -365,7 +368,7 @@
           <div class="p-equal-height-row__col is-borderless">
             <div class="p-equal-height-row__item">
               <div class="p-image-container p-image-container--square is-cover is-highlighted">
-                <img src="https://assets.ubuntu.com/v1/71cc81de-support.png" class="p-image-container__image" width="852" height="852" alt="Support">
+                <img src="https://assets.ubuntu.com/v1/71cc81de-support.png" class="p-image-container__image" width="852" height="852" alt="">
               </div>
               <hr class="p-rule--highlight">
             </div>
@@ -379,7 +382,7 @@
           <div class="p-equal-height-row__col is-borderless">
             <div class="p-equal-height-row__item">
               <div class="p-image-container p-image-container--square is-cover is-highlighted">
-                <img src="https://assets.ubuntu.com/v1/e006612f-hardening.png" class="p-image-container__image" width="852" height="852" alt="Hardening">
+                <img src="https://assets.ubuntu.com/v1/e006612f-hardening.png" class="p-image-container__image" width="852" height="852" alt="">
               </div>
               <hr class="p-rule--highlight">
             </div>
@@ -393,7 +396,7 @@
         
           <div class="p-equal-height-row__col is-borderless">
             <div class="p-equal-height-row__item">
-              <div class="p-image-container p-image-container--square is-cover is-highlighted"><img src="https://assets.ubuntu.com/v1/bd9dabac-multi_cloud.png" class="p-image-container__image" width="852" height="852" alt="Multi-cloud"></div>
+              <div class="p-image-container p-image-container--square is-cover is-highlighted"><img src="https://assets.ubuntu.com/v1/bd9dabac-multi_cloud.png" class="p-image-container__image" width="852" height="852" alt=""></div>
               <hr class="p-rule--highlight">
             </div>
             <div class="p-equal-height-row__item">
@@ -405,7 +408,7 @@
           </div>
           <div class="p-equal-height-row__col is-borderless">
             <div class="p-equal-height-row__item">
-              <div class="p-image-container p-image-container--square is-cover is-highlighted"><img src="https://assets.ubuntu.com/v1/720a7a51-open_source.png" class="p-image-container__image" width="852" height="852" alt="Kernelt"></div>
+              <div class="p-image-container p-image-container--square is-cover is-highlighted"><img src="https://assets.ubuntu.com/v1/720a7a51-open_source.png" class="p-image-container__image" width="852" height="852" alt=""></div>
               <hr class="p-rule--highlight">
             </div>
             <div class="p-equal-height-row__item">
@@ -558,10 +561,10 @@
           </div>
           <div class="col">
             <p>
-              <a href="">Matrix channel</a>
+              <a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix channel</a>
             </p>
             <p>
-              <a href="">Discourse forum</a>
+              <a href="https://discourse.charmhub.io/">Discourse forum</a>
             </p>
           </div>
         </div>
@@ -572,7 +575,7 @@
           </div>
           <div class="col">
             <p>
-              <a href="">Talk to a Canonical expert</a>
+              <a href="/data#get-in-touch">Talk to a Canonical expert</a>
             </p>
           </div>
         </div>
@@ -583,13 +586,13 @@
           </div>
           <div class="col">
             <p>
-              <a href="">Data products documentation</a>
+              <a href="/data/docs">Data products documentation</a>
             </p>
             <p>
-              <a href="">Charmhub, the operator collection</a>
+              <a href="https://discourse.charmhub.io/">Charmhub, the operator collection</a>
             </p>
             <p>
-              <a href="">Snapcraft, the app store for linux</a>
+              <a href="https://snapcraft.io/">Snapcraft, the app store for Linux</a>
             </p>
           </div>
         </div>
@@ -600,13 +603,10 @@
           </div>
           <div class="col">
             <p>
-              <a href="">Ubuntu Pro</a>
+              <a href="https://ubuntu.com/pro">Ubuntu Pro</a>
             </p>
             <p>
-              <a href="">canonical support</a>
-            </p>
-            <p>
-              <a href="">Our services</a>
+              <a href="https://ubuntu.com/support">canonical support</a>
             </p>
           </div>
         </div>
