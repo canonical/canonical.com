@@ -252,9 +252,17 @@ class Pattern(ABC):
         self.data = data
         self.pattern_html = ""
 
-    @abstractmethod
-    def process_pattern(self):
-        pass
+    def validate_payload(self, schema):
+        try:
+            # This matches the payload
+            # against your schema including definitions
+            validate(instance=self.data, schema=schema)
+            return True, None
+        except ValidationError as e:
+            # Returns a readable error message
+            # and the path to the failing field
+            error_path = " -> ".join([str(p) for p in e.path])
+            return False, f"Validation Error at [{error_path}]: {e.message}"
 
     @abstractmethod
     def write_import(self):
@@ -305,17 +313,13 @@ class HeroSection(Pattern):
         ) as f:
             HERO_SCHEMA = json.load(f)
 
-        try:
-            # This matches the payload
-            # against your schema including definitions
-            print(f"Validating HeroSection with data: {self.data}")
-            validate(instance=self.data, schema=HERO_SCHEMA)
-            return True, None
-        except ValidationError as e:
-            # Returns a readable error message
-            # and the path to the failing field
-            error_path = " -> ".join([str(p) for p in e.path])
-            return False, f"Validation Error at [{error_path}]: {e.message}"
+        # Extract the "data" schema since self.data only contains the inner data object
+        data_schema = HERO_SCHEMA.get("properties", {}).get("data", {})
+        # Preserve definitions for referenced schemas
+        if "definitions" in HERO_SCHEMA:
+            data_schema["definitions"] = HERO_SCHEMA["definitions"]
+
+        return super().validate_payload(data_schema)
 
 
 class BasicSection(Pattern):
