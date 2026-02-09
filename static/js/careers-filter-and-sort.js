@@ -279,16 +279,15 @@
       filteredJobList = jobsToShow;
       showJobs(filteredJobList);
       showButtons(filteredJobList);
-      handleShowAllClick();
     } else {
       limit = showMoreIncrement;
+      filteredJobList = jobList;
       showJobs(jobList);
       showButtons(jobList);
-      handleShowAllClick();
     }
   }
 
-  // Display no reults message
+  // Display no results message
   function updateNoResultsMessage() {
     if (noResults && jobContainer) {
       if (numberOfJobsDisplayed === 0) {
