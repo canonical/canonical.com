@@ -29,10 +29,11 @@ jobs:
           
           gh pr view "$pr_number" --repo "$repo" --json body -q .body > original_body.txt
           
-          sed "s|\[demo link\]()|[demo link]($demo_link)|g" original_body.txt > temp_body.txt
+          # Add demo link after "Check out this feature branch"
+          sed "s|Check out this feature branch|Check out this feature branch or visit the [demo link]($demo_link)|g" original_body.txt > temp_body.txt
           
           if [ -n "$jira_link" ]; then
-            sed "s|^Fixes$|Fixes $jira_link|g" temp_body.txt > updated_body.txt
+            sed "s|Fixes #|Fixes $jira_link|g" temp_body.txt > updated_body.txt
           else
             mv temp_body.txt updated_body.txt
           fi
