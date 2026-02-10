@@ -20,34 +20,22 @@ jobs:
           if [[ "$comment" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
             echo "demo_link=${BASH_REMATCH[0]}" >> "$GITHUB_OUTPUT"
           else
-            echo "No demo link found, exiting."
+            echo "::error::No demo link found in comment"
             exit 1
           fi
 
-      - name: Get PR Body
-        id: get_pr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pr_number="${{ github.event.issue.number }}"
-          pr_body=$(gh pr view "$pr_number" --json body | jq -r .body)
-          echo "original_body<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$pr_body" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-
-      - name: Update PR Body (Replace Placeholder Safely)
+      - name: Update PR Description with Demo Link
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr_number="${{ github.event.issue.number }}"
           demo_link="${{ steps.extract_link.outputs.demo_link }}"
-          original_body="${{ steps.get_pr.outputs.original_body }}"
-
-          # Use sed to replace only the placeholder DEMO_LINK
-          safe_body=$(printf "%s" "$original_body" | sed "s|DEMO_LINK|$demo_link|g")
-
-          # Write to a temp file to avoid shell quoting issues
-          echo "$safe_body" > body.txt
-
-          gh pr edit "$pr_number" --body-file body.txt
-
+          
+          # Fetch current PR body directly
+          gh pr view "$pr_number" --json body -q .body > original_body.txt
+          
+          # Replace placeholder with actual demo link
+          sed "s|\[demo link\]()|[demo link]($demo_link)|g" original_body.txt > updated_body.txt
+          
+          # Update PR with modified body
+          gh pr edit "$pr_number" --body-file updated_body.txt
