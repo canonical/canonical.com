@@ -16,10 +16,10 @@ jobs:
           pr_number="${{ github.event.pull_request.number }}"
           branch_name="${{ github.event.pull_request.head.ref }}"
           demo_link="https://canonical-com-${pr_number}.demos.haus/"
+          repo="${{ github.repository }}"
           
           if [[ "$branch_name" =~ ([Ww][Dd]-[0-9]+) ]]; then
             jira_ticket="${BASH_REMATCH[1]}"
-            jira_ticket="${jira_ticket^^}"
             jira_link="https://warthogs.atlassian.net/browse/${jira_ticket}"
             echo "Found Jira ticket: $jira_ticket"
           else
@@ -27,7 +27,7 @@ jobs:
             echo "No Jira ticket found in branch name"
           fi
           
-          gh pr view "$pr_number" --json body -q .body > original_body.txt
+          gh pr view "$pr_number" --repo "$repo" --json body -q .body > original_body.txt
           
           sed "s|\[demo link\]()|[demo link]($demo_link)|g" original_body.txt > temp_body.txt
           
@@ -37,7 +37,7 @@ jobs:
             mv temp_body.txt updated_body.txt
           fi
           
-          gh pr edit "$pr_number" --body-file updated_body.txt
+          gh pr edit "$pr_number" --repo "$repo" --body-file updated_body.txt
           
           echo "Updated PR #$pr_number with demo link: $demo_link"
           [ -n "$jira_link" ] && echo "Added Jira link: $jira_link"
