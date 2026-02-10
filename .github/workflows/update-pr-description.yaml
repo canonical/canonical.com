@@ -1,41 +1,43 @@
 name: Update PR Description with Demo Link
 
 on:
-  issue_comment:
-    types: [created]
+  pull_request:
+    types: [opened]
 
 jobs:
   update-pr-description:
-    if: github.event.comment.user.login == 'webteam-app'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Extract Demo Link from Comment
-        id: extract_link
-        run: |
-          comment="${{ github.event.comment.body }}"
-          if [[ "$comment" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
-            echo "demo_link=${BASH_REMATCH[0]}" >> "$GITHUB_OUTPUT"
-          else
-            echo "::error::No demo link found in comment"
-            exit 1
-          fi
-
-      - name: Update PR Description with Demo Link
+      - name: Update PR Description with Demo Link and Jira Ticket
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pr_number="${{ github.event.issue.number }}"
-          demo_link="${{ steps.extract_link.outputs.demo_link }}"
+          pr_number="${{ github.event.pull_request.number }}"
+          branch_name="${{ github.event.pull_request.head.ref }}"
+          demo_link="https://canonical-com-${pr_number}.demos.haus/"
           
-          # Fetch current PR body directly
+          if [[ "$branch_name" =~ ([Ww][Dd]-[0-9]+) ]]; then
+            jira_ticket="${BASH_REMATCH[1]}"
+            jira_ticket="${jira_ticket^^}"
+            jira_link="https://warthogs.atlassian.net/browse/${jira_ticket}"
+            echo "Found Jira ticket: $jira_ticket"
+          else
+            jira_link=""
+            echo "No Jira ticket found in branch name"
+          fi
+          
           gh pr view "$pr_number" --json body -q .body > original_body.txt
           
-          # Replace placeholder with actual demo link
-          sed "s|\[demo link\]()|[demo link]($demo_link)|g" original_body.txt > updated_body.txt
+          sed "s|\[demo link\]()|[demo link]($demo_link)|g" original_body.txt > temp_body.txt
           
-          # Update PR with modified body
+          if [ -n "$jira_link" ]; then
+            sed "s|^Fixes$|Fixes $jira_link|g" temp_body.txt > updated_body.txt
+          else
+            mv temp_body.txt updated_body.txt
+          fi
+          
           gh pr edit "$pr_number" --body-file updated_body.txt
+          
+          echo "Updated PR #$pr_number with demo link: $demo_link"
+          [ -n "$jira_link" ] && echo "Added Jira link: $jira_link"
