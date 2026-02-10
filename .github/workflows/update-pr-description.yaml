@@ -1,37 +1,22 @@
 name: Update PR Description with Demo Link
 
 on:
-  issue_comment:
-    types: [created]
+  pull_request:
+    types: [opened]
 
 jobs:
   update-pr-description:
-    if: github.event.comment.user.login == 'webteam-app'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Extract Demo Link from Comment
-        id: extract_link
-        run: |
-          comment="${{ github.event.comment.body }}"
-          if [[ "$comment" =~ https://[a-zA-Z0-9.-]+\.demos\.haus ]]; then
-            echo "demo_link=${BASH_REMATCH[0]}" >> "$GITHUB_OUTPUT"
-          else
-            echo "::error::No demo link found in comment"
-            exit 1
-          fi
-
       - name: Update PR Description with Demo Link
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pr_number="${{ github.event.issue.number }}"
-          demo_link="${{ steps.extract_link.outputs.demo_link }}"
+          pr_number="${{ github.event.pull_request.number }}"
+          demo_link="https://canonical-com-${pr_number}.demos.haus/"
           
-          # Fetch current PR body directly
+          # Fetch current PR body
           gh pr view "$pr_number" --json body -q .body > original_body.txt
           
           # Replace placeholder with actual demo link
@@ -39,4 +24,3 @@ jobs:
           
           # Update PR with modified body
           gh pr edit "$pr_number" --body-file updated_body.txt
-          #test
