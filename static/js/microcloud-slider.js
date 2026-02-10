@@ -13,7 +13,9 @@ function threeItemSlider() {
     if (resultsCount) {
       resultsCount.innerHTML = `1 of ${totalPages} `;
     }
+    /** @type {HTMLElement} */
     let nextBtn = slider.querySelector(".js-slider--next");
+    /** @type {HTMLElement} */
     let prevBtn = slider.querySelector(".js-slider--prev");
     let currentPage = activePages[i];
 

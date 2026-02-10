@@ -2,15 +2,15 @@ import { navigation } from "../elements";
 
 /**
  * Populate available roles for careers roles.
- * @param {String} target - the class to target
+ * @param {Array} departments - Array of objects containing department slug and count of roles
  */
-function updateHtmlWithRoles(departments, target) {
+function updateHtmlWithRoles(departments) {
   departments.forEach((dpt) => {
     const departmentElements = navigation.querySelectorAll(
       `[data-id="${dpt.slug}"]`
     );
     departmentElements.forEach((element) => {
-      element.innerText = `${dpt.count} roles`;
+      element.textContent = `${dpt.count} roles`;
       element.classList.add("u-animation--slide-from-top");
     });
   });
