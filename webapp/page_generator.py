@@ -313,7 +313,8 @@ class HeroSection(Pattern):
         ) as f:
             HERO_SCHEMA = json.load(f)
 
-        # Extract the "data" schema since self.data only contains the inner data object
+        # Extract the "data" schema
+        # since self.data only contains the inner data object
         data_schema = HERO_SCHEMA.get("properties", {}).get("data", {})
         # Preserve definitions for referenced schemas
         if "definitions" in HERO_SCHEMA:
