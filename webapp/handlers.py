@@ -84,6 +84,7 @@ CSP = {
         "*.mktoresp.com",
         "assets.ubuntu.com",
         "api.github.com",
+        "raw.githubusercontent.com",
         "api.livechatinc.com",
         "cdn.livechatinc.com",
         "secure.livechatinc.com",

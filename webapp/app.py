@@ -51,6 +51,7 @@ from webapp.views import (
     build_case_study_index,
     build_events_index,
     build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
 )
 from webapp.application import application
 from webapp.canonical_cla.views import (
@@ -605,7 +606,17 @@ def job_details(session, greenhouse, harvest, job_id):
                 "text": f"{response.reason}. Please try again!",
             }
 
-    return flask.render_template("/careers/job-detail.html", **context)
+    response = flask.make_response(
+        flask.render_template("careers/job-detail.html", **context)
+    )
+    response.headers["Cache-Control"] = (
+        "public, "
+        "max-age=3600, "
+        "must-revalidate, "
+        "stale-while-revalidate=0, "
+        "stale-if-error=0"
+    )
+    return response
 
 
 @app.route("/careers/career-explorer")
@@ -1876,3 +1887,9 @@ if environment != "production":
         """Endpoint to trigger a Sentry error for testing purposes."""
         1 / 0
         return "This won't be reached"
+
+
+# Append utms cookie to Ubuntu redirect links
+@app.after_request
+def check_redirect(response):
+    return append_utms_cookie_to_ubuntu_links(response)

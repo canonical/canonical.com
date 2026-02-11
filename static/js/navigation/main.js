@@ -2,9 +2,7 @@ import throttle from "../utils/throttle";
 
 import {
   navigation,
-  secondaryNavigation,
   toggles,
-  topLevelNavigationItems,
 } from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
