@@ -1,6 +1,8 @@
 (function () {
   const content = document.querySelector(".page-content");
   const container = document.querySelector("#table-of-contents");
+
+  /** @type {NodeListOf<HTMLHeadingElement>} */
   const headings = content.querySelectorAll("h2, h3, h4");
   const urlHash = window.location.hash;
   // Do not render if there is no content or container for the table of contents
@@ -22,6 +24,8 @@
     const listItem = document.createElement("li");
     listItem.classList.add(`p-table-of-contents__item`);
     listItem.style.marginLeft = `${(level - 2) * 1}rem`;
+
+    /** @type {HTMLAnchorElement} */
     const anchor = document.createElement("a");
     anchor.classList.add("p-table-of-contents__link");
     anchor.href = `#${id}`;
