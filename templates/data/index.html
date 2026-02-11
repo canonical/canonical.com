@@ -19,6 +19,8 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
 
 {% block content %}
   <section class="p-section--hero u-no-padding--bottom">
@@ -425,57 +427,47 @@
       </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col-6">
+  <section class="p-section u-no-padding--bottom">
+    {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+      {%- if slot == 'title' -%}
         <h2>Our services</h2>
-      </div>
-      <div class="col-6">
+      {%- endif -%}
+
+      {%- if slot == 'description' -%}
         <p>Whether you need supported packages or expert help to scale deployments and meet SLAs, our subscription supports your team and eliminates time-consuming, error-prone tasks. Our on-demand services address specific challenges with custom solutions, targeted knowledge transfer, or timely expert consulting.</p>
         <p>
           <a class="p-button--positive js-invoke-modal"
             href="#"
             aria-controls="data-modal">Get in touch</a>
         </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-3 col-6-small col-start-large-4">
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_1' -%}
         <h3 class="p-heading--5">Subscription-based</h3>
-      </div>
-      <div class="col-6">
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_1' -%}
         <ul class="p-list--divided">
           <li class="p-list__item is-ticked">Security maintenance</li>
           <li class="p-list__item is-ticked">24/7 phone and ticket support</li>
           <li class="p-list__item is-ticked">SLA-backed firefighting support</li>
           <li class="p-list__item is-ticked">Managed deployments</li>
         </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-3 col-6-small col-start-large-4">
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_2' -%}
         <h3 class="p-heading--5">On-demand</h3>
-      </div>
-      <div class="col-6">
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_2' -%}
         <ul class="p-list--divided">
           <li class="p-list__item is-ticked">Workshops</li>
           <li class="p-list__item is-ticked">Deployment packages</li>
           <li class="p-list__item is-ticked">Ops consultancy packages</li>
           <li class="p-list__item is-ticked">Trainings</li>
         </ul>
-      </div>
-    </div>
-    <style>
-      .p-list--divided {
-        margin-bottom: 0;
-      }
-    </style>
+      {%- endif -%}
+    {%- endcall -%}
   </section>
 
   <section class="p-section">
@@ -548,6 +540,107 @@
   </div>
   </section>
 
+  
+  {% call(slot) vf_resources(
+    title={
+      "text": "Community and support",
+    },
+    blocks=[
+      {
+        "type": "resources",
+        "render_categories": true,
+        "categories": [
+          {
+            "title": "Connect with the community",
+            "items": [
+              {
+                "title": {
+                  "text": "Matrix channel",
+                  "link_attrs": {
+                    "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
+                  },
+                },
+              },
+              {
+                "title": {
+                  "text": "Discourse forum",
+                  "link_attrs": {
+                    "href": "https://discourse.charmhub.io"
+                  },
+                },
+              },
+            ]
+          },
+          {
+            "title": "Contact us",
+            "items": [
+              {
+                "title": {
+                  "text": "Talk to a Canonical expert",
+                  "link_attrs": {
+                    "href": "/data#get-in-touch"
+                  },
+                },
+              },
+            ]
+          },
+          {
+            "title": "Read more",
+            "items": [
+              {
+                "title": {
+                  "text": "Data products documentation",
+                  "link_attrs": {
+                    "href": "/data/docs"
+                  },
+                },
+              },
+              {
+                "title": {
+                  "text": "Charmhub, the operator collection",
+                  "link_attrs": {
+                    "href": "https://discourse.charmhub.io"
+                  },
+                },
+              },
+              {
+                "title": {
+                  "text": "Snapcraft, the app store for Linux",
+                  "link_attrs": {
+                    "href": "https://snapcraft.io"
+                  },
+                },
+              },
+            ]
+          },
+          {
+            "title": "Other resources",
+            "items": [
+              {
+                "title": {
+                  "text": "Ubuntu Pro",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/pro"
+                  },
+                },
+              },
+              {
+                "title": {
+                  "text": "Canonical support",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/support"
+                  },
+                },
+              },
+            ]
+          },
+        ]
+      }
+    ]
+  ) -%}
+{% endcall -%}
+
+
   <section class="p-section">
     <div class="row p-section--shallow">
       <hr class="p-rule-muted" />
@@ -606,7 +699,7 @@
               <a href="https://ubuntu.com/pro">Ubuntu Pro</a>
             </p>
             <p>
-              <a href="https://ubuntu.com/support">canonical support</a>
+              <a href="https://ubuntu.com/support">Canonical support</a>
             </p>
           </div>
         </div>
