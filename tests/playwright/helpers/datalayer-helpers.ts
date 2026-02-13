@@ -32,7 +32,10 @@ export const getLastDataLayerEvent = async (
  */
 export const clearDataLayer = async (page: Page): Promise<void> => {
   await page.evaluate(() => {
-    window.dataLayer = [];
+    if (!Array.isArray(window.dataLayer)) {
+      window.dataLayer = [];
+    }
+    window.dataLayer.length = 0;
   });
 };
 
