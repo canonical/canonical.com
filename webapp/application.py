@@ -8,7 +8,6 @@ from smtplib import SMTP
 from typing import Dict, List, Tuple
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
-from requests.exceptions import HTTPError
 import pytz
 import logging
 
@@ -17,15 +16,25 @@ import flask
 from dateutil.parser import parse
 
 from webapp.greenhouse import Harvest
-from webapp.job_regions import regions
+from webapp.job_regions import REGION_COUNTRIES
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
-from webapp.utils.constants import ONE_WEEK_IN_MINUTES
-from webapp.requests_session import get_requests_session
+from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
+from webapp.requests_session import get_requests_session_with_retries
+
+logger = logging.getLogger(__name__)
 
 withdrawal_reasons = {
-    "27987": "I've accepted another position",
-    "27992": "I've decided to stay with my current employer",
+    "97001": "Accepted another offer – compensation",
+    "97002": "Accepted another offer – role fit",
+    "97004": (
+        "I chose to remain with my current company "
+        "as the timing/offer was a better fit"
+    ),
+    "97003": (
+        "I chose to remain with my current company due to "
+        "a new opportunity/promotion"
+    ),
     "35818": "The position isn't a good fit",
     "36714": "I cannot complete the assessment",
     "33": "Other",
@@ -79,7 +88,7 @@ application = flask.Blueprint(
 
 base_url = "https://harvest.greenhouse.io/v1"
 
-directory_api_url = "https://directory.wpe.internal/graphql/"
+directory_api_url = "https://api.directory.canonical.com/graphql/"
 directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
 
 # Helpers
@@ -101,8 +110,9 @@ def _get_employee_directory_data(employee_id: str):
         headers={"Authorization": directory_api_token},
         use_json=True,
         verify=False,
+        timeout=5,
     )
-    client = Client(transport=transport, fetch_schema_from_transport=True)
+    client = Client(transport=transport)
     filter_term = r"{id: $id}"
     query = gql(
         """
@@ -238,28 +248,29 @@ def _get_application(harvest, application_id):
     for recruiter in job["hiring_team"]["recruiters"]:
         if recruiter["responsible"]:
             application["hiring_lead"] = harvest.get_user(recruiter["id"])
+            application["hiring_lead"]["bio"] = None
+            application["hiring_lead"]["avatar"] = None
 
             try:
                 employee_data = _get_employee_directory_data(
                     recruiter["employee_id"]
                 )
-                # Avatar not available for now
-                application["hiring_lead"]["avatar"] = None
-                # Split bio into a list, as it was previously
                 if employee_data["bio"]:
                     application["hiring_lead"]["bio"] = employee_data[
                         "bio"
                     ].split("\\n")
-                else:
-                    application["hiring_lead"]["bio"] = None
 
-            except HTTPError as error:
-                print(error)
+            except Exception:
+                logger.exception("failed to load hl bio")
 
-            if job_id == "2680006":  # Enterprise Sales Representative
+            if job_id == 2680006:  # Enterprise Sales Representative
                 application["hiring_lead"][
                     "video_src"
                 ] = "https://www.youtube.com/embed/UvDSXgPbpt8"
+            elif job_id == 2804114:  # Chief Revenue Officer
+                application["hiring_lead"][
+                    "video_src"
+                ] = "https://www.youtube.com/embed/hO1rXwoRjx0"
             elif (
                 # Currently only user with video
                 # as we don't have a source to pull this video from
@@ -304,6 +315,13 @@ def _get_application(harvest, application_id):
         interview["stage_name"] = interviews_stage[
             interview["interview"]["id"]
         ]
+
+        # Remove private interviewer information
+        interviewers = interview.get("interviewers")
+        if interviewers is None:
+            interviewers = []
+
+        interview["interviewers"] = [{"name": i["name"]} for i in interviewers]
 
     application["to_be_rejected"] = False
     application["role_name"] = _calculate_job_title(application)
@@ -421,7 +439,7 @@ def application_access_denied():
 
 @application.route("/<string:token>")
 def handle_application_index(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_index(harvest, token)
 
@@ -449,12 +467,13 @@ def application_index(harvest, token):
         application=application,
         candidate=application["candidate"],
         withdrawn=withdrawn,
+        second_look_req_id=SECOND_LOOK_REQ_ID,
     )
 
 
 @application.route("/get-report/<string:token>", methods=["POST"])
 def handle_application_report(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_report(harvest, token)
 
@@ -484,7 +503,7 @@ def application_report(harvest, token):
 
 @application.route("/withdraw/<string:token>")
 def handle_application_withdrawal(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return application_withdrawal(harvest, token)
 
@@ -650,7 +669,7 @@ def application_withdrawal(harvest, token):
 
 @application.route("/<string:token>", methods=["POST"])
 def handle_request_withdrawal(token):
-    with get_requests_session() as session:
+    with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
         return request_withdrawal(harvest, token)
 
@@ -730,10 +749,28 @@ def request_withdrawal(harvest, token):
 
 
 @application.app_template_filter()
-def job_location_countries(job_location):
+def job_location_countries(job_location_name: str):
+    """
+    locations as of 2025-12-02:
+        Office Based - London, UK
+        Home based - EMEA
+        Home Based - Americas
+        Office Based - Toronto, Canada
+        Home based - Worldwide
+        Office Based - Taipei, Taiwan
+        Office Based - Beijing, China
+        Home Based - APAC
+    """
+
+    if job_location_name is None:
+        return []
+    job_location_name = job_location_name.lower()
+    if "home based" not in job_location_name:
+        return []
+
     countries = []
-    for region in regions:
-        if region in job_location:
-            for country in regions[region]:
+    for region, region_countries in REGION_COUNTRIES.items():
+        if region in job_location_name or "worldwide" in job_location_name:
+            for country in region_countries:
                 countries.append({"@type": "Country", "name": country})
     return countries

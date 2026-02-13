@@ -44,7 +44,7 @@
     {%- if slot == 'cta' -%}
       <a href="/contact-us"
          aria-controls="partners-silicon-intel-modal"
-         class="p-button--positive">Get in touch</a>
+         class="p-button--positive js-invoke-modal">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--3-2 is-highlighted is-cover u-hide--small">
@@ -168,7 +168,7 @@
             <div class="p-equal-height-row__item">
               <hr class="p-rule--muted u-hide--small u-hide--medium" />
               <p>
-                <a href="https://ubuntu.com/industrial">Learn more about Industrial use cases&nbsp;&rsaquo;</a>
+                <a href="/solutions/industrial">Learn more about Industrial use cases&nbsp;&rsaquo;</a>
               </p>
             </div>
           </div>
@@ -182,7 +182,7 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
-        <a href="https://ubuntu.com/ai/mlops">Learn how to streamline your AI workflow with MLOps&nbsp;&rsaquo;</a>
+        <a href="/mlops">Learn how to streamline your AI workflow with MLOps&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
@@ -426,7 +426,7 @@
           </p>
           <div class="p-cta-block">
             <!-- This needs to be updated after creation of new form -->
-            <a href="https://canonical.com/contact-us" class="p-button--positive">Contact us</a>
+            <a href="/contact-us" class="p-button--positive">Contact us</a>
           </div>
         </div>
       </div>
@@ -454,7 +454,7 @@
           </div>
           <div class="p-equal-height-row__item">
             <p>
-              <a href="https://canonical.com/data/opensearch"
+              <a href="/data/opensearch"
                  aria-label="Learn more about OpenSearch">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
@@ -505,7 +505,7 @@
           </div>
           <div class="p-equal-height-row__item">
             <p>
-              <a href="https://ubuntu.com/ai/what-is-kubeflow"
+              <a href="/mlops/kubeflow/what-is-kubeflow"
                  aria-label="Learn more about Charmed Kubeflow">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
@@ -654,7 +654,7 @@
           <li class="p-list__item is-ticked">Access to the Ubuntu developer ecosystem</li>
         </ul>
         <div class="p-cta-block">
-          <a href="https://canonical.com/partners/silicon"
+          <a href="/partners/silicon"
              class="p-button"
              aria-label="Learn more about how to optimize your silicon for Ubuntu">Learn about silicon partnerships</a>
           <a href="https://ubuntu.com/engage/driving-open-source-together-with-canonical-and-intel">Download the whitepaper on how Intel and Canonical collaborate&nbsp;&rsaquo;</a>
@@ -663,8 +663,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% include "/shared/forms/form-template.html" %}
+  {{ load_form('/partners/silicon/intel') | safe }}
 
 {% endblock %}

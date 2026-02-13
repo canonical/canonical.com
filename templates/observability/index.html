@@ -31,8 +31,8 @@
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <a href="/observability/contact-us"
-         class="p-button--positive"
-         aria-controls="observability-contact-modal">Contact us</a>
+         class="p-button--positive js-invoke-modal"
+         aria-controls="observability-modal">Contact us</a>
       <a href="/observability/what-is-observability">Learn more about observability&nbsp;&rsaquo;</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
@@ -462,11 +462,7 @@
   {% with section_classes='p-section--deep', title_link="/blog/tag/observability", tag_id='4125', limit='4', hide_date=True, tag_name='observability', link_image=True, show_image=True, show_excerpt=True, excerptLength=200, show_start_rule=True, is_title_link=True, heading_class="p-heading--2" %}
     {% include "/shared/_blog-card.html" %}
   {% endwith %}
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/observability#success" %}
-    {% include "observability/_observability-modal.html" %}
-  {% endwith %}
+  {{ load_form("/observability") | safe }}
 
 {% endblock content %}

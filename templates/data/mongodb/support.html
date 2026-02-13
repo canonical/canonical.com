@@ -27,8 +27,8 @@
           Draw on Canonical's expertise and run MongoDB securely and efficiently in your enterprise. Get 24/7 phone/ticket support for your critical data infrastructure with <a href="https://ubuntu.com/pro">Ubuntu Pro</a> + Support.
         </p>
         <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="/data/mongodb#get-in-touch"
+        <a class="p-button--positive js-invoke-modal"
+           href="/contact-us"
            aria-controls="data-mongodb-modal">Get MongoDB Support</a>
       </div>
       <div class="col">
@@ -130,8 +130,8 @@
     <div class="row">
       <hr class="p-rule--muted" />
       <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
-        <a class="p-button--positive"
-           href="/data/mongodb#get-in-touch"
+        <a class="p-button--positive js-invoke-modal"
+           href="/contact-us"
            aria-controls="data-mongodb-modal">
           Get
         support</a>
@@ -272,9 +272,9 @@
         </p>
         <hr class="p-rule--muted" />
         <p>
-          <a class="p-button"
+          <a class="p-button js-invoke-modal"
              href="/contact-us"
-             aria-controls="data-mongodb-modal">Get in touch<span class="u-off-screen">Get in touch</span></a>
+             aria-controls="data-mongodb-modal">Get in touch</a>
         </p>
       </div>
     </div>
@@ -285,7 +285,7 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <p class="p-heading--2">
-        <a href="/contact-us" aria-controls="data-mongodb-modal">Contact us to get support for MongoDB&nbsp;&rsaquo;</a>
+        <a href="/contact-us" aria-controls="data-mongodb-modal" class="js-invoke-modal">Contact us to get support for MongoDB&nbsp;&rsaquo;</a>
       </p>
     </div>
   </section>
@@ -316,7 +316,7 @@
             }}
             <hr class="p-rule--muted" />
             <p>
-              <a href="https://charmed-kubeflow.io/">Learn more&nbsp;&rsaquo;</a>
+              <a href="/mlops/kubeflow">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
           <div class="p-logo-section__item">
@@ -344,7 +344,7 @@
             }}
             <hr class="p-rule--muted" />
             <p>
-              <a href="https://ubuntu.com/ai/mlflow">Learn more&nbsp;&rsaquo;</a>
+              <a href="/mlops/mlflow">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
           <div class="p-logo-section__item">
@@ -463,12 +463,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set formid = "4903" %}
-    {% set returnURL = "https://canonical.com/data/mongodb#success" %}
-    {% include "data/_form-data-mongodb.html" %}
-  {% endwith %}
+  {{ load_form("/data/mongodb/support") | safe }}
 
 {% endblock %}

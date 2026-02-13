@@ -1,9 +1,14 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier"],
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-prettier"
+  ],
   "plugins": [
     "stylelint-order"
   ],
-  "ignoreFiles": ["static/sass/_hljs.scss"],
+  "ignoreFiles": [
+    "static/sass/_hljs.scss"
+  ],
   "rules": {
     "no-invalid-position-at-import-rule": null,
     "scss/at-mixin-pattern": null,
@@ -14,19 +19,31 @@
     "scss/no-global-function-names": null,
     "selector-class-pattern": null,
     "scss/at-extend-no-missing-placeholder": null,
-    "at-rule-no-unknown": [ true, {
-      "ignoreAtRules": [
-        "extend",
-        "include",
-        "mixin",
-        "for",
-        "function",
-        "if",
-        "else",
-        "warn",
-        "return",
-        "use"
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "extend",
+          "include",
+          "starting-style",
+          "mixin",
+          "for",
+          "function",
+          "if",
+          "else",
+          "warn",
+          "return",
+          "use"
         ]
-    } ]
+      }
+    ],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "transition-behavior"
+        ]
+      }
+    ]
   }
 }

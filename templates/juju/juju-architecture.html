@@ -1,0 +1,422 @@
+{% extends 'juju/how-juju-works.html' %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% block title %}Juju architecture{% endblock %}
+
+{% block meta_keywords %}Software operators{% endblock %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/11t4Z5zMGhyMIUZZbp61iP_eybKFld0kidsviAJKrMd0/edit
+{% endblock meta_copydoc %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% set selected_tab = "juju-architecture" %}
+
+{% block how_juju_works_content %}
+    {{ vf_basic_section(title={"text": "Juju high-level architecture"},
+        is_split_on_medium=true,
+        top_rule_variant="none",
+        padding="shallow",
+        subtitle={
+        "text": "Juju provides a declarative, model-driven, and interactive way to install, provision, maintain, update, and integrate applications on and across Kubernetes, Linux containers, virtual machines, and bare metal machines, on public or private cloud.", "heading_level": 5},
+        items=[
+        {
+        "type": "description",
+        "item": {
+        "type": "html",
+        "content": '
+        <p>
+            The following diagram provides an overview of the high level architecture of a Juju deployment and it describes the key components of the system. You can find a more detailed explanation of all the components you find in this page in the <a href="https://documentation.ubuntu.com/juju/3.6/reference/">reference section</a> of the Juju documentation.
+        </p>
+        '
+        }
+        }
+        ]) }}
+    <section class="p-section">
+        <div class="u-fixed-width p-section--shallow">
+            <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/6c85b84a-juju_high_level_architecture.png",
+                                alt="",
+                                width="3696",
+                                height="1503",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="grid-col-2 grid-col-start-large-3">
+                <ul class="js-tabbed-content p-tabs--vertical u-hide--small"
+                    role="tablist"
+                    aria-label="Juju high-level architecture tabs"
+                    data-tablist="juju-high-level-architecture">
+                    <li>
+                        <button class="p-tabs__item"
+                                id="cloud"
+                                role="tab"
+                                aria-selected="true"
+                                aria-controls="cloud-tab">Cloud</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="controller"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="controller-tab">Controller</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="model"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="model-tab">Model</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="charm"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="charm-tab">Charm</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="application"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="application-tab">Application</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="integration"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="integration-tab">Integration</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="client"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="client-tab">Client</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="action"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="action-tab">Action</button>
+                    </li>
+                    <li>
+                        <button class="p-tabs__item"
+                                id="units"
+                                role="tab"
+                                aria-selected="false"
+                                aria-controls="units-tab">Units</button>
+                    </li>
+                </ul>
+                <form class="u-hide--large u-hide--medium">
+                    <select name="tabSelect"
+                            data-tablist="juju-high-level-architecture"
+                            aria-label="Juju high-level architecture tabs">
+                        <option value="cloud-tab">Cloud</option>
+                        <option value="controller-tab">Controller</option>
+                        <option value="model-tab">Model</option>
+                        <option value="charm-tab">Charm</option>
+                        <option value="application-tab">Application</option>
+                        <option value="integration-tab">Integration</option>
+                        <option value="client-tab" selected="">Client</option>
+                        <option value="action-tab">Action</option>
+                        <option value="units-tab">Units</option>
+                    </select>
+                </form>
+            </div>
+            <div class="grid-col-4" data-tablist="juju-high-level-architecture">
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="cloud-tab"
+                     aria-labelledby="cloud"
+                     aria-hidden="true">
+                    <p>
+                        To Juju, a <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/">cloud</a> (or backing cloud) is any entity that has an API that can provide compute, networking, and optionally storage resources in order for application units to be deployed on them. This includes public clouds such as Amazon Web Services, Google Compute Engine, Microsoft Azure and Kubernetes as well as private OpenStack-based clouds.
+                    </p>
+                    <p>
+                        Juju works on most cloud environments. Juju can also make use of environments which are not clouds per se, by treating them as a cloud. MAAS and LXD fit into this last category. Because of this, in Juju a cloud is sometimes also called a <em>substrate</em>.
+                    </p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="controller-tab"
+                     aria-labelledby="controller"
+                     aria-hidden="true">
+                    <p>
+                        A <a href="https://documentation.ubuntu.com/juju/3.6/reference/controller">controller</a> is the management node of any deployed cloud environment. A controller:
+                    </p>
+                    <ul>
+                        <li>Talks to the cli as well as all the other juju clients.</li>
+                        <li>Manages the deployment and keeps track of its state.</li>
+                        <li>Connects to charmhub to fetch and deploy charms.</li>
+                        <li>Interacts with the underlying cloud to provision necessary resources (compute, storage, networking).</li>
+                        <li>Facilitates the integration between charms in the same cloud or across clouds.</li>
+                    </ul>
+                    <p>
+                        Controllers must first be <a href="https://documentation.ubuntu.com/juju/3.6/howto/manage-controllers/#bootstrap-a-controller">bootstrapped</a>.
+                    </p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="model-tab"
+                     aria-labelledby="model"
+                     aria-hidden="true">
+                    <p>
+                        A <a href="https://documentation.ubuntu.com/juju/3.6/reference/model">model</a> is a user-defined collection of applications that wraps all of the components required to support them, such as integrations, storage, and network spaces.
+                    </p>
+                    <p>
+                        A model is associated with a single controller. A controller can have an indefinite number of models and each model can have an indefinite number of applications. Models themselves can be shared amongst Juju users.
+                    </p>
+                    <p>
+                        Both the model and the controller are associated with a cloud, though they do not both have to be on the same cloud (a controller can manage models across multiple clouds).
+                    </p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="charm-tab"
+                     aria-labelledby="charm"
+                     aria-hidden="true">
+                    <p>
+                        A <a href="https://documentation.ubuntu.com/juju/3.6/reference/charm">charm</a> is an operator: business logic encapsulated in reusable software packages that automate every aspect of an application’s life.
+                    </p>
+                    <p>
+                        Charms are publicly available on Charmhub and they are of two kinds, depending on the target deployment substrate:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Machine charms:</strong> Charms made to deploy on a bare-metal server, virtual machine, or system container.
+                        </li>
+                        <li>
+                            <strong>Kubernetes charms:</strong> Charms built to deploy on Kubernetes.
+                        </li>
+                    </ol>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="application-tab"
+                     aria-labelledby="application"
+                     aria-hidden="true">
+                    <p>
+                        An <a href="https://documentation.ubuntu.com/juju/3.6/reference/application">application</a> is a running abstraction of a charm in the Juju model. It is the sum of all units of a given charm with the same name.
+                    </p>
+                    <p>
+                        Applications could correspond to a traditional software package but they could also include instructions to apply a certain set of changes to an existing workload.
+                    </p>
+                    <p>An application is always hosted within a model and consists of one or more units.</p>
+                    <p>Interaction between applications is handled by integrations.</p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="integration-tab"
+                     aria-labelledby="integration"
+                     aria-hidden="true">
+                    <p>
+                        An <a href="https://documentation.ubuntu.com/juju/3.6/reference/relation">integration</a> is a connection between applications.
+                    </p>
+                    <p>
+                        An integration between two applications is formed by connecting their endpoints. Endpoints can only be connected if they support the same interface and are of a compatible role (for example: requires to provides; provides to requires; peers to peers).
+                    </p>
+                    <p>
+                        Integrations mediate the configuration exchange between applications. Once an integration has been formed the two applications communicate directly (and not through the controller).
+                    </p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="client-tab"
+                     aria-labelledby="client"
+                     aria-hidden="true">
+                    <p>
+                        A Juju <a href="https://documentation.ubuntu.com/juju/3.6/reference/client/">client</a> is any software that implements the Juju client apiserver contract and it is able to talk to the controller.
+                    </p>
+                    <p>This currently includes:</p>
+                    <ul>
+                        <li>The Juju CLI (juju).</li>
+                        <li>The Terraform CLI when used with the juju provider plug-in (terraform).</li>
+                        <li>The python-libjuju library (python-libjuju).</li>
+                        <li>Jimm, the central management component of Jaas.</li>
+                    </ul>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="action-tab"
+                     aria-labelledby="action"
+                     aria-hidden="true">
+                    <p>
+                        An <a href="https://documentation.ubuntu.com/juju/3.6/reference/action">action</a> is a custom operation for a specific charm or application delivered by a charm.
+                    </p>
+                    <p>
+                        It contains a list of commands defined by a charm to allow a user to interact with the application and streamline the performance of a specific task.
+                    </p>
+                    <p>
+                        Actions generally simplify routine or complex tasks (like backup and secret rotation), abstracting away their complexity from the IT manager.
+                    </p>
+                </div>
+                <div tabindex="0"
+                     role="tabpanel"
+                     id="units-tab"
+                     aria-labelledby="units"
+                     aria-hidden="true">
+                    <p>
+                        In Juju a <a href="https://documentation.ubuntu.com/juju/3.6/reference/unit">unit</a> is a deployed charm, a single deployed entity of a deployed application.
+                    </p>
+                    <p>
+                        The number of units can generally be controlled by the IT manager, however the charm might also specify certain requirements in order to enable certain features (e.g. high availability).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ vf_basic_section(title={"text": "A single tool to deploy and manage apps across VMs, Kubernetes, bare metal and cloud"},
+        is_split_on_medium=true,
+        padding="shallow",
+        subtitle={"text": "Flexibility and portability are at the heart of Juju", "heading_level": 5},
+        items=[
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": '
+        Juju and charms <a href="https://documentation.ubuntu.com/juju/3.6/reference/cloud/list-of-supported-clouds">support multiple cloud backends</a>, giving you the choice to deploy your applications to the most cost effective, resource-rich or commercially suitable clouds, and then connect them in a way that suits your application model.
+        '
+        }
+        },
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": "In addition Juju gives you flexibility in how to orchestrate your deployment. You can manage everything from a single, centralised Juju controller, or you can have multiple controllers installed on each layer of the infrastructure."
+        }
+        }
+        ]) }}
+    <section class="p-section">
+        <div class="u-fixed-width">
+            <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/4ac7df4b-a_single_tool.png",
+                                alt="",
+                                width="3696",
+                                height="1515",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+            </div>
+        </div>
+    </section>
+
+    {{ vf_basic_section(title={"text": "Juju on k8s"},
+        is_split_on_medium=true,
+        padding="shallow",
+        subtitle={"text": "When applications are deployed on Kubernetes every instance of a workload runs in a pod with its own container and next to the Juju unit agent.", "heading_level": 5},
+        items=[
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": '
+        The model corresponds to a namespace and the applications are generally deployed as StatefulSets.
+        '
+        }
+        },
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": "The Juju agent talks to a component called Pebble in order to interact with the workload. Pebble is a daemon that allows the management of non-system processes independently from the system services."
+        }
+        },
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": "In this model the operations code (the charm) scales together with the workload, reducing the risk for bottlenecks at scale."
+        }
+        }
+        ]) }}
+    <section class="p-section">
+        <div class="u-fixed-width">
+            <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/29530a0d-juju_on_k8s.png",
+                                alt="",
+                                width="3696",
+                                height="1740",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+            </div>
+        </div>
+    </section>
+
+    {{ vf_basic_section(title={"text": "Juju on VMs and system containers"},
+        is_split_on_medium=true,
+        padding="shallow",
+        items=[
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": '
+        In the case of machines the charm runs in a container, alongside the juju agent.
+        '
+        }
+        },
+        {
+        "type": "description",
+        "item": {
+        "type": "text",
+        "content": "The workload is deployed alongside the charm code and juju agent and it is directly controlled by the unit workers."
+        }
+        }
+        ]) }}
+    <section class="p-section">
+        <div class="u-fixed-width">
+            <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/68c2e977-juju_on_vms.png",
+                                alt="",
+                                width="3696",
+                                height="2183",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+            </div>
+        </div>
+    </section>
+
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+        {%- if slot == 'title' -%}
+            <h2>Read about these next:</h2>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_1' -%}
+            <a href="/juju/charms-architecture" class="p-heading--5">Charm architecture</a>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                Charm architecture encapsulates app management, with charms automating lifecycle actions via a controller, responsive to both admin commands and system events.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_2' -%}
+            <a href="/juju/integrations" class="p-heading--5">Integrations</a>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_2' -%}
+            <p>Juju integrations are virtual connections between applications to allow the exchange of information.</p>
+        {%- endif -%}
+    {%- endcall -%}
+
+    <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+{% endblock %}

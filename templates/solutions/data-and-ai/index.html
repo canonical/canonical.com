@@ -1,0 +1,328 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% block title %}Data & AI solutions{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1xvIpzJyabI9gvwf06VkxiAkNeSLj4aRReYfSDv8fu2g/
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+  Discover the fundamental data and AI solutions that underpin any successful organization, and how to build them with best-in-class open source.
+{% endblock meta_description %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Data & AI solutions<br />that do the heavy lifting for you',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Get the foundations for your data right and automate manual work. Focus on innovating with AI. Do it all on open source supported by the publisher of Ubuntu.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         aria-controls="data&ai-modal"
+         class="p-button--positive js-invoke-modal">Contact us</a>
+    {%- endif -%}
+
+  {% endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Unlock the data fundamentals</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Before you can use your data for machine learning or advanced analytics, you need effective ways to store and process it.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Data warehouse</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        A data warehouse is your central repository for storing and managing structured and semi-structured data. With our multi-cloud PostgreSQL automation solution, you can build a secure and highly available system to efficiently analyze terabytes of data. You can also integrate multiple data feeds through our native Apache Kafka&reg; support.
+      </p>
+      <div class="p-cta-block">
+        <a href="/data/warehouse">Understand data warehouses&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Data lakehouse</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        A data lakehouse combines the capabilities of a data warehouse with the flexibility to handle raw and unstructured data. With our built-in integrations spanning Apache Kafka, Apache Spark&reg;, Apache Kyuubi&reg;, OpenSearch, Kubeflow and beyond, we help you build a cost effective, open source platform to manage petabytes of data &mdash; ideal for your next AI/ML use cases.
+      </p>
+      <div class="p-cta-block">
+        <a href="/data/lakehouse">Understand data lakehouses&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Data streaming</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Our event streaming blueprints enable you to build a low-latency, cost-effective, and highly-scalable platform to analyze your data in real-time while ensuring the durability of your data and messages. With our unified automation solution, you can integrate Apache Kafka, PostgreSQL, MySQL, OpenSearch, MongoDB, Apache Spark, and more using the same control plane.
+        <div class="p-cta-block">
+          <a href="/data/streaming">Understand data streaming&nbsp;&rsaquo;</a>
+        </div>
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Vector database</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Whatever your use case, we have you covered. With our pg_vector extension for PostgreSQL, you can experiment with vector search using your CPU’s built-in accelerators, without the need to duplicate your data or invest heavily in GPUs. Alternatively, you can use our OpenSearch solution to optimize your vector and hybrid search use cases via GPU acceleration.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/vector-database-opensearch-ai">Access the guide to vector databases&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+  {%- endcall -%}
+
+  <div class="p-section">
+    <div class="u-fixed-width">
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/1444b4e8-data-center.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                attrs={"class": "p-image-container__image"},
+                loading="lazy") | safe
+        }}
+      </div>
+    </div>
+  </div>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Put your data to work</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>With a robust foundation in place, you can begin unlocking the true value of your data with AI/ML use cases.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">MLOps</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        MLOps is the key to bringing AI projects to production at scale. Canonical delivers an open source MLOps platform based on Charmed Kubeflow, designed to automate your machine learning workflows and seamlessly integrate with a wide array of leading ML tools.
+      </p>
+      <div class="p-cta-block">
+        <a href="/mlops">Discover Canonical’s composable approach to MLOps&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Observability</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Stay on top of your application performance with open source monitoring tools and dashboards. We provide security and support for a comprehensive collection of best-in-class observability solutions including Prometheus, Grafana, OpenTelemetry, and more.
+      </p>
+      <div class="p-cta-block">
+        <a href="/observability">Explore open source observability&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">RAG</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Retrieval augmented generation (RAG) is the leading method for enhancing the accuracy and relevance of LLM outputs – and you can easily use Canonical’s Charmed OpenSearch as your open source vector database to enable RAG capabilities.
+        <div class="p-cta-block">
+          <a href="/solutions/ai/genai">Learn more about GenAI infrastructure and RAG&nbsp;&rsaquo;</a>
+        </div>
+      </p>
+    {%- endif -%}
+
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <div class="p-section--shallow">
+        <hr class="p-rule" />
+        <h2 class="p-text--small-caps">We support our solutions on all major public clouds</h2>
+        <div class="p-logo-section">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/49d5ad11-aws-logo.png",
+                            alt="AWS",
+                            width="151",
+                            height="313",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/fb417bbb-microsoft-azure-logo.png",
+                            alt="Azure",
+                            width="272",
+                            height="313",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/1f97e8fa-google-cloud-logo.png",
+                            alt="Google Cloud",
+                            width="382",
+                            height="313",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/f50afad4-ibm-cloud-logo-updated.png",
+                            alt="IBM Cloud",
+                            width="304",
+                            height="313",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/67f1204b-oracle-cloud-logo.png",
+                            alt="Oracle Cloud Infrastructure",
+                            width="387",
+                            height="313",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/7b6539da-programmer.jpg",
+                alt="",
+                width="2464",
+                height="1028",
+                hi_def=True,
+                attrs={"class": "p-image-container__image"},
+                loading="lazy") | safe
+        }}
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Get to market faster</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>Fast track your data and AI solution maturity with the help of Canonical’s experts.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Consulting</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Let us take care of deploying your open source databases. Accelerate your AI initiatives with MLOps design, deployment, and operation services. We’ll run an AI workshop with you to translate your business and technical requirements into a bespoke machine learning environment.
+      </p>
+      <div class="p-cta-block">
+        <a href="/consulting">Explore Canonical’s open source consulting&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Managed Services</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Canonical delivers Managed Services across the data and AI application ecosystem. You focus on your core business, and we’ll handle operations for your databases, MLOps, and data processing.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/managed/apps">Learn more about our managed services&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Data & AI resources</h2>
+      </div>
+      <div class="col">
+        <ul class="p-list--divided u-no-margin--bottom">
+          <li class="p-list__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">
+              <a href="/data">Canonical’s data solutions</a>
+            </h3>
+            Get to know Canonical’s portfolio of database solutions, and how we bring advanced automation to open source data systems.
+          </li>
+          <li class="p-list__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/mlops-toolkit">MLOps toolkit</a>
+            </h3>
+            Learn how to build and scale your machine learning operations with this end-to-end guide covering the entire stack.
+          </li>
+          <li class="p-list__item">
+            <h3 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/vector-databases-generative-ai">GenAI with vector databases and RAG</a>
+            </h3>
+            Go deeper on GenAI in this webinar explaining how to enhance your model outputs with RAG.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="p-section--deep">
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
+        <p class="u-text--muted">
+          Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache®, Apache Kyuubi, Kyuubi, and the Kyuubi logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+      </div>
+    </div>
+  </section>
+  {{ load_form("/solutions/data-and-ai") | safe }}
+
+{% endblock content %}

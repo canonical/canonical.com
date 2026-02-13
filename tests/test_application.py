@@ -1,20 +1,27 @@
 import json
 import unittest
+import os
 from unittest.mock import MagicMock, patch
 import flask
 
 from vcr_unittest import VCRTestCase
 from webapp.app import app
 from webapp.application import (
-    _milestones_progress,
-    _sort_stages_by_milestone,
+    _confirmation_token,
+    _get_application,
+    _get_application_from_token,
+    _get_cipher,
     _get_gia_feedback,
     _get_employee_directory_data,
+    _milestones_progress,
+    _send_mail,
+    _sort_stages_by_milestone,
     _submitted_email_match,
     application_withdrawal,
+    job_location_countries,
 )
 from webapp.greenhouse import Harvest
-from webapp.utils.cipher import Cipher
+from webapp.utils.cipher import Cipher, InvalidToken
 
 all_stages = [
     {"name": "Application Review"},
@@ -39,7 +46,13 @@ class TestApplicationPageHelpers(VCRTestCase):
         This removes the authorization header
         from VCR so we don't record auth parameters
         """
-        return {"filter_headers": ["Authorization"]}
+        return {
+            "filter_headers": ["Authorization"],
+            # Our cassettes include gzip-compressed response bodies.
+            # Enable transparent decoding during playback so callers can
+            # safely call `response.json()`.
+            "decode_compressed_response": True,
+        }
 
     def setUp(self):
         """
@@ -152,6 +165,18 @@ class TestApplicationPageHelpers(VCRTestCase):
         html_content = response.data.decode("utf-8")
         # Test Requistion ID is in the page
         self.assertIn("<p>Requisition ID: 613</p>", html_content)
+
+    def test_cipher_encrypts_and_decrypts(self):
+        """
+        Ensure that the Cipher class can
+        encrypt and decrypt data correctly
+        """
+        cipher = Cipher("unit-test-secret")
+        plaintext = "confidential data"
+        encrypted = cipher.encrypt(plaintext)
+
+        self.assertNotEqual(encrypted, plaintext)
+        self.assertEqual(cipher.decrypt(encrypted), plaintext)
 
 
 class TestGetGiaFeedback(unittest.TestCase):
@@ -412,6 +437,287 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
 
         # pop the test context
         self.ctx.pop()
+
+
+class TestGetCipher(unittest.TestCase):
+    def test_get_cipher_uses_env_secret(self):
+        """
+        Ensure that _get_cipher uses the
+        APPLICATION_CRYPTO_SECRET_KEY environment variable
+        """
+        with patch.dict(
+            os.environ,
+            {"APPLICATION_CRYPTO_SECRET_KEY": "test-key"},
+            clear=True,
+        ):
+            with patch("webapp.application.Cipher") as mock_cipher:
+                cipher_instance = mock_cipher.return_value
+                result = _get_cipher()
+
+        mock_cipher.assert_called_once_with("test-key")
+        self.assertIs(result, cipher_instance)
+
+    def test_get_cipher_defaults_to_empty_secret(self):
+        """
+        Ensure that _get_cipher defaults to
+        an empty string when APPLICATION_CRYPTO_SECRET_KEY
+        is not set
+        """
+        with patch.dict(os.environ, {}, clear=True):
+            with patch("webapp.application.Cipher") as mock_cipher:
+                _get_cipher()
+
+        mock_cipher.assert_called_once_with("")
+
+
+class TestGetApplication(unittest.TestCase):
+    def setUp(self):
+        self.app_ctx = app.app_context()
+        self.app_ctx.push()
+
+    def tearDown(self):
+        self.app_ctx.pop()
+
+    @patch("webapp.application._get_employee_directory_data")
+    def test_populates_hiring_lead_and_interviews(self, mock_directory):
+        """
+        Ensure that _get_application populates
+        hiring_lead data and scheduled interviews correctly
+        """
+        harvest = MagicMock(spec=Harvest)
+        harvest.get_application.return_value = {
+            "id": 123,
+            "job_post_id": 10,
+            "jobs": [{"id": 1, "name": "Original Role"}],
+            "candidate_id": 55,
+            "attachments": [],
+            "current_stage": {"name": "Application Review"},
+            "status": "active",
+            "rejection_reason": {"type": {"id": 2}},
+            "rejected_at": None,
+        }
+        harvest.get_job_post.return_value = {
+            "job_id": 1,
+            "title": "Original Role",
+        }
+        harvest.get_candidate.return_value = {
+            "id": "cand-55",
+            "email_addresses": [],
+        }
+        harvest.get_job.return_value = {
+            "hiring_team": {
+                "recruiters": [
+                    {
+                        "responsible": True,
+                        "id": 88,
+                        "employee_id": "1000",
+                    }
+                ]
+            }
+        }
+        harvest.get_user.return_value = {
+            "id": 88,
+            "name": "Lead Name",
+            "emails": "lead@example.com",
+        }
+        harvest.get_stages.return_value = [
+            {
+                "name": "Application Review",
+                "interviews": [{"id": 1}],
+            }
+        ]
+        harvest.get_interviews_scheduled.return_value = [
+            {
+                "status": "scheduled",
+                "start": {"date_time": "2024-01-01T10:00:00+00:00"},
+                "end": {"date_time": "2024-01-01T11:00:00+00:00"},
+                "interview": {"id": 1, "name": "Initial call"},
+                "interviewers": [
+                    {"name": "Interviewer", "email": "int@example.com"}
+                ],
+                "external_event_id": "evt-1",
+            }
+        ]
+        mock_directory.return_value = {
+            "bio": "Line1\\nLine2",
+            "name": "Lead Name",
+            "avatar": "avatar.png",
+            "id": "1000",
+        }
+
+        result = _get_application(harvest, "123")
+
+        harvest.get_application.assert_called_once_with(123)
+        harvest.get_job_post.assert_called_once_with(10)
+        mock_directory.assert_called_once_with("1000")
+        self.assertEqual(result["role_name"], "Original Role")
+        self.assertEqual(result["hiring_lead"]["bio"], ["Line1", "Line2"])
+        interview = result["scheduled_interviews"][0]
+        self.assertEqual(interview["duration"], 60)
+        self.assertEqual(interview["stage_name"], "Application Review")
+        self.assertEqual(interview["interviewers"], [{"name": "Interviewer"}])
+
+
+class TestGetApplicationFromToken(unittest.TestCase):
+    def test_returns_application_for_valid_token(self):
+        """
+        Ensure that _get_application_from_token
+        returns the application when given a valid token
+        """
+        harvest = MagicMock(spec=Harvest)
+        mock_cipher = MagicMock()
+        mock_cipher.decrypt.return_value = "123"
+
+        with patch(
+            "webapp.application._get_cipher", return_value=mock_cipher
+        ), patch(
+            "webapp.application._get_application", return_value={"id": 123}
+        ) as mock_get_application:
+            result = _get_application_from_token(harvest, "encrypted-token")
+
+        mock_cipher.decrypt.assert_called_once_with("encrypted-token")
+        mock_get_application.assert_called_once_with(harvest, "123")
+        self.assertEqual(result, {"id": 123})
+
+    def test_raises_invalid_token(self):
+        """
+        Ensure that _get_application_from_token
+        raises InvalidToken when decryption fails
+        """
+        harvest = MagicMock(spec=Harvest)
+        mock_cipher = MagicMock()
+        mock_cipher.decrypt.side_effect = InvalidToken()
+
+        with patch("webapp.application._get_cipher", return_value=mock_cipher):
+            with self.assertRaises(InvalidToken):
+                _get_application_from_token(harvest, "bad-token")
+
+
+class TestSendMail(unittest.TestCase):
+    @patch("webapp.application.SMTP")
+    def test_send_mail_with_authentication(self, mock_smtp):
+        """
+        Ensure that _send_mail works correctly
+        when SMTP authentication is required
+        """
+        smtp_instance = mock_smtp.return_value
+        with patch.dict(
+            os.environ,
+            {
+                "SMTP_SERVER": "smtp.example.com",
+                "SMTP_USER": "user",
+                "SMTP_PASS": "pass",
+                "SMTP_SENDER_ADDRESS": "sender@example.com",
+            },
+            clear=True,
+        ):
+            _send_mail(
+                to_email=["recipient@example.com"],
+                subject="Subject",
+                message="<p>Body</p>",
+            )
+
+        mock_smtp.assert_called_once_with(host="smtp.example.com")
+        self.assertEqual(smtp_instance.ehlo.call_count, 2)
+        smtp_instance.starttls.assert_called_once()
+        smtp_instance.login.assert_called_once_with("user", "pass")
+        smtp_instance.send_message.assert_called_once()
+        smtp_instance.quit.assert_called_once()
+
+    @patch("webapp.application.SMTP")
+    def test_send_mail_without_authentication(self, mock_smtp):
+        """
+        Ensure that _send_mail works correctly
+        when SMTP authentication is not required
+        """
+        smtp_instance = mock_smtp.return_value
+        with patch.dict(
+            os.environ,
+            {
+                "SMTP_SERVER": "smtp.example.com",
+                "SMTP_USER": "",
+                "SMTP_PASS": "",
+                "SMTP_SENDER_ADDRESS": "sender@example.com",
+            },
+            clear=True,
+        ):
+            _send_mail(
+                to_email=["recipient@example.com"],
+                subject="Subject",
+                message="<p>Body</p>",
+            )
+
+        mock_smtp.assert_called_once_with(host="smtp.example.com")
+        smtp_instance.starttls.assert_not_called()
+        smtp_instance.login.assert_not_called()
+        smtp_instance.send_message.assert_called_once()
+        smtp_instance.quit.assert_called_once()
+
+
+class TestConfirmationToken(unittest.TestCase):
+    @patch("webapp.application._get_cipher")
+    def test_confirmation_token_encrypts_payload(self, mock_get_cipher):
+        mock_cipher = MagicMock()
+        mock_cipher.encrypt.return_value = "encrypted-token"
+        mock_get_cipher.return_value = mock_cipher
+
+        token = _confirmation_token(
+            "candidate@example.com",
+            "97001",
+            "Accepted another offer",
+            "12345",
+        )
+
+        expected_payload = json.dumps(
+            {
+                "email": "candidate@example.com",
+                "withdrawal_reason_id": "97001",
+                "withdrawal_message": "Accepted another offer",
+                "application_id": "12345",
+            }
+        )
+        mock_cipher.encrypt.assert_called_once_with(expected_payload)
+        self.assertEqual(token, "encrypted-token")
+
+
+class TestJobLocationCountries(unittest.TestCase):
+    def setUp(self):
+        self.patcher = patch(
+            "webapp.application.REGION_COUNTRIES",
+            {
+                "emea": ["France", "Germany"],
+                "apac": ["Japan"],
+            },
+        )
+        self.mock_regions = self.patcher.start()
+
+    def tearDown(self):
+        self.patcher.stop()
+
+    def test_returns_empty_for_non_remote_role(self):
+        result = job_location_countries("Office Based - London, UK")
+        self.assertEqual(result, [])
+
+    def test_returns_countries_for_matching_region(self):
+        result = job_location_countries("Home Based - EMEA")
+        self.assertEqual(
+            result,
+            [
+                {"@type": "Country", "name": "France"},
+                {"@type": "Country", "name": "Germany"},
+            ],
+        )
+
+    def test_worldwide_returns_all_regions(self):
+        result = job_location_countries("Home based - Worldwide")
+        self.assertEqual(
+            result,
+            [
+                {"@type": "Country", "name": "France"},
+                {"@type": "Country", "name": "Germany"},
+                {"@type": "Country", "name": "Japan"},
+            ],
+        )
 
 
 if __name__ == "__main__":

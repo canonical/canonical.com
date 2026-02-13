@@ -1,26 +1,32 @@
-export default function initGATracking() {
-  addGANavEvents("#products-nav", "canonical.com-nav-products");
-  addGANavEvents("#solutions-nav", "canonical.com-nav-solutions");
-  addGANavEvents("#partners-nav", "canonical.com-nav-partners");
-  addGANavEvents("#careers-nav", "canonical.com-nav-careers");
-  addGANavEvents("#company-nav", "canonical.com-nav-careers");
+import initMeganavTracking, { destroyMeganavTracking } from "./meganav-tracking";
+import initMeganavTrackingMobile, { destroyMeganavTrackingMobile } from "./meganav-tracking-mobile";
+import initMeganavSearchTracking from "./meganav-tracking-searchbox";
 
-  function addGANavEvents(target, category) {
-    var t = document.querySelector(target);
-    if (t) {
-      t.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () {
-          dataLayer.push({
-            event: "GAEvent",
-            eventCategory: category,
-            eventAction: `from:${origin} to:${a.href}`,
-            eventLabel: a.text,
-            eventValue: undefined,
-          });
-        });
-      });
-    }
+const mql = window.matchMedia("(min-width: 1035px)");
+let isDesktopMode = mql.matches;
+
+export default function initGATracking() {
+  // Gate initialization by breakpoint at startup
+  if (isDesktopMode) {
+    initMeganavTracking();
+  } else {
+    initMeganavTrackingMobile();
   }
+  initMeganavSearchTracking();
+
+  mql.addEventListener("change", (e) => {
+    const nextIsDesktop = e.matches;
+    if (nextIsDesktop === isDesktopMode) return;
+
+    if (nextIsDesktop) {
+      destroyMeganavTrackingMobile();
+      initMeganavTracking();
+    } else {
+      destroyMeganavTracking();
+      initMeganavTrackingMobile();
+    }
+    isDesktopMode = nextIsDesktop;
+  });
 
   addGAContentEvents("#main-content");
 

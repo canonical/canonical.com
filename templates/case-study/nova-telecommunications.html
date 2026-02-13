@@ -1,0 +1,265 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}Nova chooses open source to build a cost-effective telco cloud{% endblock %}
+
+{% block meta_description %}
+  Discover how Nova Telecommunications built an open source private cloud to increase cost-effectiveness and deliver cutting-edge connectivity to their customers.
+{% endblock %}
+
+{% block meta_company_name %}Nova{% endblock %}
+
+{% block meta_copydoc %}https://docs.google.com/document/d/1tAMjpm7fwjfkdCJ8yQE8pwMOXiaccOhORamCYu5wKqE{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text='Nova harnesses open source to build<br class="u-hide--medium u-hide--small" /> a cost-effective telco private cloud',
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/de36a083-nova-logo.png",
+            alt="",
+            width="852",
+            height="199",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Nova") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Nova, a member of United Group, the leading telecommunications and media group in Southeastern Europe, is one of the leading telecommunications providers in Greece.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Services provided by Nova include broadband, mobile, television and fixed networking for end consumers and businesses.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      As both technology and customer expectations evolve, Nova is investing in expanding its infrastructure, in order to capture customer demand for novel products and increased coverage across Greece.
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Nova selected Canonical as their partner to provide a fully open source telecom cloud infrastructure.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Canonical’s open source portfolio, provided a suite of solutions for Nova to transform its infrastructure from top to bottom, underpinned by a roadmap for delivery that focused on expanding Nova’s existing infrastructure.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Nova’s collaboration with Canonical enabled the company to reduce both their time to market for new products and the total cost of ownership of its infrastructure.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/3a748073-image1-updated.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Keeping up the pace for a growing customer base") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        In the face of rapid technological evolution, one of the constants has been the importance of telecommunications. Telecommunications systems embody technological evolution and bring it within reach of ordinary consumers. The journey from landline telephones to mobile services, 5G and superfast internet has been driven by telco operators who work to commercialize these innovative technologies. In order for telecommunications companies to keep supporting innovation, they need to be innovative with their underlying infrastructure.
+      </p>
+      <p>
+        Nova is a telecommunications operator that provides mobile, broadband, television and fixed network services to households and businesses in Greece. Recognizing the need for innovation, Nova intends to scale-up and scale-out the services it offers to customers, but wanted to make sure innovation started at home. In order to grow sustainably, improve time to market, and continue delivering high-quality connectivity to their customers, Nova identified Canonical as the partner to help them pivot to a fully open source private cloud infrastructure.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        As one of the leading telco operators in Greece, Nova has a considerable customer base to service. The scale of Nova’s customer base is matched by the breadth of services it offers to customers: high-speed internet, mobile services, television subscriptions and fixed connectivity.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="We are committed to delivering the full spectrum of mobile and fixed telecommunication services to our customers, which will enable us to realize the greatest potential for growth and value creation. Through investments in our on-premises infrastructure, we are focusing on streamlining our operation to enhance our efficiency and productivity.",
+    citation_source_name_text="George Orfanidis",
+    citation_source_title_text="Core &amp; Services Director, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/bceecbd7-image2.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <hr class="p-rule--muted" />
+      <p>
+        An additional complication was that Nova’s private cloud infrastructure was split into three separate clouds. These were managed in-house, with two sourced from proprietary vendors, and one open source cloud sourced from Canonical. While this was necessary from an operational perspective, the fragmentation of vendors brought additional complexity.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="We are a team of five people that manages the telco cloud infrastructure for the entire organization. As such, we have a large footprint, but operating within three ecosystems presents complications. We found that our open source cloud, provided by Canonical, offered us cost-effectiveness and flexibility. We decided that we needed to explore a wider move to open source.",
+    citation_source_name_text="Nikolaos Dasyras",
+    citation_source_title_text="Senior Manager,<br /> Cloud Infrastructure &amp; Services, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Canonical put forward a proposal to Nova, as part of a public tendering process. Through their existing relationship with Canonical, Nova knew that open source could bring cost-effectiveness, agility and the ability to streamline their three clouds.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/fa605ec9-image3.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="As a team, we were confident that open source software was the way forward for us. However, we needed to put together a strong business case for the move to the wider organization. This meant that we needed to go beyond the underlying products – we needed a partner who could provide the expertise needed to marry technical and business objectives. We provide services to millions of customers, so any big cloud project needs to take this into account.",
+    citation_source_name_text="Nikolaos Dasyras",
+    citation_source_title_text="Senior Manager,<br /> Cloud Infrastructure &amp; Services, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <hr class="p-rule--muted" />
+      <p>
+        Canonical presented a roadmap based on an iterative delivery methodology that would empower Nova’s engineers to learn and observe best practices before fully taking the reins themselves. The underlying solution architecture was delivered through Canonical’s open source portfolio, which is designed to put telco operators like Nova firmly in control of their private cloud infrastructure.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text='At every stage, Canonical presented us with different options to achieving our goals, all based on their open source delivery methodology. This ensured that even<br class="u-hide--medium u-hide--small" /> in the early stages, we could draw on their expertise<br class="u-hide--medium u-hide--small" /> whilst actively influencing the direction of the project.<br class="u-hide--medium u-hide--small" /> In Canonical’s telco cloud, we had a platform that brought together open source solutions for each<br class="u-hide--medium u-hide--small" /> part of the deployment lifecycle. The inclusion of Canonical OpenStack and Canonical Kubernetes was particularly important to us – as OpenStack and Kubernetes are the de-facto standards of excellence for cloud infrastructure and orchestration.',
+    citation_source_name_text="Chrysa Charalampidou",
+    citation_source_title_text="Cloud Infrastructure Engineer, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <hr class="p-rule--muted" />
+      <p>
+        Canonical OpenStack and Canonical Kubernetes are downstream, Canonical-maintained distributions of the upstream OpenStack and Kubernetes. Like their upstream counterparts, they are fully open source, however as part of the Canonical ecosystem they receive patching and maintenance for up to 12 years. In addition, they are specially built with automation in mind – the “charms” refer to software operators that deliver extensive automation to simplify daily operations and scale out the management and deployment of software. In Nova’s case, this enabled a smooth transition from design to deployment.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="Canonical provided the tools we needed to automate the deployment of the cloud. Through the charms, all we had to do was input the files from the design phase, and the tool would automate the cloud deployment from provisioning the hosts to actually deploying Openstack.",
+    citation_source_name_text="Chrysa Charalampidou",
+    citation_source_title_text="Cloud Infrastructure Engineer, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/ae914240-image4-updated.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Nova’s key goals in this project were to become more cost-effective, streamline their operations and improve their time to market for new products. Beginning with cost-effectiveness, Canonical’s transparent approach to both planning and pricing has streamlined Nova’s ability to control costs.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="From a capital expenditure (CAPEX) perspective, Canonical’s roadmap is fully iterable – that is – replete with documentation that we can use to undertake new projects and repeat deployments. This makes it simple for us to estimate the time and cost needed when embarking on new projects. From an operational expenditure (OPEX) perspective, the support from Canonical is directly related to the footprint and number of servers – with no additional cost for management software, as Juju and MAAS are free and open source tools. Without licensing fees, we’re paying for real expertise that enriches our team, rather than paying for access.",
+    citation_source_name_text="Nikolaos Dasyras",
+    citation_source_title_text="Senior Manager,<br /> Cloud Infrastructure &amp; Services, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <hr class="p-rule--muted" />
+      <p>
+        Performance results were also extremely positive, with a reduction in the time to market for onboarded workloads. This enables Nova to deliver workloads to the rest of the organization at pace, ensuring that end customers benefit from a faster scaled solution.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="Canonical’s solutions enabled us to virtualize our infrastructure, meaning that we could disaggregate network functions from hardware. Canonical OpenStack and Canonical Kubernetes enable us to define and deploy our infrastructure as code. One example would be the deployment of the new Short Message Service Center (SMSC). In just one day we were able to deploy the SMSC Virtualized Network Function (VNF) and iterate through multiple configuration options until we achieved the required integration for our network.",
+    citation_source_name_text="Chrysa Charalampidou",
+    citation_source_title_text="Cloud Infrastructure Engineer, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <hr class="p-rule--muted" />
+      <p>
+        This infrastructure transformation acted as a lighthouse project for the wider organization with regards to open source technology. Whilst more work remains to be done to understand the long-term effects of the move to open source, a seed has been sown for using open source more widely.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="Our partnership with Canonical has served to show that the open source model not only can deliver the performance one would expect from traditional solutions, but delivers improvements through openness and transparency. Our work has involved not only changing the underlying infrastructure, but changing our mindsets and developing knowledge within our organization. Our advice to other organizations is to be knowledge-focused – getting the most out of open source requires a willingness to understand how the open code works, and truly take ownership of it.",
+    citation_source_name_text="Nikolaos Dasyras",
+    citation_source_title_text="Senior Manager,<br /> Cloud Infrastructure &amp; Services, Nova",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us to talk about your Telco needs", link="/contact-us", has_modal=true) }}
+{% endblock %}

@@ -1,0 +1,42 @@
+<section class="p-section">
+  <div class="u-fixed-width">
+    <hr class="p-rule" />
+    <h2 class="p-muted-heading">Latest from our blog</h2>
+  </div>
+  <div class="grid-row" id="maas-latest"></div>
+
+  <template id="maas-latest-template">
+    <div class="grid-col-2 grid-col-medium-2 u-equal-height-items">
+      <div class="p-section--shallow">
+        <div class="u-crop--16-9">
+          <div class="article-image p-image-wrapper"></div>
+        </div>
+        <h3 class="p-heading--5">
+          <a class="article-link article-title"></a>
+        </h3>
+        <p class="article-excerpt"></p>
+      </div>
+    </div>
+  </template>
+</section>
+
+<script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+{# djlint:off #}
+<script>
+    canonicalLatestNews.fetchLatestNews(
+      {
+        articlesContainerSelector: "#maas-latest",
+        articleTemplateSelector: "#maas-latest-template",
+        excerptLength: 200,
+        {% if group_id %}
+          groupId: {{ group_id }},
+        {% endif %}
+        {% if tag_id %}
+          tagId: {{ tag_id }},
+        {% endif %}
+        linkImage: true,
+        limit: 4
+      }
+    )
+</script>
+{# djlint:on #}

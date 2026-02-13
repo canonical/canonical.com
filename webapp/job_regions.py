@@ -1,5 +1,5 @@
-regions = {
-    "EMEA": [
+REGION_COUNTRIES = {
+    "emea": [
         "Afghanistan",
         "Åland Islands",
         "Albania",
@@ -29,7 +29,7 @@ regions = {
         "Côte d’Ivoire",
         "Croatia",
         "Cyprus",
-        "Czech Republic",
+        "Czechia",
         "Denmark",
         "Djibouti",
         "Egypt",
@@ -74,7 +74,7 @@ regions = {
         "Liechtenstein",
         "Lithuania",
         "Luxembourg",
-        "Macedonia",
+        "North Macedonia",
         "Madagascar",
         "Malawi",
         "Mali",
@@ -118,7 +118,7 @@ regions = {
         "Spain",
         "Sudan",
         "Svalbard",
-        "Swaziland",
+        "Eswatini",
         "Sweden",
         "Switzerland",
         "Syria",
@@ -135,7 +135,7 @@ regions = {
         "Zambia",
         "Zimbabwe",
     ],
-    "APAC": [
+    "apac": [
         "American Samoa",
         "Antarctica",
         "Australia",
@@ -199,7 +199,7 @@ regions = {
         "Viet Nam",
         "Wallis and Futuna",
     ],
-    "AMER": [
+    "americas": [
         "Anguilla",
         "Antigua and Barbuda",
         "Argentina",

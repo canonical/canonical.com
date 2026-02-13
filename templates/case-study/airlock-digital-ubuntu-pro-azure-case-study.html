@@ -1,0 +1,268 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}
+  Airlock Digital gains up to 40% in performance and cost savings with Ubuntu on Azure
+{% endblock %}
+
+{% block meta_description %}
+  Learn how Ubuntu 24.04 LTS on Azure and Ubuntu Pro helped Airlock Digital transform its operations and dramatically improve efficiency though a fast migration.
+{% endblock %}
+
+{% block meta_company_name %}Airlock Digital{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1kFXfHPKZCBmB6_SvKYyjrZ00FHgulxBNb3fxz443Kvs/edit?tab=t.0
+{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Airlock Digital boosts operational performance on Azure by 30% with an OS and support model that 'just works'",
+    layout="25/75") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/504bb0c4-airlock-digital-logo.png",
+            alt="",
+            width="852",
+            height="199",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+    {% if slot == "description" %}
+      <p>
+        Faced with the looming End of Life (EoL) for CentOS 7, Airlock Digital needed to find a new OS to drive their application control software. By migrating to Ubuntu 24.04 LTS for Azure, Airlock Digital was able to continue stable operations in just weeks, with a 30% increase in performance and up to 40% savings on operational costs.
+      </p>
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Airlock Digital") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Founded in 2013, Airlock Digital is a cybersecurity company that provides application control and allowlisting to 600+ major companies worldwide.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Airlock Digital’s staff of 80 brings security to financial organizations, law firms, council offices, insurance providers, and critical infrastructure – often supporting more than 100,000 users per customer.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      The highly sensitive and heavily regulated work of Airlock Digital’s clients mean their systems need to be maintained and secure at all times.
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=4) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Airlock Digital chose Ubuntu Pro for Ubuntu 24.04 LTS with 24/7 support on Azure for its support and compatibility.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Airlock Digital successfully migrated 600+ production-facing machines in under 45 days.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Simplified all-in-one Azure billing meant no legal or financial hurdles and less paperwork.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_4' -%}
+      Operations performance increased by 30%, with up to 40% in cost savings.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper(
+    caption="Airlock Digital is a cybersecurity company that provides application control and allowlisting to 600+ major companies worldwide.<br />Copyright: Airlock Digital"
+    ) -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/0f3397d6-image1.png",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Overview") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Airlock Digital is a global leader in application control and allowlisting. Their Deny by Default solution enables customers to minimize attack surfaces, avoid ransomware, and meet mandatory cybersecurity compliance. However, their software and systems ran on CentOS 7, which was entering its End-of-Life phase. Airlock Digital needed to keep receiving certified packages, so it started to look for an easy-to-use, Azure-compatible replacement OS.
+      </p>
+      <p>
+        They decided to migrate to Ubuntu 24.04 LTS on Azure, using Ubuntu Pro with 24/7 Support for long term support and updates, and Livepatch for restartless patching.
+      </p>
+      <p>
+        Canonical’s expert customer service and rapid response times made the migration a breeze: in under 45 days, Airlock Digital was able to migrate 600 machines, continue delivering security to critical industries and infrastructure, and transform its operations to new levels of efficiency – resulting in 30% improved performance and up to 40% in cost savings.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="The migration transformed the way we approach our machines and service. In the end, we gained a 30% increase in performance, and at least 30% to 40% in cost reductions.",
+    citation_source_name_text="Daniel Schell",
+    citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper(
+    caption="The Airlock Digital team.<br />Copyright: Airlock Digital"
+    ) -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/136ec04e-image2.png",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Banks, government offices, law firms, insurance providers, and other critical services are at constant risk of cyberattacks. Faced with tight regulation and steep penalties for data breaches or ransomware, they need tools that allow them to block untrusted applications, reduce their attack surfaces, and stay secure. However, the job of manually managing trusted packages and file lists is either extremely difficult or time-consuming.
+      </p>
+      <p>
+        That’s where Airlock Digital comes in. Airlock Digital’s software allows customers to completely control what apps and files run on their systems, giving extensive control over one of the most serious attack vectors in cyber incidents.
+      </p>
+      <p>
+        Airlock Digital’s software relied on Microsoft Azure and CentOS 7. With the looming EoL of CentOS 7, Airlock Digital needed to find a replacement OS that would allow them to continue receiving secure, certified packages, and long-term security updates, while also integrating well with Microsoft Azure.
+      </p>
+      <p>However, it soon became clear that an ordinary migration was out of the question.</p>
+      <p>
+        “It was a colossal job. We had to migrate over 600 VMs – we’re talking billions of events, so sometimes terabytes of data. The sheer size and complexity of this task meant that most providers couldn’t help us,” said Daniel Schell, Chief Technology Officer and Co-founder of Airlock Digital. “It was either very difficult for them to understand our needs, or provide assurances that they could provide full feature compatibility with Azure. Often, we just couldn’t get clear answers from others about compatibility or custom usability – and in some cases the provider expected us to build our own images, which would have been a lot of additional work for us.”
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="Many providers gave us these endless lists of things we’d need to do and limitations for kernels and compatibility. Or sometimes they’d tell us ‘you need to do these 50 things before we start, and you have to manage the activations of all your licenses. When we were talking to Canonical, they just told us ‘you don’t need to do any of that with Ubuntu.’ And they were right: it just works.",
+    citation_source_name_text="Daniel Schell",
+    citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/8e1529f4-image3.png",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Other providers were unable to guarantee an easy, Azure-compatible migration, but Canonical could. Airlock Digital chose to migrate their systems to Ubuntu 24.04 LTS on Azure, and selected Ubuntu Pro with 24/7 Support and Livepatch to help with security patching.
+      </p>
+      <p>
+        Ubuntu 24.04 LTS on Azure brought full compatibility with Azure’s platform and features, while Ubuntu Pro ensures that their systems will continue to receive authenticated packages and security updates that will give their customers reliable operations. Livepatch ensures that many Linux kernel security updates are restartless, improving system uptime.
+      </p>
+      <p>
+        “It was just a breeze from start to finish. I handed over my wish list, and within a week we were aligned and had most of our approvals,” said Daniel Schell. “It took around a month and a half to migrate nearly 600 production-facing machines – that’s a mammoth task that’s only possible through automation. To do this manually would have taken years and a gargantuan team of IT staff.”
+      </p>
+      <p>
+        Since billing for Ubuntu Pro is integrated into Airlock Digital's existing Azure invoice, it's simple for the organization to manage the ongoing costs of their operations.
+      </p>
+      <p>
+        “With Ubuntu Pro on Azure’s simplified consumption model and all-in-one billing, we didn’t need to worry about going over a limit or having to pre-purchase an extra 150 licenses to cover potential project expansion,” said Daniel. “There was no need to spend the end of the month calculating how many seats we went over or under; no need to hire an extra person to manage our licenses. And when a new customer comes to us and asks for a trial, we can just spin up a VM, run a 30-day trial, and all the billing is done automatically.”
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="With Ubuntu we just use the image, and it just works – no need to sign up for multiple partner programs, build our own image, no need to activate it or package golden images or anything like that. Canonical was the easiest vendor that we dealt with in our search for a replacement OS.",
+    citation_source_name_text="Daniel Schell",
+    citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/bebaacdd-image4.png",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Benefits") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        The migration was fast and simple – it gave Airlock Digital an opportunity to transform their business operations for incredible cost and performance improvements.
+      </p>
+      <p>
+        “The sheer size of the task made it a huge undertaking, and so the fact that we were able to migrate 600 production-facing machines, with billions of events and terabytes of data in just 45 days or so is testament to Ubuntu’s power as an operating system,” said Daniel Schell. “To do this manually would have taken years or an extremely large IT team.”
+      </p>
+      <p>
+        Ubuntu 24.04 LTS on Azure brings Airlock Digital the performance and Azure feature compatibility they need to deliver their services, while the Azure marketplace’s simplified all-in-one consumption-based billing made it faster and easier to rollout the migration.
+      </p>
+      <p>
+        “We rely on Azure Site Recovery for some of our most vital deployments, and Ubuntu integrates with Azure without any extra work. The billing was also a game-changer: without it, we’d have to manage deployments, calculate uptime, create more licenses, and manage all that extra paperwork with more hires,” said Daniel Schell. “At the end of the day, the way Ubuntu is integrated and commercially streamlined with Azure and the marketplace is fantastic. It really is as good as it gets.”
+      </p>
+      <p>
+        However, the biggest benefit of the project was how it gave Airlock Digital a golden opportunity to revolutionize their operations and uplift their service maturity.
+        “Before, we had 20 to 30 different systems and machine sizes, which all meant more complexity and technical issues – especially with reserving dozens of different instances on Azure,” said Daniel Schell. “After this migration, we’ve completely standardized our machine sizes and offerings. With this streamlining, I’d say we’ve had around a 30% improvement in our operational performance and have reduced ongoing costs by between 30% to 40%.”
+      </p>
+      <p>
+        And best of all, the long-term support offered with Ubuntu Pro on Azure means no more forced migrations for 10 years – and up to 12 with Legacy Support.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.",
+    citation_source_name_text="Daniel Schell",
+    citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper(
+    caption="The Airlock Digital team.<br />Copyright: Airlock Digital"
+    ) -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/03a48ee0-image5.png",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="The best part of the project has been the stability. It just works. You don’t need to be on the phone all the time. You don’t need to follow up. You don’t need support tickets. It just works and you can leave it alone to focus on your clients.",
+    citation_source_name_text="Daniel Schell",
+    citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
+    is_shallow=True
+    )
+    -%}
+  {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us to learn about Ubuntu<br />and Ubuntu Pro on Azure", link="/contact-us", has_modal=true) }}
+{% endblock %}

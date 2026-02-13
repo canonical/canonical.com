@@ -1,0 +1,294 @@
+{% extends 'juju/how-juju-works.html' %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% block title %}Charms architecture{% endblock %}
+
+{% block meta_keywords %}Software operators{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1nMN5UlwGqI4C4GmYcKy4yRzd9ANUmsVyB1ZcKY7Wpro/edit#heading=h.4tjfso5hx6tw
+{% endblock meta_copydoc %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% set selected_tab = "charms-architecture" %}
+
+{% block how_juju_works_content %}
+  {{ vf_basic_section(
+    title={"text": "What is a charm?"},
+    is_split_on_medium=true,
+    top_rule_variant="none",
+    padding="shallow",
+    subtitle={"text": "A charm is software that wraps an application and that contains all of the instructions necessary for deploying, configuring, operating an application on any cloud using Juju.", "heading_level": 5},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": '
+            A charm generally contains the operations (charm) code and the information on where to get the application itself (the workload). Each application has a number of deployed "units" and includes information about the services they offer or require. There is a copy of the charm in each unit of the application, so that the operations code is always right next to the workload it is driving.
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Charms include deterministic logic that specifies what happens when specific events occur. Events can be triggered by an administrator (e.g. through the CLI), by other charms or the external environment."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "The administrator interacts with a client (CLI, Terraform, python-libjuju or Jimm), which talks to the controller. The controller talks to the agent in the charm, which in turns invokes the charm code to manipulate the application."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Charms are currently of two kinds, depending on the target deployment substrate:"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+          <hr class="p-rule--muted" />
+          <ol class="p-list--divided juju-middle-pages">
+            <li class="p-list__item">
+              <strong>Machine charms: </strong>Charms made to deploy on a bare-metal server, virtual machine, or system container.
+            </li>
+            <li class="p-list__item">
+              <strong>Kubernetes charms: </strong>Charms built to deploy on Kubernetes.
+            </li>
+          </ol>
+          '
+        }
+      }
+    ]
+  ) }}
+
+  <section class="p-section">
+    <section class="p-section--shallow">
+      <div class="row">
+        <div class="p-image-container is-highlighted">
+          {{ image(url="https://assets.ubuntu.com/v1/21af62fe-what_is_a_charm.png",
+                    alt="",
+                    width="3696",
+                    height="2380",
+                    hi_def=True,
+                    loading="auto",
+                    attrs={"class": "p-image-container__image"}) | safe
+          }}
+        </div>
+      </div>
+    </section>
+    <div class="grid-row p-section--shallow">
+      <div class="grid-col-6 grid-col-start-large-3">
+        <section>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2">
+              <p class="p-heading--5">What are agents and workers</p>
+            </div>
+            <div class="grid-col-4">
+              <p>
+                An agent is software that works to realise the state declared by an end-user with a client (e.g., the Juju CLI), for an entity (e.g., controller, model, machine, unit) via workers.
+              </p>
+              <p>
+                A worker is a process that an agent runs in the background on a Juju entity (controller, model, machine, unit, etc.) and that performs a single, specific task. A Juju agent runs one or more workers at the same time.
+              </p>
+              <p>Agents can be of different types:</p>
+                <hr class="p-rule--muted" />
+              <ul class="p-list--divided">
+                <li class="p-list__item has-bullet">
+                  <strong>Controller agent: </strong>a process running workers responsible for a controller. This includes, among others, the Juju API server.
+                </li>
+                <li class="p-list__item has-bullet">
+                  <strong>Machine agent: </strong>Found on machine clouds, this is a process running workers responsible for a machine.
+                </li>
+                <li class="p-list__item has-bullet">
+                  <strong>Model agent </strong>Found on machine and Kubernetes clouds, this is a juju process running workers responsible for all the models associated with a given controller.
+                </li>
+                <li class="p-list__item has-bullet">
+                  <strong>Unit agent: </strong>Found on machine and Kubernetes clouds, this is a process responsible for a unit.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section>
+          <hr class="p-rule--muted" />
+          <div class="grid-row">
+            <div class="grid-col-2">
+              <p class="p-heading--5">What is pebble</p>
+            </div>
+            <div class="grid-col-4">
+              <p>
+                <a href="https://github.com/canonical/pebble">Pebble</a> is a lightweight, API-driven process supervisor. In Kubernetes charms it is used to give workload containers something akin to an init system that will allow the charm container to interact with them.
+              </p>
+              <p>
+                Pebble allows to start, stop, restart, and update services &ndash; while taking into account service dependencies. Pebble also implements custom "health checks" that can be configured to restart services when they fail, as well as the ability to forward logs to a remote Loki server.
+              </p>
+              <p>
+                Pebble also includes a subsystem called notices, which allows the user to introspect various events that occur in the Pebble server, as well as record custom client events. The server saves notices to disk, so they persist across restarts, and expire after a notice-defined interval.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  {{ vf_basic_section(
+    title={"text": "How do charms work?"},
+    is_split_on_medium=true,
+    padding="shallow",
+    subtitle={"text": "A simple explanation of how charms interact with Juju and the workload they operate", "heading_level": 5},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+          <div class="p-section--shallow">
+            <p>
+              The Juju controller is the brain of every deployment and it is a process that runs in the background and  it is in between the client, backing cloud, Charmhub, and the various unit agents in a deployment. The controller also maintains the state of the system, as well as other data structures that can be accessed by the charms.
+            </p>
+          </div>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+          <hr class="p-rule--muted" />
+          <p class="p-heading--5">When a client issues a command the following happens:</p>
+          <hr class="p-rule--muted" />
+        '
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "number",
+              "content": "When the client parses your command it sends a request to the Juju controller API."
+            },
+            {
+              "list_item_type": "number",
+              "content": "The Juju controller parses the command and makes a change to the data structure representing the model, as well as the cloud substrate to represent what the command says (e.g. adding a unit)."
+            },
+            {
+              "list_item_type": "number",
+              "content": "The Juju agents, running in each charm unit, constantly interrogate the controller, looking for changes that affect them. When there is a discrepancy between their local state and the one represented in the controller they compute a diff and create some “events”."
+            },
+            {
+              "list_item_type": "number",
+              "content": "The agent then fires events at the charm code, which includes a specific set of actions that need to occur when a specific event occurs, as well as logic to specify their relative ordering."
+            },
+            {
+              "list_item_type": "number",
+              "content": "The charm operates the workload in whatever way appropriate to the event being handled; if necessary, it will interact with the live workload through pebble, to read/write the workload filesystem, run commands, etc…"
+            },
+            {
+              "list_item_type": "number",
+              "content": "The state of the unit is aligned with the one represented in the controller."
+            }
+          ]
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": 'The Juju controller persists a wide ranging set of information about the status of the system and the deployed charms, including:'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+          '
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Integration data"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Charm configuration"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Unit/application status"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Charm state"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Leadership status"
+            }
+          ]
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": 'Charms at runtime can read/write some data from the controller database and thereby access some configuration parameters to decide which code path to execute and how to manage its workload.'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+          <p>
+            For more detailed information you can <a href="https://documentation.ubuntu.com/juju/3.6/reference/hook/">read our charm lifecycle documentation article&nbsp;&gt;</a>
+          </p>
+        '
+        }
+      },
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Read about these next:</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <a href="/juju/integrations" class="p-heading--5">Integrations</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Juju integrations are virtual connections between charms to allow the exchange of information.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <a href="/juju/charmhub-community" class="p-heading--5">Charmhub & Community</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Charmhub is a curated marketplace for charms which can be readily integrated into any infrastructure</p>
+    {%- endif -%}
+  {%- endcall -%}
+{% endblock %}

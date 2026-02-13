@@ -1,0 +1,272 @@
+<section class="p-section">
+  <hr class="is-fixed-width p-rule" />
+  <div class="row">
+    <div class="col-6 col-medium-2">
+      <h1 class="p-heading--2">
+        <strong>{{ department.name }}</strong>
+      </h1>
+    </div>
+    <div class="col-6 col-medium-4">
+      <div class="p-section--shallow">
+        <p>{{ claim | safe }}</p>
+      </div>
+      {% if custom_categories_section %}
+        <div class="p-cta-block u-no-padding--bottom">
+          <a href="/careers/all?filter={{ department.name | safe | urlencode }}" class="p-button--positive">Explore all {{ department.name }} roles</a>
+          <a href="/careers/career-explorer">Career explorer&nbsp;&rsaquo;</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% if custom_categories_section %}
+
+  {% include custom_categories_section %}
+
+{% else %}
+
+<section class="p-section">
+
+  <div class="u-fixed-width">
+
+    <hr class="p-rule" />
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-3 col-medium-2">
+
+      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Apply based on</h2>
+
+    </div>
+
+    <div class="col-6 col-medium-2">
+
+      <div class="row">
+
+        <div class="col-6">
+
+          <h5 class="p-text--large">Technology & Field</h5>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5191982">Microservices</a>
+
+          <p class="u-no-padding--top">
+            <small>REST API design in Go and Python</small>
+          </p>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5151903">Kernel</a>
+
+          <p class="u-no-padding--top">
+            <small>Low-level system engineering</small>
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <a href="/careers/5143074">Python</a>
+
+          <p class="u-no-padding--top">
+            <small>Develop for open source</small>
+          </p>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5140562">Embedded Linux</a>
+
+          <p class="u-no-padding--top">
+            <small>ARM & x86, SoC, ACPI</small>
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <a href="/careers/5146709">Golang</a>
+
+          <p class="u-no-padding--top">
+            <small>Develop for open source</small>
+          </p>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5172247">Containers & Virtualisation</a>
+
+          <p class="u-no-padding--top">
+            <small>LXD, Rust VMM, Docker</small>
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <a href="/careers/5150422">Web Frontend</a>
+
+          <p class="u-no-padding--top">
+            <small>JS, CSS, React & Flutter</small>
+          </p>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5146620">Security</a>
+
+          <p class="u-no-padding--top">
+            <small>Keep Linux secure</small>
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <a href="/careers/5143011">DevRel</a>
+
+          <p class="u-no-padding--top">
+            <small>Engage with community and devs</small>
+          </p>
+
+        </div>
+
+        <div class="col-3">
+          <a href="/careers/5833620">Rust</a>
+
+          <p class="u-no-padding--top">
+            <small>Lead the Rust revolution</small>
+          </p>
+
+        </div>
+      
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <a href="/careers/5792361">Performance and Correctness</a>
+
+          <p class="u-no-padding--top">
+            <small>Deep and sharp technology investigation and optimization</small>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-3 col-medium-2">
+
+      <h5 class="p-text--large">Position Level</h5>
+      
+      <a href="/careers/5211861">Director</a>
+      <p class="u-no-padding--top">
+        <small>Define strategy and assist teams</small>
+      </p>
+
+      <a href="/careers/5188002">Manager</a>
+      <p class="u-no-padding--top">
+        <small>Lead globally-distributed teams</small>
+      </p>
+
+      <a href="/careers/5142887">Senior Engineer</a>
+      <p class="u-no-padding--top">
+        <small>Solve open source challenges</small>
+      </p>
+
+      <a href="/careers/7522509">Graduate</a>
+      <p class="u-no-padding--top">
+        <small>Kick-start your career in a team matching your skillset</small>
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+{% endif %}
+
+<section class="p-section">
+
+  {% if featured_jobs %}
+
+    <div class="u-fixed-width">
+
+      <hr class="p-rule" />
+
+    </div>
+
+    <div class="row">
+
+      <div class="{% if custom_categories_section %}col-6 col-medium-3{% else %}col-3 col-medium-2{% endif %} ">
+
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Featured Roles</h2>
+
+      </div>
+
+      <div class="{% if custom_categories_section %}col-3 col-medium-3{% else %}col-6 col-medium-2{% endif %}">
+
+        {% for job in featured_jobs %}
+
+          {% if loop.index < 10 %}
+
+            <p>
+              <a class="p-featured__url p-card--content"
+                 href="/careers/{{ job.id }}"
+                 onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured job', 'eventAction' : 'Click', 'eventLabel' : '{{ job.title }}', 'eventValue' : undefined });">
+                {{ job.title }}
+              </a>
+
+            </p>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+      <div class="col-3 {% if custom_categories_section %}col-medium-3 col-start-medium-4{% else %} col-medium-2{% endif %}">
+
+        <hr class="p-rule--muted u-hide--large {% if not custom_categories_section %}u-hide--medium{% endif %}" />
+
+        <p class="u-sv-1">
+
+          {% if formatted_slug %}
+            <a href="/careers/all?filter={{ formatted_slug }}">Explore all {{ department.name }} roles</a>
+
+          {% else %}
+            <a href="/careers/all?filter={{ department.slug.capitalize() }}">Explore all {{ department.name }} roles</a>
+
+          {% endif %}
+
+        </p>
+
+        <hr class="p-rule--muted" />
+        <a href="/careers/career-explorer">Career explorer</a>
+
+      </div>
+
+    </div>
+
+  {% endif %}
+</section>

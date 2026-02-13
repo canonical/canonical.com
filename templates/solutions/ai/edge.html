@@ -31,7 +31,7 @@
           Edge computing and AI go hand-in-hand to drive some of today's most valuable enterprise use cases. Canonical delivers a single stack with everything you need to easily and securely deploy and manage AI at the edge. Unlock the power of real-time, AI-driven insight in the field.
         </p>
         <hr class="p-rule" />
-        <a class="p-button--positive"
+        <a class="p-button--positive js-invoke-modal"
            href="/contact-us"
            aria-controls="ai-modal">Contact Canonical <span class="u-off-screen">about AI solutions for edge computing</span></a>
       </div>
@@ -194,7 +194,7 @@
         </p>
         <hr class="p-rule--muted" />
         <p class="p-section--shallow">
-          <a href="https://microk8s.io/">Learn more about MicroK8s&nbsp;&rsaquo;</a>
+          <a href="/microk8s">Learn more about MicroK8s&nbsp;&rsaquo;</a>
         </p>
       </div>
     </div>
@@ -257,16 +257,11 @@
     <div class="u-fixed-width">
       <h2>Send us a message to discuss your AI needs</h2>
       <p class="p-heading--2">
-        <a href="/contact-us" aria-controls="ai-modal">Contact us&nbsp;&rsaquo;</a>
+        <a href="/contact-us" class="js-invoke-modal" aria-controls="ai-modal">Contact us&nbsp;&rsaquo;</a>
       </p>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/solutions/ai/edge") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai/edge#contact-form-success" %}
-
-    {% include "solutions/ai/_form-ai.html" %}
-  {% endwith %}
 {% endblock %}

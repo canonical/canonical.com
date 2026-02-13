@@ -45,9 +45,9 @@
         <div class="p-section--shallow">
           <div class="p-section">
             <h2 class="u-no-margin--bottom">
-              <strong>Passionate about open source? So are we.</strong>
-              <br class="u-hide--small u-hide--medium" />
-              <span>Be where the cutting edge is established.</span>
+              <strong>Passionate about open source? </strong>
+              <br class="u-hide--small" />
+              <span>So are we. Be where the cutting edge is established.</span>
             </h2>
           </div>
 
@@ -79,23 +79,25 @@
         <div class="col-12 col-medium-4">
           <div class="row">
             {% for dept in departments_overview %}
-              <div class="col-2 col-medium-12 col-small-12 p-department-cards__container">
-                <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
-                  <div class="p-department-cards__card">
-                    <div class="p-department-cards__image-container">
-                      <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
-                           class="p-department-cards__image"
-                           alt="" />
-                      <strong class="p-department-cards__link">{{ dept.name }}</strong>
-                      <br />
+              {% if dept.count > 0 %}
+                <div class="col-3 col-medium-12 col-small-12 p-department-cards__container">
+                  <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
+                    <div class="p-department-cards__card">
+                      <div class="p-department-cards__image-container">
+                        <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
+                             class="p-department-cards__image"
+                             alt="" />
+                        <strong class="p-department-cards__link">{{ dept.name }}</strong>
+                        <br />
+                      </div>
+                      <div>
+                        <span>{{ dept.count }} roles</span>
+                      </div>
                     </div>
-                    <div>
-                      <span>{{ dept.count }} roles</span>
-                    </div>
-                  </div>
-                  {% if not loop.last %}<hr class="p-rule u-hide--large" />{% endif %}
-                </a>
-              </div>
+                    {% if not loop.last %}<hr class="p-rule u-hide--large" />{% endif %}
+                  </a>
+                </div>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -128,9 +130,9 @@
             We help people and organisations tap into the power of open source to develop new products at speed and with confidence. Whether it’s powering up self-driving cars or enabling compute for scientific discovery, we are here to deliver the best open source experience.
           </p>
           <p>Every team member contributes to this mission with a commitment to excellence.</p>
-          <p>
+          <div class="p-cta-block">
             <a class="p-button" href="/careers/company-culture">Our work culture</a>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -141,7 +143,7 @@
     </div>
   </section>
 
-  <section class="p-section">
+  <section class="p-section--deep">
     <div class="u-fixed-width">
       <hr class="p-rule" />
     </div>
@@ -152,6 +154,14 @@
         </div>
       </div>
       <div class="col-9 col-medium-4">
+        <p class="p-heading--2">
+          <a href="/careers/hiring-process">Hiring process</a>
+        </p>
+        <hr class="p-rule" />
+        <p class="p-heading--2">
+          <a href="/careers/company-culture">Company culture</a>
+        </p>
+        <hr class="p-rule" />
         <p class="p-heading--2">
           <a href="/careers/company-culture/remote-work">Remote work</a>
         </p>

@@ -1,0 +1,613 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Enterprise open source adoption{% endblock %}
+
+{% block meta_description %}
+  Uncover the benefits of open source adoption and how a collaborative approach and a trusted partner like Canonical can help.
+{% endblock %}
+
+{% block meta_image %}
+  https://assets.ubuntu.com/v1/b364edc2-hero.png
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1Z4n5LehszL-k3yxbOT5yCTuB1EetV42wU9hQ_i2OAnQ/edit
+{% endblock meta_copydoc %}
+
+{% block meta_keywords %}
+  open source adoption
+{% endblock %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% macro data_spotlight(spotlight) -%}
+  <div class="grid-col">
+    <hr class="p-rule--highlight" />
+    <p class="p-heading--1">{{ spotlight }}</p>
+    <p>
+      {{ caller() }}
+    </p>
+  </div>
+{%- endmacro %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Fueling open source adoption, together',
+    layout='50/50-full-width-image'
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Open source adoption is easier with the right technology and the right partners. Canonical makes open source adoption straightforward, fast, and cost effective. Our software is free from vendor lock in, supported by experts, and powered by community collaboration. We’re here to help you make the most of your open source investment. Still on the fence about adopting open source? Explore our resources below.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us" class="p-button--positive js-invoke-modal" aria-controls="homepage-modal">Get in touch</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(
+          url="https://assets.ubuntu.com/v1/065ed7e2-hero-img.jpg",
+          alt="",
+          width="2464",
+          height="1027",
+          hi_def=True,
+          loading="auto|lazy",
+          attrs={"class": "p-image-container__image"}
+          ) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <section class="p-section u-fixed-width">
+    <h2 class="p-text--small-caps u-no-padding--top">
+      <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Final%20report%20-%20WorldofOS_EUSpotlight_2025_081525.pdf?version=0">
+        Why enterprises choose open source
+      </a>
+    </h2>
+
+    <div class="grid-row--25-25-25-25">
+      {% call data_spotlight("70%") %}
+        Of organizations find open source extremely important to run mission-critical applications
+      {% endcall %}
+      {% call data_spotlight("44%") %}
+        Adopt open source to reduce costs
+      {% endcall %}
+      {% call data_spotlight("36%") %}
+        Adopt open source to improve development velocity
+      {% endcall %}
+      {% call data_spotlight("31%") %}
+        Adopt open source to improve security
+      {% endcall %}
+    </div>
+  </section>
+
+  <section class="p-section grid-row--50-50">
+    <hr class="p-rule" />
+    <div class="grid-col">
+      <h2>
+        Adopting open source
+        <br class="u-hide--medium u-hide--small" />
+        helps attract technical talent
+      </h2>
+    </div>
+    <div class="grid-col">
+      <p>
+        76% of organizations agree that adopting and actively engaging with open source software creates a significant advantage in attracting technical talent, according to recent research by the Linux Foundation.<sup>1</sup>
+      </p>
+      <p>
+        Ubuntu is the most widely used operating system amongst developers, making it easier to attract talent who understand open source and are keen to work with Ubuntu.<sup>2</sup>
+      </p>
+      <p class="u-text--muted">
+        <cite>
+          <sup>1</sup>
+          Open source as Europe's strategic advantage: trends, barriers, and priorities for the European open source community amid regulatory and geopolitical shifts, August, 2025.
+        </cite>
+      </p>
+      <p class="u-text--muted">
+        <cite>
+          <sup>2</sup>
+          2025 state of open source report, Perforce OpenLogic, 2025, p.13.
+        </cite>
+      </p>
+    </div>
+  </section>
+
+  {% call(slot) vf_equal_heights(
+    title_text="Why Canonical?",
+    items=[
+      {
+        "title_text": "Open source that stays open",
+        "image_html": image(url="https://assets.ubuntu.com/v1/d56e6ea3-os-stays-open.jpg",
+          alt="",
+          width="568",
+          height="853",
+          hi_def=True,
+          loading="auto|lazy",
+          attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": '<p>
+          Canonical offers open source software for every part of your stack &ndash; from helping you <a href="https://canonical.com/maas/">easily provision your data center</a>, <a href="https://ubuntu.com/kubernetes">to orchestrating workloads more efficiently</a>, and beyond. We don’t fork our product with enterprise and community versions, and we don’t lock you in with proprietary features. You pay only for the support and expanded security features you need. Whatever the future brings, your stack can keep evolving.
+        </p>'
+      },
+      {
+        "title_text": "Supporting your open source adoption",
+        "image_html": image(url="https://assets.ubuntu.com/v1/e8214422-supporting-os.jpg",
+          alt="",
+          width="568",
+          height="853",
+          hi_def=True,
+          loading="auto|lazy",
+          attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": '<p>
+          One of the largest barriers to software adoption for enterprises is knowledge gaps. With Canonical, this barrier disappears: our dedicated teams are happy to help your team adjust and upskill. We provide options ranging from <a href="https://ubuntu.com/support">bug fix support</a>, to <a href="https://ubuntu.com/managed">fully managed services</a> and <a href="https://canonical.com/consulting">consulting</a>.
+        </p>
+        <p>
+          We’re invested in sharing our 20+ years of open source experience with your team, so you can make your investment in open source worthwhile.
+        </p>'
+      },
+      {
+        "title_text": "Giving back to projects and their developers",
+        "image_html": image(url="https://assets.ubuntu.com/v1/4168022e-giving-back.jpg",
+          alt="",
+          width="568",
+          height="853",
+          hi_def=True,
+          loading="auto|lazy",
+          attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": '<p>
+          The fundamental drive behind open source is community: the belief that good software should be available to everyone &ndash; and that we are strongest when we work together, transparently.
+        </p>
+        <p>
+          Canonical’s support for developers goes far beyond the Ubuntu project &ndash; learn more about how we invest in <a href="https://canonical.com/projects">open source projects and communities</a>.
+        </p>'
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  <section class="p-section u-fixed-width">
+    {% macro tab(tab_name) -%}
+      <div class="p-tabs__content" id="{{ tab_name }}-tab" role="tabpanel" aria-labelledby="{{ tab_name }}">
+        {{ caller() }}
+      </div>
+    {% endmacro %}
+    {% macro tab_image(tab_name, image_url) -%}
+      {% call() tab(tab_name) %}
+        {{ image(url=image_url,
+          alt="",
+          width="1800",
+          height="1200",
+          hi_def=True,
+          loading="auto|lazy"
+          ) | safe
+        }}
+      {% endcall %}
+    {%- endmacro %}
+    {% macro tab_button(tab_name, tab_text) -%}
+      <li>
+        <button class="p-tabs__item" id="{{ tab_name }}" role="tab" aria-selected="true" aria-controls="{{ tab_name }}-tab">
+          {{ tab_text }}
+        </button>
+      </li>
+    {%- endmacro %}
+    {% macro tab_cta(tab_name, title, link, label, class="", aria_controls="") -%}
+      {% call() tab(tab_name) %}
+        <div class="p-cta-block">
+          <a href="{{ link }}" class="{{ class }}" aria-controls="{{ aria_controls }}">
+            {{ title }}&nbsp;&rsaquo;
+          </a>
+        </div>
+      {% endcall %}
+    {%- endmacro %}
+
+    <hr class="p-rule" />
+
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">
+        Enterprise open source:
+        <br class="u-hide--medium u-hide--small" />
+        the Ubuntu way
+      </h2>
+      <div class="grid-col p-section--shallow">
+        <div class="p-image-container is-highlighted" data-tablist="enterprise-open-source">
+          {{ tab_image(tab_name="overview", image_url="https://assets.ubuntu.com/v1/dd73a566-(updated)%20diagram%20-%20overview.png") }}
+          {{ tab_image(tab_name="customers", image_url="https://assets.ubuntu.com/v1/43cf4801-(updated)%20diagram%20-%20customers.png") }}
+          {{ tab_image(tab_name="community", image_url="https://assets.ubuntu.com/v1/cc339172-(updated)%20diagram%20-%20community.png") }}
+          {{ tab_image(tab_name="canonical", image_url="https://assets.ubuntu.com/v1/833125be-(updated)%20diagram%20-%20canonical.png") }}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col-6 grid-col-start-large-3 grid-col-medium-3 grid-col-start-medium-2">
+        <hr class="p-rule--muted" />
+
+        <div class="grid-row">
+          <div class="grid-col-2 grid-col-medium-1">
+            <ul class="js-tabbed-content p-tabs--vertical is-black u-hide--small" role="tablist" data-tablist="enterprise-open-source">
+              {{ tab_button("overview", "Overview") }}
+              {{ tab_button("customers", "Customers") }}
+              {{ tab_button("community", "Community") }}
+              {{ tab_button("canonical", "Canonical") }}
+            </ul>
+            <form class="u-hide--large u-hide--medium" autocomplete="off">
+              <select name="tabSelect" data-tablist="enterprise-open-source">
+                <option value="overview-tab" selected>Overview</option>
+                <option value="customers-tab">Customers</option>
+                <option value="community-tab">Community</option>
+                <option value="canonical-tab">Canonical</option>
+              </select>
+            </form>
+          </div>
+          <div class="grid-col-4 grid-col-medium-2">
+            <div data-tablist="enterprise-open-source">
+              {% call() tab("overview") %}
+                <p>
+                  Canonical is built on a symbiotic relationship between our customers, our community, and our company. Each element benefits the others, driving innovation and success. Bring your team together on an open source platform they can agree on.
+                </p>
+              {% endcall %}
+              {% call() tab("customers") %}
+                <p>
+                  Our customers benefit from adopting Canonical open source in different ways.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Composability for competitive advantage: composable systems scale easily, accelerate development, and can be customized to meet the organization’s specific needs.</li>
+                  <li class="p-list__item has-bullet">Gain knowledge: a broad user base, active online communities, and Canonical’s support make issue resolution easy.</li>
+                  <li class="p-list__item has-bullet">Lower costs: our affordable enterprise solutions require no proprietary hardware, or costly licensing fees.</li>
+                </ul>
+              {% endcall %}
+              {% call() tab("community") %}
+                <p>
+                  Canonical closely collaborates with and supports the global community of developers innovating, improving, and maintaining open source software projects. In turn, we &ndash; and our customers &ndash; benefit from better software.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Innovation: the open source community continuously improves software, offering valuable feedback to us and supporting users.</li>
+                  <li class="p-list__item has-bullet">Faster development: a global developer network brings diverse ideas and skills, which makes for better, easier, and more secure software.</li>
+                  <li class="p-list__item has-bullet">Purpose and impact: Canonical supports these passionate communities to continue their valuable work.</li>
+                </ul>
+              {% endcall %}
+              {% call() tab("canonical") %}
+                <p>
+                  By working with Canonical, our customers benefit from our software – whilst enabling us to continue our <a href="https://canonical.com/company">mission</a> to amplify the global impact of open source.
+                </p>
+                <ul class="p-list">
+                  <li class="p-list__item has-bullet">Contributions and governance: Canonical contributes to, steers, and supports many open source projects and foundations to ensure their long-term development and sustainability.</li>
+                  <li class="p-list__item has-bullet">Security assurances: Through <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, we offer enterprises up to 12 years of coverage for thousands of packages, with reliable vulnerability management and security patching automation, as well as compliance certifications. This facilitates open source adoption while mitigating risks.</li>
+                  <li class="p-list__item has-bullet">Stability and dependability: with 20+ years of experience and expertise in Linux, we’re here in the long term to support you and our communities.</li>
+                </ul>
+              {% endcall %}
+            </div>
+            <div class="p-section--shallow">
+              <hr class="p-rule--muted u-hide--small" />
+              <div>
+                <div class="u-float-left" data-tablist="enterprise-open-source">
+                  {{ tab_cta(tab_name="customers", title="Get in touch", link="/contact-us", label="Get in touch with Canonical", class="js-invoke-modal", aria_controls="homepage-modal" ) }}
+                  {{ tab_cta(tab_name="community", title="Find out more", link="https://canonical.com/projects", label="Find out more about the open source projects and communities Canonical supports") }}
+                  {{ tab_cta(tab_name="canonical", title="Get to know us", link="https://canonical.com/company", label="Find out more about our company") }}
+                </div>
+                <div class="js-tab-buttons u-float-right u-hide--small" id="enterprise-open-source">
+                  <button class="p-button js-prev-tab" disabled>&lsaquo;&nbsp;Previous</button>
+                  <button class="p-button js-next-tab">Next&nbsp;&rsaquo;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row--50-50">
+      <h2 class="grid-col p-text--small-caps u-no-padding--top">
+        Enterprises' expectations of open source projects
+      </h2>
+
+      <div class="grid-col grid-row--50-50">
+        {% call data_spotlight("54%") %}
+          Expect long term support guarantees
+        {% endcall %}
+        {% call data_spotlight("53%") %}
+          Expect rapid security patching
+        {% endcall %}
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+
+      <h2 class="grid-col">
+        Open source with
+        <br class="u-hide--medium u-hide--small" />
+        enterprise-grade support
+      </h2>
+
+      <div class="grid-col">
+        <p>
+          For high stakes environments, enterprises consider paid support essential – from mission critical workloads, to systems handling sensitive data, to cloud infrastructure.<sup>3</sup>
+        </p>
+        <p>
+          Canonical ensures that your enterprise’s support and security needs are met, providing experts to facilitate your open source adoption journey and ongoing operations.
+        </p>
+        <p class="u-text--muted">
+          <cite>
+            <sup>3</sup>
+            Open source as Europe's strategic advantage: trends, barriers, and priorities for the European open source community amid regulatory and geopolitical shifts, The Linux Foundation, August, 2025
+          </cite>
+        </p>
+        <div class="p-cta-block has-border">
+          <a href="https://ubuntu.com/support" class="p-button">Browse support offerings</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-image-container">
+      {{ image(url="https://assets.ubuntu.com/v1/5c862051-server-room.jpg",
+        alt="",
+        width="2464",
+        height="1027",
+        hi_def=True,
+        loading="auto|lazy"
+        ) | safe
+      }}
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">
+        Where can you adopt
+        <br class="u-hide--medium u-hide--small" />
+        open source with Canonical?
+      </h2>
+      <p class="grid-col">
+        Our customers have adopted our open source software to solve all kinds of challenges &ndash; from AI workloads and large private clouds, to healthcare devices and critical telecommunications and financial services infrastructure.
+      </p>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6 grid-col-start-medium-2 grid-col-medium-3">
+        {% macro adopt_item(title, cta_text, cta_link) -%}
+          <div class="grid-row">
+            <h3 class="p-heading--5 grid-col-2 grid-col-medium-1">{{ title }}</h3>
+            <div class="grid-col-4 grid-col-medium-2">
+              {{ caller() }}
+
+              <div class="p-cta-block">
+                <a href="{{ cta_link }}">
+                  {{ cta_text }}&nbsp;&rsaquo;
+                </a>
+              </div>
+            </div>
+          </div>
+        {%- endmacro %}
+        {% call() adopt_item(
+          "Private cloud and K8s",
+          cta_text = "Read the case study",
+          cta_link = "https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study"
+        ) %}
+          <p>
+            Nova, a leading telecommunications and media group, chose <a href="https://canonical.com/openstack">Canonical OpenStack</a> with <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> for their open source cloud build.
+          </p>
+          <div class="p-cta-block">
+            <a href="https://canonical.com/case-study/nova-telecommunications">
+              Explore the case study&nbsp;&rsaquo;
+            </a>
+          </div>
+          <hr class="p-rule--muted" />
+          <p>
+            For environments that require a highly scalable private cloud, <a href="https://canonical.com/microcloud">MicroCloud</a> is a straightforward, lightweight, and resource efficient option. Find out how MicroCloud is helping the Université de l’Ontario Français meet its goals in the case study.
+          </p>
+        {% endcall %}
+        <hr class="p-rule--muted" />
+        {% call() adopt_item(
+          "Edge devices",
+          cta_text = "Learn more in the case study",
+          cta_link = "https://ubuntu.com/engage/rehrig-pacific-secures-edge-AI?_gl=1*al8xn5*_gcl_au*MTQ3NDY1NDc0NC4xNzQ3MTM3NDQw"
+        ) %}
+          <p>
+            Rehrig Pacific, a logistics innovator, uses Ubuntu Core to safely run applications behind customer firewalls and revolutionize logistics with computer vision.
+          </p>
+        {% endcall %}
+        <hr class="p-rule--muted" />
+        {% call() adopt_item(
+          "Security and compliance for highly regulated markets",
+          cta_text = "Find out more in the case study",
+          cta_link = "https://ubuntu.com/engage/LaunchDarkly-FedRAMP-case-study?_gl=1*al8xn5*_gcl_au*"
+        ) %}
+          <p>
+            Canonical’s software is designed with a focus on security. LaunchDarkly, a software as a service (SaaS) provider, chose Ubuntu Pro to help achieve effortless FIPS compliance on their AWS public cloud, opening up a new market for their business.
+          </p>
+        {% endcall %}
+        <hr class="p-rule--muted" />
+        {% call() adopt_item(
+          "AI and Machine Learning",
+          cta_text = "Find out how in the case study",
+          cta_link = "https://ubuntu.com/engage/ai-ml-casestudy-tasmania"
+        ) %}
+          <p>
+            University of Tasmania (UTAS) used <a href="https://canonical.com/openstack">Canonical OpenStack</a> and <a href="https://ubuntu.com/kubernetes">Kubernetes</a> to migrate its space-tracking software to a Supercloud platform. Canonical helped UTAS enable real-time AI/ML-powered object monitoring and lay the foundation for future automated MLOps workflows.
+          </p>
+        {% endcall %}
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <div class="p-image-container">
+      {{ image(url="https://assets.ubuntu.com/v1/1dc837c7-developer.jpg",
+        alt="",
+        width="2464",
+        height="1028",
+        hi_def=True,
+        loading="auto|lazy"
+        ) | safe
+      }}
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width p-section--shallow">
+      <hr class="p-rule--highlight" />
+      <h2 class="p-text--small-caps">Customer testimonials</h2>
+    </div>
+
+    {% call(slot) vf_quote_wrapper(
+      quote_text="My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.",
+      quote_size="small",
+      citation_source_name_text="Daniel Schell",
+      citation_source_title_text="Chief Technology Officer and Co-founder",
+      citation_source_organisation_text="Airlock Digital",
+      is_shallow=true
+    ) -%}
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/34af1302-airlock-logo.png",
+          alt="Airlock Digital",
+          width="852",
+          height="165",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://canonical.com/case-study/airlock-digital-ubuntu-pro-azure-case-study">Learn more in the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
+    {% call(slot) vf_quote_wrapper(
+      quote_text="Canonical works with us as partner and they own problems alongside us. I feel like we work as a team rather than a simple business transaction.",
+      quote_size="small",
+      citation_source_name_text="Curtis Haslam",
+      citation_source_title_text="Senior Manager at Network Cloud",
+      citation_source_organisation_text="BT Group",
+      is_shallow=true
+    ) -%}
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/e1a5c56f-bt-logo.png",
+          alt="BT Group",
+          width="852",
+          height="186",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://ubuntu.com/engage/5G-with-open-source-infrastructure">Discover the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
+    {% call(slot) vf_quote_wrapper(
+      quote_text="Info on Ubuntu is right there at our fingertips. Anything we need to know is always just a Google search away, so whatever issues we run into are easy to solve.",
+      quote_size="small",
+      citation_source_name_text="Ed Zenisek",
+      citation_source_title_text="IT Manager",
+      citation_source_organisation_text="NMSU Physical Science Lab",
+      is_shallow=true
+    ) -%}
+      {%- if slot == 'signpost_image' -%}
+        {{ image(url="https://assets.ubuntu.com/v1/565995a3-nmsu-logo.png",
+          alt="New Mexico State University",
+          width="852",
+          height="222",
+          hi_def=True,
+          loading="auto|lazy"
+        ) | safe }}
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://ubuntu.com/engage/new-mexico-state-university-physical-science-laboratory-drives-agile-and-compliant-federal-research-with-ubuntu">Find out more in the case study &rsaquo;</a>
+      {%- endif -%}
+    {% endcall -%}
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule--highlight" />
+
+    <div class="grid-row--50-50">
+      <h2 class="p-text--small-caps grid-col">Foundations we support and collaborate with</h2>
+
+      <p class="grid-col">
+        Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. Foundations that we support and collaborate with include:
+      </p>
+    </div>
+
+    {% macro logo(height, width, alt, src) %}
+        <div class="p-logo-section__item">
+          {{ image(url=src,
+            alt=alt,
+            width=width,
+            height=height,
+            hi_def=True,
+            loading="auto|lazy",
+            attrs={"class": "p-logo-section__logo"}
+            ) | safe
+          }}
+        </div>
+    {% endmacro %}
+
+    <div class="p-logo-section">
+      <div class="p-logo-section__items">
+        {{ logo(312, 360, "Cloud-native computing foundation logo", "https://assets.ubuntu.com/v1/a9614405-cncf-stacked-color-bg%202.png") }}
+        {{ logo(312, 297, "Eclipse foundation logo", "https://assets.ubuntu.com/v1/218e87aa-Eclipse-Foundation-Logo%201.png") }}
+        {{ logo(312, 291, "Open source security foundation logo", "https://assets.ubuntu.com/v1/62fa2132-new-openssf-logo.png") }}
+        {{ logo(312, 414, "Open infra foundation logo", "https://assets.ubuntu.com/v1/cc89c5a9-openinfra-foundation-logo%201.png") }}
+        {{ logo(312, 327, "The Linux foundation logo", "https://assets.ubuntu.com/v1/c821b54b-new-linux-foundation-logo.png") }}
+        {{ logo(312, 284, "RISC-V foundation logo", "https://assets.ubuntu.com/v1/d2ba47a9-risc-v-logo.png") }}
+        {{ logo(312, 157, "FinOS foundation logo", "https://assets.ubuntu.com/v1/a8b85da5-new-finos-logo.png") }}
+        {{ logo(312, 274, "Ceph foundation logo", "https://assets.ubuntu.com/v1/a0902597-ceph-logo.png") }}
+        {{ logo(312, 277, "Gnome foundation logo", "https://assets.ubuntu.com/v1/a4b602d2-gnome-logo.png") }}
+        {{ logo(312, 157, "KDE community logo", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png") }}
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--deep">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>Further reading</h2>
+      </div>
+      <div class="grid-col">
+        <p>
+          <a href="https://ubuntu.com/engage/open-source-program-office-guide-ospo-guide">
+            Learn about Open Source Program Offices (OSPOs)
+          </a>
+        </p>
+        <p>
+          Despite widespread adoption of open source software, only 34% of organizations have a formal open source strategy. OSPOs are a great option to improve your open source governance and clarify your strategy.
+        </p>
+        <p>
+          OSPOs oversee open source policies, ensure compliance, and optimize engagement with open source. 
+        </p>
+        <p>
+          Learn the benefits of OSPOs, and how to set up and run your own in our guide.
+        </p>
+
+        <hr class="p-rule--muted" />
+
+        <p>
+          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Final%20report%20-%20WorldofOS_EUSpotlight_2025_081525.pdf?version=0">
+            Discover insights on open source adoption in Europe
+          </a>
+        </p>
+
+        <p>
+          The Linux Foundation’s most recent report, “Open source as Europe's strategic advantage: trends, barriers, and priorities for the European open source community amid regulatory and geopolitical shifts,” reveals the challenges, considerations, and emerging trends in how organizations are using open source software in Europe. 
+        </p>
+        <p>
+          The report indicates that open source adoption has become a necessity for organizations – yet many still lack the formal strategies needed to benefit fully from their open source software.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/contact-us") | safe }}
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+{% endblock %}

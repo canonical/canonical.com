@@ -1,5 +1,8 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1sM8pgyM-N8VK8fyHgMsW21PdXUiqYrdRkPkipIljNd0/edit
 {% endblock meta_copydoc %}
@@ -20,8 +23,8 @@
 
   <section class="p-strip is-shallow u-no-padding--bottom">
     <div class="p-section">
-      <div class="row--50-50">
-        <div class="col">
+      <div class="grid-row--50-50">
+        <div class="grid-col">
           <div class="p-section--shallow">
             <h1 class="u-no-margin--bottom">
               Apache Spark<sup>&reg;</sup> operations, simplified
@@ -32,12 +35,11 @@
               Secure and automate the deployment, maintenance and upgrades of Spark on Kubernetes. Run your big data clusters across private and public clouds.
             </p>
           </div>
-          <hr class="p-rule--muted" />
-          <a class="p-button--positive"
+          <a class="p-button--positive js-invoke-modal"
              aria-controls="data-spark-modal"
              href="/contact-us">Contact us</a>
         </div>
-        <div class="col">
+        <div class="grid-col">
           <div class="u-vertically-center u-aspect-ratio--16-9 p-image-wrapper u-container--background u-align--center p-strip">
             {{ image(url="https://assets.ubuntu.com/v1/8baab06a-apache-spark-logo.png",
                         alt="Apache Spark",
@@ -53,101 +55,137 @@
   </section>
 
   <section class="p-section">
-    <div class="row--50-50">
+    <div class="grid-row--50-50">
       <hr class="p-rule" />
-      <div class="col">
-        <h2>Made to give you peace&nbsp;of&nbsp;mind</h2>
+
+      <div class="grid-col">
+        <h2 class="p-text--small-caps">Made to give you peace&nbsp;of&nbsp;mind</h2>
       </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">10 years security maintenance</li>
-          <li class="p-list__item is-ticked">Open source</li>
-          <li class="p-list__item is-ticked">Simple per node subscription</li>
-        </ul>
+      <div class="grid-col">
+        <p class="p-heading--2">10 years security maintenance</p>
+        <hr class="p-rule--muted">
+        <p class="p-heading--2">Open source</p>
+        <hr class="p-rule--muted">
+        <p class="p-heading--2">Simple per node subscription</p>
       </div>
     </div>
   </section>
 
   <section class="p-section">
     <hr class="p-rule is-fixed-width" />
-    <div class="row--50-50">
-      <div class="col">
+    <div class="grid-row--50-50">
+      <div class="grid-col">
         <div class="p-section--shallow">
           <h2>
             A complete solution for Spark<sup>&reg;</sup> with enterprise-grade support
           </h2>
         </div>
       </div>
-      <div class="col">
+      <div class="grid-col">
         <p>
-          Simply the best way to run Apache Spark<sup>&reg;</sup>, whether on the cloud or in your data centre; runs on Kubernetes.
+          Simply the best way to run Apache Spark<sup>&reg;</sup>, whether on the cloud or in your data center.
         </p>
         <hr class="p-rule--muted" />
         <ul class="p-list--divided">
           <li class="p-list__item is-ticked">Supported and maintained for up to 10 years</li>
+          <li class="p-list__item is-ticked">Runs on Kubernetes</li>
+          <li class="p-list__item is-ticked">GPU acceleration</li>
           <li class="p-list__item is-ticked">Integrated monitoring</li>
           <li class="p-list__item is-ticked">Includes a fully supported distribution of Apache Spark</li>
         </ul>
-        <a class="p-button--positive" href="/data/docs/spark/k8s">Get started with Charmed Spark</a>
-        <a class="p-button" aria-controls="data-spark-modal">Get support</a>
+        <a class="p-button--positive" href="https://canonical-charmed-spark.readthedocs-hosted.com/main/">Get started with Charmed Spark</a>
+        <a class="p-button" href="/data/spark/support">Get support</a>
       </div>
     </div>
   </section>
 
   <section class="p-section">
-    <div class="row--25-75 is-split-on-medium">
+    <div class="grid-row--50-50 is-split-on-medium">
       <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">
-          Run Apache Spark<sup>&reg;</sup> on
-        </h2>
+      <div class="grid-col">
+        <h2>Set up</h2>
+      </div>
+
+      <div class="grid-col">
+        <p>Run Apache Spark<sup>&reg;</sup> on</p>
         <div class="p-logo-section">
           <div class="p-logo-section__items">
             <div class="p-logo-section__item">
-              {{ image(url="https://assets.ubuntu.com/v1/cd1a01d0-kubernetes-logomark-logo.png",
-                            alt="Kubernetes",
-                            width="606",
-                            height="384",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-logo-section__logo"}) | safe
+              {{ image(url="https://assets.ubuntu.com/v1/6acf1a11-104px_kubernetes_logo.png",
+                        alt="Kubernetes",
+                        width="500",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
               }}
             </div>
           </div>
         </div>
-      </div>
-      <div class="col">
-        <h2 class="p-text--small-caps">Integrate it with</h2>
+        
+        <hr class="p-rule" />
+
+        <p>Integrate Apache Spark<sup>&reg;</sup> with</p>
         <div class="p-logo-section">
           <div class="p-logo-section__items">
             <div class="p-logo-section__item">
-              {{ image(url="https://assets.ubuntu.com/v1/e65a7ca3-ceph-logo.png",
-                            alt="Ceph",
-                            width="251",
-                            height="256",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-logo-section__logo"}) | safe
+              {{ image(url="https://assets.ubuntu.com/v1/ebcd8d7d-104px_ceph_logo.png",
+                  alt="Ceph",
+                  width="304",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-logo-section__logo"}) | safe
               }}
             </div>
             <div class="p-logo-section__item">
-              {{ image(url="https://assets.ubuntu.com/v1/82e9cfa7-Canonical-microk8s.png",
-                            alt="Canonical Microk8s",
-                            width="247",
-                            height="256",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-logo-section__logo"}) | safe
+              {{ image(url="https://assets.ubuntu.com/v1/b850fa69-104px_microk8s_logo.png",
+                alt="Canonical Microk8s",
+                width="334",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-logo-section__logo"}) | safe
               }}
             </div>
             <div class="p-logo-section__item">
-              {{ image(url="https://assets.ubuntu.com/v1/bab5ae4f-kafka.png",
-                            alt="Kafka",
-                            width="228",
-                            height="256",
-                            hi_def=True,
-                            loading="lazy",
-                            attrs={"class": "p-logo-section__logo"},) | safe
+              {{ image(url="https://assets.ubuntu.com/v1/0c4f1241-104px_kafka_logo.png",
+                alt="Kafka",
+                width="236",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/36ab962a-104px_canonical_kubernetes_logo.png",
+                alt="",
+                width="397",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/51afa77a-104px_kyuubi_logo.png",
+                alt="Kyuubi",
+                width="354",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/a7594e2e-104px_nvidia_logo.png",
+                alt="NVIDIA",
+                width="378",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-logo-section__logo"},) | safe
               }}
             </div>
           </div>
@@ -174,7 +212,7 @@
           </div>
           <div class="col-6">
             <p>
-              Integrate, join and process data in motion with Spark Streaming and Spark Structured Streaming for streaming applications ranging from industrial IoT to clickstream.
+              Integrate, join and process data in motion with Spark Streaming for streaming applications ranging from industrial IoT to clickstream.
             </p>
           </div>
         </div>
@@ -193,7 +231,7 @@
             <p class="p-heading--5">SQL analytics</p>
           </div>
           <div class="col-6">
-            <p>Use Spark SQL to write advanced SQL queries to perform analysis on your data &ndash; whatever form it takes.</p>
+            <p>Use Spark SQL and Apache Kyuubi to write advanced SQL queries to perform analysis on your data &ndash; whatever form it takes.</p>
           </div>
         </div>
         <hr class="p-rule" />
@@ -211,13 +249,65 @@
     </div>
   </section>
 
+    {% call(slot) vf_pricing_block(
+    title_text='Charmed Spark services',
+    tiers=[
+      {
+        'tier_name_text': 'Managed',
+        'tier_price_text': 'from $3099',
+        'tier_price_explanation': 'per node, per year',
+        'tier_description_html': '<p>Get there faster. Let us deploy and operate your Spark cluster, in your cloud tenancy or in your data center.</p>',
+        'tier_offerings': [
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'Backed by an SLA'
+          },
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'MSP and SOC2 certified service'
+          },
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'Low cost of ownership'
+          },
+        ],
+      },
+      {
+        'tier_name_text': 'Self-managed',
+        'tier_price_text': 'from $500',
+        'tier_price_explanation': 'per node, per year',
+        'tier_description_html': '<p>24/7, weekday or advanced fire-fighting support for Spark from Canonical for up to 10 years per release track.</p>',
+        'tier_offerings': [
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'Expert troubleshooting on hand'
+          },
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'Security and bug fixes'
+          },
+          {
+          'list_item_style': 'ticked',
+          'list_item_content_html': 'Full stack coverage'
+          },
+        ],
+      }
+    ]) -%}
+    {%- if slot == 'section_description' -%}
+    <p>
+      Charmed Spark is available self-managed or as a fully managed solution remotely delivered in your on-premise environment
+      or cloud tenancy.
+    </p>
+    {%- endif -%}
+    {% endcall %}
+
   <section class="p-section">
-    <div class="row--50-50 is-split-on-medium">
+    <div class="grid-row--50-50 is-split-on-medium">
       <hr class="p-rule" />
-      <div class="col">
+      <div class="grid-col">
         <h2>Consulting services</h2>
       </div>
-      <div class="col">
+      <div class="grid-col">
         <p>
           Expert support for your Spark<sup>&reg;</sup> project directly from Canonical.
         </p>
@@ -227,6 +317,23 @@
           <li class="p-list__item is-ticked">Solution deployment</li>
           <li class="p-list__item is-ticked">Ad-hoc consulting</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row--50-50">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>Customer story</h2>
+      </div>
+      <div class="grid-col">
+        {{ lite_video(video_id="JKZKpXaJsPI", video_title="The Tech Behind Europe's Space Missions | Canonical x ESA") }}
+        <p>
+          Explore how Canonical deployed infrastructure solutions and managed IT services for critical space mission
+          operations
+          for the European Space Agency.
+        </p>
       </div>
     </div>
   </section>
@@ -242,38 +349,41 @@
   </section>
 
   <section class="p-section--shallow">
-    <div class="row--50-50">
+    <div class="grid-row--50-50">
       <hr class="p-rule" />
-      <div class="col">
+      <div class="grid-col">
         <h2>
           Apache Spark<sup>&reg;</sup> resources
         </h2>
       </div>
-      <div class="col">
+      <div class="grid-col">
         <div class="p-section--shallow">
           <h3 class="p-heading--5">
-            <a href="/blog/canonical-releases-charmed-spark">Canonical announces supported solution for Apache Spark&reg; on Kubernetes</a>
+            <a href="https://ubuntu.com/engage/data-lakehouse-spark-kyuubi">Open source data lakehouse architecture with Spark and Kyuubi – an engineering deep dive</a>
           </h3>
           <p>
-            Canonical announces Charmed Spark &dash; an advanced solution for Apache Spark&reg; that provides everything users need to run Apache Spark on Kubernetes.
+            Discover how Apache Spark’s scalable processing engine and Apache Kyuubi’s user-friendly SQL gateway enable efficient,
+            secure, and high-performance analytics on unified data sets.
           </p>
         </div>
         <hr class="p-rule" />
+
         <div class="p-section--shallow">
           <h3 class="p-heading--5">
-            <a href="https://ubuntu.com/engage/spark-reference-architecture-for-big-data">Charmed Spark release 1 reference architecture</a>
+            <a href="https://ubuntu.com/blog/apache-spark-security-start-with-a-solid-foundation">Apache Spark security: start with a solid foundation</a>
           </h3>
           <p>
-            Get a detailed overview of Canonical Charmed Spark architecture &ndash; an element of the Canonical Data Fabric suite of solutions for data-intensive workloads.
+            Read about our approach to securing big data analytics with Apache Spark
           </p>
         </div>
         <hr class="p-rule" />
+
         <div class="p-section--shallow">
           <h3 class="p-heading--5">
-            <a href="https://ubuntu.com/engage/spark-security-webinar">Securing Apache Spark Big Data Operations</a>
+            <a href="https://ubuntu.com/engage/open-source-big-data-ai">Make better decisions with open source big data and AI</a>
           </h3>
           <p>
-            Learn about big data security best practices and  pragmatic steps that you can take to secure your Spark applications &ndash; wherever they may be running.
+            Learn about the latest trends in big data and AI and how to build a future-proof analytics stack with open source.
           </p>
         </div>
       </div>
@@ -283,19 +393,15 @@
   <section class="p-section">
     <div class="row">
       <hr class="p-rule" />
+      <div class="col-6"></div>
       <div class="col-6">
         <p>
-          Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+          Apache&reg;, Apache Spark, Spark&reg;, Apache Kyuubi, Kyuubi&reg;, the Spark and Kyuubi logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
         </p>
       </div>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/spark#success" %}
-    {% include "data/_form-data-spark.html" %}
-  {% endwith %}
+  {{ load_form("/data/spark") | safe }}
 
 {% endblock %}

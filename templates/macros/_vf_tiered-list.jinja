@@ -1,0 +1,122 @@
+{#-
+  This is a temporary overriding of the Tiered List macro to support removing the first hr on the list.
+  https://vanillaframework.io/docs/patterns/tiered-list
+  This copy is current as of Vanilla 4.24.0
+  This is needed until the functionality is upstreamed in https://github.com/canonical/vanilla-framework/pull/5529
+-#}
+{#-
+# Params
+# is_description_full_width_on_desktop: whether description has its own row on
+#   desktop vs. 50/50 split between title/description
+# is_list_full_width_on_tablet: whether list title/description each have their
+#   own row on tablet vs. 50/50 split between title/description
+# is_first_hr_visible: whether the list item has a hr above it
+# Slots
+# title: top-level title element
+# description: top-level description element
+# list_item_title_[1-25]: title element of each child list item
+# list_item_description_[1-25]: description element of each child list item
+# cta: CTA block element
+-#}
+{% macro vf_tiered_list(
+  is_description_full_width_on_desktop=true,
+  is_list_full_width_on_tablet=true,
+  is_first_hr_visible=true) -%}
+  {%- set title_content = caller('title') -%}
+  {%- set description_content = caller('description') -%}
+  {%- set has_description = description_content|trim|length > 0 -%}
+  {%- set cta_content = caller('cta') -%}
+  {%- set has_cta = cta_content|trim|length > 0 -%}
+
+  <div class="p-section u-fixed-width">
+    <hr class="p-rule" />
+
+    {% if has_description == true -%}
+      {%- if is_description_full_width_on_desktop == true -%}
+        <div class="u-fixed-width">
+          <div class="p-section--shallow">{{ title_content }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 col-start-large-7">{{ description_content }}</div>
+        </div>
+      {%- else -%}
+        <div class="row">
+          <div class="col-6">
+            <div class="p-section--shallow">{{ title_content }}</div>
+          </div>
+
+          <div class="col-6">{{ description_content }}</div>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="u-fixed-width">
+        <div class="p-section--shallow">{{ title_content }}</div>
+      </div>
+    {%- endif %}
+
+    {#-
+      When there is a CTA, we use shallow spacing to space the list away from the CTA.
+      When there is no CTA, shallow spacing would combine with the pattern-level p-section padding, which introduces too much space.
+    -#}
+    {%- if has_cta -%}
+      <div class="p-section--shallow">
+      {%- endif -%}
+      {%- for number in range(1, 25) -%}
+        {%- set list_item_title_content = caller('list_item_title_' + number|string) -%}
+        {%- set has_title_content = list_item_title_content|trim|length > 0 -%}
+        {%- set list_item_description_content = caller('list_item_description_' + number|string) -%}
+        {%- set has_description_content = list_item_description_content|trim|length > 0 -%}
+
+        {#- Check to see if title/description content exist, since we're
+            iterating through 25 potential list items -#}
+        {%- if has_title_content and has_description_content -%}
+          {%- if is_list_full_width_on_tablet == true %}
+            <div class="row">
+              <div class="col-9 col-start-large-4">
+                {%- if number == 1 and not is_first_hr_visible %}
+                  {# Skip the first HR when is_first_hr_visible is true #}
+                {%- else %}
+                  <hr class="is-muted" />
+                {%- endif %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-3 col-start-large-4">{{ list_item_title_content }}</div>
+
+              <div class="col-6">{{ list_item_description_content }}</div>
+            </div>
+          {%- else %}
+            <div class="row">
+              <div class="col-9 col-start-large-4">
+                {%- if number == 1 and not is_first_hr_visible %}
+                  {# Skip the first HR when is_first_hr_visible is true #}
+                {%- else %}
+                  <hr class="is-muted" />
+                {%- endif %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-medium-3 col-3 col-start-large-4">{{ list_item_title_content }}</div>
+
+              <div class="col-medium-3 col-6">{{ list_item_description_content }}</div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {% endfor %}
+      {%- if has_cta -%}
+      </div>
+    {%- endif -%}
+
+    {% if has_cta == true -%}
+      <div class="row">
+        <hr class="p-rule--muted" />
+        <div class="col-6 col-start-large-7">
+          <p>{{ cta_content }}</p>
+        </div>
+      </div>
+    {%- endif %}
+  </div>
+{%- endmacro %}

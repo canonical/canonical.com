@@ -1,0 +1,40 @@
+{% extends "base_index.html" %}
+
+{% block title %}Tutorials{% endblock %}
+
+{% block content %}
+
+<section class="p-strip--image is-shallow" style="background-image: url('https://assets.ubuntu.com/v1/e54487e2-maas-docs-suru.png')">
+  <div class="u-fixed-width">
+    <h1 class="p-heading--2 u-no-margin--bottom">Tutorials</h1>
+  </div>
+</section>
+
+<section class="p-strip is-shallow">
+  <div class="row u-equal-height">
+    {% for item in tutorials %}
+      <div class="col-4 col-medium-3 p-card">
+	<div class="p-card__content">
+	  <h3 class="p-heading--4">
+	    <a href="{{ item.link }}">
+	      {{ item.title | safe }}
+	    </a>
+	  </h3>
+	  <p>{{ item.summary | safe }}</p>
+	</div>
+	<p>Difficulty: <span class="p-tutorials-meter p-tutorials-meter--{{ item.difficulty }}">{{ item.difficulty }} out of 5</span></p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="p-strip--light is-bordered is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-heading--three">Want to understand the core concepts and get a high-level overview of MAAS and its architecture?</p>
+      <p class="u-no-margin--bottom"><a href="/maas/how-maas-works" aria-label="Link to the how MAAS works page on maas dot i o">Read how it works&nbsp;&rsaquo;</a></p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,9 +1,13 @@
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
 {% extends 'base_index.html' %}
 
-{% block title %}Projects and technologies{% endblock %}
+{% block title %}Canonical | Open source projects{% endblock %}
+
+{% block meta_copydoc %}https://docs.google.com/document/d/1GTnsk_Fk-ZHJQi--6X2TuaURwUCwnxZQjKdWDFBsaS0{% endblock %}
 
 {% block meta_description %}
-  Canonical guides and contributes to the development of many open source projects in addition to Ubuntu. They include MIR, a next-generation display server, and Juju, a leading service orchestration tool.
+  Canonical supports, guides, and contributes to the development of many open source projects in addition to Ubuntu. They include MIR, a next-generation display server, and Juju, a leading service orchestration tool.
 {% endblock %}
 
 {% block body_class %}
@@ -12,174 +16,295 @@
 
 {% block content %}
 
-  <section class="p-strip">
+  <section class="p-section--hero">
     <div class="p-section--shallow">
-      <div class="row">
-        <div class="col-8 col-start-large-4">
+      <div class="row--50-50">
+        <div class="col">
           <h1>Open source is what we do</h1>
-          <p class="p-heading--2">
-            We believe in the power of open source software. As well as driving our own projects, we contribute staff, code and funding to many more.
-          </p>
+        </div>
+        <div class="col">
+          <div class="p-section--shallow">
+            <p>
+              We believe in the power of open source software. As well as driving our own projects, we contribute staff, code and funding to many more.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="u-fixed-width">
+      {{ image(url="https://assets.ubuntu.com/v1/d1f85869-hero.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="row--50-50">
+      <div class="col">
+        <h2>Supporting open source developers</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-container is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/554d4b7f-canonical-thanksdev-updated.png",
+                        alt="Canonical and thanks.dev collaboration",
+                        width="1200",
+                        height="801",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p>
+          Canonical supports several large open source foundations, including the Eclipse Foundation, Open Source Security Foundation (OpenSSF), Cloud Native Computing Foundation (CNCF), and the Gnome Foundation. We're also supporting Trifecta Tech to build a <a href="https://trifectatech.org/blog/memory-safe-sudo-to-become-the-default-in-ubuntu">memory-safe sudo</a>, and uutils, a <a href="https://discourse.ubuntu.com/t/adopting-sudo-rs-by-default-in-ubuntu-25-10/60583#p-156027-progress-on-coreutils">memory-safe version of coreutils</a>.
+        </p>
+        <p>
+          We're committed to giving back, and donating to the open source projects that our work depends on. Since April 2025, we've also begun donating to individual maintainers using <a href="https://thanks.dev/home">thanks.dev</a>. Thanks.dev's algorithm distributes the funds based on our projects' dependencies.
+        </p>
+        <p>
+          We hope that these donations will help to demonstrate our appreciation for the hard work of our open source community.
+        </p>
+        <div class="p-cta-block">
+          <a href="/blog/canonical-thanks-dev-giving-back-to-open-source-developers" aria-label="Find out more about how we give back to open source developers">Find out more&nbsp;›</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row">
-      <h2 class="p-muted-heading">Contribute to open source</h2>
-      <hr class="p-rule--highlight" />
-    </div>
-    <div class="row p-section">
-      <div class="col-6 col-medium-3">
-        <h3 class="p-heading--2">
-          <a href="https://ubuntu.com">Ubuntu</a>
-        </h3>
+  <section class="u-fixed-width">
+    {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+      {%- if slot == 'title' -%}
+        <h2>Some of the open source projects we support</h2>
+      {%- endif -%}
+
+      {%- if slot == 'description' -%}
         <p>
-          Ubuntu is one of the world's biggest and most influential open source projects. With new features continually being developed, there is plenty of opportunity to get involved.
+          This is a small selection of the open source projects that Canonical steers, supports, or contributes to upstream. Curious? Find out more below.
         </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_1' -%}
+        <a class="p-heading--5" href="https://ubuntu.com">Ubuntu</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_1' -%}
         <p>
-          <a href="https://discourse.ubuntu.com/t/contribute/26">Contribute to Ubuntu&nbsp;&rsaquo;</a>
+          Ubuntu is the world's most deployed open source operating system (OS). With new features continually being developed, there are plenty of opportunities to get involved.
         </p>
-      </div>
-      <div class="col-6 col-medium-3">
-        <div class="p-image-wrapper">
-          {{ image(url="https://assets.ubuntu.com/v1/38ce93a4-Frame 2816.jpg",
-                    alt="",
-                    width="1620",
-                    height="969",
-                    hi_def=True,
-                    loading="auto|lazy") | safe
-          }}
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/community/contribute">Contribute to Ubuntu&nbsp;›</a>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://ubuntu.com/openstack">OpenStack</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_2' -%}
+        <a class="p-heading--5" href="/juju">Juju</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_2' -%}
         <p>
-          Cloud computing needed an open source, enterprise-scale infrastructure platform. Thanks to the work of Canonical and many other contributors, we have OpenStack.
+          Until Juju, deploying services into cloud and hyperscale environments was complex, error-prone, and time-consuming. Juju is Canonical's open source cloud control plane. It simplifies the deployment and the operation of cloud applications on any infrastructure.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://jaas.ai">Juju</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_3' -%}
+        <a class="p-heading--5" href="https://ubuntu.com/openstack">OpenStack</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_3' -%}
         <p>
-          Deploying services into cloud and hyperscale environments used to be complex, error-prone and time-consuming - until now. Juju is the Ubuntu project's service orchestration tool, which simplifies the installation and management of cloud applications.
+          Cloud computing needed an open source, enterprise-scale infrastructure platform. Thanks to the work of Canonical and many other contributors, we have OpenStack. With the <a href="https://ubuntu.com/blog/openstack-with-sunbeam-for-small-scale-private-cloud-infrastructure">Sunbeam project</a>, users can scale and operate their OpenStack control plane on Kubernetes, while running data plane workloads on bare-metal or virtual machines. With Sunbeam, OpenStack can be adopted by almost anyone &ndash; stress-free.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://maas.io">MAAS</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_4' -%}
+        <a class="p-heading--5"
+           href="https://ubuntu.com/community/governance/debian">Debian</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_4' -%}
         <p>
-          Installing and deploying cloud computing at datacentre scale is often complicated and time consuming. Metal as a Service (MAAS) lets you treat physical servers like virtual machines in the cloud, turning your bare metal into an elastic, cloud-like resource.
+          Debian is one of the world's largest free software communities, famed for its philosophy of collaborative development. A firmly established Linux distribution, Debian shares much of its underlying architecture with Ubuntu.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://mir-server.io/">Mir</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_5' -%}
+        <a class="p-heading--5" href="/mir">Mir</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_5' -%}
         <p>
-          A cross-platform client interface needs a cross-platform graphics stack. Mir is the next generation display server used by Ubuntu for its mobile and desktop form factors.
+          A cross-platform client interface needs a cross-platform graphics stack. Mir is a library for building modern display compositors &ndash; software that produces graphical user interfaces. Mir has excellent performance, compatibility, and developer experience.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://www.launchpad.net/">Launchpad</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_6' -%}
+        <a class="p-heading--5" href="https://launchpad.net">Launchpad</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_6' -%}
         <p>
-          Launchpad enables developers to track and manage open source projects. Its features include code hosting, bug tracking and translation. Ubuntu is one of many projects that use Launchpad.
+          Launchpad helps developers track and manage open source projects. It covers everything from code hosting, to bug tracking, and translation. Ubuntu amongst the many projects that rely on Launchpad.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://cloud-init.io/">Cloud-init</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_7' -%}
+        <a class="p-heading--5" href="https://cloud-init.io">Cloud-init</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_7' -%}
         <p>
-          In cloud environments, image-sprawl can quickly become a problem. Cloud-init is a system initialisation program that imports data from the provider (e.g. Amazon EC2 or Microsoft Azure) which can be used to configure new images with greater control.
+          In cloud environments, image-sprawl can quickly become unmanageable. Cloud-init is a system initialization program that imports data from the provider (e.g. Amazon EC2 or Microsoft Azure), which can be used to configure new images with greater control.
         </p>
-      </div>
-      <div class="col-3 col-medium-3 p-section">
-        <hr class="p-rule--highlight" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">
-            <a href="https://ubuntu.com/community/debian">Debian</a>
-          </h3>
-        </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_8' -%}
+        <a class="p-heading--5" href="https://maas.io">MAAS</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_8' -%}
         <p>
-          Debian is one of the world's largest free software communities, famed for its philosophy of collaborative development. A firmly established Linux distribution, it shares much of its underlying architecture with Ubuntu.
+          Installing and deploying cloud computing at scale is often complicated and time consuming. Metal as a Service (MAAS) lets you treat physical servers like virtual machines in the cloud, turning your bare metal into an elastic, cloud-like resource.
         </p>
-      </div>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_9' -%}
+        <a class="p-heading--5" href="https://netplan.io/">Netplan</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_9' -%}
+        <p>
+          Before Netplan, Linux networking could be inconsistent and complex across different distros and environments. Netplan is a unified, modern interface based on YAML files that helps users easily connect to networks.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_10' -%}
+        <a class="p-heading--5" href="https://ubuntu.com/ceph/what-is-ceph">Ceph</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_10' -%}
+        <p>
+          Ceph is an enterprise ready, software defined, multi-protocol storage solution. It is massively scalable, elastic, and resilient. Ceph clusters are built from commodity hardware, leading to a cost effective solution when compared to traditional proprietary solutions.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_11' -%}
+        <a class="p-heading--5" href="/dqlite">Dqlite</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_11' -%}
+        <p>
+          SQLite is the world's most widely used database engine for SQLs. It's efficient, self-contained, and lightweight. Dqlite retains the benefits of SQLite, and distributes it across multiple machines in a cluster. This ensures the data will survive node failures, making systems more resilient.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_12' -%}
+        <a class="p-heading--5" href="https://www.kubeflow.org">Kubeflow</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_12' -%}
+        <p>
+          Kubeflow is the most widely used open source MLOps platform. It provides a comprehensive suite of tools for the end-to-end Machine Learning (ML) development lifecycle. Kubeflow lets you define and run repeatable ML pipelines, run distributed training jobs, serve models, and operationalize your machine learning infrastructure at scale.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_13' -%}
+        <a class="p-heading--5" href="https://opensearch.org">OpenSearch</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_13' -%}
+        <p>
+          Generating useful insights from massive data sets can be difficult and slow. OpenSearch is a powerful tool that helps you search, analyze, and visualize huge amounts of data in real time. It is also used for data observability, data ingestion, Security Event and Information Management (SIEM), vector databases and more.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_14' -%}
+        <a class="p-heading--5" href="https://valkey.io">Valkey</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_14' -%}
+        <p>
+          Valkey is a low-latency in-memory store. It is typically used as a cache to improve application response times but can also be used to perform real-time analytics or as a lightweight message queueing system. 
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_15' -%}
+        <a class="p-heading--5" href="https://sylvaproject.org">Sylva project</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_15' -%}
+        <p>
+          Sylva was born from the need for a Telco-friendly infrastructure platform. Europe's main carriers and network providers are working together on creating scalable, cloud-native infrastructure that can be deployed on any compliant platform.
+        </p>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_title_16' -%}
+        <a class="p-heading--5" href="https://www.gnome.org">GNOME</a>
+      {%- endif -%}
+
+      {%- if slot == 'list_item_description_16' -%}
+        <p>
+          For nearly three decades, GNOME has been developing a free, independent, and beautiful open source desktop environment. GNOME provides the user experience for the main Linux distributions, and has expanded to essential apps, an app development platform and runtime environment, and more.
+        </p>
+      {%- endif -%}
+
+    {%- endcall -%}
+
+    <div class="p-section--shallow">
+      {{ image(url="https://assets.ubuntu.com/v1/93356da2-os-projects-we-support.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy") | safe
+      }}
     </div>
   </section>
 
-  <section class="p-section">
+  <section class="p-section--deep">
     <div class="row">
       <hr class="p-rule" />
-      <div class="col-3 col-medium-6">
-        <h2 class="p-muted-heading">Learn more</h2>
+    </div>
+    <div class="row--50-50">
+      <div class="col">
+        <h2>Join our community</h2>
       </div>
-      <div class="col-9">
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-6 col-medium-3">
-              <h3 class="p-heading--2">
-                <a href="/projects/directory">View Canonical project directory</a>
-              </h3>
-            </div>
-            <div class="col-3 col-medium-3">
-              <p>See an overview of open source projects set up by Canonical, with contact information for each project.</p>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-6 col-medium-3">
-              <h3 class="p-heading--2">
-                <a href="https://www.ubuntu.com">Explore ubuntu.com</a>
-              </h3>
-            </div>
-            <div class="col-3 col-medium-3">
-              <p>On ubuntu.com, you&rsquo;ll find out more about the platform, our management services and our partner programs.</p>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-6 col-medium-3">
-              <h3 class="p-heading--2">
-                <a href="https://www.ubuntu.com/support">Contact us today</a>
-              </h3>
-            </div>
-            <div class="col-3 col-medium-3">
-              <p>Interested in Ubuntu Pro? Talk to us today for more information.</p>
-            </div>
-          </div>
-        </div>
+      <div class="col">
+        <ul class="p-list--divided">
+          <li class="p-list__item">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com">Ubuntu.com</a>
+            </h3>
+            <p>On ubuntu.com, you'll find out more about the platform, our services and our partner programs.</p>
+          </li>
+          <li class="p-list__item">
+            <h3 class="p-heading--5">
+              <a href="https://discourse.ubuntu.com/">Ubuntu discourse</a>
+            </h3>
+            <p>
+              Connect with a global community of users, developers, and likeminded contributors on the Ubuntu discourse. Find community support, announcements, documentation, events, and more.
+            </p>
+          </li>
+          <li class="p-list__item">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/community/communications/matrix/usage">Ubuntu Matrix Server</a>
+            </h3>
+            <p>Join the conversation on Ubuntu and the wider open source community on the Ubuntu Matrix Server.</p>
+            <p>
+              Host chat rooms and communities, invite other users, and connect to other Matrix servers – whilst remaining in control of your data. You can even enable end-to-end encryption for increased security.
+            </p>
+          </li>
+          <li class="p-list__item">
+            <h3 class="p-heading--5">
+              <a href="https://discourse.ubuntu.com/tag/blog">Ubuntu Engineering updates</a>
+            </h3>
+            <p>All of the latest Ubuntu engineering and community news, in one place.</p>
+          </li>
+        </ul>
       </div>
     </div>
   </section>

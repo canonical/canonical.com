@@ -1,0 +1,330 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}Kubeflow AI and MLOps at any scale{% endblock %}
+
+{% block meta_description %}
+  Enterprise-ready Charmed Kubeflow, the fully supported MLOps platform for any cloud.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1Wvhl0yYV_w0BJsyZbQFKg_QV6RjMLbmQU3x0rsD2F4Q
+{% endblock meta_copydoc %}
+
+{% block meta_image %}https://assets.ubuntu.com/v1/4964cb81-servers.jpg{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  <section class="p-section--hero">
+    <div class="grid-row">
+      <div class="grid-col-4 grid-col-medium-2">
+        <div class="p-section--shallow">
+          <h1>
+            Kubeflow AI and MLOps
+            <br class="u-hide--small" />
+            at any scale
+          </h1>
+        </div>
+      </div>
+      <div class="grid-col-4 grid-col-medium-2">
+        <div class="p-section--shallow">
+          <p>
+            <strong>Enterprise-ready Charmed Kubeflow, the fully supported MLOps platform for any cloud.</strong>
+            Charmed Kubeflow is Canonical's enterprise-ready MLOps platform. Deploy, scale, and manage AI workflows across clouds, VMs, or bare metal. A complete solution for sophisticated data science labs. Upgrades and security updates – all supported in the free, open source distribution.
+          </p>
+        </div>
+        <div class="p-cta-block">
+          <a href="/contact-us"
+             class="p-button--positive js-invoke-modal"
+             aria-controls="mlops-modal">Get in touch</a>
+          <a href="https://ubuntu.com/engage/mlops-guide">Read our guide to MLOps&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+      <div class="p-notification">
+        <p class="p-notification__content">
+          Apply to join our preview for Managed Kubeflow on Azure! <a href="https://ubuntu.com/engage/managed-kubeflow-preview">Learn more and sign up</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_equal_heights(
+    title_text="Why choose Charmed Kubeflow?",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
+    highlight_images=True,
+    items=[
+    {
+    "title_text": "One solution, any cloud
+    ",
+    "image_html":  image(url="https://assets.ubuntu.com/v1/566c5295-one-solution.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"})
+    ,
+    "description_html": "<p>Deploy Kubeflow on public clouds, private infrastructure, or air-gapped environments.</p>",
+    },
+    {
+    "title_text": "Multi-user collaboration",
+    "image_html": image(url="https://assets.ubuntu.com/v1/1b774c6e-multi-user.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
+    "description_html": "<p>Enable secure workspaces with role-based access for data science teams.</p>",
+    },
+    {
+    "title_text": "Scale with confidence",
+    "image_html":  image(url="https://assets.ubuntu.com/v1/faa2c0b5-scale-with.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
+    "description_html": "<p>Run parallel experiments at any scale, with GPU acceleration built-in.</p>",
+    },
+    {
+    "title_text": "Open and cost-efficient",
+    "image_html": image(url="https://assets.ubuntu.com/v1/c9c7d08a-open-and.png",
+    alt="",
+    width="568",
+    height="853",
+    hi_def=True,
+    loading="auto",
+    attrs={"class": "p-image-container__image"}
+    ),
+    "description_html": "<p>No licensing fees. No usage limits. Backed by Canonical’s enterprise-grade support.</p>",
+    }
+    ]
+    ) %}
+    {% if slot == "description" %}
+      <p>
+        The fastest way to deploy production-ready Kubeflow, with full support and zero lock-in. Run anywhere, scale effortlessly, and empower your data scientists.
+      </p>
+    {% endif %}
+  {% endcall %}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <hr class="p-rule" />
+      <div class="grid-col-2 grid-col-medium-1">
+        <div class="p-section--shallow">
+          <h2 class="p-text--small-caps">
+            Predictable pricing
+            <br class="u-hide--small" />
+            for enterprise-grade Kubeflow
+          </h2>
+        </div>
+      </div>
+      <div class="grid-col-6 grid-col-medium-3">
+        <p class="p-heading--2">10 years security maintenance</p>
+        <hr class="p-rule--muted" />
+        <p class="p-heading--2">Open source</p>
+        <hr class="p-rule--muted" />
+        <p class="p-heading--2">Simple per node, per year, subscription</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row">
+      <hr class="p-rule" />
+      <div class="grid-col-4 grid-col-medium-2">
+        <h2>Scale experiments, effortlessly</h2>
+      </div>
+      <div class="grid-col-4 grid-col-medium-2">
+        <p>
+          Charmed Kubeflow lets you scale from a single-node lab setup to thousands of distributed training jobs. Built on Kubernetes, it offers native horizontal scalability and multi-cloud elasticity without extra complexity.
+        </p>
+        <hr class="p-rule--muted" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Run distributed training jobs in parallel</li>
+          <li class="p-list__item is-ticked">Leverage Kubernetes-native auto-scaling</li>
+          <li class="p-list__item is-ticked">Separate training and inference environments easily</li>
+        </ul>
+        <div class="p-cta-block">
+          <a href="https://documentation.ubuntu.com/charmed-kubeflow/how-to/install/"
+             class="p-button">Run Charmed Kubeflow at scale</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row">
+      <hr class="p-rule" />
+      <div class="grid-col-4 grid-col-medium-2">
+        <h2>Optimized for every cloud</h2>
+      </div>
+      <div class="grid-col-4 grid-col-medium-2">
+        <div class="p-logo-section">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/76c492c1-microsoft-azure-logo.png",
+                            alt="Microsoft Azure",
+                            width="362",
+                            height="417",
+                            hi_def=True,
+                            fmt="png",
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/f6e3e055-aws-logo%20.png",
+                            alt="AWS",
+                            width="152",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+            <div class="p-logo-section__item">
+              {{ image(url="https://assets.ubuntu.com/v1/5d900c56-google-cloud-logo%20.png",
+                            alt="GCP",
+                            width="382",
+                            height="312",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-logo-section__logo"},) | safe
+              }}
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <p>
+          Charmed Kubeflow works seamlessly with major cloud Kubernetes services &ndash; including AWS, Azure, and GCP. Deploy with Juju for consistent, declarative operations across environments.
+        </p>
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">GPU-ready configurations out of the box</li>
+          <li class="p-list__item is-ticked">Support for AKS, EKS, GKE and more</li>
+          <li class="p-list__item is-ticked">Built-in hybrid and multi-cloud support</li>
+        </ul>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/kubernetes">Kubeflow on multi-cloud K8s&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row">
+      <hr class="p-rule" />
+      <div class="grid-col-4 grid-col-medium-2">
+        <h2>Your full-stack MLOps platform</h2>
+      </div>
+      <div class="grid-col-4 grid-col-medium-2">
+        <div class="p-section--shallow">
+          <p>
+            Accelerate time to value with a complete, modular MLOps stack. Combine Charmed Kubeflow with Charmed Kubernetes, Ceph, observability tools and more &ndash; all maintained by Canonical.
+          </p>
+          <hr class="p-rule--muted" />
+          <ul class="p-list--divided">
+            <li class="p-list__item is-ticked">Production-grade MLOps with full support</li>
+            <li class="p-list__item is-ticked">Integrates with data lakes and inference engines</li>
+            <li class="p-list__item is-ticked">Validated with leading OEMs and silicon vendors</li>
+          </ul>
+          <div class="p-cta-block">
+            <a href="/mlops" class="p-button">Explore Canonical MLOps</a>
+          </div>
+        </div>
+      </div>
+      <div class="grid-col-8">
+        <div class="p-image-container is-highlighted">
+          {{ image(url="https://assets.ubuntu.com/v1/83dfbd99-middle-img.png",
+                    alt="",
+                    width="2464",
+                    height="1028",
+                    hi_def=True,
+                    loading="lazy",
+                    attrs={"class": "p-image-container__image"}) | safe
+          }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row">
+      <hr class="p-rule" />
+      <div class="grid-col-8 grid-col-medium-4">
+        <div class="p-section--shallow">
+          <h2>Learn more about Charmed Kubeflow</h2>
+        </div>
+      </div>
+      <div class="grid-col-6 grid-col-medium-4 grid-col-start-large-3">
+        <div class="p-section--shallow">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="/blog/charmed-kubeflow-vs-kubeflow">Charmed Kubeflow vs Kubeflow</a>
+              </h3>
+            </div>
+            <div class="grid-col-4 grid-col-medium-2">
+              <p>Key considerations, benefits, the differences from the upstream project and how to get started with one of them.</p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="p-section--shallow">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="/blog/how-to-deploy-kubeflow-on-azure">How to deploy Kubeflow on Azure?</a>
+              </h3>
+            </div>
+            <div class="grid-col-4 grid-col-medium-2">
+              <p>
+                This blog explains the environments Charmed Kubeflow can run in and how to deploy it. Learn how to approach deployment based on your specific use case, existing infrastructure, long-term strategy, and level of expertise.
+
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="p-section--shallow">
+          <div class="grid-row">
+            <div class="grid-col-2 grid-col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="/blog/deep-dive-kubeflow-pipelines">A deep dive into Kubeflow pipelines</a>
+              </h3>
+            </div>
+            <div class="grid-col-4 grid-col-medium-2">
+              <p>This blog explores Kubeflow pipelines, use cases, components, benefits, and architecture.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_cta_section(
+    title_text='Enhance your MLOps with vulnerability <br class="u-hide--small" />management and compliance.',
+    variant='default',
+    layout='25-75',
+    ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="mlops-modal">Discover Charmed Kubeflow&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ load_form("/mlops/kubeflow") | safe }}
+
+{% endblock content %}

@@ -1,0 +1,249 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}Elementary scales AI machine vision solutions with Ubuntu core{% endblock %}
+
+{% block meta_description %}
+  With Ubuntu Core, Elementary scales its AI machine vision solutions and cuts provisioning time from 1 day to 20 minutes. Find out how in this case study.
+{% endblock %}
+
+{% block meta_company_name %}Elementary{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1QLuokyOYWJpji6jfNyMMOUJsMEHsOp64giBqm3A2eDU/edit?tab=t.0
+{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Elementary scales its AI machine vision solutions with Ubuntu Core",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/837be02d-elementary_logo.png",
+            alt="Elementary logo",
+            width="852",
+            height="166",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Elementary") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      US-based organization, creating AI-powered machine vision solutions for manufacturing.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Focused on improving efficiency and reducing waste in manufacturing.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Pioneers of VisionStream, an AI model that catches up to 99.99% of defects.
+      <br />
+      Find out more on <a href="https://www.elementaryml.com/">Elementary’s website</a>.
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Elementary chose Ubuntu Core to replace its server-based architecture and enable reliable, scalable global deployments.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Provisioning time for devices reduced from 1 day to 20 minutes, facilitating faster rollouts and channel partner growth.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Supporting eight Fortune 500 manufacturers and performing more than 1 billion inspections annually with products running Ubuntu Core.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) text(title="Overview") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Manufacturers need fast, securely designed, and reliable machine vision to keep production lines running. Elementary is a pioneer in AI-powered visual inspection, differentiated by their cloud-compatible system. When it began scaling its edge devices, traditional server-based architectures no longer worked: they carried undesirable security risks, and were time- and effort-intensive. By migrating to Canonical’s Ubuntu Core, supported with NVIDIA and Intel® GPUs, Elementary streamlined provisioning from a full day to just 20 minutes. They gained robust security features like full-disk encryption and secure boot, and enabled customers and partners to self-manage their devices at scale. Today, Elementary solutions deliver over 1 billion inspections per year.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        In 2017, Elementary was founded to transform manufacturing quality control with AI-powered computer vision. Before AI-powered systems were a reality, traditional machine vision systems were the go-to technique for quality control. While these machine vision systems were useful, they were also brittle. They relied on rigid, rules-based setups and often failed to function in real-world conditions – for example, when there were changes in light levels or variations in the products being inspected. These minor variations in conditions often resulted in the system becoming misconfigured, requiring a specialist in machine vision to reconfigure the system manually. As Peter Lipay, Vice President of Engineering at Elementary, explained: “We've often found we’re not the first machine vision system that our customers are deploying. They have one sitting there, unplugged, because it stopped working at some point. They just stopped using it, because it was too much of a pain to keep it in sync with what they were doing.”
+      </p>
+      <p>
+        Elementary’s approach has significantly improved machine vision systems. Its AI models can be trained on real-world data, and are flexible enough to adapt to changes in the operating environment or working conditions. For one of Elementary's Fortune 500 customers, this reduced defect rates from 24% to 1%. Additionally, IoT connectivity enables cloud analytics that provide greater oversight and control for manufacturers. However, as Elementary scaled, it outgrew its infrastructure. Running traditional server-based architecture on edge devices meant Elementary carried the heavy burden of OS updates, provisioning, and field support. Updates, configuration, and provisioning all required physical access to devices, increasing operational expenditure and creating data security concerns.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="In the past, Elementary was responsible for provisioning each of the devices for our customers – we had to intervene with any type of issues on behalf of the customer. We needed to move to a path where customers could actively take on that role and be able to perform device recovery themselves.",
+    citation_source_name_text="Nathaniel Black",
+    citation_source_title_text="Senior Director of DevOps and Security",
+    citation_source_organisation_text="Elementary",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <hr class="p-rule--muted" />
+        <p>
+          To scale their business, Elementary wanted to eliminate manual configurations, while enabling automated provisioning for their channel partners and integrators. This required an alternative infrastructure: a securely designed, low-touch system for IoT at scale, that would simplify provisioning, enable over-the-air (OTA) updates, support long-term device lifecycles, and allow partners to provision and recover devices independently.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) image_wrapper(caption="Elementary’s machine vision inspection station on a factory floor") -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/974ce3f5-image1.jpg",
+            alt="",
+            width="1232",
+            height="513",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Elementary evaluated a wide range of alternatives, from engineering the solution themselves to third-party solutions like the Yocto Project and others. The solution had to be compatible with Ubuntu Server, or be straightforward enough to make migration of current workloads feasible. Elementary also took into account compatibility with their pre-existing hardware architecture. Elementary uses NVIDIA and Intel® GPUs – their large-form factor devices use discrete NVIDIA GPUs, whilst their small-form factor devices use integrated Intel® GPUs. Both their large-form factor and small-form factor devices use Intel® x86 CPUs.  Elementary’s architecture also includes the ASRock Industrial iEP-7020E industrial Internet of Things (IoT) controller, which features 13th Gen Intel® Core™ i7-1365URE processor, and the Dell Precision 3680 tower workstation, which features the 14th Gen Intel® Core™ i7-14700 processor.  Dell’s commitment to producing high-quality hardware, and Intel’s compatibility with Open Neural Network Exchange (ONNX) format machine-learning models, meant that Elementary wanted to find a solution that would work with this hardware.
+      </p>
+      <p>
+        Most solutions Elementary considered either lacked critical features such as atomic OTA updates, full-disk encryption, and secure boot, or carried prohibitive engineering and cost burdens. Following testing several solutions with a proof of concept, Ubuntu Core emerged as the only option that combined security, low-touch management, long-term support, and cost efficiency in one platform.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="As a start-up, we don’t have a lot of resources – and we needed to move quickly. We selected Ubuntu Core, as it would be the quickest to deliver, carry the lowest cost, and require the least amount of resources needed to deliver an effective solution.",
+    citation_source_name_text="Nathaniel Black",
+    citation_source_title_text="Senior Director of DevOps and Security",
+    citation_source_organisation_text="Elementary",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <hr class="p-rule--muted" />
+        <p>
+          Ubuntu Core is Canonical’s OS for IoT and embedded devices, built with a fully containerized, snap-based architecture. It provides the atomic, OTA updates that Elementary was seeking. By moving to Ubuntu Core, Elementary’s customers can manage their own devices, relieving the burden of support from Elementary.
+        </p>
+        <p>
+          Additionally, Ubuntu Core offers a high level of security with features like full-disk encryption and secure boot. For Elementary, Ubuntu Core provides a reliable foundation for thousands of globally distributed devices.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Migrating to Ubuntu Core has unlocked secure, scalable global deployments for Elementary, and freed them from the limitations of server-based architectures. 
+      </p>
+      <p>
+        Provisioning – once a full-day manual process – now takes 20 minutes. Devices can be securely factory reset and activated directly by customers or partners, eliminating the bottleneck of relying on Elementary for setup.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Selling through our partners is a very fluid process. They may think they need this many devices, but actually they need that many devices in this region or that region. Prior to this, everything had to go through us, so there was a much slower sequence of events to get folks set up. Now, our customers can directly factory reset a device and then pair it to a particular customer tenant – that's been extremely powerful for them, and for us.",
+    citation_source_name_text="Peter Lipay",
+    citation_source_title_text="VP of Engineering",
+    citation_source_organisation_text="Elementary",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <hr class="p-rule--muted" />
+        <p>
+          Security, a key concern for manufacturers, is a particular strength of Ubuntu Core. Though a critical part of Elementary’s value proposition, the cloud connectivity of their machine vision software widens the possible attack surface compared to traditional server-based architecture. As a result, customers can be cautious about cloud connectivity. To alleviate their concerns, Ubuntu Core offers features which provide greater security for sensitive data. Secure boot allows only trusted software to run during the boot process, preventing malware from compromising the system before the operating system loads. Full-disk encryption prevents unauthorized access in case a device is lost or stolen. Sandboxed snaps restrict an application’s access to system resources, limiting damage in case of compromise. Elementary can meet diverse compliance frameworks without added engineering effort.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) image_wrapper(caption="Elementary’s machine vision inspection system. From left to right: the Shroud front view (with integrated camera, lens, light, trigger, and enclosure), the Shroud side view, the Vertex AI controller, and the Radian camera, with Node attached.") -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/2dbdb732-image2.jpg",
+            alt="",
+            width="1232",
+            height="513",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <p>
+          At scale, Ubuntu Core will enable Elementary to manage thousands of edge devices across eight Fortune 500 manufacturers, performing over 1 billion AI-powered inspections per year. This allows manufacturers to better quality control the products they build, more securely, more accurately, and faster. Additionally, manufacturers reduce defects, improve traceability, and respond faster to audits and recalls. Ubuntu Core, with 10 years of support, will support the lifetime of long-serving manufacturing devices. 
+        </p>
+        <p>
+          Canonical’s close support was key to Elementary’s success. Canonical’s field engineering team provided hands-on training, early access to critical updates, and ongoing collaboration even months after the initial rollout.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Our field engineer was extremely knowledgeable and happy to help and go above and beyond. It was a really positive experience – he was instrumental.",
+    citation_source_name_text="Nathaniel Black",
+    citation_source_title_text="Senior Director of DevOps and Security",
+    citation_source_organisation_text="Elementary",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <hr class="p-rule--muted" />
+        <p>
+          Canonical’s solution has laid a strong foundation for more innovation, AI-powered features, and further expansion. With Canonical’s platform, Elementary is rolling out self-learning AI that can detect defects within 30 seconds of deployment – up to 100x faster than traditional workflows – alongside new analytics and their new AI vision inspection product, VisionLink, which integrates AI with existing machine vision systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We'll continue to expand the number of devices and hardware platforms that we can deploy Ubuntu Core to in future projects.",
+    citation_source_name_text="Nathaniel Black",
+    citation_source_title_text="Senior Director of DevOps and Security",
+    citation_source_organisation_text="Elementary",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}{{ cta(title="Contact us", link="/contact-us", has_modal=true) }}{% endblock %}

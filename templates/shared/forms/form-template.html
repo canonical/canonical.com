@@ -12,7 +12,7 @@
                         overflow: auto;
                         padding-left: 1.5rem;
                         padding-top: 1rem;">
-          <button class="p-modal__close js-close"
+          <button class="p-modal__close p-modal-close-button js-close-modal"
                   aria-controls="{{ modalId }}"
                   aria-label="Close active modal"
                   style="margin-left: -1rem">Close</button>
@@ -61,6 +61,7 @@
   {% include "/shared/forms/form-fields.html" %}
 {% endif %}
 
+<script defer src="{{ versioned_static('js/modals.js') }}"></script>
 <script>
   document.querySelector('form').addEventListener('submit', function(event) {
     dataLayer.push({

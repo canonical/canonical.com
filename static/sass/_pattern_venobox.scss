@@ -1,0 +1,228 @@
+@mixin pattern-venobox {
+  $color-modal-overlay: rgba($color-x-dark, 0.85);
+  $color-modal-controls: rgba($color-x-dark, 0.2);
+
+  .venobox {
+    &--expand {
+      &::after {
+        background: {
+          color: $color-dark;
+          image: url("#{$assets-path}495995ef-fullscreen-white.svg");
+          position: center;
+          repeat: no-repeat;
+          size: 50%;
+        }
+
+        bottom: 15px;
+        box-shadow: 0 5px 10px 0 $color-modal-controls;
+        content: "";
+        display: block;
+        height: 20px;
+        position: absolute;
+        right: 15px;
+        width: 20px;
+      }
+    }
+  }
+
+  // venobox.css
+  .vbox-overlay *,
+  .vbox-overlay *::before,
+  .vbox-overlay *::after {
+    box-sizing: border-box;
+  }
+
+  // overlay: change here background color and opacity ----- */
+  .vbox-overlay {
+    $color-modal-overlay: rgba($color-x-dark, 0.85);
+
+    align-items: center;
+    background: $color-modal-overlay;
+    bottom: 0;
+    display: flex;
+    height: auto;
+    left: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  // preloader - choose between CIRCLE, IOS, DOTS, QUADS
+
+  @keyframes playload {
+    from {
+      background-position: 0;
+    }
+
+    to {
+      background-position: -576px;
+    }
+  }
+
+  // navigation
+  .vbox-close {
+    background: url("#{$assets-path}89c10794-remove.svg") no-repeat;
+    background-position: center;
+    background-size: 30%;
+    color: $color-x-light;
+    cursor: pointer;
+    display: block;
+    height: 100px;
+    overflow: hidden;
+    padding: 20px;
+    position: fixed;
+    right: 0;
+    text-indent: -100px;
+    top: 20px;
+    width: 100px;
+
+    @media screen and (max-width: $breakpoint-large) {
+      background-position: top 20px right 20px;
+    }
+  }
+
+  .vbox-next,
+  .vbox-prev {
+    background-color: $color-modal-controls;
+    border: solid transparent; // Using border instead of padding to keep bg image in place
+    box-sizing: content-box;
+    color: $color-x-light;
+    cursor: pointer;
+    height: 170px;
+    margin-top: -85px;
+    overflow: hidden;
+    position: fixed;
+    text-indent: -100px;
+    top: 50%;
+    width: 30px;
+  }
+
+  .vbox-prev {
+    background-image: url("#{$assets-path}f4e0a44f-icon-arrow-left-white.svg");
+    background-position: center left 15px;
+    background-repeat: no-repeat;
+    border-width: 0 30px 0 10px;
+    left: 0;
+  }
+
+  .vbox-next {
+    background-image: url("#{$assets-path}9e5e9f6f-icon-arrow-right-white.svg");
+    background-position: center right 15px;
+    background-repeat: no-repeat;
+    border-width: 0 10px 0 30px;
+    right: 0;
+  }
+
+  .vbox-title {
+    background: $color-dark;
+    bottom: 0;
+    color: $color-x-light;
+    float: left;
+    font-size: 1rem;
+    height: auto;
+    left: 0;
+    line-height: 28px;
+    overflow: hidden;
+    padding: 40px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+
+    @media screen and (max-width: 1024px) {
+      bottom: 25px;
+    }
+  }
+
+  .vbox-num {
+    background: $color-dark;
+    color: $color-x-light;
+    cursor: pointer;
+    display: none;
+    font-size: 12px;
+    height: 40px;
+    left: 0;
+    line-height: 28px;
+    overflow: hidden;
+    padding: 6px 10px;
+    position: fixed;
+    top: -1px;
+  }
+
+  // inline window
+  .vbox-inline {
+    background: $color-x-light;
+    height: 315px;
+    margin: 0 auto;
+    overflow: auto;
+    padding: 10px;
+    text-align: left;
+    width: 420px;
+  }
+
+  // Video & iFrames window
+  .venoframe {
+    border: 0;
+    height: 100%;
+    min-height: 600px;
+    width: 100%;
+  }
+
+  @media (max-width: 992px) {
+    .venoframe {
+      height: 480px;
+      min-height: inherit;
+      width: 640px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .venoframe {
+      height: 315px;
+      min-height: inherit;
+      width: 420px;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .vbox-inline {
+      width: 100%;
+    }
+
+    .venoframe {
+      height: 260px;
+      min-height: inherit;
+      width: 100%;
+    }
+  }
+
+  // PLease do NOT edit this! (or do it at your own risk)
+  .vbox-open {
+    overflow: hidden;
+  }
+
+  .vbox-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 15px;
+    position: relative;
+    width: 100%;
+  }
+
+  .vbox-content {
+    float: left;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+  }
+
+  .vbox-container img {
+    height: auto;
+    max-width: 100%;
+  }
+}

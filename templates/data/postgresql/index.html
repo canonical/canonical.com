@@ -36,7 +36,7 @@
           </p>
         </div>
         <hr class="p-rule--muted" />
-        <a class="p-button--positive"
+        <a class="p-button--positive js-invoke-modal"
            href="/contact-us"
            aria-controls="data-relational-dbs-modal">Get in touch<span class="u-off-screen">about postgresql for the enterprise</span></a>
         <a class="p-button"
@@ -209,7 +209,7 @@
           </ul>
           <hr class="p-rule--muted" />
           <p>
-            <a href="https://charmhub.io/postgresql/docs/t-overview">Get started with Charmed PostgreSQL&nbsp;&rsaquo;</a>
+            <a href="https://charmhub.io/postgresql/docs/t-set-up">Get started with Charmed PostgreSQL&nbsp;&rsaquo;</a>
           </p>
         </div>
       </div>
@@ -293,7 +293,9 @@
         </p>
         <hr class="p-rule--muted" />
         <p>
-          <a href="/contact-us" aria-controls="data-relational-dbs-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
+          <a href="/contact-us"
+             class="js-invoke-modal"
+             aria-controls="data-relational-dbs-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
         </p>
       </div>
     </div>
@@ -460,7 +462,7 @@
         <div class="p-equal-height-row__item">
           <hr class="p-rule--muted u-hide--medium" />
           <p>
-            Read the documentation for <a href="https://charmhub.io/postgresql-k8s">K8s</a> and <a href="https://charmhub.io/postgresql/docs/t-overview">VMs</a>
+            Read the documentation for <a href="https://charmhub.io/postgresql-k8s">K8s</a> and <a href="https://charmhub.io/postgresql">VMs</a>
             &nbsp;&rsaquo;
           </p>
         </div>
@@ -554,8 +556,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% include "/shared/forms/form-template.html" %}
+  {{ load_form('/data/postgresql') | safe }}
 
 {% endblock %}

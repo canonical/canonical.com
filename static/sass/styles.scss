@@ -6,6 +6,10 @@
 // import dial-code dropdown
 @import "intl-tel-input/build/css/intlTelInput";
 
+@import "flickity/dist/flickity";
+
+@import "leaflet/dist/leaflet";
+
 $color-brand: #7c355d;
 $color-tabs-active-bar: $colors--light-theme--text-default;
 $nudge--small: 0.55rem;
@@ -16,9 +20,11 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_application";
 @import "pattern_blog-card";
 @import "pattern_cards";
+@import "pattern_carousel";
 @import "pattern_careers-modal";
 @import "pattern_footer";
 @import "pattern_forms";
+@import "pattern_icons";
 @import "pattern_lists";
 @import "pattern_media-object";
 @import "pattern_strip";
@@ -28,12 +34,18 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_global-nav";
 @import "pattern_tabs";
 @import "pattern_homepage-modal";
+@import "pattern_homepage";
+@import "pattern_venobox";
+@import "maas_styles";
 
 @include vanilla;
+@include additional-p-icons;
+@include vf-p-grid-8;
 @include vf-p-icon-status-waiting;
 @include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
+@include vf-p-icon-sort-both;
 @include canonical-u-animations;
 @include canonical-p-stepped-list;
 @include canonical-p-card;
@@ -54,6 +66,25 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-navigation-tab-panel;
 @include canonical-p-navigation-dropdown-content;
 @include canonical-p-navigation-mobile;
+@include sprint-carousel;
+@include homepage-styles;
+@include pattern-venobox;
+@include maas-styles;
+@include canonical-p-nojs-navigation;
+
+@media screen and ($breakpoint-large <= width) {
+  .p-section__u-no-padding--top {
+    h1,
+    .p-heading--2,
+    .p-section--hero {
+      padding-top: 0;
+    }
+  }
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
 
 .js-find-a-partner__partner {
   // find-a-partner search
@@ -134,6 +165,33 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
+// Forces images to be 16:9 aspect ratio without whitespace
+// Made to work with link wrapped images
+.u-crop--16-9 {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  a {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .p-featured {
   gap: 0;
 
@@ -190,7 +248,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 // Makes side-navigation fit with the custom top-navigation of c.com
 .p-side-navigation {
   &--raw-html.is-sticky {
-    z-index: 102;
+    z-index: 5; // make sure it's higher than 2, that is used by some components (like the rules)
   }
 }
 
@@ -201,6 +259,20 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
   @media (max-width: 620px) {
     columns: 3;
+  }
+}
+
+.p-list--divided.has-description {
+  .p-list__item {
+    @extend .p-heading--5;
+
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0.5rem !important;
+  }
+
+  p {
+    padding-left: 2rem;
   }
 }
 
@@ -317,6 +389,10 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
       &:hover {
         text-decoration: underline;
       }
+      @media screen and (min-width: $breakpoint-large) {
+        font-size: #{map-get($font-sizes, h3-mobile)}rem;
+        line-height: map-get($line-heights, h3-mobile);
+      }
     }
 
     .p-department-cards__icon {
@@ -340,6 +416,10 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
       height: 2.25rem;
       padding-right: $spv--small;
       width: 2.25rem;
+
+      @media screen and (min-width: $breakpoint-large) {
+        margin-bottom: $spv--large;
+      }
     }
   }
 }
@@ -562,37 +642,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-// used to obfuscate email addresses on projetcs/directory
-.sign {
-  color: transparent;
-  display: inline-flex;
-  height: 1.3rem;
-  overflow: hidden;
-  position: relative;
-
-  &::before {
-    color: $colors--light-theme--text-default;
-    display: inline;
-    position: relative;
-  }
-
-  &--first {
-    width: 1rem;
-
-    &::before {
-      content: "@";
-    }
-  }
-
-  &--second {
-    width: 4px;
-
-    &::before {
-      content: ".";
-    }
-  }
-}
-
 // XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
 .p-breadcrumbs {
   margin-bottom: $spv--small;
@@ -694,25 +743,17 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
+.p-heading--4.legend-is-required::before {
+    content: " * ";
+    position: relative;
+}
+
 .u-extra-space {
   margin-bottom: 4rem;
 }
 
-.p-tabs.is-home {
-  padding-left: $spv--x-large;
-  padding-right: $spv--x-large;
-
-  @media screen and (max-width: $breakpoint-small - 1) {
-    padding-left: $spv--large;
-    padding-right: $spv--large;
-  }
-
-  .p-tabs__link {
-    @media screen and (max-width: $breakpoint-x-small - 1) {
-      padding-left: $spv--medium;
-      padding-right: $spv--medium;
-    }
-  }
+.u-extra-space--small {
+  margin-bottom: 2rem;
 }
 
 // XXX MPT 22/9/2023
@@ -749,19 +790,17 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .js-slider--prev {
   background: none;
   border: none;
-  padding: 0;
-  transform: rotate(0.25turn);
+  margin-right: 0;
 }
 
 .js-slider--next {
   background: none;
   border: none;
-  transform: rotate(-0.25turn);
 }
 
 .js-slider--items > div {
   @media screen and (min-width: $breakpoint-large) {
-    height: 29rem;
+    min-height: max-content;
   }
 }
 
@@ -816,4 +855,261 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
     grid-column: span 6;
     padding-top: 0.5rem;
   }
+}
+
+.u-no-max-width {
+  max-width: none;
+}
+
+// Styling to display a success message when forms are successfully submitted.
+.p-popup-notification {
+  display: none;
+  position: relative;
+  padding-bottom: 0;
+  
+  .p-notification__content {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.p-popup-notification:target {
+  display: block;
+  z-index: 9;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+// Scroll-section styles
+.scroll-section {
+  position: relative;
+  min-height: 15rem;
+}
+
+.scroll-section__sidebar {
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  left: 0;
+  top: 0;
+  @media screen and (width < $breakpoint-large) {
+    padding-top: 0;
+
+    .scroll-section__tabs {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  }
+}
+
+.scroll-section__indicator {
+  position: absolute;
+  left: -1rem;
+  width: 0.2rem;
+  height: 3.5rem;
+  z-index: 2;
+  border-radius: 3rem;
+  background: rgb(255 255 255);
+  transition: top 0.3s ease;
+}
+
+.scroll-section__indicator--outline {
+  position: absolute;
+  left: -1rem;
+  width: 0.2rem;
+  height: 10rem;
+  border-radius: 3rem;
+  background: #707070;
+}
+
+.scroll-section__tab {
+  all: unset;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  hr {
+    display: none;
+  }
+
+  .scroll-section__tab-icon {
+    position: relative;
+
+    .p-lottie--container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+  }
+  @media screen and (width < $breakpoint-large) {
+    padding: 0 1rem;
+    position: relative;
+  }
+}
+
+.scroll-section__tab:hover {
+  background-color: transparent;
+}
+
+.scroll-section__tab.active {
+  @media screen and (width < $breakpoint-large) {
+    hr {
+      position: absolute;
+      display: block;
+      width: 100%;
+      left: 0;
+      bottom: -9px;
+      height: 3px;
+      background-color: white;
+    }
+  }
+}
+
+.scroll-section__contentArea {
+  flex: 1;
+  min-height: 16rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-section__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  height: max-content;
+  transform: translateY(100px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+
+  .p-equal-height-row {
+    gap: 0 0.5rem;
+  }
+}
+
+.scroll-section__content.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.scroll-section__content.slide-out-up {
+  transform: translateY(-100px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.scroll-section__content h2 {
+  margin-top: 0;
+}
+
+body:not(.js-enabled) {
+  .scroll-section__contentArea {
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .scroll-section__content {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    opacity: 1;
+    height: auto;
+    transform: none;
+    pointer-events: auto;
+    transition: none;
+    z-index: auto;
+  }
+
+  .scroll-section__content.active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    z-index: auto;
+  }
+
+  .scroll-section__content.slide-out-up {
+    transform: none;
+    opacity: 1;
+    z-index: auto;
+  }
+}
+
+.u-align--cta {
+  align-self: center;
+  margin-bottom: 1.25rem;
+}
+
+// Adjustment for juju community page tab logos. Copied over from juju.is/charmhub-community
+.p-juju-community-tabs__logo {
+  display: block;
+  height: 64px;
+  width: auto;
+}
+
+.p-suru--bottom-right {
+  background-image: url("#{$assets-path}a6474c5b-Suru%20top%20%20right%20angle.png");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: 200px 149px;
+
+  @media only screen and (min-width: $breakpoint-large) {
+    background-size: contain;
+  }
+}
+
+// For in between spacing for groups of links in a CTA block
+.p-cta-block--space-between {
+  @extend .p-cta-block;
+  justify-content: space-between;
+}
+
+// Removes border from first item in detailed stepped list
+.u-no-top-border.p-stepped-list--detailed
+  .p-stepped-list__item:first-child::after {
+  content: none !important;
+}
+
+// Styles to make tables scrollable on smaller screens
+@media screen and (max-width: #{ $breakpoint-large - 1 }) and (min-width: $breakpoint-small) {
+  .u-table-scroll--medium {
+    overflow-x: hidden;
+
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media screen and (max-width: #{ $breakpoint-small - 1 }) {
+  .u-table-scroll--small {
+    overflow-x: hidden;
+
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Events and roadshows
+#browse-events-table tbody tr:last-child {
+  border-bottom: 1px solid $colors--theme--border-low-contrast;
 }

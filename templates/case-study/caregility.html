@@ -1,0 +1,205 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}Caregility ensures uninterrupted patient care with remote device management{% endblock %}
+
+{% block meta_description %}
+  Learn how Caregility unlocked the ability to remotely register, manage, and upgrade virtual care devices in any hospital, anywhere in the world using Landscape.
+{% endblock %}
+
+{% block meta_company_name %}Caregility{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1582y6_WpfP6SZVuXTNaGDzwtH2nO7YCY64VYvyfspvs/edit?tab=t.0{% endblock %}
+{% block meta_discourse_url %}https://discourse.ubuntu.com/t/case-study-caregility-ensures-uninterrupted-patient-care-with-remote-device-management/69932{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="How Caregility ensures uninterrupted patient care with seamless, compliant remote device management",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/f18d99de-caregility_logo.png",
+            alt="Caregility",
+            width="852",
+            height="214",
+            hi_def=True,
+            loading="auto|lazy"
+          ) | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Caregility") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      A leading virtual care company providing scalable, AI-powered connected care solutions across the care continuum
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      The Caregility Connected Care platform combines bedside care, virtual engagement, and AI sensors to enable 360° patient coverage
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Over 19,000 devices deployed across more than 1,100 hospitals
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Caregility chose Ubuntu as the foundation for its virtual care platform, unlocking seamless, securely designed remote device registration and management
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Device upgrades reduced from 45 minutes to just a few minutes thanks to Landscape
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Reduced compliance issues by over 90% for US government security standards
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/84d69149-image1.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="auto|lazy"
+          ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Healthcare never sleeps – and neither does Ubuntu") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        In an ICU, every second counts. Caregility's platform delivers critical virtual care, but managing thousands of devices across thousands of hospitals without disrupting patient care was an immense challenge. Working with Canonical’s experts, Caregility implemented the Landscape systems administration tool, enabling it to remotely register, manage, and upgrade virtual care devices in any hospital, anywhere in the world – unlocking immense efficiency gains for both Caregility and local clinical teams.
+      </p>
+      <p>
+        Landscape is delivered as part of the Ubuntu Pro subscription, which also streamlines compliance with US government security standards, extends security maintenance and bugfix updates, and provides Caregility with 24/7 enterprise-grade support for its 19,000 Ubuntu devices.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="The support longevity is key. Because our solutions are deployed in patient rooms – often right in the ICU – we can’t interrupt patient care to update our systems. That’s why the 10 years of extended support with Ubuntu Pro is so critical. Even if we can’t upgrade a device, we know it’s still supported and secured.",
+    citation_source_name_text="Bin Guan",
+    citation_source_title_text="Chief Innovation Officer,",
+    citation_source_organisation_text="Caregility",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Caregility’s virtual care solutions are invaluable tools for clinical teams, helping relieve pressure on doctors and nurses by enabling a wealth of remote patient monitoring and bedside care functionalities. Fall prevention, virtual rounding, continuous observation, and even remote care delivery are all possible through Caregility’s technologies.
+      </p>
+      <p>
+        Building a platform that could support all these capabilities was no easy feat. Healthcare never sleeps, so Caregility needed to ensure its solution worked reliably 24/7. At the same time, security and privacy are top priorities – both to protect patients and their data, and to enable Caregility to work with US government customers. This meant that compliance with a rigorous set of federal cybersecurity standards was essential.
+      </p>
+      <p>
+        The drive for reliability and security is why Caregility chose to build its platform on Ubuntu, backed by expert support from Canonical via Ubuntu Pro. The company evaluated a variety of different Linux distributions, and Ubuntu stood out as the most robust and stable, and met all of the security requirements that Caregility was looking for.
+      </p>
+      <p>
+        Bin Guan, Chief Innovation Officer at Caregility, adds: “The support longevity is also key. Because our solutions are deployed in patient rooms – often right in the ICU – we can’t interrupt patient care to update our systems. That’s why the 10 years of extended support with Ubuntu Pro is so critical. Even if we can’t upgrade a device, we know it’s still supported and secured.”
+      </p>
+      <p>
+        With the help of Ubuntu, Caregility had successfully created an industry-leading virtual care platform. However, registering new devices and managing upgrades across the remote fleet was becoming a challenge. As the company continued to scale, with thousands of devices deployed in the field, its previous manual approach was becoming increasingly impractical.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Caregility needed a way to enable seamless remote registration and updates for devices worldwide – and this is where Landscape came in. Delivered as part of Ubuntu Pro, Landscape is a systems administration tool for managing and monitoring Ubuntu deployments. It enables automated security patching, auditing, and access management across an entire Ubuntu estate.
+      </p>
+      <p>
+        With the help of Canonical’s engineers, Caregility implemented Landscape to remotely register and upgrade any device in hospitals anywhere in the world. Crucially, this did not compromise Caregility’s security posture thanks to a combination of Landscape’s built-in hardening and single sign-on (SSO), and Caregility’s own highly secure admin portal.
+      </p>
+      <p>
+        Paul Giglio, Linux OS Engineer and Developer at Caregility, comments: “I’m very proud of all the work we’ve done together with Canonical on secure remote device registration.”
+      </p>
+      <p>
+        In addition to using Landscape to solve the registration challenge, Caregility is also using it to manage devices and updates across its fleet with a fine degree of control. Many hospitals are very specific about which platform features they want, and when updates should happen; Landscape gives Caregility the flexibility to push specific updates to specific devices in order to satisfy those customer needs.
+      </p>
+      <p>
+        Caregility is also utilizing Landscape to minimize disruption and downtime for hospitals as a result of platform updates. 
+      </p>
+      <p>
+        Bin Guan explains: “We worked closely with the Canonical team to enable what we call ‘silent downloads’ – the ability to push updates to the system while it’s still working as normal – leveraging the Landscape server. We’ve managed to reduce the time needed for upgrades from 45 minutes to just a few minutes. It was a very creative collaboration.”
+      </p>
+      <p>
+        The final Landscape feature that Caregility is taking advantage of is the ability to seamlessly and remotely enable Ubuntu Pro and Expanded Security Maintenance (ESM) on individual devices as and when needed. ESM extends security maintenance beyond the 5 years of standard support for an Ubuntu LTS. What makes this so valuable is the peace of mind that it gives to customers.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Our customers get a physical output when we enable Ubuntu Pro and ESM. They see ‘you’re backed up until this date’. It’s kind of cliché, but it’s sort of like a warranty, and they like seeing it. It goes a long way.",
+    citation_source_name_text="Paul Giglio",
+    citation_source_title_text="Linux OS Engineer and Developer,",
+    citation_source_organisation_text="Caregility",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/599e03bd-image3.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="auto|lazy"
+          ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Going from the old, manual device registration and upgrade approach to the new remote process has been transformative for Caregility. With over 19,000 devices deployed worldwide, the efficiency gains from using Landscape are staggering. 
+      </p>
+      <p>
+        The project has also had a positive impact on hospital staff. Since Caregility can manage and update its entire fleet remotely, clinical teams don’t have to go into the rooms as often to manage the devices in person. This reduces the burden on those local teams and improves resource allocation, which translates into enhanced patient care. Likewise, the new silent updates are helping to minimize the amount of time that patient rooms are unavailable.
+      </p>
+      <p>
+        On the compliance side, Canonical has equipped Caregility with certified cryptographic packages, and it has helped transform the way that the virtual care company approaches US government security standards. Through Ubuntu Pro, Caregility can access Ubuntu versions that come pre-remediated to satisfy the latest guidelines.
+      </p>
+      <p>
+        James Custer, SVP Technical Program Management Team at Caregility, confirms: “The number of compliance issues we have to worry about when installing the OS is reduced by over 90%. We can complete the mitigations in a much shorter time frame and get it launched out into government environments faster.”
+      </p>
+      <p>
+        Last but not least, Caregility has been benefiting from 24/7 support from Canonical’s experts to address any issues that arise. 
+      </p>
+      <p>
+        “When you’re supporting a healthcare environment, customers' lives are on the line, so time is very important,” concludes Bin Guan. “The support from Canonical is immediate. As soon as we raise a ticket, we usually get a response within minutes. It’s really been a fabulous relationship.”
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="The number of compliance issues we have to worry about when installing the OS is reduced by over 90%. We can complete the mitigations in a much shorter time frame and get it launched out into government environments faster.",
+    citation_source_name_text="James Custer",
+    citation_source_title_text="SVP Technical Program Management",
+    citation_source_organisation_text="Team, Caregility",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us about your Landscape use case", link="/contact-us", has_modal=true) }}
+{% endblock %}

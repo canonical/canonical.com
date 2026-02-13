@@ -45,20 +45,20 @@
         </form>
       </div>
     </div>
-    <!-- Start moble side nav -->
+    <!-- Start mobile side nav -->
     <div class="row u-hide--large u-hide--medium">
       <div class="row">
         <div class="col-3 p-side-navigation" id="drawer">
           <a href="#drawer"
-             class="p-side-navigation__toggle"
+             class="p-side-navigation__toggle js-drawer-toggle"
              aria-controls="drawer">Toggle filters</a>
           <button class="p-button u-hide" id="js-clear-filters">Clear filters</button>
-          <div class="p-side-navigation__overlay" aria-controls="drawer"></div>
+          <div class="p-side-navigation__overlay js-drawer-toggle" aria-controls="drawer"></div>
           <nav class="p-side-navigation__drawer"
-               aria-label="Example side navigation">
+               aria-label="Side navigation for filters">
             <div class="p-side-navigation__drawer-header">
               <a href="#"
-                 class="p-side-navigation__toggle--in-drawer"
+                 class="p-side-navigation__toggle--in-drawer js-drawer-toggle"
                  aria-controls="drawer"
                  id="toggle-filters">Toggle filters</a>
             </div>
@@ -68,7 +68,7 @@
                   <li class="p-accordion__group" id="programme-section">
                     <div role="heading" aria-level="2">
                       <button type="button"
-                              class="p-accordion__tab u-no-padding--right js-drawer-toggle"
+                              class="p-accordion__tab u-no-padding--right js-accordion-toggle"
                               id="tab1"
                               aria-controls="tab1-section"
                               aria-expanded="true">
@@ -86,7 +86,7 @@
                   <li class="p-accordion__group" id="technology-section">
                     <div role="heading" aria-level="2">
                       <button type="button"
-                              class="p-accordion__tab u-no-padding--right js-drawer-toggle"
+                              class="p-accordion__tab u-no-padding--right js-accordion-toggle"
                               id="tab2"
                               aria-controls="tab2-section"
                               aria-expanded="true">
@@ -104,7 +104,7 @@
                   <li class="p-accordion__group" id="services-section">
                     <div role="heading" aria-level="2">
                       <button type="button"
-                              class="p-accordion__tab u-no-padding--right js-drawer-toggle"
+                              class="p-accordion__tab u-no-padding--right js-accordion-toggle"
                               id="tab3"
                               aria-controls="tab3-section"
                               aria-expanded="true">
@@ -116,7 +116,7 @@
                              id="tab3-section"
                              aria-hidden="false"
                              aria-labelledby="tab3">
-                      {% include '/partners/partial/_partner-filters/_programme-filters.html' %}
+                      {% include '/partners/partial/_partner-filters/_services-filters.html' %}
                     </section>
                   </li>
                 </ul>
@@ -130,7 +130,7 @@
   </section>
   <section class="p-section">
     <div class="row">
-      <hr class="p-rule" />
+      <hr class="p-rule u-hide--small" />
       <div class="col-3">
         <div class="row u-hide--small" id="filters">
           <div class="col-3">
@@ -214,13 +214,9 @@
   </section>
 
   <script>
-    const partnersLength = {
-      {
-        partners_length
-      }
-    }
+    const partnersLength = {{ partners_length | tojson }};
   </script>
-
+  <script src="{{ versioned_static('js/side-navigation.js') }}"></script>
   <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
 
 {% endblock %}

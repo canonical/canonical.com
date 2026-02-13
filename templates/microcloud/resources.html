@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block title %}MicroCloud Resources{% endblock %}
 
 {% block meta_description %}
@@ -16,32 +18,29 @@
 
 {% block content %}
 
-  <section class="p-strip--whitesuru is-shallow u-no-padding--bottom">
-    <div class="p-section--deep">
-      <div class="row">
-        <div class="col-start-large-4 col-9">
-          <h1 class="u-no-margin--bottom">Learn more about MicroCloud</h1>
-          <p class="p-heading--2">
-            Explore our resources about MicroCloud
-            <br aria-hidden="true" />
-            and its components.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Learn more about MicroCloud',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        To help you understand more about MicroCloud, we've put together this collection of resources. They'll help you understand what MicroCloud does, how you can get set up, and what you can use it to do.
+      </p>
+    {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section">
-    <div class="row is-split-on-medium">
+    <div class="row--25-75">
       <hr class="p-rule" />
-      <div class="col-3">
+      <div class="col">
         <h2 class="p-text--small-caps" id="videos-and-webinars">Videos and webinars</h2>
       </div>
-      <div class="col-9">
-        <div class="row js-slider--items">
-          <div class="col-3 col-medium-2 p-section--shallow">
+      <div class="col js-slider">
+        <div class="row js-slider--items p-section--shallow">
+
+          <div class="col-3 col-medium-2">
             <div class="u-embedded--image">
-              {{ image(url="https://assets.ubuntu.com/v1/7110054f-introduction-to-microclouds.webp",
+              {{ image(url="https://assets.ubuntu.com/v1/ca87674b-introduction-to.png",
                             alt="Introduction to MicroClouds",
                             width="640",
                             height="360",
@@ -50,13 +49,50 @@
               }}
             </div>
             <h3 class="p-heading--5 u-no-padding--top u-no-margin--bottom">
-              <a href="https://ubuntu.com/engage/introduction-to-micro-clouds">Introduction to MicroClouds</a>
+              <a href="https://ubuntu.com/engage/introduction-to-microcloud">Introduction to MicroClouds</a>
             </h3>
             <p>
-              A micro cloud is a new class of infrastructure for on-demand computing at the edge. In this webinar we go over what MicroClouds are and why they should be a part of your edge strategy, finishing with a demo.
+              MicroCloud is the newest addition to Canonical’s cloud infrastructure portfolio. It is a low-touch, open-source cloud solution purpose-built for scalable clusters and edge deployments for all types of enterprises. In this webinar, we go over what MicroClouds are and why they should be a part of your edge strategy, finishing with a demo.
             </p>
           </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
+
+          <div class="col-3 col-medium-2">
+            <div class="u-embedded--image">
+              {{ image(url="https://assets.ubuntu.com/v1/ec34de89-microcloud-lts.png",
+                            alt="",
+                            width="568",
+                            height="315",
+                            hi_def=True,
+                            loading="auto") | safe
+              }}
+            </div>
+            <h3 class="p-heading--5 u-no-padding--top u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=M0y0hQ16YuE">MicroCloud LTS Demo</a>
+            </h3>
+            <p>
+              Canonical MicroCloud's 2.1.0 LTS release features support for single-node deployments, improved security posture, and more flexibility during the initialization process. In this video, we guide you through the new process, starting with deploying a MicroCloud on a single node, and then expanding with two additional members for a highly available cluster.
+            </p>
+          </div>
+
+          <div class="col-3 col-medium-2">
+            <div class="u-embedded--image">
+              {{ image(url="https://assets.ubuntu.com/v1/a6c813e5-vdi-with.png",
+                            alt="",
+                            width="568",
+                            height="316",
+                            hi_def=True,
+                            loading="auto") | safe
+              }}
+            </div>
+            <h3 class="p-heading--5 u-no-padding--top u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/webinar-vdi-microcloud-hp-anyware">VDI with MicroCloud and HP Anyware</a>
+            </h3>
+            <p>
+              In today’s dynamic business landscape, organizations need to be agile and responsive to changing demands. A robust VDI solution can be a game-changer, enabling you to empower your workforce and optimize your IT infrastructure. In this webinar on HPE Solutions for VDI with Canonical MicroCloud and HP Anyware, we will address the modern workspace challenges organizations face today.
+            </p>
+          </div>
+
+          <div class="col-3 col-medium-2 u-hide">
             <div class="u-embedded-media">
               <iframe class="u-embedded-media__element"
                       title="MicroCloud, now with OVN!"
@@ -68,14 +104,16 @@
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowfullscreen></iframe>
             </div>
+
             <h3 class="p-heading--5 u-no-padding--top u-no-margin--bottom">
               <a href="https://www.youtube.com/watch?v=iWZYUU8lX5A">MicroCloud, now with OVN</a>
             </h3>
             <p>
-              This youtube video explains the technical side of MicroClouds, its components and the way it works. In addition, it includes a demo showing how easy it is to deploy MicroClouds.
+              This video explains the technical side of Canonical MicroClouds, its components and the way it works. In addition, it includes a demo showing how easy it is to deploy your own MicroCloud.
             </p>
           </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
+
+          <div class="col-3 col-medium-2 u-hide">
             <div class="u-embedded-media">
               <iframe class="u-embedded-media__element"
                       title="Introducing MicroCeph"
@@ -91,10 +129,11 @@
               <a href="https://www.youtube.com/watch?v=PX1n3ZAWuAU">Introducing MicroCeph</a>
             </h3>
             <p>
-              If you are interested in the storage side of MicroClouds, this video is a good place to learn more. It explains what MicroCeph is and how it can be used to setup an HA Ceph cluster easily, avoiding complex configuration that is usually needed.
+              If you are interested in the storage side of MicroClouds, then you should learn about MicroCeph.  In our introductory video, we explain what MicroCeph is and how it can be used to set up an HA Ceph cluster easily, avoiding complex configuration that is usually needed.
             </p>
           </div>
-          <div class="col-3 col-medium-2 p-section--shallow u-hide">
+
+          <div class="col-3 col-medium-2 u-hide">
             <div class="u-embedded--image">
               {{ image(url="https://assets.ubuntu.com/v1/c8186b24-lxd-youtube-channel.png",
                             alt="",
@@ -105,22 +144,22 @@
               }}
             </div>
             <h3 class="p-heading--5 u-no-padding--top u-no-margin--bottom">
-              <a href="https://www.youtube.com/@LXD/videos">How-tos and tutorials on the LXD Youtube channel</a>
+              <a href="https://www.youtube.com/@LXD/videos">How-to-guides and tutorials on the LXD Youtube channel</a>
             </h3>
             <p>
               ​MicroClouds use LXD for compute. This means that for running and operating your instances, as well as any other configuration, regular LXD operations apply. The LXD Youtube channel is a great place for tutorials on a variety of topics you may need for operating your cloud.
             </p>
           </div>
         </div>
-        <hr class="p-rule" />
+        <hr class="p-rule--muted" />
         <div class="row">
           <div class="col-9">
-            <button class="js-slider--prev" title="Previous resources">
-              <i class="p-icon--chevron-down"></i>
+            <button class="js-slider--prev is-disabled" title="Previous resources">
+              <i class="p-icon--chevron-left"></i>
             </button>
-            <span id="js-results-count"></span>
+            <span class="js-results-count"></span>
             <button class="js-slider--next" title="Next resources">
-              <i class="p-icon--chevron-down"></i>
+              <i class="p-icon--chevron-right"></i>
             </button>
             <p class="explore-link-align">
               <a href="https://ubuntu.com/engage?tag=microcloud"
@@ -130,6 +169,7 @@
         </div>
       </div>
     </div>
+
   </section>
 
   <section class="p-section">
@@ -142,32 +182,62 @@
           whitepapers and reports
         </h2>
       </div>
-      <div class="col">
-        <div class="row p-section">
-          <div class="col-3">
-            <div class="p-section--shallow">
+      <div class="col js-slider">
+        <div class="row js-slider--items p-section--shallow">
+
+          <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="https://ubuntu.com/engage/distributed-cloud-infrastructure-microcloud">Simplifying your distributed cloud infrastructure with MicroCloud</a>
+              </h3>
+              <p>
+                Navigating the challenges of hybrid and multi-cloud environments can feel overwhelming. Steep learning curves, operational complexities, and unpredictable costs often stand in the way of innovation. This whitepaper discusses the complexities of distributed cloud infrastructure and how MicroCloud can address them.
+              </p>
+          </div>
+
+          <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">Université de l’Ontario Français rapidly scales with MicroCloud and enterprise support</a>
+              </h3>
+              <p>
+                This case study showcases how MicroCloud took the manual work and human effort out of deploying and scaling server resources and managing UOF’s cloud infrastructure.
+              </p>
+          </div>
+
+          <div class="col-3 col-medium-2">
+              <h3 class="p-heading--5">
+                <a href="https://ubuntu.com/engage/hpe-vdi-solution-hp-anyware-canonical-microcloud">VDI solution with HP anyware and Canonical MicroCloud</a>
+              </h3>
+              <p>
+                Explore how integrating HPE ProLiant servers, Canonical MicroCloud, and HP Anyware can transform your IT infrastructure to deliver a resilient, secure, and scalable solution that meets the demands of modern business.
+              </p>
+          </div>
+
+          <div class="col-3 col-medium-2">
               <h3 class="p-heading--5">
                 <a href="https://ubuntu.com/engage/guide-to-micro-clouds">CTO's guide to MicroClouds</a>
               </h3>
-            </div>
-            <p>
-              This whitepaper discusses the concept of MicroClouds, a new class of compute for the edge and decentralised environments. It's ideal to gain an understanding of edge computing constraints, values, graphics and use cases.
-            </p>
+              <p>
+                This whitepaper discusses the concept of MicroClouds, a new class of compute for the edge and decentralised environments. It's ideal to gain an understanding of edge computing constraints, values, graphics and use cases.
+              </p>
           </div>
-          <div class="col-3">
-            <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/engage/vmware-migration-scenarios">VMware migration to Ubuntu-based infrastructure</a>
-            </h3>
-            <p>
-              Many VMware users run infrastructure in smaller clusters, with each cluster dedicated to a specific purpose. Canonical's MicroCloud is an ideal fit for these use cases. Learn more about the migration scenarios in this whitepaper.
+        </div>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-9">
+            <button class="js-slider--prev is-disabled" title="Previous resources">
+              <i class="p-icon--chevron-left"></i>
+            </button>
+            <span class="js-results-count"></span>
+            <button class="js-slider--next" title="Next resources">
+              <i class="p-icon--chevron-right"></i>
+            </button>
+            <p class="explore-link-align">
+              <a href="https://ubuntu.com/engage?tag=microcloud"
+                 aria-label="Explore all videos and webinars">Explore all</a>
             </p>
           </div>
         </div>
-        <hr class="p-rule" />
-        <p class="explore-link-align">
-          <a href="https://ubuntu.com/engage?tag=microcloud"
-             aria-label="Explore all case studies, whitepapers and reports">Explore all</a>
-        </p>
       </div>
     </div>
   </section>
@@ -178,17 +248,28 @@
       <div class="col">
         <h2 class="p-text--small-caps">Blog posts</h2>
       </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-3">
+      <div class="col js-slider">
+        <div class="row js-slider--items p-section--shallow">
+
+          <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/blog/minimising-latency-in-your-edge-cloud-with-real-time-kernel">Minimising latency in your edge cloud with real-time kernel</a>
+              <a href="https://ubuntu.com/blog/canonical-releases-microcloud-lts">Canonical announces the first MicroCloud LTS release</a>
             </h3>
             <p>
-              This blog presents how to enable the Real-time kernel in MicroClouds. It also covers real-time testing, comparing the performance of virtualised and containerised applications leveraging the real-time versus the generic Ubuntu kernel.
+              MicroCloud 2.1.0 LTS features support for single-node deployments, improved security posture, and more flexibility during the initialization process. This blog outlines what’s new in this release.
             </p>
           </div>
-          <div class="col-3">
+
+          <div class="col-3 col-medium-2">
+            <h3 class="p-heading--5">
+              <a href="https://ubuntu.com/blog/minimising-latency-in-your-edge-cloud-with-real-time-kernel">Minimizing latency in your edge cloud with real-time kernel</a>
+            </h3>
+            <p>
+              This blog runs through how to enable the Real-time kernel in MicroClouds. It also covers real-time testing, comparing the performance of virtualized and containerized applications leveraging the real-time versus the generic Ubuntu kernel.
+            </p>
+          </div>
+
+          <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">
               <a href="https://ubuntu.com/blog/one_command_micro_cloud">Launch your own MicroClouds with one command</a>
             </h3>
@@ -196,36 +277,42 @@
               In this blog, we go over the new, simplified deployment process for MicroClouds, teaching you to deploy your own cloud with a single command in just a few minutes.
             </p>
           </div>
-          <div class="col-3">
+
+          <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">
               <a href="https://ubuntu.com/blog/edge-computing-is-dead-long-live-micro-clouds-and-iot-gateways">Edge computing is dead, long live MicroClouds and IoT gateways</a>
             </h3>
             <p>
-              Are you curious about what all the fuss is about when it comes to edge computing? This blog examines the concept and use cases of edge computing, as well as defining what micro clouds are and where do they fit in that spectrum.
+              Are you curious about what all the fuss is about when it comes to edge computing? This blog examines the concept and use cases of edge computing, as well as defining what micro clouds are and where they fit in that spectrum.
             </p>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-4 col-start-medium-3">
-        <hr class="p-rule u-hide--small u-hide--medium" />
-        <div class="row p-section">
-          <div class="col-3">
+
+          <div class="col-3 col-medium-2">
             <h3 class="p-heading--5">
-              <a class="p-heading--5"
-                 href="https://ubuntu.com/blog/shared-development-environment-with-lxd">Setting up a secure shared development environment with LXD</a>
+              <a href="https://ubuntu.com/blog/shared-development-environment-with-lxd">Setting up a secure shared development environment with LXD</a>
             </h3>
             <p>
               If your MicroClouds need to be used by a variety of users, it's good to know how you can share your environment safely, without granting unnecessary privileges to your users. Read more about it in this blog.
             </p>
           </div>
         </div>
-        <hr class="p-rule" />
-        <p class="explore-link-align">
-          <a href="https://ubuntu.com/blog/tag/microcloud"
-             aria-label="Explore all blog posts">Explore all</a>
-        </p>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-9">
+            <button class="js-slider--prev is-disabled" title="Previous resources">
+              <i class="p-icon--chevron-left"></i>
+            </button>
+            <span class="js-results-count"></span>
+            <button class="js-slider--next" title="Next resources">
+              <i class="p-icon--chevron-right"></i>
+            </button>
+            <p class="explore-link-align">
+              <a href="https://ubuntu.com/blog/tag/microcloud"
+                 aria-label="Explore all videos and webinars">Explore all</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>

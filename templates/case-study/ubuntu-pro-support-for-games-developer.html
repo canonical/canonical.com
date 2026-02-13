@@ -12,7 +12,7 @@
 {% block meta_description %}Securing open source dependencies with Ubuntu Pro &mdash; legacy PHP support saves a game developer time and effort, while they plan a migration path.{% endblock %}
 {% block meta_company_name %}Ubuntu Pro for Games Developer{% endblock %}
 {% block meta_copydoc %}https://docs.google.com/document/d/1qQeL08ZQ2agpNKQunfbYkemqSAF9waQ9J5fqCpH3gtA/edit?tab=t.0{% endblock %}
-{% block discourse_url %}https://discourse.ubuntu.com/t/case-study-ubuntu-pro-support-for-games-developer/53389{% endblock %}
+{% block meta_discourse_url %}https://discourse.ubuntu.com/t/case-study-ubuntu-pro-support-for-games-developer/53389{% endblock %}
 
 {% block inner_content %}
     {%- call(slot) vf_hero(
@@ -67,7 +67,7 @@
                         width="3696",
                         height="1541",
                         hi_def=True,
-                        loading="auto|lazy",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
         {%- endif -%}
@@ -116,7 +116,7 @@
                         width="3696",
                         height="1541",
                         hi_def=True,
-                        loading="auto|lazy",
+                        loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
             }}
         {%- endif -%}
@@ -170,6 +170,9 @@
         is_shallow=True
         )
         -%}
+        {%- if slot == 'cta' -%}
+            <a href="https://ubuntu.com/pro/free-trial" class="p-button--positive">Access a free trial</a>
+        {%- endif -%}
     {%- endcall -%}
 
 {% endblock %}

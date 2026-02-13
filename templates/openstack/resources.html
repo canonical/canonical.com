@@ -1,0 +1,670 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "macros/_vf_newsletter_signup.jinja" import vf_newsletter_signup %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1Fv9eAy2_iPm5m4lOliqQIJN0Gg4OSo9XtrtvH180Jvg
+{% endblock meta_copydoc %}
+
+{% block title %}OpenStack resources{% endblock %}
+
+{% block meta_description %}
+  Explore a collection of useful OpenStack resources and educational materials. Learn OpenStack from the ground up from one of the key industry players.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='OpenStack resources',
+    subtitle_text='Learn more about Canonical&nbsp;OpenStack',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Explore a collection of useful informational materials, how-to guides, and other useful resources that will help you learn more about, understand, and evaluate Canonical OpenStack. Sign up for our monthly newsletter and stay up to date with all the latest announcements, release notes, and updates.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="#newsletter"
+         class="p-button--positive">Sign up for newsletter</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/d56d86ae-hero.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Key product assets</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">
+        <a href="/openstack">Canonical OpenStack home page</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Visit Canonical OpenStack home page to learn more about the product and the value it brings to your organization. Review its underlying architecture, use cases, customer success stories, commercial services, and more.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">
+        <a href="https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf">Canonical OpenStack datasheet</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Download Canonical OpenStack datasheet and to get the most comprehensive summary of the product in the form of a one-pager. Quickly navigate through all the available features and compare various consulting and support plans.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">
+        <a href="https://ubuntu.com/engage/canonical-openstack-reference-architecture">Canonical OpenStack reference architecture</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>Designing cloud environments is non-trivial. This is why the best recipe for a successful deployment is to follow a proven design guide. The reference architecture for Canonical OpenStack distills our expert knowledge gained through more than a decade of experience in the OpenStack domain.</p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Where to get started?</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">
+        <a href="https://ubuntu.com/openstack/install">Install OpenStack yourself</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Try OpenStack on Ubuntu in a few simple steps. Starting with a simple, single-node installation, get your first installation up and running in less than an hour.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">
+        <a href="https://ubuntu.com/openstack/tutorials">Follow tutorials for beginners</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Get familiar with OpenStack through a series of tutorials for beginners. Starting from some very basic concepts, learn how to design, deploy, and use OpenStack in production environments.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">
+        <a href="https://canonical-openstack.readthedocs-hosted.com/en/latest/">Browse Canonical OpenStack documentation</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>Explore the most comprehensive set of how-to guides and technical information about the product. Canonical OpenStack documentation serves as your day-to-day reference when operating Canonical OpenStack for your end users.</p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section--shallow">
+    <div class="row--50-50">
+      <hr />
+      <div class="col">
+        <h2>Additional OpenStack resources</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <p>
+            Continue reading for additional OpenStack resources, including case studies, solution briefs, whitepapers, videos, conference talks, webinars, and blog posts. To help you understand Canonical OpenStack better, we have put together this collection of content in one place.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section--shallow">
+    <div class="row">
+      <hr class="p-rule--muted">
+    </div>
+    <div class="row--50-50">
+      <div class="col">
+        <h3 class="p-muted-heading">
+          <a href="/case-study?tag=OpenStack">Case studies&nbsp;&rsaquo;</a>
+        </h3>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="medium",
+    quote_text="We’re already seeing a transformation in the services we provide to citizens. From an operational perspective, we’re seeing that it is possible to bring cost-efficiency to a multi-petabyte environment.",
+    is_shallow="true",
+    citation_source_name_text="SMD Jeelani",
+    citation_source_title_text="Director (Operations)",
+    citation_source_organisation_text="UIDAI"
+  ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      <img src="https://assets.ubuntu.com/v1/c6053381-aadhaar.png" width="852" alt="AADHAAR logo">
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/uidai-hpe-microservice-architecture">Read <span class="u-off-screen">UIDAI and HPE modernize citizen services through cloud transformation</span> case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="medium",
+    quote_text="In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical.",
+    is_shallow="true",
+    citation_source_name_text="Gary Roberts",
+    citation_source_title_text="Director, Network Cloud",
+    citation_source_organisation_text="BT Group"
+  ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      <img src="https://assets.ubuntu.com/v1/3279a4fd-bt.png" width="852" alt="BT logo">
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/5G-with-open-source-infrastructure">Read <span class="u-off-screen">BT Group brings 5G to the UK with the power of open source infrastructure</span> case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="medium",
+    quote_text="We recently reassessed our cloud strategy, and one of the parameters was cost-efficiency. We observed that OpenStack is helping us to achieve two-to-three times more cost-efficiency than using public clouds, and the forecast is that efficiency will grow as the cloud grows.",
+    is_shallow="true",
+    citation_source_name_text="Cléber Alexandre Agazzi",
+    citation_source_title_text="Head of Infrastructure & IT Operations",
+    citation_source_organisation_text="Sicredi"
+  ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      <img src="https://assets.ubuntu.com/v1/0a8c2845-sicredi.png" width="852" alt="Sicredi logo">
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/sicredi-openstack-case-study">Read <span class="u-off-screen">Sicredi embraces the cloud with Canonical OpenStack</span> case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section--shallow">
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-3 col-medium-12">
+        <h3 class="p-muted-heading">Solution briefs</h3>
+      </div>
+      <div class="col-3 col-medium-3">
+        <div class="p-section--shallow">
+          <div class="p-image-container">
+            {{ image(url="https://assets.ubuntu.com/v1/25fa6c1f-canonical-infra.png",
+              alt="",
+              width="568",
+              height="321",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"}
+              ) | safe
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-medium-3">
+        <h4 class="p-heading--5 u-no-margin--bottom">
+          <a href="https://assets.ubuntu.com/v1/774776c6-Canonical%20infrastructure%20for%20the%20public%20sector.pdf">
+            Canonical Infrastructure for the public sector
+          </a>
+        </h4>
+        <p>In an era of heightened geopolitical uncertainty, digital sovereignty takes centre stage. As governments and their institutions increasingly recognize the importance of safeguarding their data, sovereign cloud solutions have emerged in response to security and compliance challenges.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-3 col-medium-12">
+        <h3 class="p-muted-heading">
+          <a href="https://ubuntu.com/engage?resource=whitepaper&tag=openstack">Whitepapers&nbsp;&rsaquo;</a>
+        </h3>
+      </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/e61fd5dd-cloud-pricing.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/cloud-pricing-report">
+                Cloud Pricing Report
+              </a>
+            </h4>
+            <p>In order to better understand cloud pricing concepts and their impact on cloud infrastructure choices, Canonical ran a community survey to collect responses from hundreds of cloud users. This, along with price comparisons from leading cloud providers and cost analyses from sample cloud applications, resulted in a report.</p>
+          </div>
+        </div>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/7dddbef5-os-ebook.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/openstack-ebook-beginners">
+                OpenStack E-book for Beginners
+              </a>
+            </h4>
+            <p>OpenStack adoption has always been a challenge. Hence we wrote this e-book to help you understand OpenStack in a very simple way and at the same time understand the newest upstream project “Sunbeam”, which makes OpenStack installation even easier.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-3 col-medium-12">
+        <h3 class="p-muted-heading">
+          <a href="https://www.youtube.com/@UbuntuOS/featured">Videos&nbsp;&rsaquo;</a>
+        </h3>
+      </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/9d5b4502-vid1.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=2dyWztiKECg">
+                Why OpenStack is the Best Solution for Your Cloud Strategy
+              </a>
+            </h4>
+            <p>Operating in the cloud has become the norm in today's business world. However, depending solely on public clouds can introduce several challenges such as increased costs, privacy issues, and performance limitations.</p>
+          </div>
+        </div>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/02d9efd1-vid2.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=dmydxhdsrng&t=5344s">
+                Infra Masters with Canonical
+              </a>
+            </h4>
+            <p>Whether you’re looking to migrate from proprietary solutions (like VMware), repatriate your workloads, or modernize your infrastructure with a cloud-native approach, Canonical’s open source infrastructure solutions give you efficiency and choice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-3 col-medium-12">
+        <h3 class="p-muted-heading">
+          <a href="https://www.youtube.com/@OpenInfraFoundation/featured">Conference talks&nbsp;&rsaquo;</a>
+        </h3>
+      </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/76b78d62-talk1.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=vcHdsSBhKVs">
+                OpenStack public clouds: 7 reasons to become a local cloud service provider
+              </a>
+            </h4>
+            <p>Although the public cloud market is mostly dominated by hyperscalers, using cloud services from AWS, Azure or Google in some parts of the world is challenging due to local regulations, digital sovereignty concerns and latency issues.</p>
+          </div>
+        </div>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/74428d94-talk2.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=5SqYw3gbVpU">
+                47% of OpenStack clouds run on Ubuntu - this is why
+              </a>
+            </h4>
+            <p>According to the OpenStack User Survey 2023, Ubuntu Server continues to be the most popular operating system for OpenStack deployments, powering 47% of all environments. Ubuntu is fully open-source, runs with no friction on a variety of hardware and silicon, and can be used free of charge.</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/a1d21f10-talk3.png",
+                  alt="",
+                  width="568",
+                  height="321",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=xUhslnruvkg">
+                Own your data; leveraging OpenStack and Sunbeam to deploy a sovereign AI cloud
+              </a>
+            </h4>
+            <p>Building an enterprise-class platform for your AI workloads should not require enterprise-sized tools, teams, or budgets. OpenStack, Kubernetes, and Kubeflow provide a high quality, open source solution for orchestrating simple, complex, and hybrid AI workloads on top of virtual machines, containers, and bare metal machines.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <div class="col-3 col-medium-12">
+        <h3 class="p-muted-heading">
+          <a href="https://ubuntu.com/engage?resource=webinar&tag=openstack">Webinars&nbsp;&rsaquo;</a>
+        </h3>
+      </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/50992e72-web1.png",
+                  alt="",
+                  width="852",
+                  height="480",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                  ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/ai-on-private-cloud">
+                AI on Private Cloud: why is it relevant in the hyperscalers era?
+              </a>
+            </h4>
+            <p>As organizations increasingly look to take advantage of AI technologies, there are several critical considerations that they must contend with, including intellectual property, data security and costs related to computing infrastructure. Private cloud solutions are ideally suited to solving these challenges.</p>
+          </div>
+        </div>
+
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/4302d3c3-web2.png",
+                  alt="",
+                  width="426",
+                  height="240",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                  ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://ubuntu.com/engage/what-is-openstack">
+                What is OpenStack and why does it matter?
+              </a>
+            </h4>
+            <p>OpenStack is the world’s most popular open source cloud platform and its adoption continues to grow exponentially every year. It serves as an extension or a reasonable alternative to hyperscalers, effectively addressing cloud cost optimization concerns.</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-3 col-medium-3">
+            <div class="p-section--shallow">
+              <div class="p-image-container">
+                {{ image(url="https://assets.ubuntu.com/v1/11f23410-web3.png",
+                  alt="",
+                  width="852",
+                  height="481",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}
+                  ) | safe
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-medium-3">
+            <h4 class="p-heading--5 u-no-margin--bottom">
+              <a href="https://www.youtube.com/watch?v=xUhslnruvkg">
+                OpenStack vs Kubernetes. Which one to pick? That is the question.
+              </a>
+            </h4>
+            <p>Kubernetes and OpenStack are well-established open-source projects and essential infrastructure components for building modern cloud environments. They bring tangible benefits to organizations of any type and size, including competitive economics, no vendor lock-in and fast paced innovation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr />
+    </div>
+    <div class="row">
+      <div class="col-3 col-medium-6">
+        <h2 class="p-muted-heading">
+          <a href="/blog/tag/openstack">Blog posts&nbsp;&rsaquo;</a>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      {% for article in blogs %}
+        {% if loop.index <= 4 %}
+          <div class="col-3 col-medium-3">
+            {% if loop.index > 1 %}<hr class="is-muted u-hide--large u-hide--medium" />{% endif %}
+                <div class="p-image-container u-crop--16-9">
+                  <a href="/blog/{{ article.slug }}">
+                    <img src="{{ article.image.source_url }}"
+                          alt="{{ article.title.rendered }}"
+                          width="400"
+                          height="400"
+                          class="p-image-container__image" />
+                  </a>
+                </div>
+              <h3 class="p-heading--5">
+                <a href="/blog/{{ article.slug }}">{{ article.title.rendered | safe }}</a>
+              </h3>
+              <p>{{ article.excerpt.rendered | truncate(200) | safe }}</p>
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="p-section">
+    <form action="/solutions/infrastructure/private-cloud-pricing">
+      <div class="u-fixed-width" id="newsletter">
+        <hr />
+        <div class="row--50-50">
+          <div class="col">
+            <h2>Private cloud pricing calculator</h2>
+          </div>
+          <div class="col">
+            <div class="p-section--shallow">
+              <p>
+                Use our private cloud pricing calculator to estimate savings from running your applications in a data center designed by Canonical.
+              </p>
+              <noscript>
+                <p>Reach out to us to get estimated savings from running your applications in a data center designed by Canonical.</p>
+                <p><a href="/solutions/infrastructure/private-cloud-pricing" class="p-button">Let's talk</a></p>
+              </noscript>
+            </div>
+          </div>
+        </div>
+        <div class="u-hide" id="private-cloud-pricing-calculator">
+          <div class="grid-row">
+            <div class="grid-col-6 grid-col-start-large-3">
+              <hr class="p-rule--muted" />
+              <div class="p-section--shallow">
+                <div class="grid-row">
+                  <div class="grid-col-2">
+                    <p>
+                      <strong>How many physical machines do you have?</strong>
+                    </p>
+                  </div>
+                  <div class="grid-col-4 p-form-validation js-input-validation">
+                    <div class="p-section--shallow">
+                      <div class="p-slider__wrapper">
+                        <input type="range"
+                              min="0"
+                              max="100"
+                              value="10"
+                              step="1"
+                              id="private-cloud-pricing"
+                              aria-label="Number of physical machines slider" />
+                        <input class="p-slider__input p-form-validation__input"
+                              type="text"
+                              maxlength="6"
+                              value="10"
+                              id="private-cloud-pricing-input"
+                              name="nodes"
+                              tabindex="0" />
+                      </div>
+                    </div>
+                    <p class="p-form-validation__message u-no-margin--bottom u-hide"
+                      id="invalid-range-error">Please enter a valid value</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-col-4 grid-col-start-large-5">
+              <hr class="p-rule--muted" />
+              <div class="p-section--shallow">
+                <div class="grid-col-4 p-form-validation js-input-validation">
+                  <button type="submit"
+                          class="p-button--positive"
+                          aria-label="View the estimate for private cloud pricing">
+                    View estimate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            document.getElementById('private-cloud-pricing-calculator').classList.remove('u-hide');
+          </script>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  {% call(slot) vf_newsletter_signup(
+    layout="50-50",
+    title_text="Sign up for our monthly OpenStack newsletter",
+    form_id="7615",
+    return_url="https://canonical.com/openstack/resources#contact-form-success",
+    input_label='Your email address',
+    checkbox_id='canonicalUpdatesOptIn',
+    checkbox_label='I agree to receive information about Canonical\'s products and services.') %}
+    {%- if slot == 'description' -%}
+      <p>Be the first to know what is happening in the tech. Sign up for our monthly OpenStack newsletter and get informed about our latest technological advancements.</p>
+    {%- endif -%}
+  {% endcall %}
+
+  <script src="{{ versioned_static('js/slider.js') }}" defer></script>
+
+{% endblock %}

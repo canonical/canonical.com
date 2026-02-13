@@ -1,0 +1,217 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}
+  Canonical Events
+{% endblock title %}
+
+{% block meta_description %}
+  Meet local open source experts at the Canonical Days
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1c2pSDaqhyVN_gN1aUQfcp6hqK2F81mwDFtAladuHycg/edit?tab=t.nu320wnvfi4q
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-dark
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Join your local Canonical Day',
+    subtitle_text='Meet other innovators <br/>and open source experts',
+    layout='50/50-full-width-image',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+    <p>
+      Transform your business with open source. Learn about best practices, success stories and industry insights. Network with peers. 
+      Become an open source trailblazer in your organization and embrace the latest technologies with confidence. 
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+    <div class="p-image-container--cinematic is-cover">
+      {{ image(url="https://assets.ubuntu.com/v1/40a89294-hero_img_updated.jpg",
+        alt="",
+        width="2462",
+        height="1024",
+        hi_def=True,
+        loading="auto",
+        attrs={"class":"p-image-container__image"}
+        ) | safe
+      }}
+    </div>
+    {% endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(title={"text": "Find a Canonical Day near you"}, padding="shallow") }}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <table class="p-table--mobile-card js-sortable-table"
+              data-heading="Find a Canonical Day near you">
+        <thead>
+          <tr>
+            <th data-column="0" data-type="string">
+              <strong>Location</strong>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Location" style="border-style: none;"></button>
+            </th>
+            <th data-column="1" data-type="string">
+              <strong>Region</strong>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Region" style="border-style: none;"></button>
+            </th>
+            <th data-column="2" data-type="date">
+              <strong>Date</strong>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Date" style="border-style: none;"></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="js-events-truncated">
+          {% set ns = namespace(counter=0) %}
+          {% for data in metadata %}    
+            {% set ns.counter = ns.counter + 1 %}
+            {% if ns.counter <= 5 %}
+              <tr>
+                <td data-heading="Location">
+                  <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
+                </td>
+                <td data-heading="Region">
+                  {{ data.event_region or '—' }}
+                </td>
+                <td data-heading="Date">
+                  {{ data.event_date or '—' }}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+
+        {% if metadata | length > 5 %}
+          <tbody class="js-events-all u-hide">
+            {% for data in metadata %}    
+              <tr>
+                <td data-heading="Location">
+                  <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
+                </td>
+                <td data-heading="Region">
+                  {{ data.event_region or '—' }}
+                </td>
+                <td data-heading="Date">
+                  {{ data.event_date or '—' }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+      </table>
+      {% if metadata | length > 5 %}
+      <div>
+        <button class="p-button js-toggle-show-events">Show all events</button>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>What to expect</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Our events cover a wide range of topics for both technical practitioners and business leaders - from open source security to modern 
+        infrastructure, app modernization and IoT. 
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Open source security and the OS</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Uncover how the operating system plays a fundamental role in shaping and securing open source software supply chains. 
+        Help your organization overcome compliance and security hurdles with a trusted foundation.  
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Infrastructure in the age of AI</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Join us and transform your IT infrastructure from a cost center into an innovation hub. Uncover how adopting Kubernetes 
+        and automation can help your business modernize workloads for the age of AI. 
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">Digital sovereignty</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Gain control over your cloud and its underlying technology with open source. Understand the different layers of 
+        digital sovereignty and build resilient systems for the future. 
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+    <h3 class="p-heading--5">Smart devices at the edge</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Implement a DevOps approach to IoT and benefit from trusted open source across the device lifecycle. 
+        Implement edge AI at scale with security fundamentals.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="What our participants say",
+    is_shallow="true",
+    quote_size="large",
+    quote_text="This event is a good opportunity for Nora Robotics to network and discover additional products that Canonical can provide at different levels for use by our customers and developers."
+  ) -%}  
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="large",
+    quote_text="Canonical Day provides valuable insights into how open-source technologies can support secure, reliable, and scalable infrastructure in financial services."
+  ) -%}
+
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "You bring the ideas, <br/>we bring the open source"},
+    items=[
+    {
+      "type": "description",
+      "item": {
+        "type": "text",
+        "content": "The best of open source comes to you at our Canonical Roadshow events. You get exclusive access and updates, we get inspired by your commitment to open source and ideas."
+      }
+    },
+    {
+      "type": "image",
+      "item": {
+        "aspect_ratio": "",
+        "attrs": {
+          "src": "https://assets.ubuntu.com/v1/f01e3d02-you_bring_ideas_updated.jpg",
+          "alt": "16:9 aspect ratio image"
+        }
+      }
+    }
+    ])
+  }}
+
+  <script src="/static/js/dist/events.js"></script>
+{% endblock content %}

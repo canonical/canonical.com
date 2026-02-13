@@ -1,5 +1,7 @@
 import intlTelInput from "intl-tel-input";
 
+let iti;
+
 /**
  * Initializes phone input field with intlTelInput and pre-fills the country input based on the user's timezone.
  *
@@ -28,7 +30,7 @@ export async function prepareInputFields(phoneInput, countryInput) {
  * Sets the value of the country input field.
  *
  * @param {string} countryCode - ISO country code to set as the value.
- * @param {HTMLElement} countryInput - The select element for the country.
+ * @param {HTMLSelectElement} countryInput - The select element for the country.
  */
 function preFormatCountry(countryCode, countryInput) {
   countryInput.value = countryCode;
@@ -38,10 +40,10 @@ function preFormatCountry(countryCode, countryInput) {
  * Configures intlTelInput.
  *
  * @param {string} countryCode - ISO country code for initializing the plugin.
- * @param {HTMLElement} phoneInput - The input element for the phone number.
+ * @param {HTMLInputElement} phoneInput - The input element for the phone number.
  */
 export function setupIntlTelInput(countryCode, phoneInput) {
-  intlTelInput(phoneInput, {
+  iti = intlTelInput(phoneInput, {
     utilsScript: "/static/js/modules/intl-tel-input/utils.js",
     separateDialCode: true,
     hiddenInput: phoneInput.name,
@@ -89,6 +91,7 @@ function validateInput(phoneInput, errorElement) {
  * @returns {boolean} - True if the number is valid, otherwise false.
  */
 function isValidNumber(number) {
+  if (iti) return iti.isValidNumber();
   const pattern = /^(?=[^a-zA-Z]*$)[0-9\s.\-()/,]{4,25}$/;
   return pattern.test(number);
 }
@@ -108,11 +111,13 @@ function resetErrorState(errorElement, phoneInput) {
 /**
  * Adds validation logic and styling to the phone input field.
  *
- * @param {HTMLElement} phoneInput - The input element for the phone number.
+ * @param {HTMLInputElement} phoneInput - The input element for the phone number.
  */
 function addInputValidation(phoneInput) {
   const mobileInput = document.querySelector(".iti");
-  mobileInput.parentNode.classList.add("p-form-validation");
+  /** @type {Element} */
+  const mobileParent = mobileInput.parentNode;
+  mobileParent.classList.add("p-form-validation");
   phoneInput.classList.add("p-form-validation__input");
   phoneInput.setAttribute("aria-describedby", "invalid-number-message");
 
@@ -134,22 +139,39 @@ function addInputValidation(phoneInput) {
 function setupOtherInputs() {
   const otherTextarea = document.querySelectorAll(".js-other-input");
   otherTextarea.forEach((textarea) => {
+    /** @type {HTMLTextAreaElement} */
+    const typedTextarea = textarea;
+    /** @type {HTMLInputElement | null} */
     const triggerInputEle = document.querySelector(
-      `#${textarea.dataset.inputId}`
+      `#${typedTextarea.dataset.inputId}`,
     );
     document
       .querySelectorAll(`[name=${triggerInputEle.name}]`)
       .forEach((input) => {
-        input.onclick = () => {
-          if (input == triggerInputEle) {
-            textarea.classList.remove("u-hide");
-          } else {
-            textarea.classList.add("u-hide");
+        /** @type {HTMLInputElement} */
+        const typedInput = input;
+        typedInput.onclick = () => {
+          if (typedInput.type === "radio") {
+            if (typedInput == triggerInputEle) {
+              typedTextarea.classList.remove("u-hide");
+            } else {
+              typedTextarea.value = "";
+              typedTextarea.classList.add("u-hide");
+            }
+          } else if (typedInput.type === "checkbox") {
+            if (typedInput === triggerInputEle) {
+              if (typedInput.checked) {
+                typedTextarea.classList.remove("u-hide");
+              } else {
+                typedTextarea.value = "";
+                typedTextarea.classList.add("u-hide");
+              }
+            }
           }
         };
       });
-    textarea.addEventListener("input", () => {
-      triggerInputEle.value = textarea.value;
+    typedTextarea.addEventListener("input", () => {
+      triggerInputEle.value = typedTextarea.value;
     });
   });
 }

@@ -1,26 +1,28 @@
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+
+{% set logos = [] %}
+{% for partner in partners %}
+  {% if partner.slug != "nec" %}
+    {% set _ = logos.append({
+      "src": partner.logo,
+      "alt": partner.slug
+    }) %}
+  {% endif %}
+{% endfor %}
+
 {% if partners %}
-  <section class="p-section">
-    <div class="row p-block">
-      <hr class="p-rule">
-      <h2>{{ title }}</h2>
-    </div>
-    <div class="row p-block">
-      <div class="p-logo-section">
-        <div class="p-logo-section__items"> 
-          {% for partner in partners %}
-          <!-- Temporarily filter out nec logo until properly replaced -->
-            {% if partner.slug != "nec" %} 
-              <div class="p-logo-section__item">
-                <img class="p-logo-section__logo" src="{{ partner.logo }}" alt="{{ partner.slug }}">
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>  
-      </div>
-      <hr class="p-rule">
-      <div class="col-6 col-start-large-7 col-medium-3 col-start-medium-4">
-        <p class="u-align--right"><a href="{{ link_href }}">{{ link_text }}&nbsp;&rsaquo;</a></p>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_logo_section(
+    title={
+      "text": title
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": logos
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
 {% endif %}

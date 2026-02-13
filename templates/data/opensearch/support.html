@@ -47,7 +47,7 @@
             </p>
           </div>
           <hr class="p-rule" />
-          <a class="p-button--positive"
+          <a class="p-button--positive js-invoke-modal"
              href="/contact-us"
              aria-controls="data-opensearch-modal">Contact us</a>
           <a class="p-button"
@@ -187,7 +187,7 @@
     </div>
     <div class="u-fixed-width u-align--right">
       <hr class="p-rule--muted" />
-      <a class="p-button--positive"
+      <a class="p-button--positive js-invoke-modal"
          href="/contact-us"
          aria-controls="data-opensearch-modal">Get
       support</a>
@@ -202,9 +202,7 @@
           <h2>Multiple packaging formats</h2>
         </div>
         <div class="col">
-          <p>
-            We provide maintained and supported OpenSearch packages in both snap and container formats:
-          </p>
+          <p>We provide maintained and supported OpenSearch packages in both snap and container formats:</p>
         </div>
       </div>
     </div>
@@ -218,7 +216,7 @@
             </div>
             <div class="col-6 col-medium-3">
               <p>
-                Get snaps for added confinement and atomic updates on all major  
+                Get snaps for added confinement and atomic updates on all major
                 <a href="https://snapcraft.io/docs/distro-support">Linux distributions</a>.
                 Our OpenSearch-only snap offers the smallest possible footprint and attack surface.
               </p>
@@ -233,7 +231,7 @@
             </div>
             <div class="col-6 col-medium-3">
               <p>
-                We deliver OCI-compliant images for your containerized environment. We provide a 
+                We deliver OCI-compliant images for your containerized environment. We provide a
                 fully-supported OpenSearch-only container.
               </p>
             </div>
@@ -398,7 +396,9 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <p class="p-heading--2">
-        <a href="/contact-us" aria-controls="data-opensearch-modal">Contact us to get support for Charmed
+        <a href="/contact-us"
+           class="js-invoke-modal"
+           aria-controls="data-opensearch-modal">Contact us to get support for Charmed
         OpenSearch&nbsp;&rsaquo;</a>
       </p>
     </div>
@@ -430,7 +430,7 @@
             }}
             <hr class="p-rule--muted" />
             <p>
-              <a href="https://charmed-kubeflow.io/">Learn more&nbsp;&rsaquo;</a>
+              <a href="/mlops/kubeflow">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
           <div class="p-logo-section__item">
@@ -458,7 +458,7 @@
             }}
             <hr class="p-rule--muted" />
             <p>
-              <a href="https://ubuntu.com/ai/mlflow">Learn more&nbsp;&rsaquo;</a>
+              <a href="/mlops/mlflow">Learn more&nbsp;&rsaquo;</a>
             </p>
           </div>
           <div class="p-logo-section__item">
@@ -571,7 +571,9 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <p class="p-heading--2">
-        <a href="/contact-us" aria-controls="data-opensearch-modal">Discuss your needs with our team&nbsp;&rsaquo;</a>
+        <a href="/contact-us"
+           class="js-invoke-modal"
+           aria-controls="data-opensearch-modal">Discuss your needs with our team&nbsp;&rsaquo;</a>
       </p>
     </div>
   </section>
@@ -589,10 +591,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/data/opensearch/support") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/opensearch#success" %}
-    {% include "data/_form-data-opensearch.html" %}
-  {% endwith %}
 {% endblock content %}

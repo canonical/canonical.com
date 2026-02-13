@@ -2,9 +2,7 @@ import throttle from "../utils/throttle";
 
 import {
   navigation,
-  secondaryNavigation,
   toggles,
-  topLevelNavigationItems,
 } from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
@@ -74,6 +72,7 @@ document.addEventListener("click", function (event) {
 function toggleDropdown(toggle) {
   const target = document.getElementById(toggle.getAttribute("aria-controls"));
   if (target) {
+    closeNotifications();
     // check if the toggled dropdown is child of another dropdown
     const isNested = target.parentNode.closest(".p-navigation__dropdown");
     if (!isNested) {
@@ -97,8 +96,13 @@ function toggleDropdown(toggle) {
   }
 }
 
+function closeNotifications() {
+  const notification = document.querySelector(".p-popup-notification:target");
+  if (notification) notification.style.display = "none";
+}
+
 /**
- * Resets all toggles to there base state, unless an exception is passed
+ * Resets all toggles to their base state, unless an exception is passed
  * then this toggle is ignored
  * @param {HTMLElement} exception - The toggle to ignore
  */
@@ -180,6 +184,7 @@ navigation.querySelectorAll(".js-navigation-tab").forEach((tab) => {
 // Is attached via HTML onclick attribute.
 function toggleSection(e) {
   e.preventDefault();
+  e.stopPropagation();
   const targetId = e.target.getAttribute("aria-controls");
   const el = document.querySelector(`.js-dropdown-window #${targetId}`);
   const currTabWindow = e.target.closest(".js-dropdown-window");

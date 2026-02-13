@@ -1,0 +1,594 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Canonical Academy -- Self-study resources{% endblock %}
+
+{% block meta_description %}
+  The Canonical Ubuntu Essentials exams certify knowledge and verify skills in general Linux, Ubuntu Desktop, and Ubuntu Server topics.
+{% endblock %}
+
+<!-- {% block meta_keywords %}microcloud, scalable cloude, cloud infrastructure{% endblock %} -->
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1T1K7jyUa32-OURET6AjN2CD_c80TaUmj9EncYT70PNw/edit?usp=sharing
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  <section class="p-suru--fan-top is-dark">
+    <div class="row">
+      <div class="col-6">
+        <h1 class="p-heading--2">
+          <strong>Self-study resources</strong>
+        </h1>
+        <p>The links on this page lead to documentation and tutorials about topics relevant to Canonical Academy.</p>
+        <p>
+          Although they do not constitute an exhaustive list of the subjects covered by the exams, they provide a good starting point for your studies. You can use them to familiarise yourself with key concepts or to refresh your existing knowledge.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="row">
+      <div class="p-tabs" style="padding-bottom:4rem;">
+        <div class="p-tabs__list u-no-margin--bottom"
+             role="tablist"
+             aria-label="CUE Syllabus">
+          <div class="p-tabs__item">
+            <button class="p-tabs__link"
+                    role="tab"
+                    aria-controls="examTips-tab"
+                    id="examTips"
+                    aria-selected="true">Exam Tips</button>
+          </div>
+          <div class="p-tabs__item">
+            <button class="p-tabs__link"
+                    role="tab"
+                    aria-controls="cue01Linux-tab"
+                    id="cue01Linux"
+                    aria-selected="false"
+                    tabindex="-1">Using Linux Terminal resources</button>
+          </div>
+          <div class="p-tabs__item">
+            <button class="p-tabs__link"
+                    role="tab"
+                    aria-controls="cue02Desktop-tab"
+                    id="cue02Desktop"
+                    aria-selected="false"
+                    tabindex="-1">Using Ubuntu Desktop resources</button>
+          </div>
+          <div class="p-tabs__item">
+            <button class="p-tabs__link"
+                    role="tab"
+                    aria-controls="cue03Server-tab"
+                    id="cue03Server"
+                    aria-selected="false"
+                    tabindex="-1">Using Ubuntu Server resources</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6" style="padding-bottom:4rem;">
+        <div tabindex="0"
+             role="tabpanel"
+             id="examTips-tab"
+             aria-labelledby="examTips">
+          <h2 id="exam-tips">Exam Tips:</h2>
+          <ul class="pad-top">
+            <li>This is a timed exam of mixed performance-based, scenario-based, and multiple choice questions.</li>
+            <li>Performance based questions are hands-on exercises that are a significant portion of your score. Do them first. Every successful step is counted, and partial credit matters.</li>
+            <li>Attention to detail is a part of the exam. You will need to read through supplemental information to identify the key points of the exercise, just as you will in real life.</li>
+            <li>Short answer questions, like traditional multiple choice questions, are the smallest value. Scenario questions require you to look something up on the system and then answer a multiple choice question, and are worth more than simple multiple choice, but still less than the hands-on questions.</li>
+            <li>Review all exam items and identify the ones easiest for you to complete. Prioritize the hands-on exercises.</li>
+            <li>Use the “Flag for review” options to go back to difficult questions if you have time. You may change your answers at any time prior to completing the exam.</li>
+            <li>You may use man pages and official Ubuntu documentation from within the exam environment. You may not open additional tabs or windows on your client-side computer.</li>
+            <li>Use a clean laptop without additional proxies or firewalls, and complete the system check-in before your exam time. Any system problems introduced by not following these directions will be the responsibility of the candidate.</li>
+          </ul>
+
+          <h2 id="study-tips">Study Tips:</h2>
+          <p class="spaced-bottom--smaller">Prioritize learning the process of completing an action over memorizing commands. The exam allows the use of man pages and the documentation from within the exam environment.</p>
+
+          <h2 id="general-resources">General Resources</h2>
+          <p class="spaced-bottom--smaller">
+            There are a number of instructional resources available, both community- and Canonical-made, that contain a wealth of useful information. The following links lead to Canonical’s official educational resources.
+          </p>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/tutorials">Tutorials</a>
+            </li>
+            <li>
+              <a href="https://assets.ubuntu.com/v1/3bd0daaf-Ubuntu%20Server%20CLI%20cheat%20sheet%202024%20v6.pdf">CLI cheatsheet</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/">Ubuntu documentation</a>
+              <ul>
+                <li>
+                  <a href="https://help.ubuntu.com/lts/ubuntu-help/index.html">Desktop</a>
+                </li>
+                <li>
+                  <a href="https://ubuntu.com/server/docs">Server</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="https://docs.ubuntu.com/">Canonical product documentation</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/CommunityHelpWiki">Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="/blog/tag/webinar">Canonical webinars</a>
+            </li>
+            <li>
+              <a href="/blog/tag/conference">Canonical conference materials</a>
+            </li>
+          </ul>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="cue01Linux-tab"
+             aria-labelledby="cue01Linux"
+             hidden="hidden">
+          <h2>Using Linux Terminal Resources</h2>
+          <p class="spaced-bottom--smaller">
+            The following resources may assist you with preparing for the Using Linux Terminal exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.</p>
+          <h3 id="linux-documentation" class="p-heading--5 u-no-margin">Navigating Files and Filesystems 34%</h3>
+          <ul class="pad-top">
+            <li>Navigate and manipulate directories and files using terminal commands</li>
+            <li>
+              Search, compare and modify files in the terminal using regular expressions, pipe operators and redirection
+            </li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/tutorials/command-line-for-beginners#7-the-command-line-and-the-superuser">Linux command line for beginners: Ubuntu Tutorials</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/UsingTheTerminal?_gl=1*gdzcq9*_gcl_au*MTMyMjU4OTM2LjE3MjcyMTE0MTk.">Using the terminal, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/grep">Grep, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/FindingFiles">Finding Files, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/find">Find basics, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/RecoverLostDiskSpace#Checking_Your_Partitions_via_Command_Line">Checking Your Partitions via Command Line, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/">Machine-readable debian/copyright file, Debian.org</a>
+            </li>
+            <li>
+              <span>Related man pages:</span> <a href="https://manpages.ubuntu.com/manpages/trusty/man1/diff.1posix.html">diff</a>
+            </li>
+          </ul>
+          <h3 id="linux-documentation" class="p-heading--5 u-no-margin">Managing System Resources 33%</h3>
+          <ul class="pad-top">
+            <li>Locate system logs and configure log rotation</li>
+            <li>Reconstruct disk partitions and filesystems using tools such as fdisk, fsck and parted</li>
+            <li>Identify correct crontab format and location</li>
+            <li>Interpret system logs during troubleshooting</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/tutorials/viewing-and-monitoring-log-files#2-log-files-locations">Viewing and monitoring log files, Ubuntu Tutorials</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/InstallingANewHardDrive">Installing A New Hard Drive, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/AutomaticallyMountPartitions#Systemwide_Mounts">Automatically Mount Partitions, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/Fstab">Fstab, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/RenameUSBDrive">Rename USB Drive, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/CronHowto">Cron How to, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <span>Related man pages:</span>
+              <a href="https://manpages.ubuntu.com/manpages/focal/man8/logrotate.8.html">logrotate</a>, <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/modprobe.8.html">modprobe</a>, <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/rmmod.8.html">rmmod</a>
+            </li>
+          </ul>
+            <h3 id="linux-tutorials" class="p-heading--5 u-no-margin">Securing Filesystem Access 33%</h3>
+            <ul class="pad-top">
+            <li>Create and manage SSH keys</li>
+            <li>Configure system-wide and user-specific security settings</li>
+            <li>Configure password complexity and expiry rules</li>
+            <li>Interpret sudo configuration policies and their security implications</li>
+            <li>Manage user and group accounts, access and membership</li>
+            <li>Manage directory and file ownership and access</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/security/user-management/?_gl=1*1pxury7*_gcl_au*MTMyMjU4OTM2LjE3MjcyMTE0MTk.#user-profile-security">User management, Ubuntu server documentation</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/FilePermissions">File Permissions, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/RootSudo">Root Sudo, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/security/openssh-server/?_gl=1*by8way*_gcl_au*MTMyMjU4OTM2LjE3MjcyMTE0MTk.#ssh-keys">SSH keys, Ubuntu server documentation</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">SSH/OpenSSH/Keys, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <span>Related man pages: <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/adduser.8.html">add user</a>, <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/usermod.8.html">usermod</a></span>
+            </li>
+          </ul>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="cue02Desktop-tab"
+             aria-labelledby="cue02Desktop"
+             hidden="hidden">
+          <h2>Using Ubuntu Desktop Resources</h2>
+          <p class="spaced-bottom--smaller">
+            The following resources may assist you with preparing for the Using Ubuntu Desktop exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.
+          </p>
+          <h3 id="desktop-networking" class="p-heading--5 u-no-margin">Configuring Networking Capabilities 25%</h3>
+          <ul class="pad-top">
+            <li>Configure a network connection</li>
+            <li>Characterize and differentiate layer 2 networking principles such as MAC addresses, ARP resolution, and broadcast/multicast behavior</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/networking/configuring-networks/">Configuring networks - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/stable/ubuntu-help/net.html.en">Networking, web &amp; email</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/stable/ubuntu-help/net-macaddress.html.en">What is a MAC address?</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/reference/glossary/#term-ARP">Glossary - Ubuntu Server documentation</a>
+            </li>
+          </ul>
+          <h3 id="desktop-opensource" class="p-heading--5 u-no-margin">Engaging with the Open Source Community 10%</h3>
+          <ul class="pad-top">
+            <li>Recognize LTS concepts such as release cycle and versioning conventions</li>
+            <li>Familiarization with the Ubuntu community and its governance</li>
+            <li>Interpret common open-source licenses to determine usage rights, modification permissions, and distribution requirements <em>[NOTE: This item is currently on Using Linux Terminal but is moving to the Using Desktop exam in the 2026 edition.]</em></li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/about/release-cycle">Ubuntu release cycle</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/community/contribute">Ubuntu Community</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/community/FreeLicenses">FreeLicenses - Community Help Wiki</a>
+            </li>
+          </ul>
+          <h3 id="desktop-installation" class="p-heading--5 u-no-margin">Installing Ubuntu Desktop 10%</h3>
+          <ul class="pad-top">
+            <li>Fix boot issues involving components such as GRUB2 and Initramfs</li>
+            <li>Upgrade Ubuntu LTS releases</li>
+            <li>Create a bootable USB drive for Ubuntu</li>
+            <li>Install proprietary drivers for GPU and Wi-Fi devices</li>
+            <li>Create and manage LVM volumes, filesystems and snapshots</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/software/upgrade-your-release/">How to upgrade your Ubuntu release - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/stable/ubuntu-help/addremove-creator.html.ro">Create a startup disk</a>
+            </li>
+            <li>
+              <a href="https://canonical-ubuntu-desktop-documentation.readthedocs-hosted.com/en/latest/tutorial/install-ubuntu-desktop/">Install Ubuntu Desktop</a>
+            </li>
+            <li>
+              <a href="https://help.ubuntu.com/stable/ubuntu-help/net-wireless-troubleshooting-device-drivers.html.ro">Wireless network troubleshooter</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/graphics/install-nvidia-drivers/">NVIDIA drivers installation - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/storage/about-lvm/">About Logical Volume Management (LVM) - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/storage/manage-logical-volumes/">How to manage logical volumes - Ubuntu Server documentation</a>
+            </li>
+          </ul>
+          <h3 id="desktop-applications" class="p-heading--5 u-no-margin">Managing Applications 28%</h3>
+          <ul class="pad-top">
+            <li>List and upgrade installed packages</li>
+            <li>Distinguish and transition between deb and snap applications</li>
+            <li>Contrast deb packages vs snaps</li>
+            <li>Install packages from multiple sources</li>
+            <li>Find and interpret package descriptions</li>
+            <li>Manage package updates using utilities such as apt-get, unattended upgrades, Synaptic and Aptitude</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://help.ubuntu.com/stable/ubuntu-help/addremove-install.html.en">Install additional applications</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/software/">Managing software - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/tutorial/managing-software/">Managing your software - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/about/release-cycle">About Release Cycles</a>
+            </li>
+            <li>
+              <a href="https://snapcraft.io/blog/a-technical-comparison-between-snaps-and-debs">A technical comparison between snaps and debs | Snapcraft</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/software/package-management/">Install and manage packages - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/tutorial/managing-software/">Managing your software - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://snapcraft.io/docs">Snap documentation</a>
+            </li>
+          </ul>
+          <h3 id="desktop-security" class="p-heading--5 u-no-margin">Securing Desktop Systems 22%</h3>
+          <ul class="pad-top">
+            <li>Describe and contrast PKI components, their roles and use-cases involving Desktop systems</li>
+            <li>Connect to an Active Directory realm</li>
+            <li>Assign permissions to directories using ACL attributes</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/active-directory/">Active Directory integration - Ubuntu Server documentation</a>
+            </li>
+          </ul>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="cue03Server-tab"
+             aria-labelledby="cue03Server"
+             hidden="hidden">
+          <h2>Using Ubuntu Server Resources</h2>
+          <p class="spaced-bottom--smaller">
+            The following resources may assist you with preparing for the Using Ubuntu Server exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.
+          </p>
+          <h3 id="server-configuration" class="p-heading--5 u-no-margin">Configuring Servers and Services 23%</h3>
+          <ul class="pad-top">
+            <li>Control server services via systemd</li>
+            <li>Configure automated remote backups and restore using systemd timers or cron</li>
+            <li>Setup a fileserver using NFS or Samba protocols</li>
+            <li>Setup a basic web application using Apache or Nginx with a database such as MySQL, PostgreSQL or MongoDB.</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/software/changing-package-files/">Changing package files - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/reference/backups/archive-rotation-shell-script/">Archive rotation shell script - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/samba/">Samba - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/networking/install-nfs/">Network File System (NFS) - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/web-services/">Web services - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/databases/install-mysql/">Install and configure a MySQL server - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <span>Related man pages:</span> <a href="https://manpages.ubuntu.com/cgi-bin/search.py?q=systemd">systemd</a>
+            </li>
+          </ul>
+          <h3 id="server-deployment" class="p-heading--5 u-no-margin">Deploying Ubuntu Server 27%</h3>
+          <ul class="pad-top">
+            <li>Install Ubuntu Server using various deployment technologies such as PXE boot, autoinstall and cloud-init</li>
+            <li>Validate that a system is capable of meeting use case needs based on a list of deployment requirements.</li>
+            <li>Boot into single user mode</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/installation/netboot-the-server-installer-via-uefi-pxe-on-arm-aarch64-arm64-and-x86-64-amd64/">Netboot the server installer via UEFI PXE on ARM (aarch64, arm64) and x86_64 (amd64) - Ubuntu Server documentation</a>
+            </li>
+          </ul>
+          <h3 id="server-access" class="p-heading--5 u-no-margin">Securing Server Access 24%</h3>
+          <ul class="pad-top">
+            <li>Configure remote SSH access</li>
+            <li>Contrast employment of regular and system users</li>
+            <li>Install and configure a firewall using iptables or ufw</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/security/openssh-server/">OpenSSH server - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/security/firewalls/">Firewall - Ubuntu Server documentation</a>
+            </li>
+          </ul>
+          <h3 id="server-processes" class="p-heading--5 u-no-margin">Managing Processes 26%</h3>
+          <ul class="pad-top">
+            <li>Identify and manage system processes and services</li>
+            <li>Identify and list running, disabled, and inactive systemd units</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <span>Related man pages:</span> <a href="https://manpages.ubuntu.com/manpages/noble/en/man5/systemd.timer.5.html">systemd.timer (5)</a>
+            </li>
+          </ul>
+          <h3 id="server-additional" class="p-heading--5 u-no-margin">Additional Documentation</h3>
+          <p>
+            The <a href="https://ubuntu.com/server/docs">Server documentation</a> covers a wide array of relevant topics. They are worth reading in their entirety, but the following sections may prove especially useful:
+          </p>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/server/docs/installation">Basic install</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/install/autoinstall">Automated install</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/cloud-images/introduction">Cloud images</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/rock-images/introduction">Software containers</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/network-introduction">Networking</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/device-mapper-multipathing-introduction">Networked storage</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/security-introduction">Security</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/virtualization-introduction">Virtualisation</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/ubuntu-ha-introduction">High availability</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/logging-monitoring-alerting">Monitoring</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/databases-introduction">Databases</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/backups-introduction">Backups</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/mail-introduction">Mail servers</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/web-servers-introduction">Web servers</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    const setupTabs = () => {
+      var keys = {
+        left: 'ArrowLeft',
+        right: 'ArrowRight',
+      };
+
+      var direction = {
+        ArrowLeft: -1,
+        ArrowRight: 1,
+      };
+
+      /**
+        Attaches a number of events that each trigger
+        the reveal of the chosen tab content
+        @param {Array} tabs an array of tabs within a container
+      */
+      function attachEvents(tabs) {
+        tabs.forEach(function(tab, index) {
+          tab.addEventListener('keyup', function(e) {
+            if (e.code === keys.left || e.code === keys.right) {
+              switchTabOnArrowPress(e, tabs);
+            }
+          });
+
+          tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            setActiveTab(tab, tabs);
+          });
+
+          tab.addEventListener('focus', function() {
+            setActiveTab(tab, tabs);
+          });
+
+          tab.index = index;
+        });
+      }
+
+      /**
+        Determine which tab to show when an arrow key is pressed
+        @param {KeyboardEvent} event
+        @param {Array} tabs an array of tabs within a container
+      */
+      function switchTabOnArrowPress(event, tabs) {
+        var pressed = event.code;
+
+        if (direction[pressed]) {
+          var target = event.target;
+          if (target.index !== undefined) {
+            if (tabs[target.index + direction[pressed]]) {
+              tabs[target.index + direction[pressed]].focus();
+            } else if (pressed === keys.left) {
+              tabs[tabs.length - 1].focus();
+            } else if (pressed === keys.right) {
+              tabs[0].focus();
+            }
+          }
+        }
+      }
+
+      /**
+        Cycles through an array of tab elements and ensures
+        only the target tab and its content are selected
+        @param {HTMLElement} tab the tab whose content will be shown
+        @param {Array} tabs an array of tabs within a container
+      */
+      function setActiveTab(tab, tabs) {
+        tabs.forEach(function(tabElement) {
+          var tabContent = document.getElementById(tabElement.getAttribute('aria-controls'));
+
+          if (tabElement === tab) {
+            tabElement.setAttribute('aria-selected', true);
+            tabContent.removeAttribute('hidden');
+          } else {
+            tabElement.setAttribute('aria-selected', false);
+            tabContent.setAttribute('hidden', true);
+          }
+        });
+      }
+
+      /**
+        Attaches events to tab links within a given parent element,
+        and sets the active tab if the current hash matches the id
+        of an element controlled by a tab link
+        @param {String} selector class name of the element
+        containing the tabs we want to attach events to
+      */
+      function initTabs(selector) {
+        var tabContainers = [].slice.call(document.querySelectorAll(selector));
+
+        tabContainers.forEach(function(tabContainer) {
+          var tabs = [].slice.call(tabContainer.querySelectorAll('[aria-controls]'));
+          attachEvents(tabs);
+        });
+      }
+
+      initTabs('[role="tablist"]');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupTabs();
+    });
+  </script>
+{% endblock %}

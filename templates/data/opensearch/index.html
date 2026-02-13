@@ -34,18 +34,18 @@
       </div>
       <div class="col-9 col-medium-4">
         <div class="p-section--shallow">
-          <h1>OpenSearch for the enterprise</h1>
+          <h1 id="opensearch-hero">OpenSearch for the enterprise</h1>
           <p>
             Secure and automate the deployment, maintenance and upgrades of your search and analytics suite across private
             and public clouds.
           </p>
         </div>
         <hr class="p-rule--muted" />
-        <a class="p-button--positive"
+        <a class="p-button--positive js-invoke-modal"
            href="/contact-us"
            aria-controls="data-opensearch-modal">Contact us<span class="u-off-screen">about OpenSearch for the enterprise</span></a>
         <a class="p-button"
-           href="https://assets.ubuntu.com/v1/6dc3440a-Charmed%20OpenSearch%20-%20Datasheet%20-%20amended%2004%2006%202024.pdf"><span class="u-off-screen">Download the Charmed OpenSearch</span>Datasheet</a>
+           href="https://pages.ubuntu.com/rs/066-EOV-335/images/Charmed%20OpenSearch%20-%20Datasheet.pdf?version=0"><span class="u-off-screen">Download the Charmed OpenSearch</span>Datasheet</a>
       </div>
     </div>
   </section>
@@ -220,7 +220,7 @@
         </p>
         <hr class="p-rule--muted" />
         <p>
-          <a class="p-button--positive"
+          <a class="p-button--positive js-invoke-modal"
              href="/contact-us"
              aria-controls="data-opensearch-modal">Contact Us</a>
         </p>
@@ -359,7 +359,9 @@
               <li class="p-list__item is-ticked">Low cost of ownership</li>
             </ul>
             <p>
-              <a href="/data/opensearch/managed" aria-controls="data-opensearch-modal">Explore Managed OpenSearch
+              <a class="js-invoke-modal"
+                 href="/data/opensearch/managed"
+                 aria-controls="data-opensearch-modal">Explore Managed OpenSearch
               Solutions&nbsp;&rsaquo;</a>
             </p>
           </div>
@@ -484,6 +486,15 @@
       <div class="col">
         <div class="p-section--shallow">
           <h3 class="p-heading--5 u-no-margin--bottom">
+            <a href="https://ubuntu.com/engage/opensearch-intel-performance">Vector search performance of Charmed OpenSearch: the benefits of Intel® AVX-512</a>
+          </h3>
+          <p>
+            Explore this benchmark to learn how hardware acceleration impacts the performance of vector operations within Charmed OpenSearch running on Intel® Xeon® processors with AVX-512 vector acceleration support.
+          </p>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <h3 class="p-heading--5 u-no-margin--bottom">
             <a href="/blog/vector-database-large-language-models-opensearch">Large Language Models (LLMs) Retrieval
             Augmented Generation (RAG) using Charmed OpenSearch</a>
           </h3>
@@ -504,7 +515,9 @@
         <hr class="p-rule--muted" />
         <div class="p-section--shallow">
           <h3 class="p-heading--5 u-no-margin--bottom">
-            <a href="/contact-us" aria-controls="data-opensearch-modal">Discuss your needs with our team</a>
+            <a href="/contact-us"
+               class="js-invoke-modal"
+               aria-controls="data-opensearch-modal">Discuss your needs with our team</a>
           </h3>
           <p>Contact an expert to find out how you can benefit from Canonical’s solution for OpenSearch.</p>
         </div>
@@ -523,12 +536,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/opensearch#success" %}
-
-    {% include "data/_form-data-opensearch.html" %}
-  {% endwith %}
+  {{ load_form("/data/opensearch") | safe }}
 
 {% endblock %}

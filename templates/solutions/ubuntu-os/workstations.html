@@ -1,0 +1,441 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+
+{% block title %}Performance and compliance for enterprise workstations with Ubuntu{% endblock %}
+
+{% block description %}
+  Choose a workstation Linux OS that unlocks the full performance of your hardware and your teams. Discover Ubuntu as a proven OS for enterprise workstations.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/17Tm1WIGjSieQDvvBdXShJ5AkMkXGVcNciUnDLUScq3Y/edit?tab=t.0
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% set breadcrumbs = [{"name": "Ubuntu OS", "href": "/solutions/ubuntu-os"}, {"name": "Linux Workstations"}] %}
+  {% include '/partial/_breadcrumbs.html' %}
+
+  {%- call(slot) vf_hero(
+    title_text="Enterprise workstations that go further",
+    layout="50/50-full-width-image",
+    is_split_on_medium="true") -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Make your enterprise workstations the pathway to trusted open source. Choose Ubuntu for your enterprise workstations and empower both developers and hardware to achieve peak performance. Benefit from official Ubuntu certification for over 150 laptops and desktops.
+      </p>
+      <p>
+        Give developers access to an ecosystem that puts the latest tooling at their fingertips, backed by enterprise-grade security maintenance from Canonical, the publisher of Ubuntu.
+      </p>
+    {% endif %}
+    {% if slot == "image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/122b651a-hero.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+    {% if slot == "cta" %}
+      <a href="/contact-us"
+         aria-controls="ubuntu-os-modal"
+         class="p-button--positive js-invoke-modal">Contact us</a>
+    {% endif %}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="row">
+
+        <hr class="p-rule" />
+        <h2>
+          Linux workstations
+          <br class="u-hide--medium u-hide--small" />
+          for enterprise-grade deployments
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <div class="p-equal-height-row">
+          <div class="p-equal-height-row__col">
+            <div class="p-equal-height-row__item u-hide--small">
+              <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/30b00d6d-no1-amongst-linux-devs.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy") | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight" />
+            </div>
+
+            <div class="p-equal-height-row__item">
+              <h3 class="p-heading--5">#1 amongst Linux developers</h3>
+              <p>
+                A good developer experience boosts productivity. Choose the OS that developers value for its stability, robustness and consistent experience.  Pioneer intensive use cases such as AI, graphics and virtual reality with a software ecosystem that comes with the latest open source tooling.
+              </p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <hr class="p-rule--muted" />
+              <a href="/solutions/ubuntu-os">Learn about Ubuntu&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+
+          <div class="p-equal-height-row__col">
+            <div class="p-equal-height-row__item u-hide--small">
+              <div class="p-image-container is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/de8be218-manageable.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy") | safe
+                }}
+
+              </div>
+              <hr class="p-rule--highlight" />
+            </div>
+
+            <div class="p-equal-height-row__item">
+              <h3 class="p-heading--5">Manageable. Mature. Compliant.</h3>
+              <p>
+                Benefit from enterprise-grade tools for identity management, device management, and hardening. Enforce compliance policies and apply updates at scale across your estate.
+              </p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <hr class="p-rule--muted" />
+              <a href="https://documentation.ubuntu.com/authd/en/latest/">Learn more about integration with cloud identity providers&nbsp;&rsaquo;</a>
+              <p>
+                <hr class="p-rule--muted" />
+                <a href="https://ubuntu.com/landscape">Learn about device management with Landscape&nbsp;&rsaquo;</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="p-equal-height-row__col">
+            <div class="p-equal-height-row__item u-hide--small">
+              <div class="p-image-container is-highlighted">
+
+                {{ image(url="https://assets.ubuntu.com/v1/7012bb43-security-for-all.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy") | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight" />
+            </div>
+
+            <div class="p-equal-height-row__item">
+              <h3 class="p-heading--5">Security for all your open source</h3>
+              <p>
+                Make your workstations the gateway to trusted open source. With an <a href="https://www.ubuntu.com/pro">Ubuntu Pro</a> subscription, you don’t just get access to device management and hardening tools. You get reliable security maintenance for over 36,000 open source packages, including commonly-used libraries and toolchains like Go, PHP, Python and more.
+              </p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <hr class="p-rule--muted" />
+              <a href="/contact-us"
+                 aria-controls="ubuntu-os-modal"
+                 class="js-invoke-modal">Talk to us about enterprise workstations&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+    </div>
+    <div class="row--50-50">
+      <div class="col">
+        <h2>
+          Your hardware.
+          <br class="u-hide--medium u-hide--small" />
+          Certified for Ubuntu.
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+
+          <div class="p-image-container">
+
+            {{ image(url="https://assets.ubuntu.com/v1/38cb2e2a-your-hardware.jpg",
+                        alt="",
+                        width="1200",
+                        height="801",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p>
+          Through our hardware certification program, we work directly with vendors such as Dell, HP and Lenovo to test and tailor Ubuntu for their hardware.
+        </p>
+        <p>
+          Trust what you’re building and deploying, with the peace of mind that your workstation’s Linux distribution will bring out the best in your hardware.
+        </p>
+        <hr class="p-rule--muted" />
+        <p>
+          <a href="https://ubuntu.com/certified">Learn more about hardware certification&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="p-section--shallow">
+        <h2 class="p-muted-heading">Our hardware partners</h2>
+      </div>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/33b6d43d-dell-logo.png",
+                        alt="Dell",
+                        width="46",
+                        height="100",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/12ec348d-lenovo-logo.png",
+                        alt="Lenovo",
+                        width="83",
+                        height="100",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e8eb08d1-hp-logo.png",
+                        alt="HP",
+                        width="43",
+                        height="100",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/cfb458ac-intel-new-logo.png",
+                        alt="Intel",
+                        width="52",
+                        height="100",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/0827bc33-dfi-logo.png",
+                        alt="DFI",
+                        width="38",
+                        height="100",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Complex use cases. Straightforward workstation virtualization.</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Get the full Ubuntu experience in a virtualized workstation environment. Benefit from the high-performance, stability and mature ecosystem your developers expect, regardless of the host OS.
+      </p>
+      <p>All backed by the same patching and maintenance commitment you would receive when running Ubuntu natively.</p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Windows Subsystem for Linux (WSL)</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Access a fully-fledged Ubuntu terminal in your Windows environments.  Run Linux command-line tools and apps alongside your Windows command-line. Harness tools for AI/ML and develop on a cross-platform basis. All without leaving Windows.
+      </p>
+      <hr class="p-rule--muted" />
+      <p>
+        <a href="https://ubuntu.com/desktop/wsl">Get Ubuntu for WSL&nbsp;&rsaquo;</a>
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Virtual desktop infrastructure on AWS</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Ubuntu is a first-class citizen on <a href="https://ubuntu.com/aws/workspaces">Amazon Workspaces</a>. Benefit from rapid deployment by spinning up virtualized environments. Choose sandboxing and innovate securely and run applications that may interfere with the rest of the system.
+      </p>
+      <hr class="p-rule--muted" />
+      <p>
+        <a href="https://ubuntu.com/aws/workspaces">Learn more about Ubuntu WorkSpaces&nbsp;&rsaquo;</a>
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Multipass</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Instant Ubuntu VMs, available via a single command. Multipass is a tool developed by Canonical to allow you to create and manage virtual Ubuntu instances on your local workstation. It simulates a cloud environment and allows you to launch instances of Ubuntu in the same way that you would on AWS, Azure, Google, IBM and Oracle.
+      </p>
+      <hr class="p-rule--muted" />
+      <p>
+        <a href="/multipass">Discover Multipass&nbsp;&rsaquo;</a>
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/4964cb81-servers.jpg",
+            alt="",
+            width="2464",
+            height="1028",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    title_text="What customers say",
+    quote_text="Ubuntu has been a game-changer for us, offering a user-friendly platform that balances stability and flexibility for our platform, which is running critical services and solutions. Its robust community support and extensive documentation have streamlined my workflows as a network operations manager, enabling me to focus on my projects and deliver the best solution for clients needs with stability of existing running services. At a personal level, Ubuntu has not only met my needs but has also inspired me to explore new possibilities in open-source developments.",
+    citation_source_name_text="Khalid Malik",
+    citation_source_title_text="Head of Network Operations",
+    citation_source_organisation_text="EVAMP SAANGA",
+    quote_size="small",
+    is_shallow=True)
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_quote_wrapper(
+    quote_text="We are satisfied with Ubuntu Pro and the support we are receiving. The Canonical team provides very clear and detailed information. Landscape is also very helpful to manage our fleet.",
+    citation_source_name_text="Roffet Fabien",
+    citation_source_title_text="Infrastructure and System Admin",
+    citation_source_organisation_text="Honeywell International",
+    quote_size="small")
+    -%}
+  {%- endcall -%}
+
+  <section class="p-strip u-no-padding--top">
+    <div class="row">
+      <div class="col-medium-3 col-3">
+        <h3 class="p-muted-heading">
+          Ubuntu workstations
+          <br class="u-hide--medium u-hide--small" />
+          by the numbers
+        </h3>
+      </div>
+      <div class="col-medium-6 col-9">
+        <hr class="p-rule u-hide--large u-hide--small u-no-margin--bottom" />
+        <div class="row">
+          <div class="col-medium-2 col-3">
+            <hr class="p-rule--highlight" />
+            <h4 class="p-heading--2">
+              <strong>Over 1,500</strong>
+            </h4>
+            <p>That’s how many desktops and laptops are Ubuntu certified.</p>
+          </div>
+          <div class="col-medium-2 col-3">
+            <hr class="p-rule--highlight" />
+            <h4 class="p-heading--2">
+              <strong>Up to 12</strong>
+            </h4>
+            <p>years of security  maintenance for your team’s favorite toolchains with Ubuntu Pro.</p>
+          </div>
+          <div class="col-medium-2 col-3">
+            <hr class="p-rule--highlight" />
+            <h4 class="p-heading--2">
+              <strong>46%</strong>
+            </h4>
+            <p>
+              of organizations already use Ubuntu
+              according to the <a href="https://www.openlogic.com/resources/state-of-open-source-report">State of Open Source Report, 2024</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+    </div>
+    <div class="row--50-50">
+      <div class="col">
+        <h2>
+          Dive into Ubuntu’s
+          <br class="u-hide--medium u-hide--small" />
+          workstation capabilities
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <p>
+            <a href="https://ubuntu.com/blog/what-to-know-when-procuring-linux-laptops">Blog: What to know when procuring Linux Laptops</a>
+          </p>
+          <p>Learn how you can harness Linux and set up innovative, compliant and supported workstations.</p>
+        </div>
+        <div class="p-section--shallow">
+          <hr class="p-rule--muted" />
+          <p>
+            <a href="https://certification.canonical.com/docs/programmes">Discover how we certify hardware</a>
+          </p>
+          <p>
+            An Ubuntu hardware certification represents Canonical’s commitment to bringing the best out of a piece of hardware. Discover how we ensure that Ubuntu delivers long-life and high performance across a range of hardware.
+          </p>
+        </div>
+        <div class="p-section--shallow">
+          <hr class="p-rule--muted" />
+          <p>
+            <a href="https://ubuntu.com/desktop/wsl">Learn about Ubuntu on WSL</a>
+          </p>
+          <p>Discover how you can access the power of a full Ubuntu terminal when using Windows hardware.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="u-fixed-width">
+    <hr class="p-rule" />
+  </div>
+  <section class="p-strip is-deep">
+    <div class="u-fixed-width">
+      <p class="p-heading--2">
+        <a href="/contact-us"
+           aria-controls="ubuntu-os-modal"
+           class="js-invoke-modal">Talk to us about using Ubuntu as your workstation Linux&nbsp;&rsaquo;</a>
+      </p>
+    </div>
+  </section>
+
+  {{ load_form("/solutions/ubuntu-os/workstations", 1253) | safe }}
+
+{% endblock %}

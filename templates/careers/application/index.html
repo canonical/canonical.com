@@ -55,7 +55,7 @@
         {% if debug_skip_sending %}
           <!--
             We want to make it very clear when sending has been skipped, so we don't accidentally
-            end up skipping sending the email in production in a silent way that nobody notices. 
+            end up skipping sending the email in production in a silent way that nobody notices.
           -->
 
           <div class="u-fixed-width">
@@ -110,7 +110,7 @@
           <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
           <ul class="p-inline-list--middot u-no-margin--bottom">
             {% for app in application["candidate"]["applications"] %}
-              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 %}
+              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 and app["jobs"][0]["id"] != second_look_req_id %}
                 <li class="p-inline-list__item">
                   <a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a>
                 </li>
@@ -182,7 +182,7 @@
           </div>
           <div class="col-6 u-embedded-media">
             <iframe class="u-embedded-media__element"
-                    src="https://youtube.com/embed/ik8AXTjUbS4"
+                    src="https://www.youtube.com/embed/mOFgDpjRiO8"
                     width="560"
                     height="315"
                     frameborder="0"
@@ -198,7 +198,7 @@
         <h2 class="p-text--x-small-capitalised">Your application process</h2>
         {% if "stage_progress" in application and application["stage_progress"]["early_stage"] %}
           <p>
-            <a href="#ceo-video">Listen to how we hire at Canonical</a>
+            <a target="_blank" href="/careers/hiring-process">Read about our hiring process</a>
           </p>
         {% endif %}
       </div>
@@ -230,7 +230,7 @@
           </div>
           <div class="col-6 u-embedded-media u-no-margin--bottom">
             <iframe class="u-embedded-media__element"
-                    src="https://youtube.com/embed/ik8AXTjUbS4"
+                    src="https://www.youtube.com/embed/mOFgDpjRiO8"
                     width="560"
                     height="315"
                     frameborder="0"
@@ -285,7 +285,7 @@
               <p>
                 The email you entered does not match the email used to apply to this role. Please try again using the email you used in the application.
               </p>
-              <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
+              <button id="showModal" aria-controls="withdrawal-modal" class="js-invoke-modal">Withdraw application</button>
             </div>
           </div>
           {% include "careers/application/_withdrawal-form.html" %}
@@ -300,7 +300,7 @@
             </div>
             <div class="col-6">
               <p>You will be asked for confirmation in the next steps.</p>
-              <button id="showModal" aria-controls="withdrawal-modal">Withdraw application</button>
+              <button id="showModal" aria-controls="withdrawal-modal" class="js-invoke-modal">Withdraw application</button>
             </div>
           </div>
           {% include "careers/application/_withdrawal-form.html" %}
@@ -324,7 +324,7 @@
         <p>
           Thank you for the time you have spent on this application.
           <br />
-          Check out <a href="https://canonical.com/careers">our career page</a> to find other roles that match your skills.
+          Check out <a href="/careers">our career page</a> to find other roles that match your skills.
         </p>
       </div>
     </section>

@@ -1,83 +1,13 @@
 {% extends 'base_index.html' %}
 
-{% block meta_copydoc %}https://docs.google.com/document/d/1gIqyGENG6YQm0OH7WIS893stAzWZukfCtFD05bHr4pY/edit{% endblock %}
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1gIqyGENG6YQm0OH7WIS893stAzWZukfCtFD05bHr4pY/edit
+{% endblock %}
 
 {% block title %}Contact us{% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
-{% block content %}
-
-<section class="p-strip is-shallow u-no-padding--bottom">
-  <div class="p-section--deep">
-    <div class="row">
-      <div class="col-start-large-4 col-9">
-        <h1>Contact us</h1>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--25-75 is-split-on-medium">
-    <hr class="p-rule" />
-    <div class="col">
-      <h2 class="p-text--small-caps">Submit a question</h2>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-6">
-          <form action="https://ubuntu.com/marketo/submit" method="post" id="mktoForm_4271">
-            <p>Tell us about your MicroCloud use case</p>
-            <ul class="p-list">
-              <li class="p-list__item">
-                <textarea id="Comments_from_lead__c" name="Comments_from_lead__c" rows="4" maxlength="2000"></textarea>
-              </li>
-              <li class="p-list__item">
-                <label for="firstName" class="is-required">First name</label>
-                <input class="p-form-validation__input" required="" id="firstName" name="firstName" maxlength="255" type="text" />
-              </li>
-              <li class="p-list__item">
-                <label for="lastName" class="is-required">Last name</label>
-                <input class="p-form-validation__input" required="" id="lastName" name="lastName" maxlength="255" type="text" />
-              </li>
-              <li class="p-list__item">
-                <label for="email" class="is-required">Email</label>
-                <input class="p-form-validation__input" required="" id="email" name="email" maxlength="255" type="email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
-              </li>
-              <li class="p-list__item">
-                <label for="phone" class="is-required">Phone number</label>
-                <input class="p-form-validation__input" required="" id="phone" name="phone" maxlength="255" type="tel" pattern="[0-9\s]+" />
-              </li>
-              <li class="p-list__item">
-                <label class="p-checkbox">
-                  <input type="checkbox" aria-labelledby="canonicalUpdatesOptIn" class="p-checkbox__input" value="yes" />
-                  <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
-                </label>
-              </li>
-            </ul>
-            <p>By submitting this form, I confirm that I have read and agree to Canonical's <a href="https://ubuntu.com/legal/data-privacy" target="_blank">Privacy Policy</a>.</p>
-
-            <hr class="p-rule--muted" />
-            <button type="submit" class="p-button--positive js-submit-button" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Form', 'eventAction' : 'cloud contact-us', 'eventLabel' : '{{ product }}', 'eventValue' : undefined });">Submit form</button>
-
-            <!-- hidden fields -->
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="formid" value="4271" />
-            <!-- This return URL link is temporary, will be updated once demo is approved -->
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="returnURL" value="https://canonical.com/microcloud/thank-you" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="Consent_to_Processing__c" value="yes" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="acquisition_url" id="acquisition_url" value="{{ request.url }}" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_campaign" id="utm_campaign" value="" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_medium" id="utm_medium" value="" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_source" id="utm_source" value="" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_content" id="utm_content" value="" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" name="utm_term" id="utm_term" value="" />
-            <input type="hidden" aria-hidden="true" aria-label="hidden field" id="preferredLanguage" name="preferredLanguage" maxlength="255" value="" />
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% endblock %}
+{% block content %}{{ load_form("/microcloud/contact-us", isModal=false) | safe }}{% endblock %}

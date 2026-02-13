@@ -32,13 +32,18 @@
         <p>
           <a href="/contact-us"
              aria-controls="ai-modal"
-             class="p-button--positive">Contact us</a>
+             class="p-button--positive js-invoke-modal">Contact us</a>
         </p>
       </div>
       <div class="p-image-container--cinematic is-highlighted u-hide--small">
-        <img src="https://assets.ubuntu.com/v1/978f89d8-Artboard%20145.png"
-             alt=""
-             class="p-image-container__image" />
+        {{ image(url="https://assets.ubuntu.com/v1/978f89d8-Artboard%20145.png",
+                alt="",
+                width="1921",
+                height="1081",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image", "fetchpriority": "high"}) | safe
+        }}
       </div>
     </div>
   </section>
@@ -196,12 +201,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai#contact-form-success" %}
-
-    {% include "solutions/ai/_form-ai.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ai/genai") | safe }}
 
 {% endblock %}

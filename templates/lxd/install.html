@@ -29,7 +29,7 @@
           </p>
           <p>Looking for help running LXD?</p>
           <p>
-            <a class="p-button--positive"
+            <a class="p-button--positive js-invoke-modal"
                href="/contact-us"
                aria-controls="lxd-install-modal">Get in touch</a>
           </p>
@@ -102,9 +102,9 @@
               <p>Command:</p>
               <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}}</pre>
               <p>Example:</p>
-              <pre>lxc launch ubuntu:22.04 ubuntu-container</pre>
+              <pre>lxc launch ubuntu:24.04 ubuntu-container</pre>
               <p>
-                Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
+                Check the <a href="https://images.lxd.canonical.com/">image server</a> for other Linux distributions.
               </p>
             </div>
             <div tabindex="0"
@@ -115,7 +115,7 @@
               <p>Command:</p>
               <pre>lxc launch {{"<image_server>:<image_name> <instance_name>"}} --vm</pre>
               <p>Example:</p>
-              <pre>lxc launch ubuntu:22.04 ubuntu-container --vm</pre>
+              <pre>lxc launch ubuntu:24.04 ubuntu-container --vm</pre>
               <p>
                 Check the <a href="https://images.linuxcontainers.org/">community image server</a> for other Linux distributions.
               </p>
@@ -183,7 +183,7 @@
   <section class="p-section">
     <div class="p-section--shallow u-fixed-width">
       <hr class="p-rule" />
-      <h2>Familiarise yourself with&nbsp;the&nbsp;basics</h2>
+      <h2>Familiarize yourself with&nbsp;the&nbsp;basics</h2>
     </div>
     <div class="row--25-75">
       <div class="col">
@@ -240,7 +240,9 @@
     <div class="row">
       <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
         <h2>
-          <a href="/contact-us" aria-controls="lxd-install-modal">Talk to our LXD experts&nbsp;&rsaquo;</a>
+          <a href="/contact-us"
+             class="js-invoke-modal"
+             aria-controls="lxd-install-modal">Talk to our LXD experts&nbsp;&rsaquo;</a>
         </h2>
       </div>
     </div>
@@ -249,9 +251,6 @@
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
   <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/lxd/install#success" %}
-    {% include "lxd/_form-lxd-install.html" %}
-  {% endwith %}
+  {{ load_form("/lxd") | safe }}
 
 {% endblock %}

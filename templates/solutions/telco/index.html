@@ -27,17 +27,18 @@
         </p>
         <p>Get enterprise-grade security and support to innovate with confidence.</p>
         <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="/contact-us" aria-controls="solutions-telco-modal">Contact us</a>
+        <a class="p-button--positive js-invoke-modal"
+           href="/contact-us"
+           aria-controls="solutions-telco-modal">Contact us</a>
       </div>
     </div>
     <div class="u-fixed-width u-align--center">
       {{ image(url="https://assets.ubuntu.com/v1/d3517134-Asset%205@2x.png",
-              alt="",
-              width="500",
-              height="376",
-              hi_def=True,
-              loading="auto") | safe
+            alt="",
+            width="500",
+            height="376",
+            hi_def=True,
+            loading="auto") | safe
       }}
     </div>
   </section>
@@ -185,7 +186,7 @@
                         width="73",
                         height="170",
                         hi_def=True,
-                        loading="auto|lazy") | safe
+                        loading="lazy") | safe
             }}
           </div>
           <div class="p-section--shallow col-6 col-medium-4">
@@ -217,7 +218,7 @@
                         width="117",
                         height="140",
                         hi_def=True,
-                        loading="auto|lazy") | safe
+                        loading="lazy") | safe
             }}
           </div>
           <div class="p-section--shallow col-6 col-medium-4">
@@ -253,7 +254,7 @@
                         width="125",
                         height="140",
                         hi_def=True,
-                        loading="auto|lazy") | safe
+                        loading="lazy") | safe
             }}
           </div>
           <div class="p-section--shallow col-6 col-medium-4">
@@ -406,7 +407,7 @@
               </li>
             </ul>
             <form class="u-hide--large u-hide--medium">
-              <select name="boardSelect" id="boardSelect">
+              <select name="tabSelect" data-tablist="automate-operations">
                 <option value="bare-metal-tab" selected="">Bare metal provisioning with MAAS</option>
                 <option value="kernel-patching-tab">Kernel patching with Livepatch</option>
                 <option value="machine-admin-tab">Machine administration</option>
@@ -414,7 +415,7 @@
               </select>
             </form>
           </div>
-          <div class="col-6 col-medium-3">
+          <div class="col-6 col-medium-3" data-tablist="automate-operations">
             {% include "solutions/telco/tabs/_telco-bare-metal-tab.html" %}
             {% include "solutions/telco/tabs/_telco-kernel-patching-tab.html" %}
             {% include "solutions/telco/tabs/_telco-machine-admin-tab.html" %}
@@ -468,13 +469,13 @@
               </li>
             </ul>
             <form class="u-hide--large u-hide--medium">
-              <select name="boardSelect" id="boardSelect">
+              <select name="tabSelect" data-tablist="cloud-benefits">
                 <option value="self-healing-infra-tab">Self-healing infrastructure</option>
                 <option value="highest-level-compliance-tab">Highest level of compliance</option>
               </select>
             </form>
           </div>
-          <div class="col-6 col-medium-3">
+          <div class="col-6 col-medium-3" data-tablist="cloud-benefits">
             {% include "solutions/telco/tabs/_telco-self-healing-infra-tab.html" %}
             {% include "solutions/telco/tabs/_telco-highest-level-compliance-tab.html" %}
             <div class="p-strip js-tab-buttons is-shallow u-no-padding--bottom u-align--right u-hide--small"
@@ -581,6 +582,9 @@
           <div class="col-6 col-medium-3">
             <ul class="p-list--divided">
               <li class="p-list__item">
+                <a href="/blog/12-year-lts-for-kubernetes">12 year long-term support for Canonical Kubernetes</a>
+              </li>
+              <li class="p-list__item">
                 <a href="https://ubuntu.com/engage/telco-cloud-implementation">How to build carrier-grade infrastructure using enterprise open source solutions</a>
               </li>
               <li class="p-list__item">
@@ -588,6 +592,12 @@
               </li>
               <li class="p-list__item">
                 <a href="https://ubuntu.com/blog/telecom-security-how-to-safeguard-your-open-source-telco-infrastructure">Safeguarding your telco infrastructure with Ubuntu Pro</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/blog/omdia-report-5g-edge-computing">How enterprises are responding to the growing demand for 5G edge computing</a>
+              </li>
+              <li class="p-list__item">
+                <a href="/blog/bt-group-and-canonical-deliver-5g-to-uk-stadiums">BT Group and Canonical deliver 5G to UK stadiums</a>
               </li>
             </ul>
           </div>
@@ -599,6 +609,9 @@
           </div>
           <div class="col-6 col-medium-3">
             <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/kubernetes-for-telco-performance">Unlock the full potential of Kubernetes for telco performance</a>
+              </li>
               <li class="p-list__item">
                 <a href="https://ubuntu.com/engage/bare-metal-kubernetes">How to run workloads on bare metal Kubernetes with MAAS</a>
               </li>
@@ -631,16 +644,17 @@
               Canonical provides a full stack for your telecom infrastructure. To learn more about our telco solutions, get in touch.
             </p>
             <hr class="p-rule--muted" />
-            <a class="p-button" href="/contact-us" aria-controls="solutions-telco-modal">Contact us</a>
+            <a class="p-button js-invoke-modal"
+               href="/contact-us"
+               aria-controls="solutions-telco-modal">Contact us</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form('/solutions/telco') | safe }}
 
-  {% include "/shared/forms/form-template.html" %}
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
 
 {% endblock %}

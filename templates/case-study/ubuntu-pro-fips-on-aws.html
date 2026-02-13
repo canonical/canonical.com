@@ -1,0 +1,170 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-cta.jinja" import cta %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% block title %}Effortless FedRAMP compliance with Ubuntu Pro FIPS on AWS{% endblock %}
+
+{% block meta_description %}
+  Learn how this data analytics company took the complexity out of FedRAMP compliance with Ubuntu Pro FIPS on AWS.
+{% endblock %}
+
+{% block meta_company_name %}Effortless FedRAMP compliance with Ubuntu Pro FIPS on AWS{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1sb8dJaSnZVpZO-TuGT0vEx37970XEMcZRzrOPm1C8Fk/edit?tab=t.0
+{% endblock %}
+
+{% block meta_discourse_url %}
+  hhttps://discourse.ubuntu.com/t/case-study-effortless-fedramp-compliance-with-ubuntu-pro-fips-on-aws/65282
+{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Data analytics company unlocks effortless FedRAMP compliance with Ubuntu Pro FIPS on AWS",
+    is_split_on_medium="true") -%}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About the customer") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      A US data science and analytics company dedicated to helping organizations make data-driven decisions
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Supports customers across industries, including numerous Fortune 500 companies, government, and nonprofit organizations
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Delivers a platform for unifying diverse data sources and unlocking actionable insights
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == "highlights_item_content_1" -%}
+      The company chose Ubuntu Pro FIPS on AWS to achieve FedRAMP compliance
+    {%- endif -%}
+    {%- if slot == "highlights_item_content_2" -%}
+      Out-of-the-box FIPS 140 certified packages save the data science consultancy from having to commit time and resources to OS module validation
+    {%- endif -%}
+    {%- if slot == "highlights_item_content_3" -%}
+      Automated security updates have accelerated vulnerability remediation from 2 months to 2 weeks
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == "image_content" -%}
+      {{ image(url="https://assets.ubuntu.com/v1/0a58d91e-image1.jpg",
+            alt="...",
+            width="1848",
+            height="771",
+            hi_def="True",
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title='For businesses delivering cloud products and services to federal clients, FedRAMP compliance<br class="u-hide u-show--large" /> is a critical requirement.') -%}
+  {%- if slot == "content" -%}
+    <p>
+      This data analytics leader was seeing a rapidly growing appetite for its services among government clients, which meant that the company needed to conform to federal security standards. For the smoothest path to compliance, the company turned to its trusted partners, Canonical and Amazon Web Services (AWS), to implement Ubuntu Pro FIPS across its public cloud estate.
+    </p>
+    <p>
+      This specially configured and optimized Ubuntu image empowers the organization with certified cryptographic modules and automated security updates directly from Canonical. The solution takes the burden of validating and updating the operating system off the company’s shoulders so it can focus on what it does best – data science.
+    </p>
+  {%- endif -%}
+{%- endcall -%}
+
+{%- call(slot) vf_quote_wrapper(
+  quote_text="With Ubuntu Pro FIPS on AWS, vulnerability management in the operating system is no longer an active challenge for our services. That’s a huge benefit.",
+  citation_source_name_text="Spoksperson",
+  citation_source_title_text="Data Analytics Company",
+  citation_source_organisation_text="",
+  is_shallow=True)
+  -%}
+{%- endcall -%}
+
+{%- call(slot) text(title="Challenge") -%}
+  {%- if slot == "content" -%}
+    <p>
+      As the data science company’s client base continued to scale across the government sector, it became critical to achieve compliance with the Federal Risk and Authorization Management Program (FedRAMP). This program ensures that sensitive government data is stored and processed securely, and compliance is a core requirement for any cloud product or service used by federal agencies.
+    </p>
+    <p>
+      One of the most important elements of FedRAMP compliance is the implementation of Federal Information Processing Standards (FIPS) 140 – mandated by the National Institute of Standards and Technology (NIST) – which dictates requirements for cryptographic modules. However, validating modules for FIPS 140 is a long and expensive process, compounded by the need to continuously update modules in response to new common vulnerabilities and exposures (CVEs). This complexity was the primary barrier to FedRAMP compliance for this data analytics organization.
+    </p>
+    <p>
+      The company’s approach to vulnerability management was largely manual, so incorporating patches and updates was a time-consuming and labor-intensive process. A spokesperson for the organization explains: “Some packages, such as strongSwan, were a headache as we were constantly getting CVE notifications. With every update, we had to find upstream patches and rebuild the whole stack.”
+    </p>
+    <p>
+      FedRAMP requires adherents to address operating system vulnerabilities within specified time frames depending on the severity of the issue: 30 days for high severity, 90 days for medium, and 180 days for low. Given the scale of the work and the time pressure, tackling CVEs manually wasn’t a viable option. To ensure security measures remained robust, adaptable, and met the stringent FedRAMP requirements, the company needed an easier way to implement FIPS 140 standards and a more agile and automated vulnerability management process.
+    </p>
+  {%- endif -%}
+{%- endcall -%}
+
+{%- call(slot) image_wrapper() -%}
+  {%- if slot == "image_content" -%}
+    {{ image(url="https://assets.ubuntu.com/v1/68e321cf-image2.jpg",
+        alt="...",
+        width="1848",
+        height="771",
+        hi_def="True",
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}) | safe
+    }}
+  {%- endif -%}
+{%- endcall -%}
+
+{%- call(slot) text(title="Solution") -%}
+  {%- if slot == "content" -%}
+    <p>
+      As a long-time user of Ubuntu on AWS, the company partnered with Canonical to meet its challenges in the public cloud.
+    </p>
+    <p>
+      The business relies on several AWS cloud soplutions, including Amazon Redshift to provide a dedicated data warehouse, Amazon EC2 to launch and manage cloud instances, and Amazon Elastic Kubernetes Service (EKS) to manage and scale client workloads. Across this AWS estate, Ubuntu is the primary operating system, and when the time came to find a solution for FedRAMP compliance, Ubuntu Pro FIPS on AWS EC2 and EKS was the natural choice.
+    </p>
+    <p>
+      Ubuntu Pro FIPS is a purpose-built OS image for AWS that delivers FIPS-certified modules out-of-the-box. The solution disables various disallowed algorithms and ciphers from key libraries and ensures that modules work in a FIPS-compatible mode of operation by default.
+    </p>
+    <p>
+      Alongside validated modules, Ubuntu Pro FIPS also solves the vulnerability management challenge. Canonical supports each Ubuntu Pro FIPS image for up to 10 years, delivering ongoing security updates to address CVEs. Better still, the company can apply these updates automatically through Canonical’s Livepatch service, significantly reducing the amount of manual intervention required to meet FedRAMP vulnerability remediation timelines.
+    </p>
+    <p>
+      The company now utilizes Ubuntu Pro FIPS on AWS to build its primary web infrastructure and run Kubernetes containers for client jobs.
+    </p>
+  {%- endif -%}
+{%- endcall -%}
+
+{%- call(slot) vf_quote_wrapper(
+  quote_text="It used to take up to two months to go through all the manual vulnerability remediation. Now it’s maybe two weeks at most. The automated updates mean we really don’t have to do a lot, and we know that the fixes from Canonical are well-vetted.",
+  citation_source_name_text="Spoksperson",
+  citation_source_title_text="Data Analytics Company",
+  citation_source_organisation_text="",
+  is_shallow=True)
+  -%}
+{%- endcall -%}
+
+{%- call(slot) text(title="Results") -%}
+  {%- if slot == "content" -%}
+    <p>
+      With Ubuntu Pro FIPS on AWS, the data science company has successfully achieved FedRAMP compliance, including FIPS validation, without compromising time and resources – and it has successfully transformed its vulnerability management strategy.
+    </p>
+    <p>
+      The project is also giving the company’s clients even greater confidence in its services, as they know that their databases are safe and compliant. In fact, Ubuntu Pro FIPS doesn’t just enable FedRAMP and FIPS compliance, it supports an array of additional regulatory standards, such as HIPAA, PCI-DSS and ISO 27001, and it enables easy implementation of DISA STIG and CIS security benchmarks. Customers can see that the company is working proactively to achieve the highest levels of security. Meanwhile, the business is well-positioned to satisfy the evolving requirements of its client base as it continues to expand across different industries.
+    </p>
+    <p>
+      Together with the security capabilities delivered by AWS, Ubuntu Pro FIPS is empowering the company with a compliant and high-performance data analytics environment that can handle even the most sensitive, regulated data. And with Canonical’s support, that environment will remain secure in the face of emerging threats.
+    </p>
+    <p>The spokesperson concludes:</p>
+    <p>
+      “With Ubuntu Pro FIPS on AWS, vulnerability management in the operating system is no longer an active challenge for our services. That’s a huge benefit.”
+    </p>
+  {%- endif -%}
+{%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us about your FIPS use case", link="/contact-us", has_modal=true) }}
+{% endblock %}

@@ -3,7 +3,7 @@
 # link (required): Link of the CTA
 # has_modal (optional): Whether the CTA invokes a modal. Defaults to false.
 
-{%- macro cta(title, link, has_modal=False) -%}
+{%- macro cta(title, link, secondary_title, secondary_link, has_modal=False) -%}
   {% if hide_wrapper != True %}
     <hr class="p-rule is-fixed-width" />
     <section class="p-strip is-deep">
@@ -11,12 +11,17 @@
         <div class="col-start-large-4 col-9">
           <p class="p-heading--2">
             <a href="{{ link }}"
-             aria-controls="case-study-contact-modal">
+            {% if has_modal %}class="js-invoke-modal" aria-controls="case-study-contact-modal"{% endif %}>
               {{ title }}&nbsp;&rsaquo;
             </a>
           </p>
+          {% if secondary_title %}
+            <a class="p-button--positive" href="{{ secondary_link }}">{{ secondary_title }}</a>
+          {% endif %}
         </div>
       </div>
     </section>
   {% endif %}
+
+  {{ load_form("/case-study") | safe }}
 {%- endmacro -%}

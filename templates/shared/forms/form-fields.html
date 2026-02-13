@@ -18,222 +18,282 @@
         {% set fieldset_inputName = fieldset_id %}
       {% endif %}
 
-      <div class="p-section">
+      <div class="{% if loop.index != fieldsets|length %}p-section{% endif %}">
         <hr class="p-rule is-fixed-width" />
-        <fieldset class="p-fieldset-section u-no-padding{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility {% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox {% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %}"
-                  id="{{ fieldset_id }}"
-                  aria-labelledby="{{ fieldset_id }}"
-                  {% if fieldset_id == 'about-you' %}style="overflow: unset;"{% endif %}>
+        <fieldset class="p-fieldset-section{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility{% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox{% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %} {% if fieldset.inputType == 'checkbox' or fieldset.inputType == 'checkbox-visibility' %}js-remove-checkbox-names{% endif %}"
+                  aria-labelledby="{{ fieldset_id }}-legend">
+            <legend class="u-off-screen">
+                {{ fieldset.title }}{% if fieldset.isRequired %} (required) {% endif %}
+            </legend>
           <div class="row--50-50 {% if fieldset.noCommentsFromLead != True %}js-formfield{% endif %}">
             <div class="col">
-              <legend class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
-                      id="{{ fieldset_id }}-legend">{{ fieldset.title }}</legend>
+              <p class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}legend-is-required{% endif %}"
+                      id="{{ fieldset_id }}-legend">{{ fieldset.title }}</p>
             </div>
             <div class="col">
               <ul class="p-list">
+                {% if fieldset_id == "about-you" %}
+                  <label class="is-required"
+                          for="firstName">First name:</label>
+                  <input required
+                          id="firstName"
+                          name="firstName"
+                          maxlength="255"
+                          autocomplete="given-name"
+                          type="text" />
+                  <label class="is-required"
+                          for="lastName">Last name:</label>
+                  <input required
+                          id="lastName"
+                          name="lastName"
+                          maxlength="255"
+                          autocomplete="family-name"
+                          type="text" />
+                  <label class="is-required"
+                            for="email">Email:</label>
+                  <input required
+                          id="email"
+                          name="email"
+                          maxlength="255"
+                          autocomplete="email"
+                          type="email"
+                          pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"/>
+                  <label class="is-required"
+                          for="company">Company:</label>
+                  <input required
+                          id="company"
+                          name="company"
+                          maxlength="255"
+                          autocomplete="organization"
+                          type="text" />
+                  <label class="is-required"
+                          for="title">Job Title:</label>
+                  <input required
+                          id="title"
+                          name="title"
+                          maxlength="255"
+                          autocomplete="organization-title"
+                          type="text" />
+
+                  {% with required = true %}
+                    {% include "shared/forms/_country.html" %}
+                  {% endwith %}
+
+                {% endif %}
                 {% for field in fieldset.fields %}
 
                   {% if field.id %}
                     {% set field_id = field.id %}
-                  {% else %}
+                  {% elif field.fieldTitle is not defined %}
                     {% set field_id = fieldset_id + '-' + field.label|slug %}
                   {% endif %}
 
                   {% if field.value %}
                     {% set field_value = field.value %}
-                  {% else %}
+                  {% elif field.fieldTitle is not defined %}
                     {% set field_value = field.label %}
                   {% endif %}
-
-                  {% if field.type == "country" %}
-                    {% with %}
-                      {% if not field.isRequired %}
-                        {% set required = false %}
+                  <li class="p-list__item">
+                    {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
+                      <label {% if field.isRequired %}class="is-required"{% endif %}
+                              for="{{ field_id }}">{{ field.label }}:</label>
+                      <input {% if field.isRequired %}required{% endif %}
+                              id="{{ field_id }}"
+                              name="{{ field_id }}"
+                              maxlength="255"
+                              autocomplete="{% if field.type == 'tel' %}tel{% elif field.type == 'email' %}email{% elif field.label and ( field.label == 'Company' or field.label == 'Company name' ) %}organization{% elif field.label and field.label == 'Job title' %}organization-title{% endif %}"
+                              type="{{ field.type }}"
+                              {% if field.type=="email" %}pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"{% endif %} />
+                    {% elif field.type == "long-text" %}
+                      <label class="u-hide" for="{{ field_id }}">{{ field.label }}</label>
+                      <textarea {% if fieldset.isRequired %}required{% endif %}
+                                id="{{ field_id }}"
+                                rows="5"
+                                maxlength="2000"
+                                {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}></textarea>
+                    {% elif field.type == "radio" %}
+                      <label class="p-radio">
+                        <input {% if fieldset.isRequired %}required{% endif %}
+                                class="p-radio__input"
+                                id="{{ field_id }}"
+                                type="radio"
+                                aria-labelledby="{{ field_id }}"
+                                name="_radio_{{ fieldset_inputName }}"
+                                value="{{ field_value }}"
+                                id="{{ field_id }}"
+                                {% if field.isSelected %}checked{% endif %} />
+                        <span class="p-radio__label" >{{ field.label }}</span>
+                      </label>
+                      {% if field.hasTextarea %}
+                        <textarea class="js-other-input u-hide"
+                                  data-input-id="{{ field_id }}"
+                                  id="{{ field_id }}-textarea"></textarea>
                       {% endif %}
-                      {% include "shared/forms/_country.html" %}
-                    {% endwith %}
-                  {% elif field.type == "radio" %}
-                    <label class="p-radio">
-                      <input {% if fieldset.isRequired %}required{% endif %}
-                            class="p-radio__input"
-                            id="{{ field_id }}"
-                            type="radio"
-                            aria-labelledby="{{ field_id }}"
-                            name="{{ fieldset_inputName }}"
-                            value="{{ field_value }}" />
-                      <span class="p-radio__label">{{ field.label }}</span>
-                    </label>
-                    {% if field.hasTextarea %}
-                      <textarea class="js-other-input u-hide" data-input-id="{{ field_id }}" id="{{ field_id }}-textarea"></textarea>
+                    {% elif field.type == "checkbox" %}
+                      <label class="p-checkbox">
+                        <input class="p-checkbox__input js-checkbox-visibility"
+                                type="checkbox"
+                                id="{{ field_id }}"
+                                name="{{ fieldset_inputName }}"
+                                aria-labelledby="{{ field.label }}"
+                                value="{{ field_value }}"
+                                {% if field.isSelected %}checked{% endif %} />
+                        <span class="p-checkbox__label">{{ field.label }}</span>
+                      </label>
+                      {% if field.hasTextarea %}
+                        <textarea class="js-other-input u-hide"
+                                  data-input-id="{{ field_id }}"
+                                  id="{{ field_id }}-textarea"></textarea>
+                      {% endif %}
+                    {% elif field.fieldTitle is defined and field.fieldTitle|length > 0 %}
+                      <div class="p-section--shallow">
+                        <strong>{{ field.fieldTitle }}</strong>
+                        {% for option in field.options %}
+                          <label class="p-checkbox">
+                            <input class="p-checkbox__input js-checkbox-visibility{% if field.fieldTitle=="Other" %}__other{% endif %}"
+                                    type="checkbox"
+                                    aria-labelledby="{{ option.label }}"
+                                    value="{{ option.value }}" />
+                            <span class="p-checkbox__label" id="{{ option.id }}">{{ option.label }}</span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    {% elif field.type == "select" %}
+                      <label {% if fieldset.isRequired %}class="is-required"{% endif %}
+                              for="{{ field_id }}">{{ field.label }}:</label>
+                      <select id="{{ field_id }}" {% if field.isRequired %}required{% endif %}>
+                        {% for option in field.options %}<option value="{{ option.value }}">{{ option.label }}</option>{% endfor %}
+                      </select>
                     {% endif %}
-                  {% else %}
-                    <li class="p-list__item">
-                      {% if field.type == "text" or field.type == "tel" or field.type == "email" %}
-                        <label {% if field.isRequired %}class="is-required"{% endif %}
-                               for="{{ field_id }}">{{ field.label }}:</label>
-                        <input {% if field.isRequired %}required{% endif %}
-                               id="{{ field_id }}"
-                               name="{{ field_id }}"
-                               maxlength="255"
-                               type="{{ field.type }}"
-                               {% if field.type=="email" %}pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$"{% endif %} />
-                      {% elif field.type == "long-text" %}
-                        <textarea {% if fieldset.isRequired %}required{% endif %}
-                                  id="{{ field.id }}"
-                                  rows="5"
-                                  maxlength="2000"
-                                  {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}></textarea>
-                      {% elif field.type == "checkbox" %}
-                        <label class="p-checkbox">
-                          <input class="p-checkbox__input js-checkbox-visibility"
-                                 type="checkbox"
-                                 aria-labelledby="{{ field.label }}"
-                                 value="{{ field_value }}" />
-                          <span class="p-checkbox__label" id="{{ field_id }}">{{ field.label }}</span>
-                        </label>
-                      {% elif field.fieldTitle is defined and field.fieldTitle|length > 0 %}
-                        <div class="p-section--shallow">
-                          <strong>{{ field.fieldTitle }}</strong>
-                          {% for option in field.options %}
-                            <label class="p-checkbox">
-                              <input class="p-checkbox__input js-checkbox-visibility{% if field.fieldTitle=='Other' %}__other{% endif %}"
-                                     type="checkbox"
-                                     aria-labelledby="{{ option.label }}"
-                                     value="{{ option.value }}" />
-                              <span class="p-checkbox__label" id="{{ option.id }}">{{ option.label }}</span>
-                            </label>
-                          {% endfor %}
-                        </div>
-                      {% elif field.type == "select" %}
-                        <label {% if fieldset.isRequired %}class="is-required"{% endif %}
-                               for="{{ field_id }}">{{ field.label }}:</label>
-                        <select id="{{ field_id }}" {% if field.isRequired %}required{% endif %}>
-                          {% for option in field.options %}<option value="{{ option.value }}">{{ option.label }}</option>{% endfor %}
-                        </select>
-                      {% endif %}
-                    </li>
-                  {% endif %}
+                  </li>
                 {% endfor %}
               </ul>
-              {% if loop.index == fieldsets|length %}
-                <ul class="p-list">
-                  <li class="p-list__item">
-                    <label class="p-checkbox">
-                      <input class="p-checkbox__input js-checkbox-visibility"
-                             value="yes"
-                             aria-labelledby="canonicalUpdatesOptIn"
-                             name="canonicalUpdatesOptIn"
-                             type="checkbox" />
-                      <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
-                    </label>
-                  </li>
-                  <li class="p-list__item u-sv3">
-                    By submitting this form, I confirm that I have read and agree to <a href="/legal/data-privacy/contact">Canonical's Privacy Notice</a> and <a href="/legal/data-privacy">Privacy Policy</a>.
-                  </li>
-                  {# These are honey pot fields to catch bots #}
-                  <li class="u-off-screen">
-                    <label class="website" for="website">Website:</label>
-                    <input name="website"
-                           type="text"
-                           class="website"
-                           autocomplete="off"
-                           value=""
-                           id="website"
-                           tabindex="-1" />
-                  </li>
-                  <li class="u-off-screen">
-                    <label class="name" for="name">Name:</label>
-                    <input name="name"
-                           type="text"
-                           class="name"
-                           autocomplete="off"
-                           value=""
-                           id="name"
-                           tabindex="-1" />
-                  </li>
-                  {# End of honey pots #}
-                  <li class="p-list__item">
-                    <button type="submit" class="p-button--positive js-submit-button">Submit</button>
-                  </li>
-                </ul>
-                <div class="u-off-screen">
-                  <label for="Comments_from_lead__c">
-                    <h3 class="p-heading--4">Your comments</h3>
-                    <textarea id="Comments_from_lead__c"
-                              name="Comments_from_lead__c"
-                              rows="5"
-                              maxlength="2000"></textarea>
-                  </label>
-                </div>
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="formid"
-                       value="{{ form_id }}" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="returnURL"
-                       value={% if path %}"https://canonical.com{{ path }}/#contact-form-success"{% else %}{{ formData.returnUrl }}{% endif %} />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="Consent_to_Processing__c"
-                       value="yes" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="utm_campaign"
-                       id="utm_campaign"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="utm_medium"
-                       id="utm_medium"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="utm_source"
-                       id="utm_source"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="utm_content"
-                       id="utm_content"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="utm_term"
-                       id="utm_term"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="GCLID__c"
-                       id="GCLID__c"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       name="Facebook_Click_ID__c"
-                       id="Facebook_Click_ID__c"
-                       value="" />
-                <input type="hidden"
-                       aria-hidden="true"
-                       aria-label="hidden field"
-                       id="preferredLanguage"
-                       name="preferredLanguage"
-                       maxlength="255"
-                       value="" />
-              {% endif %}
             </div>
           </div>
         </fieldset>
       </div>
     {% endfor %}
+
+    <div class="u-sv-3"></div>
+    <div class="row--50-50">
+      <div class="col"></div>
+      <div class="col">
+        <ul class="p-list">
+          <li class="p-list__item">
+            <label class="p-checkbox">
+              <input class="p-checkbox__input js-checkbox-visibility"
+                     value="yes"
+                     aria-labelledby="canonicalUpdatesOptIn"
+                     name="canonicalUpdatesOptIn"
+                     type="checkbox" />
+              <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive
+                information about
+              Canonical's products and services.</span>
+            </label>
+          </li>
+          <li class="p-list__item u-sv3">
+            By submitting this form, I confirm that I have read and agree to <a href="/legal/data-privacy/contact">Canonical's Privacy Notice</a> and <a href="/legal/data-privacy">Privacy Policy</a>.
+          </li>
+          {# These are honey pot fields to catch bots #}
+          <li class="u-off-screen">
+            <label class="website" for="website">Website:</label>
+            <input name="website"
+                   type="text"
+                   class="website"
+                   autocomplete="off"
+                   value=""
+                   id="website"
+                   tabindex="-1" />
+          </li>
+          <li class="u-off-screen">
+            <label class="name" for="name">Name:</label>
+            <input name="name"
+                   type="text"
+                   class="name"
+                   autocomplete="off"
+                   value=""
+                   id="name"
+                   tabindex="-1" />
+          </li>
+          {# End of honey pots #}
+          <li class="p-list__item">
+            <button type="submit" class="p-button--positive js-submit-button">Submit</button>
+          </li>
+        </ul>
+        <div class="u-off-screen">
+          <label for="Comments_from_lead__c">
+            <h3 class="p-heading--4">Your comments</h3>
+            <textarea id="Comments_from_lead__c"
+                      name="Comments_from_lead__c"
+                      rows="5"
+                      maxlength="2000"></textarea>
+          </label>
+        </div>
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="formid"
+               value="{{ form_id }}" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="returnURL"
+               value={% if path %}"https://canonical.com{{ path }}/#contact-form-success"{% else %}{{ formData.returnUrl }}{% endif %} />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="Consent_to_Processing__c"
+               value="yes" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="utm_campaign"
+               id="utm_campaign"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="utm_medium"
+               id="utm_medium"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="utm_source"
+               id="utm_source"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="utm_content"
+               id="utm_content"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="utm_term"
+               id="utm_term"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="GCLID__c"
+               id="GCLID__c"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               name="Facebook_Click_ID__c"
+               id="Facebook_Click_ID__c"
+               value="" />
+        <input type="hidden"
+               aria-hidden="true"
+               aria-label="hidden field"
+               id="preferredLanguage"
+               name="preferredLanguage"
+               maxlength="255"
+               value="" />
+      </div>
+    </div>
   </form>
 </section>

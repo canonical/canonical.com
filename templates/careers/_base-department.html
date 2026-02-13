@@ -29,7 +29,7 @@
 {% endif %}
 
 {% if fast_track_jobs %}
-  {% include 'shared/_engineering-fast-track.html' %}
+  {% include 'careers/includes/_fast-track-jobs.html' %}
 {% endif %}
 
 {% if featured_jobs and not fast_track_jobs %}
@@ -38,17 +38,19 @@
 
 <section class="p-section">
   <hr class="is-fixed-width p-rule" />
-  <div class="row u-extra-space">
-    <div class="col-6 col-medium-3">
-      <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Working here</h2>
-      <h3 class="p-heading--2">{{ block_1_subheading }}</h3>
-    </div>
-    <div class="col-6 col-medium-3">
-      {% for paragraph in block_1_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
+  <div class="p-section--shallow">
+    <div class="row">
+      <div class="col-6 col-medium-3">
+        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default u-no-margin">Working here</h2>
+        <h3 class="p-heading--2">{{ block_1_subheading }}</h3>
+      </div>
+      <div class="col-6 col-medium-3">
+        {% for paragraph in block_1_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
+      </div>
     </div>
   </div>
   <div class="p-section--shallow">
-    <div class="u-fixed-width u-hide--small u-hide--medium">
+    <div class="u-fixed-width">
       {{ image(url=image_url,
             alt="",
             width=image_width,
@@ -66,7 +68,7 @@
     </div>
     <div class="row">
       <div class="col-6 col-medium-3">
-        <h3 class="p-heading--2">{{ block_2_heading }}</h3>
+        <h2>{{ block_2_heading }}</h2>
       </div>
       <div class="col-6 col-medium-3">
         {% for paragraph in block_2_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
@@ -79,7 +81,7 @@
   <hr class="p-rule is-fixed-width" />
   <div class="row">
     <div class="col-6 col-medium-3">
-      <h3 class="p-heading--2">{{ block_3_subheading }}</h3>
+      <h2>{{ block_3_subheading }}</h2>
     </div>
     <div class="col-6 col-medium-3">
       {% for paragraph in block_3_text %}<p>{{ paragraph | safe }}</p>{% endfor %}
@@ -87,90 +89,122 @@
   </div>
 </section>
 
-<section class="p-section">
-  <hr class="is-fixed-width p-rule" />
-  <div class="u-fixed-width">
-    <h2>See for yourself the work we're doing</h2>
-  </div>
-  <div class="row">
-    <div class="col-6 col-medium-3 col-start-large-7 col-start-medium-4">
-      <ul class="p-inline-list is-inlined-with-h2">
-        <li class="p-inline-list__item">
-          <a class="p-icon--github"
-             href="https://github.com/canonical"
-             data-size="large"
-             aria-label="Follow @canonical on GitHub"></a>
-        </li>
-        <li class="p-inline-list__item">
-          <a href="https://www.linkedin.com/company/234280"
-             class="p-icon--linkedin">LinkedIn</a>
-        </li>
-        <li class="p-inline-list__item">
-          <a href="https://twitter.com/Canonical" class="p-icon--twitter">Twitter</a>
-        </li>
-        <li class="p-inline-list__item">
-          <a href="https://www.youtube.com/user/celebrateubuntu"
-             class="p-icon--youtube">YouTube</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
+{% if not exclude_socials %}
+  {% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
 
-{% with section_classes='p-strip', heading_topic=blog_heading_topic, tag_id=blog_tag_id, limit="3" %}
-  <noscript>
-    <section class="p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-strip{% endif %}"
+  {{ vf_linked_logo_section(
+    title_text="See for yourself the work we're doing",
+    layout="50/50",
+    links=[
+      {
+        "href": "https://github.com/canonical",
+        "text": "Follow Canonical on GitHub &rsaquo;",
+        "label": "",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/3db99442-github.png",
+          "alt": "",
+          "width": "222",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://www.linkedin.com/company/234280",
+        "text": "Follow Canonical on LinkedIn &rsaquo;",
+        "label": "",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/eb5aa7d8-linkedin.png",
+          "alt": "",
+          "width": "432",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://twitter.com/Canonical",
+        "text": "Follow Canonical on Twitter &rsaquo;",
+        "label": "",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/70b8bc44-x-twitter.png",
+          "alt": "",
+          "width": "240",
+          "height": "481"
+        }
+      },
+      {
+        "href": "https://www.youtube.com/user/celebrateubuntu",
+        "text": "Follow Canonical on YouTube &rsaquo;",
+        "label": "",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/5c805b49-youtube.png",
+          "alt": "",
+          "width": "240",
+          "height": "481"
+        }
+      },
+    ],
+  ) }}
+{% endif %}
+
+{% if blog_heading_topic and blog_tag_id %}
+  {% with section_classes='p-strip', heading_topic=blog_heading_topic, tag_id=blog_tag_id, limit="3" %}
+    <noscript>
+      <section class="p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-strip{% endif %}"
+               data-js="latest-news">
+        <div class="row">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default p-rule">Blogs</h2>
+          <h3 class="p-heading--2">
+            Find out more about <a href="/blog/tag/{{ department.name }}">{{ heading_topic }}</a>
+          </h3>
+        </div>
+      </section>
+    </noscript>
+
+    <section class="u-no-padding--top p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-section{% endif %}"
              data-js="latest-news">
+      <hr class="is-fixed-width p-rule" />
       <div class="row">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default p-rule">Blogs</h2>
-        <h3 class="p-heading--2">
-          Find out more about <a href="/blog/tag/{{ department.name }}">{{ heading_topic }}</a>
-        </h3>
-      </div>
-    </section>
-  </noscript>
-
-  <section class="u-no-padding--top p-section u-hide {% if section_classes %}{{ section_classes }}{% else %}p-section{% endif %}"
-           data-js="latest-news">
-    <hr class="is-fixed-width p-rule" />
-    <div class="row">
-      <div class="col-6 col-medium-3">
-        <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Blogs</h2>
-        <h3 class="p-heading--2">
-          Find out more about
-          <br class="u-hide--small" />
-          {{ heading_topic }}
-        </h3>
-      </div>
-      <div id="latest-articles"
-           class="col-6 col-medium-3"
-           style="padding-top: 0.5rem">
-        <div style="min-height: 9.1rem">
-          <i class="p-icon--spinner u-animation--spin">Loading...</i>
+        <div class="col-6 col-medium-3">
+          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Blogs</h2>
+          <h3 class="p-heading--2">
+            Find out more about
+            <br class="u-hide--small" />
+            {{ heading_topic }}
+          </h3>
+        </div>
+        <div id="latest-articles"
+             class="col-6 col-medium-3"
+             style="padding-top: 0.5rem">
+          <div style="min-height: 9.1rem">
+            <i class="p-icon--spinner u-animation--spin">Loading...</i>
+          </div>
         </div>
       </div>
-    </div>
-    <template style="display:none" id="articles-template">
-      <article class="u-extra-space">
-        <div class="blog-p-card__content">
-          <hr class="p-rule" />
+      <template style="display:none" id="articles-template">
+        <article class="u-extra-space">
+          <div class="blog-p-card__content">
+            <hr class="p-rule" />
             <a class="article-link article-title p-heading--5" href=""></a>
-          <p class="article-excerpt"></p>
-        </div>
-      </article>
-    </template>
-    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-    <script>
-      canonicalLatestNews.fetchLatestNews(
-        {
+            <p class="article-excerpt"></p>
+          </div>
+        </article>
+      </template>
+      <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+      {# djlint: off #}
+      <script>
+        canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
           articleTemplateSelector: "#articles-template",
           hostname: "canonical.com",
           {% if tag_id %}tagId: "{{ blog_tag_id }}",{% endif %}
           {% if limit %}limit: "3",{% endif %}
-        }
-      )
-    </script>
-  </section>
-{% endwith %}
+        })
+      </script>
+      {# djlint: on #}
+    </section>
+  {% endwith %}
+{% endif %}
+
+{% if custom_blog_section %}
+  {% include custom_blog_section %}
+{% endif %}
+
 <script async defer src="https://buttons.github.io/buttons.js"></script>

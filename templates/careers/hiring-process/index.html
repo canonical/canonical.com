@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1j-G0LCapJ1zRnNgQeoC0_rh15N6ICdpDy7M1tubQuoo/edit
 {% endblock %}
@@ -10,35 +12,37 @@
   Learn about Canonical's hiring process &ndash; Understand how we hire and what you can expect from our process.
 {% endblock %}
 
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--50-50">
+  <section class="p-section--hero p-section--shallow">
+    <div class="row--50-50-on-large">
       <div class="col">
         <div class="p-section--shallow">
           <h1>Canonical's hiring process</h1>
         </div>
+        <div class="p-section--shallow">
+          <p>
+            Understand how we approach hiring talent at Canonical, creating a fair and equal playing field for our applicants across the globe.
+          </p>
+        </div>
       </div>
       <div class="col">
-        <p>
-          Understand how we approach hiring talent at Canonical, creating a fair and equal playing field for our applicants across the globe.
-        </p>
-      </div>
-    </div>
-    <div class="u-fixed-width">
-      <div class="p-image-container--cinematic is-cover u-hide--small">
-        {{ image(url="https://assets.ubuntu.com/v1/9acad1b0-department-sales-%402x.jpg",
-                alt="",
-                width="2216",
-                height="834",
-                hi_def=True,
-                loading="auto",
-                attrs={"class": "p-image-container__image"},) | safe
-        }}
+        <div class="u-embedded-media">
+          <lite-youtube videoid="mOFgDpjRiO8" width="1120" height="630" posterquality="maxresdefault" videotitle="Our hiring process at Canonical" class="u-embedded-media__element">
+          <a href="https://www.youtube.com/watch?v=mOFgDpjRiO8" title="Play Video">
+            <span class="lyt-visually-hidden">Our hiring process at Canonical</span>
+          </a>
+          </lite-youtube>
+        </div>
       </div>
     </div>
   </section>
@@ -126,7 +130,7 @@
           </div>
         </div>
         <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
+        <div class="row">
           <div class="col-3 col-medium-3">
             <h3 class="p-heading--5">Our hiring model</h3>
           </div>
@@ -185,14 +189,14 @@
           </li>
         </ul>
         <form class="u-hide--large u-hide--medium">
-          <select name="boardSelect" id="boardSelect">
+          <select name="tabSelect" data-tablist="hiring-process">
             <option value="stage-1-tab" selected="">Stage 1</option>
             <option value="stage-2-tab">Stage 2</option>
             <option value="stage-3-tab">Stage 3</option>
           </select>
         </form>
       </div>
-      <div class="col-9 col-medium-3">
+      <div class="col-9 col-medium-3" data-tablist="hiring-process">
         <hr class="p-rule--muted" />
         {% include "careers/hiring-process/tabs/stage-1.html" %}
         {% include "careers/hiring-process/tabs/stage-2.html" %}
@@ -222,62 +226,6 @@
           <div class="col-6 col-medium-4 p-section--shallow">
             <blockquote class="u-no-margin u-no-padding" style="border: none;">
               <p>
-                <i>“I was impressed by the recruitment process. It required a lot of involvement from my side but also from Canonical's side. I wanted to work for a company who takes great care when selecting its employees. I was able to talk to many Canonical employees and this convinced me this is a great place to work.”</i>
-              </p>
-            </blockquote>
-            <span class="u-off-screen">Joined December 2023</span>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p class="u-text--muted" aria-hidden="true">Joined December 2023</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <blockquote class="u-no-margin u-no-padding" style="border: none;">
-              <p>
-                <i>“I really liked having access to the platform where I could check the entire selection process and upcoming interviews, as well as download the reports about my tests”</i>
-              </p>
-            </blockquote>
-            <span class="u-off-screen">Joined March 2024</span>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p class="u-text--muted" aria-hidden="true">Joined March 2024</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <blockquote class="u-no-margin u-no-padding" style="border: none;">
-              <p>
-                <i>“I met a lot of interesting people during the recruitment interviews and I can say that they were a reassurance that Canonical was a great place for me.”</i>
-              </p>
-            </blockquote>
-            <span class="u-off-screen">Joined January 2024</span>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p class="u-text--muted" aria-hidden="true">Joined January 2024</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <blockquote class="u-no-margin u-no-padding" style="border: none;">
-              <p>
-                <i>“I felt very lucky meeting with people from different continents as I met with people from the US and from EMEA.”</i>
-              </p>
-            </blockquote>
-            <span class="u-off-screen">Joined April 2024</span>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p class="u-text--muted" aria-hidden="true">Joined April 2024</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <blockquote class="u-no-margin u-no-padding" style="border: none;">
-              <p>
                 <i>“Ubuntu had its own reputation &ndash; but the ideology behind the hiring process made it standout!”</i>
               </p>
             </blockquote>
@@ -285,6 +233,62 @@
           </div>
           <div class="col-3 col-medium-2">
             <p class="u-text--muted" aria-hidden="true">Joined July 2024</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row p-section--shallow">
+          <div class="col-6 col-medium-4 p-section--shallow">
+            <blockquote class="u-no-margin u-no-padding" style="border: none;">
+              <p>
+                <i>“The most respectful and transparent recruitment process I've ever gone through.”</i>
+              </p>
+            </blockquote>
+            <span class="u-off-screen">Joined October 2024</span>
+          </div>
+          <div class="col-3 col-medium-2">
+            <p class="u-text--muted" aria-hidden="true">Joined October 2024</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row p-section--shallow">
+          <div class="col-6 col-medium-4 p-section--shallow">
+            <blockquote class="u-no-margin u-no-padding" style="border: none;">
+              <p>
+                <i>“Greenhouse has been such a great hub during pre-onboarding. It answered 95% of my questions. For the remaining 5% where I had regional specific questions I was assigned a peer buddy from my geographical area which was super helpful.”</i>
+              </p>
+            </blockquote>
+            <span class="u-off-screen">Joined January 2025</span>
+          </div>
+          <div class="col-3 col-medium-2">
+            <p class="u-text--muted" aria-hidden="true">Joined January 2025</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row p-section--shallow">
+          <div class="col-6 col-medium-4 p-section--shallow">
+            <blockquote class="u-no-margin u-no-padding" style="border: none;">
+              <p>
+                <i>“Very friendly and supportive team members conducted the interviews and each interview process was professional.”</i>
+              </p>
+            </blockquote>
+            <span class="u-off-screen">Joined January 2025</span>
+          </div>
+          <div class="col-3 col-medium-2">
+            <p class="u-text--muted" aria-hidden="true">Joined January 2025</p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row p-section--shallow">
+          <div class="col-6 col-medium-4 p-section--shallow">
+            <blockquote class="u-no-margin u-no-padding" style="border: none;">
+              <p>
+                <i>“All the interviewers were professional and genuinely interested in what I had to say.”</i>
+              </p>
+            </blockquote>
+            <span class="u-off-screen">Joined March 2025</span>
+          </div>
+          <div class="col-3 col-medium-2">
+            <p class="u-text--muted" aria-hidden="true">Joined March 2025</p>
           </div>
         </div>
       </div>
@@ -321,16 +325,14 @@
           <li class="p-list__item">
             <div class="p-section--shallow">
               <p>
-                <a href="https://ubuntu.com/blog/from-sales-development-to-product-adrians-career-progression-at-canonical">Team member interview: Adrian Matei</a>
+                <a href="https://ubuntu.com/blog/life-at-canonical-victoria-antipovas-perspective-as-a-new-joiner-in-product-marketing">Team member interview: Victoria Antipova</a>
               </p>
-              <p>
-                What's it like to be an SDR at Canonical and how do we foster a learning culture internally? Hear from one of our colleagues.
-              </p>
+              <p>What's it like to join Canonical and take open source products to market? Hear from one of our colleagues.</p>
             </div>
           </li>
           <li class="p-list__item">
             <p>
-              <a href="https://canonical.com/blog/life-at-canonical-amy-song-shares-her-onboarding-experience-as-a-new-joiner-in-customer-success">A new joiner shares her experience: discover Amy Song's story</a>
+              <a href="/blog/life-at-canonical-amy-song-shares-her-onboarding-experience-as-a-new-joiner-in-customer-success">A new joiner shares her experience: discover Amy Song's story</a>
             </p>
             <p>
               As Canonical continues to grow, we've developed a unique onboarding process that enables our new hires to quickly settle and establish themselves in our globally distributed environment. Learn more in this blog.

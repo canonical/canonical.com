@@ -35,7 +35,7 @@
         <p>
           <a href="/contact-us"
              aria-controls="data-mongodb-modal"
-             class="p-button--positive">Schedule a call</a>
+             class="p-button--positive js-invoke-modal">Schedule a call</a>
         </p>
       </div>
     </div>
@@ -465,11 +465,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-  {% with %}
-    {% set formid = "4903" %}
-    {% set returnURL = "https://canonical.com/data/mongodb#success" %}
-    {% include "data/_form-data-mongodb.html" %}
-  {% endwith %}
+  {{ load_form("/data/mongodb/managed") | safe }}
 
 {% endblock %}

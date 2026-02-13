@@ -1,0 +1,370 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/1-83EaVOC5At7C6pah71Qb-EK7FhyYxUIlPhObOXuP0Y/edit?tab=t.0
+{% endblock meta_copydoc %}
+
+{% block meta_form_copydoc %}
+    https://docs.google.com/document/d/12moyGHnRV3UgUtHTT9SvHbUjia_kFfyufz6JA_Bn4hk/edit?tab=t.0
+{% endblock meta_form_copydoc %}
+
+{% block title %}OpenStack support{% endblock %}
+
+{% block meta_description %}
+    Get enterprise support at every stage of your OpenStack deployment project on Ubuntu
+{% endblock %}
+
+{% block body_class %}
+    is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+    {% call(slot) vf_hero(
+        title_text='OpenStack support',
+        subtitle_text='From design to post-deployment operations and maintenance',
+        layout='50/50-full-width-image'
+        ) -%}
+        {%- if slot == 'description' -%}
+            <p>
+                Get enterprise support with guaranteed SLAs at every stage of your OpenStack deployment project. Canonical offers a wide range of commercial services to meet the needs of the most demanding customers and market sectors.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'cta' -%}
+            <a href="/openstack/support/contact-us"
+               class="js-invoke-modal p-button--positive"
+               aria-controls="openstack-support-modal">Get in touch</a>
+            <a href="#canonical-openstack-services">Explore Canonical's services&nbsp;&rsaquo;</a>
+        {%- endif -%}
+        {%- if slot == 'image' -%}
+            <div class="p-image-container--cinematic is-cover">
+                {{ image(url="https://assets.ubuntu.com/v1/11876fbb-hero.jpg",
+                                alt="",
+                                width="2464",
+                                height="1028",
+                                hi_def=True,
+                                loading="auto",
+                                attrs={"class": "p-image-container__image"}) | safe
+                }}
+            </div>
+        {% endif -%}
+    {% endcall -%}
+
+    <section class="p-section--shallow">
+        <div class="p-section--shallow">
+            <div class="u-fixed-width">
+                <hr class="p-rule" />
+                <h2 class="p-text--small-caps">With support from Canonical</h2>
+            </div>
+        </div>
+        {% call(slot) vf_quote_wrapper(
+            quote_size="medium",
+            quote_text="Whenever we came across a problem, Canonical was absolutely front and centre. The attitude was always, 'Let's work on this together'. It was a real collaborative exercise.",
+            citation_source_name_text="Gary Roberts",
+            citation_source_title_text="Director, Network Cloud",
+            citation_source_organisation_text="BT Group",
+            is_shallow=true
+            ) -%}
+
+            {%- if slot == 'signpost_image' -%}
+                <img src="https://assets.ubuntu.com/v1/d99015cc-bt-quote-updated.png"
+                     alt="BT Group" />
+            {%- endif -%}
+        {% endcall -%}
+
+        {% call(slot) vf_quote_wrapper(
+            quote_size="medium",
+            quote_text="Canonical presented a clear, well thought-out roadmap for the design and deployment of each phase. Each step served to increase engineer knowledge at the same time as gradually accelerating the transformation of our infrastructure.",
+            citation_source_name_text="SMD Jeelani",
+            citation_source_title_text="Director (Operations)",
+            citation_source_organisation_text="UIDAI",
+            is_shallow=true
+            ) -%}
+
+            {%- if slot == 'signpost_image' -%}
+                <img src="https://assets.ubuntu.com/v1/b99a56ad-aadhaar.png" alt="UIDAI" />
+            {%- endif -%}
+        {% endcall -%}
+
+        {% call(slot) vf_quote_wrapper(
+            quote_size="medium",
+            quote_text="He [Canonical's Dedicated Support Engineer] is like another member of my team &ndash; and I'm picky about my team members. He knows how the finserv industry works; he understands that we have to go through a process and can't just fix things like a cowboy.",
+            citation_source_name_text="Spokesperson",
+            citation_source_organisation_text="SBI BITS",
+            is_shallow=true
+            ) -%}
+
+            {%- if slot == 'signpost_image' -%}
+                <img src="https://assets.ubuntu.com/v1/f4ee6a3e-sbibits.png"
+                     alt="SBI BITS" />
+            {%- endif -%}
+        {% endcall -%}
+    </section>
+
+    {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+        {%- if slot == 'title' -%}
+            <h2 id="canonical-openstack-services">
+                Canonical's services
+                <br class="u-hide--small u-hide--medium" />
+                for Canonical OpenStack
+            </h2>
+        {%- endif -%}
+
+        {%- if slot == 'description' -%}
+            <p>
+                When  you are selecting hardware for your first cloud build or planning an upgrade of a large-scale cluster, questions and problems might arise at every stage of your infrastructure's lifecycle. We understand that and make sure that your project is on the right trajectory from the very beginning.
+            </p>
+            <div class="p-cta-block">
+                <a href="/openstack">Discover Canonical OpenStack&nbsp;&rsaquo;</a>
+            </div>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_1' -%}
+            <h3 class="p-heading--5">Design and delivery</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                OpenStack consulting packages, including design and delivery to help you find the right architecture for your cloud: get OpenStack deployed in a fully automated way on top of an Ubuntu-certified hardware.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_2' -%}
+            <h3 class="p-heading--5">Cloud on-boarding</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_2' -%}
+            <p>
+                Post-deployment onboarding for your teams to get familiar with the platform, assist with integrations to your enterprise environment, demonstrate basic usage, and help familiarize you with hands-on operations.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_3' -%}
+            <h3 class="p-heading--5">Professional training courses</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_3' -%}
+            <p>
+                Multi-day hands-on courses that guide your teams through all the aspects of Canonical OpenStack's architecture and teach them how to monitor, troubleshoot, scale out, patch, and upgrade production clouds.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_4' -%}
+            <h3 class="p-heading--5">Phone and ticket support</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_4' -%}
+            <p>Enterprise support with guaranteed SLAs, including knowledge base access, troubleshooting, and bug fixing.</p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_5' -%}
+            <h3 class="p-heading--5">Fully-managed cloud service</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_5' -%}
+            <p>
+                End-to-end operations and maintenance of your cloud, including 24/7 monitoring, incident and problem management, capacity planning and recurring procedures, such as upgrades.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_6' -%}
+            <h3 class="p-heading--5">Firefighting support</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_6' -%}
+            <p>
+                A path between the fully-managed cloud service and the regular support: get engineers on call to help you resolve the most critical issues, while you continue to manage the cloud yourself.
+            </p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_7' -%}
+            <h3 class="p-heading--5">Security maintenance</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_7' -%}
+            <p>Up to 12 years of security maintenance for all types of artifacts used in the Canonical OpenStack product.</p>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_title_8' -%}
+            <h3 class="p-heading--5">Compliance</h3>
+        {%- endif -%}
+
+        {%- if slot == 'list_item_description_8' -%}
+            <p>
+                Hardening with CIS and DISA-STIG profiles and conformance with various global, and national standards for telco, federal, finserv, and other demanding use cases.
+            </p>
+        {%- endif -%}
+
+    {%- endcall -%}
+
+    <div class="p-section">
+        <div class="grid-row--25-25-25-25">
+            <div class="grid-col">
+                <h2 class="p-text--small-caps">
+                    Enterprise-grade
+                    <br />
+                    OpenStack support
+                </h2>
+            </div>
+            <div class="grid-col">
+                <hr class="p-rule--highlight" />
+                <p class="p-heading--1">1 hour</p>
+                <p>Response time &ndash; SLA Sev 1</p>
+            </div>
+            <div class="grid-col">
+                <hr class="p-rule--highlight" />
+                <p class="p-heading--1">24/7 coverage</p>
+                <p>Including phone and ticket support</p>
+            </div>
+            <div class="grid-col">
+                <hr class="p-rule--highlight" />
+                <p class="p-heading--1">12 years</p>
+                <p>Of security and support</p>
+            </div>
+        </div>
+    </div>
+
+    {% call(slot) vf_equal_heights(
+        title_text="Cost-effective OpenStack support",
+        image_aspect_ratio_medium="2-3",
+        image_aspect_ratio_small="2-3",
+        highlight_images=True,
+        items=[
+        {
+        "title_text": "Fixed-price consulting",
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/1b774c6e-multi-user.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+        "description_html": "<p>Avoid costly surprises and keep your budget under control by choosing <a href='https://assets.ubuntu.com/v1/cb9568ea-Datasheet%20-%20Canonical%20OpenStack.pdf'>one of our design and delivery packages</a>. OpenStack build included no matter the package. No hidden costs apply. Everything is clear right from the project initiation.</p>",
+        },
+        {
+        "title_text": "Per-node, full-stack subscription",
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/c9c7d08a-open-and.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+        "description_html": "<p>Estimate your project costs with ease thanks to our fully transparent and predictable pricing structure. The <a href='https://ubuntu.com/pro'>Ubuntu Pro subscription</a> is charged per node and provides full stack coverage, from infrastructure to applications.</p>",
+        },
+        {
+        "title_text": "Fully-managed OpenStack",
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/26741442-fully-managed.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+        "description_html": "<p>Get a public cloud-like experience, while hosting your applications in your own data center. Our experts will <a href='https://ubuntu.com/managed'>operate the cloud for you</a>, including daily routines and recurring maintenance tasks, such as upgrades, at a better price than regular support services offered by other market players.</p>",
+        },
+        {
+        "title_text": "TCO reduction guaranteed",
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/4381b1d6-tco-reduction.png"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+        "description_html": "<p>Whether you are migrating from proprietary virtualization solutions or repatriating your workloads from public clouds, <a href='https://ubuntu.com/engage/cloud-pricing-report'>Canonical OpenStack stands out for cost effectiveness</a>, ensuring enterprise-grade services and TCO reduction at the same time.</p>",
+        }
+        ]
+        ) %}
+        {% if slot == "description" %}
+            <p>
+                Get enterprise support for your OpenStack project at the best possible price. Our pricing model is designed to help you maximize the value of your cloud, while not forcing you to make any compromises.
+            </p>
+        {% endif %}
+        {% if slot == "cta" %}
+            <a href="/solutions/infrastructure/private-cloud-pricing"
+               class="p-button--positive">Check pricing calculator&nbsp;&rsaquo;</a>
+        {% endif %}
+    {% endcall %}
+
+    <section class="p-section">
+        <hr class="p-rule is-fixed-width" />
+        <div class="grid-row--25-75-on-large">
+            <div class="grid-col">
+                <h2 class="p-text--small-caps">
+                    Seven steps to a
+                    <br class="u-hide--small u-hide--medium" />
+                    successful project
+                </h2>
+            </div>
+            <div class="grid-col">
+                <p class="p-heading--4">1. Together, we choose the right design for your project</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">2. We build the cloud for you and hand it over to your teams</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">3. We on-board your teams for daily cloud usage and operations</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">4. We train your teams to make them comfortable with OpenStack</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">5. You automatically get enrolled to the Ubuntu Pro subscription</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">6. We handle, triage, and fix any technical issues that might occur</p>
+                <hr class="p-rule--muted" />
+                <p class="p-heading--4">7. Optionally, we manage the cloud on behalf of your teams</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section">
+        {% call(slot) vf_equal_heights(
+            title_text="Ace the market with Canonical",
+            image_aspect_ratio_medium="2-3",
+            image_aspect_ratio_small="2-3",
+            items=[
+            {
+            "title_text": "Accelerate the delivery",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/b87cfc55-accelerate.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+            "description_html": "<p>When time-to-market matters you might not have a minute to spare. Be smart about OpenStack: let our consultants build the cloud for you.</p>",
+            },
+            {
+            "title_text": "Break the ice with OpenStack",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/d9d94341-break-ice.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+            "description_html": "<p>Get started quickly with a trusted partner. We know how to effectively tame the complexity of OpenStack.</p>",
+            },
+            {
+            "title_text": "Rely on our expertise",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/53d2f2a7-rely-expertise.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+            "description_html": "<p>Let us help you with every detail, while your teams concentrate on expanding the value brought by the platform.</p>",
+            },
+            {
+            "title_text": "Shift your focus towards applications",
+            "image_html":  '<img src="https://assets.ubuntu.com/v1/a3eebf69-shift-focus.jpg"
+     class="p-image-container__image"
+     width="568"
+     height="853"
+     alt="" />',
+            "description_html": "<p>Develop your applications strategy, while our cloud experts take care of the underlying infrastructure.</p>",
+            }
+            ]
+            ) %}
+            {% if slot == "cta" %}
+                <a href="/contact-us"
+                   class="js-invoke-modal p-button--positive"
+                   aria-controls="openstack-support-modal">Get OpenStack support</a>
+            {% endif %}
+        {% endcall %}
+    </div>
+
+    {{ load_form("/openstack/support") | safe }}
+
+{% endblock content %}

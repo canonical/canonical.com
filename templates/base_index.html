@@ -11,6 +11,9 @@
         {% block meta_copydoc %}https://drive.google.com/drive/folders/0B8feV0jqaac3TmExU3NDcHhFTGc{% endblock %}" />
         <meta name="author" content="Canonical Ltd" />
         <link rel="canonical" href="{% block canonical_url %}{{ request.url }}{% endblock %}" />
+        
+        <meta name="discourse-url" content="
+        {% block meta_discourse_url %}https://discourse.ubuntu.com{% endblock %}" />
 
           <meta name="theme-color" content="#262626" />
           <meta name="twitter:account_id" content="169015850" />
@@ -18,30 +21,6 @@
           <meta property="og:type" content="website" />
           <meta property="og:url" content="{{ request.url }}" />
           <meta property="og:site_name" content="Canonical" />
-
-          <!-- Cookie policy -->
-          <script src="{{ versioned_static('js/modules/cookie-policy/cookie-policy.js') }}"></script>
-          <script>
-            cpNs.cookiePolicy();
-          </script>
-
-          <!-- Google Tag Manager -->
-          <script>
-            (function(w, d, s, l, i) {
-              w[l] = w[l] || [];
-              w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-              });
-              var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-              j.async = true;
-              j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-              f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
-          </script>
           
           <title>
 
@@ -71,6 +50,12 @@
                   content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}" />
             <meta property="og:image"
                   content="{% if 'http' not in self.meta_image() %}https://assets.ubuntu.com/v1/{% endif %}{{ self.meta_image() }}" />
+          {% else %}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:image"
+                  content="https://assets.ubuntu.com/v1/c797f1d7-og_%20canonical.png" />
+            <meta property="og:image"
+                  content="https://assets.ubuntu.com/v1/c797f1d7-og_%20canonical.png" />
           {% endif %}
 
           {% set current_path = url_for(request.endpoint, **request.view_args) %}
@@ -137,39 +122,8 @@
         style="display:none;
                visibility:hidden"></iframe></noscript>
           <a href="#main-content" class="u-off-screen">Skip to main content</a>
-          <div id="success" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Your submission was sent successfully! <a href="#"
-    onclick="document.querySelector('#success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="newsletter-signup" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Thank you for signing up for our newsletter!
-                  <br />
-                  In these regular emails you will find the latest updates from Canonical and upcoming events where you can meet our team.<a href="#"
-   onclick="document.querySelector('#newsletter-signup').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="contact-form-success" class="u-hide">
-            <div class="p-notification--positive u-no-margin--bottom">
-              <div class="p-notification__content">
-                <p class="p-notification__message">
-                  Thank you for contacting us. A member of our team will be in touch shortly. <a href="#"
-   onclick="document.querySelector('#contact-form-success').classList.add('u-hide');"><i class="p-notification__close">Close</i></a>
-                </p>
-              </div>
-            </div>
-          </div>
 
+          {% include "partial/_notifications.html" %}
           {% include "navigation/navigation.html" %}
 
           <div id="main-content">
@@ -187,7 +141,7 @@
           <script>
             (function() {
               // Form submission notification
-              var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success"];
+              var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success", "#contact-form-fail"];
               bannerElements.forEach(el => {
                 if (location.hash === el) {
                   document.querySelector(el).classList.remove("u-hide");
@@ -206,7 +160,49 @@
               }
             })()
           </script>
-          <script defer src="{{ versioned_static('js/source-inheritance.js') }}"></script>
+          
+          <!-- Cookie policy -->
+          <script src="{{ versioned_static('js/modules/cookie-policy/cookie-loader.js') }}"></script>
+          <script src="{{ versioned_static('js/dist/cookie-policy-with-callback.js') }}"></script>
+          <script src="{{ versioned_static('js/dist/watch-consent-changes.js') }}"></script>
+
+           <!-- Google Tag Manager -->
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              /** init gtm after 2 seconds - can be adjusted */
+              setTimeout(initGTM, 2000);
+            });
+            document.addEventListener('scroll', initGTMOnEvent);
+            document.addEventListener('mousemove', initGTMOnEvent);
+            document.addEventListener('touchstart', initGTMOnEvent);
+
+            function initGTMOnEvent(event) {
+              initGTM();
+              event.currentTarget.removeEventListener(event.type, initGTMOnEvent); // remove the event listener that got triggered
+            }
+            
+            function initGTM() {
+              if (window.gtmDidInit) {
+                return false;
+              }
+              window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
+              
+              (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                  'gtm.start': new Date().getTime(),
+                  event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+              })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
+            }
+          </script>
+
         </body>
 
       </html>

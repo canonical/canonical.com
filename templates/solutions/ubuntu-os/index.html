@@ -4,11 +4,15 @@
   https://docs.google.com/document/d/1X3osSqcm3rWLqYUJr5G4fXEEHCby-j5FEJwClLNx5S4/edit
 {% endblock meta_copydoc %}
 
-{% block title %}The world's favourite enterprise Linux platform{% endblock %}
+{% block title %}The world's favourite enterprise OS{% endblock %}
 
 {% block meta_description %}
-  Ubuntu is the world's most popular enterprise Linux distribution. Unify your tech stack with the enterprise OS that is favoured for servers, IoT and applications.
+  Ubuntu is the world's most popular Linux distribution. Unify your tech stack with the enterprise OS that is favoured for servers, IoT and applications.
 {% endblock %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block meta_keywords %}Enterprise OS{% endblock %}
 
 {% block body_class %}
   is-paper
@@ -16,30 +20,35 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--50-50">
-      <div class="col">
-        <h1>Innovate with confidence.</h1>
-        <h2>Choose the world's favourite Linux.</h2>
-        <div class="p-section--shallow">
-          <p>
-            Bring harmony to your stack from the desktop to the edge with Ubuntu, the OS that innovators and successful enterprises have in common. Ubuntu brings standardisation and stability together, offering you a platform for innovation, combined with the freedom that transparent, open source code offers.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="/contact-us"
-           aria-controls="ubuntu-os-modal">Contact us <span class="u-off-screen">about Ubuntu OS solutions</span></a>
+  {% call(slot) vf_hero(
+    title_text="The enterprise OS that's made for everyone",
+    layout="50/50",
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == "description" -%}
+      <p>
+        Bring harmony to your stack from the desktop to the edge with Ubuntu, the OS that innovators and successful enterprises have in common. Ubuntu brings standardization and stability together, offering you a platform for innovation, combined with the freedom that transparent, open source code offers. Powered by community, Ubuntu enables everyone to build on the latest technologies with the benefit of enterprise-grade assurance.
+      </p>
+    {%- endif -%}
+    {%- if slot == "cta" -%}
+      <a class="p-button--positive js-invoke-modal"
+         href="/contact-us"
+         aria-controls="ubuntu-os-modal">Get in touch<span class="u-off-screen"> about Ubuntu OS solutions</span></a>
+      <a href="https://ubuntu.com/download">Download Ubuntu&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {%- if slot == "image" -%}
+      <div class="p-image-container--16-9 is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/ec73e570-hero-img.png",
+                alt="",
+                width="1200",
+                height="752",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
       </div>
-      <div class="col">
-        <div class="p-image-container--16-9 is-cover">
-          <img class="p-image-container__image"
-               src="https://assets.ubuntu.com/v1/ec73e570-hero-img.png"
-               alt="" />
-        </div>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section--shallow">
     <div class="row--50-50">
@@ -56,6 +65,9 @@
         <p>
           A 20-year track record of reliability and innovation means Ubuntu has left its footprints across industries, from finance to automotive to the edge of space.
         </p>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/engage/adopting-secure-enterprise-linux-desktop">Read our guide to enterprise Linux&nbsp;&rsaquo;</a>
+        </div>
       </div>
     </div>
   </section>
@@ -63,9 +75,14 @@
   <section class="p-section">
     <div class="u-fixed-width">
       <div class="p-image-container--cinematic is-highlighted">
-        <img class="p-image-container__image"
-             src="https://assets.ubuntu.com/v1/63d9f66b-city-isometric.png"
-             alt="" />
+        {{ image(url="https://assets.ubuntu.com/v1/63d9f66b-city-isometric.png",
+                alt="",
+                width="2464",
+                height="1028",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
       </div>
     </div>
   </section>
@@ -159,7 +176,7 @@
       </div>
       <div class="col">
         <p>Nimble. Versatile. Straightforward.</p>
-        <p>Ubuntu offers you a unified Linux OS experience across desktops, servers, IoT and public clouds.</p>
+        <p>Ubuntu offers you a unified enterprise-grade Linux experience across desktops, servers, IoT and public clouds.</p>
         <p>
           Choose the OS that is certified with leading hardware OEMs, giving you the peace of mind that Ubuntu has been rigorously tested to give you the best experience.
         </p>
@@ -194,6 +211,9 @@
             </p>
             <p>
               Ubuntu also supports the latest <a href="https://ubuntu.com/confidential-computing">confidential computing</a> technology, helping you protect data while it’s being processed.
+            </p>
+            <p>
+              <a href="https://ubuntu.com/engage/introduction-confidential-computing">Learn more in our introductory whitepaper&nbsp;&rsaquo;</a>
             </p>
           </div>
         </div>
@@ -250,8 +270,17 @@
       <div class="col-9 col-start-large-4">
         <div class="p-equal-height-row--wrap has-divider-3">
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/84c964b8-automotive.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                    {{ image(url="https://assets.ubuntu.com/v1/84c964b8-automotive.png",
+                            alt="",
+                            width="568",
+                            height="853",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe
+                            }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">Automotive</p>
             <p class="p-equal-height-row__item">Industry leaders like Elekrobit drive innovation with Ubuntu.</p>
@@ -262,8 +291,17 @@
             </div>
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/9f22b27e-robotics.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/9f22b27e-robotics.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">Robotics</p>
             <p class="p-equal-height-row__item">Companies like Husarion run next-generation robots on Ubuntu.</p>
@@ -274,8 +312,17 @@
             </div>
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/e0288f39-saas.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/e0288f39-saas.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">SaaS</p>
             <p class="p-equal-height-row__item">Platforms like LaunchDarkly accelerate software development with Ubuntu.</p>
@@ -292,8 +339,17 @@
       <div class="col-9 col-start-large-4">
         <div class="p-equal-height-row has-divider-3">
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/2339a7e6-nmsu-with-bg.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/2339a7e6-nmsu-with-bg.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">Education</p>
             <p class="p-equal-height-row__item">
@@ -306,8 +362,17 @@
             </div>
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/be18af0c-media-and-entertainment.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/be18af0c-media-and-entertainment.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">Media and entertainment</p>
             <p class="p-equal-height-row__item">Video game developers like Roblox scale confidently with Ubuntu.</p>
@@ -318,8 +383,17 @@
             </div>
           </div>
           <div class="p-equal-height-row__col">
-            <div class="p-equal-height-row__item p-image-container--2-3 u-hide--small">
-              <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/24b8429d-medical-devices.png" alt="" />
+            <div class="p-equal-height-row__item">
+                <div class="p-image-container--2-3 u-hide--small">
+                  {{ image(url="https://assets.ubuntu.com/v1/24b8429d-medical-devices.png",
+                                alt="",
+                                width="568",
+                                height="853",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-image-container__image"}) | safe
+                  }}
+                </div>
             </div>
             <p class="p-equal-height-row__item p-heading--5">Medical devices</p>
             <p class="p-equal-height-row__item">BeWell Innovations runs its growing fleet of patient kiosks on Ubuntu.</p>
@@ -379,12 +453,13 @@
         <hr class="p-rule--muted" />
         <div class="row p-section--shallow">
           <div class="col-3 p-image-wrapper">
-            {{ image(url="https://assets.ubuntu.com/v1/bf624470-image%20wrapper.png",
+            {{ image(url="https://assets.ubuntu.com/v1/a182b1e8-Full%20Logo.png",
                         alt="Screenly",
-                        width="125",
-                        height="43",
+                        width="120",
+                        height="120",
                         hi_def=True,
-                        loading="lazy") | safe
+                        loading="lazy"
+                        ) | safe
             }}
           </div>
           <div class="col-6">
@@ -550,7 +625,7 @@
             <h3 class="p-heading--5">Ubuntu Core</h3>
           </div>
           <div class="col-6 col-medium-3">
-            <p>A lightweight, fully containerised version of Ubuntu optimised for the edge.</p>
+            <p>A lightweight, fully containerized version of Ubuntu optimized for the edge.</p>
             <hr class="p-rule--muted" />
             <p>
               <a href="https://ubuntu.com/core">Learn about Ubuntu Core&nbsp;&rsaquo;</a>
@@ -573,7 +648,7 @@
       </div>
       <div class="col">
         <h3 class="p-heading--5">
-          <a href="https://ubuntu.com/desktop/organisations">Bring Ubuntu to your organisation</a>
+          <a href="https://ubuntu.com/desktop/organizations">Bring Ubuntu to your organization</a>
         </h3>
         <p>
           Learn about the features that make Ubuntu the developers' choice and the advantages this offers to enterprises who adopt it.
@@ -611,17 +686,13 @@
     <div class="u-fixed-width">
       <h2>Want to talk to us about your enterprise platform needs?</h2>
       <p class="p-heading--2">
-        <a href="/contact-us" aria-controls="ubuntu-os-modal">Contact us&nbsp;&rsaquo;</a>
+        <a href="/contact-us"
+           class="js-invoke-modal"
+           aria-controls="ubuntu-os-modal">Contact us&nbsp;&rsaquo;</a>
       </p>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ubuntu-os#contact-form-success" %}
-
-    {% include "solutions/ubuntu-os/_form-ubuntu-os.html" %}
-  {% endwith %}
+  {{ load_form("/ubuntu-os") | safe }}
 
 {% endblock %}

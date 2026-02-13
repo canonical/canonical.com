@@ -1,0 +1,791 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Anbox Cloud - Scalable Android in the cloud{% endblock %}
+
+{% block meta_description %}
+  Anbox Cloud is the mobile cloud computing platform delivered by Canonical. Run Android in the cloud, at high scale and on any type of hardware. Canonical partners with cloud providers and computing hardware manufacturers to accelerate your time to market and provide long-term commercial support.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1m3hL6Y8VqFqeZLy-sewPAyCZz-uGr7zfqzNwtGumyho/edit
+{% endblock %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Scalable Android in the cloud',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Managing large-scale Android development is tough with traditional emulators. Anbox Cloud runs Android in secure, scalable cloud containers, outperforming emulators. Anbox simplifies workflows, reduces hardware needs, automates testing and delivers ultra-low latency across thousands of instances.
+      </p>
+      <p>
+        Check out our <a href="https://www.youtube.com/playlist?list=PLwFSk464RMxlDZrlgsS35tib-gJJd5SVN">video resources</a> to learn more about how you can use Anbox Cloud.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://documentation.ubuntu.com/anbox-cloud/howto/install-appliance/landing/"
+         class="p-button--positive">Try Anbox Cloud</a>
+      <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Anbox Cloud Datasheet.pdf?version=0">Read the Anbox Cloud datasheet&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <lite-youtube videoid="drOCjcDpnng" width="560" height="315" posterquality="maxresdefault" videotitle="Scalable Android Cloud with Anbox Cloud" class="u-embedded-media__element">
+        <a href="https://www.youtube.com/embed/drOCjcDpnng?rel=0"
+           title="Play Video">
+          <span class="lyt-visually-hidden">Scalable Android Cloud with Anbox Cloud</span>
+        </a>
+        </lite-youtube>
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section" id="why-anbox-cloud">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-section--shallow">Why Anbox Cloud?</h2>
+    </div>
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <div class="p-section--shallow">
+          <div class="p-equal-height-row">
+            <div class="p-equal-height-row__col">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                  {{ image(url="https://assets.ubuntu.com/v1/a9f9ba69-android-at-scale.png",
+                                    alt="",
+                                    width="852",
+                                    height="1278",
+                                    attrs={"class": "p-image-container__image"},
+                                    hi_def=True,
+                                    loading="lazy") | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Android at scale</h3>
+                <p>
+                  Anbox Cloud provides high-density Android environments, allowing you to run hundreds or thousands of Android instances in parallel with ultra-low latency.
+                </p>
+              </div>
+            </div>
+            <div class="p-equal-height-row__col">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                  {{ image(url="https://assets.ubuntu.com/v1/c341b11e-simple-devops.png",
+                                    alt="",
+                                    width="852",
+                                    height="1278",
+                                    attrs={"class": "p-image-container__image"},
+                                    hi_def=True,
+                                    loading="lazy") | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Simple DevOps and CI/CD integration</h3>
+                <p>
+                  Streamline testing and development processes by incorporating Anbox Cloud directly into your existing CI/CD pipelines, automating builds, tests, and deployments.
+                </p>
+              </div>
+            </div>
+            <div class="p-equal-height-row__col">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container--3-2-on-small p-image-container--square-on-medium p-image-container--2-3-on-large is-highlighted">
+                  {{ image(url="https://assets.ubuntu.com/v1/4e0d260e-cost-effective.png",
+                                    alt="",
+                                    width="852",
+                                    height="1278",
+                                    hi_def=True,
+                                    attrs={"class": "p-image-container__image"},
+                                    loading="lazy") | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Cost-effective</h3>
+                <p>
+                  Eliminate the need for dedicated hardware setups by running everything in the cloud, benefiting from flexible pricing and elastic scaling.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="use-cases">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-section--shallow">Use cases</h2>
+    </div>
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3 col-medium-3">
+              <h3 class="p-heading--5">Testing and development</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Anbox Cloud is perfect for developers looking to test and deploy mobile applications across a wide range of Android devices. Its ability to simulate different device configurations, network conditions, and environments ensures robust and reliable testing at scale.
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3 col-medium-3">
+              <h3 class="p-heading--5">Automotive</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Anbox Cloud's native support for Android Automotive OS (AAOS) offers automotive companies building infotainment systems a superior alternative to local testing environments. It allows you to run custom AAOS images in the cloud, simulate vehicle hardware with VHAL (Vehicle Hardware Abstraction Layer) support, and scale development environments to accommodate large teams of 100+ Android developers without the headaches of managing physical hardware or traditional emulators.
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3 col-medium-3">
+              <h3 class="p-heading--5">Gaming</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Take advantage of Anbox Cloud's ultra-low latency streaming capabilities to deliver smooth, high-performance gaming experiences to users across various devices. Its high instance density and GPU support ensure seamless gameplay at scale.
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="p-section--shallow">
+          <div class="row">
+            <div class="col-3 col-medium-3">
+              <h3 class="p-heading--5">Automation</h3>
+            </div>
+            <div class="col-6 col-medium-3">
+              <p>
+                Anbox Cloud provides businesses automating workflows using Android applications with a flexible and reliable platform to run applications remotely, integrate with existing business processes, and ensure 24/7 availability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="key-features">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2 class="p-heading--2">Key features</h2>
+      </div>
+      <div class="col">
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">
+            <h3 class="p-heading--5">Cloud-native flexibility</h3>
+            <div>Deploy on AWS, Azure, GCP, OCI or any private cloud.</div>
+          </li>
+          <li class="p-list__item is-ticked">
+            <h3 class="p-heading--5">Support for both ARM and x86</h3>
+            <div>Optimize performance across a wide range of hardware platforms.</div>
+          </li>
+          <li class="p-list__item is-ticked">
+            <h3 class="p-heading--5">GPU support for heavy workloads</h3>
+            <div>Ideal for tasks requiring high-performance rendering, such as gaming and complex simulations.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="cloud-service-providers">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2 class="p-text--small-caps" style="margin-top: 0.5rem;">Cloud service providers</h2>
+      </div>
+    </div>
+    <div class="u-fixed-width">
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/8b62755e-equinix-logo-vw.png",
+                        alt="Equinix logo",
+                        width="262",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/6e1420df-google-cloud-logo.png",
+                        alt="Google cloud logo",
+                        width="382",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/2b7d4426-microsoft-azure-logo [DEPRECATED].png",
+                        alt="Microsoft Azure logo",
+                        width="272",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/1b174d84-aws-logo.png",
+                        alt="AWS logo",
+                        width="152",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e5bf59de-oracle-new-logo.png",
+                        alt="Oracle logo",
+                        width="313",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="enterprise-support">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Anbox Cloud enterprise support</h2>
+      </div>
+      <div class="col-6 col-medium-3">
+        <div class="p-section--shallow">
+          <div class="p-image-container--16-9 is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/d5eaef34-installation.png",
+                        alt="",
+                        width="1800",
+                        height="1200",
+                        hi_def=True,
+                        attrs={"class": "p-image-container__image"},
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p>
+          Anbox Cloud benefits from enterprise-grade 24/7 support through <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, ensuring that businesses running critical Android applications at scale have access to full technical assistance whenever they need it. This makes Anbox Cloud particularly suited for industries where security and compliance are key, such as automotive, finance, and gaming.
+        </p>
+        <p>Do you have other use cases in mind for Android in the cloud with Anbox Cloud?</p>
+        <div class="p-cta-block">
+          <a class="p-button--positive js-invoke-modal"
+             href="#get-in-touch"
+             aria-controls="anbox-cloud-modal">Tell us more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="learn-more">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Learn more about Anbox Cloud</h2>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-2">
+            <h3 class="p-heading--5">Whitepapers</h3>
+          </div>
+          <div class="col-4">
+            <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="https://assets.ubuntu.com/v1/73c735a4-Scale_Android_Anbox_02.07.20.pdf">Highly scalable Android applications</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/anbox-cloud-nvidia-gpu-whitepaper">Android-based cloud gaming solutions with NVIDIA GPUs and Anbox Cloud</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Android_cloud_Arm_native_servers.pdf">Android in the cloud on ARM core servers</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/anbox-cloud-gaming-whitepaper">Cloud gaming for Android</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-2">
+            <h3 class="p-heading--5">Blogs</h3>
+          </div>
+          <div class="col-4">
+            <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/blog/implementing-an-android-based-cloud-game-streaming-service-with-anbox-cloud">Implementing an Android™ based cloud game streaming service with Anbox Cloud</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/blog/anbox-cloud-to-improve-infotainment">Canonical's Anbox Cloud brings new development and testing features to improve in-vehicle infotainment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-2">
+            <h3 class="p-heading--5">Datasheet</h3>
+          </div>
+          <div class="col-4">
+            <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Anbox Cloud Datasheet.pdf?version=0">Anbox Cloud</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-2">
+            <h3 class="p-heading--5">Webinar</h3>
+          </div>
+          <div class="col-4">
+            <ul class="p-list--divided">
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/anbox-automotive-webinar">Unleashing Android Automotive development with Anbox Cloud</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="cloud-ecosystem">
+    <div class="p-section--shallow u-fixed-width">
+      <hr class="p-rule--highlight" />
+      <h2 class="p-text--small-caps" style="margin-top: 0.5rem;">Leaning on a strong cloud ecosystem</h2>
+    </div>
+    <div class="p-section">
+      <div class="row--25-75">
+        <div class="col u-hide--small">
+          {{ image(url="https://assets.ubuntu.com/v1/2179f22d-nvidia-logo.png",
+                    alt="Nvidia logo",
+                    width="852",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="col">
+          <hr class="p-rule--muted" />
+          <div class="row">
+            <div class="col-6">
+              <p>
+                <i>"NVIDIA T4 GPUs are now featured in second-generation Arm servers at cloud service providers, delivering significantly improved app-streams-per-server and lower cost per-user. Canonical's Anbox platform provides a complete solution to containerize mobile apps and works seamlessly with NVIDIA's Linux and Android software stacks. Together, Canonical and NVIDIA provide a scalable solution to virtualize mobile apps, and stream them securely to the growing population of 5G mobile devices."</i>
+              </p>
+            </div>
+            <div class="col-3">
+              <p class="u-no-margin--bottom">
+                <strong>Phil Eisler</strong>
+              </p>
+              <p class="u-text--muted">VP Cloud Streaming at NVIDIA</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-section">
+      <div class="row--25-75">
+        <div class="col u-hide--small">
+          {{ image(url="https://assets.ubuntu.com/v1/53e415bd-arm-logo.png",
+                    alt="ARM logo",
+                    width="852",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="col">
+          <hr class="p-rule--muted" />
+          <div class="row">
+            <div class="col-6">
+              <p>
+                <i>"It's no secret that TCO is a key driver of cloud provider decisions. And that's what gets Arm excited about the Android in the Cloud solution Ampere, Canonical and NETINT have developed. The Ampere Altra CPU packs 80 high-performance Neoverse N1 cores into a very power-efficient design that should deliver incredible TCO for Android in the Cloud use cases like cloud gaming, Android app development and IoT enablement to cloud providers."</i>
+              </p>
+            </div>
+            <div class="col-3">
+              <p class="u-no-margin--bottom">
+                <strong>Robbie Williamson</strong>
+              </p>
+              <p class="u-text--muted">Arm Senior Director of Solutions Engineering</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-section">
+      <div class="row--25-75">
+        <div class="col u-hide--small">
+          {{ image(url="https://assets.ubuntu.com/v1/bbb69a95-ampere-logo.png",
+                    alt="Ampere logo",
+                    width="852",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="col">
+          <hr class="p-rule--muted" />
+          <div class="row">
+            <div class="col-6">
+              <p>
+                <i>"The combination of Ampere's Arm-based servers with a provisioned virtualisation solution like Canonical's Anbox Cloud delivers the flexible, high-performance and secure infrastructure that developers need in order to deliver a better user experience for consumers."</i>
+              </p>
+            </div>
+            <div class="col-3">
+              <p class="u-no-margin--bottom">
+                <strong>Jeff Wittich</strong>
+              </p>
+              <p class="u-text--muted">
+                SVP of Products at <a href="https://amperecomputing.com/">Ampere</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-section">
+      <div class="row--25-75">
+        <div class="col u-hide--small">
+          {{ image(url="https://assets.ubuntu.com/v1/8b62755e-equinix-logo-vw.png",
+                    alt="Equinix logo",
+                    width="80",
+                    height="100",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="col">
+          <hr class="p-rule--muted" />
+          <div class="row">
+            <div class="col-6">
+              <p>
+                <i>"As small, low-powered devices inundate our world, offloading applications to nearby cloud servers opens up a huge number of opportunities for efficiency, as well as new experiences. We're excited to support the Anbox Cloud team as they grow alongside the worldwide rollout of 5G."</i>
+              </p>
+            </div>
+            <div class="col-3">
+              <p class="u-no-margin--bottom">
+                <strong>Jacob Smith</strong>
+              </p>
+              <p class="u-text--muted">
+                Co-founder and CMD Packet
+                <br />
+                (now Equinix Metal)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-section">
+      <div class="row--25-75">
+        <div class="col u-hide--small">
+          {{ image(url="https://assets.ubuntu.com/v1/080a201e-intel-logo.png",
+                    alt="Intel logo",
+                    width="852",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+        <div class="col">
+          <hr class="p-rule--muted" />
+          <div class="row">
+            <div class="col-6">
+              <p>
+                <i>"Canonical's inclusion of the Intel Visual Cloud Accelerator Card - Render as part of their newly launched Anbox Cloud solution will enable the delivery of enhanced cloud and mobile gaming experiences on Android devices, supporting an emerging industry opportunity today, and for the upcoming 5G era."</i>
+              </p>
+            </div>
+            <div class="col-3">
+              <p class="u-no-margin--bottom">
+                <strong>Lynn Comp</strong>
+              </p>
+              <p class="u-text--muted">
+                Vice President, Data Platforms Group and General manager of the Visual Cloud Division, Intel
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="run-android">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-section--shallow">Run Android in the cloud with Anbox Cloud</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="p-table--mobile-card u-no-margin--bottom"
+               data-heading="Table comparing deployments to run Android in the cloud with Anbox Cloud">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Anbox Cloud Appliance</th>
+              <th>Charmed Anbox Cloud</th>
+              <th>Fully managed deployment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>
+                <strong>Ultra low latency streaming</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>GPU Support</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">NVIDIA, AMD, Intel</td>
+              <td data-heading="Charmed Anbox Cloud">NVIDIA, AMD, Intel</td>
+              <td data-heading="Fully managed deployment">NVIDIA, AMD, Intel</td>
+            </tr>
+            <tr>
+              <th>
+                <strong>UI</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>Android versions</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">12, 13, 14, 15</td>
+              <td data-heading="Charmed Anbox Cloud">12, 13, 14, 15</td>
+              <td data-heading="Fully managed deployment">12, 13, 14, 15</td>
+            </tr>
+            <tr>
+              <th>
+                <strong>Security updates</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>Community support</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment" class="table-cell ">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>High availability</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <span data-heading="No">&ndash;</span>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>Bug-fix and operational support</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <span data-heading="No">&ndash;</span>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>SLAs</strong>
+              </th>
+              <td data-heading="Anbox Cloud Appliance">
+                <span data-heading="No">&ndash;</span>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <span data-heading="No">&ndash;</span>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <i class="p-icon--success-grey">Yes</i>
+              </td>
+            </tr>
+            <tr class="u-hide--small">
+              <th></th>
+              <td data-heading="Anbox Cloud Appliance">
+                <a href="https://documentation.ubuntu.com/anbox-cloud/howto/install-appliance/landing/"
+                   class="p-button--positive">Install now</a>
+              </td>
+              <td data-heading="Charmed Anbox Cloud">
+                <a href="https://documentation.ubuntu.com/anbox-cloud/howto/install/deploy-juju/"
+                   class="p-button--positive">Install now</a>
+              </td>
+              <td data-heading="Fully managed deployment">
+                <a href="/contact-us"
+                   class="p-button--positive js-invoke-modal"
+                   aria-controls="anbox-cloud-modal">Contact us</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="p-inline-list u-hide--medium u-hide--large">
+        <li class="p-inline-list__item">
+          <a href="/contact-us"
+             class="p-button--neutral js-invoke-modal"
+             aria-controls="anbox-cloud-modal">Contact us</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="p-section" id="customers">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2 class="p-text--small-caps" style="margin-top: 0.5rem;">A selection of customers</h2>
+      </div>
+    </div>
+    <div class="u-fixed-width">
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/c73facab-vodafone-logo.png",
+                        alt="Vodafone logo",
+                        width="381",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/f4e47837-umony-logo.png",
+                        alt="Umony logo",
+                        width="381",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/9df22d71-clario-logo.png",
+                        alt="Clario logo",
+                        width="309",
+                        height="312",
+                        hi_def=True,
+                        attrs={"class": "p-logo-section__logo"},
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="tell-us">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Tell us what you have in mind</h2>
+      </div>
+      <div class="col-6 col-medium-3">
+        <div class="p-section--shallow">
+          <div class="p-image-container--16-9 is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/39b420ad-tell-us.png",
+                        alt="",
+                        width="1800",
+                        height="1200",
+                        hi_def=True,
+                        attrs={"class": "p-image-container__image"},
+                        loading="lazy") | safe
+            }}
+          </div>
+        </div>
+        <p>
+          Anbox Cloud is a platform which offers new ways to deliver mobile apps. You can test it out in the cloud in a few clicks! If you'd like to chat or learn more about how we can help accelerate your company, please reach out to us here!
+        </p>
+        <div class="p-cta-block">
+          <a class="p-button--positive js-invoke-modal"
+             href="/contact-us"
+             aria-controls="anbox-cloud-modal">Talk to an expert</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section--deep">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col"></div>
+      <div class="col">
+        <div class="p-section--shallow">
+          Android is a trademark of Google LLC. Anbox Cloud uses assets available through the Android Open Source Project.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/anbox-cloud") | safe }}
+
+{% endblock %}

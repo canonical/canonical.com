@@ -1,11 +1,13 @@
 (function () {
+  /** @type {HTMLInputElement} */
   const searchBox = document.querySelector(".js-find-a-partner__search-input");
   const urlParams = new URLSearchParams(window.location.search);
   const partners = document.querySelectorAll(".js-find-a-partner__partner");
+  /** @type {NodeListOf<HTMLInputElement>} */
   const checkboxes = document.querySelectorAll(".js-find-a-partner__filter");
   const searchResetButton = document.querySelector(".p-search-box__reset");
   const noResults = document.querySelector(".js-find-a-partner__no-results");
-  const sideNavButtons = document.querySelectorAll(".js-drawer-toggle");
+  const sideNavButtons = document.querySelectorAll(".js-accordion-toggle");
   const clearFiltersButton = document.getElementById("js-clear-filters");
 
   var filters = [];

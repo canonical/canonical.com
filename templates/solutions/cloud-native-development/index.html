@@ -1,0 +1,505 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Cloud-native app development{% endblock %}
+
+{% block meta_description %}
+  Cloud-native app development made easy | Canonical offers you a composable cloud-native platform with the same reliability and quality support you know from Ubuntu.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1xn9QcJ7OfELzRBtUlu-WkSSnC9lYideoUu-YV1yBNIU/edit
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block content %}
+  {%- call(slot) vf_hero(
+    title_text='Composable <br class="u-hide--small u-hide--medium" /> cloud-native app development',
+    layout='50/50',
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Drive business differentiation with composable, open source cloud-native app development. You don't have to choose between the freedom that composability offers, and the high costs. Canonical offers you a cost-effective approach and the containers, toolchains and development frameworks you need to deliver on your vision.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         aria-controls="cloud-native-development-modal"
+         class="p-button--positive js-invoke-modal">Get in touch</a>
+    {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Why Canonical?</h2>
+      </div>
+      <div class="col">
+        <ul class="p-list--divided u-no-margin--bottom">
+          <li class="p-list__item is-ticked">Standard APIs and fully open source</li>
+          <li class="p-list__item is-ticked">Fast remediation for CVEs</li>
+          <li class="p-list__item is-ticked">12-year security maintenance and support commitment</li>
+          <li class="p-list__item is-ticked">20-year track record of reliability</li>
+          <li class="p-list__item is-ticked">Hybrid, multi-cloud portfolio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>True open source composability</h2>
+      </div>
+      <div class="col">
+        <p>
+          Open source enables you to develop and customize applications to meet your unique business requirements. Consuming available open source lets you move faster. But maintaining open source apps can be costly and time-intensive.
+        </p>
+        <p>
+          Canonical enables you to benefit from open source in an affordable and convenient way, without lock-in or hidden costs. We support the most popular cloud-native open source projects, offering you upstream innovation with the security assurances you need.
+        </p>
+        <p>
+          You can use standard APIs and choose among different packaging formats to suit your needs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="is-fixed-width p-rule" />
+    <div class="row--50-50">
+      <div class="col">
+        <h2>
+          Choose your
+          <br class="u-hide--small u-hide--medium" />
+          app modernization journey
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <p>
+            Deliver cloud-native solutions without being locked into rigid and static frameworks. Select and integrate the components that fit your use case and workflow. Customize, adapt and augment those solutions as your needs evolve. Whether it's greenfield projects or deployments in existing CI/CD systems, our tools are modular enough to meet your specific architecture requirements.
+          </p>
+        </div>
+        <div class="p-tabs js-tabbed-content">
+          <div class="p-tabs__list"
+               role="tablist"
+               aria-label="App modernization journey">
+            <div class="p-tabs__item">
+              <button class="p-tabs__link"
+                      role="tab"
+                      aria-selected="true"
+                      aria-controls="ready-to-use-apps-tab"
+                      id="ready-to-use-apps">Ready-to-use apps</button>
+            </div>
+            <div class="p-tabs__item">
+              <button class="p-tabs__link"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="build-your-own-tab"
+                      id="build-your-own"
+                      tabindex="-1">Build your own</button>
+            </div>
+            <div class="p-tabs__item">
+              <button class="p-tabs__link"
+                      role="tab"
+                      aria-selected="false"
+                      aria-controls="let-us-build-it-tab"
+                      id="let-us-build-it"
+                      tabindex="-1">Let us build it</button>
+            </div>
+          </div>
+
+          <div tabindex="0"
+               role="tabpanel"
+               id="ready-to-use-apps-tab"
+               aria-labelledby="ready-to-use-apps">
+            <div class="p-section--shallow">
+              <p class="p-heading--3">Trusted artifacts for any infrastructure</p>
+              <p>
+                Consume fully maintained container images for popular open source databases and streaming applications. Enjoy the full benefits of cloud-native architecture without compromising security or compounding operational complexity.
+              </p>
+              <p>
+                Our database containers are fully OCI-compliant, and can run on any OCI-compliant platform, including Azure Kubernetes Service (AKS), Amazon Elastic Kubernetes Service (EKS), and Red Hat OpenShift.
+              </p>
+            </div>
+            <div class="p-cta-block">
+              <a href="/blog/introducing-trusted-open-source-data-containers">Read more on our blog&nbsp;&rsaquo;</a>
+            </div>
+            <div class="p-cta-block">
+              <a href="/data">Learn about our data solutions portfolio&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+
+          <div tabindex="0"
+               role="tabpanel"
+               id="build-your-own-tab"
+               aria-labelledby="build-your-own">
+            <div class="p-section--shallow">
+              <div class="p-section--shallow">
+                <p class="p-heading--3">Developers love our tools</p>
+                <p>
+                  Access the widest open source library with a consistent security maintenance commitment, and build on FIPS compliant images. Benefit from the same consistent experience everywhere &mdash; it's still the same Canonical software you'd find in your laptop, bare metal machines and VMs.
+                </p>
+              </div>
+              <hr class="p-rule--muted u-no-margin--bottom" />
+              <ul class="p-list--divided u-no-margin--bottom">
+                <li class="p-list__item has-bullet">
+                  <a href="https://documentation.ubuntu.com/rockcraft/en/latest/index.html">Build hardened and optimized containers with Rockcraft</a> &ndash; so solid, we call them rocks.
+                </li>
+                <li class="p-list__item has-bullet">
+                  <a href="https://ubuntu.com/containers/chiseled">Chisel your containers</a> &ndash; trim out what you don't need for maximum efficiency. Chisel is a tool to create minimal Ubuntu containers comprising only the application and its runtime dependencies. It's the Canonical take on distro-less containers.
+                </li>
+                <li class="p-list__item has-bullet">
+                  <a href="https://documentation.ubuntu.com/ops/latest/tutorial/from-zero-to-hero-write-your-first-kubernetes-charm/">Automate application lifecycle management with charms</a> &ndash; let Kubernetes operators do the heavy lifting.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div tabindex="0"
+               role="tabpanel"
+               id="let-us-build-it-tab"
+               aria-labelledby="let-us-build-it">
+            <div class="p-section--shallow">
+              <div class="p-section--shallow">
+                <p class="p-heading--3">Container Build Service</p>
+                <p>
+                  Speed up your modernization journey with our Container Build Service. We deliver container images to your spec, and support on RHEL, VMware, Ubuntu or major public cloud Kubernetes. Contact us for an initial assessment.
+                </p>
+              </div>
+              <div class="p-cta-block">
+                <a href="/contact-us"
+                   aria-controls="cloud-native-development-modal"
+                   class="p-button--positive js-invoke-modal">Get in touch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2>Research shows 9 out of 10 companies prefer to pull packages from their OS.</h2>
+      <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain" class="p-button">Download our report for insights</a>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Let us handle the dependencies</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow u-hide--small">
+          <div class="p-image-container">
+            {{ image(url="https://assets.ubuntu.com/v1/0d03fa36-Desktop%20_%20Workstation.jpeg",
+                        alt="",
+                        width="1024",
+                        height="567",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+        </div>
+        <div>
+          <p>
+7 in 10 teams spend more than 6 hours per week on security patching*<span class="u-off-screen">Source: IDC, 2025</span>, but most are dissatisfied with their ability to fix vulnerabilities quickly.
+          </p>
+          <p>
+            Managing dependencies is hard, repetitive and not value-creating &ndash; why do that? Let your developers focus on new features and develop with the latest and greatest open source, available in Ubuntu's trusted repositories.
+          </p>
+          <p>We'll handle the security maintenance.</p>
+        </div>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/containers">Build with trusted containers&nbsp;&rsaquo;</a>
+        </div>
+        <p class="u-text--muted" aria-hidden="true">*Source: IDC, 2025</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Deploy and move forward</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow u-hide--small">
+          <div class="p-image-container">
+            {{ image(url="https://assets.ubuntu.com/v1/cb2c0edf-Deploy and move forward.png",
+                        alt="",
+                        width="1800",
+                        height="1013",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+        </div>
+
+        <div>
+          <p>
+            Constant Kubernetes upgrades are a drain on enterprise teams. With us, you can move at your own pace and keep your team focused on innovation, not infrastructure. We ship a Kubernetes LTS every 2 years and provide security updates for 12 full years.
+          </p>
+          <p>Prefer to move faster? Benefit from upstream releases every four months with 14 months of security maintenance.</p>
+        </div>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/kubernetes">Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Run your apps on your chosen platform</h2>
+      </div>
+      <div class="col">
+        <div>
+          <p>
+            We support our Kubernetes and containers on bare metal, public clouds, OpenStack, Canonical MicroCloud and VMware.
+          </p>
+          <p>
+            You can also run your workloads across clouds for price performance and flexibility.
+          </p>
+          <p>Our software operators and orchestration engine help you lower complexity in managing different cloud APIs.</p>
+        </div>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/engage/hybrid-cloud-strategy-playbook">Read our hybrid cloud playbook&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-muted-heading">Our public cloud partners</h2>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/fb8052ef-aws-logo.png",
+                        alt="AWS",
+                        width="151",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e3b1f149-microsoft-azure-logo.png",
+                        alt="Microsoft Azure",
+                        width="272",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/81576433-google-cloud-logo.png",
+                        alt="Googe Cloud",
+                        width="382",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+
+            {{ image(url="https://assets.ubuntu.com/v1/b2206c85-oracle-new-logo.png",
+                        alt="Oracle",
+                        width="313",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/91e45f52-ibm-cloud-logo.png",
+                        alt="IBM Cloud",
+                        width="295",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          One subscription.
+          <br />
+          No surprises.
+        </h2>
+      </div>
+      <div class="col">
+        <div>
+          <p>
+            It's easy to do business with us. We offer security maintenance, support and compliance with one transparent subscription.
+          </p>
+          <p>You get coverage for both your infrastructure and application stack. It's that simple.</p>
+        </div>
+        <div class="p-cta-block">
+          <a href="https://ubuntu.com/pro">Learn about Ubuntu Pro&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <hr class="p-rule" />
+      <div class="col-3 col-medium-6">
+        <h2 class="p-text--small-caps">What our customers say</h2>
+      </div>
+      <div class="col-9 col-medium-6">
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/7f86c701-esa logo.png",
+                        alt="ESA logo",
+                        width="150",
+                        height="64",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <p>
+              <i>
+                “We wanted one service provider for the whole on-premise cloud consisting not only of Kubernetes but also the Ceph storage solution, PostgreSQL and Kafka. These were all the services that were needed and with Canonical we could have one joined-up approach.”
+              </i>
+            </p>
+            <hr class="p-rule" />
+            <div class="row">
+              <div class="col-2 col-medium-2">
+                <p class="u-no-margin--bottom">Michael Hawkshaw</p>
+              </div>
+              <div class="col-4 col-medium-2">
+                <p class="u-text--muted">ESA Mission Operations Infrastructure IT Service Manager</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/6a7ebbc7-atresmedia-logo.png",
+                        alt="",
+                        width="202",
+                        height="52",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <p>
+              <i>
+                “Canonical's Charmed Kubernetes delivered on our expectations and made scaling a non-issue.”
+              </i>
+            </p>
+            <hr class="p-rule" />
+            <div class="row">
+              <div class="col-2 col-medium-2">
+                <p class="u-no-margin--bottom">Miguel Rodríguez</p>
+              </div>
+              <div class="col-4 col-medium-2">
+                <p class="u-text--muted">IT Project Manager, Atresmedia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/98d26e0f-logo.png",
+                        alt="",
+                        width="72",
+                        height="84",
+                        hi_def=True,
+                        loading="lazy") | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <p>
+              <i>
+                “Our work with Canonical has been that of a true team partnership, bringing the best out of one another to the extent that our platform is now supporting use cases beyond anything we envisaged when we started this journey.”
+              </i>
+            </p>
+            <hr class="p-rule" />
+            <div class="row">
+              <div class="col-2 col-medium-2">
+                <p class="u-no-margin--bottom">Greg McCall</p>
+              </div>
+              <div class="col-4 col-medium-2">
+                <p class="u-text--muted">Chief Networks Officer, BT Group</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>More resources</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <ul class="p-list--divided">
+            <li class="p-list__item u-no-padding--bottom">
+              <p>
+                <a href="https://ubuntu.com/engage/container-security-guide">Read our guide to container security</a>
+              </p>
+              <p>The 4S strategy for building and operating containers at scale, securely.</p>
+            </li>
+            <li class="p-list__item u-no-padding--bottom">
+              <p>
+                <a href="/case-study/esa">Learn from our customers: European Space Agency</a>
+              </p>
+              <p>Read the case study to find out how ESA modernized its infrastructure with Canonical Kubernetes.</p>
+            </li>
+            <li class="p-list__item u-no-padding--bottom">
+              <p>
+                <a href="https://ubuntu.com/containers/chiseled">Learn about chiseled Ubuntu</a>
+              </p>
+              <p>Get your distroless containers from your favorite distro. Read about our approach to minimal containers.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form('/solutions/cloud-native-development') | safe }}
+  
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+
+{% endblock content %}

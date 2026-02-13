@@ -1,0 +1,510 @@
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+
+{% extends 'base_index.html' %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1IjZFI265qLY0vytHp229PJGYRKf3oKgWdY6Df72tfbc/edit?usp=sharing
+{% endblock meta_copydoc %}
+
+{% block title %}Open source consulting{% endblock %}
+
+{% block meta_description %}
+  Design, deploy, and upskill with Canonical's open source consulting services. Get a fixed outcome for a fixed cost on every engagement.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Open source consulting',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Let Canonical’s delivery experts design and deploy the ideal open source solution for your use case. With a fixed cost and guaranteed outcome on every project, you pay for results rather than hours.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a aria-controls="consulting-modal"
+         class="js-invoke-modal p-button--positive">Contact us</a>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/7f56d2f2-consulting-hero.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="p-section--shallow">
+      <h2>Why choose Canonical’s open source consulting services?</h2>
+    </div>
+
+    <div class="row--25-75-on-large">
+      <div class="col col-start-large-4">
+        <div class="p-equal-height-row">
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We guarantee
+              <br class="u-hide--small" />
+              the outcome with a fixed price
+            </p>
+            <p class="p-equal-height-row__item">
+              A fixed price and fixed outcome on every engagement guarantees you an enterprise grade solution with no uncertainties and no hidden costs. You can rely on consistent, reliable results.
+            </p>
+          </div>
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We know
+              <br class="u-hide--small" />
+              the technologies inside-out
+            </p>
+            <p class="p-equal-height-row__item">
+              If you choose Canonical's open source technologies, you can rest assured in our delivery as we know them best. We distribute, package and secure our own products. We are the true authority in delivering them to our customers.
+            </p>
+          </div>
+          <div class="p-equal-height-row__col">
+            <p class="p-heading--5 p-equal-height-row__item">
+              We bring
+              <br class="u-hide--small" />
+              proven delivery expertise
+            </p>
+            <p class="p-equal-height-row__item">
+              We have been delivering open source infrastructure and applications for over 20 years, supporting thousands of customers across the full compute spectrum.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="u-fixed-width">
+        <hr class="p-rule--highlight" />
+      </div>
+      <div class="row">
+        <div class="col-3 col-medium-2">
+          <h2 class="p-muted-heading">What our customers say</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-section--shallow">
+      <div class="col-3 col-medium-2 u-hide--small">
+        <div class="p-section--shallow">
+          {{ image(url="https://assets.ubuntu.com/v1/98a3af7e-esa.png",
+                    alt="",
+                    width="568",
+                    height="101",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+      </div>
+      <div class="col-9 col-start-large-4 col-small-6">
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-6">
+            <p class="p-heading--4">
+              <i>
+                “For ESA it is key to have service providers who can support its ambitious space program into the 2030s and beyond to help secure Europe’s role in space exploration.”
+              </i>
+            </p>
+          </div>
+          <div class="col-3">
+            <hr class="p-rule--muted u-hide--large" />
+            <p>
+              <strong>Michael Hawkshaw</strong>
+              <br />
+              <span class="u-text--muted">
+                Mission Operations Infrastructure IT Service Manager
+                <br />
+                European Space Agency
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="p-cta-block">
+          <a href="/case-study/esa">Explore the full case study&nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-section--shallow">
+      <div class="col-3 col-medium-2 u-hide--small">
+        <div class="p-section--shallow">
+          {{ image(url="https://assets.ubuntu.com/v1/72ff621b-sbi-bits.png",
+                    alt="",
+                    width="568",
+                    height="101",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+      </div>
+      <div class="col-9 col-start-large-4 col-small-6">
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-6">
+            <div class="p-section--shallow">
+              <p class="p-heading--4">
+                <i>
+                  “We’ve never considered switching providers. No other vendor could give us a perfect solution. We’ve built a great relationship with Canonical and the economics are good.”
+                </i>
+              </p>
+            </div>
+          </div>
+          <div class="col-3">
+            <hr class="p-rule--muted u-hide--large" />
+            <p>
+              <strong>Spokesperson</strong>
+              <br />
+              <span class="u-text--muted">SBI BITS</span>
+            </p>
+          </div>
+        </div>
+        <div class="p-cta-block">
+          <a href="/case-study/sbi-bits">Explore the full case study &nbsp;&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-section--shallow">
+      <div class="col-3 col-medium-2 u-hide--small">
+        <div class="p-section--shallow">
+          {{ image(url="https://assets.ubuntu.com/v1/6ee9a192-bt.png",
+                    alt="",
+                    width="568",
+                    height="165",
+                    hi_def=True,
+                    loading="lazy") | safe
+          }}
+        </div>
+      </div>
+      <div class="col-9 col-start-large-4 col-small-6">
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-6">
+            <div class="p-section--shallow">
+              <p class="p-heading--4">
+                <i>
+                  “Professional help for other professionals, people who don't leave you behind, but instead take you on the journey and educate.”
+                </i>
+              </p>
+            </div>
+          </div>
+          <div class="col-3">
+            <hr class="p-rule--muted u-hide--large" />
+            <p>
+              <strong>Drew Dunn</strong>
+              <br />
+              <span class="u-text--muted">
+                Virtualization Engineer
+                <br />
+                BT Group
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-section--shallow">
+      <div class="col-9 col-start-large-4 col-medium-6">
+        <hr class="p-rule--muted" />
+        <div class="row">
+          <div class="col-6">
+            <p class="p-heading--4">
+              <i>
+                "The quality of the Canonical products have been superb and helped our teams to deliver solutions that meet our customer expectations. Canonical's Service and Support teams are very responsive, knowledgeable, and have always helped to ensure we can continue to meet customer expectations."
+              </i>
+            </p>
+          </div>
+          <div class="col-3">
+            <hr class="p-rule--muted u-hide--large" />
+            <p>
+              <strong>Jim Sievers</strong>
+              <br />
+              <span class="u-text--muted">
+                Software Development Engineering Manager
+                <br />
+                Wachter
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <div class="row--50-50 p-section--shallow">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Consulting service options</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3 col-medium-2">
+        <ul class="js-tabbed-content p-tabs--vertical u-hide--small"
+            role="tablist"
+            aria-label="Consutling services tabs"
+            data-tablist="consulting-services">
+          <li>
+            <button class="p-tabs__item"
+                    id="private-cloud"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="private-cloud-tab">Private cloud infrastructure</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="app-modernization"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="app-modernization-tab">
+              App modernization
+              <br />
+              and Kubernetes
+            </button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="data-platform"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="data-platform-tab">Data platform and AI/ML</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="observability"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="observability-tab">Observability</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="enterprise"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="enterprise-tab">Ubuntu for enterprise</button>
+          </li>
+        </ul>
+        <form class="u-hide--large u-hide--medium">
+          <select name="tabSelect" data-tablist="consulting-services">
+            <option value="private-cloud-tab" selected="selected">Private cloud infrastructure</option>
+            <option value="app-modernization-tab">App modernization and Kubernetes</option>
+            <option value="data-platform-tab">Data platform and AI/ML</option>
+            <option value="observability-tab">Observability</option>
+            <option value="enterprise-tab">Ubuntu for enterprise</option>
+          </select>
+        </form>
+      </div>
+
+      <!-- tab content -->
+      <div class="col-9 col-medium-4" data-tablist="consulting-services">
+
+        <div tabindex="0"
+             role="tabpanel"
+             id="private-cloud-tab"
+             aria-labelledby="private-cloud"
+             aria-hidden="true">
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Private cloud</h3>
+            </div>
+            <div class="col p-section--shallow">
+              <p>
+                We enable open source Infrastructure as a Service (IaaS) on your premises, designed according to best practices and optimized for price performance.
+                We build on standards with <a href="/openstack">OpenStack</a> and <a href="/microcloud">MicroCloud</a>-based private cloud. We ensure that you get the latest functionality, optimized software-defined Ceph storage, integrations with external storage appliances,
+                state of the art software-defined networking based on OVN. We deliver all of the high availability and disaster recovery functionality you need for the perfect open source private cloud.
+              </p>
+              <p>We also offer OpenStack-based training for both day 1 deployment, and day 2 operations and troubleshooting.</p>
+              <hr class="p-rule--muted" />
+              <a href="https://ubuntu.com/openstack/consulting">Learn about our OpenStack consulting services &nbsp;&rsaquo;</a>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">MAAS</h3>
+            </div>
+            <div class="col">
+              <p>
+                Automate your bare metal lifecycle management with <a href="/maas">MAAS</a>. Our team will set up a MAAS cluster to handle the entire process seamlessly. The MAAS cluster will take care of server commissioning, operating system deployment and configuration, networking configuration, and erase and release of any bare metal server.
+              </p>
+              <p>We offer training on MAAS deployment and operations.</p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Ceph storage</h3>
+            </div>
+            <div class="col">
+              <p>
+                We design and deploy a multi-tier, software-defined storage cluster based on <a href="https://ubuntu.com/ceph">Ceph</a> that is optimized for price performance. With automated scale out capabilities, it can be the perfect replacement for traditional storage arrays
+              </p>
+              <p>We also offer full training on Ceph operations and optimization.</p>
+            </div>
+          </div>
+        </div>
+
+        <div tabindex="0"
+             role="tabpanel"
+             id="app-modernization-tab"
+             aria-labelledby="app-modernization"
+             aria-hidden="false">
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Container security</h3>
+            </div>
+            <div class="col">
+              <p>
+                Get long term security patching for your containers and version of choice. We ensure that the latest security patches are always backported to your chosen version, and we provide the ability to secure multiple versions of the same container.
+              </p>
+              <p>
+                The latest secured image of your chosen container version will always be available to download and use in your production environment.
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Kubernetes</h3>
+            </div>
+            <div class="col">
+              <p>
+                We deliver an enterprise-grade Kubernetes deployment based on our 12 year LTS <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a>, with design, deployment, testing, and acceptance on any substrate.
+              </p>
+              <p>
+                This Kubernetes deployment can run in any environment - from a single board device at the edge, to the biggest scale out cluster in a data center - and it includes the latest integrations with GPU-powered physical and virtual environments.
+              </p>
+              <p>We provide a full training course on Kubernetes deployment and operation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div tabindex="0"
+             role="tabpanel"
+             id="data-platform-tab"
+             aria-labelledby="data-platform"
+             aria-hidden="false">
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Databases</h3>
+            </div>
+            <div class="col">
+              <p>
+                We provide enterprise support and deployment services for the most popular <a href="/data">open source databases</a>, such as MySQL, PostgreSQL, MongoDB, OpenSearch, and Valkey. We will design and deploy a production-grade open source database on any public, private or hybrid cloud.
+              </p>
+              <p>
+                We can deliver your database as a standalone deployment, or we can provide you with the functionality to offer self-service deployment to your end users.
+              </p>
+              <p>We also offer comprehensive training for these database applications.</p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Kafka</h3>
+            </div>
+            <div class="col">
+              <p>
+                Replace your enterprise edition Kafka with a <a href="/data/kafka">fully supported open source Kafka</a>. We will design and deploy a production-grade open source Kafka cluster and help you migrate all of your application messaging.
+              </p>
+            </div>
+          </div>
+          <hr class="p-rule--muted" />
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">AI/MLOps</h3>
+            </div>
+            <div class="col">
+              <p>
+                Turn your AI use case into reality with the following services:
+                <ul>
+                  <li>
+                    AI workshop – We run a workshop to gather your business and technical requirements and translate them to infrastructure and AI applications, which will lead to a design for your AI training and inference environments.
+                  </li>
+                  <li>
+                    MLOps design &mdash; We design your full stack AI environment from the ground up, including platform capacity planning, operating system, container orchestration, Kubeflow, MLflow, KServe, OpenSearch, Kafka, and applications for training and inference.
+                  </li>
+                  <li>
+                    MLOps deployment and operation – We deploy the designed architecture on your choice of substrate, such as private and public clouds, GPU-enabled bare metal clusters, and edge devices.
+                  </li>
+                </ul>
+                We also provide classroom training for <a href="/mlops">MLOps operations</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div tabindex="0"
+             role="tabpanel"
+             id="observability-tab"
+             aria-labelledby="observability"
+             aria-hidden="false">
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Observability</h3>
+            </div>
+            <div class="col">
+              <p>
+                Replace your expensive observability platform with <a href="/observability">best-of-breed open source alternatives</a>, such as Grafana, Prometheus, and Loki for metrics visualization, reporting, logging, and alerting. We provide a full design and deployment service for your open source observability stack that you can use to monitor your infrastructure and applications across any environment.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div tabindex="0"
+             role="tabpanel"
+             id="enterprise-tab"
+             aria-labelledby="enterprise"
+             aria-hidden="false">
+          <div class="row--25-75-on-large">
+            <div class="col">
+              <h3 class="p-heading--5">Ubuntu Desktop and Server Enterprise deployments</h3>
+            </div>
+            <div class="col">
+              <p>
+                Are you ready to make <a href="https://ubuntu.com/desktop/organizations">Ubuntu a first-class citizen</a> in your organization? We are here to help you make that a reality. From deployment automation, authentication and security hardening and compliance, our services team can help you make your Ubuntu estate enterprise-ready.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="u-fixed-width">
+    <hr class="p-rule" />
+    <div class="p-strip is-deep">
+      <h2>
+        <a aria-controls="consulting-modal" class="js-invoke-modal">Get in touch to discuss your consulting needs &nbsp;&rsaquo;</a>
+      </h2>
+    </div>
+  </section>
+
+  {{ load_form("/consulting") | safe }}
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+
+{% endblock %}

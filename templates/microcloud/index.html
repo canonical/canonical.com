@@ -1,14 +1,20 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
-{% block title %}MicroCloud &mdash; open source scalable cloud solution{% endblock %}
+{% block title %}MicroCloud: your open source cloud platform{% endblock %}
 
 {% block meta_description %}
-  MicroClouds offer a lightweight and automated solution for edge clouds and scaleable scale private clouds. Best of open source cloud infrastructure components integrated seamlessly.
+  MicroCloud offers a lightweight, automated, and trusted open source cloud platform, integrated with the best open source cloud infrastructure components
 {% endblock %}
 
-{% block meta_keywords %}microcloud, scalable cloude, cloud infrastructure{% endblock %}
+{% block meta_keywords %}open source cloud platform, microcloud, cloud infrastructure{% endblock %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/17iBbFCINLYjPBOYWpgoq9SreyYNkR0Sb5jgx5iTo6MA/edit
@@ -20,92 +26,33 @@
 
 {% block content %}
 
-  <section class="p-strip--whitesuru is-shallow u-no-padding--bottom">
-    <div class="p-section">
-      <div class="row">
-        <div class="col-start-large-4 col-9">
-          <div class="p-section--shallow">
-            <h1>
-              Open source scalable
-              <br aria-hidden="true" />
-              cloud infrastructure
-            </h1>
-          </div>
-          <div class="p-section--shallow">
-            <p>
-              Straightforward, lightweight, and featureful.
-              <br aria-hidden="true" />
-              MicroClouds serve compute near consumers, wherever they may be.
-            </p>
-          </div>
-          <hr class="p-rule--muted" />
-          <a class="p-button--positive"
-             href="/contact-us"
-             aria-controls="microcloud-modal">Get in touch</a>
-          <br class="u-hide--medium u-hide--large" aria-hidden="true" />
-          <a href="https://ubuntu.com/engage/guide-to-micro-clouds">Read our guide to MicroCloud</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--25-75 is-split-on-medium">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          What is
-          <br aria-hidden="true" />
-          a MicroCloud?
-        </h2>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-6">
-            <div class="u-embedded-media">
-              <iframe class="u-embedded-media__element"
-                      title="What is a MicroCloud?"
-                      width="560"
-                      height="315"
-                      src="https://www.youtube.com/embed/PZdJiH0bUxY"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {% call(slot) vf_quote_wrapper(
-    title_text="Fast and scalable <br aria-hidden=\"true\" /> cloud infrastructure",
-    quote_size="small",
-    quote_text="Currently we have 200 students; we’re aiming to grow to 2,000 in
-    4 or 5 years. I think MicroCloud is a great opportunity for us, as it can
-    scale very easily for our goals.
-    <br /><br />
-    We are only three or four guys inside the Infrastructure team. What we wanted
-    was a single interface to manage everything, so that even one person can do
-    this work. It was also very, very, very important for us that the solution
-    would be compatible with the hardware we got in the past. And that’s why we
-    moved onto MicroCloud.",
-    citation_source_name_text="Hugo Adjamagbo",
-    citation_source_title_text="IT Infrastructure and Security Architect",
-    citation_source_organisation_text="Université de l’Ontario Français"
-    ) -%}
-
-    {%- if slot == 'cta' -%}
-      <a class="p-button--positive"
-         href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">Access the case study</a>
-    {%- endif -%}
+  {% call(slot) vf_hero(
+    title_text='MicroCloud: your open source cloud platform',
+    layout='50/50'
+  ) -%}
+  {%- if slot == 'description' -%}
+    <p>
+      MicroCloud is an open source cloud platform that you can build in minutes,
+      and use to manage operations with ease. With MicroCloud, you can focus on
+      delivering value, not navigating complexity.
+    </p>
+  {%- endif -%}
+  {%- if slot == 'cta' -%}
+    <a href="https://documentation.ubuntu.com/microcloud/stable/microcloud/tutorial/single-member/"
+      class="p-button--positive">
+      Install MicroCloud
+    </a>
+    <a href="https://ubuntu.com/engage/distributed-cloud-infrastructure-microcloud"
+      class="p-button">
+      Download the whitepaper
+    </a>
+  {%- endif -%}
   {% endcall -%}
 
   <section class="p-section">
     <div class="u-fixed-width">
       <hr class="p-rule" />
-      <h2>Deploy a fully functional, scalable cloud in minutes:</h2>
+      <h2>Deploy a fully functional open source cloud platform in minutes:</h2>
       <div class="row-cli__commands u-hide--medium u-hide--small"
            aria-hidden="true">
         <p class="p-heading--2 u-no-padding--top u-no-margin--bottom"
@@ -125,392 +72,438 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <div class="row u-hide--small">
-          <div class="col-3 col-medium-2 p-section--shallow">
-            {{ image(url="https://assets.ubuntu.com/v1/c459b7cd-microcloud-visual-1.svg",
-                        alt="",
-                        width="100",
-                        height="100",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
-            {{ image(url="https://assets.ubuntu.com/v1/273d81f3-microcloud-visual-2.svg",
-                        alt="",
-                        width="83",
-                        height="100",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
-            {{ image(url="https://assets.ubuntu.com/v1/a8264def-microcloud-visual-3.svg",
-                        alt="",
-                        width="100",
-                        height="100",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2 p-section--shallow">
-            <h6 class="p-heading--5">Automated deployment</h6>
-            <p>
-              MicroClouds are built with simplicity and automation in mind. With MicroClouds, both deployment and on-site operations are automated with low to no on-site maintenance, regardless of whether you're running it at the back of the office or at a hard-to-reach remote edge site.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
-            <h3 class="p-heading--5">Secure with hassle-free updates</h3>
-            <p>
-              While smaller in scale, your MicroClouds will still likely process big amounts of data. They may also run sensitive workloads. Security and prompt vulnerability updates are the key priorities to ensure your data is kept safe. MicroCloud components are packaged using snaps, providing an extra layer of isolation while enabling worry-free updates.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2 p-section--shallow">
-            <h3 class="p-heading--5">Cost and resource efficient</h3>
-            <p>
-              In addition to standard Ubuntu Server or Desktop, MicroClouds can also be run on Ubuntu Core &ndash; a lightweight OS optimized for the edge. Combined with Ubuntu Core, users get a truly lightweight cloud, giving you resource efficiency without compromising on performance, while keeping costs at bay.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="https://pages.ubuntu.com/rs/066-EOV-335/images/MicroCloud_Datasheet.pdf">Download the MicroCloud datasheet</a>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "What is a MicroCloud?"},
+    items=[
+      {
+        "type": "video",
+        "item": {
+          "attrs": {
+            "src": "https://www.youtube.com/embed/PZdJiH0bUxY",
+            "allowfullscreen": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p>
+            Learn more about Canonical’s lightweight open source cloud platform in our video.
+          </p>"
+        }
+      }
+    ]
+  ) }}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>What is the size of a MicroCloud?</h2>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-3">
-            <p>MicroClouds start with a single node, but at least 3 nodes are recommended for high availability.</p>
-            <p>They can easily extend in site size and scale from a single node to larger 50-node clusters.</p>
-          </div>
-          <div class="col-3 p-image-wrapper u-align--center">
-            {{ image(url="https://assets.ubuntu.com/v1/23cbb344-Design.png",
-                        alt="",
-                        width="184",
-                        height="106",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "What scale is a MicroCloud?"},
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "attrs": image(url="https://assets.ubuntu.com/v1/5150404c-what_scale_is_microcloud.png",
+            alt="",
+            width="1200",
+            height="800",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs")
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p>
+            MicroCloud starts with a single node, but at least 3 nodes are
+            recommended for high availability.
+          </p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p>
+            Easily extend your open source cloud platform in site size and 
+            scale from a single node to larger 50-node clusters.
+          </p>"
+        }
+      }
+    ]
+  ) }}
 
-  <section class="p-section">
-    <div class="u-fixed-width p-section">
-      <hr class="p-rule" />
-      <h2>
-        Best-of-breed
-        <br aria-hidden="true" />
-        open-source components
-      </h2>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <hr class="p-rule--muted u-no-margin--bottom" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <hr class="p-rule--highlight" />
-            <h3 class="p-heading--2">LXD</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              <a href="https://ubuntu.com/lxd">LXD</a> is a modern infrastructure tool that has everything you need to run your virtualised workloads. In addition to regular VMs, users can run their workloads using <a href="https://ubuntu.com/blog/what-are-linux-containers">system containers</a> that behave similarly but consume fewer resources while providing bare-metal performance.
-            </p>
-            <p>
-              LXD is image-based. It supports a wide range of Linux distributions, as well as Windows VMs, and has a good mix of cloud-like features.
-            </p>
-            <hr class="p-rule--muted" />
-            <p>
-              <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/LXD%20DATASHEET.pdf">Explore LXD's features&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted u-no-margin--bottom" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <hr class="p-rule--highlight" />
-            <h3 class="p-heading--2">Ceph</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              <a href="https://ubuntu.com/ceph">Ceph</a> has become a de facto standard for open-source storage solutions. It provides interfaces for several storage types (block, file and object) within a single cluster, eliminating the need for multiple storage solutions. It is scalable and reliable, making it the perfect solution for any cloud.
-            </p>
-            <hr class="p-rule--muted" />
-            <p>
-              <a href="https://ubuntu.com/blog/open-source-storage-for-beginners-with-ceph">Learn more about Ceph&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted u-no-margin--bottom" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <hr class="p-rule--highlight" />
-            <h3 class="p-heading--2">OVN</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              OVN is a trusted open source software-defined networking solution. It provides virtual network abstractions,  such as virtual L2 and L3 overlays, security groups, DHCP and other networking services. It was designed to support highly scalable and production-grade implementations.
-            </p>
-            <hr class="p-rule--muted" />
-            <p>
-              <a href="https://ubuntu.com/blog/data-centre-networking-what-is-ovn">Explore OVN's networking features&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_quote_wrapper(
+    title_text="Fast and scalable cloud infrastructure",
+    quote_text="Currently we have 200 students; we’re aiming to grow to 2,000 in
+                4 or 5 years. I think MicroCloud is a great opportunity for us, as it can
+                scale very easily for our goals.
+                <br><br>
+                We are only three or four guys inside the Infrastructure team. What we wanted
+                was a single interface to manage everything, so that even one person can do
+                this work. It was also very, very, very important for us that the solution
+                would be compatible with the hardware we got in the past. And that’s why we
+                moved onto MicroCloud.",
+    citation_source_name_text="Hugo Adjamagbo",
+    citation_source_title_text="IT Infrastructure and Security Architect",
+    citation_source_organisation_text="Université de l’Ontario Français"
+  ) -%}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Key features</h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Highly available cluster deploys in minutes.</li>
-          <li class="p-list__item is-ticked">Automatic security updates and streamlined upgrades.</li>
-          <li class="p-list__item is-ticked">Runs virtual machines, or system containers for higher density.</li>
-          <li class="p-list__item is-ticked">
-            Remote authentication, fine grained access control, projects and
-            <br aria-hidden="true" />
-            multi-user setup.
-          </li>
-          <li class="p-list__item is-ticked">Easily replicated at scale.</li>
-          <li class="p-list__item is-ticked">
-            Fully open source, commercial support available with <a href="https://ubuntu.com/pro">Ubuntu Pro</a>.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  {%- if slot == 'signpost_image' -%}
+    {{ image(url="https://assets.ubuntu.com/v1/8663c990-logo_uof_black_update.png",
+        alt="UOF",
+        width="109",
+        height="69",
+        hi_def=True,
+        loading="lazy") | safe
+    }}
+  {%- endif -%}
 
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <hr class="p-rule" />
-      <h2 class="p-text--small-caps">MicroCloud use cases</h2>
-      <div class="p-strip is-shallow u-align--center u-vertically-center u-container--background">
-        {{ image(url="https://assets.ubuntu.com/v1/e1c0038f-1.png",
+  {%- if slot == 'cta' -%}
+    <a href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">
+      Learn more in the case study&nbsp;&rsaquo;
+    </a>
+  {%- endif -%}
+  {% endcall -%}
+
+  {%- call(slot) vf_tiered_list(
+    is_description_full_width_on_desktop=true,
+    is_list_full_width_on_tablet=false) -%}
+  {%- if slot == 'title' -%}
+    <h2>Why choose MicroCloud?</h2>
+  {%- endif -%}
+  {%- if slot == 'description' -%}
+    <p>
+      Are you looking for an open source cloud platform? MicroCloud delivers &ndash;
+      it's scalable, security-maintained, simple, and efficient.
+    </p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5">Straightforward development</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_1' -%}
+    <div class="p-section--shallow">
+      <p>
+        Install MicroCloud with a few simple commands. No complex setup. 
+        No custom tooling. Turn compute, networking, and storage into a
+        lightweight clustered infrastructure without hassle.
+      </p>
+    </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5">Operate with low overhead</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_2' -%}
+    <div class="p-section--shallow">
+      <p>
+        MicroCloud was made for minimal maintenance. Snap-based packaging
+        provides supported, isolated components and fluid updates. Keep
+        your cloud stable without heavy operational work.
+      </p>
+    </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">Run on any environment</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_3' -%}
+    <div class="p-section--shallow">
+      <p>
+        Use MicroCloud on production-grade servers, or lightweight hardware.
+        Run on Ubuntu Server, or Ubuntu Core. Fit the environment you have.
+      </p>
+    </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_4' -%}
+    <h3 class="p-heading--5">Open source with enterprise-grade support</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_4' -%}
+    <div class="p-section--shallow">
+      <p>
+        Our cloud platform is built using the very best open source components &ndash;
+        LXD for virtualization, MicroCeph for software-defined storage and
+        MicroOVN for software-defined networking. Reduce vendor lock-in. Add
+        <a href="https://ubuntu.com/pro">Ubuntu Pro</a> for enterprise support when needed.
+      </p>
+    </div>
+    <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/MicroCloud_Datasheet.pdf"
+        class="p-button">Download the MicroCloud datasheet</a>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_text_spotlight(
+    title_text='Key features',
+    item_heading_level='4',
+    list_items=[
+      'Highly available cluster deploys in minutes',
+      'Streamlined security upgrades',
+      'Runs virtual machines, or system containers for higher density',
+      'Remote authentication, projects, and fine-grained access control',
+      'Easily replicated at scale',
+      'A fully open source cloud platform',
+      'Commercial support available with <a href="https://ubuntu.com/pro">Ubuntu Pro</a>'
+    ]
+    ) -%}
+  {% endcall -%}
+
+  <section class="u-fixed-width">
+    <div class="p-strip is-shallow u-align--center u-vertically-center u-container--background">
+      {{ image(url="https://assets.ubuntu.com/v1/8a845ad6-microcloud_usecases_updated.png",
                 alt="",
-                width="837",
-                height="516",
+                width="2464",
+                height="1027",
                 hi_def=True,
                 loading="lazy") | safe
-        }}
-      </div>
-    </div>
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h3 class="p-heading--2">
-          Edge computing
-          <br aria-hidden="true" />
-          at a large scale
-        </h3>
-      </div>
-      <div class="col">
-        <p>Industrial, telco, retail, banking &ndash; MicroClouds are the perfect edge computing solution for any industry:</p>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Scalable and low-latency HA cluster for critical applications.</li>
-          <li class="p-list__item is-ticked">Lightweight to run on small servers or low-cost small devices.</li>
-          <li class="p-list__item is-ticked">Low-touch, self-healing, few to no human interactions needed.</li>
-        </ul>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/engage/guide-to-micro-clouds">Learn more about MicroClouds for the edge&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">Scalable cloud infrastructure</h3>
-        </div>
-      </div>
-      <div class="col">
-        <p>
-          Do you need to keep sensitive workloads in a controlled environment, or are public cloud costs too unpredictable for your business?
-        </p>
-        <p>MicroClouds are an efficient solution for your needs:</p>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Resource-efficient to lower costs.</li>
-          <li class="p-list__item is-ticked">Simple to deploy and operate.</li>
-          <li class="p-list__item is-ticked">Easy to scale as your needs grow.</li>
-        </ul>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://ubuntu.com/engage/hypervisor-to-lxd-case-study">Read about LXD's efficiency in this case study&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <div class="p-section--shallow">
-          <h3 class="p-heading--2">Efficient dev environment</h3>
-        </div>
-      </div>
-      <div class="col">
-        <p>
-          MicroCloud is lightweight enough that it can run on a developer laptop.
-          <br aria-hidden="true" />
-          You can use it for:
-        </p>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Lightweight and constrained disposable testing environments.</li>
-          <li class="p-list__item is-ticked">Simulating or testing complex infrastructure processes.</li>
-          <li class="p-list__item is-ticked">Simulating how your workloads would run in production.</li>
-          <li class="p-list__item is-ticked">Safely experimenting with new technologies.</li>
-        </ul>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://canonical-microcloud.readthedocs-hosted.com/en/stable/microcloud/tutorial/get_started/">Deploy your own MicroCloud following this tutorial&nbsp;&rsaquo;</a>
-        </p>
-      </div>
+      }}
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50 p-section">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Integrate with the best
-          <br aria-hidden="true" />
-          hardware vendors
-        </h2>
-      </div>
-      <div class="col">
-        <p>Ubuntu works with a number of hardware vendors specialized in edge computing server equipment.</p>
-        <p>
-          <a href="/microcloud/contact-us">Contact us</a> to discuss working with your preferred vendors.
-        </p>
-      </div>
-    </div>
-    <div class="u-fixed-width">
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/3fe5b9a1-arm-logo.png",
-                        alt="Arm",
-                        width="189",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/e7500aef-intel-new-logo.png",
-                        alt="Intel",
-                        width="199",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/854d87a4-hp-enterprise-logo.png",
-                        alt="HP Enterprise",
-                        width="315",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/fa3697a9-dell-logo.png",
-                        alt="Dell",
-                        width="172",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/bcc0bd30-hp-logo.png",
-                        alt="HP",
-                        width="164",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/73036e15-lenovo-logo.png",
-                        alt="Lenovo",
-                        width="278",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/4f63ebdc-cisco-logo.png",
-                        alt="Cisco",
-                        width="233",
-                        height="385",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {%- call(slot) vf_tiered_list(
+    is_description_full_width_on_desktop=true,
+    is_list_full_width_on_tablet=false) -%}
+  {%- if slot == 'title' -%}
+    <h2>How can you use a MicroCloud?</h2>
+  {%- endif -%}
 
-  <section class="p-section--deep">
-    <div class="u-fixed-width">
-      <hr class="p-rule" />
-      <div class="p-section">
-        <p class="p-text--small-caps">All the benefits of a cloud, but localized</p>
+  {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5">Data center infrastructure</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_1' -%}
+    <div class="p-section--shallow">
+      <p>
+        When you need predictable costs for your infrastructure,
+        control over your workloads, or full digital sovereignty,
+        MicroCloud provides a scalable, efficient alternative to
+        public cloud.
+      </p>
+      <ul class="p-list--divided">
+        <li class="p-list__item is-ticked">
+          Predictable infrastructure spending for enterprises via
+          cost-stable internal clouds.
+        </li>
+        <li class="p-list__item is-ticked">
+          Keep critical workloads on-prem and ensure data sovereignty
+          for government and regulated industries.
+        </li>
+        <li class="p-list__item is-ticked">
+          Easy-to-manage open source cloud platform, even for small
+          operational teams. 
+        </li>
+        <li class="p-list__item is-ticked">
+          High resource efficiency without licensing overheads, ideal
+          for AI and data-processing clusters.   
+        </li>
+      </ul>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">
+          Read about MicroCloud’s efficiency in this case study&nbsp;&rsaquo;
+        </a>
       </div>
-      <div class="p-section--shallow">
-        <h2>
-          MicroClouds are low-touch, efficient and reliable.
-          <br aria-hidden="true" />
-          Do you have a use case in mind? Get in touch with our team.
-        </h2>
-      </div>
-      <a class="p-button--positive" href="/microcloud/contact-us">Talk to an expert</a>
     </div>
-  </section>
+  {%- endif -%}
 
+  {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5">Edge computing at scale</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_2' -%}
+    <div class="p-section--shallow">
+      <p>
+        Organizations across various industries can use MicroCloud
+        to run reliable edge services close to where data is created.
+      </p>
+      <ul class="p-list--divided">
+        <li class="p-list__item is-ticked">
+          Retail store infrastructure supporting POS, analytics and
+          inventory on small servers with minimal site maintenance.
+        </li>
+        <li class="p-list__item is-ticked">
+          Industrial factories hosting OT gateways, digital twins
+          or machine-vision systems.
+        </li>
+        <li class="p-list__item is-ticked">
+          Telco RAN and MEC sites running low-latency network functions
+          in compact, high-available clusters. 
+        </li>
+        <li class="p-list__item is-ticked">
+          Branch banking systems delivering local processing for sensitive
+          data on ATMs, authentication, and customer applications.   
+        </li>
+      </ul>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/guide-to-micro-clouds">
+          Learn more about MicroCloud for the edge&nbsp;&rsaquo;
+        </a>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">Efficient dev environment</h3>
+  {%- endif -%}
+  {%- if slot == 'list_item_description_3' -%}
+    <div class="p-section--shallow">
+      <p>
+        MicroCloud is a lightweight open source cloud platform with
+        robust multi-tenancy features. It can be used for realistic,
+        disposable environments for rapid iteration.
+      </p>
+      <ul class="p-list--divided">
+        <li class="p-list__item is-ticked">
+          Spin up lightweight and constrained disposable
+          testing environments.
+        </li>
+        <li class="p-list__item is-ticked">
+          Simulate or test complex infrastructure processes.
+        </li>
+        <li class="p-list__item is-ticked">
+          Model how your workloads would run in production. 
+        </li>
+        <li class="p-list__item is-ticked">
+          Safely experiment with new technologies.   
+        </li>
+      </ul>
+      <div class="p-cta-block">
+        <a href="https://documentation.ubuntu.com/microcloud/stable/microcloud/tutorial/single-member/">
+          Deploy your own MicroCloud following this tutorial&nbsp;&rsaquo;
+        </a>
+      </div>
+    </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "Integrate with the best hardware vendors"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            image(url="https://assets.ubuntu.com/v1/3fe5b9a1-arm-logo.png",
+              alt="Arm",
+              width="189",
+              height="385",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/201c84e3-intel_new_logo.png",
+              alt="Intel",
+              width="152",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/0a10f900-hp_enterprise_logo.png",
+              alt="HP Enterprise",
+              width="210",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/3ba0891e-dell_logo.png",
+              alt="Dell Technologies",
+              width="185",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/bcc0bd30-hp-logo.png",
+              alt="HP",
+              width="164",
+              height="385",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/f3c6c798-lenovo_logo.png",
+              alt="Lenovo",
+              width="279",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"}),
+            image(url="https://assets.ubuntu.com/v1/51dfa33e-cisco_logo.png",
+              alt="Cisco",
+              width="249",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs",
+              attrs={"class": "p-logo-section__logo"})
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+    <p>
+      Ubuntu works with a number of hardware vendors specialized in edge computing server equipment.
+      <a href="/microcloud/contact-us" class="js-invoke-modal" aria-controls="microcloud-modal">Contact us</a>
+      to discuss working with your preferred vendors.
+    </p>
+  {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Get Canonical MicroCloud.",
+    items=[
+      {
+        "title_text": "Self-deployed",
+        "description_html": "<p>
+          You deploy Canonical MicroCloud yourself by relying on
+          <a href='https://documentation.ubuntu.com/microcloud/v2-edge/microcloud/'>
+            product documentation
+          </a> 
+          and 
+          <a href='https://documentation.ubuntu.com/microcloud/stable/microcloud/tutorial/single-member/'>
+            tutorials
+          </a>.
+          Once deployed according to requirements outlined in documentation,
+          you may choose to purchase and attach <a href='https://ubuntu.com/pro'>Ubuntu Pro</a>
+          for enterprise support, compliance, security maintenance, and patching.
+        </p>",
+        "cta_html": "
+          <a href='https://documentation.ubuntu.com/microcloud/stable/microcloud/tutorial/single-member/'>
+            Start on your own &rsaquo;
+          </a>
+        "
+      },
+      {
+        "title_text": "Canonical-deployed",
+        "description_html": "<p>
+          We deploy Canonical MicroCloud for you. Together, we select the design
+          and hardware that best suits your use case and requirements. We will
+          share our best practices and hand over the cloud to you once it’s built,
+          tested, and validated by us.
+        </p>",
+        "cta_html": '<a href="/microcloud/contact-us" class="js-invoke-modal" aria-controls="microcloud-modal">
+          Start with Canonical&nbsp;&rsaquo;
+        </a>'
+      },
+    ]
+  ) %}
+  {% if slot == "description" %}
+    <p>
+      Self-deployed or Canonical-deployed? Choose the option
+      that suits you best, and start your MicroCloud planning
+      today.
+    </p>
+  {% endif %}
+  {% endcall %}
+  
   <script src="/static/js/typer.js" defer></script>
   <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com//microcloud#success" %}
-
-    {% include "microcloud/_microcloud-modal.html" %}
-  {% endwith %}
+  {{ load_form("/microcloud") | safe }}
 
 {% endblock content %}

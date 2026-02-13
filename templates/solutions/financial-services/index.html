@@ -1,0 +1,493 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "macros/_vf_tiered-list.jinja" import vf_tiered_list %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1CMEo3IsFkybk1SuKWpvZGxU6e24iNoDZkjrgloYXEkU/edit?tab=t.0
+{% endblock %}
+
+{% block title %}Open source for financial services{% endblock %}
+
+{% block meta_description %}
+  9 of the top 10 US and EU financial institutions use Ubuntu. Canonical provides open source software for financial services, helping banking, insurance, trading, and other FinTech and financial services companies realize business value and drive innovation at scale.
+{% endblock %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Open source <br />for financial services',
+    subtitle_text='The easiest way to modernize your application stack.',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Modernize your infrastructure and applications without breaking the bank. Canonical's trusted open source solutions combine cost efficiency with robust compliance, long-term security maintenance, and broad support whilst avoiding vendor lock-in. The ideal way to adopt open source in financial services.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/secure-open-source-for-financial-services"
+         aria-label="learn more in our Financial services industry leaders’ guide to secure open source"
+         class="p-button--positive">Learn more in our whitepaper</a>
+      <a href="/contact-us"
+         class="p-button js-invoke-modal"
+         aria-controls="financial-services-modal">Contact Canonical</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media u-hide--small">
+        <lite-youtube videoid="pGub0U7h9pE" width="560" height="315" posterquality="maxresdefault" videotitle="Canonical's open source portfolio" class="u-embedded-media__element">
+        <a href="https://www.youtube.com/watch?v=pGub0U7h9pE" title="Play Video">
+          <span class="lyt-visually-hidden">Canonical's open source portfolio</span>
+        </a>
+        </lite-youtube>
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="u-fixed-width">
+      <h2 class="p-text--small-caps">Trusted by</h2>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/b3b94c06-bnp-paribas-logo.png",
+                        alt="BNP Paribas logo",
+                        width="485",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/408cd303-barclays-logo.png",
+                        alt="Barclays logo",
+                        width="367",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/0f08faab-rabobank-logo.png",
+                        alt="Rabobank logo",
+                        width="313",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/cab90c29-Bloomberg-Logo.png",
+                        alt="Bloomberg logo",
+                        width="313",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/71268d88-sbi-bits-logo.png",
+                        alt="SBI BITS logo",
+                        width="294",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e912df9f-softbank-logo.png",
+                        alt="SoftBank logo",
+                        width="293",
+                        height="312",
+                        hi_def=True,
+                        loading="auto",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="What our customers say",
+    quote_size="medium",
+    quote_text="We've never considered switching providers. No other vendor could give us a perfect solution. We've built a great relationship with Canonical and the economics are good.",
+    citation_source_name_text="Spokesperson",
+    citation_source_organisation_text="SBI BITS"
+    ) -%}
+
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/ac021a67-sbi-bits-logo-2.png",
+            alt="SBI BITS logo",
+            width="852",
+            height="267",
+            hi_def=True,
+            loading="auto",
+            attrs={"class": "u-hide--small"}) | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="u-fixed-width">
+      <div class="p-section--shallow">
+        <h2>Why finservs choose Canonical</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 col-start-large-4 col-medium-3 ">
+        <ul class="js-tabbed-content p-tabs--vertical u-hide--small"
+            role="tablist"
+            aria-label="Why finservs choose Canonical tabs"
+            data-tablist="why-finservs-choose-canonical">
+          <li>
+            <button class="p-tabs__item"
+                    id="cloud-confidence"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="cloud-confidence-tab">Cloud confidence</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="multi-cloud-containers"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="multi-cloud-containers-tab">Multi-cloud containers</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="ai"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="ai-tab">AI</button>
+          </li>
+          <li>
+            <button class="p-tabs__item"
+                    id="security-and-compliance"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="security-and-compliance-tab">Security and compliance</button>
+          </li>
+        </ul>
+        <form class="u-hide--large u-hide--medium">
+          <select name="tabSelect" data-tablist="why-finservs-choose-canonical">
+            <option value="cloud-confidence-tab" selected="">Cloud confidence</option>
+            <option value="multi-cloud-containers-tab">Multi-cloud containers</option>
+            <option value="ai-tab">AI</option>
+            <option value="security-and-compliance-tab">Security and compliance</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-6 col-medium-3" data-tablist="why-finservs-choose-canonical">
+        <div tabindex="0"
+             role="tabpanel"
+             id="cloud-confidence-tab"
+             aria-labelledby="cloud-confidence"
+             aria-hidden="true">
+          <h3 class="p-heading--5">Cloud confidence for the financial sector</h3>
+          <p>
+            Canonical helps you to gain control over your infrastructure. Unlike proprietary solutions, with open source software, there are no license fees, and no vendor lock in. This saves you money now, and in the long run &ndash; with the freedom to switch providers or self-manage.
+          </p>
+          <p>
+            Our infrastructure technologies help further reduce the time and expense of maintaining a data center with advanced lifecycle management features, including built-in automations so you can focus on creating value.
+          </p>
+          <p>
+            Considering migrating to open source? Find out how you can change virtualization software vendors in our <a href="https://ubuntu.com/engage/vmware-to-ubuntu-infrastructure">webinar</a>, or explore which of Canonical's solutions might work for you in our <a href="https://ubuntu.com/engage/vmware-migration-scenarios?_gl=1*1igs0o8*_gcl_au*MTcxMjk5OTEwNy4xNzM5Mjk1MzQ2">whitepaper</a>.
+          </p>
+          <div class="p-cta-block">
+            <a href="/solutions/infrastructure">Run your data center like a cloud&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="multi-cloud-containers-tab"
+             aria-labelledby="multi-cloud-containers"
+             aria-hidden="true">
+          <h3 class="p-heading--5">Multi-cloud containers with a trusted dependency tree</h3>
+          <p>
+            <strong>Did you know <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain?_gl=1*19xo7ks*_gcl_au*MTcxMjk5OTEwNy4xNzM5Mjk1MzQ2">only 41% of organizations are confident in patching vulnerabilities</a>?&sup1;</strong> <span class="u-off-screen">2025 state of open source report, IDC.</span> Our Container Build Service provides up to 12 years of guaranteed long term support (LTS) for any open source container image.
+          </p>
+          <p>Choose Canonical, and trust in stable, security-maintained containers. Build it once, use it anywhere.</p>
+          <p class="u-text--muted" aria-hidden="true">
+            <small>&sup1;2025 state of open source report, IDC.</small>
+          </p>
+          <div class="p-cta-block">
+            <a href="https://ubuntu.com/containers/container-build-service">Customized containers, tailored to you&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="ai-tab"
+             aria-labelledby="ai"
+             aria-hidden="true">
+          <h3 class="p-heading--5">AI for financial industries</h3>
+          <p>
+            AI is more than just a buzzword. AI can help you to simplify operations, drive productivity, and gain actionable insights from your data.
+          </p>
+          <p>
+            Canonical offers a cost-effective way to incorporate AI into your business, with efficient infrastructure solutions and a composable MLOps platform. All with predictable pricing per node, and up to 12 years of enterprise-grade security and support.
+          </p>
+          <div class="p-cta-block">
+            <a href="/solutions/ai"
+               aria-label="Learn more about how Canonical’s AI solutions can transform your business">Transform your business with AI&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="security-and-compliance-tab"
+             aria-labelledby="security-and-compliance"
+             aria-hidden="true">
+          <h3 class="p-heading--5">Security and compliance made simpler</h3>
+          <p>
+            According to IDC, 7 in 10 responsible teams spend an average of more than 6 hours per week on security patching &ndash; Canonical's Ubuntu Pro gives your teams more time to focus on mission critical projects.&sup2; <span class="u-off-screen">2025 state of open source report, IDC.</span>
+          </p>
+          <p>
+            With Ubuntu Pro, you get up to 12 years of security maintenance and support for your whole stack, saving you time and money.
+          </p>
+          <p>
+            We also cover compliance with critical regulations, like PCI-DSS, FedRamp, DISA-STIG, CIS, NIST, DORA, Sarbanes-Oxley (SOX) and others.
+          </p>
+          <p class="u-text--muted" aria-hidden="true">
+            <small>&sup2;2025 state of open source report, IDC.</small>
+          </p>
+          <div class="p-cta-block">
+            <a href="https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS"
+               aria-label="Find out how a leading AI company secures their stack with Canonical in our case study">Find out how a leading AI company secures their stack with Canonical&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="u-fixed-width">
+      <h2 class="p-text--small-caps">Helping you comply with</h2>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/a98574d9-FedRAMP.png",
+                        alt="FedRAMP logo",
+                        width="111",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/06eb2988-DISA-logo.png",
+                        alt="DISA logo",
+                        width="221",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/5a48958f-CIS-logo.png",
+                        alt="CIS logo",
+                        width="130",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/b6b16099-nist-logo.png",
+                        alt="NIST logo",
+                        width="186",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="p-rule is-fixed-width" />
+  <section class="p-strip is-deep">
+    <div class="u-fixed-width">
+      <h2>
+        The state of software supply chains: 2025 research
+        <br />
+        <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain">Download the IDC report&nbsp;&rsaquo;</a>
+      </h2>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="p-section--shallow">
+      <div class="row--50-50">
+        <div class="col">
+          <h2>
+            Deploy your favorite
+            <br />
+            data and AI solutions on Ubuntu
+          </h2>
+        </div>
+        <div class="col">
+          <p>From data management and streaming to MLOps - get the open source you need to innovate at speed.</p>
+          <div class="p-cta-block">
+            <a href="/data">Discover our data solutions&nbsp;&rsaquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="p-rule--muted is-fixed-width" />
+    <div class="u-fixed-width">
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/b3a3a4bc-kafka-logo.png",
+                        alt="Kafka logo",
+                        width="239",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/61609cb7-kubeflow-logo.png",
+                        alt="Kubeflow logo",
+                        width="308",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/6649a57c-postgresql-logo.png",
+                        alt="PostgreSQL",
+                        width="434",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/a97597eb-apache-spark-logo.png",
+                        alt="Apache Spark logo",
+                        width="241",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/b2e69564-prometheus-logo.png",
+                        alt="Prometheus logo",
+                        width="226",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_first_hr_visible=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Discover how Canonical supports finservs</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Financial services industry leaders' guide to secure open source</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Incorporating open source software offers finservs opportunities to innovate, reduce OpEx, and improve efficiency. However, in a highly regulated industry, ensuring that your open-source stack has the right security requirements in place is critical.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/secure-open-source-for-financial-services">Find your path to secure open source in our whitepaper&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Make better decisions with open source Big Data and AI solutions</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        AI and Big Data are already empowering organizations to make better business decisions, scale faster and have greater impact. This whitepaper explores how modern enterprises can use Big Data to train AI models, the barriers to adoption and how to overcome them, and how to begin your AI journey with open source software.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/open-source-big-data-ai">Discover the whitepaper&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% with section_classes='p-section', title_link="/blog/tag/financial-services", tag_id='2986', limit='4', hide_date=True, tag_name='finserv', link_image=True, show_image=True, show_excerpt=True, excerptLength=200, show_start_rule=True, is_title_link=True, heading_class="p-heading--2", heading_topic="Find out the latest in FinServ from our blog" %}
+    {% include "/shared/_blog-card.html" %}
+  {% endwith %}
+
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row--50-50">
+      <div class="col">
+        <h2>
+          Innovate at lower cost
+          <br />
+          with Canonical
+        </h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-container">
+            {{ image(url="https://assets.ubuntu.com/v1/6a447b5b-innovate-at-lower.jpg",
+                        alt="",
+                        width="1200",
+                        height="801",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+        </div>
+        <p>
+          The experts in finserv open source operations, from cloud to devices, are waiting to help you on your digital transformation journey.
+        </p>
+        <div class="p-cta-block">
+          <a href="/contact-us"
+             class="p-button--positive js-invoke-modal"
+             aria-controls="financial-services-modal">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/solutions/financial-services") | safe }}
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+
+{% endblock content %}

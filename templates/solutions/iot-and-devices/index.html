@@ -3,639 +3,709 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
-{% block meta_copydoc %}
-https://docs.google.com/document/d/1htb7rb55Ks5ZHn7RLzoeU51nZpWOX6YC10CfZ8UJxDM
-{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1htb7rb55Ks5ZHn7RLzoeU51nZpWOX6YC10CfZ8UJxDM{% endblock %}
 
 {% block title %}Build, secure and manage IoT devices at scale{% endblock %}
 
 {% block meta_description %}
-Choose the OS that ensures scalable, secure IoT for businesses. Streamline your IoT lifecycle with an OS that runs seamlessly from development to production.
+  Choose the OS that ensures scalable, secure IoT for businesses. Streamline your IoT lifecycle with an OS that runs seamlessly from development to production.
 {% endblock %}
 
 {% block body_class %}is-paper{% endblock %}
 
 {% block content %}
 
-{% call(slot) vf_hero(
-    title_text='Build, secure and manage<br class="u-hide--medium u-hide--small"> IoT devices at scale',
+  <section class="p-strip is-shallow u-no-padding--bottom">
+    <div class="u-fixed-width">
+      <div class="p-notification--information is-inline">
+        <div class="p-notification__content">
+          <p class="p-notification__title p-heading--5">
+            <a href="https://ubuntu.com/blog/ubuntu-20-04-lts-end-of-life-standard-support-is-coming-to-an-end-heres-how-to-prepare">The Standard Support period for Ubuntu 20.04 LTS has ended. Discover your options.</a>
+          </p>
+          <p class="p-notification__message">
+            <span>Take action today</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_hero(
+    title_text='Build, secure and manage<br class="u-hide--medium u-hide--small" /> IoT devices at scale',
     subtitle_text='',
     layout='50/50-full-width-image',
-  ) -%}
-  {%- if slot == 'description' -%}
-    <p>
-      Get the best of open source, for any and all parts of your device lifecycle. Develop at pace and deploy at
-      scale with Ubuntu. Build a fleet that outpaces both vulnerabilities and competitors. Maximize your uptime with
-      device-centric management and over-the-air updates, on hardware that is tested and optimized by expert.
-    </p>
-  {%- endif -%}
-  {%- if slot == 'cta' -%}
-    <a href="/contact-us" aria-controls="iot-and-devices-modal" class="p-button--positive">Contact us</a>
-  {%- endif -%}
-  {%- if slot == 'image' -%}
-    <div class="p-image-container--cinematic is-cover">
-      <img class="p-image-container__image" src="https://assets.ubuntu.com/v1/94e84943-hero-img.png" alt="">
-    </div>
-  {%- endif -%}
-{% endcall -%}
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <h2>Build on certified hardware</h2>
-    </div>
-    <div class="col">
-      <div class="p-section--shallow">
-        <p>Avoid the time constraints of developing a bespoke OS for your hardware. Canonical works with all major ODMs
-          to test, certify and maintain Ubuntu images for hundreds of hardware models.</p>
-        <p>Our long-term support commitment extends to 12 years for hardware, meaning that you can be sure that your IoT
-          OS is thoroughly tested and optimized for the highest performance.</p>
-        <hr class="p-rule--muted"/>
-        <a href="https://ubuntu.com/certified">Discover Ubuntu certified hardware ›</a>
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Get the best of open source, for any and all parts of your device lifecycle. Develop at pace and deploy at
+        scale with Ubuntu. Build a fleet that outpaces both vulnerabilities and competitors. Maximize your uptime with
+        device-centric management and over-the-air updates, on hardware that is tested and optimized by experts.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         aria-controls="iot-and-devices-modal"
+         class="p-button--positive js-invoke-modal">Contact us</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-cover u-hide--small">
+        {{ image(url="https://assets.ubuntu.com/v1/697a4a90-BRND-2303-IoT%20portfolio%20diagram.svg",
+                alt="",
+                width="2116",
+                height="773",
+                hi_def=True,
+                fmt="svg",
+                loading="auto",
+                attrs={
+                "class": "p-image-container__image",
+                "style":"object-fit: contain",
+                "fetchpriority": "high"
+                }) | safe
+        }}
       </div>
-      <hr class="p-rule--muted"/>
-      <div>
-        <p>Benefit from technical support in creating the right kernel for your hardware if your hardware is not already
-          certified, and avoid incompatibility and performance constraints.</p>
-        <hr class="p-rule--muted"/>
-        <a href="https://ubuntu.com/pricing/devices">Explore device enablement services ›</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Build on certified hardware</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <p>
+            Avoid the time constraints of developing a bespoke OS for your hardware. Canonical works with all major ODMs
+            to test, certify and maintain Ubuntu images for hundreds of hardware models.
+          </p>
+          <p>
+            Our long-term support commitment extends to 12 years for hardware, meaning that you can be sure that your IoT
+            OS is thoroughly tested and optimized for the highest performance.
+          </p>
+          <hr class="p-rule--muted" />
+          <a href="https://ubuntu.com/certified">Discover Ubuntu certified hardware ›</a>
+        </div>
+        <hr class="p-rule--muted" />
+        <div>
+          <p>
+            Benefit from technical support in creating the right kernel for your hardware if your hardware is not already
+            certified, and avoid incompatibility and performance constraints.
+          </p>
+          <hr class="p-rule--muted" />
+          <a href="https://ubuntu.com/pricing/devices">Explore device enablement services ›</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <h2>Choose your security framework</h2>
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Choose your security framework</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-wrapper">
+            <div class="p-image-container">
+              {{ image (url="https://assets.ubuntu.com/v1/711285d2-chose-your-security.png",
+              alt="",
+              width="1200",
+              height="801",
+              hi_def=True,
+              loading="lazy"
+              ) | safe
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="p-section--shallow">
+          <p>Ubuntu is designed with security in mind and comes in a variant that's made for IoT platform security.</p>
+          <p>
+            Go from development to production with classic Ubuntu, and benefit from robust vulnerability management for
+            your entire open source ecosystem. Add on expanded security maintenance for up to 12 years with an <a href="https://ubuntu.com/pro/devices">Ubuntu Pro for Devices subscription</a>.
+          </p>
+          <p>
+            Alternatively, develop on classic Ubuntu and deploy with Ubuntu Core for a locked-down, low-touch approach
+            with a minimal attack surface. With <a href="https://ubuntu.com/core">Ubuntu Core</a>, you receive the same
+            benefits as with Ubuntu Pro for Devices.
+          </p>
+          <hr class="p-rule--muted" />
+          <a href="https://ubuntu.com/internet-of-things">Explore how Ubuntu powers IoT across industries ›</a>
+        </div>
+        <div>
+          <hr class="p-rule--muted" />
+          <a href="/solutions/open-source-security/cyber-resilience-act">Meet EU CRA compliance requirements ›</a>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <div class="p-section--shallow">
-        <div class="p-image-wrapper">
-          <div class="p-image-container">
-            {{ image (url="https://assets.ubuntu.com/v1/711285d2-chose-your-security.png",
-                            alt="",
-                            width="1200",
-                            height="801",
-                            hi_def=True,
-                            loading="lazy"
-                            ) | safe
+  </section>
+
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <h2 class="p-text--small-caps">See where Canonical has enabled IoT success</h2>
+      <div class="p-logo-section">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image (url="https://assets.ubuntu.com/v1/9ae619ed-grundium-logo.png",
+            alt="",
+            width="141",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image (url="https://assets.ubuntu.com/v1/8d8632e9-bewell-logo.png",
+            alt="",
+            width="58",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image (url="https://assets.ubuntu.com/v1/813cb8d9-rexroth-logo.png",
+            alt="",
+            width="70",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/1c576c31-screenly_logo_updated.png",
+            alt="",
+            width="106",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image (url="https://assets.ubuntu.com/v1/d7a9fa7b-cyberdyne-logo.png",
+            alt="",
+            width="89",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image (url="https://assets.ubuntu.com/v1/35bdf141-arx-logo.png",
+            alt="",
+            width="52",
+            height="104",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
             }}
           </div>
         </div>
       </div>
-      <div>
-        <p>Ubuntu is designed with security in mind and comes in a variant that's made for IoT platform security.</p>
-        <p>Go from development to production with classic Ubuntu, and benefit from robust vulnerability management for
-          your entire open source ecosystem. Add on expanded security maintenance for up to 12 years with an <a
-                  href="https://ubuntu.com/pro/devices">Ubuntu Pro for Devices subscription</a>.</p>
-        <p>Alternatively, develop on classic Ubuntu and deploy with Ubuntu Core for a locked-down, low-touch approach
-          with a minimal attack surface. With <a href="https://ubuntu.com/core">Ubuntu Core</a>, you receive the same
-          benefits as with Ubuntu Pro for Devices.</p>
-        <hr class="p-rule--muted"/>
-        <a href="https://ubuntu.com/internet-of-things">Explore how Ubuntu powers IoT across industries ›</a>
-      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="u-fixed-width">
-    <hr class="p-rule"/>
-    <h2 class="p-text--small-caps">See where Canonical has enabled IoT success</h2>
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/9ae619ed-grundium-logo.png",
-                          alt="",
-                          width="141",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/8d8632e9-bewell-logo.png",
-                          alt="",
-                          width="58",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/813cb8d9-rexroth-logo.png",
-                          alt="",
-                          width="70",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/744d29b7-screenly-logo.png",
-                          alt="",
-                          width="104",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/d7a9fa7b-cyberdyne-logo.png",
-                          alt="",
-                          width="89",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
-        </div>
-        <div class="p-logo-section__item">
-          {{ image (url="https://assets.ubuntu.com/v1/35bdf141-arx-logo.png",
-                          alt="",
-                          width="52",
-                          height="104",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          Open device management
+          <br class="u-hide--medium u-hide--small" />
+          for the enterprise
+        </h2>
+      </div>
+      <div class="col">
+        <div>
+          <h3 class="p-heading--5">Choose your device management platform</h3>
+          <p>
+            Manage your fleet the way you know best. We know that different platforms offer different advantages. That’s
+            why Canonical is committed to open device management, meaning that our solutions can be integrated with the
+            platform of your choice.
+          </p>
+          <p>
+            Platforms such as Azure IoT and Intel IoT can be integrated with Canonical solutions via containerized
+            applications, known as snaps.
+          </p>
+          <p>
+            Alternatively, with an Ubuntu Pro subscription you can opt for Landscape, Canonical’s systems management
+            tool. Integrate Landscape with your existing infrastructure and manage all aspects of your Ubuntu estate from
+            a unified platform.
+          </p>
+          <hr class="p-rule--muted" />
+          <a href="https://ubuntu.com/landscape">Learn more about our device management approach ›</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <h2>Open device management<br class="u-hide--medium u-hide--small"/> for the enterprise</h2>
-    </div>
-    <div class="col">
-      <div>
-        <h3 class="p-heading--5">Choose your device management platform</h3>
-        <p>Manage your fleet the way you know best. We know that different platforms offer different advantages. That’s
-          why Canonical is committed to open device management, meaning that our solutions can be integrated with the
-          platform of your choice.</p>
-        <p>Platforms such as Azure IoT and Intel IoT can be integrated with Canonical solutions via containerized
-          applications, known as snaps.</p>
-        <p>Alternatively, with an Ubuntu Pro subscription you can opt for Landscape, Canonical’s systems management
-          tool. Integrate Landscape with your existing infrastructure and manage all aspects of your Ubuntu estate from
-          a unified platform.</p>
-        <hr class="p-rule--muted"/>
-        <a href="https://ubuntu.com/landscape">Learn more about our device management approach ›</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <div class="p-section--shallow">
-        <h2>Put high-priority processes first with Real-time Ubuntu</h2>
-      </div>
-      <div class="p-section--shallow">
-        <h3 class="p-heading--5">Ideal for low-latency use cases</h3>
-        <p>With Real-time Ubuntu, your high-priority processes are executed first. Benefit from deterministic response
-          times and ensure timely deployment of business-critical workloads.</p>
-        <p>Choosing support for real-time compute is the smart option for critical infrastructure and
-          latency-sensitive
-          scenarios.</p>
-        <p>Learn how Real-time Ubuntu is powering industrial settings, telecommunications, robotics and
-          automotive.</p>
-      </div>
-      <div>
-        <hr class="p-rule--muted"/>
-        <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_CTO%E2%80%99s_Guide_to_Real-time_Linux_Whitepaper_v2_06_11_2023.pdf?version=0">Learn
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <div class="p-section--shallow">
+          <h2>Put high-priority processes first with Real-time Ubuntu</h2>
+        </div>
+        <div class="p-section--shallow">
+          <h3 class="p-heading--5">Ideal for low-latency use cases</h3>
+          <p>
+            With Real-time Ubuntu, your high-priority processes are executed first. Benefit from deterministic response
+            times and ensure timely deployment of business-critical workloads.
+          </p>
+          <p>
+            Choosing support for real-time compute is the smart option for critical infrastructure and
+            latency-sensitive
+            scenarios.
+          </p>
+          <p>
+            Learn how Real-time Ubuntu is powering industrial settings, telecommunications, robotics and
+            automotive.
+          </p>
+        </div>
+        <div>
+          <hr class="p-rule--muted" />
+          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_CTO%E2%80%99s_Guide_to_Real-time_Linux_Whitepaper_v2_06_11_2023.pdf?version=0">Learn
           more about Real-time Ubuntu ›</a>
-      </div>
-    </div>
-    <div class="col">
-      <div class="p-image-wrapper">
-        <div class="p-image-container">
-          {{ image (url="https://assets.ubuntu.com/v1/105fc1ac-put-high-priority.png",
-                          alt="",
-                          width="1200",
-                          height="1801",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-{% call(slot) vf_quote_wrapper(
-  title_text="What our customers say",
-  quote_size="small",
-  quote_text="The step change to Ubuntu Core has increased the reliability of our product in a way that’s been really profound. Core has transformed these devices into appliances. When you turn on the kiosks, they just work and do what you expect them to, both from our users’ perspective and our own.",
-  citation_source_name_text="Dries Oeyen",
-  citation_source_title_text="Chief Technology Officer",
-  citation_source_organisation_text="BeWell Innovations",
-  is_shallow=true
-) -%}
-{%- if slot == 'signpost_image' -%}
-  {{ image (url="https://assets.ubuntu.com/v1/da182f9b-bewell-testimonial.png",
-                  alt="",
-                  width="284",
-                  height="92",
-                  hi_def=True,
-                  loading="lazy"
-                  ) | safe
-  }}
-{%- endif -%}
-{% endcall -%}
-
-{% call(slot) vf_quote_wrapper(
-  quote_size="small",
-  quote_text="Our customers in the medical industry require a security scan of any technical product they are using. If you don’t have an OS that is continuously patched and maintained, you don’t pass. Ubuntu Pro for Devices ensures that we can meet the requirements of our clients.",
-  citation_source_name_text="Kimmo Alanen",
-  citation_source_title_text="Vice President",
-  citation_source_organisation_text="Grundium",
-  is_shallow=true
-  ) -%}
-  {%- if slot == 'signpost_image' -%}
-  {{ image (url="https://assets.ubuntu.com/v1/797bcea9-grundium-testimonial.png",
-                  alt="",
-                  width="284",
-                  height="69",
-                  hi_def=True,
-                  loading="lazy"
-                  ) | safe
-  }}
-  {%- endif -%}
-{% endcall -%}
-
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <h2>Distribute software securely</h2>
-    </div>
-    <div class="col">
-      <div class="p-section--shallow">
+      <div class="col">
         <div class="p-image-wrapper">
           <div class="p-image-container">
-            {{ image (url="https://assets.ubuntu.com/v1/7eddc81e-distrbute-software-securely.png",
-                            alt="",
-                            width="1200",
-                            height="801",
-                            hi_def=True,
-                            loading="lazy"
-                            ) | safe
+            {{ image (url="https://assets.ubuntu.com/v1/105fc1ac-put-high-priority.png",
+            alt="",
+            width="1200",
+            height="1801",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
             }}
           </div>
         </div>
       </div>
-      <div>
-        <p>Take a device-centric approach to management and maintenance. Roll out updates at the optimal moment and
-          benefit from automated rollbacks in the event of error.</p>
-        <p>Create a Dedicated Snap Store to control exactly which snaps are available and when. Control update and
-          access permissions and seamlessly align your application management strategy with your device management
-          strategy.</p>
-        <p>More uptime. Less upkeep.</p>
-        <hr class="p-rule--muted"/>
-        <a href="https://ubuntu.com/core/docs/dedicated-snap-stores">Learn about snaps&nbsp;&rsaquo;</a>
+    </div>
+  </section>
+
+  {% call(slot) vf_quote_wrapper(
+    title_text="What our customers say",
+    quote_size="small",
+    quote_text="The step change to Ubuntu Core has increased the reliability of our product in a way that’s been really profound. Core has transformed these devices into appliances. When you turn on the kiosks, they just work and do what you expect them to, both from our users’ perspective and our own.",
+    citation_source_name_text="Dries Oeyen",
+    citation_source_title_text="Chief Technology Officer",
+    citation_source_organisation_text="BeWell Innovations",
+    is_shallow=true
+    ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image (url="https://assets.ubuntu.com/v1/da182f9b-bewell-testimonial.png",
+      alt="",
+      width="284",
+      height="92",
+      hi_def=True,
+      loading="lazy"
+      ) | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Our customers in the medical industry require a security scan of any technical product they are using. If you don’t have an OS that is continuously patched and maintained, you don’t pass. Ubuntu Pro for Devices ensures that we can meet the requirements of our clients.",
+    citation_source_name_text="Kimmo Alanen",
+    citation_source_title_text="Vice President",
+    citation_source_organisation_text="Grundium",
+    is_shallow=true
+    ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image (url="https://assets.ubuntu.com/v1/797bcea9-grundium-testimonial.png",
+      alt="",
+      width="284",
+      height="69",
+      hi_def=True,
+      loading="lazy"
+      ) | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Distribute software securely</h2>
+      </div>
+      <div class="col">
+        <div class="p-section--shallow">
+          <div class="p-image-wrapper">
+            <div class="p-image-container">
+              {{ image (url="https://assets.ubuntu.com/v1/7eddc81e-distrbute-software-securely.png",
+              alt="",
+              width="1200",
+              height="801",
+              hi_def=True,
+              loading="lazy"
+              ) | safe
+              }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <p>
+            Take a device-centric approach to management and maintenance. Roll out updates at the optimal moment and
+            benefit from automated rollbacks in the event of error.
+          </p>
+          <p>
+            Create a Dedicated Snap Store to control exactly which snaps are available and when. Control update and
+            access permissions and seamlessly align your application management strategy with your device management
+            strategy.
+          </p>
+          <p>More uptime. Less upkeep.</p>
+          <hr class="p-rule--muted" />
+          <a href="https://ubuntu.com/core/docs/dedicated-snap-stores">Learn about snaps&nbsp;&rsaquo;</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{% call(slot) vf_quote_wrapper(
-  title_text="What our customers say",
-  quote_size="small",
-  quote_text="With the Dedicated Snap Store we can give customers complete control. Canonical’s support has also been really responsive. Whenever we ask something, we get a reply within one day – and when it’s serious, they deploy resources to assist us immediately.",
-  citation_source_name_text="Marc Benetó",
-  citation_source_title_text="Software Engineer",
-  citation_source_organisation_text="Cyberdyne",
-  is_shallow=true
-  ) -%}
-  {%- if slot == 'signpost_image' -%}
-  {{ image (url="https://assets.ubuntu.com/v1/d1cff84f-cyberdyne-testimonial.png",
-                  alt="",
-                  width="284",
-                  height="110",
-                  hi_def=True,
-                  loading="lazy"
-                  ) | safe
-  }}
-  {%- endif -%}
-{% endcall -%}
+  {% call(slot) vf_quote_wrapper(
+    title_text="What our customers say",
+    quote_size="small",
+    quote_text="With the Dedicated Snap Store we can give customers complete control. Canonical’s support has also been really responsive. Whenever we ask something, we get a reply within one day – and when it’s serious, they deploy resources to assist us immediately.",
+    citation_source_name_text="Marc Benetó",
+    citation_source_title_text="Software Engineer",
+    citation_source_organisation_text="Cyberdyne",
+    is_shallow=true
+    ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image (url="https://assets.ubuntu.com/v1/d1cff84f-cyberdyne-testimonial.png",
+      alt="",
+      width="284",
+      height="110",
+      hi_def=True,
+      loading="lazy"
+      ) | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
 
-{% call(slot) vf_quote_wrapper(
-  quote_size="small",
-  quote_text="Thanks to Ubuntu Core and the Dedicated Snap Store, we are able to lower administration costs for technical and business updates in a proper way.",
-  citation_source_name_text="Gokhan Gerezlioglu",
-  citation_source_title_text="Director of Technology",
-  citation_source_organisation_text="Pudo",
-  is_shallow=true
-  ) -%}
-  {%- if slot == 'signpost_image' -%}
-  {{ image (url="https://assets.ubuntu.com/v1/62d0dd10-pudo-testimonial.png",
-                  alt="",
-                  width="284",
-                  height="72",
-                  hi_def=True,
-                  loading="lazy"
-                  ) | safe
-  }}
-  {%- endif -%}
-{% endcall -%}
+  {% call(slot) vf_quote_wrapper(
+    quote_size="small",
+    quote_text="Thanks to Ubuntu Core and the Dedicated Snap Store, we are able to lower administration costs for technical and business updates in a proper way.",
+    citation_source_name_text="Gokhan Gerezlioglu",
+    citation_source_title_text="Director of Technology",
+    citation_source_organisation_text="Pudo",
+    is_shallow=true
+    ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image (url="https://assets.ubuntu.com/v1/62d0dd10-pudo-testimonial.png",
+      alt="",
+      width="284",
+      height="72",
+      hi_def=True,
+      loading="lazy"
+      ) | safe
+      }}
+    {%- endif -%}
+  {% endcall -%}
 
-<section class="p-section">
-  <div class="u-fixed-width">
-    <hr class="p-rule"/>
-    <div class="p-section--shallow">
-      <h2>Enabling IoT innovation across industries</h2>
+  <section class="p-section">
+    <div class="u-fixed-width">
+      <hr class="p-rule" />
+      <div class="p-section--shallow">
+        <h2>Enabling IoT innovation across industries</h2>
+      </div>
     </div>
-  </div>
-  <div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-equal-height-row has-divider-3">
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/1a945cfa-agriculture.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+    <div>
+      <div class="row">
+        <div class="col-9 col-start-large-4">
+          <div class="p-equal-height-row has-divider-3">
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/1a945cfa-agriculture.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
-            </div>
 
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Agriculture</h3>
-            </div>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Agriculture</h3>
+              </div>
 
-            <p class="p-equal-height-row__item">
-              AZLOGICA uses Ubuntu Core to help their client, Oceanos, maximize Shrimp production.
-            </p>
+              <p class="p-equal-height-row__item">
+                AZLOGICA uses Ubuntu Core to help their client, Oceanos, maximize Shrimp production.
+              </p>
 
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the AZLOGICA case study" href="https://ubuntu.com/engage/casestudy-azlogica">Read
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the AZLOGICA case study"
+                     href="https://ubuntu.com/engage/casestudy-azlogica">Read
                   the case study ›</a>
-              </p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/abe3f4c2-robotics.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+                </p>
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
             </div>
-
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Robotics</h3>
-            </div>
-
-            <p class="p-equal-height-row__item">
-              Small Robot Company uses Ubuntu Core to replace tractors with smart robots.
-            </p>
-
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the Small Robot Company case study"
-                   href="https://ubuntu.com/engage/small-robot-company">Read the case study ›</a>
-              </p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/d8fd3a94-medical-devices.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/abe3f4c2-robotics.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
-            </div>
 
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Medical devices</h3>
-            </div>
-
-            <p class="p-equal-height-row__item">
-              Grundium secures their microscope device scanners with Ubuntu Pro for Devices.
-            </p>
-
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the Grundium case study"
-                   href="https://ubuntu.com/case-study/grundium-ubuntu-pro-for-devices">Read the case study ›</a>
-              </p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/f285f4bc-logistics.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Robotics</h3>
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
-            </div>
 
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Logistics</h3>
-            </div>
+              <p class="p-equal-height-row__item">Small Robot Company uses Ubuntu Core to replace tractors with smart robots.</p>
 
-            <p class="p-equal-height-row__item">
-              Rehrig Pacific harnesses Ubuntu Core to safely run applications behind customer firewalls.
-            </p>
-
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the Rehrig Pacific case study"
-                   href="https://ubuntu.com/engage/rehrig-pacific-secures-edge-AI">Read the case study ›</a>
-              </p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/1e89a37d-smart-lockers.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the Small Robot Company case study"
+                     href="https://ubuntu.com/engage/small-robot-company">Read the case study ›</a>
+                </p>
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
             </div>
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/d8fd3a94-medical-devices.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
 
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Smart lockers</h3>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Medical devices</h3>
+              </div>
+
+              <p class="p-equal-height-row__item">Grundium secures their microscope device scanners with Ubuntu Pro for Devices.</p>
+
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the Grundium case study"
+                     href="https://ubuntu.com/case-study/grundium-ubuntu-pro-for-devices">Read the case study ›</a>
+                </p>
+              </div>
             </div>
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/f285f4bc-logistics.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
 
-            <p class="p-equal-height-row__item">
-              Pudo chose Ubuntu Core and a private Snap Store to securely manage 820 smart lockers across Turkey.
-            </p>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Logistics</h3>
+              </div>
 
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the Pudo case study" href="https://ubuntu.com/engage/pudo-case-study">Read
-                  the
+              <p class="p-equal-height-row__item">
+                Rehrig Pacific harnesses Ubuntu Core to safely run applications behind customer firewalls.
+              </p>
+
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the Rehrig Pacific case study"
+                     href="https://ubuntu.com/engage/rehrig-pacific-secures-edge-AI">Read the case study ›</a>
+                </p>
+              </div>
+            </div>
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/1e89a37d-smart-lockers.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
+
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Smart lockers</h3>
+              </div>
+
+              <p class="p-equal-height-row__item">
+                Pudo chose Ubuntu Core and a private Snap Store to securely manage 820 smart lockers across Turkey.
+              </p>
+
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the Pudo case study"
+                     href="https://ubuntu.com/engage/pudo-case-study">Read
+                    the
                   case study ›</a>
-              </p>
-            </div>
-          </div>
-          <div class="p-equal-height-row__col p-section--shallow">
-            <div class="p-equal-height-row__item">
-              <div class="p-image-container is-highlighted">
-                {{ image (url="https://assets.ubuntu.com/v1/c47eddb1-industrial-iot.png",
-                                alt="",
-                                width="568",
-                                height="380",
-                                hi_def=True,
-                                loading="lazy"
-                                ) | safe
-                }}
+                </p>
               </div>
-              <hr class="p-rule--highlight u-hide--medium u-hide--small"/>
             </div>
+            <div class="p-equal-height-row__col p-section--shallow">
+              <div class="p-equal-height-row__item">
+                <div class="p-image-container is-highlighted">
+                  {{ image (url="https://assets.ubuntu.com/v1/c47eddb1-industrial-iot.png",
+                  alt="",
+                  width="568",
+                  height="380",
+                  hi_def=True,
+                  loading="lazy"
+                  ) | safe
+                  }}
+                </div>
+                <hr class="p-rule--highlight u-hide--medium u-hide--small" />
+              </div>
 
-            <div class="p-equal-height-row__item">
-              <h3 class="p-heading--5">Industrial IoT</h3>
-            </div>
+              <div class="p-equal-height-row__item">
+                <h3 class="p-heading--5">Industrial IoT</h3>
+              </div>
 
-            <p class="p-equal-height-row__item">
-              Find out how IMS Evolve adopted Ubuntu Core to run the cold-chain solutions of large food retailers.
-            </p>
-
-            <div class="p-equal-height-row__item">
-              <p>
-                <a aria-label="Read the IMS Evolve case study"
-                   href="https://ubuntu.com/engage/casestudy-imsevolve">Read
-                  the case study ›</a>
+              <p class="p-equal-height-row__item">
+                Find out how IMS Evolve adopted Ubuntu Core to run the cold-chain solutions of large food retailers.
               </p>
+
+              <div class="p-equal-height-row__item">
+                <p>
+                  <a aria-label="Read the IMS Evolve case study"
+                     href="https://ubuntu.com/engage/casestudy-imsevolve">Read
+                  the case study ›</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <h2>Deliver value<br class="u-hide--small u-hide--medium"/> with AI on your devices</h2>
-      <h3 class="p-heading--5">Develop models and run them at the edge with a supported open source stack.</h3>
-      <p>Reduce latency and enhance security by bringing your models closer to the point of data generation.</p>
-      <p>Choose AI-optimized hardware from across our partner ecosystem for unmatched performance. Deploy low-touch
-        clouds and manage your machine learning workflows with Canonical’s Kubernetes and Kubeflow distributions when
-        you’re ready to scale up.</p>
-      <div>
-        <hr class="p-rule--muted"/>
-        <a href="/solutions/ai/edge">Learn about Canonical’s edge AI offering ›</a>
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          Deliver value
+          <br class="u-hide--small u-hide--medium" />
+          with AI on your devices
+        </h2>
+        <h3 class="p-heading--5">Develop models and run them at the edge with a supported open source stack.</h3>
+        <p>Reduce latency and enhance security by bringing your models closer to the point of data generation.</p>
+        <p>
+          Choose AI-optimized hardware from across our partner ecosystem for unmatched performance. Deploy low-touch
+          clouds and manage your machine learning workflows with Canonical’s Kubernetes and Kubeflow distributions when
+          you’re ready to scale up.
+        </p>
+        <div>
+          <hr class="p-rule--muted" />
+          <a href="/solutions/ai/edge">Learn about Canonical’s edge AI offering ›</a>
+        </div>
       </div>
-    </div>
-    <div class="col">
-      <div class="p-image-wrapper">
-        <div class="p-image-container">
-          {{ image (url="https://assets.ubuntu.com/v1/c9be8fba-deliver-value.png",
-                          alt="",
-                          width="1200",
-                          height="1801",
-                          hi_def=True,
-                          loading="lazy"
-                          ) | safe
-          }}
+      <div class="col">
+        <div class="p-image-wrapper">
+          <div class="p-image-container">
+            {{ image (url="https://assets.ubuntu.com/v1/c9be8fba-deliver-value.png",
+            alt="",
+            width="1200",
+            height="1801",
+            hi_def=True,
+            loading="lazy"
+            ) | safe
+            }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="p-section">
-  <div class="row--50-50">
-    <hr class="p-rule"/>
-    <div class="col">
-      <div class="p-section--shallow">
-        <h2>Resources to harness the power of open source IoT</h2>
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <div class="p-section--shallow">
+          <h2>Resources to harness the power of open source IoT</h2>
+        </div>
       </div>
-    </div>
-    <div class="col">
-      <div>
-        <a href="https://ubuntu.com/engage/iot-compliance-in-the-global-market-a-guide-for-iot-device-manufacturers">Understand
+      <div class="col">
+        <div>
+          <a href="https://ubuntu.com/engage/iot-compliance-in-the-global-market-a-guide-for-iot-device-manufacturers">Understand
           compliance across global markets</a>
-      </div>
-      <div class="p-section--shallow">
-        <p>Read our whitepaper for an overview of the security and compliance considerations for IoT devices across the
-          EU, US, UK and APAC markets.</p>
-      </div>
-      <hr class="p-rule--muted"/>
-      <div>
-        <a href="https://www.youtube.com/watch?v=aesdxS_JqFc">Cyber Resilience Act: guidance for manufacturers</a>
-      </div>
-      <div class="p-section--shallow">
-        <p>In our recorded webinar, we run through the CRA’s vulnerability management obligations, implications for
-          device management and how a hardened attack surface can minimize threats and simplify compliance.</p>
-      </div>
-      <hr class="p-rule--muted"/>
-      <div>
-        <a href="https://ubuntu.com/engage/cra-yocto-core">Cyber Resilience Act: Yocto or Ubuntu Core for embedded
+        </div>
+        <div class="p-section--shallow">
+          <p>
+            Read our whitepaper for an overview of the security and compliance considerations for IoT devices across the
+            EU, US, UK and APAC markets.
+          </p>
+        </div>
+        <hr class="p-rule--muted" />
+        <div>
+          <a href="https://www.youtube.com/watch?v=aesdxS_JqFc">Cyber Resilience Act: guidance for manufacturers</a>
+        </div>
+        <div class="p-section--shallow">
+          <p>
+            In our recorded webinar, we run through the CRA’s vulnerability management obligations, implications for
+            device management and how a hardened attack surface can minimize threats and simplify compliance.
+          </p>
+        </div>
+        <hr class="p-rule--muted" />
+        <div>
+          <a href="https://ubuntu.com/engage/cra-yocto-core">Cyber Resilience Act: Yocto or Ubuntu Core for embedded
           devices?</a>
-      </div>
-      <div>
-        <p>Explore the critical considerations when choosing between custom-built Linux distributions using the Yocto
-          Project and commercially supported solutions like Ubuntu Core.</p>
+        </div>
+        <div>
+          <p>
+            Explore the critical considerations when choosing between custom-built Linux distributions using the Yocto
+            Project and commercially supported solutions like Ubuntu Core.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="u-fixed-width">
-  <hr class="p-rule"/>
-</div>
-
-<section class="p-strip is-deep">
   <div class="u-fixed-width">
-    <h2>
-      <a href="#get-in-touch" aria-controls="iot-and-devices-modal">Talk to us about using Ubuntu for IoT ›</a>
-    </h2>
+    <hr class="p-rule" />
   </div>
-</section>
 
-<script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <section class="p-strip is-deep">
+    <div class="u-fixed-width">
+      <h2>
+        <a href="/contact-us"
+           class="js-invoke-modal"
+           aria-controls="iot-and-devices-modal">Talk to us about using Ubuntu for IoT ›</a>
+      </h2>
+    </div>
+  </section>
 
-{% include "/shared/forms/form-template.html" %}
+  {{ load_form("/solutions/iot-and-devices") | safe }}
 
 {% endblock %}

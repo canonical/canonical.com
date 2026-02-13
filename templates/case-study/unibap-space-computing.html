@@ -1,0 +1,255 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}Unibap powers robust and accessible space computing with Ubuntu{% endblock %}
+
+{% block meta_description %}
+  Unibap chose Ubuntu for their specialized satellite hardware. Find out how Ubuntu's robustness and accessibility delivers high performance computing in space.
+{% endblock %}
+
+{% block meta_company_name %}Unibap{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1yWSxNQuymbzNL8ZU0AMEBgMTIpAMNu6CAa_Pr2dSwsc/edit?tab=t.0{% endblock %}
+{% block meta_discourse_url %}https://discourse.ubuntu.com/t/case-study-unibap-powers-robust-and-accessible-space-computing-with-ubuntu/55586{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Unibap powers robust and accessible space computing with Ubuntu",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/34ffb367-unibap-logo.png",
+            alt="Unibap logo",
+            width="852",
+            height="172",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Unibap") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Unibap is a Swedish company that provides state-of-the-art hardware and software solutions for edge computing and cloud computing in space.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Their solutions are designed to act as a bridge between the modern advancements taking place on earth and the aging hardware found on satellites.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Unibap's customers include NASA, the European Space Agency (ESA) and the Swedish National Space Agency (SNSA).
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Unibap selected Ubuntu as the pre-installed OS that would accompany their hardware, providing a robust and accessible foundation for time-critical space computing.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      With 10 years of support through Ubuntu Pro, the OS enables Unibap to meet the needs of long lifespan satellite-based projects.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Most recently, a single Unibap computer powered by Ubuntu was used to run 40 different experiments from a satellite, across a range of use cases.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) text(title="A space platform that creates space for innovation") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Satellites are the driving force behind much of modern life. Navigation, communications, and disaster monitoring are just some of the use cases that have become so ubiquitous that we often forget they occur “off-planet”. However, these technological advancements are often supported by satellite hardware that predates them by 20-30 years, which presents a challenge for organizations looking to pioneer intensive, novel use cases like AI and edge computing in space.
+      </p>
+      <p>
+        Unibap's range of hardware solutions are designed to prioritize compatibility by default, providing a pre-assembled platform that is engineered for the idiosyncrasies of both the host satellites, and the physical challenges of space. Unibap selected Ubuntu as the operating system that could best match their hardware in terms of robustness and provide an accessible platform for developers to pioneer novel use cases in space.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/bec2f53b-moon.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Satellite technology is somewhat paradoxical. It represents technological progress and serves as the foundation for many of the innovations we continue to see. At the same time, satellite hardware is aging, with many satellites exceeding their intended design life. This means that creativity is required to pioneer new use cases and sustainably introduce new innovations, like edge computing and AI, to the satellite context.
+      </p>
+      <p>
+        Unibap is tackling this challenge head on. Their mission is to deliver trustworthy innovation in space through their suite of hardware and software solutions which are designed to bridge the gap between cutting-edge advancements and aging satellite hardware.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Unibap's customers need space edge computing for time critical use cases, such as avoiding satellite collisions or tracking natural disasters. Both our hardware and software need to account for the fact that satellites are remote, with limited physical infrastructure to draw upon. This challenge is compounded by the fact that 20-30 year old satellite hardware was not designed for the computationally intensive use cases that organizations now wish to perform.",
+    citation_source_name_text="Anders Persson",
+    citation_source_title_text="Product Manager",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <p>
+          Unibap's hardware is pre-built with the components needed to perform complicated operations that we take for granted on the earth's surface, whilst also being designed for maximum compatibility with restrictive satellite hardware. However, they needed to identify the operating system that would best complement their hardware and achieve the same, optimal balance between robustness and versatility.
+        </p>
+        <p>
+          Anders Persson, Product Manager at Unibap, summarizes it by saying “We needed an operating system that could perform, like our hardware, in the restrictive environment the host satellites offered. For the sake of innovation, the operating system needed to be nimble enough to empower developers to experiment, without compromising stability. Our customers expect to be able to run projects continuously, often for years – so striking the right balance between robustness and versatility was a challenge.”
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/10c1cd2b-satellite.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Unibap knew that they would need a Linux OS, given that proprietary solutions would not offer the flexibility needed to accommodate such specialized hardware. The task then became a question of identifying the right Linux distribution. After comparing support cadences, package ecosystems and developer preferences, Unibap selected Ubuntu as the distribution that they would ship with their hardware.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Ubuntu ticks the technical boxes: it's been used in a range of varied, often demanding projects on varied types of hardware. It has an impressive package ecosystem, with the latest tools, which enables developers to hit the ground running. Ubuntu is popular with developers and has a large developer mindshare. Providing developers with a familiar interface makes our solutions accessible to a wider audience.",
+    citation_source_name_text="Oskar Flordal",
+    citation_source_title_text="CTO",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <p>
+          Ubuntu is an open source operating system, published by Canonical, that is used by organizations to innovate across a whole host of industries. In the State of Open Source 2024, it was ranked as the #1 favorite Linux distribution amongst enterprise developers. Its accessibility and versatility lowered the barrier to entry for Unibap's customers, but the fact remains that satellite hardware will continue to age. Unibap needed to demonstrate to customers that Ubuntu was robust and would last the distance, especially considering that satellite projects are intended to run for years on end.
+        </p>
+        <p>
+          This is what prompted Unibap to enhance their solutions by including Ubuntu Pro as part of their offering. Ubuntu Pro is a security and support subscription that extends patching and maintenance for long term support releases of Ubuntu from 5 years to 10 years.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Our customers are keen to minimize unnecessary updates, given the criticality of their projects. The 10 years of support that Ubuntu Pro offers means that developers can focus on the core elements of their space projects, rather than getting sidetracked by the need to install new releases.",
+    citation_source_name_text="Anders Persson",
+    citation_source_title_text="Product Manager",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/bea755cf-engineering.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        The decision to ship their hardware with Ubuntu has had a positive impact in terms of customer experience. Unibap notes that when they are required to intervene to help a customer with a question or concern, it rarely concerns the software. Thanks to the 10 years of support included with Ubuntu Pro, Unibap has been able to target projects with a long lifespan.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Ubuntu's stability means that we never receive complaints about software, whilst the fact that we can easily install our own packages (known as Unibap SCOS) has been invaluable in simplifying the hardware management process for our customers. The 10 year support has also proven to be important. A customer who has run a successful project for 5 years will be resistant to radical changes at the software level, so the extra support time gives us some wriggle room when starting new projects with existing customers.",
+    citation_source_name_text="Oskar Flordal",
+    citation_source_title_text="CTO",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <p>
+          Ubuntu's versatility has also meant that Unibap hardware has been at the forefront of some of the most exciting space projects. In collaboration with the European Space Agency, Unibap has undertaken three missions in which they allowed developers to book testing slots aboard the host satellite. Over the missions, Ubuntu was used to test over 40 applications involving real-time processing for agriculture, natural disasters, traffic and bush fires.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) quote_wrapper(
+    quote_text="I think we have a solid claim to a world record for the number of use cases for a single computer in space. This involved removing the previous test's software and resetting it for the next test, over 40 times. With Ubuntu, this process was smoothly executed. Ubuntu's mature ecosystem meant it was versatile enough to support the varying use cases this project tested – there is always a package on Ubuntu that meets customer needs.",
+    citation_source_name_text="Anders Persson",
+    citation_source_title_text="Product Manager",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-start-large-4 col-9">
+        <p>
+          Unibap is planning to move ahead with further space projects in both the public and private sectors. With more than 30 launches planned during 2025, Unibap will continue to work hard to bring new innovations to space computing, and empower those who want to run transformative projects.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Operating space hardware will always be a challenge, which is why it's important to always put your best foot forward in terms of software. The versatility and robustness of Ubuntu, combined with its popularity amongst developers, has enabled us to lower the barrier to entry for organizations looking to pioneer in space. Canonical's commitment to long-term support, through Ubuntu Pro, has made the process of supporting long-term projects on aging hardware much more straightforward.",
+    citation_source_name_text="Anders Persson",
+    citation_source_title_text="Product Manager",
+    citation_source_organisation_text="Unibap",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Learn more about Ubuntu Pro", link="https://ubuntu.com/pro", secondary_title="Access a free trial", secondary_link="https://ubuntu.com/pro/free-trial", has_modal=false) }}
+{% endblock %}

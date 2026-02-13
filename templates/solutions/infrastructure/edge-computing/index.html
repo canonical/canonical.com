@@ -1,0 +1,710 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+
+{% block title %}Straightforward, nimble edge infrastructure{% endblock %}
+
+{% block meta_description %}
+  Deploy, manage and secure edge infrastructure on a flexible, cost-effective, robust open source foundation.
+{% endblock meta_description %}
+
+{% block meta_image %}https://assets.ubuntu.com/v1/e213bf98-og-image-2.png{% endblock %}
+
+{% block meta_keywords %}Edge computing, edge cloud, edge infra{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1pWMeqRw3io8DlHhNDq4tZ5EKDvLJbVS4vA1kQthzLMc/edit?tab=t.0
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Straightforward, nimble edge infrastructure',
+    subtitle_text='Power edge innovation with the freedom of open source.',
+    layout='50/50-full-width-image'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Deploy, maintain and secure your edge infrastructure. Scale with ease and keep in tune with updates and innovations through seamless, low-touch management tooling. Put security at the heart of your approach.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="edge-computing-modal">Talk to us about your edge needs</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--cinematic is-highlighted is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/e30b2075-hero.png",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Get closer to where the insights happen and process data at source.</h2>
+      </div>
+      <div class="col">
+        <div class="u-extra-space">
+          <p>
+            Get to the heart of the story behind your data more quickly. Process data at source and benefit from reduced latency, more efficient processing and faster insights.
+          </p>
+          <p>Build out the infrastructure you need to capture insights at the edge with flexible open source tooling.</p>
+        </div>
+        <div>
+          <div>
+            <nav class="p-tabs">
+              <ul class="js-tabbed-content p-tabs__list"
+                  role="tablist"
+                  aria-label="Edge computing services tabs"
+                  data-tablist="consulting-services">
+                <li class="p-tabs__item">
+                  <button class="p-tabs__link"
+                          id="certified-hardware"
+                          role="tab"
+                          aria-selected="true"
+                          aria-controls="certified-hardware-tab">Certified Hardware</button>
+                </li>
+                <li class="p-tabs__item">
+                  <button class="p-tabs__link"
+                          id="ubuntu-core"
+                          role="tab"
+                          aria-selected="false"
+                          aria-controls="ubuntu-core-tab">Ubuntu Core</button>
+                </li>
+                <li class="p-tabs__item">
+                  <button class="p-tabs__link"
+                          id="microcloud"
+                          role="tab"
+                          aria-selected="false"
+                          aria-controls="microcloud-tab">MicroCloud</button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <!-- tab content -->
+          <div>
+            <div tabindex="0"
+                 role="tabpanel"
+                 id="certified-hardware-tab"
+                 aria-labelledby="certified-hardware">
+              <h3>Innovate on your chosen hardware and devices</h3>
+              <p>
+                Canonical’s portfolio is built with the interoperability that open source software is known for. Deploy your edge cloud on the hardware of your choice - whether that’s by repurposing your existing hardware or procuring new hardware.
+              </p>
+              <p>
+                Canonical works with leading manufacturers to certify Ubuntu for their devices - ensuring that users get the best out-of-the-box experience possible.
+              </p>
+              <div class="p-cta-block">
+                <a href="https://ubuntu.com/certified">Explore Ubuntu Certified Hardware&nbsp;&rsaquo;</a>
+              </div>
+            </div>
+
+            <div tabindex="0"
+                 role="tabpanel"
+                 id="ubuntu-core-tab"
+                 aria-labelledby="ubuntu-core">
+              <h3>Immutable. Lightweight. Embedded.</h3>
+              <p>
+                According to the
+                <a href="https://outreach.eclipse.foundation/iot-embedded-developer-survey-2024" rel="noopener noreferrer">
+                  2024 IoT and Embedded Developer Survey Report
+                </a> by the Eclipse Foundation, more developers are using either Ubuntu or Ubuntu Core than any other OS.
+              </p>
+              <p>Ubuntu Core brings you the benefits of Ubuntu’s stability and ecosystem, in embedded form.</p>
+              <p>
+                Ubuntu Core is strictly immutable and composed entirely of snaps - lightweight, containerized application packages. Deploy MicroCloud on Ubuntu Core for use cases requiring a lightweight, immutable OS, and a low-touch cloud solution.
+              </p>
+              <div class="p-cta-block">
+                <a href="https://ubuntu.com/core">Learn about Ubuntu Core&nbsp;&rsaquo;</a>
+              </div>
+            </div>
+
+            <div tabindex="0"
+                 role="tabpanel"
+                 id="microcloud-tab"
+                 aria-labelledby="microcloud">
+              <h3>Fully-functional edge clouds</h3>
+              <p>
+                Create a fully-functional edge cloud in minutes with Canonical MicroCloud. MicroCloud makes your journey to the edge as smooth as possible.
+              </p>
+              <p>
+                As a composable, modular stack built with open and standard APIs in mind, MicroCloud fits in with your existing infrastructure, tooling and policies.
+              </p>
+              <div class="p-cta-block">
+                <a href="https://youtu.be/PZdJiH0bUxY">Learn more about MicroCloud&nbsp;&rsaquo;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <hr class="p-rule--highlight" />
+      <p class="p-text--small-caps u-no-padding--top">Our hardware partners</p>
+      <div class="u-fixed-width">
+        <div class="p-logo-section">
+          <div class="p-logo-section__items">
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/ae6fa5e9-dell-logo.png"
+                   alt="Dell Technologies"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/0a44b16c-lenovo-logo.png"
+                   alt="Lenovo"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/73bda641-hp-logo.png"
+                   alt="Hewlett Packard"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/7abf1c3a-intel-new-logo.png"
+                   alt="Intel"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/eb1fc323-dfi-logo.png"
+                   alt="DFI"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/c696d9d2-nvidia-logo.png"
+                   alt="NVIDIA"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/c860a121-arm-logo.png"
+                   alt="ARM"
+                   loading="lazy" />
+            </div>
+            <div class="p-logo-section__item">
+              <img class="p-logo-section__logo"
+                   src="https://assets.ubuntu.com/v1/9c6ca5b8-asus-logo.png"
+                   alt="Asus"
+                   loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Securely-designed edge infrastructure</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Canonical’s edge portfolio is designed with security at heart, giving you the tools you need to effectively protect and govern your edge infrastructure.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Minimize your attack surface</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Deploy edge applications on Ubuntu Core for a locked-down, low-touch approach. Composed entirely of snaps, each application is strictly containerized, updated independently and protected against corruption.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/core/features">Discover Ubuntu Core’s security features&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Distribute software securely</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        The Enterprise Store provides an on-premise edge proxy to the general <a href="https://snapcraft.io/store">Snap Store</a> for your devices. This enables network-restricted devices to access snaps by registering devices with the Proxy and routing all communication through it. Support for air-gapped deployments is available through offline mode, making it suitable for isolated environments.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://documentation.ubuntu.com/enterprise-store/">Discover the Enterprise Store&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Patching and maintenance for up to 12 years</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Opt for an Ubuntu Pro subscription and benefit from automated patching and compliance for up to 12 years, across your whole stack, whichever Canonical solutions you consume.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/pro/devices">Learn about Ubuntu Pro for Devices&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="row">
+        <hr class="p-rule--highlight" />
+        <h2 class="p-text--small-caps u-no-padding--top">What our customers think</h2>
+      </div>
+    </div>
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="Our customers in the medical industry require a security scan of any technical product they are using. If you don’t have an OS that is continuously patched and maintained, you don’t pass. Ubuntu Pro for Devices ensures that we can meet the requirements of our clients.",
+      quote_size="small",
+      citation_source_name_text="Kimmo Alanen",
+      citation_source_title_text="Vice President, Grundium",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/b3e1e022-Grundium logo.png",
+                alt="",
+                width="177",
+                height="30",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="We package all of our software as snaps now, even our internal apps. It’s a good environment for running software in a nice, strict way and bringing applications up to a high standard.",
+      quote_size="small",
+      citation_source_name_text="Brendan Carroll",
+      citation_source_title_text="CEO, EpiSensor",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/68cdd948-Episensor logo.png",
+                alt="",
+                width="194",
+                height="76",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+  </section>
+
+  <section class="p-section">
+    <hr class="p-rule is-fixed-width" />
+    <div class="p-section--shallow">
+      <div class="row">
+        <div class="col-6">
+          <h2 id="manage-edge-infrastructure">Manage your edge infrastructure with ease</h2>
+        </div>
+        <div class="col-6">
+          <p>
+            Keep your edge devices working together in harmony and focus on scaling your efforts. Make your operations low-touch, whilst prioritizing the health and runtime of your devices.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="p-equal-height-row--wrap">
+        <div class="p-equal-height-row__col is-borderless">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(url="https://assets.ubuntu.com/v1/36976f5b-lxd.png",
+                            alt="",
+                            width="780",
+                            height="481",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe
+              }}
+            </div>
+            <hr class="p-rule--muted" />
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>Run virtual machines and containerized workloads on your servers.</p>
+            <p>
+              Scale with ease through features such as flexible resource limits, live-migration support and server segmentation.
+            </p>
+          </div>
+          <div class="p-equal-height-row__item u-hide--large">
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="/lxd">Learn about LXD&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="p-equal-height-row__col is-borderless">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(url="https://assets.ubuntu.com/v1/81bf10ad-store.png",
+                            alt="",
+                            width="780",
+                            height="481",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe
+              }}
+            </div>
+            <hr class="p-rule--muted" />
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>Roll out updates over-the-air, at scale with the Enterprise Store.</p>
+            <p>
+              Govern which snaps or apps are available and when they are rolled out with fine-grained revision control for your devices.
+            </p>
+          </div>
+          <div class="p-equal-height-row__item u-hide--large">
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="https://documentation.ubuntu.com/enterprise-store/main/">Discover the Enterprise Store&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="p-equal-height-row__col is-borderless">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(url="https://assets.ubuntu.com/v1/279723a4-k8s.png",
+                            alt="",
+                            width="780",
+                            height="481",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe
+              }}
+            </div>
+            <hr class="p-rule--muted" />
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>Benefit from hassle-free installation and maintenance with Canonical Kubernetes.</p>
+            <p>Automate your cluster operations and get up to 12 years of long-term support.</p>
+          </div>
+          <div class="p-equal-height-row__item u-hide--large">
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="https://ubuntu.com/kubernetes">Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="p-equal-height-row__col is-borderless">
+          <div class="p-equal-height-row__item">
+            <div class="p-image-container is-highlighted">
+              {{ image(url="https://assets.ubuntu.com/v1/c212844f-landscape.png",
+                            alt="",
+                            width="780",
+                            height="481",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe
+              }}
+            </div>
+            <hr class="p-rule--muted" />
+          </div>
+          <div class="p-equal-height-row__item">
+            <p>
+              Manage your devices with Canonical Landscape. Available with an Ubuntu Pro subscription, Landscape gives you visibility and control over operations and updates, on a single pane of glass.
+            </p>
+            <p>Alternatively, integrate third-party device management platforms with Canonical solutions.</p>
+          </div>
+          <div class="p-equal-height-row__item u-hide--large">
+            <hr class="p-rule--muted" />
+            <p>
+              <a href="https://ubuntu.com/landscape">Learn about Canonical Landscape&nbsp;&rsaquo;</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row u-hide--small u-hide--medium">
+      <hr class="p-rule--muted" />
+      <div class="col-3">
+        <p>
+          <a href="/lxd">Learn about LXD&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+      <div class="col-3">
+        <p>
+          <a href="https://documentation.ubuntu.com/enterprise-store/main/">Discover the Enterprise Store&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+      <div class="col-3">
+        <p>
+          <a href="https://ubuntu.com/kubernetes">Discover Canonical Kubernetes&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+      <div class="col-3">
+        <p>
+          <a href="https://ubuntu.com/landscape">Learn about Canonical Landscape&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="row">
+        <hr class="p-rule--highlight" />
+        <h2 class="p-text--small-caps u-no-padding--top">What customers say</h2>
+      </div>
+    </div>
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="Adopting Ubuntu Core has helped our engineers mature their thinking in how we deliver scalable enterprise products. It’s enabled us to move from an R&D product to a full-scale enterprise solution. And now that we’ve established these pathways, developing our next edge products will be even faster.",
+      quote_size="small",
+      citation_source_name_text="Robert Martin",
+      citation_source_title_text="Vice President of Technology, Rehrig Pacific",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/56adec04-Rehrig Pacific.png",
+                alt="",
+                width="137",
+                height="70",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="With LXD there’s no loss of function like you get with a hypervisor. We benchmarked it against our existing environment and it delivered twice the performance on our database with half the resources.",
+      quote_size="small",
+      citation_source_name_text="Suzie Roseberry",
+      citation_source_title_text="Intelligent Transportation Systems Developer and Database Administrator, Wyoming Department of Transportation",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/1086a23a-Wyoming Department of Transportation.png",
+                alt="",
+                width="158",
+                height="34",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <h2 class="p-text--small-caps u-no-padding--top">Edge computing by the numbers</h2>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <hr class="p-rule--highlight" />
+        <p class="p-heading--1">75%</p>
+        <p>
+          of IoT/edge developers use open source technology.<sup>1</sup>
+        </p>
+      </div>
+      <div class="col-3">
+        <hr class="p-rule--highlight" />
+        <p class="p-heading--1">50 nodes</p>
+        <p>MicroCloud can support clusters between 1 and 50 nodes.</p>
+      </div>
+      <div class="col-3">
+        <hr class="p-rule--highlight" />
+        <p class="p-heading--1">Over 1000</p>
+        <p>pieces of hardware are currently certified by Canonical.</p>
+      </div>
+      <div class="col-3">
+        <hr class="p-rule--highlight" />
+        <p class="p-heading--1">Up to 12</p>
+        <p>years of security maintenance with Ubuntu Pro - whichever Canonical solutions you use.</p>
+      </div>
+    </div>
+    <div class="row">
+      <hr class="p-rule--muted" />
+      <p>
+        <a href="https://5413615.fs1.hubspotusercontent-na1.net/hubfs/5413615/Eclipse%20IoT%20White%20Papers%20and%20Case%20Studies/IoT%20and%20Embedded%20Survey%20Report%202024.pdf"
+           rel="noopener noreferrer">
+          <sup>1</sup>Source: Eclipse Foundation, 2024 IoT & Embedded Developer Survey Report
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <!-- djlint:off H008-->
+    {% call(slot) vf_equal_heights(
+      title_text="Edge computing that drives impact across industries",
+      items=[
+      {
+      "title_text": "Logistics",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/7df911f4-Logistics.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Rehrig Pacific are industry leaders in waste, recycling and supply chain solutions. Discover how they harnessed Ubuntu Core to run AI models on edge devices, whilst remaining compliant with customer firewalls.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='https://ubuntu.com/engage/rehrig-pacific-secures-edge-AI'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      },
+      {
+      "title_text": "Telco edge",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/47ec9fb0-Telco%20edge.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Build a trusted, reliable and fully functional end-to-end network with lifecycle management and automation in place, in our guide to using open source for telecom infrastructure.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='https://ubuntu.com/engage/open-source-telco-infrastructure-whitepaper'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      },
+      {
+      "title_text": "Digital signage",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/6c77cef7-Digital%20signage.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Learn how Screenly, a leader in digital signage technology, used Ubuntu Core and the Snap Store to create a platform for customers that met scrupulous security requirements.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='https://ubuntu.com/engage/secure-digital-signage-screenly'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      },
+      {
+      "title_text": "Healthcare",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/cb389511-Healthcare.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Discover how Grundium, a digital microscope manufacturer, uses Ubuntu Pro for Devices to remain compliant.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='https://canonical.com/case-study/grundium-ubuntu-pro-for-devices'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      },
+      {
+      "title_text": "Industrial IoT",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/dca128bf-Industrial%20IoT.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Discover how IMS Evolve used Ubuntu&nbsp;Core to run the cold-chain solutions of large food retailers.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='https://ubuntu.com/engage/casestudy-imsevolve'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      },
+      {
+      "title_text": "Space computing",
+      "image_html":  "<img src='https://assets.ubuntu.com/v1/416924fb-Space%20computing.png'
+     class='p-image-container__image'
+     width='852'
+     height='1279'
+     alt=''
+     loading='lazy' />",
+      "description_html": "<p>Discover how Lonestar Data Holdings harnessed Ubuntu Core to experiment with data storage on the Moon.</p>",
+      "cta_html": "<div class='u-extra-space--small'><hr class='p-rule--muted' /><a href='/blog/lonestar-data-centre-moon'>Read the full case study&nbsp;&rsaquo;</a></div>"
+      }
+      ]
+      ) %}
+      {% if slot == "description" %}
+        <p>
+          The principles of edge computing have a wide range of applications, across different industries. Harness open source technology and tailor your edge infrastructure to your specific needs.
+        </p>
+      {% endif %}
+    {% endcall %}
+    <!-- djlint:on -->
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <hr class="p-rule" />
+      <div class="col-6 col-medium-3">
+        <h2>Learn more about open source edge computing</h2>
+      </div>
+      <div class="col-6 col-medium-3">
+        <h3 class="p-heading--5">Whitepaper: Edge computing use cases</h3>
+        <p>
+          Learn more about edge computing and the benefits it brings. We cover real-world examples of how edge computing is transforming industries as diverse as telecommunications, automotive, industrial and agriculture.
+        </p>
+        <p>
+          <a href="https://ubuntu.com/engage/edge-computing-use-cases"
+             aria-label="Read more about edge computing use cases">Read more&nbsp;&rsaquo;</a>
+        </p>
+
+        <hr class="p-rule--muted" />
+
+        <h3 class="p-heading--5">Whitepaper: CTO’s guide to MicroCloud</h3>
+        <p>
+          In this whitepaper, we dive into the challenges around edge computing and set out why the MicroCloud architecture offers businesses an advantage in terms of cost, efficiency and future-proofing.
+        </p>
+        <p>
+          <a href="https://ubuntu.com/engage/guide-to-micro-clouds"
+             aria-label="Read more about MicroCloud">Read more&nbsp;&rsaquo;</a>
+        </p>
+
+        <hr class="p-rule--muted" />
+
+        <h3 class="p-heading--5">IoT security with Ubuntu Pro for Devices</h3>
+        <p>
+          Visit our Ubuntu Pro for Devices page to learn more about automated tools for compliance, patching for over 36,000 packages and expanded security maintenance that runs for up to 12 years.
+        </p>
+        <p>
+          <a href="https://ubuntu.com/pro/devices"
+             aria-label="Learn more about IoT security with Ubuntu Pro for Devices">Learn more&nbsp;&rsaquo;</a>
+        </p>
+
+        <hr class="p-rule--muted" />
+
+        <h3 class="p-heading--5">Unlocking edge AI: a collaborative reference architecture with NVIDIA</h3>
+        <p>
+          Check out our blog to discover how NVIDIA and Canonical collaborated to create a reference architecture that simplifies edge AI deployment.
+        </p>
+        <p>
+          <a href="/blog/unlocking-edge-ai-a-collaborative-reference-architecture-with-nvidia"
+             aria-label="Learn more about unlocking edge AI">Read more&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="is-fixed-width p-rule" />
+
+  <section class="p-strip is-deep" id="contact-us-edge">
+    <div class="u-fixed-width">
+      <a href="/contact-us"
+         class="p-heading--2 js-invoke-modal"
+         aria-controls="edge-computing-modal">Talk to us about your edge needs&nbsp;&rsaquo;</a>
+    </div>
+  </section>
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+
+  {{ load_form("/solutions/infrastructure/edge-computing") | safe }}
+
+{% endblock content %}

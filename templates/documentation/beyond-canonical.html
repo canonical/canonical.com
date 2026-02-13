@@ -15,35 +15,31 @@
 {% block meta_image %}https://assets.ubuntu.com/v1/253da317-image-document-ubuntudocs.svg{% endblock %}
 
 {% block documentation_content %}
-  <div class="p-strip u-no-padding--top">
+  <div class="p-strip is-deep u-no-padding--top">
     <div class="row" id="documentation">
       <aside class="col-3">
-        <div class="p-side-navigation--raw-html is-sticky" id="drawer">
-          <button class="p-side-navigation__toggle js-drawer-toggle"
-                  aria-controls="drawer">Toggle side navigation</button>
+        <div class="p-side-navigation is-sticky" id="drawer" style="top: 4rem;">
           <div class="p-side-navigation__overlay js-drawer-toggle"
                aria-controls="drawer"></div>
           <nav class="p-side-navigation__drawer"
                aria-label="documentation side navigation">
-            <div class="p-side-navigation__drawer-header">
-              <button class="p-side-navigation__toggle--in-drawer js-drawer-toggle"
-                      aria-controls="drawer">Toggle table of contents</button>
-            </div>
             <ul>
               <li class="p-side-navigation__item">
-                <a class="highlight-link" href="#encounters-and-dialogue">Encounters and dialogue</a>
+                <a class="p-side-navigation__link" href="#encounters-and-dialogue">Encounters and dialogue</a>
               </li>
               <li class="p-side-navigation__item">
-                <a class="highlight-link" href="#open-source-events">Open-source events</a>
+                <a class="p-side-navigation__link" href="#open-source-events">Open-source events</a>
               </li>
               <li class="p-side-navigation__item">
-                <a class="highlight-link" href="#supporting-open-source-projects">Supporting open-source projects</a>
+                <a class="p-side-navigation__link"
+                   href="#supporting-open-source-projects">Supporting open-source projects</a>
               </li>
               <li class="p-side-navigation__item">
-                <a class="highlight-link" href="#collaboration-with-practitioners">Collaboration with practitioners</a>
+                <a class="p-side-navigation__link"
+                   href="#collaboration-with-practitioners">Collaboration with practitioners</a>
               </li>
               <li class="p-side-navigation__item">
-                <a class="highlight-link" href="#scientific-research-community">Scientific research community</a>
+                <a class="p-side-navigation__link" href="#scientific-research-community">Scientific research community</a>
               </li>
             </ul>
           </nav>
@@ -52,8 +48,7 @@
       <main class="col-9">
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4"
-                style="scroll-margin-top: 3.5rem">Documentation practice beyond Canonical</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4">Documentation practice beyond Canonical</h2>
             <div class="col-6 col-medium-4">
               <p>
                 We're working to establish patterns of excellence in documentation in Canonical, but not just for Canonical. The scale of operations at Canonical makes it an effective proving-ground for the models and ideas that we're developing &mdash; models and ideas that are being noticed and adopted more widely in the industry.
@@ -64,9 +59,8 @@
         <hr class="p-rule" />
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4 question-heading"
-                id="encounters-and-dialogue"
-                style="scroll-margin-top: 3.5rem">Encounters and dialogue</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4 section-heading"
+                id="encounters-and-dialogue">Encounters and dialogue</h2>
             <div class="col-6 col-medium-4">
               <p>
                 We actively seek new encounters with problems in documentation, in order that we may understand how our thinking can apply to them. We need to learn from experiences in other contexts.
@@ -80,19 +74,21 @@
         <hr class="p-rule" />
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4 question-heading"
-                id="open-source-events"
-                style="scroll-margin-top: 3.5rem">Workshops and talks at open-source events</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4 section-heading"
+                id="open-source-events">Workshops and talks at open-source events</h2>
             <div class="col-6 col-medium-4">
               <p>
                 We regularly attend events where the topic of documentation is firmly on the table. Recent examples of participation include <a href="https://2022.pyconuk.org/">PyCon UK 2022</a>, <a href="https://www.youtube.com/watch?v=R4O2WoFC-JQ">DjangoCon Europe 2022</a>, <a href="https://events.canonical.com/event/2/">Ubuntu Summit 2022</a>, <a href="https://www.python.org/events/python-events/1379/">PyCon Namibia 2023</a>.
               </p>
               <figure>
-                <img class="p-image"
-                     src="https://assets.ubuntu.com/v1/a1630e44-working-at-canonical.jpeg"
-                     alt="Workshop participants sitting around a table analyse user needs in documentation situations"
-                     width="600"
-                     height="400" />
+                {{ image(url="https://assets.ubuntu.com/v1/a1630e44-working-at-canonical.jpeg",
+                alt="Workshop participants sitting around a table analyse user needs in documentation situations",
+                                width="600",
+                                height="400",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class":"p-image"}) | safe
+                }}
                 <figcaption>Diátaxis workshop at the Ubuntu Summit, 2022</figcaption>
               </figure>
               <p>
@@ -107,9 +103,8 @@
         <hr class="p-rule" />
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4 question-heading"
-                id="supporting-open-source-projects"
-                style="scroll-margin-top: 3.5rem">Supporting open-source projects</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4 section-heading"
+                id="supporting-open-source-projects">Supporting open-source projects</h2>
             <div class="col-6 col-medium-4">
               <p>
                 Open-source projects inevitably find it easier to secure top-class programming contributions than they do to attract the same level of expertise in documentation.
@@ -123,9 +118,8 @@
         <hr class="p-rule" />
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4 question-heading"
-                id="collaboration-with-practitioners"
-                style="scroll-margin-top: 3.5rem">Collaboration with other practitioners</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4 section-heading"
+                id="collaboration-with-practitioners">Collaboration with other practitioners</h2>
             <div class="col-6 col-medium-4">
               <p>
                 We eagerly absorb insight from others in the discipline. The challenges faced by practitioners in other organisations serve to illuminate our own, and we value the exchange of ideas and expertise they offer.
@@ -139,9 +133,8 @@
         <hr class="p-rule" />
         <div class="p-section--shallow">
           <div class="row">
-            <h2 class="col-3 col-medium-2 p-heading--4 question-heading"
-                id="scientific-research-community"
-                style="scroll-margin-top: 3.5rem">Engagement with the scientific research community</h2>
+            <h2 class="col-3 col-medium-2 p-heading--4 section-heading"
+                id="scientific-research-community">Engagement with the scientific research community</h2>
             <div class="col-6 col-medium-4">
               <p>
                 The scientific community faces a problem, that risks becoming a crisis, of <em>reproducibility</em>. Ever-more research relies on computation, and much of it is wholly dependent on it. Despite this fact, and despite the valiant effort of software research engineers, software practices in research in general fall very far behind the standards achieved in industry.
