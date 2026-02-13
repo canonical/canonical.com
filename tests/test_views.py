@@ -218,7 +218,7 @@ class TestViews(unittest.TestCase):
 
         events_index = build_events_index(mock_engage_docs)
 
-        with self.app.test_request_context("/?q=test"):
+        with self.app.test_request_context():
             events_index()
             call_kwargs = mock_render_template.call_args[1]
             metadata = call_kwargs["metadata"]
