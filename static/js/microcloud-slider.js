@@ -1,92 +1,90 @@
 // Slider that shows 3 resource items at a time
 function threeItemSlider() {
-  let activePages = [];
   const activeItems = 3;
   let sliders = document.querySelectorAll(".js-slider");
-  for (let i = 0; i < sliders.length; i++) {
-    let slider = sliders[i];
-    let items = slider.querySelector(".js-slider--items").children;
-    let resultsCount = slider.querySelector(".js-results-count");
-    let length = items.length;
-    let totalPages = Math.ceil(length / activeItems);
-    activePages.push(1);
-    if (resultsCount) {
-      resultsCount.innerHTML = `1 of ${totalPages} `;
-    }
-    /** @type {HTMLElement} */
-    let nextBtn = slider.querySelector(".js-slider--next");
-    /** @type {HTMLElement} */
-    let prevBtn = slider.querySelector(".js-slider--prev");
-    let currentPage = activePages[i];
+  sliders.forEach((slider) => {
+    initSlider(slider, activeItems);
+  });
+}
 
-    if (totalPages > 1) {
-      nextBtn.classList.remove("is-disabled");
-    }
-    if (currentPage == 1) {
-      prevBtn.classList.add("is-disabled");
-    }
+function initSlider(slider, activeItems) {
+  let items = slider.querySelector(".js-slider--items").children;
+  let resultsCount = slider.querySelector(".js-results-count");
+  let length = items.length;
+  let totalPages = Math.ceil(length / activeItems);
+  let currentPage = 1;
 
-    for (let i = 0; i < length; i++) {
-      if (i >= activeItems) {
-        items[i].classList.add("u-hide");
+  /** @type {HTMLElement} */
+  let nextBtn = slider.querySelector(".js-slider--next");
+  /** @type {HTMLElement} */
+  let prevBtn = slider.querySelector(".js-slider--prev");
+
+  updateButtonState(prevBtn, nextBtn, currentPage, totalPages);
+  updateResultsCount(resultsCount, currentPage, totalPages);
+
+  // Hide items > activeItems
+  for (let i = activeItems; i < length; i++) {
+    items[i].classList.add("u-hide");
+  }
+
+  if (nextBtn) {
+    nextBtn.onclick = (e) => {
+      if (currentPage < totalPages) {
+        togglePageItems(items, currentPage, activeItems, false);
+        currentPage += 1;
+        togglePageItems(items, currentPage, activeItems, true);
+        updateResultsCount(resultsCount, currentPage, totalPages);
+        updateButtonState(prevBtn, nextBtn, currentPage, totalPages);
       }
+    };
+  }
+
+  if (prevBtn) {
+    prevBtn.onclick = (e) => {
+      if (currentPage > 1) {
+        togglePageItems(items, currentPage, activeItems, false);
+        currentPage -= 1;
+        togglePageItems(items, currentPage, activeItems, true);
+        updateResultsCount(resultsCount, currentPage, totalPages);
+        updateButtonState(prevBtn, nextBtn, currentPage, totalPages);
+      }
+    };
+  }
+}
+
+function togglePageItems(items, page, activeItems, show) {
+  const start = (page - 1) * activeItems;
+  const end = Math.min(items.length, page * activeItems);
+  for (let i = start; i < end; i++) {
+    if (show) {
+      items[i].classList.remove("u-hide");
+    } else {
+      items[i].classList.add("u-hide");
     }
+  }
+}
 
-    if (nextBtn) {
-      nextBtn.onclick = (e) => {
-        if (currentPage < totalPages) {
-          for (
-            let i = (currentPage - 1) * activeItems;
-            i < currentPage * activeItems;
-            i++
-          ) {
-            items[i].classList.add("u-hide");
-          }
+function updateResultsCount(resultsCount, page, total) {
+  if (resultsCount) {
+    resultsCount.innerHTML = `${page} of ${total} `;
+  }
+}
 
-          let windowLimit = Math.min(length, (currentPage + 1) * activeItems);
+function updateButtonState(prevBtn, nextBtn, page, total) {
+  if (total > 1) {
+    nextBtn?.classList.remove("is-disabled");
+  } else {
+    nextBtn?.classList.add("is-disabled");
+  }
 
-          for (let i = currentPage * activeItems; i < windowLimit; i++) {
-            items[i].classList.remove("u-hide");
-          }
+  if (page === 1) {
+    prevBtn?.classList.add("is-disabled");
+  } else {
+    prevBtn?.classList.remove("is-disabled");
+  }
 
-          currentPage += 1;
-
-          resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-          prevBtn.classList.remove("is-disabled");
-        }
-
-        if (currentPage == totalPages) {
-          nextBtn.classList.add("is-disabled");
-        }
-      };
-    }
-
-    if (prevBtn) {
-      prevBtn.onclick = (e) => {
-        if (currentPage > 1) {
-          let windowLimit = Math.min(length, currentPage * activeItems);
-          for (let i = (currentPage - 1) * activeItems; i < windowLimit; i++) {
-            items[i].classList.add("u-hide");
-          }
-          currentPage -= 1;
-
-          for (
-            let i = (currentPage - 1) * activeItems;
-            i < currentPage * activeItems;
-            i++
-          ) {
-            items[i].classList.remove("u-hide");
-          }
-        }
-
-        resultsCount.innerHTML = `${currentPage} of ${totalPages} `;
-        nextBtn.classList.remove("is-disabled");
-
-        if (currentPage == 1) {
-          prevBtn.classList.add("is-disabled");
-        }
-      };
-    }
+  if (page === total) {
+    nextBtn?.classList.add("is-disabled");
   }
 }
 
