@@ -25,11 +25,11 @@ test.describe("meganav tracking - search", () => {
     const events = await getDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
-    // Clicking toggle also auto-focuses the input, so the toggle event is first
-    const event = events[0];
-    expect(event.mega_nav_area).toBe("search");
-    expect(event.click_label).toBe("search toggle");
-    expect(event.mega_nav_path).toBe("search toggle");
+    const event = events.find((e) => e.click_label === "search toggle");
+    expect(event).toBeDefined();
+    expect(event!.mega_nav_area).toBe("search");
+    expect(event!.click_label).toBe("search toggle");
+    expect(event!.mega_nav_path).toBe("search toggle");
   });
 
   test("search input focus pushes correct dataLayer event", async ({

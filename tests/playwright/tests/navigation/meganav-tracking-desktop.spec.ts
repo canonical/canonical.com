@@ -45,7 +45,6 @@ test.describe("meganav tracking - desktop", () => {
       .locator("#products-content .js-navigation-tab")
       .first();
     await expect(sidebarTab).toBeVisible();
-    const tabText = (await sidebarTab.textContent())?.trim().toLowerCase();
 
     await clearDataLayer(page);
     await sidebarTab.click();
@@ -84,7 +83,7 @@ test.describe("meganav tracking - desktop", () => {
     await clearDataLayer(page);
 
     // Click the link and capture the dataLayer event atomically to avoid navigation context loss
-    const event = await dropdownLink.evaluate((el) => {
+    const event = await dropdownLink.evaluate((el, eventName) => {
       // Prevent default to stop navigation, using capture phase to run first
       el.addEventListener("click", (e) => e.preventDefault(), {
         once: true,
@@ -94,10 +93,10 @@ test.describe("meganav tracking - desktop", () => {
       // Read dataLayer synchronously right after the click handlers fire
       const dl = (window as any).dataLayer || [];
       const events = dl.filter(
-        (e: any) => e.event === "meganav click desktop"
+        (e: any) => e.event === eventName
       );
       return events[events.length - 1] || null;
-    });
+    }, EVENT_NAME);
 
     expect(event).toBeTruthy();
     expect(event.mega_nav_area).toBe("topbar");

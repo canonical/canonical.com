@@ -1,8 +1,5 @@
 import { test, expect } from "@playwright/test";
-import {
-  navigateToHomepage,
-  acceptCookiePolicy,
-} from "../../helpers/navigation-helpers";
+import { navigateToHomepage } from "../../helpers/navigation-helpers";
 import {
   clearDataLayer,
   getDataLayerEventsByName,
@@ -119,7 +116,6 @@ test.describe("meganav tracking - mobile", () => {
       .locator(".js-dropdown-button[data-level='1']")
       .first();
     await expect(nestedToggle).toBeVisible();
-    const toggleText = (await nestedToggle.textContent())?.trim().toLowerCase();
 
     await clearDataLayer(page);
     await nestedToggle.click();
@@ -166,7 +162,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
 
     // Click the link and capture the dataLayer event atomically to avoid navigation context loss
-    const event = await navLink.evaluate((el) => {
+    const event = await navLink.evaluate((el, eventName) => {
       // Prevent default to stop navigation, using capture phase to run first
       el.addEventListener("click", (e) => e.preventDefault(), {
         once: true,
@@ -176,10 +172,10 @@ test.describe("meganav tracking - mobile", () => {
       // Read dataLayer synchronously right after the click handlers fire
       const dl = (window as any).dataLayer || [];
       const events = dl.filter(
-        (e: any) => e.event === "meganav click mobile"
+        (e: any) => e.event === eventName
       );
       return events[events.length - 1] || null;
-    });
+    }, EVENT_NAME);
 
     expect(event).toBeTruthy();
     expect(event.mega_nav_area).toBe("level-3");
