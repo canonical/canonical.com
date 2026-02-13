@@ -453,12 +453,13 @@
         <hr class="p-rule--muted" />
         <div class="row p-section--shallow">
           <div class="col-3 p-image-wrapper">
-            {{ image(url="https://assets.ubuntu.com/v1/bf624470-image%20wrapper.png",
+            {{ image(url="https://assets.ubuntu.com/v1/a182b1e8-Full%20Logo.png",
                         alt="Screenly",
-                        width="125",
-                        height="43",
+                        width="120",
+                        height="120",
                         hi_def=True,
-                        loading="lazy") | safe
+                        loading="lazy"
+                        ) | safe
             }}
           </div>
           <div class="col-6">
@@ -692,12 +693,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ubuntu-os#contact-form-success" %}
-    {% set formid = "5909" %}
-    {% include "solutions/ubuntu-os/_form-ubuntu-os.html" %}
-  {% endwith %}
+  {{ load_form("/ubuntu-os") | safe }}
 
 {% endblock %}

@@ -15,7 +15,13 @@ class TestRoutes(VCRTestCase):
         This removes the authorization header
         from VCR so we don't record auth parameters
         """
-        return {"filter_headers": ["Authorization"]}
+        return {
+            "filter_headers": ["Authorization"],
+            # Our cassettes include gzip-compressed response bodies.
+            # Enable transparent decoding during playback so callers can
+            # safely call `response.json()`.
+            "decode_compressed_response": True,
+        }
 
     def setUp(self):
         """

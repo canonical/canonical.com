@@ -35,7 +35,7 @@ class TestGetCurrentPageBubble(unittest.TestCase):
         }
 
         with patch.object(navigation, "secondary_navigation_data", mock_data):
-            result = navigation.get_current_page_bubble("/docs/data/streaming")
+            result = navigation.get_current_page_bubble("/data/streaming")
 
         bubble = result["page_bubble"]
         self.assertEqual(bubble["path"], "/data")

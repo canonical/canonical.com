@@ -22,10 +22,13 @@
         <hr class="p-rule is-fixed-width" />
         <fieldset class="p-fieldset-section{% if fieldset.inputType == 'checkbox-visibility' %} js-toggle-checkbox-visibility{% elif fieldset.isRequired and fieldset.inputType == 'checkbox' %} js-required-checkbox{% elif fieldset.inputType == 'radio' %} js-remove-radio-names{% endif %} {% if fieldset.inputType == 'checkbox' or fieldset.inputType == 'checkbox-visibility' %}js-remove-checkbox-names{% endif %}"
                   aria-labelledby="{{ fieldset_id }}-legend">
+            <legend class="u-off-screen">
+                {{ fieldset.title }}{% if fieldset.isRequired %} (required) {% endif %}
+            </legend>
           <div class="row--50-50 {% if fieldset.noCommentsFromLead != True %}js-formfield{% endif %}">
             <div class="col">
-              <legend class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}is-required{% endif %}"
-                      id="{{ fieldset_id }}-legend">{{ fieldset.title }}</legend>
+              <p class="p-heading--4 js-formfield-title {% if fieldset.isRequired %}legend-is-required{% endif %}"
+                      id="{{ fieldset_id }}-legend">{{ fieldset.title }}</p>
             </div>
             <div class="col">
               <ul class="p-list">
@@ -112,6 +115,7 @@
                       <label class="p-radio">
                         <input {% if fieldset.isRequired %}required{% endif %}
                                 class="p-radio__input"
+                                id="{{ field_id }}"
                                 type="radio"
                                 aria-labelledby="{{ field_id }}"
                                 name="_radio_{{ fieldset_inputName }}"
@@ -129,6 +133,8 @@
                       <label class="p-checkbox">
                         <input class="p-checkbox__input js-checkbox-visibility"
                                 type="checkbox"
+                                id="{{ field_id }}"
+                                name="{{ fieldset_inputName }}"
                                 aria-labelledby="{{ field.label }}"
                                 value="{{ field_value }}"
                                 {% if field.isSelected %}checked{% endif %} />

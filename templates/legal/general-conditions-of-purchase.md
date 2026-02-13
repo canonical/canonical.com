@@ -549,3 +549,9 @@ obligations) that would not be reasonably effective unless obtained in
 the jurisdiction of the conduct at issue. The provisions of the United
 Nations Convention on Contracts for the International Sale of Goods
 shall not apply to the Agreement.
+
+
+## Translations
+
+For Chinese Vendors a translation of these GCP is available <a href="https://assets.ubuntu.com/v1/71d94b77-gcp_chinese_vendors.pdf" target="_blank" rel="noopener noreferrer">here</a>. For Taiwanese vendors a translation of these GCP is available <a href="https://assets.ubuntu.com/v1/e951f0a5-gcp_taiwanese_vendors.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+Canonical may provide copies of the GCP in different languages for information purposes. In the event of any conflict between the versions of these GCP in different languages, the English language version of the GCP shall prevail and shall be used in any court proceedings.

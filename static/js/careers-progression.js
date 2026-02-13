@@ -23,6 +23,7 @@ function removeAutoplay() {
 function scrollAnimation() {
   // Replicate homepage scroll animations
   // https://github.com/canonical/canonical.com/blob/main/templates/index.html#L587
+  /** @type {NodeListOf<HTMLElement>} */
   const elementsToAnimate = document.querySelectorAll("[data-animation]");
   let windowHeight = window.innerHeight;
   window.addEventListener("scroll", () => {
@@ -81,7 +82,9 @@ function standardCarousel() {
   // Set up the slide dot behaviors
   slideDots.forEach((dot) => {
     dot.addEventListener("click", (e) => {
-      currentIndex = e.target.tabIndex;
+      /** @type {HTMLElement} */
+      const target = e.target;
+      currentIndex = target.tabIndex;
       goToSlide(currentIndex);
     });
   });
@@ -104,9 +107,11 @@ function standardCarousel() {
     currentIndex = index;
     for (let i = 0; i < slidesContainer.length; i++) {
       for (let j = 0; j < slidesContainer[i].children.length; j++) {
-        slidesContainer[i].children[j].style.transitionDuration = `${ms}s`;
-        slidesContainer[i].children[j].style.transform = `translateX(-${
-          slidesContainer[i].children[j].offsetWidth * index
+        /** @type {HTMLElement} */
+        const child = slidesContainer[i].children[j];
+        child.style.transitionDuration = `${ms}s`;
+        child.style.transform = `translateX(-${
+          child.offsetWidth * index
         }px)`;
       }
     }
@@ -123,9 +128,13 @@ function standardCarousel() {
 }
 
 function carousel3DTestimonials(showItems = 3) {
+  /** @type {HTMLElement | null} */
   const next = document.querySelector("#next-testimonial");
+  /** @type {HTMLElement | null} */
   const previous = document.querySelector("#previous-testimonial");
+  /** @type {NodeListOf<HTMLElement>} */
   const carouselItems = document.querySelectorAll(".p-3d-carousel__item");
+  /** @type {NodeListOf<HTMLElement>} */
   const goToSlideButton = document.querySelectorAll(".js-go-to-slide");
 
   const transition = "0.75s ease-out";

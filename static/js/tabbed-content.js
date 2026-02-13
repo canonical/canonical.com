@@ -5,6 +5,7 @@
   const keys = {
     left: "ArrowLeft",
     right: "ArrowRight",
+    tab: "Tab",
   };
 
   const direction = {
@@ -18,6 +19,7 @@
   const IEKeys = {
     left: 37,
     right: 39,
+    tab: 9,
   };
 
   const IEDirection = {
@@ -42,6 +44,7 @@
     }
 
     if (compatibleDirection[pressed]) {
+      /** @type {HTMLElement & {index: number}} */
       const target = event.target;
       if (target.index !== undefined) {
         if (tabs[target.index + compatibleDirection[pressed]]) {
@@ -67,8 +70,33 @@
     nextButton,
     tabContainer
   ) => {
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    // Handle the "Backwards" navigation from the panel
+    panels.forEach((panel) => {
+      panel.addEventListener("keydown", (/** @type {KeyboardEvent} */ e) => {
+        let compatibleKeys = IEKeys;
+        let key = e.keyCode;
+
+        if (e.code) {
+          compatibleKeys = keys;
+          key = e.code;
+        }
+        if (e.shiftKey && key === compatibleKeys.tab) {
+          // Find the tab that controls this panel
+          /** @type {HTMLElement | null} */
+          const controller = document.querySelector(
+            `[aria-controls="${panel.id}"]`
+          );
+          if (controller) {
+            e.preventDefault();
+            controller.focus();
+          }
+        }
+      });
+    });
+
     tabs.forEach(function (tab, index) {
-      tab.addEventListener("keyup", function (e) {
+      tab.addEventListener("keyup", function (/** @type {KeyboardEvent} */ e) {
         let compatibleKeys = IEKeys;
         let key = e.keyCode;
 
@@ -266,6 +294,7 @@
   */
   (function () {
     // Toggles show board based on selection on small screens
+    /** @type {NodeListOf<HTMLSelectElement>} */
     const dropdownSelects = document.getElementsByName("tabSelect");
 
     dropdownSelects.forEach((dropdownSelect) => {
@@ -279,6 +308,7 @@
         `div[data-tablist="${tablist}"]`
       );
       tabpanelParent.forEach((parent) => {
+        /** @type {NodeListOf<HTMLElement>} */
         const boards = parent.querySelectorAll("[role='tabpanel']");
         boards.forEach((board) => {
           if (board.id === dropdownValue) {

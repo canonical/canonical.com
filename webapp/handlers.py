@@ -36,6 +36,7 @@ CSP = {
         "cdn.livechatinc.com",
         "api.livechatinc.com",
         "secure.livechatinc.com",
+        "www.tfaforms.com",
         # This is necessary for Google Tag Manager to function properly.
         "'unsafe-inline'",
     ],
@@ -59,7 +60,7 @@ CSP = {
         "ubuntu.com",
         "analytics.google.com",
         "www.googletagmanager.com",
-        "sentry.is.canonical.com",
+        "o4510662863749120.ingest.de.sentry.io",
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
@@ -83,10 +84,12 @@ CSP = {
         "*.mktoresp.com",
         "assets.ubuntu.com",
         "api.github.com",
+        "raw.githubusercontent.com",
         "api.livechatinc.com",
         "cdn.livechatinc.com",
         "secure.livechatinc.com",
         "web.facebook.com",
+        "www.tfaforms.com",
     ],
     "frame-src": [
         "'self'",
@@ -105,6 +108,7 @@ CSP = {
         "'self'",
         "cdn.jsdelivr.net",
         "'unsafe-inline'",
+        "www.tfaforms.com",
     ],
     "media-src": [
         "'self'",
@@ -124,7 +128,7 @@ CSP = {
 }
 
 
-def init_handlers(app, sentry):
+def init_handlers(app):
 
     @app.after_request
     def add_headers(response):
