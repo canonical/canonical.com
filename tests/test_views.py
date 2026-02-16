@@ -63,13 +63,13 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Ubuntu 24.04 Release",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
                 "path": "/engage/event-1",
             },
             {
                 "topic_name": "Cloud Native Conference",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
                 "path": "/engage/event-2",
             },
         ]
@@ -98,9 +98,9 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Valid Event",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
-            {"event_location": "New York", "event_date": "20/03/2026"},
+            {"event_location": "New York", "event_date": "20/03/2027"},
         ]
 
         mock_engage_docs.get_index.return_value = (events_data, 2, 2, 2)
@@ -127,12 +127,12 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Event 1",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
             {
                 "topic_name": "Event 2",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
             },
         ]
 
@@ -164,12 +164,12 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Ubuntu Release Event",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
             {
                 "topic_name": "Kubernetes Workshop",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
             },
         ]
 
