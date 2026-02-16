@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1mrvhkrVjCCJE39h96CPG_b_ZHWVN0GHzZ_6TdoudeYs
 {% endblock meta_copydoc %}
@@ -39,14 +41,13 @@
         </div>
         <div class="col">
           <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">Benefit from our 20-year track record in open source</li>
+            <li class="p-list__item is-ticked">Benefit from our 20+ years in open source</li>
             <li class="p-list__item is-ticked">
-              Drive productivity with integration into vulnerability scanning tools and cloud
-              platforms
+              Drive productivity with cloud and vulnerability scanner integration
             </li>
             <li class="p-list__item is-ticked">Get fixes for critical vulnerabilities in 24 hours on average</li>
             <li class="p-list__item is-ticked">Make your compliance efforts faster and easier</li>
-            <li class="p-list__item is-ticked">Up to 12 years of security maintenance and support</li>
+            <li class="p-list__item is-ticked">Up to 15 years of security maintenance and support</li>
           </ul>
         </div>
       </div>
@@ -87,11 +88,13 @@
             Open source offers the world's innovation in code. But ensuring you remain compliant and auditable can be a challenge.
           </p>
           <p>
-            We maintain and apply timely security patches on <b>the vastest open source library.</b>
-            We then backport and test the fixes on all supported Ubuntu versions, making it very easy to stay up to date. Our comprehensive vulnerability management offering is available through a single convenient subscription: <a href="https://ubuntu.com/pro">Ubuntu Pro</a>.
+            <a href="https://ubuntu.com/pro">Ubuntu Pro</a> is Canonical's comprehensive subscription for open source security, support, and compliance. Ubuntu Pro gives you access to a trusted open source repository, compliance profiles for the most stringent security standards, and up to 15 years of timely vulnerability fixes for your OS, infrastructure, and applications.
           </p>
           <br />
           <hr class="p-rule--muted" />
+          <p>
+            <a href="https://ubuntu.com/pro/free-trial">Try Ubuntu Pro for free&nbsp;&rsaquo;</a>
+          </p>
           <p>
             <a href="https://ubuntu.com/engage/vulnerability-management">Download our guide to open source vulnerability management&nbsp;&rsaquo;</a>
           </p>
@@ -112,7 +115,7 @@
         </div>
         <div class="p-section--shallow col-6 col-start-large-7 col-medium-4">
           <p>
-            Get 10 years of security maintenance for your software supply chain. Manage your embedded devices in a compliant and scalable way. Automation enables you to apply patches at scale, and easily manage and debug your devices.
+            Get up to 15 years of security maintenance for your software supply chain. Manage your embedded devices in a compliant and scalable way. Automation enables you to apply patches at scale, and easily manage and debug your devices.
           </p>
           <hr class="p-rule--muted" />
           <p>
@@ -151,7 +154,7 @@
         </div>
         <div class="p-section--shallow col-6 col-start-large-7 col-medium-4">
           <p>
-            Consume compliant open source from Canonical with Ubuntu Pro on public clouds. Access hardening and compliance standards like FIPS, DISA-STIG and others.
+            Consume compliant open source from Canonical with Ubuntu Pro on public clouds. Access hardening and compliance standards like FIPS, DISA-STIG, and others.
           </p>
           <hr class="p-rule--muted" />
           <p>
@@ -169,7 +172,7 @@
         </div>
         <div class="col">
           <p>
-            Deb packages, containers, snaps and Canonical-maintained software operators &mdash; consume the packaging format of your choice in a compliant way.
+            Deb packages, containers, snaps, and Canonical-maintained software operators &ndash; consume the packaging format of your choice in a compliant way.
           </p>
         </div>
       </div>
@@ -356,7 +359,9 @@
     <section class="p-strip is-deep">
       <div class="u-fixed-width">
         <h2>
-          <a href="https://ubuntu.com/containers">Need a security-maintained Docker image? Learn about our container offering&nbsp;&rsaquo;</a>
+          Need a security-maintained Docker image?
+          <br />
+          <a href="https://ubuntu.com/containers">Learn about our container offering&nbsp;&rsaquo;</a>
         </h2>
       </div>
     </section>
@@ -369,7 +374,7 @@
         </div>
         <div class="col">
           <p>Build your apps and systems on a stack that simplifies compliance.</p>
-          <p>Ubuntu Pro includes automation tooling and packages for FIPS 140, CIS and DISA-STIG hardening.</p>
+          <p>Ubuntu Pro includes automation tooling and packages for FIPS 140, CIS, and DISA-STIG hardening.</p>
           <p>
             Ubuntu also has an EAL2 certification recognized by EU members of SOGIS, a platform that harmonizes security
             certification across Europe.
@@ -389,7 +394,7 @@
             <li class="p-list__item is-ticked"><a href="/solutions/open-source-security/cyber-resilience-act">The EU Cyber Resilience Act</a></li>
           </ul>
           <div class="p-cta-block has-border">
-            <a href="https://ubuntu.com/security/security-standards">See all the security standards we support ›</a>
+            <a href="https://ubuntu.com/security/security-standards">Learn more about the security standards we support ›</a>
           </div>
         </div>
       </div>
@@ -403,7 +408,7 @@
         </div>
         <div class="col">
           <p>
-            Canonical offers a simple subscription for security maintenance, compliance and support, priced per node. Everything in our portfolio is covered under Ubuntu Pro.
+            Canonical offers a simple subscription for security maintenance, compliance, and support, priced per node. Everything in our portfolio is covered under Ubuntu Pro.
           </p>
         </div>
       </div>
@@ -421,6 +426,17 @@
         </div>
       </div>
     </section>
+
+    {% call(slot) vf_cta_section(
+            title_text='Secure your entire software supply chain',
+            variant='default',
+            layout='100',
+            attrs={'id': 'full-width-default'}
+            ) -%}
+    {%- if slot == 'cta' -%}
+    <a href="https://assets.ubuntu.com/v1/79eecf32-secure_your_enterprise_software_supply_chain.pdf">Download our datasheet&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {% endcall -%}
 
     <section class="p-section--deep">
       <div class="u-fixed-width">
