@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "const": "cta-section"
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "layout",
+        "slots"
+      ],
+      "properties": {
+        "variant": {
+          "enum": [
+            "default",
+            "block"
+          ],
+          "default": "default"
+        },
+        "layout": {
+          "enum": [
+            "100",
+            "25-75",
+            "25/75"
+          ]
+        },
+        "title_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "description": "CSS classes applied to the section"
+            }
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "slots": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "$ref": "#/$defs/htmlSlot"
+            },
+            "cta": {
+              "$ref": "#/$defs/htmlSlot"
+            }
+          },
+          "required": [
+            "cta"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "allOf": [
+        {
+          "description": "If variant is 'block', title_text is required",
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "block"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "title_text"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "htmlSlot": {
+      "type": "object",
+      "required": [
+        "type",
+        "content"
+      ],
+      "properties": {
+        "type": {
+          "const": "html"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
