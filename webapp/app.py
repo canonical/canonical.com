@@ -1749,7 +1749,7 @@ def build_sitemap_tree(exclude_paths=None):
 
         # Update sitemap with POST request
         if flask.request.method == "POST":
-            expected_secret = os.getenv("SITEMAP_SECRET")
+            expected_secret = get_flask_env("SITEMAP_SECRET")
             provided_secret = flask.request.headers.get(
                 "Authorization", ""
             ).replace("Bearer ", "")
