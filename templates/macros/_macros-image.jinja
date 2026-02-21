@@ -1,25 +1,55 @@
 # Params
-# caption (optional): Caption for image
+# caption (optional): Caption for image. When provided, the image and caption will be wrapped in <figure> and <figcaption> tags for semantic HTML.
 # right_align (optional): Right alignment of image
+# id (optional): Custom ID for the caption. If not provided, a unique ID will be generated from the caption text.
+#
+# Accessibility:
+# - When a caption is provided, aria-describedby links the image container to the caption
+# - Uses semantic HTML (<figure>/<figcaption>) for better screen reader support
+#
 # Slots
 # image_content (required): Slot for image content, the image must have the class 'p-image-container__image'.
 
-{%- macro image_wrapper(caption="", right_align="") -%}
+{%- macro image_wrapper(caption="", right_align="", id="") -%}
   {%- set image_content = caller('image_content') -%}
   {%- set has_image = image_content|trim|length>0 -%}
+  {%- set has_caption = caption|trim|length>0 -%}
+
+  {# Generate unique ID for caption if one is provided #}
+  {%- if has_caption -%}
+    {%- if id -%}
+      {%- set caption_id = id -%}
+    {%- else -%}
+      {%- set caption_id = caption | generate_image_id("image-caption") -%}
+    {%- endif -%}
+    {# Inject aria-describedby into the <img> tag for screen reader support #}
+    {%- set image_content = image_content|replace('<img', '<img aria-describedby="' + caption_id + '"') -%}
+  {%- endif -%}
+
   <section class="p-section">
     <div class="row">
       {% if right_align %}<div class="col-start-large-4 col-9">{% endif %}
-      {% if has_image %}
+
+      {# Use figure element when we have both image and caption #}
+      {% if has_image and has_caption %}
+        <figure>
+          <div class="p-image-container u-align--{% if right_align %}right{% else %}center{% endif %} u-vertically-center u-no-padding--bottom">
+            {{ image_content }}
+          </div>
+          <figcaption id="{{ caption_id }}">
+            <div class="col-start-large-4 col-9">
+              <p class="u-text--muted u-no-max-width">{{ caption }}</p>
+            </div>
+          </figcaption>
+        </figure>
+
+      {# Image only - no figure needed #}
+      {% elif has_image %}
         <div class="p-image-container u-align--{% if right_align %}right{% else %}center{% endif %} u-vertically-center u-no-padding--bottom">
           {{ image_content }}
-        </div>      
+        </div>
       {% endif %}
-      {% if caption %}
-      <div class="col-start-large-4 col-9">
-        <p class="u-text--muted u-no-max-width">{{ caption }}</p>
-      </div>
-      {% endif %}
+
       {% if right_align %}</div>{% endif %}
     </div>
   </section>
