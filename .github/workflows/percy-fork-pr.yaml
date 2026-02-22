@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Check PR author association
         id: check
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -55,7 +55,7 @@ jobs:
       - name: Check for safe-for-percy label
         id: label_check
         if: steps.check.outputs.approved != 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -79,7 +79,7 @@ jobs:
     steps:
       # Checkout the PR code (not the base branch)
       - name: Checkout PR code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
