@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "name",
+    "data"
+  ],
+  "properties": {
+    "name": {
+      "const": "cta-section"
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "slots"
+      ],
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "required": [
+            "layout"
+          ],
+          "properties": {
+            "variant": {
+              "enum": [
+                "default",
+                "block"
+              ],
+              "default": "default"
+            },
+            "layout": {
+              "enum": [
+                "100",
+                "25-75",
+                "25/75"
+              ]
+            },
+            "title_text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attrs": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "description": "CSS classes applied to the section"
+                }
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "description": "If variant is 'block', title_text is required",
+              "if": {
+                "properties": {
+                  "variant": {
+                    "const": "block"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "title_text"
+                ]
+              }
+            }
+          ]
+        },
+        "slots": {
+          "type": "object",
+          "required": [
+            "cta"
+          ],
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/htmlSlot"
+            },
+            "cta": {
+              "$ref": "#/definitions/htmlSlot"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "definitions": {
+    "htmlSlot": {
+      "type": "object",
+      "required": [
+        "content"
+      ],
+      "properties": {
+        "type": {
+          "const": "html"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

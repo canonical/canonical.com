@@ -5,6 +5,7 @@ from flask import current_app
 from abc import ABC, abstractmethod
 from typing import List, Optional, Protocol
 from jsonschema import validate, ValidationError
+from .schema import SchemaLoader
 
 
 class FileWriter(Protocol):
@@ -66,7 +67,7 @@ class PatternFactory:
         self._patterns = {
             "hero": HeroSection,
             "basic": BasicSection,
-            "cta": CTASection,
+            "cta-section": CTASection,
             "resources": ResourcesSection,
         }
 
@@ -204,7 +205,6 @@ class PageGenerator:
 
         # Format HTML
         formatted_html = self.formatter.format(html_content)
-
         # Write to file
         output_path = self._get_output_path()
         return self.file_writer.write(output_path, formatted_html)
@@ -252,8 +252,24 @@ class Pattern(ABC):
         self.data = data
         self.pattern_html = ""
 
-    def validate_payload(self, schema):
+    @property
+    @abstractmethod
+    def schema_name(self) -> str:
+        """Return the name of the schema file for this pattern."""
+        pass
+
+    def validate_payload(self, schema=None):
         try:
+            # If no schema provided, load from schema_name
+            if schema is None:
+                loaded_schema = SchemaLoader.get_schema(self.schema_name)
+                # Extract the "data" schema
+                # since self.data only contains the inner data object
+                schema = loaded_schema.get("properties", {}).get("data", {})
+                # Preserve definitions for referenced schemas
+                if "definitions" in loaded_schema:
+                    schema["definitions"] = loaded_schema["definitions"]
+
             # This matches the payload
             # against your schema including definitions
             validate(instance=self.data, schema=schema)
@@ -274,6 +290,10 @@ class Pattern(ABC):
 class HeroSection(Pattern):
     def __init__(self, data):
         super().__init__(data)
+
+    @property
+    def schema_name(self) -> str:
+        return "hero"
 
     def process_pattern(self):
         params_list = []
@@ -304,28 +324,14 @@ class HeroSection(Pattern):
     def write_import(self):
         return '{% from "_macros/vf_hero.jinja" import vf_hero %}'
 
-    def validate_payload(self):
-        # load json schema for hero
-        with open(
-            Path(current_app.root_path).resolve().parent
-            / "static/json/page-generator/schemas/hero.json",
-            "r",
-        ) as f:
-            HERO_SCHEMA = json.load(f)
-
-        # Extract the "data" schema
-        # since self.data only contains the inner data object
-        data_schema = HERO_SCHEMA.get("properties", {}).get("data", {})
-        # Preserve definitions for referenced schemas
-        if "definitions" in HERO_SCHEMA:
-            data_schema["definitions"] = HERO_SCHEMA["definitions"]
-
-        return super().validate_payload(data_schema)
-
 
 class BasicSection(Pattern):
     def __init__(self, data):
         super().__init__(data)
+
+    @property
+    def schema_name(self) -> str:
+        return "basic-section"
 
     def process_pattern(self):
         # TODO: Implement basic section pattern
@@ -339,17 +345,57 @@ class CTASection(Pattern):
     def __init__(self, data):
         super().__init__(data)
 
+    @property
+    def schema_name(self) -> str:
+        return "cta-section"
+
     def process_pattern(self):
-        # TODO: Implement CTA section pattern
-        pass
+        params_list = []
+
+        parameters = self.data.get("parameters", {})
+        slots = self.data.get("slots", {})
+
+        for key, value in parameters.items():
+            if isinstance(value, str):
+                params_list.append(f'{key}="{value}"')
+            elif isinstance(value, bool):
+                # We would not encounter this mostly
+                params_list.append(f"{key}={str(value).lower()}")
+            else:
+                params_list.append(f"{key}={json.dumps(value)}")
+
+        # Join all parameters with commas
+        params_str = ",\n    ".join(params_list)
+        self.pattern_html += f"""
+            {{% call(slot) vf_cta_section(
+                {params_str}
+            ) -%}}
+        """
+        for slot_name, slot_content in slots.items():
+            # Add slot content as a Jinja block
+            self.pattern_html += f"""
+                {{%- if slot == '{slot_name}' -%}}
+                    {slot_content.get("content", "").strip()}
+                {{%- endif -%}}
+            """
+
+        self.pattern_html += f"""
+            {{% endcall -%}}
+        """
 
     def write_import(self):
-        return None
+        return (
+            '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
+        )
 
 
 class ResourcesSection(Pattern):
     def __init__(self, data):
         super().__init__(data)
+
+    @property
+    def schema_name(self) -> str:
+        return "resources-section"
 
     def process_pattern(self):
         # TODO: Implement resources section pattern
