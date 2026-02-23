@@ -354,13 +354,14 @@ class CTASection(Pattern):
 
         parameters = self.data.get("parameters", {})
         slots = self.data.get("slots", {})
+
         for key, value in parameters.items():
             if isinstance(value, str):
-                # Wrap strings in double quotes
                 params_list.append(f'{key}="{value}"')
+            elif isinstance(value, bool):
+                # We would not encounter this mostly
+                params_list.append(f"{key}={str(value).lower()}")
             else:
-                # For dicts, lists, numbers: convert to JSON
-                # so Jinja sees a valid object literal
                 params_list.append(f"{key}={json.dumps(value)}")
 
         # Join all parameters with commas
