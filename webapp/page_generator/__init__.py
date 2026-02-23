@@ -74,7 +74,9 @@ class PatternFactory:
     def register_pattern(self, pattern_type: str, pattern_class: type):
         self._patterns[pattern_type] = pattern_class
 
-    def create(self, pattern_type: str, pattern_data: dict) -> Optional["Pattern"]:
+    def create(
+        self, pattern_type: str, pattern_data: dict
+    ) -> Optional["Pattern"]:
         """Create a pattern instance based on type."""
         pattern_class = self._patterns.get(pattern_type)
         if pattern_class:
@@ -162,7 +164,9 @@ class PageGenerator:
         for pattern in self.data.get("patterns", []):
             pattern_type = pattern.get("name")
             pattern_data = pattern.get("data", {})
-            pattern_instance = self.pattern_factory.create(pattern_type, pattern_data)
+            pattern_instance = self.pattern_factory.create(
+                pattern_type, pattern_data
+            )
             if pattern_instance:
                 self.patterns.append(pattern_instance)
 
@@ -336,6 +340,52 @@ class BasicSection(Pattern):
     def write_import(self):
         return None
 
+
+class CTASection(Pattern):
+    def __init__(self, data):
+        super().__init__(data)
+
+    @property
+    def schema_name(self) -> str:
+        return "cta-section"
+
+    def process_pattern(self):
+        params_list = []
+
+        parameters = self.data.get("parameters", {})
+        slots = self.data.get("slots", {})
+        for key, value in parameters.items():
+            if isinstance(value, str):
+                # Wrap strings in double quotes
+                params_list.append(f'{key}="{value}"')
+            else:
+                # For dicts, lists, numbers: convert to JSON
+                # so Jinja sees a valid object literal
+                params_list.append(f"{key}={json.dumps(value)}")
+
+        # Join all parameters with commas
+        params_str = ",\n    ".join(params_list)
+        self.pattern_html += f"""
+            {{% call(slot) vf_cta_section(
+                {params_str}
+            ) -%}}
+        """
+        for slot_name, slot_content in slots.items():
+            # Add slot content as a Jinja block
+            self.pattern_html += f"""
+                {{%- if slot == '{slot_name}' -%}}
+                    {slot_content.get("content", "").strip()}
+                {{%- endif -%}}
+            """
+
+        self.pattern_html += f"""
+            {{% endcall -%}}
+        """
+
+    def write_import(self):
+        return (
+            '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
+        )
 
 
 class ResourcesSection(Pattern):
