@@ -184,17 +184,17 @@ def _milestones_progress(stages, current_stage=None):
             progress[milestone] = False
         return progress
 
-    stages = [stage["name"] for stage in stages]
-    current_stage = current_stage["name"]
+    current_stage_id = current_stage["id"]
 
     # Filter out todo stages that candidate hasn't done yet
     candidate_finished_stages = []
-    last_occurrence_found = False
+    current_stage_found = False
     for stage in reversed(stages):
-        if stage == current_stage:
-            last_occurrence_found = True
-        if last_occurrence_found:
-            candidate_finished_stages.append(stage)
+        if stage["id"] == current_stage_id:
+            current_stage_found = True
+
+        if current_stage_found:
+            candidate_finished_stages.append(stage["name"])
 
     candidate_finished_stages = _sort_stages_by_milestone(
         candidate_finished_stages, milestone_stages
