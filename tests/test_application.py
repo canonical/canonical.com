@@ -24,19 +24,19 @@ from webapp.greenhouse import Harvest
 from webapp.utils.cipher import Cipher, InvalidToken
 
 all_stages = [
-    {"name": "Application Review"},
-    {"name": "Written Interview"},
-    {"name": "Devskiller"},
-    {"name": "Thomas International - GIA"},
-    {"name": "Hold"},
-    {"name": "Technical Exercise"},
-    {"name": "Early Stage Interviews"},
-    {"name": "Thomas International - PPA"},
-    {"name": "Talent Interview"},
-    {"name": "Late Stage Interviews"},
-    {"name": "Shortlist"},
-    {"name": "Executive Review"},
-    {"name": "Offer"},
+    {"id": 1, "name": "Application Review"},
+    {"id": 2, "name": "Written Interview"},
+    {"id": 3, "name": "Devskiller"},
+    {"id": 4, "name": "Thomas International - GIA"},
+    {"id": 5, "name": "Hold"},
+    {"id": 6, "name": "Technical Exercise"},
+    {"id": 7, "name": "Early Stage Interviews"},
+    {"id": 8, "name": "Thomas International - PPA"},
+    {"id": 9, "name": "Talent Interview"},
+    {"id": 10, "name": "Late Stage Interviews"},
+    {"id": 11, "name": "Shortlist"},
+    {"id": 12, "name": "Executive Review"},
+    {"id": 13, "name": "Offer"},
 ]
 
 
@@ -90,7 +90,7 @@ class TestApplicationPageHelpers(VCRTestCase):
     def test_milestone_progress_current_stage_defined(self):
         self.assertDictEqual(
             _milestones_progress(
-                all_stages, {"name": "Early Stage Interviews"}
+                all_stages, {"id": 7, "name": "Early Stage Interviews"}
             ),
             {
                 "application": True,
@@ -103,22 +103,22 @@ class TestApplicationPageHelpers(VCRTestCase):
 
     def test_milestone_progress_unordered_stages_list(self):
         all_stages = [
-            {"name": "Offer"},
-            {"name": "Application Review"},
-            {"name": "Written Interview"},
-            {"name": "Devskiller"},
-            {"name": "Thomas International - GIA"},
-            {"name": "Hold"},
-            {"name": "Late Stage Interviews"},
-            {"name": "Talent Interview"},
-            {"name": "Technical Exercise"},
-            {"name": "Early Stage Interviews"},
-            {"name": "Shortlist"},
-            {"name": "Thomas International - PPA"},
-            {"name": "Executive Review"},
+            {"id": 13, "name": "Offer"},
+            {"id": 1, "name": "Application Review"},
+            {"id": 2, "name": "Written Interview"},
+            {"id": 3, "name": "Devskiller"},
+            {"id": 4, "name": "Thomas International - GIA"},
+            {"id": 5, "name": "Hold"},
+            {"id": 10, "name": "Late Stage Interviews"},
+            {"id": 9, "name": "Talent Interview"},
+            {"id": 6, "name": "Technical Exercise"},
+            {"id": 7, "name": "Early Stage Interviews"},
+            {"id": 11, "name": "Shortlist"},
+            {"id": 8, "name": "Thomas International - PPA"},
+            {"id": 12, "name": "Executive Review"},
         ]
         self.assertDictEqual(
-            _milestones_progress(all_stages, {"name": "Offer"}),
+            _milestones_progress(all_stages, {"id": 13, "name": "Offer"}),
             {
                 "application": True,
                 "assessment": True,
@@ -134,6 +134,31 @@ class TestApplicationPageHelpers(VCRTestCase):
             {
                 "application": False,
                 "assessment": False,
+                "early_stage": False,
+                "late_stage": False,
+                "offer": False,
+            },
+        )
+
+    def test_milestone_progress_duplicate_hold_uses_stage_id_anchor(self):
+        stages = [
+            {"id": 1, "name": "Application Review"},
+            {"id": 2, "name": "Written Interview"},
+            {"id": 3, "name": "Hold"},
+            {"id": 4, "name": "Technical Exercise"},
+            {"id": 5, "name": "Hold"},
+            {"id": 6, "name": "Early Stage Interviews"},
+            {"id": 7, "name": "Talent Interview"},
+            {"id": 8, "name": "Hold"},
+        ]
+
+        # candidate is in the middle "Hold" (assessment section), not the
+        # final "Hold" (after early-stage interviews).
+        self.assertDictEqual(
+            _milestones_progress(stages, {"id": 5, "name": "Hold"}),
+            {
+                "application": True,
+                "assessment": True,
                 "early_stage": False,
                 "late_stage": False,
                 "offer": False,
@@ -491,7 +516,7 @@ class TestGetApplication(unittest.TestCase):
             "jobs": [{"id": 1, "name": "Original Role"}],
             "candidate_id": 55,
             "attachments": [],
-            "current_stage": {"name": "Application Review"},
+            "current_stage": {"id": 999, "name": "Application Review"},
             "status": "active",
             "rejection_reason": {"type": {"id": 2}},
             "rejected_at": None,
@@ -522,6 +547,7 @@ class TestGetApplication(unittest.TestCase):
         }
         harvest.get_stages.return_value = [
             {
+                "id": 999,
                 "name": "Application Review",
                 "interviews": [{"id": 1}],
             }
