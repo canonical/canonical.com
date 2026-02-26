@@ -562,6 +562,7 @@ def job_details(session, greenhouse, harvest, job_id):
     try:
         context["job"] = harvest.get_job_post(job_id)
 
+        # Handle job posting that are no longer open
         if not context["job"].get("active") or not context["job"].get("live"):
             response = flask.make_response(
                 flask.render_template("careers/404-job-closed.html", **context),
