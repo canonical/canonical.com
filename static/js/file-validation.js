@@ -3,6 +3,7 @@
   const maxAllowedSize = 1048576;
   const resumeFileInput = document.getElementById("resume");
   const coverLetterFileInput = document.getElementById("cover_letter");
+
   const validateFile = (inputElement) => {
     const filePath = inputElement.value;
     const fileSize = inputElement.files[0].size;
@@ -16,6 +17,12 @@
       alert("Invalid file size. Maximum file size 1MB.");
       inputElement.value = "";
     }
+  };
+
+  window.fileValidation = {
+    allowedExtensions,
+    maxAllowedSize,
+    validateFile,
   };
 
   if (resumeFileInput) {

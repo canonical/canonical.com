@@ -18,7 +18,7 @@
  * - threshold: 0 means the observer triggers as soon as any part of the
  *   section header is visible.
  */
-function setUpDynamicSideNav() {
+export function setUpDynamicSideNav() {
   const sections = Array.prototype.slice.call(
     document.querySelectorAll(".section-heading")
   );
