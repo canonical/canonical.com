@@ -13,6 +13,7 @@
 {% block body_class %}is-paper{% endblock %}
 
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 
 {% block content %}
   <div class="p-section--hero">
@@ -616,48 +617,77 @@
     </div>
   </div>
 
-  <div class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule"/>
-      <div class="col">
-        <h2>
-          Security and compliance for your edge deployments with Ubuntu Pro
-        </h2>
-      </div>
-      <div class="col">
-        <div class="u-embedded-media">
-          <iframe title="Improving fan experience with 5G"
-                  class="u-embedded-media__element"
-                  src="https://www.youtube.com/embed/tNECRG5r2sg?si=tsKzmgzX7srvm5yj"
-                  allowfullscreen=""></iframe>
-        </div>
-        <p>
-          Ubuntu Pro unlocks the full potential of open source for your edge deployments. Get full access to:
-        </p>
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">
-            A trusted repository of open source toolchains and frameworks
-          </li>
-          <li class="p-list__item is-ticked">
-            Hardening configurations and compliance profiles for FIPS, DISA-STIG, and other stringent security standards
-          </li>
-          <li class="p-list__item is-ticked">
-            Powerful automations and tools for managing patches and devices at scale
-          </li>
-          <li class="p-list__item is-ticked">
-            Up to 15 years of security maintenance for OS, infrastructure, and apps
-          </li>
-          <li class="p-list__item is-ticked">
-            Coverage for desktops, servers, public clouds, or smart devices, in airgapped or well-connected environments
-          </li>
-        </ul>
-        <p>
-          <a class="p-button" href="https://ubuntu.com/pro">Secure your full stack with Pro</a>
-          <a href="https://www.ubuntu.com/pro/free-trial">Get a 30-day free trial&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </div>
+  {{ vf_basic_section(
+    title={"text": "Security and compliance for your edge deployments with Ubuntu Pro"},
+    items=[
+      {
+        "type": "video",
+        "item": {
+          "attrs": {
+            "src": "https://www.youtube.com/embed/tNECRG5r2sg?si=tsKzmgzX7srvm5yj",
+            "allowfullscreen": ""
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "
+            <p>
+              Ubuntu Pro unlocks the full potential of open source for your edge deployments. Get full access to:
+            </p>
+          "
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "tick",
+              "content": "A trusted repository of open source toolchains and frameworks"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Hardening configurations and compliance profiles for FIPS, DISA-STIG, and other stringent security standards"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Powerful automations and tools for managing patches and devices at scale"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Up to 15 years of security maintenance for OS, infrastructure, and apps"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Coverage for desktops, servers, public clouds, or smart devices, in airgapped or well-connected environments"
+            }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "secondaries": [
+            {
+              "content_html": "Secure your full stack with Pro",
+              "attrs": {
+                "href": "https://ubuntu.com/pro"
+              }
+            }
+          ],
+          "link": {
+            "content_html": "Get a 30-day free trial ›",
+            "attrs": {
+              "href": "https://ubuntu.com/pro/free-trial"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
 
   <div class="p-section">
     <div class="row">
