@@ -7,6 +7,7 @@
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
 {% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
 
 {% block title %}MAAS | Bare metal automation for your data center{% endblock %}
 
@@ -38,17 +39,7 @@
          aria-controls="maas-contact-form">Get in touch</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
-      <div class="u-embedded-media">
-        <iframe class="u-embedded-media__element"
-                width="441"
-                height="247"
-                src="https://www.youtube.com/embed/eHfaiKlUYsM?showinfo=0&controls=2&modestbranding=1"
-                title="Watch the MAAS video on YouTube"
-                frameborder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
-                allowfullscreen>
-        </iframe>
-      </div>
+      {{ lite_video(video_id="eHfaiKlUYsM", video_title="Watch the MAAS video on YouTube") }}
     {%- endif -%}
   {% endcall -%}
 
@@ -386,7 +377,8 @@
     "item": {
     "attrs": {
     "src": "https://www.youtube.com/embed/dSZqax12Q7A?si=6NHwBl6f6kVGNZY-",
-    "allowfullscreen": ""
+    "allowfullscreen": "",
+    "title": "Building the data centre: Implementing self-service for large scale operations - T-Mobile"
     }
     }
     },
@@ -419,7 +411,8 @@
     "item": {
     "attrs": {
     "src": "https://www.youtube.com/embed/SwlU4U-BWRo?si=8gQWKZ2jd_r2jN6W",
-    "allowfullscreen": ""
+    "allowfullscreen": "",
+    "title": "How Roblox went from Windows to Ubuntu in 7 days for edge compute nodes"
     }
     }
     },
