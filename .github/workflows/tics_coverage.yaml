@@ -9,6 +9,9 @@ on:
         required: false
         default: "true"
 permissions: read-all
+# We cannot run TiCS on forked pull requests due to the usage of secrets
+# This workflow can only run as a CRON job or 
+# on branched PRs within the main repository.
 env:
   SECRET_KEY: insecure_test_key
   APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
@@ -39,7 +42,7 @@ jobs:
         run: yarn build
       
       - name: Run JS tests
-        run: yarn test-js
+        run: yarn test-js --coverage
 
       - name: Run tests and generate coverage report
         run: |
@@ -99,7 +102,8 @@ jobs:
       - name: Move coverage report to expected location
         run: |
           mkdir -p .coverage &&
-          mv coverage/coverage.xml .coverage/coverage.xml
+          mv coverage/coverage.xml .coverage/coverage-py.xml
+          mv coverage/cobertura-coverage.xml .coverage/coverage-js.xml
       
       - if: ${{ env.detach == 'true' }}
         name: Detach TICS QServer to prevent "project already connected" issue
