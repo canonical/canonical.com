@@ -53,7 +53,7 @@ from webapp.views import (
     build_canonical_days_index,
     append_utms_cookie_to_ubuntu_links,
 )
-from webapp.application import application
+from webapp.application import application_bp
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -137,7 +137,7 @@ charmhub_discourse_api = DiscourseAPI(
 search_session = get_requests_session()
 discourse_session = get_requests_session()
 
-app.register_blueprint(application, url_prefix="/careers/application")
+app.register_blueprint(application_bp, url_prefix="/careers/application")
 
 
 # Prepare forms
