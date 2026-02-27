@@ -547,8 +547,8 @@ def try_reject_interviews(harvest, application, applicant_name):
             # the interview event
             can_be_deleted = False
             if interview["status"] == "scheduled":
-                # can only delete interviews which are on the interview calendar
-                # so we check this first
+                # can only delete interviews which are on the interview
+                # calendar so we check this first
                 can_be_deleted = calendar.is_on_interview_calendar(
                     interview["external_event_id"]
                 )
@@ -561,8 +561,7 @@ def try_reject_interviews(harvest, application, applicant_name):
                     # so log error if not empty
                     if delete_response:
                         logging.error(
-                            "Delete response not empty, error deleting event:\n"
-                            + str(delete_response)
+                            "delete_interview_event " f"{delete_response=}"
                         )
 
                 # email template and title for canceled interview
@@ -575,7 +574,7 @@ def try_reject_interviews(harvest, application, applicant_name):
                     + f"Candidate Withdrawal for {applicant_name}"
                 )
             else:
-                # otherwise, set email template and title for feedback not needed
+                # otherwise, tell that feedback is not needed
                 email_template = (
                     "careers/application/_withdrawal"
                     + "-feedback-not-needed-email.html"
