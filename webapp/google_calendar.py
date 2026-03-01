@@ -1,10 +1,13 @@
 import os
 import httplib2
+import logging
 
 from google_auth_httplib2 import AuthorizedHttp
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+
+logger = logging.getLogger(__name__)
 
 # Google Calendar credentials
 SERVICE_ACCOUNT_INFO = {
@@ -30,20 +33,21 @@ class CalendarAPI:
         self.service = self._authenticate()
 
     def _authenticate(self):
-        # authenticate
-        SCOPES = ["https://www.googleapis.com/auth/calendar"]
-        credentials = service_account.Credentials.from_service_account_info(
-            SERVICE_ACCOUNT_INFO, scopes=SCOPES
-        )
         try:
+            SCOPES = ["https://www.googleapis.com/auth/calendar"]
+            credentials = (
+                service_account.Credentials.from_service_account_info(
+                    SERVICE_ACCOUNT_INFO, scopes=SCOPES
+                )
+            )
             delegated_credentials = credentials.with_subject(WPE_EMAIL)
             http = httplib2.Http(timeout=15)
             authed_http = AuthorizedHttp(delegated_credentials, http=http)
             service = build("calendar", "v3", http=authed_http)
-        except HttpError as error:
-            print("An error occurred: %s" % error)
-
-        return service
+            return service
+        except Exception:
+            logger.exception("CalendarAPI._authenticate error")
+            return None
 
     def delete_interview_event(self, event_id):
         return (

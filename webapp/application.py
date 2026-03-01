@@ -79,7 +79,7 @@ milestone_stages = {
     "offer": ("Offer",),
 }
 
-application = flask.Blueprint(
+application_bp = flask.Blueprint(
     "application",
     __name__,
     template_folder="/templates",
@@ -388,6 +388,10 @@ def _send_mail(
 ):
     # Get SMTP server configuration
     smtp_server = os.environ["SMTP_SERVER"]
+    smtp_port = os.getenv("SMTP_PORT")
+    if smtp_port:
+        smtp_port = int(smtp_port)
+
     smtp_user = os.environ["SMTP_USER"]
     smtp_pass = os.environ["SMTP_PASS"]
     smtp_sender_address = os.environ["SMTP_SENDER_ADDRESS"]
@@ -398,7 +402,14 @@ def _send_mail(
     msg["To"] = ", ".join(to_email)
     msg.set_content(message, subtype="html")
 
-    server = SMTP(host=smtp_server)
+    smtp_args = {
+        "host": smtp_server,
+        "timeout": 15,
+    }
+    if smtp_port:
+        smtp_args["port"] = smtp_port
+
+    server = SMTP(**smtp_args)
     if smtp_user and smtp_pass:
         server.ehlo()
         server.starttls()
@@ -408,7 +419,7 @@ def _send_mail(
     server.quit()
 
 
-@application.after_request
+@application_bp.after_request
 def add_headers(response):
     """
     Generic rules for headers to add to all requests
@@ -425,19 +436,19 @@ def add_headers(response):
     return response
 
 
-@application.route("/faq")
+@application_bp.route("/faq")
 def faq():
     return flask.render_template(
         "careers/application/faq.html",
     )
 
 
-@application.route("/")
+@application_bp.route("/")
 def application_access_denied():
     flask.abort(401, "No authentication token provided.")
 
 
-@application.route("/<string:token>")
+@application_bp.route("/<string:token>")
 def handle_application_index(token):
     with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
@@ -471,7 +482,7 @@ def application_index(harvest, token):
     )
 
 
-@application.route("/get-report/<string:token>", methods=["POST"])
+@application_bp.route("/get-report/<string:token>", methods=["POST"])
 def handle_application_report(token):
     with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
@@ -501,7 +512,113 @@ def application_report(harvest, token):
         return flask.jsonify({"status": "success", "message": gia_feedback})
 
 
-@application.route("/withdraw/<string:token>")
+def try_reject_interviews(harvest, application, applicant_name):
+    try:
+        # get candidate interviews from Harvest API and filter
+        candidate_interviews = harvest.get_interviews_scheduled(
+            application["id"]
+        )
+        candidate_interviews = [
+            interview
+            for interview in candidate_interviews
+            if interview["status"] in ["scheduled", "awaiting_feedback"]
+        ]
+        all_sent_emails = []
+
+        calendar = CalendarAPI()
+        for interview in candidate_interviews:
+            # get interviewer information
+            interviewer = interview["interviewers"][0]
+            interviewer_timezone = calendar.get_timezone(interviewer["email"])
+
+            # convert interview time to interviewer's timezone
+            interview_datetime_str = interview["start"]["date_time"]
+            interview_datetime_obj = datetime.fromisoformat(
+                interview_datetime_str.replace("Z", "+00:00")
+            )
+            interview_datetime_obj = interview_datetime_obj.astimezone(
+                pytz.timezone(interviewer_timezone)
+            )
+            interview_date = interview_datetime_obj.strftime(
+                "%B %d, %Y at %I:%M%p"
+            )
+
+            # if interview is still upcoming, we want to try to delete
+            # the interview event
+            can_be_deleted = False
+            if interview["status"] == "scheduled":
+                # can only delete interviews which are on the interview
+                # calendar so we check this first
+                can_be_deleted = calendar.is_on_interview_calendar(
+                    interview["external_event_id"]
+                )
+                if can_be_deleted:
+                    delete_response = calendar.delete_interview_event(
+                        event_id=interview["external_event_id"]
+                    )
+
+                    # empty response is returned on successful deletion
+                    # so log error if not empty
+                    if delete_response:
+                        logging.error(
+                            "delete_interview_event " f"{delete_response=}"
+                        )
+
+                # email template and title for canceled interview
+                email_template = (
+                    "careers/application/_withdrawal"
+                    + "-interview-canceled-email.html"
+                )
+                email_title = (
+                    "Interview Cancelation - "
+                    + f"Candidate Withdrawal for {applicant_name}"
+                )
+            else:
+                # otherwise, tell that feedback is not needed
+                email_template = (
+                    "careers/application/_withdrawal"
+                    + "-feedback-not-needed-email.html"
+                )
+                email_title = (
+                    "Interview Feedback - "
+                    + f"Candidate Withdrawal for {applicant_name}"
+                )
+
+            # build email to send to interviewer
+            email_for_interviewer = flask.render_template(
+                email_template,
+                interviewer_name=interviewer["name"],
+                interview_title=interview["interview"]["name"],
+                applicant_name=applicant_name,
+                interview_date=interview_date,
+                position=application["role_name"],
+                can_be_deleted=can_be_deleted,
+            )
+            all_sent_emails.append(
+                {
+                    "interviewer": interviewer["email"],
+                    "message": email_for_interviewer,
+                }
+            )
+
+            # send email
+            debug_skip_sending = flask.current_app.debug
+            if not debug_skip_sending:
+                # also sending cancelation/feedback email to TS inbox
+                # for tracking from their end.
+                _send_mail(
+                    [interviewer["email"], "talent-mailbox@canonical.com"],
+                    email_title,
+                    email_for_interviewer,
+                )
+
+        return all_sent_emails
+    except Exception:
+        logger.exception("Error trying to reject interviews")
+        return []
+
+
+@application_bp.route("/withdraw/<string:token>")
 def handle_application_withdrawal(token):
     with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
@@ -534,102 +651,9 @@ def application_withdrawal(harvest, token):
         f"application_id={payload['application_id']}"
     )
 
-    # get candidate interviews from Harvest API and filter
-    candidate_interviews = harvest.get_interviews_scheduled(application["id"])
-    candidate_interviews = [
-        interview
-        for interview in candidate_interviews
-        if interview["status"] in ["scheduled", "awaiting_feedback"]
-    ]
-    all_sent_emails = []
-
-    calendar = CalendarAPI()
-    for interview in candidate_interviews:
-        # get interviewer information
-        interviewer = interview["interviewers"][0]
-        interviewer_timezone = calendar.get_timezone(interviewer["email"])
-
-        # convert interview time to interviewer's timezone
-        interview_datetime_str = interview["start"]["date_time"]
-        interview_datetime_obj = datetime.fromisoformat(
-            interview_datetime_str.replace("Z", "+00:00")
-        )
-        interview_datetime_obj = interview_datetime_obj.astimezone(
-            pytz.timezone(interviewer_timezone)
-        )
-        interview_date = interview_datetime_obj.strftime(
-            "%B %d, %Y at %I:%M%p"
-        )
-
-        # if interview is still upcoming, we want to try to delete
-        # the interview event
-        can_be_deleted = False
-        if interview["status"] == "scheduled":
-            # can only delete interviews which are on the interview calendar
-            # so we check this first
-            can_be_deleted = calendar.is_on_interview_calendar(
-                interview["external_event_id"]
-            )
-            if can_be_deleted:
-                delete_response = calendar.delete_interview_event(
-                    event_id=interview["external_event_id"]
-                )
-
-                # empty response is returned on successful deletion
-                # so log error if not empty
-                if delete_response:
-                    logging.error(
-                        "Delete response not empty, error deleting event:\n"
-                        + str(delete_response)
-                    )
-
-            # email template and title for canceled interview
-            email_template = (
-                "careers/application/_withdrawal"
-                + "-interview-canceled-email.html"
-            )
-            email_title = (
-                "Interview Cancelation - "
-                + f"Candidate Withdrawal for {applicant_name}"
-            )
-        else:
-            # otherwise, set email template and title for feedback not needed
-            email_template = (
-                "careers/application/_withdrawal"
-                + "-feedback-not-needed-email.html"
-            )
-            email_title = (
-                "Interview Feedback - "
-                + f"Candidate Withdrawal for {applicant_name}"
-            )
-
-        # build email to send to interviewer
-        email_for_interviewer = flask.render_template(
-            email_template,
-            interviewer_name=interviewer["name"],
-            interview_title=interview["interview"]["name"],
-            applicant_name=applicant_name,
-            interview_date=interview_date,
-            position=application["role_name"],
-            can_be_deleted=can_be_deleted,
-        )
-        all_sent_emails.append(
-            {
-                "interviewer": interviewer["email"],
-                "message": email_for_interviewer,
-            }
-        )
-
-        # send email
-        debug_skip_sending = flask.current_app.debug
-        if not debug_skip_sending:
-            # also sending cancelation/feedback email to TS inbox
-            # for tracking from their end.
-            _send_mail(
-                [interviewer["email"], "talent-mailbox@canonical.com"],
-                email_title,
-                email_for_interviewer,
-            )
+    all_sent_emails = try_reject_interviews(
+        harvest, application, applicant_name
+    )
 
     # call the Harvest API to reject the application
     response = harvest.reject_application(
@@ -667,7 +691,7 @@ def application_withdrawal(harvest, token):
     )
 
 
-@application.route("/<string:token>", methods=["POST"])
+@application_bp.route("/<string:token>", methods=["POST"])
 def handle_request_withdrawal(token):
     with get_requests_session_with_retries() as session:
         harvest = Harvest.from_session(session)
@@ -748,7 +772,7 @@ def request_withdrawal(harvest, token):
     )
 
 
-@application.app_template_filter()
+@application_bp.app_template_filter()
 def job_location_countries(job_location_name: str):
     """
     locations as of 2025-12-02:
