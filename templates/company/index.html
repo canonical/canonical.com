@@ -15,6 +15,7 @@
 {% endblock body_class %}
 
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
 
 {% block content %}
   <section class="p-section--hero">
@@ -53,17 +54,7 @@
             Together, we enable organizations and end users everywhere to innovate with confidence on the largest supported collection of open source software.
           </p>
         </div>
-        <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/i9oDHGPBlwo?si=O1tiFV3rP-t4x5l8"
-                  title="Trusted open sourse for everyone"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-        </div>
+        {{ lite_video(video_id="i9oDHGPBlwo", video_title="Trusted open sourse for everyone", params="") }}
       </div>
     </div>
   </section>
@@ -175,13 +166,10 @@
     is_split_on_medium=true,
     items=[
       {
-        "type": "video",
+        "type": "description",
         "item": {
-          "attrs": {
-            "src": "https://www.youtube.com/embed/cAcum4kK1ng",
-            "allowfullscreen": "",
-            "title": "Canonical’s open source portfolio, explained"
-          }
+          "type": "html",
+          "content": lite_video(video_id="cAcum4kK1ng", video_title="Canonical’s open source portfolio, explained")
         }
       },
       {
