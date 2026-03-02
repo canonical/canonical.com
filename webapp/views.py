@@ -3,7 +3,7 @@ import flask
 import requests
 import math
 import datetime
-from urllib.parse import unquote
+from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
@@ -314,13 +314,37 @@ def append_utms_cookie_to_ubuntu_links(response):
             # Decode the URI encoded cookie value
             cookie_value = unquote(cookie_value)
             data = response.get_data(as_text=True)
+
             # Find all href attributes pointing to ubuntu.com
             pattern = r'href=["\']([^"\']*ubuntu\.com[^"\']*)["\']'
 
             def add_cookie_to_url(match):
                 url = match.group(1)
-                separator = "&" if "?" in url else "?"
-                new_url = f"{url}{separator}{cookie_value}"
+                # Parse URL to properly handle fragments (hash)
+                parsed = urlparse(url)
+
+                # Determine separator: use & if query params exist, otherwise ?
+                separator = "&" if parsed.query else "?"
+
+                # Build new query string with cookie value
+                new_query = (
+                    f"{parsed.query}{separator}{cookie_value}"
+                    if parsed.query
+                    else cookie_value
+                )
+
+                # Reconstruct URL with updated query string
+                new_url = urlunparse(
+                    (
+                        parsed.scheme,
+                        parsed.netloc,
+                        parsed.path,
+                        parsed.params,
+                        new_query,
+                        parsed.fragment,
+                    )
+                )
+
                 return f'href="{new_url}"'
 
             data = re.sub(pattern, add_cookie_to_url, data)
