@@ -6,6 +6,8 @@
   https://docs.google.com/document/d/1mrvhkrVjCCJE39h96CPG_b_ZHWVN0GHzZ_6TdoudeYs
 {% endblock meta_copydoc %}
 
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+
   {% block title %}Get open source security from Canonical{% endblock %}
 
   {% block meta_description %}
@@ -581,6 +583,16 @@
       </div>
     </section>
 
+    {{ vf_blog(
+      title={"text": "Read our latest security articles"},
+      template_config={
+        "enabled": True, 
+        "template_container_id": "articles", 
+        "layout": "4-blocks",
+        "template_id": "template",
+      }) 
+    }}
+
     <section class="p-section--deep">
       <hr class="p-rule is-fixed-width" />
       <div class="row--50-50">
@@ -637,6 +649,19 @@
         </div>
       </div>
     </section>
+
+    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+    <script>
+      canonicalLatestNews.fetchLatestNews({
+        // Make sure you add `p-image-container__image` to ensure the article image receives the correct styling.
+        imageClasses: ["p-image-container__image"],
+        limit: "4",
+        articlesContainerSelector: "#articles",
+        articleTemplateSelector: "#template",
+        excerptLength: 180,
+        gtmEventLabel: "Vanilla Blog pattern template example",
+      })
+    </script>
 
     {{ load_form("/open-source-security") | safe }}
 
