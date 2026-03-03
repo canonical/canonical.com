@@ -36,6 +36,8 @@ let config = {
           /^leaflet-/, // Leaflet classes for map
           /^vbox-/, // VenoBox classes
           /^venobox/, // VenoBox classes
+          /^row/, // Protects Vanilla Framework rows (row, row--75-25, etc.)
+          /^col/, // Protects Vanilla Framework columns (col, col-8, col-medium-4, etc.)
         ],
         greedy: [
           /^iti/, // intl-tel-input classes
