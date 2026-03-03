@@ -220,12 +220,11 @@ def build_events_index(engage_docs):
                         pass
             metadata = valid_events
 
-            # Sort by latest event
+            # Sort by earliest upcoming event
             metadata.sort(
                 key=lambda x: datetime.datetime.strptime(
                     x.get("event_date", "31 December 1999"), "%d %B %Y"
                 ),
-                reverse=True,
             )
 
         return flask.render_template(
