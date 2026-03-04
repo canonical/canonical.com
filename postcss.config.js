@@ -38,6 +38,8 @@ let config = {
           /^venobox/, // VenoBox classes
           /^row/, // Protects Vanilla Framework rows (row, row--75-25, etc.)
           /^col/, // Protects Vanilla Framework columns (col, col-8, col-medium-4, etc.)
+          /^grid-row/, // Protects modern Vanilla Framework rows (grid-row, etc.)
+          /^grid-col/, // Protects modern Vanilla Framework columns (grid-col, etc.)
         ],
         greedy: [
           /^iti/, // intl-tel-input classes
