@@ -643,7 +643,7 @@ class TestSendMail(unittest.TestCase):
                 message="<p>Body</p>",
             )
 
-        mock_smtp.assert_called_once_with(host="smtp.example.com")
+        mock_smtp.assert_called_once_with(host="smtp.example.com", timeout=15)
         self.assertEqual(smtp_instance.ehlo.call_count, 2)
         smtp_instance.starttls.assert_called_once()
         smtp_instance.login.assert_called_once_with("user", "pass")
@@ -673,7 +673,7 @@ class TestSendMail(unittest.TestCase):
                 message="<p>Body</p>",
             )
 
-        mock_smtp.assert_called_once_with(host="smtp.example.com")
+        mock_smtp.assert_called_once_with(host="smtp.example.com", timeout=15)
         smtp_instance.starttls.assert_not_called()
         smtp_instance.login.assert_not_called()
         smtp_instance.send_message.assert_called_once()
