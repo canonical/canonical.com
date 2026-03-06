@@ -1,6 +1,9 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1AtAApqxX9cbWf4a3cakEYbk7OoTfdBBi7FlA3WZz5ZM/edit
@@ -43,26 +46,35 @@
       </div>
     {%- endif -%}
   {% endcall -%}
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Why Canonical
-          <br class="u-hide--small" />
-          for enterprise AI?
-        </h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Run your entire AI/ML lifecycle on a single integrated stack</li>
-          <li class="p-list__item is-ticked">Develop at all scales with the same software provider</li>
-          <li class="p-list__item is-ticked">Control your TCO with predictable costs</li>
-          <li class="p-list__item is-ticked">Get maintained and supported open source AI software</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+
+  {{ vf_basic_section (
+    title={"text": "Why Canonical<br />for enterprise AI solutions?"},
+    items=[
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "tick",
+              "content": "Run your entire AI/ML lifecycle on a single integrated stack"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Develop at all scales with the same software provider"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Control your TCO with predictable costs"
+            },
+            {
+              "list_item_type": "tick",
+              "content": "Get maintained and supported open source AI software"
+            }
+          ]
+        }
+      }
+    ]
+  ) }}
 
   <section class="p-section">
     <div class="row--50-50">
@@ -263,34 +275,119 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <div class="p-image-container--4-3 is-cover u-hide--small">
-        {{ image(url="https://assets.ubuntu.com/v1/db0c8db2-silicon.png",
-                alt="",
-                width="3696",
-                height="1541",
-                hi_def=True,
-                loading="lazy",
-                attrs={"class": "p-image-container__image"},) | safe
-        }}
-      </div>
+  <div class="u-fixed-width">
+    <div class="p-image-container--4-3 is-cover u-hide--small">
+      {{ image(url="https://assets.ubuntu.com/v1/db0c8db2-silicon.png",
+              alt="",
+              width="3696",
+              height="1541",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"},) | safe
+      }}
     </div>
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Designed for any silicon</h2>
-      </div>
-      <div class="col">
-        <p>
-          Improve the performance of AI workflows and accelerate project delivery by taking full advantage of hardware capabilities.
-        </p>
-        <p>
-          Canonical partners directly with leading silicon vendors to optimize and certify our open source software solutions with dedicated AI hardware.
-        </p>
-      </div>
-    </div>
-  </section>
+  </div>
+
+  {{ vf_basic_section(
+    title={"text": "Designed for any silicon"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "
+            Canonical partners directly with leading silicon vendors to optimize and certify our
+            open source software solutions with dedicated AI hardware to ensure Ubuntu runs optimally
+            across all major architectures. You can pick the best AI accelerators for your use cases,
+            and take full advantage of your hardware&apos;s capabilities.
+          "
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "
+            <p>              
+              With <a href='https://documentation.ubuntu.com/inference-snaps/'>inference snaps</a>,
+              you can deploy well-known AI models &dash; like DeepSeek R1 and Qwen VL &dash; with a
+              single command, and the model will be automatically optimized for your specific hardware.
+            </p>
+          "
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<hr class="p-rule--muted">'
+        }
+      },
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            {"attrs": image(url="https://assets.ubuntu.com/v1/bce3b841-amd_logo.png",
+              alt="AMD",
+              width="204",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/1e07a4e1-ampere_logo.png",
+              alt="Ampere",
+              width="273",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/3fbd9a65-arm_logo.png",
+              alt="ARM",
+              width="152",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/201c84e3-intel_new_logo.png",
+              alt="Intel",
+              width="152",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/bdf87524-mediatek_logo.png",
+              alt="Mediatek",
+              width="432",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/bfc18c93-nvidia_logo.png",
+              alt="Nvidia",
+              width="308",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/2311cd1a-qualcomm_logo.png",
+              alt="Qualcomm",
+              width="384",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")},
+            {"attrs": image(url="https://assets.ubuntu.com/v1/a0d6bf19-risc_v_logo.png",
+              alt="RISC-V",
+              width="288",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs")}
+          ]
+        }
+      }
+    ],
+  ) }}
 
   <section class="p-section">
     <div class="row--50-50">
@@ -320,16 +417,6 @@
                 }}
               </div>
               <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/210f44e4-microsoft-azure-new-logo.png",
-                                alt="Microsoft Azure",
-                                width="252",
-                                height="288",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-              <div class="p-logo-section__item">
                 {{ image(url="https://assets.ubuntu.com/v1/3c4b936f-partner-google-cloud.png",
                                 alt="Google Cloud",
                                 width="287",
@@ -344,6 +431,16 @@
                                 alt="IBM",
                                 width="437",
                                 height="313",
+                                hi_def=True,
+                                loading="lazy",
+                                attrs={"class": "p-logo-section__logo"}) | safe
+                }}
+              </div>
+              <div class="p-logo-section__item">
+                {{ image(url="https://assets.ubuntu.com/v1/210f44e4-microsoft-azure-new-logo.png",
+                                alt="Microsoft Azure",
+                                width="252",
+                                height="288",
                                 hi_def=True,
                                 loading="lazy",
                                 attrs={"class": "p-logo-section__logo"}) | safe
@@ -375,16 +472,11 @@
     </div>
   </section>
 
-  <div class="u-fixed-width">
-    <hr class="p-rule" />
-  </div>
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a href="https://ubuntu.com/engage/open-source-big-data-ai">Get the free guide: Build a smarter enterprise with big data and AI&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
+  {% call(slot) vf_cta_section(variant='default', layout='100') -%}
+  {%- if slot == 'cta' -%}
+  <a href="https://ubuntu.com/engage/source-ai-infrastructure">Get the enterprise guide to private AI infrastructure&nbsp;&rsaquo;</a>
+  {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section">
     <div class="p-section--shallow">
@@ -756,7 +848,7 @@
     <div class="row--50-50">
       <hr class="p-rule" />
       <div class="col">
-        <h2>AI resources</h2>
+        <h2>Learn more about enterprise AI solutions</h2>
       </div>
       <div class="col">
         <ul class="p-list--divided u-no-margin--bottom">
