@@ -1,0 +1,217 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}OEDIV standardizes with Ubuntu Pro for 6 years of zero downtime{% endblock %}
+
+{% block meta_description %}
+  OEDIV standardized 800 Linux systems on Ubuntu Pro, reducing upgrade time by 60%, achieving 6 years of zero downtime, and unlocking new revenue streams.
+{% endblock %}
+
+{% block meta_company_name %}OEDIV{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1zc2tStMpgS-Vx_HN6wk90dnDUG9eAn_WPttHdaDhb4A/edit?tab=t.0
+{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="OEDIV reduces upgrade time by 60% and unlocks 6 years of zero downtime with Ubuntu Pro",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/377c3482-oediv_logo.png",
+            alt="OEDIV logo",
+            width="852",
+            height="141",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About OEDIV") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Oetker Daten- und Informationsverarbeitung KG (OEDIV) is a German IT service provider and a subsidiary of the Oetker Group, one of Germany's largest businesses
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      OEDIV provides managed services and infrastructure for businesses of all sizes, from global supermarket chains to healthcare organizations
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      The company operates its own high-availability sovereign data centers in Europe, ensuring strict compliance with European and German data protection laws
+    {%- endif -%}
+    {%- if slot == 'list_item_content_4' -%}
+      OEDIV has over 400 employees, more than 400 customers, and manages a fleet of 4,500 Linux systems
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      By adopting Ubuntu Pro, OEDIV shrank critical maintenance windows from 3 hours down to 45 minutes and reduced manual engineering tasks by 70% through Ubuntu Pro
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      These infrastructure improvements fostered a stable environment that resulted in zero standby calls over a six-year period
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Ubuntu Pro’s extensive security coverage for open source packages enables OEDIV to explore new business opportunities
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/a0c7ca9b-image1.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Introduction") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        OEDIV provides managed services and infrastructure to clients across a diverse range of industries. While each client’s individual needs may differ, the increased importance of security and compliance is paramount for every OEDIV customer, but with these requirements came a growing complexity gap. OEDIV managed multiple Linux distributions, and faced operational fragmentation that confined OEDIV to managing core operations, with little scope to take on custom requests and expand their service offering. 
+      </p>
+      <p>
+        This complexity and fragmentation surfaced in several critical areas. For example, the version gap for components between different Linux distros required manual compilation and maintenance in order to satisfy modern application demands. Consequently, upgrading between distro versions was a slow, manual, and error-prone process that needed extensive checks and testing. Collectively, these factors made the essential task of CVE patching unnecessarily difficult, which presented a security risk.
+      </p>
+      <p>
+        Seeking to break out of the constraints of limited software availability and operational complexity, OEDIV decided to standardize a large part of their infrastructure on Ubuntu, backed by the extensive support offering of Ubuntu Pro.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Our customers rely on us to keep their systems modern, up-to-date, and secure. Our critical infrastructure customers and others with strict security compliance needs expect prompt reaction to every vulnerability. Without Ubuntu Pro, meeting that core responsibility and reacting as fast as they need just wouldn't be possible.",
+    citation_source_name_text="Michel",
+    citation_source_title_text="Technology Owner Linux Platforms",
+    citation_source_organisation_text="OEDIV",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Before standardizing on Ubuntu, OEDIV faced friction and a difficult “version gap” in maintaining a modern and automated environment for their workloads. OEDIV found that other Linux distributions often featured components that lagged years behind the standard, forcing the OEDIV team to shoulder the burden of manually compiling and managing custom RPM packages for essential components like databases and web servers.
+      </p>
+      <p>
+        It wasn’t just business-as-usual activity that was intensive; system upgrades were complicated too. In order to move from legacy versions, the OEDIV team would be required to cycle through every interim version, rather than directly to major supported releases. Moving through multiple service packs on other distros proved slow and buggy, and demanded intense manual effort. When serving critical infrastructure customers who require exceptionally fast reactions to vulnerabilities, such as hospitals and gas stations, this resulted in unacceptably long maintenance windows.
+      </p>
+      <p>
+        Finally, the company was facing issues with customer legacy systems, with some clients being unable to migrate from older operating system versions. OEDIV needed a strategy to keep these legacy systems maintained without incurring massive manual overhead.
+      </p>
+      <p>
+        Overall, the discrepancy between different Linux distributions, and their support models, led OEDIV to reevaluate their approach. OEDIV selected Ubuntu for a large part of their general-purpose infrastructure, a decision driven by its flexibility and the comprehensive support provided by Ubuntu Pro. While other operating systems remained necessary for some clients, Ubuntu Pro brought extensive support and stability that was simply unrivaled.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/9d979f19-image2.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Version lag in other Linux distros has been a sore point. In the past we needed to configure disaster recovery for VMs. We had v22 and we needed v25 – but it wasn’t available in our distro, which was three years behind. It was just not usable. With Ubuntu, the latest version was available and fast to deploy.",
+    citation_source_name_text="Martin",
+    citation_source_title_text="Team Lead for Managed Platforms",
+    citation_source_organisation_text="OEDIV",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        A large factor in OEDIV’s decision to standardize on Ubuntu was Ubuntu Pro, Canonical’s comprehensive subscription for open source security. They didn’t just want to standardize their distro: they wanted to standardize support for thousands of open source packages across all their web services and data platforms. With Ubuntu Pro, OEDIV receives patching and maintenance for tens of thousands of packages from the open source universe. Before Ubuntu Pro, OEDIV faced significant version gaps in other enterprise Linux distributions, which often forced them to self-compile software or pay considerable service fees to use provided packages.
+      </p>
+      <p>
+        With Ubuntu Pro, OEDIV is able to offer better and easier hardening and security updates to its customers, allowing customers to more easily meet security and compliance requirements. A major part of this solution is the ability to promptly address vulnerabilities, which is a non-negotiable requirement for their critical infrastructure clientele and larger customers with internal Security Operations Center (SOC) mandates.
+      </p>
+      <p>
+        This was achieved through features such as instant compliance checks via the <code style="white-space: nowrap;">pro status</code> command, and the Ubuntu Security Guide (USG), which was especially helpful for fast CIS hardening and Bundesamt für Sicherheit in der Informationstechnik (BSI) compliance. For customers unable to migrate from older releases of Ubuntu, Ubuntu’s Expanded Security Maintenance (ESM) keeps older Ubuntu LTS releases patched and maintained for up to 15 years.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/5c29f127-image3.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="The in-place upgrades are perfect. It’s so easy to migrate and automate. With Ubuntu, you get the latest releases automatically, and upgrading is as simple as typing ‘apt upgrade.’ We’ve cut down migration time from 3 hours to just 45 minutes.
+    <br>
+    <br>
+    From a management perspective, Ubuntu Pro just makes it all easier. Before, we had ten different contracts and ten different support people. But with Canonical and Ubuntu Pro, you get a single point of support for all those different technologies – Apache, Postgres, MySQL, everything. That's a massive advantage. I would choose it again and again.",
+    citation_source_name_text="Martin",
+    citation_source_title_text="Team Lead for Managed Platforms",
+    citation_source_organisation_text="OEDIV",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        OEDIV’s wider adoption of Ubuntu Pro fundamentally transformed their operational efficiency and expanded their scope of business. They saw substantial time savings, across both business-as-usual tasks and upgrades – both of which previously presented complications. OEDIV estimated that system maintenance now takes 70-80% less time, while the time needed for version updates has shrunk from a 3 hour migration on other Linux distributions to just 45 minutes on Ubuntu, freeing up valuable staff time.
+      </p>
+      <p>
+        In addition to efficiency, Ubuntu Pro has had a marked effect on system stability. Since standardizing with Ubuntu Pro, OEDIV reports that their Ubuntu systems have not required a single standby call in several years. Ubuntu’s robustness and ability to perform across diverse environments, backed by the peace of mind of expansive patching through Ubuntu Pro, has made Ubuntu a solid foundation for a large part of OEDIV’s infrastructure, which comprises 4,500 Linux systems in total. Today, Ubuntu serves as the all-round OS that OEDIV uses for databases, webservice, data services, app services, across over 800 systems.
+      </p>
+      <p>
+        In business terms, this increased efficiency and stability has unlocked significant business growth. By gaining the ability to officially support a wider universe of open source packages, OEDIV broke free from a model that restricted them to a more set of software solutions. They are now equipped to fulfill almost any open source software request a client might have, allowing them to take on a far wider range of projects and better meet complex customer needs.
+      </p>
+      <p>
+        Thanks to these successes, Ubuntu is set to become much more central to OEDIV's operations moving forward. Ubuntu and Ubuntu Pro will allow OEDIV to react to major business and industry shifts more easily, offer a broader range of services, and open up their business operations to a range of industries, use cases, and activities that were previously impossible – creating additional sources of business revenue.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Before we used Ubuntu Pro, we’d get monthly requests to install a specific piece of software or support specific packages and it just wasn’t possible. Everything changed with Ubuntu Pro: we don't have to focus on just Apache or Postgres; we can deliver anything. This opens up new business opportunities that just weren’t on the table before.",
+    citation_source_name_text="Marvin",
+    citation_source_title_text="Systems Engineer Linux",
+    citation_source_organisation_text="OEDIV",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+{% endblock %}
+
+{% block cta_content %}{{ cta(title="Learn more about Ubuntu Pro", link="/contact-us", has_modal=true) }}{% endblock %}
