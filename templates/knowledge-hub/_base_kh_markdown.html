@@ -1,0 +1,120 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_in-page-navigation.jinja" import vf_in_page_navigation %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}{{ title }}{% endblock title %}
+{% block head_extra %}{{ head_extra }}{% endblock head_extra %}
+
+{% block meta_description %}{{ description }}{% endblock meta_description %}
+{% block meta_copydoc %}{{ copydoc }}{% endblock meta_copydoc %}
+
+{% block outer_content %}
+
+  {% block content %}
+  <section class="p-section--hero">
+    <div class="grid-row">
+      <div class="grid-col-6 grid-col-start-large-3">
+        <h1>{{ title }}</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
+        {{ vf_in_page_navigation(scope="full-page",
+                primary_heading="h2",
+                excludes=["text:Newsletter signup"]) }}
+      </div>
+
+      <div class="grid-col-4">
+        {{ content | safe }}
+      </div>
+
+      <div class="grid-col-2 p-newsletter-signup--2-col">
+        <h3>Newsletter signup</h3>
+        <p>Get the latest Ubuntu news and updates in your inbox.</p>
+        <form action="https://ubuntu.com/marketo/submit"
+              method="post"
+              id="mktoForm_4960">
+          <label class="is-required" for="email">Work email:</label>
+          <input required=""
+                 id="email"
+                 name="email"
+                 maxlength="255"
+                 type="email"
+                 pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
+          <label class="p-checkbox is-required">
+            <input required=""
+                   class="p-checkbox__input"
+                   value="yes"
+                   aria-labelledby="canonicalUpdatesOptIn"
+                   name="canonicalUpdatesOptIn"
+                   type="checkbox" />
+            <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical"s products and services.</span>
+          </label>
+          <p>
+            By submitting this form, I confirm that I have read and agree to <a href="#">Canonical"s Privacy Policy</a>.
+          </p>
+          <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
+        </form>
+      </div>      
+    </div>
+
+  </section>
+  
+  {% if cta %}
+    {% call(slot) vf_cta_section(
+            title_text=cta.get('title', 'Find out more'),
+            variant=cta.get('variant', 'block'),
+            layout=cta.get('layout', '100')
+            ) -%}
+      {%- if slot == 'description' -%}
+        <p>{{ cta.get('description', '') | safe }}</p>
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+      {% for button in cta.get('buttons', []) %}
+        {%- if button.get('type') == 'button' -%}
+          {%- set btn_class = ('p-button p-button--' + button.get('variant')) if button.get('variant') else 'p-button' -%}
+        {%- else -%}
+          {%- set btn_class = '' -%}
+        {%- endif -%}
+        <a href="{{ button.get('url', '#') }}"{% if btn_class %} class="{{ btn_class }}"{% endif %}>{{ button.get('text', 'Button') }}</a>
+      {% endfor %}
+      {%- endif -%}
+    {% endcall -%}
+  {% endif %}
+
+  
+
+  {{ vf_blog(
+    title={"text": "Latest from our blog"},
+    padding="deep",
+    template_config={
+      "enabled": True, 
+      "template_container_id": "blog", 
+      "layout": "4-blocks",
+      "template_id": "template"
+    })
+  }}
+  
+
+  <script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script>
+    canonicalLatestNews.fetchLatestNews({
+      imageClasses: ["p-image-container__image"],
+      limit: "4",
+      articlesContainerSelector: "#blog",
+      articleTemplateSelector: "#template",
+      excerptLength: 180,
+      {% if blog_tag_id %}
+        tagId: {{ blog_tag_id }},
+      {% endif %}
+    })
+  </script>
+  {% endblock %}
+
+{% endblock %}
