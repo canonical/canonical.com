@@ -1,0 +1,15 @@
+{# Simple text list macro for use in markdown with Jinja2 preprocessing
+   Params:
+   - items: List of item strings
+#}
+{%- macro simple_text_list(title, items) -%}
+<section class="p-section">
+  <div class="grid-row">
+      <ol class="p-list--divided">
+        {% for item in items %}
+          <li class="p-list__item">{{ item }}</li>
+        {% endfor %}
+      </ol>
+  </div>
+</section>
+{%- endmacro -%}
