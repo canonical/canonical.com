@@ -18,6 +18,8 @@ context:
         url: "#"
         type: "button"
 ---
+{% from "macros/_macros-simple-text-list.jinja" import simple_text_list %}
+
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
 
@@ -86,18 +88,20 @@ The kernel forms the foundation of the system. It provides the essential service
 
 A key concept within the Linux kernel world is “where” processes run. A processor, often called a CPU, is the hardware unit in a computer that carries out instructions, fetching them from memory, performing calculations, and moving data around.
 
-Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel’s Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then “split” into at least clearly distinguished (virtual) address spaces.   A processor is always engaged in one of three areas:
+Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
 
-1. User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode 
-2. Kernel space, within the context of a process, executing on that process’s behalf. This is for the kernel and all its components to run in privileged mode 
-3. Kernel space outside of any process context, handling interrupts triggered by hardware.
+{{ simple_text_list(items=[
+  "User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode",
+  "Kernel space, within the context of a process, executing on that process's behalf. This is for the kernel and all its components to run in privileged mode",
+  "Kernel space outside of any process context, handling interrupts triggered by hardware."
+]) }}
 
 {{ image(url="https://assets.ubuntu.com/v1/f3503425-image_container_1.png",
   alt="",
   width="1200",
   height="800",
   hi_def=True,
-  loading="auto|lazy"
+  loading="lazy"
   ) | safe
 }}
 <span class="u-text--muted">Sketch based on drawing in [Robert Love’s Linux kernel development](https://rlove.org/)</span>
@@ -123,7 +127,7 @@ Now that we have a sense of what the kernel is and why it matters, it’s worth 
   width="1200",
   height="800",
   hi_def=True,
-  loading="auto|lazy"
+  loading="lazy"
   ) | safe
 }}
 <span class="u-text--muted">Major subsystems of the Linux kernel based on Kaiwan Billimoria’s <ins>[Linux Kernel Programming](https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435)</ins></span>
