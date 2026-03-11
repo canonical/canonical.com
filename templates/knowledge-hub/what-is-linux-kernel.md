@@ -17,9 +17,6 @@ context:
       - text: "Read the documentation"
         url: "#"
         type: "button"
-      - text: "Linked text ›"
-        url: "#"
-        type: "link"
 ---
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
@@ -38,6 +35,14 @@ During the 1980s and 1990s, many workstation and server vendors launched their o
 
 Modern Unix systems are highly capable. They introduced [preemptive multitasking](https://ubuntu.com/blog/real-time-kernel-technical), where the operating system can interrupt tasks to give other tasks a fair share of CPU time; [multithreading](https://documentation.ubuntu.com/real-time/latest/explanation/schedulers/), which allows a program to split into multiple parallel tasks; shared libraries with on-demand loading, loading parts of a program into memory only when needed;  [virtual memory](https://www.kernel.org/doc/html/latest/admin-guide/mm/index.html); demand paging,  and TCP/IP networking. Variants range from those running on small embedded hardware to versions scaling across hundreds of processors. If Unix was quite successful in its own right, what was the need to develop Linux, then?
 
+{{ image(url="https://assets.ubuntu.com/v1/a91e18ef-image_container.png",
+  alt="",
+  width="1200",
+  height="500",
+  hi_def=True,
+  loading="lazy"
+  ) | safe
+}}
 
 ### Who is Linus Torvalds?
 
@@ -47,16 +52,23 @@ Modern Unix systems are highly capable. They introduced [preemptive multitasking
 
 In 1991, Linus Torvalds, then a student at the University of Helsinki, created Linux, initially targeting Intel’s 80386 processor. Although he had previously used [Minix](https://www.minix3.org/), a teaching-oriented Unix-like system, he was frustrated by the restrictions its license placed on modifying and redistributing source code. This led him to start his own kernel, which quickly grew into a collaborative, community-driven project.
 
-*Intel 80386 processor, supported by the Linux kernel [until](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21) 2012*
+{{ image(url="https://assets.ubuntu.com/v1/f370aaaa-image_wrapper.png",
+  alt="",
+  width="1200",
+  height="500",
+  hi_def=True,
+  loading="lazy"
+  ) | safe
+}}
+<span class="u-text--muted">Intel 80386 processor, supported by the Linux kernel <ins>[until](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21)</ins> 2012</span>
 
 While Linux draws heavily on Unix ideas and implements its APIs (Application Programming Interfaces),* *which are the set of rules and function calls that programs use to request services from the OS, it is not derived from the original Unix source. Instead, it represents an independent implementation that, while occasionally diverging from traditional approaches, has stayed true to Unix’s design principles and maintained compatibility with standardized application interfaces.
 
 Now that we know a bit more about the history of Linux, let’s look into what makes it so special, starting with the basics.
 
-
 ## The basics of the Linux kernel
 
-The Linux kernel is released as free and open-source software under the [GNU General Public License (GPL) version 2](https://github.com/torvalds/linux?tab=License-1-ov-file#readme). This license allows anyone to download, study, and modify the kernel’s source code. The only requirement is that if modified versions are shared, they must also remain under the same license, ensuring continued access to the source and the same freedoms for others.
+The Linux kernel is released as free and open-source software under the <ins>[GNU General Public License (GPL) version 2](https://github.com/torvalds/linux?tab=License-1-ov-file#readme)</ins>. This license allows anyone to download, study, and modify the kernel’s source code. The only requirement is that if modified versions are shared, they must also remain under the same license, ensuring continued access to the source and the same freedoms for others.
 
 While that all makes sense, why would a developer want to modify the kernel in the first place? 
 
@@ -76,14 +88,19 @@ A key concept within the Linux kernel world is “where” processes run. A proc
 
 Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel’s Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then “split” into at least clearly distinguished (virtual) address spaces.   A processor is always engaged in one of three areas:
 
+1. User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode 
+2. Kernel space, within the context of a process, executing on that process’s behalf. This is for the kernel and all its components to run in privileged mode 
+3. Kernel space outside of any process context, handling interrupts triggered by hardware.
 
-
-* User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode 
-* Kernel space, within the context of a process, executing on that process’s behalf. This is for the kernel and all its components to run in privileged mode 
-* Kernel space outside of any process context, handling interrupts triggered by hardware.
-
-*Sketch based on drawing in[ Robert Love’s Linux kernel development](https://rlove.org/)*
-
+{{ image(url="https://assets.ubuntu.com/v1/f3503425-image_container_1.png",
+  alt="",
+  width="1200",
+  height="800",
+  hi_def=True,
+  loading="auto|lazy"
+  ) | safe
+}}
+<span class="u-text--muted">Sketch based on drawing in [Robert Love’s Linux kernel development](https://rlove.org/)</span>
 
 ### Defining kernel and user space
 
@@ -101,14 +118,15 @@ The kernel also manages hardware communication. Devices notify the system of eve
 Now that we have a sense of what the kernel is and why it matters, it’s worth taking a closer look at what actually lives inside it. Although the Linux kernel can feel intimidating at first glance, we can understand it as a collection of a few major subsystems working together. Each one takes responsibility for a core part of the overall behaviour. Let’s walk through the most important pieces.
 
 
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image1.png "image_tooltip")
-
-
-Major subsystems of the Linux kernel based on Kaiwan Billimoria’s [Linux Kernel Programming](https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435)
+{{ image(url="https://assets.ubuntu.com/v1/34745594-image_container2.png",
+  alt="",
+  width="1200",
+  height="800",
+  hi_def=True,
+  loading="auto|lazy"
+  ) | safe
+}}
+<span class="u-text--muted">Major subsystems of the Linux kernel based on Kaiwan Billimoria’s <ins>[Linux Kernel Programming](https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435)</ins></span>
 
 
 #### Core kernel
