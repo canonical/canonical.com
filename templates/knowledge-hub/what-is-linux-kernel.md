@@ -1,7 +1,8 @@
 ---
 wrapper_template: "knowledge-hub/_base_kh_markdown.html"
 context:
-  title: "What is the Linux Kernel?"
+  metadata_title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
+  page_title: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
   blog_tag_id: 4443
   cta:
