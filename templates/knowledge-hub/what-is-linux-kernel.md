@@ -18,7 +18,8 @@ context:
         url: "#"
         type: "button"
 ---
-{% from "macros/_macros-simple-text-list.jinja" import simple_text_list %}
+{% from "macros/_macros-text-list.jinja" import text_list_kh %}
+{% from "macros/_macros-image.jinja" import image_kh %}
 
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
@@ -37,7 +38,7 @@ During the 1980s and 1990s, many workstation and server vendors launched their o
 
 Modern Unix systems are highly capable. They introduced [preemptive multitasking](https://ubuntu.com/blog/real-time-kernel-technical), where the operating system can interrupt tasks to give other tasks a fair share of CPU time; [multithreading](https://documentation.ubuntu.com/real-time/latest/explanation/schedulers/), which allows a program to split into multiple parallel tasks; shared libraries with on-demand loading, loading parts of a program into memory only when needed;  [virtual memory](https://www.kernel.org/doc/html/latest/admin-guide/mm/index.html); demand paging,  and TCP/IP networking. Variants range from those running on small embedded hardware to versions scaling across hundreds of processors. If Unix was quite successful in its own right, what was the need to develop Linux, then?
 
-{{ image(url="https://assets.ubuntu.com/v1/a91e18ef-image_container.png",
+{{ image_kh(url="https://assets.ubuntu.com/v1/a91e18ef-image_container.png",
   alt="",
   width="1200",
   height="500",
@@ -54,15 +55,15 @@ Modern Unix systems are highly capable. They introduced [preemptive multitasking
 
 In 1991, Linus Torvalds, then a student at the University of Helsinki, created Linux, initially targeting Intel’s 80386 processor. Although he had previously used [Minix](https://www.minix3.org/), a teaching-oriented Unix-like system, he was frustrated by the restrictions its license placed on modifying and redistributing source code. This led him to start his own kernel, which quickly grew into a collaborative, community-driven project.
 
-{{ image(url="https://assets.ubuntu.com/v1/f370aaaa-image_wrapper.png",
+{{ image_kh(url="https://assets.ubuntu.com/v1/f370aaaa-image_wrapper.png",
   alt="",
   width="1200",
   height="500",
   hi_def=True,
-  loading="lazy"
+  loading="lazy",
+  caption="Intel 80386 processor, supported by the Linux kernel <a href='https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21'>until 2012</a>"
   ) | safe
 }}
-<span class="u-text--muted">Intel 80386 processor, supported by the Linux kernel <ins>[until](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21)</ins> 2012</span>
 
 While Linux draws heavily on Unix ideas and implements its APIs (Application Programming Interfaces),* *which are the set of rules and function calls that programs use to request services from the OS, it is not derived from the original Unix source. Instead, it represents an independent implementation that, while occasionally diverging from traditional approaches, has stayed true to Unix’s design principles and maintained compatibility with standardized application interfaces.
 
@@ -90,21 +91,21 @@ A key concept within the Linux kernel world is “where” processes run. A proc
 
 Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
 
-{{ simple_text_list(items=[
+{{ text_list_kh(items=[
   "User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode",
   "Kernel space, within the context of a process, executing on that process's behalf. This is for the kernel and all its components to run in privileged mode",
   "Kernel space outside of any process context, handling interrupts triggered by hardware."
 ]) }}
 
-{{ image(url="https://assets.ubuntu.com/v1/f3503425-image_container_1.png",
+{{ image_kh(url="https://assets.ubuntu.com/v1/f3503425-image_container_1.png",
   alt="",
   width="1200",
   height="800",
   hi_def=True,
-  loading="lazy"
+  loading="lazy",
+  caption="Sketch based on drawing in <a href='https://rlove.org/'>Robert Love’s Linux kernel development</a>"
   ) | safe
 }}
-<span class="u-text--muted">Sketch based on drawing in [Robert Love’s Linux kernel development](https://rlove.org/)</span>
 
 ### Defining kernel and user space
 
