@@ -25,7 +25,6 @@
     </div>
   </section>
 
-  
   <section class="grid-row">
     <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
       {{ vf_in_page_navigation(scope="full-page",
@@ -67,7 +66,6 @@
       </form>
     </div>
   </section>
-
   
   {% if cta %}
     {% call(slot) vf_cta_section(
@@ -89,9 +87,22 @@
       {% endfor %}
       {%- endif -%}
     {% endcall -%}
-  {% endif %}
+  {% else %}
+    {% call(slot) vf_cta_section(
+            title_text='Find out more',
+            variant='block',
+            layout='100'
+            ) -%}
+      {%- if slot == 'description' -%}
+        <p>Ask us about our products, support, training or consulting and we will get in touch with you.</p>
+      {%- endif -%}
 
-  
+      {%- if slot == 'cta' -%}
+        <a href="/contact-us" class="p-button--positive">Contact us</a>
+        <a href="/knowledge-hub" class="p-button">Explore other knowledge articles</a>
+      {%- endif -%}  
+    {% endcall -%}
+  {% endif %}
 
   {{ vf_blog(
     title={"text": "Latest from our blog"},
@@ -104,7 +115,6 @@
     })
   }}
   
-
   <script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
   <script>
@@ -114,10 +124,13 @@
       articlesContainerSelector: "#blog",
       articleTemplateSelector: "#template",
       excerptLength: 180,
-      tagId: 4443,
+      {% if blog_tag_id %}
+        tagId: 4443,
+      {% endif %}
     })
   </script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+  
   {% endblock %}
 
 {% endblock %}
