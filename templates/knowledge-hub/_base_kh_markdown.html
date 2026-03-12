@@ -3,6 +3,7 @@
 {% from "_macros/vf_in-page-navigation.jinja" import vf_in_page_navigation %}
 {% from "_macros/vf_blog.jinja" import vf_blog %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
 {% block title %}{{ metadata_title }}{% endblock title %}
 {% block head_extra %}{{ head_extra }}{% endblock head_extra %}
@@ -24,49 +25,49 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="grid-row">
-      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
-        {{ vf_in_page_navigation(scope="full-page",
-                primary_heading="h2",
-                excludes=["text:Newsletter signup"]) }}
-      </div>
-
-      <div class="grid-col-4">
-        {{ content | safe }}
-      </div>
-
-      <div class="grid-col-2 p-newsletter-signup--2-col">
-        <h3>Newsletter signup</h3>
-        <p>Get the latest Ubuntu news and updates in your inbox.</p>
-        <form action="https://ubuntu.com/marketo/submit"
-              method="post"
-              id="mktoForm_4960">
-          <label class="is-required" for="email">Work email:</label>
-          <input required=""
-                 id="email"
-                 name="email"
-                 maxlength="255"
-                 type="email"
-                 pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
-          <label class="p-checkbox is-required">
-            <input required=""
-                   class="p-checkbox__input"
-                   value="yes"
-                   aria-labelledby="canonicalUpdatesOptIn"
-                   name="canonicalUpdatesOptIn"
-                   type="checkbox" />
-            <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical"s products and services.</span>
-          </label>
-          <p>
-            By submitting this form, I confirm that I have read and agree to <a href="#">Canonical"s Privacy Policy</a>.
-          </p>
-          <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
-        </form>
-      </div>      
+  
+  <section class="grid-row">
+    <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
+      {{ vf_in_page_navigation(scope="full-page",
+              primary_heading="h2",
+              excludes=["text:Newsletter signup"]) }}
     </div>
 
+    <div class="p-section grid-col-4">
+      {{ content | safe }}
+    </div>
+
+    <div class="p-section grid-col-2">
+      <hr class="p-rule u-hide--large"/>
+      <h2>Newsletter signup</h2>
+      <p>Get the latest Ubuntu news and updates in your inbox.</p>
+      <form action="https://ubuntu.com/marketo/submit"
+            method="post"
+            id="mktoForm_4960">
+        <label class="is-required" for="email">Work email:</label>
+        <input required=""
+                id="email"
+                name="email"
+                maxlength="255"
+                type="email"
+                pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
+        <label class="p-checkbox is-required">
+          <input required=""
+                  class="p-checkbox__input"
+                  value="yes"
+                  aria-labelledby="canonicalUpdatesOptIn"
+                  name="canonicalUpdatesOptIn"
+                  type="checkbox" />
+          <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical"s products and services.</span>
+        </label>
+        <p>
+          By submitting this form, I confirm that I have read and agree to <a href="#">Canonical"s Privacy Policy</a>.
+        </p>
+        <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
+      </form>
+    </div>
   </section>
+
   
   {% if cta %}
     {% call(slot) vf_cta_section(
@@ -113,9 +114,7 @@
       articlesContainerSelector: "#blog",
       articleTemplateSelector: "#template",
       excerptLength: 180,
-      {% if blog_tag_id %}
-        tagId: {{ blog_tag_id }},
-      {% endif %}
+      tagId: 4443,
     })
   </script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>

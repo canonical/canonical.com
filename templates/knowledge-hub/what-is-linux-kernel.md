@@ -4,7 +4,6 @@ context:
   metadata_title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
   page_title: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
-  blog_tag_id: 4443
   cta:
     title: "Find out more"
     variant: "block"
