@@ -7,7 +7,7 @@
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
 {% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
-{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 {% block title %}MAAS | Bare metal automation for your data center{% endblock %}
 
@@ -775,5 +775,9 @@
       Deploying MAAS at scale? <a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Talk to our team.</a>
     {%- endif -%}
   {% endcall -%}
+
   {{ load_form("/maas") | safe }}
+
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
 {% endblock %}
