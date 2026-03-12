@@ -4,17 +4,6 @@ context:
   metadata_title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
   page_title: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
-  cta:
-    description: "Curious about Linux? You might want to read our articles about the available Linux variants, the importance of maintenance and why developers add their own patches to customize the kernel or the kernel release cycle."
-    buttons:
-      - text: "View the codebase"
-        url: "https://github.com/torvalds/linux"
-        type: "button"
-        variant: "positive"
-      - text: "Read the documentation"
-        url: "https://www.kernel.org/doc/html/latest/"
-        type: "button"
-  blog_tag_id: 4443
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
