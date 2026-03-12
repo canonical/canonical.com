@@ -322,13 +322,12 @@ function generateHeadingId(heading) {
 
   let baseId = slugify(heading.textContent);
   let id = baseId;
+  let counter = 0;
 
-  // Handle duplicate IDs
-  let counter = 1;
+  // Handle duplicate IDs - append counter incrementally
   while (document.getElementById(id)) {
-    appendix = counter == 1 ? '' : `-${counter}`;
-    id = baseId + appendix;
     counter++;
+    id = baseId + `-${counter}`;
   }
 
   heading.id = id;
