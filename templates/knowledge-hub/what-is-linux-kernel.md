@@ -20,6 +20,7 @@ context:
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
+{% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
@@ -123,15 +124,15 @@ The kernel also manages hardware communication. Devices notify the system of eve
 Now that we have a sense of what the kernel is and why it matters, it’s worth taking a closer look at what actually lives inside it. Although the Linux kernel can feel intimidating at first glance, we can understand it as a collection of a few major subsystems working together. Each one takes responsibility for a core part of the overall behaviour. Let’s walk through the most important pieces.
 
 
-{{ image(url="https://assets.ubuntu.com/v1/34745594-image_container2.png",
+{{ image_kh(url="https://assets.ubuntu.com/v1/34745594-image_container2.png",
   alt="",
   width="1200",
   height="800",
   hi_def=True,
-  loading="lazy"
+  loading="lazy",
+  caption="Major subsystems of the Linux kernel based on Kaiwan Billimoria's <a href='https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435'>Linux Kernel Programming</a>"
   ) | safe
 }}
-<span class="u-text--muted">Major subsystems of the Linux kernel based on Kaiwan Billimoria’s <ins>[Linux Kernel Programming](https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435)</ins></span>
 
 
 #### Core kernel
@@ -195,6 +196,7 @@ To understand how Linux operates, it helps to see *when* the kernel actually exe
 
 The other way kernel code runs is when hardware interrupts demand immediate attention. A device like a network card, a disk controller, or a timer triggers an interrupt, causing the CPU to pause its current work, save the process’s state, and jump into an interrupt handler. This code does *not* run for any specific process and cannot block or sleep. It is asynchronous and often time-critical, essentially forming the kernel’s reaction layer to external events.
 
+{{ lite_video(video_id="1eqEpf9hPKk", video_title="Starting Your Career at Canonical - Journey to Prof I") | safe }}
 
 ## Ubuntu and the Linux kernel
 
