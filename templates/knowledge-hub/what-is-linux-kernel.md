@@ -1,8 +1,8 @@
 ---
 wrapper_template: "knowledge-hub/_base_kh_markdown.html"
 context:
-  metadata_title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
-  page_title: "What is the Linux Kernel?"
+  title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
+  breadcrumb: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
   cta:
     description: "Curious about Linux? You might want to read our articles about the available Linux variants, the importance of maintenance and why developers add their own patches to customize the kernel or the kernel release cycle."
@@ -19,7 +19,6 @@ context:
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
-
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
 
