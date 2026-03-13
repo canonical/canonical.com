@@ -134,11 +134,11 @@ function initNavigationInteraction(navRoot) {
     navigationLinks.forEach((link) => {
       if (link.getAttribute('href') === `#${headingId}`) {
         link.classList.add('is-active');
-        scrollActiveNavItemIntoView(link);
       } else {
         link.classList.remove('is-active');
       }
     });
+    setTimeout(() => scrollActiveNavItemIntoView(targetLink), 300);
   }
 
   const BREAKPOINTLARGE = 1036;
@@ -204,6 +204,10 @@ function initNavigationInteraction(navRoot) {
         targetHeading.scrollIntoView({behavior: 'smooth'});
         history.pushState(null, null, targetId);
       }
+
+      // Scroll nav item into horizontal view
+      setTimeout(() => scrollActiveNavItemIntoView(link), 300);
+
       // We use a timeout to prevent the IntersectionObserver from immediately
       // overriding the active state. As the IntersectionObserver points at the
       // center of the screen
@@ -386,13 +390,18 @@ function scrollActiveNavItemIntoView(link) {
     link = document.querySelector('.p-in-page-navigation__link.is-active');
   }
   const listItem = link.closest('.p-in-page-navigation__item');
-  if (listItem) {
-    listItem.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'start',
-    });
-  }
+  const navList = listItem?.closest('.js-in-page-nav-list');
+
+  if (!listItem || !navList) return;
+
+  // Horizontal scroll on the nav container only
+  const listLeft = navList.getBoundingClientRect().left;
+  const itemLeft = listItem.getBoundingClientRect().left;
+  
+  if (!listItem || !navList) return;
+
+  console.log(listItem.offsetLeft);
+  navList.scrollTo({ left: listItem.offsetLeft-10, behavior: 'smooth' });
 }
 
 /**
