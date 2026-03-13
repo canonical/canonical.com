@@ -1,14 +1,25 @@
 ---
-wrapper_template: "knowledge-hub/_base_kh_markdown.html"
+wrapper_template: "knowledge/_base_kh_markdown.html"
 context:
+  category: "Ubuntu and Linux"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
-  breadcrumb: "What is the Linux Kernel"
+  breadcrumb: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
+  cta:
+    description: "Curious about Linux? You might want to read our articles about the available Linux variants, the importance of maintenance and why developers add their own patches to customize the kernel or the kernel release cycle."
+    buttons:
+      - text: "View the codebase"
+        url: "https://github.com/torvalds/linux"
+        type: "button"
+        variant: "positive"
+      - text: "Read the documentation"
+        url: "https://www.kernel.org/doc/html/latest/"
+        type: "button"
+  blog_tag_id: 4443
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
-
 
 The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
 
@@ -49,7 +60,7 @@ In 1991, Linus Torvalds, then a student at the University of Helsinki, created L
   height="500",
   hi_def=True,
   loading="lazy",
-  caption="Intel 80386 processor, supported by the Linux kernel <a href='https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21'>until 2012</a>"
+  caption="Intel 80386 processor, supported by the Linux kernel <a href='https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21'>until</a> 2012"
   ) | safe
 }}
 
@@ -59,7 +70,7 @@ Now that we know a bit more about the history of Linux, let’s look into what m
 
 ## The basics of the Linux kernel
 
-The Linux kernel is released as free and open-source software under the <ins>[GNU General Public License (GPL) version 2](https://github.com/torvalds/linux?tab=License-1-ov-file#readme)</ins>. This license allows anyone to download, study, and modify the kernel’s source code. The only requirement is that if modified versions are shared, they must also remain under the same license, ensuring continued access to the source and the same freedoms for others.
+The Linux kernel is released as free and open-source software under the [GNU General Public License (GPL) version 2](https://github.com/torvalds/linux?tab=License-1-ov-file#readme). This license allows anyone to download, study, and modify the kernel’s source code. The only requirement is that if modified versions are shared, they must also remain under the same license, ensuring continued access to the source and the same freedoms for others.
 
 While that all makes sense, why would a developer want to modify the kernel in the first place? 
 

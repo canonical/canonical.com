@@ -14,7 +14,9 @@
 {% block outer_content %}
 
   {% block content %}
-  {% set breadcrumbs = [{"name": "Knowledge Hub", "href": "/knowledge-hub"}, {"name": breadcrumb }] %}
+
+  {% set category_slug = category | lower | replace(' ', '-') %}
+  {% set breadcrumbs = [{"name": "Knowledge Hub", "href": "/knowledge"}, {"name": category, "href": "/knowledge/" + category_slug}, {"name": breadcrumb }] %}
   {% include '/partial/_breadcrumbs.html' %}
   
   <section class="p-section--hero">
@@ -32,7 +34,7 @@
               excludes=[".p-navigation--list-heading", "text:Newsletter signup", "text:Find out more", "text:Latest from our blog"]) }}
     </div>
 
-    <div class=" grid-col-4">
+    <div class="p-section grid-col-4">
       {{ content | safe }}
     </div>
 
@@ -99,7 +101,7 @@
 
       {%- if slot == 'cta' -%}
         <a href="/contact-us" class="p-button--positive">Contact us</a>
-        <a href="/knowledge-hub" class="p-button">Explore other knowledge articles</a>
+        <a href="/knowledge" class="p-button">Explore other knowledge articles</a>
       {%- endif -%}  
     {% endcall -%}
   {% endif %}
