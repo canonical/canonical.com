@@ -5,7 +5,7 @@
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 {% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
-{% block title %}{{ metadata_title }}{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 {% block head_extra %}{{ head_extra }}{% endblock head_extra %}
 
 {% block meta_description %}{{ description }}{% endblock meta_description %}
@@ -14,13 +14,13 @@
 {% block outer_content %}
 
   {% block content %}
-  {% set breadcrumbs = [{"name": "Knowledge Hub", "href": "/knowledge-hub"}, {"name": page_title }] %}
+  {% set breadcrumbs = [{"name": "Knowledge Hub", "href": "/knowledge-hub"}, {"name": breadcrumb }] %}
   {% include '/partial/_breadcrumbs.html' %}
   
   <section class="p-section--hero">
     <div class="grid-row">
       <div class="grid-col-6 grid-col-start-large-3">
-        <h1 class="u-truncate">{{ page_title }}</h1>
+        <h1 class="u-truncate">{{ breadcrumb }}</h1>
       </div>
     </div>
   </section>
@@ -32,7 +32,7 @@
               excludes=[".p-navigation--list-heading", "text:Newsletter signup", "text:Find out more", "text:Latest from our blog"]) }}
     </div>
 
-    <div class="p-section grid-col-4">
+    <div class=" grid-col-4">
       {{ content | safe }}
     </div>
 
