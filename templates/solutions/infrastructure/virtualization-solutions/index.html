@@ -4,6 +4,7 @@
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 
 {% block title %}Virtualization solutions{% endblock %}
 
@@ -98,81 +99,73 @@ Canonical's open source virtualization solutions scale from a single laptop to m
     </div>
   </section>
 
-  <section class="p-section">
-    <hr class="is-fixed-width" />
-    <div class="u-fixed-width">
-      <h2 class="p-text--small-caps">Trusted by</h2>
-      <p>
-        Canonical's open source virtualization solutions are trusted by organizations across the public sector, financial services, telecommunications, manufacturing, and beyond.
-      </p>
-    </div>
-    <div class="u-fixed-width">
-      <div class="p-logo-section has-misaligned-images">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/e9f8483b-telefonica_logo_updated.png",
-                        alt="Telefonica",
-                        width="423",
-                        height="204",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/1753ad6b-bloomberg_logo.png",
-                        alt="Bloomberg",
-                        width="313",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/1634335f-bnp_paribas_logo.png",
-                        alt="BNP Paribas",
-                        width="485",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%2520group.png",
-                        alt="BT Group",
-                        width="200",
-                        height="76",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item" style="padding-bottom: 20px;">
-            {{ image(url="https://assets.ubuntu.com/v1/42bf0beb-firmus%2520logo.png",
-                        alt="Firmus",
-                        width="284",
-                        height="104",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/5e62c1d9-Millicom%2520(Tigo).jpg",
-                        alt="Millicom Tigo",
-                        width="735",
-                        height="170",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class":"p-logo-section__logo"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_logo_section(
+    mode="default",
+    title={
+      "text": "Trusted by"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            {
+              "src": "https://assets.ubuntu.com/v1/e9f8483b-telefonica_logo_updated.png",
+              "alt": "Telefonica",
+              "width": "423",
+              "height": "204",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/1753ad6b-bloomberg_logo.png",
+              "alt": "Bloomberg",
+              "width": "313",
+              "height": "312",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/1634335f-bnp_paribas_logo.png",
+              "alt": "BNP Paribas",
+              "width": "485",
+              "height": "312",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/1746fcd1-bt_logo_updated.png",
+              "alt": "BT Group",
+              "width": "490",
+              "height": "520",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/ae2f6683-firmus_logo.png",
+              "alt": "Firmus",
+              "width": "284",
+              "height": "104",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/4872fb20-millicom_tigo_logo_updated.png",
+              "alt": "Millicom Tigo",
+              "width": "735",
+              "height": "170",
+              "loading": "lazy",
+              "style": "max-height: 5.5rem;"
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+    <p>Canonical's open source virtualization solutions are trusted by organizations across the public sector, financial services, telecommunications, manufacturing, and beyond.</p>
+  {%- endif -%}
+  {% endcall -%}
 
   {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
@@ -299,24 +292,29 @@ Canonical's open source virtualization solutions scale from a single laptop to m
       )
       -%}
       {% if slot == "signpost_image" %}
-        {{ image(url="https://assets.ubuntu.com/v1/ad0d3b65-Aadhaar_Logo.png",
-                alt="UIDAI",
-                width="800",
-                height="516",
-                hi_def=True,
-                loading="lazy",
-                attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto; border-right: 1px solid var(--vf-color-border-low-contrast); padding-right: 0.75rem; margin-right: 0.75rem;"}) | safe
-        }}
-        {{ image(url="https://assets.ubuntu.com/v1/e90e05e7-HPE-logo.png",
-                alt="HPE",
+        {{ image(url="https://assets.ubuntu.com/v1/e843c499-aadhaar_hpe_logo_2.png",
+                alt="UIDAI and HPE",
                 width="310",
                 height="312",
                 hi_def=True,
                 loading="lazy",
-                attrs={"class": "p-image-container__image", "style": "max-height: 60px; width: auto;"}) | safe
+                attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto;"}) | safe
         }}
       {% endif %}
     {%- endcall -%}
+
+    <div class="u-fixed-width">
+      <div class="p-image-container is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/db552ac6-servers.jpg",
+                alt="",
+                width="2464",
+                height="1027",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image", "style": "width: 100%; height: auto;"}) | safe
+        }}
+      </div>
+    </div>
   </section>
 
   <section>
@@ -329,21 +327,13 @@ Canonical's open source virtualization solutions scale from a single laptop to m
       <div class="p-section col-9 col-medium-6">
         <div class="row">
           <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/ad0d3b65-Aadhaar_Logo.png",
-                alt="UIDAI",
-                width="800",
-                height="516",
-                hi_def=True,
-                loading="lazy",
-                attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto; border-right: 1px solid var(--vf-color-border-low-contrast); padding-right: 0.75rem; margin-right: 0.75rem;"}) | safe
-            }}
-            {{ image(url="https://assets.ubuntu.com/v1/e90e05e7-HPE-logo.png",
-                    alt="HPE",
+            {{ image(url="https://assets.ubuntu.com/v1/e843c499-aadhaar_hpe_logo_2.png",
+                    alt="UIDAI and HPE",
                     width="310",
                     height="312",
                     hi_def=True,
                     loading="lazy",
-                    attrs={"class": "p-image-container__image", "style": "max-height: 60px; width: auto;"}) | safe
+                    attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto;"}) | safe
             }}
           </div>
           <div class="p-section--shallow col-6 col-medium-4">
@@ -355,13 +345,13 @@ Canonical's open source virtualization solutions scale from a single laptop to m
         </div>
         <div class="row">
           <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%2520group.png",
+            {{ image(url="https://assets.ubuntu.com/v1/1746fcd1-bt_logo_updated.png",
                         alt="BT Group",
-                        width="200",
-                        height="76",
+                        width="490",
+                        height="520",
                         hi_def=True,
                         loading="lazy",
-                        attrs={"class":"p-image-container__image", "style": "max-height: 40px; width: auto;"}) | safe
+                        attrs={"class":"p-image-container__image", "style": "max-height: 90px; width: auto;"}) | safe
             }}
           </div>
           <div class="p-section--shallow col-6 col-medium-4">
