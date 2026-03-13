@@ -1,0 +1,458 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+
+{% block title %}Virtualization solutions{% endblock %}
+
+{% block meta_description %}
+Canonical's open source virtualization solutions scale from a single laptop to multi-region data centers &ndash; all without licensing fees or lock.
+{% endblock meta_description %}
+
+{% block meta_image %}https://assets.ubuntu.com/v1/49a7de9e-desktop_work_station_workplace_1.jpg{% endblock %}
+
+{% block meta_keywords %}Virtualization solutions{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1F2ujfJDRWfIsUK71Yim3Bft54nn4xC_Wnjf3jesDAd8/edit?tab=t.jijjhiya0no5
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+{% endblock extra_metatags %}
+
+{% block content %}
+
+{% call(slot) vf_hero(
+    title_text='Virtualization solutions',
+    subtitle_text='High performance, lightweight, and supported open source virtualization.',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+        <p>
+            Generative AI, rapid software cycles, and evolving security requirements mean that modern organizations need software stacks that can match the pace of rapid development, without the burden of restrictive contracts, or costly licensing fees.
+            Canonical's robust suite of enterprise-grade, open source virtualization solutions offer up to 15 years of security maintenance, so you can build on a foundation you can trust while remaining agile – all within a single, unified ecosystem.
+        </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+        <a href="/contact-us"
+            class="p-button--positive js-invoke-modal"
+          aria-controls="virtualization-solutions-modal">Get in touch</a>
+        <a href="https://assets.ubuntu.com/v1/855af1ef-infrastructure_modernization_and_sovereignty_datasheet.pdf"
+          class="p-button"
+          target="_blank" rel="noopener noreferrer">Access the datasheet</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+        <div class="p-image-container--16-9 is-cover">
+            {{ image(url="https://assets.ubuntu.com/v1/49a7de9e-desktop_work_station_workplace_1.jpg",
+                    alt="",
+                    width="1200",
+                    height="752",
+                    hi_def=True,
+                    loading="auto",
+                    attrs={"class": "p-image-container__image"}) | safe
+            }}
+      </div>
+    {%- endif -%}
+{% endcall -%}
+
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>Why choose open source virtualization?</h2>
+      </div>
+      <div class="col">
+      <div class="u-embedded-media">
+          <lite-youtube videoid="sQ0ln73rxTk"
+                  width="560"
+                  height="315"
+                  posterquality="maxresdefault"
+                  videotitle="Canonical's product managers deep dive on the benefits of open source versus proprietary virtualization solutions"
+                  class="u-embedded-media__element"
+          >
+            <a href="https://www.youtube.com/watch?v=sQ0ln73rxTk" title="Play Video">
+              <span class="lyt-visually-hidden">Canonical's product managers deep dive on the benefits of open source versus proprietary virtualization solutions</span>
+            </a>
+          </lite-youtube>
+        </div>
+        <div class="u-extra-space">
+          <p>
+            7 in 10 organizations indicate open source is extremely important to run mission-critical workloads, <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain" target="_blank" rel="noopener noreferrer">according to research conducted by the IDC and Canonical</a>.
+          </p>
+          <p> 
+            Open source virtualization provides a level of autonomy and transparency that proprietary hypervisors can't match. By moving away from proprietary virtualization, you gain the freedom to evolve your software-defined data center on your own terms, without the threat of sudden licensing changes or mandatory hardware refreshes.
+          </p>
+          <p>
+            Learn about the benefits of open source virtualization solutions and the hidden costs of proprietary virtualization solutions from Canonical's expert product managers. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <hr class="is-fixed-width" />
+    <div class="u-fixed-width">
+      <h2 class="p-text--small-caps">Trusted by</h2>
+      <p>
+        Canonical's open source virtualization solutions are trusted by organizations across the public sector, financial services, telecommunications, manufacturing, and beyond.
+      </p>
+    </div>
+    <div class="u-fixed-width">
+      <div class="p-logo-section has-misaligned-images">
+        <div class="p-logo-section__items">
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/e9f8483b-telefonica_logo_updated.png",
+                        alt="Telefonica",
+                        width="423",
+                        height="204",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/1753ad6b-bloomberg_logo.png",
+                        alt="Bloomberg",
+                        width="313",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/1634335f-bnp_paribas_logo.png",
+                        alt="BNP Paribas",
+                        width="485",
+                        height="312",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%2520group.png",
+                        alt="BT Group",
+                        width="200",
+                        height="76",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item" style="padding-bottom: 20px;">
+            {{ image(url="https://assets.ubuntu.com/v1/42bf0beb-firmus%2520logo.png",
+                        alt="Firmus",
+                        width="284",
+                        height="104",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+          <div class="p-logo-section__item">
+            {{ image(url="https://assets.ubuntu.com/v1/5e62c1d9-Millicom%2520(Tigo).jpg",
+                        alt="Millicom Tigo",
+                        width="735",
+                        height="170",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-logo-section__logo"}) | safe
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=true, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Canonical's open source virtualization solutions</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Enterprise-grade software</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Our solutions are powered by leading open source virtualization technologies: QEMU/KVM-based VMs, as well as system containers based on LXC.
+      </p>
+      <p>
+        QEMU and KVM deliver enterprise-grade performance and straightforward scalability. KVM installs natively on all Linux distributions and transforms physical servers into hypervisors that can host multiple, isolated VMs that aren't trapped in a proprietary ecosystem.
+      </p>
+      <p>
+        LXC containers can run a full Linux OS. They are lightweight and offer near-bare-metal performance with minimal overhead.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Optimized TCO</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Canonical's virtualization solutions <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Cloud+Pricing+Report+2022.pdf" rel="noopener noreferrer" target="_blank">can result in a significant reduction in TCO</a>. They are available on a wide variety of hardware, meaning no expensive proprietary hardware or forced upgrades. 
+      </p>
+      <p>
+        Likewise, with <a href="https://ubuntu.com/pro" rel="noopener noreferrer" target="_blank">Ubuntu Pro</a>, Canonical's enterprise grade subscription service for security maintenance and support, you can ensure your virtualization stacks meet enterprise security standards with minimal operational overhead.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Built for the future</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Canonical's open source virtualization software components are modular, so you construct a stack to suit your organization's needs. Try <a href="https://canonical.com/microcloud" rel="noopener noreferrer" target="_blank">MicroCloud</a> for low touch, highly automated clouds; <a href="https://canonical.com/lxd" rel="noopener noreferrer" target="_blank">LXD</a> for managing VMs; or <a href="https://canonical.com/openstack" rel="noopener noreferrer" target="_blank">Canonical OpenStack</a> for large data centers.
+      </p>
+      <p>
+        Likewise, because our solutions are open source, you can evolve your business and infrastructure without being tied to a proprietary vendor.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+   <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col-6">
+        <h2>Canonical's open source virtualization software</h2>
+      </div>
+      <div class="col-6">
+        <div>
+        <div class="p-tabs">
+          <div class="p-tabs__list js-tabbed-content" role="tablist" aria-label="Virtualization software" data-tablist="virtualization-software">
+            <div class="p-tabs__item">
+              <button class="p-tabs__link" role="tab" aria-selected="true" aria-controls="lxd-tab" id="lxd">LXD</button>
+            </div>
+            <div class="p-tabs__item">
+              <button class="p-tabs__link" role="tab" aria-selected="false" aria-controls="multipass-tab" id="multipass" tabindex="-1">Multipass</button>
+            </div>
+            <div class="p-tabs__item">
+              <button class="p-tabs__link" role="tab" aria-selected="false" aria-controls="microcloud-tab" id="microcloud" tabindex="-1">MicroCloud</button>
+            </div>
+            <div class="p-tabs__item">
+              <button class="p-tabs__link" role="tab" aria-selected="false" aria-controls="openstack-tab" id="openstack" tabindex="-1">OpenStack</button>
+            </div>
+          </div>
+        </div>
+          <div data-tablist="virtualization-software">
+            {% include "solutions/infrastructure/virtualization-solutions/tabs/lxd.html" %}
+            {% include "solutions/infrastructure/virtualization-solutions/tabs/multipass.html" %}
+            {% include "solutions/infrastructure/virtualization-solutions/tabs/microcloud.html" %}
+            {% include "solutions/infrastructure/virtualization-solutions/tabs/openstack.html" %}
+          </div>
+        </div>
+      </div>
+      </div>
+      <style>
+        .tabs-cta {
+          padding-bottom: 2rem;
+        }
+      </style>
+  </section>
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="row">
+        <hr />
+        <h2 class="p-text--small-caps u-no-padding--top">What our customers say</h2>
+      </div>
+    </div>
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="Now we can create clusters on demand and make more efficient use of resources, we’ve increased the number of parallel jobs by over 400%.",
+      quote_size="medium",
+      citation_source_name_text="André Hamerski",
+      citation_source_title_text="Infrastructure Coordinator, Sicredi",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/0a8c2845-sicredi.png",
+                alt="Sicredi",
+                width="852",
+                height="145",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+
+    {%- call(slot) vf_quote_wrapper(
+      quote_text="We can scale up more efficiently and we plan to introduce a lot more features and services… it's possible to bring cost-efficiency to a multi-petabyte environment.",
+      quote_size="medium",
+      citation_source_name_text="SMD Jeelani",
+      citation_source_title_text="Director (Operations), UIDAI",
+      is_shallow=True
+      )
+      -%}
+      {% if slot == "signpost_image" %}
+        {{ image(url="https://assets.ubuntu.com/v1/ad0d3b65-Aadhaar_Logo.png",
+                alt="UIDAI",
+                width="800",
+                height="516",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto; border-right: 1px solid var(--vf-color-border-low-contrast); padding-right: 0.75rem; margin-right: 0.75rem;"}) | safe
+        }}
+        {{ image(url="https://assets.ubuntu.com/v1/e90e05e7-HPE-logo.png",
+                alt="HPE",
+                width="310",
+                height="312",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image", "style": "max-height: 60px; width: auto;"}) | safe
+        }}
+      {% endif %}
+    {%- endcall -%}
+  </section>
+
+  <section>
+    <div class="row">
+        <hr class="p-rule" />
+      <h2>Further resources</h2>
+      <div class="col-3 col-medium-6">
+        <p class="p-text--small-caps">Case studies</p>
+      </div>
+      <div class="p-section col-9 col-medium-6">
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/ad0d3b65-Aadhaar_Logo.png",
+                alt="UIDAI",
+                width="800",
+                height="516",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image", "style": "max-height: 50px; width: auto; border-right: 1px solid var(--vf-color-border-low-contrast); padding-right: 0.75rem; margin-right: 0.75rem;"}) | safe
+            }}
+            {{ image(url="https://assets.ubuntu.com/v1/e90e05e7-HPE-logo.png",
+                    alt="HPE",
+                    width="310",
+                    height="312",
+                    hi_def=True,
+                    loading="lazy",
+                    attrs={"class": "p-image-container__image", "style": "max-height: 60px; width: auto;"}) | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <a href="https://ubuntu.com/engage/uidai-hpe-microservice-architecture" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">UIDAI and HPE modernize citizen services through cloud transformation</h3></a>
+            <p>
+              UIDAI and HPE collaborated with Canonical to modernize citizen services, migrating legacy monoliths to a microservices architecture. With Ubuntu Pro for robust long-term support, they successfully scaled critical infrastructure to serve over one billion people. Learn more in the case study.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/3de63226-BT%2520group.png",
+                        alt="BT Group",
+                        width="200",
+                        height="76",
+                        hi_def=True,
+                        loading="lazy",
+                        attrs={"class":"p-image-container__image", "style": "max-height: 40px; width: auto;"}) | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/BT_Open%20Source%20Infrastructure_Case%20Study.pdf" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">BT Group brings 5G to the UK with the power of open source infrastructure</h3></a>
+            <p>
+              BT Group partnered with Canonical, helping to build its <a href="https://event.computing.co.uk/cloudexcellenceawards/en/page/2024-winners" rel="noopener noreferrer" target="_blank">award-winning</a> 5G mobile network across the UK. With network functions virtualized on Canonical OpenStack, BT Group can build new services in weeks and deploy in days. Learn more in the <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/BT_Open%20Source%20Infrastructure_Case%20Study.pdf" rel="noopener noreferrer" target="_blank">case study</a>.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/1086a23a-Wyoming%2520Department%2520of%2520Transportation.png",
+                alt="Wyoming Department of Transport",
+                width="317",
+                height="68",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image", "style": "max-height: 35px; width: auto;"}) | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <a href="https://ubuntu.com/engage/hypervisor-to-lxd-case-study" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">Wyoming Department of Transportation (WYDOT) keeps drivers safe and informed by pivoting from hypervisors to LXD</h3></a>
+            <p>
+              Cloud-native software development is about more than Docker and Kubernetes. In this case study, learn how WYDOT cut costs and boosted performance by switching from Hyper-V VMs to LXD system containers on Ubuntu. This move provided full OS manageability with the efficiency of containers.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 col-medium-2">
+            {{ image(url="https://assets.ubuntu.com/v1/0a8c2845-sicredi.png",
+                alt="Sicredi",
+                width="852",
+                height="145",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
+          <div class="p-section--shallow col-6 col-medium-4">
+            <a href="https://ubuntu.com/engage/sicredi-openstack-case-study" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">Sicredi embraces the cloud with Canonical OpenStack</h3></a>
+            <p>
+              Sicredi, a leading Brazilian financial institution, chose OpenStack as the foundation for its new infrastructure-as-code strategy. They found it was 2-3x more cost-efficient than public clouds, and provided the agility that traditional virtualization platforms lack. Learn why in the case study.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section">
+    <div class="row">
+      <hr class="p-rule" />
+      <div class="col-6 col-medium-3">
+        <h2 class="p-text--small-caps u-no-padding--top">Whitepapers, webinars, and blogs</h2>
+      </div>
+      <div class="col-6 col-medium-3">
+        <div class="row">
+          <a href="https://assets.ubuntu.com/v1/96bb251e-print_internal_promotions_infrastructure_modernization_solutions_brief_datasheet.pdf" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">Solution brief: Take back control of your infrastructure with Canonical</h3></a>
+          <p>
+            Future-proof your data center. This solution brief explains how Canonical can help to support you through your migration to open source software. Learn why, and how, to migrate your critical workloads to a trusted open source stack with up to 15 years of security maintenance.
+          </p>
+        </div>
+        <div class="row">
+          <a href="https://ubuntu.com/blog/containerization-vs-virtualization" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">Containerization vs. virtualization: understand the differences</h3></a>
+          <p>
+            Regardless of where you're running your workloads &ndash; on-premises or in the cloud &ndash; the way  you run them makes a difference. Learn the difference between virtualization and containerization technologies, and the benefits and drawbacks of each, in this blog.
+          </p>
+        </div>
+        <div class="row">
+          <a href="https://ubuntu.com/blog/virtualization-alternatives-guide" rel="noopener noreferrer" target="_blank"><h3 class="p-heading--5">Rethinking virtualization: open source alternatives for resellers</h3></a>
+          <p>
+            Are your customers struggling with the cost of virtualization? This blog dives into how open source alternatives like MicroCloud and OpenStack can slash TCO by up to 40%. Explore scalable, vendor-neutral paths to help your customers secure their infrastructure's future.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="is-fixed-width p-rule" />
+
+  <section class="p-strip is-deep" id="contact-us-virtualization">
+    <div class="u-fixed-width">
+      <h2>Find the right virtualization solution for you</h2>
+      <a href="/contact-us"
+         class="p-heading--2 js-invoke-modal"
+        aria-controls="virtualization-solutions-modal">Get in touch&nbsp;&rsaquo;</a>
+    </div>
+  </section>
+
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+
+  {{ load_form("/solutions/infrastructure/virtualization-solutions") | safe }}
+
+{% endblock content %}
