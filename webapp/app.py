@@ -15,6 +15,7 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+import random
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
@@ -287,10 +288,11 @@ def sentry_before_send(event, hint):
         ):
             # return None to discard the event
             return None
-        # Filter out transient upstream connection failures
+        # Sample 1% of transient upstream connection failures
         # (e.g. WordPress API being unavailable)
         if isinstance(exc_value, (RetryError, ConnectionError)):
-            return None
+            if random.random() > 0.01:
+                return None
     return event
 
 
