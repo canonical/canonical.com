@@ -15,6 +15,7 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+import random
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
@@ -41,8 +42,9 @@ from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
-from requests.exceptions import HTTPError
+from requests.exceptions import ConnectionError, HTTPError, RetryError
 from werkzeug.exceptions import HTTPException
+from urllib3.exceptions import MaxRetryError
 from slugify import slugify
 
 # Local
@@ -275,7 +277,7 @@ environment = get_flask_env("FLASK_ENV", "production")
 def sentry_before_send(event, hint):
     """
     Filter Sentry events.
-    Excludes all 4xx errors.
+    Excludes all 4xx errors and upstream connection failures.
     """
     if "exc_info" in hint:
         _, exc_value, _ = hint["exc_info"]
@@ -287,6 +289,18 @@ def sentry_before_send(event, hint):
         ):
             # return None to discard the event
             return None
+        # Sample 5% of transient upstream connection failures
+        # (e.g. WordPress API being unavailable)
+        if isinstance(exc_value, (MaxRetryError, RetryError, ConnectionError)):
+            error_msg = str(exc_value)
+
+            # Sample blog/WordPress API retry errors
+            if "/wp-json/wp/v2" in error_msg and any(
+                f"{code} error" in error_msg
+                for code in ["500", "502", "503", "504"]
+            ):
+                if random.random() > 0.05:  # Drop 95% of blog API retry errors
+                    return None
     return event
 
 
