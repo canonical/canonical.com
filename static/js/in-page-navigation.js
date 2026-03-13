@@ -6,7 +6,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const documentBody = document.querySelector('body');
   const navRoots = documentBody.querySelectorAll('.p-in-page-navigation');
-  console.log("Build in-page nav")
   navRoots.forEach((navRoot) => {
     buildInPageNavigation(navRoot);
     initNavigationInteraction(navRoot);
@@ -233,21 +232,7 @@ function initNavigationInteraction(navRoot) {
  * @returns {NodeList} List of heading elements matching the defined selectors
  */
 function getHeadings(navRoot, selectors) {
-  // Scope heading search to the content area only
-  // Find the parent grid-row and locate the content container
-  const gridRow = navRoot.closest('.grid-row');
-  const navCol = navRoot.closest('[class*="grid-col"]');
-  let contentContainer = gridRow;
-  
-  if (gridRow && navCol) {
-    // Find the next grid-col sibling (typically contains the content)
-    const nextCol = navCol.nextElementSibling;
-    if (nextCol && nextCol.classList.toString().includes('grid-col')) {
-      contentContainer = nextCol;
-    }
-  }
-  
-  const headings = Array.from(contentContainer.querySelectorAll(selectors.query));
+  const headings = Array.from(document.querySelectorAll(selectors.query));
   const excludes = getHeadingExcludes(navRoot, headings);
   return headings.filter((heading) => !excludes.includes(heading));
 }
@@ -284,12 +269,18 @@ function getHeadingExcludes(navRoot, headings) {
         }
       });
     } else {
-      // CSS selector exclusion
+      // CSS selector exclusion - check if heading matches selector or is a descendant of matching element
       try {
-        const matched = document.querySelector(rule);
-        if (matched) {
-          excludeList.push(matched);
-        }
+        headings.forEach((heading) => {
+          // Check if heading itself matches the selector
+          if (heading.matches(rule)) {
+            excludeList.push(heading);
+          }
+          // Check if heading is a descendant of an element matching the selector
+          else if (heading.closest(rule)) {
+            excludeList.push(heading);
+          }
+        });
       } catch (e) {
         console.warn(`In-page navigation: Invalid exclude selector "${rule}"`);
       }
@@ -322,12 +313,13 @@ function generateHeadingId(heading) {
 
   let baseId = slugify(heading.textContent);
   let id = baseId;
-  let counter = 0;
 
-  // Handle duplicate IDs - append counter incrementally
+  // Handle duplicate IDs
+  let counter = 1;
   while (document.getElementById(id)) {
+    appendix = counter == 1 ? '' : `-${counter}`;
+    id = baseId + appendix;
     counter++;
-    id = baseId + `-${counter}`;
   }
 
   heading.id = id;
