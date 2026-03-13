@@ -91,6 +91,7 @@ A key concept within the Linux kernel world is “where” processes run. A proc
 Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
 
 {{ text_list_kh(items=[
+  type="number",
   "User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode",
   "Kernel space, within the context of a process, executing on that process's behalf. This is for the kernel and all its components to run in privileged mode",
   "Kernel space outside of any process context, handling interrupts triggered by hardware."

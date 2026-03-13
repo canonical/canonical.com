@@ -25,12 +25,20 @@
   </section>
 {%- endmacro -%}
 
-{%- macro text_list_kh(title, items) -%}
+{%- macro text_list_kh(title, items, type="bullet") -%}
   <div class="grid-row">
-      <ol class="p-list--divided u-text-max-width">
+      {% if type == "number" %}
+        <ol class="p-list--divided u-text-max-width">
+      {% else %}
+        <ul class="p-list--divided u-text-max-width">
+      {% endif %}
         {% for item in items %}
-          <li class="p-list__item">{{ item }}</li>
+          <li class="p-list__item {% if type == 'bullet' %}has-bullet{% endif %}">{{ item }}</li>
         {% endfor %}
-      </ol>
+      {% if type == "number" %}
+        </ol>
+      {% else %}
+        </ul>
+      {% endif %}
   </div>
 {%- endmacro -%}
