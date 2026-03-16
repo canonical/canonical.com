@@ -66,7 +66,7 @@ class PatternFactory:
     def __init__(self):
         self._patterns = {
             "hero": HeroSection,
-            "basic": BasicSection,
+            "basic-section": BasicSection,
             "cta-section": CTASection,
             "resources": ResourcesSection,
         }
@@ -352,34 +352,21 @@ class CTASection(Pattern):
     def process_pattern(self):
         params_list = []
 
-        parameters = self.data.get("parameters", {})
-        slots = self.data.get("slots", {})
-
-        for key, value in parameters.items():
+        for key, value in self.data.items():
             if isinstance(value, str):
                 params_list.append(f'{key}="{value}"')
             elif isinstance(value, bool):
-                # We would not encounter this mostly
                 params_list.append(f"{key}={str(value).lower()}")
             else:
                 params_list.append(f"{key}={json.dumps(value)}")
 
-        # Join all parameters with commas
         params_str = ",\n    ".join(params_list)
+
         self.pattern_html += f"""
             {{% call(slot) vf_cta_section(
                 {params_str}
             ) -%}}
-        """
-        for slot_name, slot_content in slots.items():
-            # Add slot content as a Jinja block
-            self.pattern_html += f"""
-                {{%- if slot == '{slot_name}' -%}}
-                    {slot_content.get("content", "").strip()}
-                {{%- endif -%}}
-            """
 
-        self.pattern_html += f"""
             {{% endcall -%}}
         """
 
