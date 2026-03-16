@@ -105,9 +105,9 @@
       {%- endif -%}  
     {% endcall -%}
   {% endif %}
-
+  
   {{ vf_blog(
-    title={"text": "Latest from our blog"},
+    title={"text": blog.get('title', 'Latest from our blog')},
     padding="deep",
     template_config={
       "enabled": True, 
@@ -126,8 +126,8 @@
       articlesContainerSelector: "#blog",
       articleTemplateSelector: "#template",
       excerptLength: 180,
-      {% if blog_tag_id %}
-        tagId: 4443,
+      {% if blog.id %}
+        tagId: {{ blog.id }},
       {% endif %}
     })
   </script>

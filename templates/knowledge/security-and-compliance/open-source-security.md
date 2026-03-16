@@ -1,6 +1,8 @@
 ---
 wrapper_template: "knowledge/_base_kh_markdown.html"
 context:
+  category: "Security and Compliance"
+  tag: "Security"
   title: "What is open source security?"
   breadcrumb: "What is open source security?"
   description: "Understand open source security and explore best practices, including dependency management, code signing, SBOMs, vulnerability management, and careful backporting of legacy code."
@@ -8,16 +10,16 @@ context:
   cta:
     description: "Explore why Canonical is the best option for open source security"
     buttons:
-      - text: "Read about our solutions"
-        url: "https://canonical.com/solutions/open-source-security"
+      - text: "Learn more about Ubuntu Pro"
+        url: "http://www.ubuntu.com/pro"
         type: "button"
         variant: "positive"
-      - text: "Download our vulnerability management guide"
-        url: "http://ubuntu.com/engage/vulnerability-management"
-        type: "button"
+  blog:
+    title: "Latest articles on open source security"
+    id: 1364
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
-
+{% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 Open source security is a set of practices that aim to identify, manage and mitigate security risks related to the use of open source components in software and systems. Explore open source security best practices, including dependency management, code signing, SBOMs, vulnerability management, and backporting.
 

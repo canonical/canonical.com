@@ -1,16 +1,24 @@
 ---
 wrapper_template: "knowledge/_base_kh_markdown.html"
 context:
+  category: "Security and Compliance"
+  tag: "Security"
   title: "Security vs compliance: what's the difference?"
-  breadcrumb: "Security vs compliance: what's the difference?"
-  description: "Understand the difference between security and compliance, and explore how they work together to protect your organization. Learn about security controls, frameworks, compliance standards, and assurance."
+  breadcrumb: "Security vs compliance"
+  description: "Explore the nuanced differences between security and compliance, examine their intersections, and learn about security standards and Canonical's security and compliance solutions."
   cta:
-    description: "Ensure your organization meets security and compliance requirements."
+    description: "Explore why Canonical is the best option for open source security."
     buttons:
-      - text: "Learn about Ubuntu Pro"
-        url: "https://ubuntu.com/pro"
+      - text: "Read about our solutions"
+        url: "https://canonical.com/solutions/open-source-security"
         type: "button"
         variant: "positive"
+      - text: "Download our vulnerability management guide ›"
+        url: "http://ubuntu.com/engage/vulnerability-management"
+        type: "button"
+  blog:
+    title: "Read our latest posts about security and compliance"
+    id: 1364
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 
