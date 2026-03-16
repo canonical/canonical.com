@@ -1,87 +1,225 @@
 {
-    "page_name": "test-cta-section",
-    "page_path": "page-generator/examples",
-    "patterns": [
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "100",
-                    "title_text": "The quick brown fox jumps over the lazy dog",
-                    "variant": "default",
-                    "attrs": {
-                        "id": "full-width-default"
-                    }
-                },
-                "slots": {
-                    "cta": {"content": "<a href=\"#\">The quick brown fox jumps over the lazy dog &rsaquo;</a>"}
-                }
-            }
+  "page_name": "test-cta-section",
+  "page_path": "page-generator/examples",
+  "patterns": [
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "100",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "default",
+        "attrs": {
+          "id": "full-width-default"
         },
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "100",
-                    "variant": "default"
-                },
-                "slots": {
-                    "cta": {"content": "For more information, <a href=\"#\">read the docs</a><br />or <a href=\"#\">contact us</a> to let our experts help you take the next step"}
-                }
+        "blocks": [
+          {
+            "type": "cta",
+            "item": {
+              "type": "html",
+              "content": "<a href='link-url'>The quick brown fox jumps over the lazy dog &rsaquo;</a>"
             }
-        },
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "25-75",
-                    "title_text": "The quick brown fox jumps over the lazy dog",
-                    "variant": "default"
-                },
-                "slots": {
-                    "cta": {"content": "<a href=\"#\">The quick brown fox jumps over the lazy dog &rsaquo;</a>"}
-                }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "100",
+        "variant": "default",
+        "blocks": [
+          {
+            "type": "cta",
+            "item": {
+              "type": "html",
+              "content": "For more information, <a href='link-url'>read the docs</a><br />or <a href='link-url'>contact us</a> to let our experts help you take the next step"
             }
-        },
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "25-75",
-                    "variant": "default"
-                },
-                "slots": {
-                    "cta": {"content": "For more information, <a href=\"#\">read the docs</a><br />or <a href=\"#\">contact us</a> to let our experts help you take the next step"}
-                }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "25/75",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "default",
+        "blocks": [
+          {
+            "type": "cta",
+            "item": {
+              "type": "html",
+              "content": "<a href='link-url'>The quick brown fox jumps over the lazy dog &rsaquo;</a>"
             }
-        },
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "100",
-                    "title_text": "The quick brown fox jumps over the lazy dog",
-                    "variant": "block"
-                },
-                "slots": {
-                    "description": {"content": "<p>The quick brown fox jumps over the lazy dog.</p>"},
-                    "cta": {"content": "<a href=\"#\" class=\"p-button--positive\">Action</a>\n<a href=\"#\" class=\"p-button\">Action</a>\n<a href=\"#\">Lorem ipsum dolor sit amet &rsaquo;</a>"}
-                }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "25/75",
+        "variant": "default",
+        "blocks": [
+          {
+            "type": "cta",
+            "item": {
+              "type": "html",
+              "content": "For more information, <a href='link-url'>read the docs</a><br />or <a href='link-url'>contact us</a> to let our experts help you take the next step"
             }
-        },
-        {
-            "name": "cta-section",
-            "data": {
-                "parameters": {
-                    "layout": "25-75",
-                    "title_text": "The quick brown fox jumps over the lazy dog",
-                    "variant": "block"
-                },
-                "slots": {
-                    "description": {"content": "<p>The quick brown fox jumps over the lazy dog.</p>"},
-                    "cta": {"content": "<a href=\"#\" class=\"p-button--positive\">Action</a>\n<a href=\"#\" class=\"p-button\">Action</a>\n<a href=\"#\">Lorem ipsum dolor sit amet &rsaquo;</a>"}
-                }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "100",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "block",
+        "blocks": [
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "The quick brown fox jumps over the lazy dog."
             }
-        }
-    ]
+          },
+          {
+            "type": "cta",
+            "item": {
+              "primary": {
+                "content_html": "Action",
+                "attrs": {
+                  "href": "#",
+                  "class": "optional-css-class"
+                }
+              },
+              "secondaries": [
+                {
+                  "content_html": "Action",
+                  "attrs": {
+                    "href": "#"
+                  }
+                }
+              ],
+              "link": {
+                "content_html": "Lorem ipsum dolor sit amet&#32;&rsaquo;",
+                "attrs": {
+                  "href": "#"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "25/75",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "block",
+        "blocks": [
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "The quick brown fox jumps over the lazy dog."
+            }
+          },
+          {
+            "type": "cta",
+            "item": {
+              "primary": {
+                "content_html": "Action",
+                "attrs": {
+                  "href": "#",
+                  "class": "optional-css-class"
+                }
+              },
+              "secondaries": [
+                {
+                  "content_html": "Secondary action",
+                  "attrs": {
+                    "href": "#"
+                  }
+                }
+              ],
+              "link": {
+                "content_html": "Lorem ipsum dolor sit amet&#32;&rsaquo;",
+                "attrs": {
+                  "href": "#"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "25/75",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "block",
+        "blocks": [
+          {
+            "type": "cta",
+            "item": {
+              "primary": {
+                "content_html": "Action",
+                "attrs": {
+                  "href": "#",
+                  "class": "optional-css-class"
+                }
+              },
+              "secondaries": [
+                {
+                  "content_html": "Secondary action",
+                  "attrs": {
+                    "href": "#"
+                  }
+                }
+              ],
+              "link": {
+                "content_html": "Lorem ipsum dolor sit amet&#32;&rsaquo;",
+                "attrs": {
+                  "href": "#"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cta-section",
+      "data": {
+        "layout": "25/75",
+        "title_text": "The quick brown fox jumps over the lazy dog",
+        "variant": "block",
+        "blocks": [
+          {
+            "type": "description",
+            "item": {
+              "type": "text",
+              "content": "The quick brown fox jumps over the lazy dog."
+            }
+          },
+          {
+            "type": "cta",
+            "item": {
+              "primary": {
+                "content_html": "Action",
+                "attrs": {
+                  "href": "#"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }
