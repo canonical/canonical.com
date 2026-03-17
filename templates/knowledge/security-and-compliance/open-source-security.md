@@ -9,7 +9,7 @@ context:
   copydoc: "https://docs.google.com/document/d/16lg3gVWgHMZKmVmDhKFbmLxyF5xV22amaL0Alczk4bc/edit?tab=t.0#heading=h.bo1zcf2r6drh"
   hero_title: "What is open source security?"
   cta:
-    description: "Explore why Canonical is the best option for open source security"
+    description: "Discover our comprehensive subscription for open source security, support and compliance."
     buttons:
       - text: "Learn more about Ubuntu Pro"
         url: "http://www.ubuntu.com/pro"
@@ -26,9 +26,13 @@ Open source security is a set of practices that aim to identify, manage and miti
 
 ## Is open source secure?
 
-It’s not uncommon to encounter this question: is open source software secure? After all, open source is produced by hundreds of thousands of contributors, and can be sourced from a variety of different sources. This variety of sources introduces risk management challenges, but it’s also its strength: open source software benefits from having much greater public scrutiny on its code. Proprietary software does not have any more inherent safety or security benefits than open source software. Like closed source and proprietary software, open source software does have vulnerabilities. Its security depends on whether it’s properly maintained and patched against newly discovered or existing vulnerabilities.  There are many ways you can mitigate the vulnerabilities and risks of open source software, including techniques like dependency management, vulnerability management, automated patching, code signing, integrity verification, and more.
+It’s not uncommon to encounter this question: is open source software secure? After all, open source is produced by hundreds of thousands of contributors, and can be sourced from a variety of different sources. This variety of sources introduces risk management challenges, but it’s also its strength: open source software benefits from having much greater public scrutiny on its code. Proprietary software does not have any more inherent safety or security benefits than open source software. 
 
-[Read our article on the security of open source versus proprietary software](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
+Like closed source and proprietary software, open source software does have vulnerabilities. Its security depends on whether it’s properly maintained and patched against newly discovered or existing vulnerabilities. 
+
+There are many ways you can mitigate the vulnerabilities and risks of open source software, including techniques like dependency management, vulnerability management, automated patching, code signing, integrity verification, and more.
+
+[Read our article on the security of open source versus proprietary software ›](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
 
 
 ## Best practices for securing open source
@@ -48,10 +52,9 @@ Whether code is open or proprietary, the most crucial security measure is patchi
 
 Regularly patching your open source software enables you and your customers to remain safe from newly discovered threats.
 
-[Understand Canonical’s solutions for open source security](https://canonical.com/solutions/open-source-security)
+[Understand Canonical’s solutions for open source security ›](https://canonical.com/solutions/open-source-security)
 
-
-### [Dive into security in depth](https://canonical.com/blog/ubuntu-security-defense-in-depth)
+[Dive into security in depth ›](https://canonical.com/blog/ubuntu-security-defense-in-depth)
 
 
 ## What is dependency management?
@@ -211,7 +214,7 @@ Your SBOM should be as publicly accessible as possible. You can make your SBOM a
 Because of patches, updates, migrations, and alterations, software changes all the time. Every time you build a new software distribution artifact, you should generate a new SBOM.
 
 
-[Get a detailed overview of SBOMs](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
+[Get a detailed overview of SBOMs ›](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
 
 ## Vulnerability assessment vs management
 
@@ -304,8 +307,8 @@ Canonical provides stability and security to its user base through a number of p
 {{ text_list_kh(
   items=[
   "Fast remediation of vulnerabilities with tested vulnerability fixes",
-  "Timely, rebootless patches for critical and high severity Linux kernel vulnerabilities between security maintenance windows, while the system runs, thanks to [Livepatch](https://ubuntu.com/security/livepatch)",
-  "High levels of automation for security patching, auditing, compliance, and access management across your entire organization or fleet of devices through [Landscape](https://ubuntu.com/landscape)"
+  "Timely, rebootless patches for critical and high severity Linux kernel vulnerabilities between security maintenance windows, while the system runs, thanks <a href=\"https://ubuntu.com/security/livepatch\">Livepatch</a>",
+  "High levels of automation for security patching, auditing, compliance, and access management across your entire organization or fleet of devices through <a href=\"https://ubuntu.com/landscape\">Landscape</a>",
 ]
 ) }}
 

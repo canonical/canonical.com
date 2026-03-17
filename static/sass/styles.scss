@@ -642,11 +642,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
-.p-breadcrumbs {
-  margin-bottom: $spv--small;
-}
-
 // XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
 .p-pagination {
   flex-wrap: wrap;
@@ -1127,4 +1122,12 @@ body:not(.js-enabled) {
 
 .p-markdown h2 {
   padding-top: .55rem !important;
+}
+
+@media (min-width: 1036px) {
+  .u-truncate--large {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
 }
