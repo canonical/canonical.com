@@ -7,6 +7,7 @@ context:
   breadcrumb: "What is open source security?"
   description: "Understand open source security and explore best practices, including dependency management, code signing, SBOMs, vulnerability management, and careful backporting of legacy code."
   copydoc: "https://docs.google.com/document/d/16lg3gVWgHMZKmVmDhKFbmLxyF5xV22amaL0Alczk4bc/edit?tab=t.0#heading=h.bo1zcf2r6drh"
+  hero_title: "What is open source security?"
   cta:
     description: "Explore why Canonical is the best option for open source security"
     buttons:
