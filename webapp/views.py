@@ -3,6 +3,9 @@ import flask
 import requests
 import math
 import datetime
+import os
+import yaml
+from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
@@ -350,3 +353,63 @@ def append_utms_cookie_to_ubuntu_links(response):
             response.set_data(data)
 
     return response
+
+
+def build_knowledge_category_index(category_slug):
+    """
+    Build a knowledge category index by scanning markdown files in the category directory.
+
+    Args:
+        category_slug: The slug of the category (e.g., 'ubuntu-and-linux')
+
+    Returns:
+        A view function that renders the index with article metadata
+    """
+
+    def knowledge_category_index():
+        # Get the templates directory path
+        # root_path is the webapp directory, so we need to go up one level
+        templates_dir = Path(flask.current_app.root_path).parent / "templates"
+        category_dir = templates_dir / "knowledge" / category_slug
+
+        articles = []
+
+        # Scan for markdown files in the category directory
+        if category_dir.exists():
+            for md_file in sorted(category_dir.glob("*.md")):
+                try:
+                    with open(md_file, "r", encoding="utf-8") as f:
+                        content = f.read()
+
+                    # Parse YAML frontmatter
+                    if content.startswith("---"):
+                        parts = content.split("---", 2)
+                        if len(parts) >= 2:
+                            try:
+                                frontmatter = yaml.safe_load(parts[1])
+                                article_slug = md_file.stem
+
+                                # Build article metadata
+                                article = {
+                                    "slug": article_slug,
+                                    "hero_title": frontmatter.get(
+                                        "context", {}
+                                    ).get("hero_title", md_file.stem),
+                                    "description": frontmatter.get(
+                                        "context", {}
+                                    ).get("description", ""),
+                                    "url": f"/knowledge/{category_slug}/{article_slug}",
+                                }
+                                articles.append(article)
+                            except yaml.YAMLError:
+                                pass
+                except Exception as e:
+                    flask.current_app.logger.warning(
+                        f"Error parsing {md_file}: {e}"
+                    )
+
+        return flask.render_template(
+            f"knowledge/{category_slug}/index.html", articles=articles
+        )
+
+    return knowledge_category_index
