@@ -400,7 +400,6 @@ function scrollActiveNavItemIntoView(link) {
   
   if (!listItem || !navList) return;
 
-  console.log(listItem.offsetLeft);
   navList.scrollTo({ left: listItem.offsetLeft-10, behavior: 'smooth' });
 }
 
