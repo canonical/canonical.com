@@ -1,3 +1,5 @@
+from canonicalwebteam.flask_base.env import get_flask_env
+
 CSP = {
     "default-src": ["'self'"],
     "img-src": [
@@ -164,4 +166,6 @@ def init_handlers(app):
         )
         response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+        if get_flask_env("FLASK_ENV", "production") != "production":
+            response.headers["X-Robots-Tag"] = "none"
         return response

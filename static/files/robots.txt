@@ -1,0 +1,107 @@
+# ============================================================================
+# robots.txt for canonical.com
+# Optimized for maximum AI visibility and LLM Context Efficiency
+# Last updated: 2026-03-18
+# ============================================================================
+
+# ============================================================================
+# DEFAULT RULES — all crawlers
+# ============================================================================
+User-Agent: *
+
+# Authentication, API & JSON endpoints
+Disallow: /legal/contributors/agreement/api
+Disallow: /asset/
+Disallow: /careers/roles.json
+Disallow: /juju/latest.json
+Disallow: /user-country-tz.json
+Disallow: /solutions/infrastructure/private-cloud-pricing.json
+Disallow: /sitemap_parser
+Disallow: /navigation
+Disallow: /tests/
+
+# Search and Form flows
+Disallow: /search
+Disallow: /juju/docs/search
+Disallow: /dqlite/docs/search
+Disallow: /maas/docs/search
+Disallow: /mir/docs/search
+Disallow: /microk8s/docs/search
+Disallow: /contact-us
+Disallow: /careers/application/
+Disallow: /careers/results
+Disallow: /*/thank-you
+Disallow: /partners/thank-you
+
+# Binary redirects & feeds
+Disallow: /multipass/download/
+Disallow: /blog/feed
+Disallow: /maas/blog/feed
+Disallow: /careers/feed
+
+# Error pages
+Disallow: /401
+Disallow: /404
+Disallow: /500
+Disallow: /502
+
+Crawl-delay: 1
+
+# ============================================================================
+# AI OPTIMIZED RULES
+# Includes: OpenAI, Perplexity, and Anthropic
+# ============================================================================
+User-Agent: ChatGPT-User
+User-Agent: GPTBot
+User-Agent: PerplexityBot
+User-Agent: ClaudeBot
+User-Agent: Claude-Web
+
+# Nudge toward Markdown endpoints
+Allow: /*?format=md
+
+# High-Value Content Priority (Verified product & doc routes)
+Allow: /blog/
+Allow: /documentation/
+Allow: /juju/docs/
+Allow: /maas/docs/
+Allow: /microk8s/docs/
+Allow: /openstack/
+Allow: /kubernetes/
+Allow: /lxd/
+Allow: /multipass/
+Allow: /solutions/
+Allow: /case-study
+Allow: /academy/
+
+# Block Noise (Preserve context window for technical content)
+Disallow: /blog/author/
+Disallow: /blog/tag/
+Disallow: /blog/archive
+Disallow: /maas/blog/author/
+Disallow: /maas/blog/tag/
+Disallow: /maas/blog/archive
+Disallow: /contact-us
+Disallow: /*/contact-us
+Disallow: /*/thank-you
+Disallow: /asset/
+Disallow: /navigation
+Disallow: /search
+Disallow: /tests/
+
+# Performance
+Crawl-delay: 2
+
+# ============================================================================
+# SITEMAPS
+# ============================================================================
+Sitemap: https://canonical.com/sitemap.xml
+
+# Prioritized Trees for AI Crawlers
+Sitemap: https://canonical.com/sitemap_tree.xml
+Sitemap: https://canonical.com/blog/sitemap.xml
+Sitemap: https://canonical.com/microk8s/docs/sitemap.xml
+Sitemap: https://canonical.com/juju/docs/sitemap.xml
+Sitemap: https://canonical.com/maas/docs/sitemap.xml
+Sitemap: https://canonical.com/data/docs/sitemap.xml
+Sitemap: https://canonical.com/partners/sitemap.xml
