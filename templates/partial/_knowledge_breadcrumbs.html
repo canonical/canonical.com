@@ -1,0 +1,38 @@
+<div class="grid-row" aria-label="Knowledge Hub Breadcrumbs">
+  <div class="p-knowledge-breadcrumbs">
+    <ol class="p-inline-list p-knowledge-breadcrumbs p-text--small-caps u-hide--small">
+      <li class="p-inline-list__item p-knowledge-breadcrumbs__item">
+        <a href="/knowledge">Knowledge Hub</a>
+      </li>
+      {% for breadcrumb in breadcrumbs %}
+        <li class="p-inline-list__item p-knowledge-breadcrumbs__item">
+          {% if breadcrumb.href %}<a href="{{ breadcrumb.href }}">{{ breadcrumb.name }}</a> 
+          {% else %}
+            {{ breadcrumb.name }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+
+    <ol class="p-inline-list p-knowledge-breadcrumbs p-text--small-caps u-hide--large u-hide--medium u-show--small">
+      <li class="p-knowledge-breadcrumbs">
+        <ol class="p-inline-list">
+          <li class="p-inline-list__item p-knowledge-breadcrumbs__item p-knowledge-breadcrumbs__item--home">
+            <a href="/knowledge">Knowledge Hub</a>
+          </li>
+        </ol>
+      </li>
+      <ol class="p-inline-list u-truncate" style="margin-bottom: .5rem;">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="p-inline-list__item p-knowledge-breadcrumbs__item">
+            {% if breadcrumb.href %}<a href="{{ breadcrumb.href }}">{{ breadcrumb.name }}</a> 
+            {% else %}
+              {{ breadcrumb.name }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    </ol>
+  </div>
+  <hr class="p-rule" />
+</div>
