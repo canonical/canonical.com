@@ -1,5 +1,5 @@
 ---
-wrapper_template: "knowledge/_base_kh_markdown.html"
+wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and Compliance"
   tag: "Security"

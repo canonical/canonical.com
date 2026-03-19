@@ -1,5 +1,5 @@
 ---
-wrapper_template: "knowledge/_base_kh_markdown.html"
+wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Ubuntu and Linux"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
