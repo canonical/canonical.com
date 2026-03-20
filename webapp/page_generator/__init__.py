@@ -280,6 +280,18 @@ class Pattern(ABC):
             error_path = " -> ".join([str(p) for p in e.path])
             return False, f"Validation Error at [{error_path}]: {e.message}"
 
+    def _build_params_str(self) -> str:
+        """Build a Jinja-compatible parameter string from self.data."""
+        params_list = []
+        for key, value in self.data.items():
+            if isinstance(value, str):
+                params_list.append(f'{key}="{value}"')
+            elif isinstance(value, bool):
+                params_list.append(f"{key}={str(value).lower()}")
+            else:
+                params_list.append(f"{key}={json.dumps(value)}")
+        return ",\n    ".join(params_list)
+
     @abstractmethod
     def write_import(self):
         """Return the import statement for this pattern,
@@ -296,22 +308,7 @@ class HeroSection(Pattern):
         return "hero"
 
     def process_pattern(self):
-        params_list = []
-
-        for key, value in self.data.items():
-            if isinstance(value, str):
-                # Wrap strings in double quotes
-                params_list.append(f'{key}="{value}"')
-            elif isinstance(value, bool):
-                # Lowercase booleans for Jinja
-                params_list.append(f"{key}={str(value).lower()}")
-            else:
-                # For dicts, lists, numbers: convert to JSON
-                # so Jinja sees a valid object literal
-                params_list.append(f"{key}={json.dumps(value)}")
-
-        # Join all parameters with commas
-        params_str = ",\n    ".join(params_list)
+        params_str = self._build_params_str()
 
         self.pattern_html += f"""
             {{% call(slot) vf_hero(
@@ -350,17 +347,7 @@ class CTASection(Pattern):
         return "cta-section"
 
     def process_pattern(self):
-        params_list = []
-
-        for key, value in self.data.items():
-            if isinstance(value, str):
-                params_list.append(f'{key}="{value}"')
-            elif isinstance(value, bool):
-                params_list.append(f"{key}={str(value).lower()}")
-            else:
-                params_list.append(f"{key}={json.dumps(value)}")
-
-        params_str = ",\n    ".join(params_list)
+        params_str = self._build_params_str()
 
         self.pattern_html += f"""
             {{% call(slot) vf_cta_section(
