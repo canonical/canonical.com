@@ -1,6 +1,7 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
@@ -507,6 +508,15 @@
     ],
     attrs={"class": "p-section--deep"}) 
   }}
+
+  {% call(slot) vf_cta_section(
+    variant='default',
+    layout='100'
+    ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/open-source-ai-infrastructure">Get the enterprise guide to private AI infrastructure&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {%- endcall -%}
 
   {{ load_form("/solutions/ai/infrastructure") | safe }}
 

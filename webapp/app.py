@@ -560,8 +560,25 @@ def job_details(session, greenhouse, harvest, job_id):
     }
 
     try:
-        # Greenhouse job board API (get_vacancy) doesn't show inactive roles
         context["job"] = harvest.get_job_post(job_id)
+
+        # Handle job posting that are no longer open
+        if not context["job"].get("active") or not context["job"].get("live"):
+            response = flask.make_response(
+                flask.render_template(
+                    "careers/404-job-closed.html", **context
+                ),
+                404,
+            )
+            response.headers["Cache-Control"] = (
+                "public, "
+                "max-age=600, "  # 5 minutes to allow for quick recovery
+                "must-revalidate, "
+                "stale-while-revalidate=0, "
+                "stale-if-error=0"
+            )
+            return response
+
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
         context["job"]["is_remote"] = is_remote(context["job"])
@@ -1134,121 +1151,6 @@ def allow_src(tag, name, value):
         return (not p.netloc) or p.netloc in allowed_sources
     return False
 
-
-# Data Platform Spark on K8s docs
-data_spark_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=8963,
-        url_prefix="/data/docs/spark/k8s",
-    ),
-    document_template="/data/docs/spark/k8s/document.html",
-    url_prefix="/data/docs/spark/k8s",
-    blueprint_name="data-docs-spark-k8s",
-)
-app.add_url_rule(
-    "/data/docs/spark/k8s/search",
-    "data-docs-spark-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/spark/k8s",
-        template_path="/data/docs/spark/k8s/search-results.html",
-    ),
-)
-data_spark_k8s_docs.init_app(app)
-
-# Data Platform MySQL on IAAS docs
-data_mysql_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9925,
-        url_prefix="/data/docs/mysql/iaas",
-    ),
-    document_template="/data/docs/mysql/iaas/document.html",
-    url_prefix="/data/docs/mysql/iaas",
-    blueprint_name="data-docs-mysql-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mysql/iaas/search",
-    "data-docs-mysql-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/iaas",
-        template_path="/data/docs/mysql/iaas/search-results.html",
-    ),
-)
-data_mysql_iaas_docs.init_app(app)
-
-# Data Platform MySQL on K8s docs
-data_mysql_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9680,
-        url_prefix="/data/docs/mysql/k8s",
-    ),
-    document_template="/data/docs/mysql/k8s/document.html",
-    url_prefix="/data/docs/mysql/k8s",
-    blueprint_name="data-docs-mysql-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mysql/k8s/search",
-    "data-docs-mysql-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/k8s",
-        template_path="/data/docs/mysql/k8s/search-results.html",
-    ),
-)
-data_mysql_k8s_docs.init_app(app)
-
-# Data Platform MongoDB on IaaS docs
-data_mongodb_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=12461,
-        url_prefix="/data/docs/mongodb/iaas",
-    ),
-    document_template="/data/docs/mongodb/iaas/document.html",
-    url_prefix="/data/docs/mongodb/iaas",
-    blueprint_name="data-docs-mongodb-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/iaas/search",
-    "data-docs-mongodb-vm-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/iaas",
-        template_path="/data/docs/mongodb/iaas/search-results.html",
-    ),
-)
-data_mongodb_iaas_docs.init_app(app)
-
-# Data Platform MongoDB on K8s docs
-data_mongodb_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10265,
-        url_prefix="/data/docs/mongodb/k8s",
-    ),
-    document_template="/data/docs/mongodb/k8s/document.html",
-    url_prefix="/data/docs/mongodb/k8s",
-    blueprint_name="data-docs-mongodb-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/k8s/search",
-    "data-docs-mongodb-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/k8s",
-        template_path="/data/docs/mongodb/k8s/search-results.html",
-    ),
-)
-data_mongodb_k8s_docs.init_app(app)
 
 # Data Platform index docs
 data_docs = Docs(

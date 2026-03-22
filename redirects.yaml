@@ -621,6 +621,7 @@ juju/docs/sdk/yaml-anchors-and-aliases/?: https://canonical-charmcraft.readthedo
 # MicroK8s redirects
 microk8s/microk8s-installer.exe: https://github.com/canonical/microk8s/releases/download/installer-v2.3.4/microk8s-installer.exe
 microk8s/install/(?P<version>[^/]+)\.exe: https://github.com/canonical/microk8s/releases/download/installer-{version}/microk8s-installer.exe
+microk8s/high-availability/?: /microk8s/docs/high-availability
 
 microstack/?: "/openstack"
 microstack/docs/?: "https://canonical-openstack.readthedocs-hosted.com/en/latest/"
@@ -2008,8 +2009,12 @@ maas/deprecations/MD6: https://discourse.maas.io/t/11245
 maas/deprecations/MD7: https://discourse.maas.io/t/15207
 
 #Charmed MySQL and Charmed MySQL K8s docs
-data/docs/mysql/iaas/(?P<path>.*): https://canonical-charmed-mysql.readthedocs-hosted.com/{path}
-data/docs/mysql/k8s/(?P<path>.*): https://canonical-charmed-mysql-k8s.readthedocs-hosted.com/{path}
+data/docs/mysql/iaas(?P<path>.*)/?: https://canonical-charmed-mysql.readthedocs-hosted.com/{path}
+data/docs/mysql/k8s(?P<path>.*)/?: https://canonical-charmed-mysql-k8s.readthedocs-hosted.com/{path}
+
+# Charmed MongoDB and Charmed MongoDB K8s docs
+data/docs/mongodb/iaas(?P<path>.*)/?: https://canonical-charmed-mongodb.readthedocs-hosted.com/6/{path}
+data/docs/mongodb/k8s(?P<path>.*)/?: https://canonical-charmed-mongodb.readthedocs-hosted.com/6/{path}
 
 # Jaas.ai migration redirects
 jaas/docs: https://canonical-jaas-documentation.readthedocs-hosted.com/en/latest/
@@ -2034,3 +2039,6 @@ blog/group/(?P<group>[^/]+)/?: /blog/archives?group={group}
 
 # Infrastructure modernization redirects
 blog/cloudify-your-data-centre: https://assets.ubuntu.com/v1/855af1ef-infrastructure_modernization_and_sovereignty_datasheet.pdf
+
+
+robots.txt?: "/static/files/robots.txt"
