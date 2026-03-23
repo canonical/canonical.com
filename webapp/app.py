@@ -295,10 +295,7 @@ def sentry_before_send(event, hint):
             error_msg = str(exc_value)
 
             # Sample blog/WordPress API retry errors
-            if "/wp-json/wp/v2" in error_msg and any(
-                f"{code} error" in error_msg
-                for code in ["500", "502", "503", "504"]
-            ):
+            if "/wp-json/wp/v2" in error_msg:
                 if random.random() > 0.05:  # Drop 95% of blog API retry errors
                     return None
     return event
