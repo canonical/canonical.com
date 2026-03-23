@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
 {% block title %}Charmed MLflow{% endblock %}
 
 {% block meta_description %}
@@ -37,7 +39,7 @@
           <p class="p-heading--2">A seamless start to your machine learning journey with open source</p>
         </div>
         <p>
-          Charmed MFlow is a lightweight and secure machine learning platform for any developer. It can be deployed on your infrastructure of choice, and is backed by expert support.
+          Charmed MFlow is a lightweight and securely designed machine learning platform for any developer. It can be deployed on your infrastructure of choice, and is backed by expert support.
         </p>
         <a class="p-button--positive"
            href="https://ubuntu.com/engage/lightweight-ml-mlflow">Read about lightweight ML with MLflow</a>
@@ -74,11 +76,11 @@
           <hr class="p-rule--muted" />
           <ul class="p-list--divided has-description">
             <li class="p-list__item has-bullet">Experiment tracking</li>
-            <p>Record and query experiments: code, data, config and results.</p>
+            <p>Record and query experiments: code, data, config, and results.</p>
             <li class="p-list__item has-bullet">Reproducible projects</li>
             <p>Package data science code in a format that enables reproducible runs on any platform.</p>
             <li class="p-list__item has-bullet">Model registry</li>
-            <p>Store, annotate and manage models in a centralised repository.</p>
+            <p>Store, annotate, and manage models in a centralized repository.</p>
             <li class="p-list__item has-bullet">Models deployment</li>
             <p>Deploy machine learning models in diverse serving environments.</p>
           </ul>
@@ -111,94 +113,23 @@
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <hr class="p-rule" />
-      <p class="p-text--small-caps">Use Charmed MLflow with</p>
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image (
-            url="https://assets.ubuntu.com/v1/e332a639-jupyter-logo.png",
-            alt="Jupiter",
-            width="129",
-            height="256",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"},
-            ) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            <a href="/data/spark">
-              {{ image (
-              url="https://assets.ubuntu.com/v1/4f123dc2-apache-spark-logo.png",
-              alt="Apache Spark",
-              width="150",
-              height="256",
-              hi_def=True,
-              loading="lazy",
-              attrs={"class": "p-logo-section__logo"},
-              ) | safe
-              }}
-            </a>
-          </div>
-          <div class="p-logo-section__item">
-            <a href="/mlops/kubeflow">
-              {{ image (
-              url="https://assets.ubuntu.com/v1/35962db5-kubeflow-logo.png",
-              alt="Kubeflow",
-              width="89",
-              height="256",
-              hi_def=True,
-              loading="lazy",
-              attrs={"class": "p-logo-section__logo"},
-              ) | safe
-              }}
-            </a>
-          </div>
-          <div class="p-logo-section__item">
-            {{ image (
-            url="https://assets.ubuntu.com/v1/33625a37-Grafana.png",
-            alt="Grafana",
-            width="111",
-            height="256",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"},
-            ) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image (
-            url="https://assets.ubuntu.com/v1/53b0513c-prometheus.png",
-            alt="",
-            width="89",
-            height="256",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"},
-            ) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            <a href="/juju">
-              {{ image (
-              url="https://assets.ubuntu.com/v1/8875229f-Juju-logo.png",
-              alt="Juju",
-              width="133",
-              height="256",
-              hi_def=True,
-              loading="lazy",
-              attrs={"class": "p-logo-section__logo"},
-              ) | safe
-              }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section (
+  title={"text": ""},
+  label_text="Use Charmed MLflow with",
+  items=[{
+  "type":"logo-block",
+  "item": {
+  "logos":[
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/e332a639-jupyter-logo.png", alt:"Jupyter"}},
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/4f123dc2-apache-spark-logo.png", alt:"Apache Spark"}},
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/35962db5-kubeflow-logo.png", alt:"Kubeflow"}},
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/33625a37-Grafana.png", alt:"Grafana"}},
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/53b0513c-prometheus.png", alt:"Prometheus"}},
+  {"attrs":{"src":"https://assets.ubuntu.com/v1/8875229f-Juju-logo.png" , alt:"Juju"}},
+  ]
+  }
+  }]
+  ) }}
 
   <section class="p-section">
     <div class="grid-row--50-50">
@@ -255,7 +186,7 @@
           <div class="grid-col-4">
             <div class="p-section--shallow">
               <p>
-                We manage your MLflow deployments on any cloud, including: automatically deploying, patching, optimising and upgrading with our open source operator.
+                We manage your MLflow deployments on any cloud, including: automatically deploying, patching, optimizing and upgrading with our open source operator.
               </p>
               <hr class="p-rule--muted" />
               <ul class="p-list--divided">
@@ -278,15 +209,36 @@
           <div class="grid-col-4">
             <div class="p-section--shallow">
               <p>
-                We provide 24/7 phone and ticket support for your MLflow deployments on any environment with an Ubuntu Pro &plus; Support subscription.
+                We provide 24/7 phone and ticket support for your MLflow deployments on any environment with an <a href="https://ubuntu.com/pro">Ubuntu Pro &plus; Support subscription</a>.
               </p>
               <hr class="p-rule--muted" />
               <ul class="p-list--divided">
                 <li class="p-list__item is-ticked">Backed by an SLA</li>
                 <li class="p-list__item is-ticked">Quickly resolve technical support issues</li>
-                <li class="p-list__item is-ticked">Expert help in applications operations, troubleshooting and bug fixes</li>
+                <li class="p-list__item is-ticked">Expert help in applications operations, troubleshooting, and bug fixes</li>
               </ul>
               <a href="https://ubuntu.com/support">Learn more about enterprise support&nbsp;&rsaquo;</a>
+            </div>
+          </div>
+        </div>
+        <hr class="p-rule" />
+        <div class="grid-row">
+          <div class="grid-col-2">
+            <h3 class="p-heading--5">Long-term security maintenance</h3>
+          </div>
+          <div class="grid-col-4">
+            <div class="p-section--shallow">
+              <p>
+                We provide long-term security  maintenance for Charmed MLflow, as well as the extensive open source libraries used for model training, and other MLOps tools (including TensorFlow, PyTorch, Feast, and more), through Ubuntu Pro. Ubuntu Pro is Canonical’s comprehensive subscription for open source security, support, and compliance.
+              </p>
+              <hr class="p-rule--muted" />
+              <ul class="p-list--divided">
+                <li class="p-list__item is-ticked">Reduce average CVE exposure time from 98 days to 1 day</li>
+                <li class="p-list__item is-ticked">Get up to 15 years of stability for infrastructure, OS, and applications</li>
+                <li class="p-list__item is-ticked">Comply with FedRAMP, HIPAA, and more</li>
+              </ul>
+              <a href="http://www.ubuntu.com/pro">Learn more about security maintenance&nbsp;&rsaquo;</a><br/>
+              <a href="http://www.ubuntu.com/pro/free-trial">Try a 30-day free trial&nbsp;&rsaquo;</a>
             </div>
           </div>
         </div>
