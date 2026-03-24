@@ -161,7 +161,7 @@ class TestSentryFiltering(unittest.TestCase):
 
     def test_allow_non_blog_connection_error(self):
         """
-        Test that connection errors unrelated to the blog API 
+        Test that connection errors unrelated to the blog API
         always pass through.
         """
         exc = RequestsConnectionError("upstream connection failed")
