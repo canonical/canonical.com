@@ -16,13 +16,13 @@
   {% block content %}
 
   {% set category_slug = category | lower | replace(' ', '-') %}
-  {% set breadcrumbs = [{"name": "Knowledge Hub", "href": "/knowledge"}, {"name": category, "href": "/knowledge/" + category_slug}, {"name": breadcrumb }] %}
-  {% include '/partial/_breadcrumbs.html' %}
+  {% set breadcrumbs = [{"name": category, "href": "/knowledge/" + category_slug}, {"name": breadcrumb }] %}
+  {% include '/partial/_knowledge_breadcrumbs.html' %}
   
   <section class="p-section--hero">
     <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <h1 class="u-truncate">{{ breadcrumb }}</h1>
+      <div class="grid-col-4 grid-col-start-large-3">
+        <h1>{{ hero_title }}</h1>
       </div>
     </div>
   </section>
@@ -105,9 +105,9 @@
       {%- endif -%}  
     {% endcall -%}
   {% endif %}
-
+  
   {{ vf_blog(
-    title={"text": "Latest from our blog"},
+    title={"text": blog.get('title', 'Latest from our blog')},
     padding="deep",
     template_config={
       "enabled": True, 
@@ -126,8 +126,8 @@
       articlesContainerSelector: "#blog",
       articleTemplateSelector: "#template",
       excerptLength: 180,
-      {% if blog_tag_id %}
-        tagId: 4443,
+      {% if blog.id %}
+        tagId: {{ blog.id }},
       {% endif %}
     })
   </script>

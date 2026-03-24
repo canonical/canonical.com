@@ -1,10 +1,11 @@
 ---
-wrapper_template: "knowledge/_base_kh_markdown.html"
+wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Ubuntu and Linux"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
   breadcrumb: "What is the Linux Kernel?"
   copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
+  hero_title: "What is the Linux Kernel?"
   cta:
     description: "Curious about Linux? You might want to read our articles about the available Linux variants, the importance of maintenance and why developers add their own patches to customize the kernel or the kernel release cycle."
     buttons:
@@ -15,7 +16,8 @@ context:
       - text: "Read the documentation"
         url: "https://www.kernel.org/doc/html/latest/"
         type: "button"
-  blog_tag_id: 4443
+  blog:
+    id: 1364
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
@@ -74,7 +76,6 @@ The Linux kernel is released as free and open-source software under the [GNU Gen
 
 While that all makes sense, why would a developer want to modify the kernel in the first place? 
 
-
 ### Does “Linux” refer to the kernel or the OS?
 
 Strictly speaking, the word “Linux” refers only to the kernel itself, as a complete Linux operating system (OS) typically includes several other essential components. Among those are a C standard library, a compiler toolchain, and core system utilities, such as the login manager and shell. In practice, a Linux system encompasses all the elements necessary for basic operation and administration.
@@ -90,7 +91,9 @@ A key concept within the Linux kernel world is “where” processes run. A proc
 
 Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
 
-{{ text_list_kh(items=[
+{{ text_list_kh(
+  type="number",
+  items=[
   "User-space, running code as part of an application process. This is for applications like email clients and browsers to run in unprivileged mode",
   "Kernel space, within the context of a process, executing on that process's behalf. This is for the kernel and all its components to run in privileged mode",
   "Kernel space outside of any process context, handling interrupts triggered by hardware."
