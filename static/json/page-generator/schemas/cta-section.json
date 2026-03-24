@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "name",
+    "data"
+  ],
+  "properties": {
+    "name": {
+      "const": "cta-section"
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "layout",
+        "blocks"
+      ],
+      "properties": {
+        "title_text": {
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "block"
+          ],
+          "default": "default"
+        },
+        "layout": {
+          "enum": [
+            "100",
+            "25/75"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "description": "CSS classes applied to the section"
+            }
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/descriptionBlock"
+              },
+              {
+                "$ref": "#/definitions/ctaBlock"
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "description": "If variant is 'block', title_text is required",
+          "if": {
+            "properties": {
+              "variant": {
+                "const": "block"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "title_text"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "descriptionBlock": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "description"
+        },
+        "item": {
+          "type": "object",
+          "required": ["content"],
+          "properties": {
+            "type": {
+              "enum": [
+                "text",
+                "html"
+              ]
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ctaBlock": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "cta"
+        },
+        "item": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "html"
+            },
+            "content": {
+              "type": "string"
+            },
+            "primary": {
+              "$ref": "#/definitions/linkObject"
+            },
+            "secondaries": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/linkObject"
+              }
+            },
+            "link": {
+              "$ref": "#/definitions/linkObject"
+            }
+          }
+        }
+      }
+    },
+    "linkObject": {
+      "type": "object",
+      "required": ["content_html"],
+      "properties": {
+        "content_html": {
+          "type": "string"
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
