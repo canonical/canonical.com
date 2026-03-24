@@ -65,7 +65,7 @@ Managing and securing your software and all of its dependencies is a vital part 
 ### What are dependencies?
 In software engineering, dependencies refer to external components, libraries, modules, or services that a software application or system relies on to function correctly. These external elements are not part of the core codebase but are integrated into the software’s build or runtime environment.
 
-[Read a blog about software dependencies&nbsp;&rsaquo;](https://canonical.com/blog/what-are-dependencies)
+[Read a blog about software dependencies ›](https://canonical.com/blog/what-are-dependencies)
 
 ### What are direct dependencies and what are transitive dependencies?
 
