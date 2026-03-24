@@ -289,6 +289,11 @@ def sentry_before_send(event, hint):
         ):
             # return None to discard the event
             return None
+        # Also filter requests.exceptions.HTTPError for 4xx upstream responses
+        if isinstance(exc_value, requests.exceptions.HTTPError):
+            response = getattr(exc_value, "response", None)
+            if response is not None and 400 <= response.status_code < 500:
+                return None
         # Sample 5% of transient upstream connection failures
         # (e.g. WordPress API being unavailable)
         if isinstance(exc_value, (MaxRetryError, RetryError, ConnectionError)):
