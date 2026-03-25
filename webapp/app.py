@@ -1168,21 +1168,6 @@ def allow_src(tag, name, value):
     return False
 
 
-# Data Platform index docs
-data_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10863,
-        url_prefix="/data/docs",
-    ),
-    document_template="/data/docs/document.html",
-    url_prefix="/data/docs/",
-    blueprint_name="data_docs",
-)
-
-data_docs.init_app(app)
-
-
 dqlite_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
