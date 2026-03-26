@@ -1,6 +1,8 @@
 import unittest
+import flask
 from webapp.markdown_response.frontmatter import extract_frontmatter
 from webapp.markdown_response.converter import convert_html_to_markdown
+from webapp.markdown_response import MarkdownResponse
 
 
 class TestFrontmatter(unittest.TestCase):
@@ -221,3 +223,94 @@ class TestConverter(unittest.TestCase):
         )
         self.assertIn("Right div.", result)
         self.assertNotIn("Wrong div.", result)
+
+
+class TestMarkdownResponse(unittest.TestCase):
+    def setUp(self):
+        self.app = flask.Flask(__name__)
+
+        @self.app.route("/test")
+        def test_page():
+            return """
+            <html>
+            <head>
+                <title>Test Page | Canonical</title>
+                <meta name="description" content="A test page" />
+                <meta property="og:url" content="https://canonical.com/test" />
+            </head>
+            <body>
+                <nav><a href="/">Home</a></nav>
+                <div id="main-content">
+                    <h1>Test Page</h1>
+                    <p>This is test content.</p>
+                </div>
+                <footer><p>Footer</p></footer>
+            </body>
+            </html>
+            """
+
+        MarkdownResponse(self.app)
+        self.client = self.app.test_client()
+
+    def test_normal_request_returns_html(self):
+        response = self.client.get("/test")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/html", response.content_type)
+        self.assertIn(b"<h1>Test Page</h1>", response.data)
+
+    def test_format_md_returns_markdown(self):
+        response = self.client.get("/test?format=md")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/markdown", response.content_type)
+        self.assertIn(b"# Test Page", response.data)
+        self.assertIn(b"This is test content.", response.data)
+
+    def test_format_md_has_frontmatter(self):
+        response = self.client.get("/test?format=md")
+        body = response.data.decode("utf-8")
+        self.assertTrue(body.startswith("---\n"))
+        self.assertIn("title: Test Page", body)
+        self.assertIn("description: A test page", body)
+        self.assertIn("url: https://canonical.com/test", body)
+
+    def test_format_md_strips_navigation(self):
+        response = self.client.get("/test?format=md")
+        body = response.data.decode("utf-8")
+        self.assertNotIn("Home", body)
+        self.assertNotIn("Footer", body)
+
+    def test_skips_non_html_responses(self):
+        @self.app.route("/api")
+        def api():
+            return flask.jsonify({"key": "value"})
+
+        response = self.client.get("/api?format=md")
+        self.assertIn("application/json", response.content_type)
+
+    def test_skips_non_200_responses(self):
+        @self.app.route("/error")
+        def error():
+            return "<html><body>Not Found</body></html>", 404
+
+        response = self.client.get("/error?format=md")
+        self.assertEqual(response.status_code, 404)
+        self.assertNotIn("text/markdown", response.content_type)
+
+    def test_custom_content_selector(self):
+        app2 = flask.Flask(__name__)
+
+        @app2.route("/custom")
+        def custom():
+            return """
+            <html>
+            <head><title>Custom | Canonical</title></head>
+            <body>
+                <div id="wrapper"><p>Custom content.</p></div>
+            </body>
+            </html>
+            """
+
+        MarkdownResponse(app2, content_selector="#wrapper")
+        client2 = app2.test_client()
+        response = client2.get("/custom?format=md")
+        self.assertIn(b"Custom content.", response.data)
