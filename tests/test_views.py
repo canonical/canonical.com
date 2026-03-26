@@ -354,8 +354,10 @@ class TestViews(unittest.TestCase):
             self.assertEqual(metadata[0]["topic_name"], "Future Roadshow")
 
     @patch("webapp.views.flask.render_template")
-    def test_canonical_days_sorts_by_latest_event(self, mock_render_template):
-        """Test that roadshow events are sorted by latest date"""
+    def test_canonical_days_sorts_by_earliest_event(
+        self, mock_render_template
+    ):
+        """Test that roadshow events are sorted by earliest date"""
         mock_engage_docs = MagicMock()
 
         date1 = (
@@ -389,8 +391,8 @@ class TestViews(unittest.TestCase):
             canonical_days_index()
             call_kwargs = mock_render_template.call_args[1]
             metadata = call_kwargs["metadata"]
-            self.assertEqual(metadata[0]["topic_name"], "Later Event")
-            self.assertEqual(metadata[1]["topic_name"], "Earlier Event")
+            self.assertEqual(metadata[0]["topic_name"], "Earlier Event")
+            self.assertEqual(metadata[1]["topic_name"], "Later Event")
 
     @patch("webapp.views.flask.render_template")
     def test_canonical_days_prefixes_engage_paths_with_full_url(
