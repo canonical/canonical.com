@@ -30,30 +30,14 @@ function getSortValue(cell, dataType) {
   if (dataType === "link") {
     const link = cell?.querySelector('a');
     value = link ? link.textContent.toLowerCase().trim() : (cell ? cell.textContent.toLowerCase().trim() : '');
-  } else if (dataType === "string" || dataType === "date") {
+  } else if (dataType === "string") {
     value = cell ? cell.textContent.toLowerCase().trim() : '';
+  } else if (dataType === "date") {
+    const parsed = new Date(cell ? cell.textContent.trim() : '');
+    value = isNaN(parsed) ? '' : parsed.getTime().toString().padStart(20, '0');
   }
 
   return value;
-}
-
-// Helper function to sort rows
-function sortRows(rows, column, dataType, ascending) {
-  return rows.sort((a, b) => {
-    const aCells = a.querySelectorAll('td');
-    const bCells = b.querySelectorAll('td');
-    const aCell = aCells[column];
-    const bCell = bCells[column];
-
-    const aValue = getSortValue(aCell, dataType);
-    const bValue = getSortValue(bCell, dataType);
-
-    if (ascending) {
-      return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-    } else {
-      return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-    }
-  });
 }
 
 // Helper function to sort rows
@@ -79,7 +63,12 @@ function sortRows(rows, column, dataType, ascending) {
 const table = document.querySelector('.js-sortable-table');
 if (table) {
   const sortBtns = table.querySelectorAll('.js-sortable-table__button');
-  let currentSort = { column: null, ascending: true };
+  const initCol = table.getAttribute('data-sort-column');
+  const initDir = table.getAttribute('data-sort-direction');
+  let currentSort = {
+    column: initCol !== null ? parseInt(initCol) : null,
+    ascending: initDir !== 'desc',
+  };
 
   sortBtns.forEach(btn => {
     btn.addEventListener('click', function() {
