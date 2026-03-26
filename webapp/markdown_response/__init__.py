@@ -43,9 +43,7 @@ class MarkdownResponse:
         self.strip_elements = kwargs.get(
             "strip_elements", DEFAULT_STRIP_ELEMENTS
         )
-        self.strip_classes = kwargs.get(
-            "strip_classes", DEFAULT_STRIP_CLASSES
-        )
+        self.strip_classes = kwargs.get("strip_classes", DEFAULT_STRIP_CLASSES)
         self.query_param = kwargs.get("query_param", "format")
         self.query_value = kwargs.get("query_value", "md")
 

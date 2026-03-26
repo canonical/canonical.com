@@ -22,9 +22,7 @@ def extract_frontmatter(html):
     if title_tag and title_tag.string:
         title = title_tag.string.strip()
         title = title.removesuffix(" | Canonical")
-        title = title.removesuffix(
-            " | Trusted open source for enterprises"
-        )
+        title = title.removesuffix(" | Trusted open source for enterprises")
         title = title.strip()
         if title:
             meta["title"] = title
