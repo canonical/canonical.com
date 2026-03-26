@@ -208,7 +208,7 @@ class TestConverter(unittest.TestCase):
         # Should not have more than 2 consecutive newlines
         self.assertNotIn("\n\n\n\n", result)
 
-    def test_strips_form_elements(self):
+    def test_strips_marketo_forms(self):
         html = """
         <html>
         <head><title>Test | Canonical</title></head>
@@ -216,7 +216,8 @@ class TestConverter(unittest.TestCase):
             <div id="main-content">
                 <h1>Contact us</h1>
                 <p>Get in touch with our team.</p>
-                <form action="/submit" method="post">
+                <form action="https://ubuntu.com/marketo/submit"
+                      method="post" id="mktoForm_1234">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" />
                     <button type="submit">Submit</button>
@@ -228,9 +229,24 @@ class TestConverter(unittest.TestCase):
         result = convert_html_to_markdown(html)
         self.assertIn("Contact us", result)
         self.assertIn("Get in touch with our team.", result)
-        self.assertNotIn("Name", result)
         self.assertNotIn("Submit", result)
-        self.assertNotIn("form", result.lower())
+        self.assertNotIn("mktoForm", result)
+
+    def test_preserves_non_marketo_forms(self):
+        html = """
+        <html>
+        <head><title>Test | Canonical</title></head>
+        <body>
+            <div id="main-content">
+                <form id="tab-selector">
+                    <label>Pick a tab</label>
+                </form>
+            </div>
+        </body>
+        </html>
+        """
+        result = convert_html_to_markdown(html)
+        self.assertIn("Pick a tab", result)
 
     def test_custom_content_selector(self):
         html = """
