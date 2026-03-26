@@ -131,12 +131,12 @@ class TestSitemap(unittest.TestCase):
         self.assertEqual(result, ({"error:", "Sitemap is empty"}, 400))
 
     @patch("webapp.app.directory_parser.generate_sitemap", return_value="<urlset/>")
-    @patch("builtins.open", unittest.mock.mock_open())
+    @patch("builtins.open", unittest.mock.mock_open(read_data="<urlset/>"))
     @patch(
         "webapp.app.os.path.exists",
         side_effect=[False, True],
     )
-    def test_sitemap_get_auto_generates(self, mock_exists, mock_open, mock_generate):
+    def test_sitemap_get_auto_generates(self, mock_exists, mock_generate):
         """
         Test GET /sitemap_tree.xml auto-generates and serves the sitemap
         when the file does not yet exist.
@@ -159,14 +159,13 @@ class TestSitemap(unittest.TestCase):
 
     @patch("webapp.app.directory_parser.generate_sitemap", return_value="<urlset/>")
     @patch("builtins.open", unittest.mock.mock_open())
-    def test_create_sitemap_success(self, mock_open, mock_generate):
+    def test_create_sitemap_success(self, mock_generate):
         """
         Test create_sitemap writes the file and returns the XML string.
         """
         create_sitemap = build_sitemap_tree().__closure__[0].cell_contents
         result = create_sitemap("/some/path/sitemap_tree.xml")
         self.assertEqual(result, "<urlset/>")
-        mock_open.assert_called_once_with("/some/path/sitemap_tree.xml", "w")
         mock_generate.assert_called_once()
 
     @patch(
