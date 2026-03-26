@@ -6,7 +6,7 @@ from markdownify import markdownify
 
 
 DEFAULT_CONTENT_SELECTOR = "#main-content"
-DEFAULT_STRIP_ELEMENTS = ["script", "style", "nav", "noscript"]
+DEFAULT_STRIP_ELEMENTS = ["script", "style", "nav", "noscript", "form"]
 DEFAULT_STRIP_CLASSES = ["u-hide", "u-off-screen"]
 
 

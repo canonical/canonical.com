@@ -208,6 +208,30 @@ class TestConverter(unittest.TestCase):
         # Should not have more than 2 consecutive newlines
         self.assertNotIn("\n\n\n\n", result)
 
+    def test_strips_form_elements(self):
+        html = """
+        <html>
+        <head><title>Test | Canonical</title></head>
+        <body>
+            <div id="main-content">
+                <h1>Contact us</h1>
+                <p>Get in touch with our team.</p>
+                <form action="/submit" method="post">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" />
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </body>
+        </html>
+        """
+        result = convert_html_to_markdown(html)
+        self.assertIn("Contact us", result)
+        self.assertIn("Get in touch with our team.", result)
+        self.assertNotIn("Name", result)
+        self.assertNotIn("Submit", result)
+        self.assertNotIn("form", result.lower())
+
     def test_custom_content_selector(self):
         html = """
         <html>
