@@ -1,6 +1,10 @@
 """Flask extension to serve HTML pages as Markdown via ?format=md."""
 
+import logging
+
 from flask import request
+
+logger = logging.getLogger(__name__)
 
 from .converter import (
     DEFAULT_CONTENT_SELECTOR,
@@ -50,6 +54,7 @@ class MarkdownResponse:
 
     def init_app(self, app):
         """Register the after_request handler on the Flask app."""
+        app.extensions["markdown_response"] = self
         app.after_request(self._handle_markdown_request)
 
     def _handle_markdown_request(self, response):
@@ -63,17 +68,21 @@ class MarkdownResponse:
         if response.status_code != 200:
             return response
 
-        html = response.get_data(as_text=True)
+        try:
+            html = response.get_data(as_text=True)
 
-        frontmatter = extract_frontmatter(html)
-        markdown_body = convert_html_to_markdown(
-            html,
-            content_selector=self.content_selector,
-            strip_elements=self.strip_elements,
-            strip_classes=self.strip_classes,
-        )
+            frontmatter = extract_frontmatter(html)
+            markdown_body = convert_html_to_markdown(
+                html,
+                content_selector=self.content_selector,
+                strip_elements=self.strip_elements,
+                strip_classes=self.strip_classes,
+            )
 
-        markdown_output = frontmatter + "\n" + markdown_body
-        response.set_data(markdown_output)
-        response.content_type = "text/markdown; charset=utf-8"
+            markdown_output = frontmatter + "\n" + markdown_body
+            response.set_data(markdown_output)
+            response.content_type = "text/markdown; charset=utf-8"
+        except Exception:
+            logger.exception("Failed to convert response to Markdown")
+
         return response
