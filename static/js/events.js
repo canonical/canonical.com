@@ -104,9 +104,9 @@ if (table) {
         allRows.forEach(row => allBody.appendChild(row));
 
         // Update truncated tbody with first 5 values
-        const firstFive = allRows.slice(0, 5);
+        const firstTen = allRows.slice(0, 10);
         truncatedBody.innerHTML = '';
-        firstFive.forEach(row => truncatedBody.appendChild(row.cloneNode(true)));
+        firstTen.forEach(row => truncatedBody.appendChild(row.cloneNode(true)));
 
       } else if (truncatedBody) {
         // Update truncated tbody only

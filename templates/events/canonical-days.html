@@ -76,7 +76,7 @@
           {% set ns = namespace(counter=0) %}
           {% for data in metadata %}    
             {% set ns.counter = ns.counter + 1 %}
-            {% if ns.counter <= 5 %}
+            {% if ns.counter <= 10 or metadata | length < 12 %}
               <tr>
                 <td data-heading="Location">
                   <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
@@ -92,7 +92,7 @@
           {% endfor %}
         </tbody>
 
-        {% if metadata | length > 5 %}
+        {% if metadata | length >= 12 %}
           <tbody class="js-events-all u-hide">
             {% for data in metadata %}    
               <tr>
@@ -110,7 +110,7 @@
           </tbody>
         {% endif %}
       </table>
-      {% if metadata | length > 5 %}
+      {% if metadata | length >= 12 %}
       <div>
         <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
