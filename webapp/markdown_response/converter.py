@@ -8,7 +8,7 @@ from markdownify import markdownify
 DEFAULT_CONTENT_SELECTOR = "#main-content"
 DEFAULT_STRIP_ELEMENTS = ["script", "style", "nav", "noscript"]
 DEFAULT_STRIP_CLASSES = ["u-hide", "u-off-screen"]
-DEFAULT_STRIP_IDS = [re.compile(r"^mktoForm_")]
+STRIP_DATA_ATTR = "data-md-strip"
 
 
 def convert_html_to_markdown(
@@ -16,19 +16,18 @@ def convert_html_to_markdown(
     content_selector=DEFAULT_CONTENT_SELECTOR,
     strip_elements=None,
     strip_classes=None,
-    strip_ids=None,
 ):
     """Convert an HTML page to clean Markdown.
 
     Extracts the content within the given CSS selector, strips unwanted
     elements, and converts the remaining HTML to Markdown.
+
+    Elements with the data-md-strip attribute are always removed.
     """
     if strip_elements is None:
         strip_elements = DEFAULT_STRIP_ELEMENTS
     if strip_classes is None:
         strip_classes = DEFAULT_STRIP_CLASSES
-    if strip_ids is None:
-        strip_ids = DEFAULT_STRIP_IDS
 
     soup = BeautifulSoup(html, "html.parser")
 
@@ -49,10 +48,9 @@ def convert_html_to_markdown(
         for tag in content.find_all(class_=cls):
             tag.decompose()
 
-    # Strip elements matching ID patterns (e.g. Marketo forms)
-    for id_pattern in strip_ids:
-        for tag in content.find_all(id=id_pattern):
-            tag.decompose()
+    # Strip elements marked with data-md-strip attribute
+    for tag in content.find_all(attrs={STRIP_DATA_ATTR: True}):
+        tag.decompose()
 
     # Convert to Markdown
     md = markdownify(str(content), heading_style="ATX", strip=["img"])

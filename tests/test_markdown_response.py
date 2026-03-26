@@ -12,7 +12,8 @@ class TestFrontmatter(unittest.TestCase):
         <head>
             <title>What is Kubernetes | Canonical</title>
             <meta name="description" content="Learn about Kubernetes" />
-            <meta property="og:url" content="https://canonical.com/blog/what-is-kubernetes" />
+            <meta property="og:url"
+                  content="https://canonical.com/blog/what-is-kubernetes" />
         </head>
         <body></body>
         </html>
@@ -42,7 +43,8 @@ class TestFrontmatter(unittest.TestCase):
         <head>
             <title>Blog Post | Canonical</title>
             <meta name="description" content="A blog post" />
-            <meta property="og:url" content="https://canonical.com/blog/post" />
+            <meta property="og:url"
+                  content="https://canonical.com/blog/post" />
             <meta name="author" content="Jane Doe" />
             <meta property="article:published_time" content="2025-06-15" />
             <meta property="article:tag" content="kubernetes" />
@@ -208,7 +210,7 @@ class TestConverter(unittest.TestCase):
         # Should not have more than 2 consecutive newlines
         self.assertNotIn("\n\n\n\n", result)
 
-    def test_strips_marketo_forms(self):
+    def test_strips_data_md_strip_elements(self):
         html = """
         <html>
         <head><title>Test | Canonical</title></head>
@@ -216,12 +218,14 @@ class TestConverter(unittest.TestCase):
             <div id="main-content">
                 <h1>Contact us</h1>
                 <p>Get in touch with our team.</p>
-                <form action="https://ubuntu.com/marketo/submit"
-                      method="post" id="mktoForm_1234">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" />
-                    <button type="submit">Submit</button>
-                </form>
+                <section data-md-strip>
+                    <form action="https://ubuntu.com/marketo/submit"
+                          method="post" id="mktoForm_1234">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" />
+                        <button type="submit">Submit</button>
+                    </form>
+                </section>
             </div>
         </body>
         </html>
@@ -232,7 +236,7 @@ class TestConverter(unittest.TestCase):
         self.assertNotIn("Submit", result)
         self.assertNotIn("mktoForm", result)
 
-    def test_preserves_non_marketo_forms(self):
+    def test_preserves_elements_without_data_md_strip(self):
         html = """
         <html>
         <head><title>Test | Canonical</title></head>

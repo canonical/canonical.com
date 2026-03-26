@@ -4,8 +4,6 @@ import logging
 
 from flask import request
 
-logger = logging.getLogger(__name__)
-
 from .converter import (
     DEFAULT_CONTENT_SELECTOR,
     DEFAULT_STRIP_CLASSES,
@@ -13,6 +11,8 @@ from .converter import (
     convert_html_to_markdown,
 )
 from .frontmatter import extract_frontmatter
+
+logger = logging.getLogger(__name__)
 
 
 class MarkdownResponse:
