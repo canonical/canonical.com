@@ -6,6 +6,7 @@
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/18D8Ir-fQooR8FA_952tik_mzwAuiFynOCjUXBmbgYr4/edit
@@ -341,7 +342,7 @@
   ]
   ) -}}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>How it works</h2>
     {%- endif -%}
@@ -444,7 +445,7 @@
     attrs={"class": "p-image-container__image"}
     ) | safe
     ,
-    "description_html": '<p>Both workloads and automation are fully open source, giving you and your team the ability and confidence to fully inspect the code. Our solutions leverage <a href="/juju">Juju</a> and charms to automate all aspects of lifecycle management.</p>',
+    "description_html": '<p>Both workloads and automation are fully open source, giving you and your team the ability and confidence to fully inspect the code. Our solutions leverage <a href="/juju">Juju and charms</a> to automate all aspects of lifecycle management.</p>',
     },
     {
     "title_text": "Best in class support",
@@ -465,7 +466,7 @@
   {% endcall %}
 
   {% call(slot) vf_equal_heights(
-    title_text="Comprehensive operational coverage",
+    title_text='Comprehensive <br class="u-hide--small u-hide--medium" />operational coverage',
     items=[
     {
     "title_text": "Monitoring",
@@ -601,106 +602,90 @@
     ) -%}
   {% endcall -%}
 
-  {% call(slot) vf_resources(
+  {{ vf_divided_section(padding="deep",
+    is_split_on_medium=true,
     title={
-    "text": "Additional resources",
+    "text": "Resources",
     },
     blocks=[
     {
-    "type": "resources",
-    "render_images": false,
-    "categories": [
-    {
-    "title": "Connect with the community",
+    "type": "divided-block",
+    "bullet_type": "none",
     "items": [
     {
-    "title": {
-    "text": "Matrix chat",
-    "link_attrs": {
-    "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
-    }
-    }
-    },
+    "contents": [
     {
-    "title": {
-    "text": "Discourse forum",
-    "link_attrs": {
-    "href": "https://discourse.charmhub.io/"
-    }
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Connect with the community</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a></b></li>
+      <li class="p-list__item"><b><a href="https://discourse.charmhub.io/">Discourse forum</a></b></li>
+    </ul>
+    '
     }
     }
     ]
     },
     {
-    "title": "Contact us",
-    "items": [
+    "contents": [
     {
-    "title": {
-    "text": "Talk to a Canonical expert",
-    "link_attrs": {
-    "href": "/contact-us",
-    "class": "js-invoke-modal",
-    "aria-controls": "cloud-modal"
-    }
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Contact us</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="/contact-us"
+     class="js-invoke-modal"
+     aria-controls="cloud-modal">Talk to a Canonical expert</a></b></li>
+    </ul>
+    '
     }
     }
     ]
     },
     {
-    "title": "Read more",
-    "items": [
+    "contents": [
     {
-    "title": {
-    "text": "Data products documentation",
-    "link_attrs": {
-    "href": "/data/docs"
-    }
-    }
-    },
-    {
-    "title": {
-    "text": "Charmhub, the operator collection",
-    "link_attrs": {
-    "href": "https://discourse.charmhub.io/"
-    }
-    }
-    },
-    {
-    "title": {
-    "text": "Snapcraft, the app store for Linux",
-    "link_attrs": {
-    "href": "https://snapcraft.io/"
-    }
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Read more</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="/data/docs">Data products documentation</a></b></li>
+      <li class="p-list__item"><b><a href="https://charmhub.io/">Charmhub, the operator collection</a></b></li>
+      <li class="p-list__item"><b><a href="https://snapcraft.io/">Snapcraft, the app store for Linux</a></b></li>
+    </ul>
+    '
     }
     }
     ]
     },
     {
-    "title": "Other resources",
-    "items": [
+    "contents": [
     {
-    "title": {
-    "text": "Ubuntu Pro",
-    "link_attrs": {
-    "href": "https://ubuntu.com/pro"
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Other resources</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="https://ubuntu.com/pro">Ubuntu Pro</a></b></li>
+      <li class="p-list__item"><b><a href="https://ubuntu.com/support">Canonical support</a></b></li>
+    </ul>
+    '
     }
     }
+    ]
+    }
+    ]
     },
-    {
-    "title": {
-    "text": "Canonical support",
-    "link_attrs": {
-    "href": "https://ubuntu.com/support"
-    }
-    }
-    }
-    ]
-    }
-    ]
-    }
-    ]
-    ) -%}
-  {% endcall -%}
+    ],)
+  }}
 
   {{ load_form("/cloud-marketplace") | safe }}
 
