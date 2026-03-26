@@ -130,7 +130,10 @@ class TestSitemap(unittest.TestCase):
         result = create_sitemap("/invalid/path/sitemap_tree.xml")
         self.assertEqual(result, ({"error:", "Sitemap is empty"}, 400))
 
-    @patch("webapp.app.directory_parser.generate_sitemap", return_value="<urlset/>")
+    @patch(
+        "webapp.app.directory_parser.generate_sitemap",
+        return_value="<urlset/>",
+    )
     @patch("builtins.open", unittest.mock.mock_open(read_data="<urlset/>"))
     @patch(
         "webapp.app.os.path.exists",
@@ -157,7 +160,10 @@ class TestSitemap(unittest.TestCase):
         assert response.status_code == 503
         assert response.get_json() == {"error": "Sitemap not available"}
 
-    @patch("webapp.app.directory_parser.generate_sitemap", return_value="<urlset/>")
+    @patch(
+        "webapp.app.directory_parser.generate_sitemap",
+        return_value="<urlset/>",
+    )
     @patch("builtins.open", unittest.mock.mock_open())
     def test_create_sitemap_success(self, mock_generate):
         """
