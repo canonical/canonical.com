@@ -1,0 +1,694 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/18D8Ir-fQooR8FA_952tik_mzwAuiFynOCjUXBmbgYr4/edit
+{% endblock %}
+
+{% block title %}Canonical’s cloud marketplace solutions{% endblock %}
+
+{% block meta_description %}
+  Find Canonical’s managed data and AI applications on cloud marketplaces. Effortlessly run your favourite open source databases and big data tools on the cloud of your choice.
+{% endblock %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Canonical’s <br />cloud marketplace solutions',
+    layout='50/50',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Accelerate your data journey by accessing Canonical’s managed data and AI applications directly from your preferred cloud marketplace. Seamlessly launch your favorite open source databases, big data, and AI tools on any leading cloud, and enjoy Canonical’s robust security, compliance, and lifecycle management.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive js-invoke-modal"
+         href="/contact-us"
+         aria-controls="cloud-modal">Contact us</a>
+      <a href="/data">Discover our portfolio&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--3-2 is-highlighted is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/b7ee1677-hero.jpg",
+                alt="",
+                width="1200",
+                height="800",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{- vf_tab_section(title={
+    "text": "Cloud marketplace listings"
+    },
+    tabs=[
+    {
+    "tab_html": "AWS",
+    "type": "basic-section",
+    "item": {
+    "items": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <p>
+      We are bringing our data and AI application portfolio to the AWS Marketplace. <a class="js-invoke-modal"
+      href="/contact-us"
+      aria-controls="cloud-modal">Get in touch to be part of our private preview.</a>
+    </p>
+    '
+    }
+    },
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    {
+    "attrs":
+    image(url="https://assets.ubuntu.com/v1/28e7f7a6-kubeflow_logo.png",
+    alt="Kubeflow",
+    width="423",
+    height="480",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs")
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/3b74067c-apache_spark_logo.png",
+  alt="Apache Spark",
+  width="264",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/a2159302-opensearch_logo.png",
+  alt="OpenSearch",
+  width="126",
+  height="477",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/ee2e0cea-kafka_logo.png",
+  alt="Kafka",
+  width="282",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/f3aa6c0e-postgres_logo.png",
+  alt="PostgreSQL",
+  width="156",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/273e3878-mysql_logo.png",
+  alt="MySQL",
+  width="321",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  }
+  ]
+  }
+  }
+  ]
+  }
+  },
+  {
+  "tab_html": "Azure",
+  "type": "basic-section",
+  "item": {
+  "items": [
+  {
+  "type": "description",
+  "item": {
+  "type": "html",
+  "content": '
+  <p>
+    We are bringing our data and AI application portfolio to the Azure Marketplace. <a class="js-invoke-modal"
+    href="/contact-us"
+    aria-controls="cloud-modal">Get in touch to be part of our private preview.</a>
+  </p>
+  '
+  }
+  },
+  {
+  "type": "logo-block",
+  "item": {
+  "logos": [
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/28e7f7a6-kubeflow_logo.png",
+  alt="Kubeflow",
+  width="423",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/3b74067c-apache_spark_logo.png",
+  alt="Apache Spark",
+  width="264",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/a2159302-opensearch_logo.png",
+  alt="OpenSearch",
+  width="126",
+  height="477",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/ee2e0cea-kafka_logo.png",
+  alt="Kafka",
+  width="282",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/f3aa6c0e-postgres_logo.png",
+  alt="PostgreSQL",
+  width="156",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/273e3878-mysql_logo.png",
+  alt="MySQL",
+  width="321",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  }
+  ]
+  }
+  }
+  ]
+  }
+  },
+  {
+  "tab_html": "Google Cloud",
+  "type": "basic-section",
+  "item": {
+  "items": [
+  {
+  "type": "description",
+  "item": {
+  "type": "html",
+  "content": '
+  <p>
+    We are bringing our data and AI application portfolio to the Google Cloud Marketplace. <a class="js-invoke-modal"
+    href="/contact-us"
+    aria-controls="cloud-modal">Get in touch to be part of our private preview.</a>
+  </p>
+  '
+  }
+  },
+  {
+  "type": "logo-block",
+  "item": {
+  "logos": [
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/28e7f7a6-kubeflow_logo.png",
+  alt="Kubeflow",
+  width="423",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/3b74067c-apache_spark_logo.png",
+  alt="Apache Spark",
+  width="264",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/a2159302-opensearch_logo.png",
+  alt="OpenSearch",
+  width="126",
+  height="477",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/ee2e0cea-kafka_logo.png",
+  alt="Kafka",
+  width="282",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/f3aa6c0e-postgres_logo.png",
+  alt="PostgreSQL",
+  width="156",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  },
+  {
+  "attrs":
+  image(url="https://assets.ubuntu.com/v1/273e3878-mysql_logo.png",
+  alt="MySQL",
+  width="321",
+  height="480",
+  hi_def=True,
+  loading="lazy",
+  output_mode="attrs"
+  )
+  }
+  ]
+  }
+  }
+  ]
+  }
+  }
+  ]
+  ) -}}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>How it works</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <p>
+        Launch fully managed, production-ready open source data solutions directly from public cloud marketplaces in a few simple steps.
+      </p>
+
+      <div class="p-cta-block u-no-padding--bottom">
+        <a href="/data" class="p-button--positive">Discover our solutions</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">1. Select and subscribe</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Browse the public cloud marketplaces and choose your application. Connect your subscription and define your target region to lay a secure, enterprise-ready foundation for your new environment.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">2. Configure and optimize</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Tailor the underlying infrastructure to your needs. Choose your instance types and configure auto-scaling worker pools, with support for specialized hardware, to ensure optimal performance and cost-efficiency.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">3. Secure and authenticate</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Integrate seamlessly with Cloud IAM solutions. Use OIDC for centralized identity management, ensuring secure access and isolated environments for multi-user collaboration across your organization.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">4. Connect and operate</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Launch with a single click and let Canonical’s automation handle the heavy lifting. Within minutes, access your dedicated dashboard to start running workloads, with ongoing maintenance managed by our experts.
+      </p>
+    {%- endif -%}
+
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Enterprise-grade security, automation, and reliability",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
+    highlight_images=True,
+    items=[
+    {
+    "title_text": "Reliable operations at scale",
+    "image_html":
+    image(url="https://assets.ubuntu.com/v1/2146b23e-reliable_ops.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe
+    ,
+    "description_html": "<p>Our automation helps streamline your site reliability engineering. Canonical’s cloud marketplace solutions simplify operations at any scale, with advanced features for deployment scaling, security, backup, and monitoring.</p>",
+    },
+    {
+    "title_text": "Hardening and compliance",
+    "image_html":
+    image(url="https://assets.ubuntu.com/v1/eb4cff24-hardening_compliance.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe
+    ,
+    "description_html": "<p>All solutions and artifacts are thoroughly hardened and thoughtfully configured with secure defaults out of the box, ensuring they meet the rigorous demands of modern security and compliance frameworks.</p>",
+    },
+    {
+    "title_text": "Transparent automation",
+    "image_html":
+    image(url="https://assets.ubuntu.com/v1/54d52f5e-transparent_automation.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe
+    ,
+    "description_html": '<p>Both workloads and automation are fully open source, giving you and your team the ability and confidence to fully inspect the code. Our solutions leverage <a href="/juju">Juju and charms</a> to automate all aspects of lifecycle management.</p>',
+    },
+    {
+    "title_text": "Best in class support",
+    "image_html":
+    image(url="https://assets.ubuntu.com/v1/10b673c9-best_support.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe
+    ,
+    "description_html": "<p>Build with confidence and operate at scale with enterprise support from Canonical. Our global team of experts is available 24/7 to provide the best support experience for your chosen solution, from Ubuntu to the application layer.</p>",
+    }
+    ]
+    ) %}
+  {% endcall %}
+
+  {% call(slot) vf_equal_heights(
+    title_text='Comprehensive <br class="u-hide--small u-hide--medium" />operational coverage',
+    items=[
+    {
+    "title_text": "Monitoring",
+    "description_html": '<p>Our constantly evolving internal <a href="/observability">observability suite</a>, combined with the diligent supervision of our engineers, guarantees the comprehensive and precise monitoring of your systems. No anomaly goes unchecked.</p>',
+    },
+    {
+    "title_text": "Management",
+    "description_html": "<p>Upgrades and patches are a headache. Knowing when to apply a new release, and taking all the necessary precautions before doing so can be tedious and consume precious resources. Let us cover that for you.</p>",
+    },
+    {
+    "title_text": "Troubleshooting",
+    "description_html": "<p>Even the strongest systems sometimes fail. Our incident and recovery protocols give you quick functionality restoration and extensive root cause investigations. You will also receive regular reports on the health of your systems.</p>",
+    },
+    {
+    "title_text": "Security enforcement",
+    "description_html": "<p>We maintain a meticulous focus on compliance, security regulations, and legal restrictions, protecting both our operational practices and your technology stacks against all significant threats.</p>",
+    }
+    ]
+    ) %}
+    {% if slot == "description" %}
+      <p>
+        Our team of dedicated engineers works around the clock to provide you with expertise and operational support. We cover all the operations your applications (and their underlying infrastructure) might need.
+      </p>
+      <div class="p-cta-block u-no-padding--bottom">
+        <a href="/contact-us"
+           class="p-button--positive js-invoke-modal"
+           aria-controls="cloud-modal">Discuss your use case</a>
+      </div>
+    {% endif %}
+  {% endcall %}
+
+  {%- call(slot) vf_logo_section(
+    mode="default",
+    title={
+    "text": "These companies trust Canonical’s managed services"
+    },
+    blocks=[
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    image(url="https://assets.ubuntu.com/v1/344fdc0e-docaposte_logo.png",
+    alt="Docaposte",
+    width="360",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+
+    image(url="https://assets.ubuntu.com/v1/a60bb286-telefonica_logo.png",
+    alt="Telefonica",
+    width="408",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+
+    image(url="https://assets.ubuntu.com/v1/0fffd33e-rabobank_logo.png",
+    alt="Rabobank",
+    width="318",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+
+    image(url="https://assets.ubuntu.com/v1/3b1bf3ee-gamma_logo.png",
+    alt="Gamma",
+    width="351",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+
+    image(url="https://assets.ubuntu.com/v1/e9c12a44-unicc_logo.png",
+    alt="UNICC",
+    width="105",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+    image(url="https://assets.ubuntu.com/v1/ae1ffaf1-tnm_logo.png",
+    alt="TNM",
+    width="213",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    ),
+    image(url="https://assets.ubuntu.com/v1/573f282c-dyson_logo.png",
+    alt="Dyson",
+    width="198",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+
+    ),
+    image(url="https://assets.ubuntu.com/v1/82a149c7-dyson_logo_1.png",
+    alt="ESA",
+    width="180",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+
+    ),
+    image(url="https://assets.ubuntu.com/v1/f2fb7ecf-barnes_noble_logo.png",
+    alt="Barnes & Noble",
+    width="357",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+
+    ),
+    image(url="https://assets.ubuntu.com/v1/df007dec-onetrail_logo.png",
+    alt="OneTrail",
+    width="264",
+    height="312",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    ]
+    }
+    }
+    ]
+    ) -%}
+  {% endcall -%}
+
+  {{ vf_divided_section(padding="deep",
+    is_split_on_medium=true,
+    title={
+    "text": "Resources",
+    },
+    blocks=[
+    {
+    "type": "divided-block",
+    "bullet_type": "none",
+    "items": [
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Connect with the community</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a></b></li>
+      <li class="p-list__item"><b><a href="https://discourse.charmhub.io/">Discourse forum</a></b></li>
+    </ul>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Contact us</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="/contact-us"
+     class="js-invoke-modal"
+     aria-controls="cloud-modal">Talk to a Canonical expert</a></b></li>
+    </ul>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Read more</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="/data/docs">Data products documentation</a></b></li>
+      <li class="p-list__item"><b><a href="https://charmhub.io/">Charmhub, the operator collection</a></b></li>
+      <li class="p-list__item"><b><a href="https://snapcraft.io/">Snapcraft, the app store for Linux</a></b></li>
+    </ul>
+    '
+    }
+    }
+    ]
+    },
+    {
+    "contents": [
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": '
+    <h3 class="p-muted-heading">Other resources</h3>
+    <ul class="p-list u-no-margin--bottom">
+      <li class="p-list__item"><b><a href="https://ubuntu.com/pro">Ubuntu Pro</a></b></li>
+      <li class="p-list__item"><b><a href="https://ubuntu.com/support">Canonical support</a></b></li>
+    </ul>
+    '
+    }
+    }
+    ]
+    }
+    ]
+    },
+    ],)
+  }}
+
+  {{ load_form("/cloud-marketplace") | safe }}
+
+  <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
+{% endblock %}
