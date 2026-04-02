@@ -75,10 +75,11 @@
           </tr>
         </thead>
         <tbody class="js-events-truncated">
+          {% set TRUNCATE_THRESHOLD = 12 %}
           {% set ns = namespace(counter=0) %}
-          {% for data in metadata %}    
+          {% for data in metadata %}
             {% set ns.counter = ns.counter + 1 %}
-            {% if ns.counter <= 10 or metadata | length < 12 %}
+            {% if ns.counter <= 10 or metadata | length < TRUNCATE_THRESHOLD %}
               <tr>
                 <td data-heading="Location">
                   <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
@@ -94,7 +95,7 @@
           {% endfor %}
         </tbody>
 
-        {% if metadata | length >= 12 %}
+        {% if metadata | length >= TRUNCATE_THRESHOLD %}
           <tbody class="js-events-all u-hide">
             {% for data in metadata %}    
               <tr>
@@ -112,7 +113,7 @@
           </tbody>
         {% endif %}
       </table>
-      {% if metadata | length >= 12 %}
+      {% if metadata | length >= TRUNCATE_THRESHOLD %}
       <div>
         <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
