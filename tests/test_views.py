@@ -165,6 +165,7 @@ class TestViews(unittest.TestCase):
                 "topic_name": "Ubuntu Release Event",
                 "event_location": "San Francisco",
                 "event_date": "15/02/2027",
+                "path": "/engage/event-1",
             },
             {
                 "topic_name": "Kubernetes Workshop",
@@ -186,6 +187,10 @@ class TestViews(unittest.TestCase):
             metadata = call_kwargs["metadata"]
             self.assertEqual(len(metadata), 1)
             self.assertEqual(metadata[0]["topic_name"], "Ubuntu Release Event")
+            self.assertEqual(
+                metadata[0]["path"],
+                "https://ubuntu.com/engage/event-1",
+            )
 
     @patch("webapp.views.flask.render_template")
     def test_events_index_filters_past_events(self, mock_render_template):

@@ -103,6 +103,12 @@ def geocode_location(location_name, timeout=3):
         return None
 
 
+def _prefix_engage_path(event):
+    path = event.get("path", "")
+    if path.startswith("/engage"):
+        event["path"] = "https://ubuntu.com" + path
+
+
 def build_events_index(engage_docs):
     def events_index():
         limit = 50
@@ -179,6 +185,7 @@ def build_events_index(engage_docs):
             today = datetime.datetime.now().date()
             valid_events = []
             for events in metadata:
+                _prefix_engage_path(events)
                 date = events.get("event_date", None)
                 if date:
                     try:
@@ -199,11 +206,7 @@ def build_events_index(engage_docs):
             today = datetime.datetime.now().date()
             valid_events = []
             for events in metadata:
-                # Prefix all engage paths with full URL
-                path = events.get("path", "")
-                if path.startswith("/engage"):
-                    events["path"] = "https://ubuntu.com" + path
-
+                _prefix_engage_path(events)
                 # Convert date to DD Month YYYY format
                 date = events.get("event_date", None)
                 if date:
