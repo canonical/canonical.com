@@ -48,7 +48,7 @@ from urllib3.exceptions import MaxRetryError
 from slugify import slugify
 
 # Local
-from webapp.markdown_response import MarkdownResponse
+from canonicalwebteam.markdown_response import MarkdownResponse
 from webapp.views import (
     json_asset_query,
     build_case_study_index,
