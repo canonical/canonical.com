@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "const": "resources"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "title": { "$ref": "#/definitions/titleObject" },
+        "padding": { "enum": ["deep", "shallow", "default"] },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/descriptionBlock" },
+              { "$ref": "#/definitions/ctaBlock" },
+              { "$ref": "#/definitions/resourcesBlock" }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "titleObject": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "link_attrs": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string" }
+          }
+        }
+      }
+    },
+    "descriptionBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "description" },
+        "padding": { "enum": ["shallow"] },
+        "item": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["text", "html"] },
+            "content": { "type": "string" }
+          }
+        }
+      }
+    },
+    "ctaBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "cta-block" },
+        "padding": { "enum": ["shallow"] },
+        "item": {
+          "type": "object",
+          "properties": {
+            "primary": { "$ref": "#/definitions/linkObject" },
+            "secondaries": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/linkObject" }
+            },
+            "link": { "$ref": "#/definitions/linkObject" }
+          }
+        }
+      }
+    },
+    "linkObject": {
+      "type": "object",
+      "properties": {
+        "content_html": { "type": "string" },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string" }
+          }
+        }
+      }
+    },
+    "resourcesBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "resources" },
+        "render_images": { "type": "boolean" },
+        "render_categories": { "type": "boolean" },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": { "$ref": "#/definitions/titleObject" },
+                    "description": {
+                      "type": "object",
+                      "properties": {
+                        "text": { "type": "string" }
+                      }
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "authors": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "text": { "type": "string" },
+                              "link_attrs": {
+                                "type": "object",
+                                "properties": {
+                                  "href": { "type": "string" }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "date": {
+                          "type": "object",
+                          "properties": {
+                            "text": { "type": "string" },
+                            "link_attrs": {
+                              "type": "object",
+                              "properties": {
+                                "href": { "type": "string" }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "type": { "enum": ["default", "logo"] },
+                        "attrs": {
+                          "type": "object",
+                          "properties": {
+                            "src": { "type": "string" },
+                            "alt": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
