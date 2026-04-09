@@ -192,5 +192,6 @@ export const verifyPageLoad = async (page: Page, expectedUrl?: string): Promise<
   }
   
   // Check that main content is visible
-  await expect(page.locator('main, .main-content, body')).toBeVisible();
+  // Grabs the highest match and checks if it's visible
+  await expect(page.locator('#main-content, body').first()).toBeVisible();
 };

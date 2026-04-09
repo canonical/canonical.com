@@ -7,6 +7,7 @@ from webapp.views import (
     json_asset_query,
     build_events_index,
     build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
 )
 
 
@@ -62,13 +63,13 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Ubuntu 24.04 Release",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
                 "path": "/engage/event-1",
             },
             {
                 "topic_name": "Cloud Native Conference",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
                 "path": "/engage/event-2",
             },
         ]
@@ -97,9 +98,9 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Valid Event",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
-            {"event_location": "New York", "event_date": "20/03/2026"},
+            {"event_location": "New York", "event_date": "20/03/2027"},
         ]
 
         mock_engage_docs.get_index.return_value = (events_data, 2, 2, 2)
@@ -126,12 +127,12 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Event 1",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
             {
                 "topic_name": "Event 2",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
             },
         ]
 
@@ -163,12 +164,12 @@ class TestViews(unittest.TestCase):
             {
                 "topic_name": "Ubuntu Release Event",
                 "event_location": "San Francisco",
-                "event_date": "15/02/2026",
+                "event_date": "15/02/2027",
             },
             {
                 "topic_name": "Kubernetes Workshop",
                 "event_location": "New York",
-                "event_date": "20/03/2026",
+                "event_date": "20/03/2027",
             },
         ]
 
@@ -217,7 +218,7 @@ class TestViews(unittest.TestCase):
 
         events_index = build_events_index(mock_engage_docs)
 
-        with self.app.test_request_context("/?q=test"):
+        with self.app.test_request_context():
             events_index()
             call_kwargs = mock_render_template.call_args[1]
             metadata = call_kwargs["metadata"]
@@ -353,8 +354,10 @@ class TestViews(unittest.TestCase):
             self.assertEqual(metadata[0]["topic_name"], "Future Roadshow")
 
     @patch("webapp.views.flask.render_template")
-    def test_canonical_days_sorts_by_latest_event(self, mock_render_template):
-        """Test that roadshow events are sorted by latest date"""
+    def test_canonical_days_sorts_by_earliest_event(
+        self, mock_render_template
+    ):
+        """Test that roadshow events are sorted by earliest date"""
         mock_engage_docs = MagicMock()
 
         date1 = (
@@ -388,8 +391,8 @@ class TestViews(unittest.TestCase):
             canonical_days_index()
             call_kwargs = mock_render_template.call_args[1]
             metadata = call_kwargs["metadata"]
-            self.assertEqual(metadata[0]["topic_name"], "Later Event")
-            self.assertEqual(metadata[1]["topic_name"], "Earlier Event")
+            self.assertEqual(metadata[0]["topic_name"], "Earlier Event")
+            self.assertEqual(metadata[1]["topic_name"], "Later Event")
 
     @patch("webapp.views.flask.render_template")
     def test_canonical_days_prefixes_engage_paths_with_full_url(
@@ -424,6 +427,141 @@ class TestViews(unittest.TestCase):
             self.assertEqual(
                 metadata[0]["path"], "https://ubuntu.com/engage/roadshow"
             )
+
+    # append_utms_cookie_to_ubuntu_links Tests
+    def test_append_utms_cookie_no_cookie(self):
+        """
+        Test that function returns unchanged response
+        when no cookie exists
+        """
+        with self.app.test_request_context():
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            response.get_data.return_value = (
+                '<a href="https://ubuntu.com/test">Link</a>'
+            )
+
+            result = append_utms_cookie_to_ubuntu_links(response)
+            self.assertEqual(result, response)
+            response.set_data.assert_not_called()
+
+    def test_append_utms_cookie_non_html_response(self):
+        """
+        Test that function returns unchanged response for non-HTML content
+        """
+        with self.app.test_request_context():
+            response = MagicMock()
+            response.mimetype = "application/json"
+            response.is_sequence = True
+
+            result = append_utms_cookie_to_ubuntu_links(response)
+            self.assertEqual(result, response)
+
+    def test_append_utms_cookie_simple_append_with_question_mark(self):
+        """
+        Test appending cookie to URL without existing parameters
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1&utm_medium:test2"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            # Verify set_data was called
+            response.set_data.assert_called_once()
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("utm_source:test1&utm_medium:test2", updated_html)
+            self.assertIn("?", updated_html)
+
+    def test_append_utms_cookie_simple_append_with_ampersand(self):
+        """
+        Test appending cookie to URL with existing parameters
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test?existing=param">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("existing=param&utm_source:test1", updated_html)
+
+    def test_append_utms_cookie_multiple_links(self):
+        """
+        Test appending cookie to multiple ubuntu.com links
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = """
+                <a href="https://ubuntu.com/test1">Link 1</a>
+                <a href="https://ubuntu.com/test2">Link 2</a>
+                <a href="https://other.com/test">Other Link</a>
+            """
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            # Count occurrences of utm_source
+            utm_count = updated_html.count("utm_source:test1")
+            self.assertEqual(utm_count, 2)
+            # Verify non-ubuntu.com link is unchanged
+            self.assertIn('href="https://other.com/test"', updated_html)
+
+    def test_append_utms_cookie_ignores_non_ubuntu_links(self):
+        """
+        Test that non-ubuntu.com links are not modified
+        """
+        with self.app.test_request_context(
+            "/", headers={"Cookie": "utms=utm_source:test1"}
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://google.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertEqual(updated_html, html)
+
+    def test_append_utms_cookie_with_duplicate_values(self):
+        """
+        Test handling of cookie with duplicate parameter values
+        """
+        with self.app.test_request_context(
+            "/",
+            headers={
+                "Cookie": "utms=utm_content:test1,test2&utm_medium:test2"
+            },
+        ):
+            response = MagicMock()
+            response.mimetype = "text/html"
+            response.is_sequence = True
+            html = '<a href="https://ubuntu.com/test">Link</a>'
+            response.get_data.return_value = html
+
+            append_utms_cookie_to_ubuntu_links(response)
+
+            updated_html = response.set_data.call_args[0][0]
+            self.assertIn("utm_content:test1,test2", updated_html)
+            self.assertIn("utm_medium:test2", updated_html)
 
 
 if __name__ == "__main__":

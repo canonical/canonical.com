@@ -3,9 +3,11 @@ import flask
 import requests
 import math
 import datetime
+from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
+import re
 
 
 def json_asset_query(file_name):
@@ -218,13 +220,12 @@ def build_events_index(engage_docs):
                         pass
             metadata = valid_events
 
-            # Sort by latest event
-            metadata.sort(
-                key=lambda x: datetime.datetime.strptime(
-                    x.get("event_date", "31 December 1999"), "%d %B %Y"
-                ),
-                reverse=True,
-            )
+        # Sort by earliest upcoming event
+        metadata.sort(
+            key=lambda x: datetime.datetime.strptime(
+                x.get("event_date", "31 December 1999"), "%d %B %Y"
+            ),
+        )
 
         return flask.render_template(
             "events/index.html",
@@ -282,12 +283,12 @@ def build_canonical_days_index(engage_docs):
                     valid_events.append(events)
         metadata = valid_events
 
-        # Sort by latest event
+        # Sort by earliest event
         metadata.sort(
             key=lambda x: datetime.datetime.strptime(
                 x.get("event_date", "31 December 1999"), "%d %B %Y"
             ),
-            reverse=True,
+            reverse=False,
         )
 
         return flask.render_template(
@@ -299,3 +300,53 @@ def build_canonical_days_index(engage_docs):
         )
 
     return canonical_days_index
+
+
+def append_utms_cookie_to_ubuntu_links(response):
+    """
+    Append utms cookie parameter to all ubuntu.com links in HTML responses
+    """
+    if response.mimetype == "text/html" and response.is_sequence:
+        cookie_value = flask.request.cookies.get("utms")
+
+        if cookie_value:
+            # Decode the URI encoded cookie value
+            cookie_value = unquote(cookie_value)
+            data = response.get_data(as_text=True)
+
+            # Find all href attributes pointing to ubuntu.com
+            pattern = r'href=["\']([^"\']*ubuntu\.com[^"\']*)["\']'
+
+            def add_cookie_to_url(match):
+                url = match.group(1)
+                # Parse URL to properly handle fragments (hash)
+                parsed = urlparse(url)
+
+                # Determine separator: use & if query params exist, otherwise ?
+                separator = "&" if parsed.query else "?"
+
+                # Build new query string with cookie value
+                new_query = (
+                    f"{parsed.query}{separator}{cookie_value}"
+                    if parsed.query
+                    else cookie_value
+                )
+
+                # Reconstruct URL with updated query string
+                new_url = urlunparse(
+                    (
+                        parsed.scheme,
+                        parsed.netloc,
+                        parsed.path,
+                        parsed.params,
+                        new_query,
+                        parsed.fragment,
+                    )
+                )
+
+                return f'href="{new_url}"'
+
+            data = re.sub(pattern, add_cookie_to_url, data)
+            response.set_data(data)
+
+    return response

@@ -55,7 +55,9 @@
   <section class="p-section">
     <div class="grid-row">
       <table class="p-table--mobile-card js-sortable-table"
-              data-heading="Find a Canonical Day near you">
+              data-heading="Find a Canonical Day near you"
+              data-sort-column="2"
+              data-sort-direction="asc">
         <thead>
           <tr>
             <th data-column="0" data-type="string">
@@ -73,10 +75,11 @@
           </tr>
         </thead>
         <tbody class="js-events-truncated">
+          {% set TRUNCATE_THRESHOLD = 12 %}
           {% set ns = namespace(counter=0) %}
-          {% for data in metadata %}    
+          {% for data in metadata %}
             {% set ns.counter = ns.counter + 1 %}
-            {% if ns.counter <= 5 %}
+            {% if ns.counter <= 10 or metadata | length < TRUNCATE_THRESHOLD %}
               <tr>
                 <td data-heading="Location">
                   <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
@@ -92,7 +95,7 @@
           {% endfor %}
         </tbody>
 
-        {% if metadata | length > 5 %}
+        {% if metadata | length >= TRUNCATE_THRESHOLD %}
           <tbody class="js-events-all u-hide">
             {% for data in metadata %}    
               <tr>
@@ -110,7 +113,7 @@
           </tbody>
         {% endif %}
       </table>
-      {% if metadata | length > 5 %}
+      {% if metadata | length >= TRUNCATE_THRESHOLD %}
       <div>
         <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
@@ -125,8 +128,8 @@
 
     {%- if slot == 'description' -%}
       <p>
-        Our events cover a wide range of topics for both technical practitioners and business leaders - from open source security to modern 
-        infrastructure, app modernization and IoT. 
+        Our events cover a wide range of topics for both technical practitioners and business leaders - from open source security to
+        infrastructure modernization and AI adoption.
       </p>
     {%- endif -%}
 
@@ -147,8 +150,8 @@
 
     {%- if slot == 'list_item_description_2' -%}
       <p>
-        Join us and transform your IT infrastructure from a cost center into an innovation hub. Uncover how adopting Kubernetes 
-        and automation can help your business modernize workloads for the age of AI. 
+        Join us and transform your IT infrastructure from a cost center into an innovation hub. Uncover how Canonical's
+        infrastructure portfolio can help you optimize costs and scale with confidence.
       </p>
     {%- endif -%}
 
@@ -160,17 +163,6 @@
       <p>
         Gain control over your cloud and its underlying technology with open source. Understand the different layers of 
         digital sovereignty and build resilient systems for the future. 
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_4' -%}
-    <h3 class="p-heading--5">Smart devices at the edge</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_4' -%}
-      <p>
-        Implement a DevOps approach to IoT and benefit from trusted open source across the device lifecycle. 
-        Implement edge AI at scale with security fundamentals.
       </p>
     {%- endif -%}
   {%- endcall -%}

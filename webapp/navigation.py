@@ -76,10 +76,7 @@ def get_current_page_bubble(path):
         children = current_page_bubble.get("children", [])
         if children:
             for page in children:
-                if (
-                    page.get("path") == normalized_path
-                    or page.get("path") == path
-                ):
+                if page.get("path") == path:
                     page["active"] = True
 
     return {"page_bubble": current_page_bubble}

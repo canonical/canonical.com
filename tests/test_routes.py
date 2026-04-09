@@ -1,4 +1,5 @@
 import logging
+import os
 import responses
 import unittest
 
@@ -161,6 +162,18 @@ class TestRoutes(VCRTestCase):
         """
 
         self.assertEqual(self.client.get("/not-found-url").status_code, 404)
+
+    def test_staging_no_robots_header(self):
+        """Test that staging does not return a X-Robots-Tag header"""
+        os.environ["FLASK_ENV"] = "staging"
+        response = self.client.get("/robots.txt")
+        self.assertTrue(response.headers["X-Robots-Tag"] == "none")
+
+    def test_production_robots_header(self):
+        """Test only production returns X-Robots-Tag header"""
+        os.environ["FLASK_ENV"] = "production"
+        response = self.client.get("/robots.txt")
+        self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
 
 
 class TestJujuVersion(unittest.TestCase):

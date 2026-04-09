@@ -12,6 +12,7 @@ function activateSlide(index) {
     slide.setAttribute("aria-hidden", i !== index);
     slide.setAttribute("tabindex", i === index ? "0" : "-1");
   });
+  /** @type {HTMLElement | null} */
   const slide_progress_bar = slides[index].querySelector(".progress-bar");
   if (slide_progress_bar) {
     slide_progress_bar.style.animation = !isPaused
@@ -20,6 +21,7 @@ function activateSlide(index) {
   }
   navItems.forEach((nav, i) => {
     nav.setAttribute("aria-selected", i === index);
+    /** @type {HTMLElement | null} */
     const bar = nav.querySelector(".progress-bar");
     if (bar)
       bar.style.animation =
@@ -54,8 +56,14 @@ function pause_play_Slide() {
     // stop progress bar animation
     document
       .querySelectorAll(".progress-bar")
-      .forEach((bar) => (bar.style.animation = "none"));
-    navItems[currentIndex].querySelector(".progress-bar").style.width = "100%"; // Ensure the current slide's progress bar is full
+      .forEach((bar) => {
+        /** @type {HTMLElement} */
+        const progressBar = bar;
+        progressBar.style.animation = "none";
+      });
+    /** @type {HTMLElement} */
+    const currentProgressBar = navItems[currentIndex].querySelector(".progress-bar");
+    currentProgressBar.style.width = "100%"; // Ensure the current slide's progress bar is full
   } else {
     activateSlide(currentIndex); // restart animation
     startAutoRotate();

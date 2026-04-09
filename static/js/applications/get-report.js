@@ -1,12 +1,17 @@
 const requestAssessmentForm = document.getElementById("request-assessment-form");
+/** @type {HTMLInputElement} */
 const input = requestAssessmentForm.querySelector("#request-assessment-email");
+/** @type {Element} */
 const inputContainer = input.parentNode;
+/** @type {HTMLElement} */
 const errorMessage = requestAssessmentForm.querySelector("#exampleInputErrorMessage");
+/** @type {NodeListOf<HTMLButtonElement>} */
 const buttons = requestAssessmentForm.querySelectorAll("footer button");
 const loadingIcon = requestAssessmentForm.querySelector(".p-icon--spinner");
 const requestAssessmentSubmitButton = requestAssessmentForm.querySelector(
   "#request-assessment-submit"
 );
+/** @type {HTMLElement} */
 const closeModalButton = requestAssessmentForm.querySelector(".p-modal__close");
 const requestButtonContainer = document.getElementById(
   "reportRequestContainer"

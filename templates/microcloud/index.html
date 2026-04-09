@@ -7,6 +7,7 @@
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
 
 {% block title %}MicroCloud: your open source cloud platform{% endblock %}
 
@@ -76,12 +77,10 @@
     title={"text": "What is a MicroCloud?"},
     items=[
       {
-        "type": "video",
+        "type": "description",
         "item": {
-          "attrs": {
-            "src": "https://www.youtube.com/embed/PZdJiH0bUxY",
-            "allowfullscreen": ""
-          }
+          "type": "html",
+          "content": lite_video(video_id="PZdJiH0bUxY", video_title="What is a MicroCloud?")
         }
       },
       {

@@ -15,6 +15,7 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+import random
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
@@ -41,9 +42,10 @@ from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
-from requests.exceptions import HTTPError
+from requests.exceptions import ConnectionError, HTTPError, RetryError
 from webapp.page_generator import create_page_generator
 from werkzeug.exceptions import HTTPException
+from urllib3.exceptions import MaxRetryError
 from slugify import slugify
 
 # Local
@@ -52,8 +54,9 @@ from webapp.views import (
     build_case_study_index,
     build_events_index,
     build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
 )
-from webapp.application import application
+from webapp.application import application_bp
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -137,7 +140,7 @@ charmhub_discourse_api = DiscourseAPI(
 search_session = get_requests_session()
 discourse_session = get_requests_session()
 
-app.register_blueprint(application, url_prefix="/careers/application")
+app.register_blueprint(application_bp, url_prefix="/careers/application")
 
 
 # Prepare forms
@@ -275,7 +278,7 @@ environment = get_flask_env("FLASK_ENV", "production")
 def sentry_before_send(event, hint):
     """
     Filter Sentry events.
-    Excludes all 4xx errors.
+    Excludes all 4xx errors and upstream connection failures.
     """
     if "exc_info" in hint:
         _, exc_value, _ = hint["exc_info"]
@@ -287,6 +290,20 @@ def sentry_before_send(event, hint):
         ):
             # return None to discard the event
             return None
+        # Also filter requests.exceptions.HTTPError for 4xx upstream responses
+        if isinstance(exc_value, requests.exceptions.HTTPError):
+            response = getattr(exc_value, "response", None)
+            if response is not None and 400 <= response.status_code < 500:
+                return None
+        # Sample 5% of transient upstream connection failures
+        # (e.g. WordPress API being unavailable)
+        if isinstance(exc_value, (MaxRetryError, RetryError, ConnectionError)):
+            error_msg = str(exc_value)
+
+            # Sample blog/WordPress API retry errors
+            if "/wp-json/wp/v2" in error_msg:
+                if random.random() > 0.05:  # Drop 95% of blog API retry errors
+                    return None
     return event
 
 
@@ -560,8 +577,25 @@ def job_details(session, greenhouse, harvest, job_id):
     }
 
     try:
-        # Greenhouse job board API (get_vacancy) doesn't show inactive roles
         context["job"] = harvest.get_job_post(job_id)
+
+        # Handle job posting that are no longer open
+        if not context["job"].get("active") or not context["job"].get("live"):
+            response = flask.make_response(
+                flask.render_template(
+                    "careers/404-job-closed.html", **context
+                ),
+                404,
+            )
+            response.headers["Cache-Control"] = (
+                "public, "
+                "max-age=600, "  # 5 minutes to allow for quick recovery
+                "must-revalidate, "
+                "stale-while-revalidate=0, "
+                "stale-if-error=0"
+            )
+            return response
+
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
         context["job"]["is_remote"] = is_remote(context["job"])
@@ -606,7 +640,17 @@ def job_details(session, greenhouse, harvest, job_id):
                 "text": f"{response.reason}. Please try again!",
             }
 
-    return flask.render_template("/careers/job-detail.html", **context)
+    response = flask.make_response(
+        flask.render_template("careers/job-detail.html", **context)
+    )
+    response.headers["Cache-Control"] = (
+        "public, "
+        "max-age=3600, "
+        "must-revalidate, "
+        "stale-while-revalidate=0, "
+        "stale-if-error=0"
+    )
+    return response
 
 
 @app.route("/careers/career-explorer")
@@ -1125,136 +1169,6 @@ def allow_src(tag, name, value):
     return False
 
 
-# Data Platform Spark on K8s docs
-data_spark_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=8963,
-        url_prefix="/data/docs/spark/k8s",
-    ),
-    document_template="/data/docs/spark/k8s/document.html",
-    url_prefix="/data/docs/spark/k8s",
-    blueprint_name="data-docs-spark-k8s",
-)
-app.add_url_rule(
-    "/data/docs/spark/k8s/search",
-    "data-docs-spark-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/spark/k8s",
-        template_path="/data/docs/spark/k8s/search-results.html",
-    ),
-)
-data_spark_k8s_docs.init_app(app)
-
-# Data Platform MySQL on IAAS docs
-data_mysql_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9925,
-        url_prefix="/data/docs/mysql/iaas",
-    ),
-    document_template="/data/docs/mysql/iaas/document.html",
-    url_prefix="/data/docs/mysql/iaas",
-    blueprint_name="data-docs-mysql-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mysql/iaas/search",
-    "data-docs-mysql-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/iaas",
-        template_path="/data/docs/mysql/iaas/search-results.html",
-    ),
-)
-data_mysql_iaas_docs.init_app(app)
-
-# Data Platform MySQL on K8s docs
-data_mysql_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9680,
-        url_prefix="/data/docs/mysql/k8s",
-    ),
-    document_template="/data/docs/mysql/k8s/document.html",
-    url_prefix="/data/docs/mysql/k8s",
-    blueprint_name="data-docs-mysql-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mysql/k8s/search",
-    "data-docs-mysql-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/k8s",
-        template_path="/data/docs/mysql/k8s/search-results.html",
-    ),
-)
-data_mysql_k8s_docs.init_app(app)
-
-# Data Platform MongoDB on IaaS docs
-data_mongodb_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=12461,
-        url_prefix="/data/docs/mongodb/iaas",
-    ),
-    document_template="/data/docs/mongodb/iaas/document.html",
-    url_prefix="/data/docs/mongodb/iaas",
-    blueprint_name="data-docs-mongodb-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/iaas/search",
-    "data-docs-mongodb-vm-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/iaas",
-        template_path="/data/docs/mongodb/iaas/search-results.html",
-    ),
-)
-data_mongodb_iaas_docs.init_app(app)
-
-# Data Platform MongoDB on K8s docs
-data_mongodb_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10265,
-        url_prefix="/data/docs/mongodb/k8s",
-    ),
-    document_template="/data/docs/mongodb/k8s/document.html",
-    url_prefix="/data/docs/mongodb/k8s",
-    blueprint_name="data-docs-mongodb-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/k8s/search",
-    "data-docs-mongodb-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/k8s",
-        template_path="/data/docs/mongodb/k8s/search-results.html",
-    ),
-)
-data_mongodb_k8s_docs.init_app(app)
-
-# Data Platform index docs
-data_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10863,
-        url_prefix="/data/docs",
-    ),
-    document_template="/data/docs/document.html",
-    url_prefix="/data/docs/",
-    blueprint_name="data_docs",
-)
-
-data_docs.init_app(app)
-
-
 dqlite_docs = Docs(
     parser=DocParser(
         api=DiscourseAPI(
@@ -1739,7 +1653,7 @@ def build_sitemap_tree(exclude_paths=None):
 
         # Update sitemap with POST request
         if flask.request.method == "POST":
-            expected_secret = os.getenv("SITEMAP_SECRET")
+            expected_secret = get_flask_env("SITEMAP_SECRET")
             provided_secret = flask.request.headers.get(
                 "Authorization", ""
             ).replace("Bearer ", "")
@@ -1758,6 +1672,10 @@ def build_sitemap_tree(exclude_paths=None):
         # Generate sitemap if it does not exist
         if not os.path.exists(sitemap_path):
             xml_sitemap = create_sitemap(sitemap_path)
+
+        # If still missing (generation failed), return an error
+        if not os.path.exists(sitemap_path):
+            return {"error": "Sitemap not available"}, 503
 
         # Serve the existing sitemap
         with open(sitemap_path, "r") as f:
@@ -1877,6 +1795,12 @@ if environment != "production":
         """Endpoint to trigger a Sentry error for testing purposes."""
         1 / 0
         return "This won't be reached"
+
+
+# Append utms cookie to Ubuntu redirect links
+@app.after_request
+def check_redirect(response):
+    return append_utms_cookie_to_ubuntu_links(response)
 
 
 # TODO(WD-32786) - create a POST endpoint that accepts a form payload

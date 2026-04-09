@@ -1,6 +1,45 @@
 // Copied from this project:
 // https://steven.codes/typerjs/docs/index.html
 
+/**
+ * @typedef {Object} Cursor
+ * @property {HTMLElement} element
+ * @property {boolean} on
+ * @property {number} interval
+ * @property {Function} updateBlinkState
+ * @property {Typer} owner
+ */
+
+/**
+ * @typedef {Object} Progress
+ * @property {number} word
+ * @property {number} char
+ * @property {boolean} building
+ * @property {number} looped
+ */
+
+/**
+ * @typedef {Object} Typer
+ * @property {HTMLElement} element
+ * @property {string[]} words
+ * @property {number} delay
+ * @property {number|string} loop
+ * @property {number} deleteDelay
+ * @property {Object} progress
+ * @property {number} progress.word
+ * @property {number} progress.char
+ * @property {boolean} progress.building
+ * @property {number} progress.looped
+ * @property {boolean} typing
+ * @property {string[]} colors
+ * @property {number} colorIndex
+ * @property {Cursor} [cursor]
+ */
+
+/**
+ * @param {HTMLElement} element
+ * @returns {Typer}
+ */
 var Typer = function (element) {
   this.element = element;
   var delim = element.dataset.delim || ",";
@@ -34,6 +73,9 @@ Typer.prototype.start = function () {
 Typer.prototype.stop = function () {
   this.typing = false;
 };
+/**
+ * @this {Typer}
+ */
 Typer.prototype.doTyping = function () {
   var e = this.element;
   var p = this.progress;
@@ -99,6 +141,10 @@ Typer.prototype.doTyping = function () {
   );
 };
 
+/**
+ * @param {HTMLElement} element
+ * @this {Cursor}
+ */
 var Cursor = function (element) {
   this.element = element;
   this.cursorDisplay =
@@ -108,6 +154,9 @@ var Cursor = function (element) {
   element.style.transition = "all 0.1s";
   this.interval = setInterval(() => this.updateBlinkState(), 400);
 };
+/**
+ * @this {Cursor}
+ */
 Cursor.prototype.updateBlinkState = function () {
   if (this.on) {
     this.element.style.opacity = "0";

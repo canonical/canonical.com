@@ -132,6 +132,50 @@ class TestSitemap(unittest.TestCase):
 
     @patch(
         "webapp.app.directory_parser.generate_sitemap",
+        return_value="<urlset/>",
+    )
+    @patch("builtins.open", unittest.mock.mock_open(read_data="<urlset/>"))
+    @patch(
+        "webapp.app.os.path.exists",
+        side_effect=[False, True],
+    )
+    def test_sitemap_get_auto_generates(self, mock_exists, mock_generate):
+        """
+        Test GET /sitemap_tree.xml auto-generates and serves the sitemap
+        when the file does not yet exist.
+        """
+        response = self.client.get("/sitemap_tree.xml")
+        assert response.status_code == 200
+        assert response.headers["Content-Type"] == "application/xml"
+        mock_generate.assert_called_once()
+
+    @patch("webapp.app.directory_parser.generate_sitemap", return_value="")
+    @patch("webapp.app.os.path.exists", return_value=False)
+    def test_sitemap_unavailable(self, mock_exists, mock_generate):
+        """
+        Test that GET /sitemap_tree.xml returns 503 when sitemap file
+        cannot be generated (still missing after attempted creation).
+        """
+        response = self.client.get("/sitemap_tree.xml")
+        assert response.status_code == 503
+        assert response.get_json() == {"error": "Sitemap not available"}
+
+    @patch(
+        "webapp.app.directory_parser.generate_sitemap",
+        return_value="<urlset/>",
+    )
+    @patch("builtins.open", unittest.mock.mock_open())
+    def test_create_sitemap_success(self, mock_generate):
+        """
+        Test create_sitemap writes the file and returns the XML string.
+        """
+        create_sitemap = build_sitemap_tree().__closure__[0].cell_contents
+        result = create_sitemap("/some/path/sitemap_tree.xml")
+        self.assertEqual(result, "<urlset/>")
+        mock_generate.assert_called_once()
+
+    @patch(
+        "webapp.app.directory_parser.generate_sitemap",
         side_effect=Exception("fail"),
     )
     @patch("builtins.open")

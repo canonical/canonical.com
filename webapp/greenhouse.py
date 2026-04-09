@@ -30,6 +30,7 @@ def _get_metadata(job, name):
         "employment_type": 149021,
         "is_featured": 11961371,
         "is_fast_track": 12679300,
+        "discipline_track": 56835606,
     }
 
     for data in job["metadata"]:
@@ -231,6 +232,7 @@ class Vacancy:
         self.skills: list = _get_metadata(job, "skills") or []
         self.featured: str = _get_metadata(job, "is_featured")
         self.fast_track: str = _get_metadata(job, "is_fast_track")
+        self.discipline_track: str = _get_metadata(job, "discipline_track")
 
     def parse_questions(self, job):
         questions = job.get("questions", {})
@@ -259,6 +261,7 @@ class Vacancy:
             "date": self.date,
             "featured": self.featured,
             "fast_track": self.fast_track,
+            "discipline_track": self.discipline_track,
             "departments": [dept.name for dept in self.departments],
         }
 
