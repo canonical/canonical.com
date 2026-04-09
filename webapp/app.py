@@ -1838,7 +1838,7 @@ def check_redirect(response):
 def generator():
     with open(
         Path(app.root_path).resolve().parent
-        / "static/json/page-generator/examples/cta-section.json",
+        / "static/json/page-generator/examples/resources.json",
         "r",
         encoding="utf-8",
     ) as f:

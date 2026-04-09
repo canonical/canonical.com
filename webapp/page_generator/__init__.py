@@ -74,9 +74,7 @@ class PatternFactory:
     def register_pattern(self, pattern_type: str, pattern_class: type):
         self._patterns[pattern_type] = pattern_class
 
-    def create(
-        self, pattern_type: str, pattern_data: dict
-    ) -> Optional["Pattern"]:
+    def create(self, pattern_type: str, pattern_data: dict) -> Optional["Pattern"]:
         """Create a pattern instance based on type."""
         pattern_class = self._patterns.get(pattern_type)
         if pattern_class:
@@ -164,9 +162,7 @@ class PageGenerator:
         for pattern in self.data.get("patterns", []):
             pattern_type = pattern.get("name")
             pattern_data = pattern.get("data", {})
-            pattern_instance = self.pattern_factory.create(
-                pattern_type, pattern_data
-            )
+            pattern_instance = self.pattern_factory.create(pattern_type, pattern_data)
             if pattern_instance:
                 self.patterns.append(pattern_instance)
 
@@ -372,11 +368,35 @@ class ResourcesSection(Pattern):
         return "resources-section"
 
     def process_pattern(self):
-        # TODO: Implement resources section pattern
-        pass
+        params_str = self._build_params_str()
+
+        self.pattern_html += f"""
+            {{% call(slot) vf_resources(
+                {params_str}
+            ) -%}}
+
+            {{% endcall -%}}
+        """
 
     def write_import(self):
-        return None
+        return '{% from "_macros/vf_resources.jinja" import vf_resources %}'
+
+    def validate_payload(self):
+        # load json schema for resources
+        with open(
+            Path(current_app.root_path).resolve().parent
+            / "static/json/page-generator/schemas/resources.json",
+            "r",
+        ) as f:
+            RESOURCES_SCHEMA = json.load(f)
+
+        # Extract the "data" schema since self.data only contains the inner data object
+        data_schema = RESOURCES_SCHEMA.get("properties", {}).get("data", {})
+        # Preserve definitions for referenced schemas
+        if "definitions" in RESOURCES_SCHEMA:
+            data_schema["definitions"] = RESOURCES_SCHEMA["definitions"]
+
+        return super().validate_payload(data_schema)
 
 
 def create_page_generator(data: dict) -> PageGenerator:
