@@ -43,13 +43,19 @@
       </div>
 
       <div class="p-section grid-col-6">
-         {% for section in sections %}
+         {% set ns = namespace(first_with_articles=false) %}
 
-          {% if not loop.first %}
-            <hr class="p-rule" />
+         {% for section in sections %}         
+          {% if section.articles %}
+            {% if not ns.first_with_articles %}
+              {% set ns.first_with_articles = true %}
+            {% else %}
+              <hr class="p-rule" />
+            {% endif %}
+
+            {% include '/partial/_knowledge_category_sections.html' %}
+
           {% endif %}
-
-          {% include '/partial/_knowledge_category_sections.html' %}
         {% endfor %}
       </div>
     </section>

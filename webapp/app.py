@@ -52,6 +52,7 @@ from webapp.views import (
     build_events_index,
     build_canonical_days_index,
     append_utms_cookie_to_ubuntu_links,
+    build_knowledge_index,
     build_knowledge_category_index,
 )
 from webapp.application import application_bp
@@ -994,6 +995,10 @@ app.add_url_rule(
     view_func=PressCenter.as_view("press_center", blog_views=blog_views),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
+
+
+# Knowledge hub
+app.add_url_rule("/knowledge", view_func=build_knowledge_index())
 
 
 def register_knowledge_category_routes():

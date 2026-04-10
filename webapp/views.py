@@ -354,6 +354,148 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
+def get_articles_from_category(category_dir, category_slug):
+    """
+    Get articles from markdown files in a category directory.
+
+    Args:
+        category_dir: Path object to the category directory
+        category_slug: The slug of the category
+        limit: Maximum number of articles to return (None for unlimited)
+
+    Returns:
+        A list of article dictionaries
+    """
+    articles = []
+    md_files = sorted(category_dir.glob("*.md"))
+
+    for md_file in md_files:
+        try:
+            with open(md_file, "r", encoding="utf-8") as f:
+                content = f.read()
+
+            # Parse YAML frontmatter
+            if content.startswith("---"):
+                parts = content.split("---", 2)
+                if len(parts) >= 2:
+                    try:
+                        frontmatter = yaml.safe_load(parts[1])
+                        article_slug = md_file.stem
+
+                        # Build article metadata
+                        article = {
+                            "hero_title": frontmatter.get(
+                                "context", {}
+                            ).get("hero_title", md_file.stem),
+                            "description": frontmatter.get(
+                                "context", {}
+                            ).get("description", ""),
+                            "url": (
+                                f"/knowledge/{category_slug}/"
+                                f"{article_slug}"
+                            ),
+                            "tag": frontmatter.get("context", {}).get(
+                                "tag", ""
+                            ),
+                        }
+                        articles.append(article)
+                    except yaml.YAMLError:
+                        pass
+        except Exception as e:
+            flask.current_app.logger.warning(
+                f"Error parsing {md_file}: {e}"
+            )
+
+    return articles
+
+
+def get_knowledge_sections():
+    """
+    Traverse all directories within knowledge/ and
+    extract title, description, and articles from each category.
+
+    Returns:
+        A list of dictionaries with 'slug', 'title', 'description',
+        and 'articles' keys
+    """
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    knowledge_dir = templates_dir / "knowledge"
+
+    sections = []
+
+    if knowledge_dir.exists():
+        # Iterate through all subdirectories in knowledge/
+        for category_dir in sorted(knowledge_dir.iterdir()):
+
+            # Skip non-directories and files starting with underscore
+            if not category_dir.is_dir() or category_dir.name.startswith("_"):
+                continue
+
+            index_file = category_dir / "index.html"
+
+            if index_file.exists():
+                try:
+                    with open(index_file, "r", encoding="utf-8") as f:
+                        content = f.read()
+
+                    # Extract title and description using regex
+                    title_match = re.search(
+                        r"{%\s*set\s+title\s*=\s*['\"]([^'\"]+)['\"]", content
+                    )
+                    title = (
+                        title_match.group(1)
+                        if title_match
+                        else category_dir.name
+                    )
+                    description_match = re.search(
+                        r"{%\s*set\s+description\s*=\s*['\"]([^'\"]+)['\"]",
+                        content,
+                    )
+                    description = (
+                        description_match.group(1) if description_match else ""
+                    )
+
+                    # Get articles from markdown files
+                    articles = []
+                    if category_dir.exists():
+                        articles = get_articles_from_category(
+                            category_dir, category_dir.name
+                        )
+
+                    sections.append(
+                        {
+                            "slug": category_dir.name,
+                            "title": title,
+                            "description": description,
+                            "articles": articles,
+                        }
+                    )
+
+                except Exception as e:
+                    flask.current_app.logger.warning(
+                        f"Error retrieving knowledge section "
+                        f"{category_dir.name}: {e}"
+                    )
+
+    return sections
+
+
+def build_knowledge_index():
+    """
+    Build the main knowledge index by scanning all category directories
+    for hero titles and descriptions.
+
+    Returns:
+        A view function that renders the main index with all categories
+    """
+
+    def knowledge_index():
+        sections = get_knowledge_sections()
+        return flask.render_template("knowledge/index.html", sections=sections)
+
+    return knowledge_index
+
+
 def build_knowledge_category_index(category_slug):
     """
     Build a knowledge category index by scanning markdown files
@@ -367,8 +509,6 @@ def build_knowledge_category_index(category_slug):
     """
 
     def knowledge_category_index():
-        # Get the templates directory path
-        # root_path is the webapp directory, so we need to go up one level
         templates_dir = Path(flask.current_app.root_path).parent / "templates"
         category_dir = templates_dir / "knowledge" / category_slug
 
@@ -376,44 +516,7 @@ def build_knowledge_category_index(category_slug):
 
         # Scan for markdown files in the category directory
         if category_dir.exists():
-            for md_file in sorted(category_dir.glob("*.md")):
-                try:
-                    with open(md_file, "r", encoding="utf-8") as f:
-                        content = f.read()
-
-                    # Parse YAML frontmatter
-                    if content.startswith("---"):
-                        parts = content.split("---", 2)
-                        if len(parts) >= 2:
-                            try:
-                                frontmatter = yaml.safe_load(parts[1])
-                                if not isinstance(frontmatter, dict):
-                                    continue
-                                article_slug = md_file.stem
-
-                                # Build article metadata
-                                article = {
-                                    "hero_title": frontmatter.get(
-                                        "context", {}
-                                    ).get("hero_title", md_file.stem),
-                                    "description": frontmatter.get(
-                                        "context", {}
-                                    ).get("description", ""),
-                                    "url": (
-                                        f"/knowledge/{category_slug}/"
-                                        f"{article_slug}"
-                                    ),
-                                    "tag": frontmatter.get("context", {}).get(
-                                        "tag", ""
-                                    ),
-                                }
-                                articles.append(article)
-                            except yaml.YAMLError:
-                                pass
-                except Exception as e:
-                    flask.current_app.logger.warning(
-                        f"Error parsing {md_file}: {e}"
-                    )
+            articles = get_articles_from_category(category_dir, category_slug)
 
         return flask.render_template(
             f"knowledge/{category_slug}/index.html", articles=articles
