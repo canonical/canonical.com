@@ -3,7 +3,6 @@ import flask
 import requests
 import math
 import datetime
-import os
 import yaml
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
@@ -357,7 +356,8 @@ def append_utms_cookie_to_ubuntu_links(response):
 
 def build_knowledge_category_index(category_slug):
     """
-    Build a knowledge category index by scanning markdown files in the category directory.
+    Build a knowledge category index by scanning markdown files
+    in the category directory.
 
     Args:
         category_slug: The slug of the category (e.g., 'ubuntu-and-linux')
@@ -401,9 +401,9 @@ def build_knowledge_category_index(category_slug):
                                         f"/knowledge/{category_slug}/"
                                         f"{article_slug}"
                                     ),
-                                    "tag": frontmatter.get(
-                                        "context", {}
-                                    ).get("tag", ""),
+                                    "tag": frontmatter.get("context", {}).get(
+                                        "tag", ""
+                                    ),
                                 }
                                 articles.append(article)
                             except yaml.YAMLError:
