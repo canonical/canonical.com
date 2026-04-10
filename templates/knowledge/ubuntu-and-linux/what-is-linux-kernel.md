@@ -2,9 +2,10 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Ubuntu and Linux"
+  tag: "Linux kernel"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
   breadcrumb: "What is the Linux Kernel?"
-  copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI/edit?tab=t.0#heading=h.yeo17q3utlgo"
+  copydoc: "https://docs.google.com/document/d/12SqjuRNZl-Ho8AZ80nd1JONgtgPeigKyjYhWuwfAscI"
   hero_title: "What is the Linux Kernel?"
   cta:
     description: "Curious about Linux? You might want to read our articles about the available Linux variants, the importance of maintenance and why developers add their own patches to customize the kernel or the kernel release cycle."

@@ -6,7 +6,7 @@ context:
   title: "What is open source security?"
   breadcrumb: "What is open source security?"
   description: "Understand open source security and explore best practices, including dependency management, code signing, SBOMs, vulnerability management, and careful backporting of legacy code."
-  copydoc: "https://docs.google.com/document/d/16lg3gVWgHMZKmVmDhKFbmLxyF5xV22amaL0Alczk4bc/edit?tab=t.0#heading=h.bo1zcf2r6drh"
+  copydoc: "https://docs.google.com/document/d/16lg3gVWgHMZKmVmDhKFbmLxyF5xV22amaL0Alczk4bc"
   hero_title: "What is open source security?"
   cta:
     description: "Discover our comprehensive subscription for open source security, support and compliance."

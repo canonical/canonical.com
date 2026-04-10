@@ -7,6 +7,7 @@ context:
   breadcrumb: "Security vs compliance"
   description: "Explore the nuanced differences between security and compliance, examine their intersections, and learn about security standards and Canonical's security and compliance solutions."
   hero_title: "Security vs compliance: what's the difference?"
+  copydoc: "https://docs.google.com/document/d/1j_Nzk1ydD5zRSWxdLXF6Hm5pd_zNMELyoZYJ0mZ_ao0/edit?tab=t.g1wqkysnwtzu"
   cta:
     description: "Explore why Canonical is the best option for open source security."
     buttons:

@@ -391,14 +391,19 @@ def build_knowledge_category_index(category_slug):
 
                                 # Build article metadata
                                 article = {
-                                    "slug": article_slug,
                                     "hero_title": frontmatter.get(
                                         "context", {}
                                     ).get("hero_title", md_file.stem),
                                     "description": frontmatter.get(
                                         "context", {}
                                     ).get("description", ""),
-                                    "url": f"/knowledge/{category_slug}/{article_slug}",
+                                    "url": (
+                                        f"/knowledge/{category_slug}/"
+                                        f"{article_slug}"
+                                    ),
+                                    "tag": frontmatter.get(
+                                        "context", {}
+                                    ).get("tag", ""),
                                 }
                                 articles.append(article)
                             except yaml.YAMLError:
