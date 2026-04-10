@@ -1,0 +1,51 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "macros/_vf_card.jinja" import vf_card %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block title %}{{ title }} | Knowledge{% endblock title %}
+
+{% block outer_content %}
+  {% block content %}
+    {% call(slot) vf_hero(
+      title_text=title,
+      layout='25/75',
+      is_split_on_medium="true",
+      display_blank_signpost_image_space="true",
+      blocks=[
+        {
+          "type": "description",
+          "padding": "shallow",
+          "item": {
+            "type": "text",
+            "content": description
+          }
+        }
+      ]
+    ) -%}
+    {%- endcall -%}
+
+    <section class="p-section">
+      {% if articles %}
+        <div class="grid-row">
+          {% for article in articles %}
+            {{ vf_card(
+              columns=2,
+              link=article.url,
+              heading=article.hero_title,
+              footer={
+                "content_type": article.tag or hero_title,
+              }
+            ) }}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No articles available in this category.</p>
+      {% endif %}
+    </section>
+  {% endblock %}
+{% endblock %}
