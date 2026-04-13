@@ -1032,8 +1032,7 @@ def register_knowledge_category_routes():
 
 
 # Register all knowledge hub category routes dynamically
-with app.app_context():
-    register_knowledge_category_routes()
+register_knowledge_category_routes()
 
 
 # Template finder
