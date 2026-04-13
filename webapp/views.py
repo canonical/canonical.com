@@ -387,6 +387,8 @@ def build_knowledge_category_index(category_slug):
                         if len(parts) >= 2:
                             try:
                                 frontmatter = yaml.safe_load(parts[1])
+                                if not isinstance(frontmatter, dict):
+                                    continue
                                 article_slug = md_file.stem
 
                                 # Build article metadata
