@@ -384,12 +384,12 @@ def get_articles_from_category(category_dir, category_slug):
 
                         # Build article metadata
                         article = {
-                            "hero_title": frontmatter.get(
-                                "context", {}
-                            ).get("hero_title", md_file.stem),
-                            "description": frontmatter.get(
-                                "context", {}
-                            ).get("description", ""),
+                            "hero_title": frontmatter.get("context", {}).get(
+                                "hero_title", md_file.stem
+                            ),
+                            "description": frontmatter.get("context", {}).get(
+                                "description", ""
+                            ),
                             "url": (
                                 f"/knowledge/{category_slug}/"
                                 f"{article_slug}"
@@ -402,9 +402,7 @@ def get_articles_from_category(category_dir, category_slug):
                     except yaml.YAMLError:
                         pass
         except Exception as e:
-            flask.current_app.logger.warning(
-                f"Error parsing {md_file}: {e}"
-            )
+            flask.current_app.logger.warning(f"Error parsing {md_file}: {e}")
 
     return articles
 

@@ -12,7 +12,7 @@
 {% endblock body_class %}
 
 {% block title %}Knowledge hub{% endblock title %}
-{% block description %}KH description{% endblock description %}
+{% block description %}{% endblock description %}
 
 {% block outer_content %}
   {% block content %}
@@ -20,18 +20,7 @@
     {% call(slot) vf_hero(
       title_text="Knowledge hub",
       layout='25/75',
-      is_split_on_medium="true",
-      display_blank_signpost_image_space="true",
-      blocks=[
-        {
-          "type": "description",
-          "padding": "shallow",
-          "item": {
-            "type": "text",
-            "content": "Lorem ipsum dolor sit amet consectetur. Vivamus adipiscing hendrerit eu malesuada. Auctor urna donec vitae vel accumsan vitae tellus. Lorem ipsum dolor sit amet consectetur. Vivamus adipiscing hendrerit eu malesuada. Auctor urna donec vitae vel accumsan vitae tellus."
-          }
-        }
-      ]
+      display_blank_signpost_image_space="true"
     ) -%}
     {%- endcall -%}
 
@@ -42,7 +31,7 @@
                 excludes=[".p-navigation--list-heading", "text:Newsletter signup", "text:Find out more", "text:Latest from our blog"]) }}
       </div>
 
-      <div class="p-section grid-col-6">
+      <div class="grid-col-6">
          {% set ns = namespace(first_with_articles=false) %}
 
          {% for section in sections %}         
@@ -60,7 +49,7 @@
       </div>
     </section>
 
-    <section class="p-section">
+    <section class="p-section--deep">
       <div class="grid-row--25-75">
         <hr class="p-rule" />
         <div class="grid-col">
