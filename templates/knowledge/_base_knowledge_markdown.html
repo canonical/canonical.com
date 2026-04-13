@@ -16,7 +16,10 @@
   {% block content %}
 
   {% set category_slug = category | lower | replace(' ', '-') %}
-  {% set breadcrumbs = [{"name": category, "href": "/knowledge/" + category_slug}, {"name": breadcrumb }] %}
+  {% set breadcrumbs = [
+    {"name": category, "href": "/knowledge/" + category_slug},
+    {"name": breadcrumb }
+  ] %}
   {% include '/partial/_knowledge_breadcrumbs.html' %}
   
   <section class="p-section--hero">

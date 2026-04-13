@@ -1,7 +1,7 @@
 ---
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
-  category: "Security and Compliance"
+  category: "Security and compliance"
   tag: "Security"
   title: "Security vs compliance: what's the difference?"
   breadcrumb: "Security vs compliance"

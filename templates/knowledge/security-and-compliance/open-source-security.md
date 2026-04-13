@@ -1,7 +1,7 @@
 ---
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
-  category: "Security and Compliance"
+  category: "Security and compliance"
   tag: "Security"
   title: "What is open source security?"
   breadcrumb: "What is open source security?"
