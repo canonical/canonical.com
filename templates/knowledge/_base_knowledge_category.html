@@ -9,6 +9,9 @@
 
 {% block outer_content %}
   {% block content %}
+    {% set breadcrumbs = [{"name": hero_title }] %}
+    {% include '/partial/_knowledge_breadcrumbs.html' %}
+
     {% call(slot) vf_hero(
       title_text=hero_title,
       layout='25/75',
