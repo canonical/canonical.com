@@ -17,7 +17,7 @@ In the event of inconsistency or conflict between the provisions of the
 documents comprising this Agreement, the order of precedence shall
 be as follows:<br />
 &nbsp;&nbsp;&nbsp;&nbsp;(i) The PO, including any special terms and conditions stated therein;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;(ii) The Other Terms (as applicable), including schedules, attachments, or exhibits;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;(ii) The Other Terms (as applicable) explicitly acknowledged and accepted in writing by Canonical, including schedules, attachments, or exhibits;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;(iii) These GCP.<br />
 (Collectively the "**Agreement**")
 
@@ -267,10 +267,8 @@ agreement.
 
 <h3 id="9-code-of-conduct-and-anti-facilitation-of-tax-evasion" style="scroll-margin-top:3.5rem;">9. Code of conduct and anti-facilitation of tax evasion.</h3>
 
-9.1. <u>RBA Code of Conduct.</u> Supplier will comply with the
-most current version of the RBA Code of Conduct at:
-https://www.responsiblebusiness.org/code-of-conduct/
-("**Relevant Policy**").
+9.1. <u>Code of Conduct.</u> Supplier will comply with the
+most current version of the <a href="https://assets.ubuntu.com/v1/b5f3fd1b-2026_canonical_business_code_of_conduct.pdf?_gl=1*dfa662*_gcl_au*NjQ4NjYzMjk5LjE3Njk1MTQ0MDg." target="_blank" rel="noopener noreferrer">Canonical Code of Conduct</a> (“**Relevant Policy**”).
 
 9.2. <u>Anti-facilitation of tax evasion.</u> For the duration of the
 Agreement or any applicable PO, Supplier shall and shall procure

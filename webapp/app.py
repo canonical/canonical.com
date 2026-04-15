@@ -48,6 +48,7 @@ from urllib3.exceptions import MaxRetryError
 from slugify import slugify
 
 # Local
+from canonicalwebteam.markdown_response import MarkdownResponse
 from webapp.views import (
     json_asset_query,
     build_case_study_index,
@@ -102,6 +103,10 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Markdown endpoint for LLM/crawler optimization
+# Serves any page as Markdown via ?format=md query parameter
+MarkdownResponse(app)
 
 # Load env variables after the app is initialized
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")

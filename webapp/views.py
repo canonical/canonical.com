@@ -283,12 +283,12 @@ def build_canonical_days_index(engage_docs):
                     valid_events.append(events)
         metadata = valid_events
 
-        # Sort by latest event
+        # Sort by earliest event
         metadata.sort(
             key=lambda x: datetime.datetime.strptime(
                 x.get("event_date", "31 December 1999"), "%d %B %Y"
             ),
-            reverse=True,
+            reverse=False,
         )
 
         return flask.render_template(
