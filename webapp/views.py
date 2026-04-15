@@ -4,12 +4,16 @@ import requests
 import math
 import datetime
 import yaml
+import logging
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
 import re
+
+
+logger = logging.getLogger(__name__)
 
 
 def json_asset_query(file_name):
@@ -361,7 +365,6 @@ def get_articles_from_category(category_dir, category_slug):
     Args:
         category_dir: Path object to the category directory
         category_slug: The slug of the category
-        limit: Maximum number of articles to return (None for unlimited)
 
     Returns:
         A list of article dictionaries
@@ -400,9 +403,9 @@ def get_articles_from_category(category_dir, category_slug):
                         }
                         articles.append(article)
                     except yaml.YAMLError:
-                        pass
+                        logger.error(f"YAML parsing error in {md_file}")
         except Exception as e:
-            flask.current_app.logger.warning(f"Error parsing {md_file}: {e}")
+            logger.error(f"Error reading {md_file}: {e}")
 
     return articles
 
