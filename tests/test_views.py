@@ -3,11 +3,14 @@ from unittest.mock import patch, MagicMock
 import flask
 import requests
 import datetime
+import tempfile
+from pathlib import Path
 from webapp.views import (
     json_asset_query,
     build_events_index,
     build_canonical_days_index,
     append_utms_cookie_to_ubuntu_links,
+    get_knowledge_sections,
 )
 
 
@@ -562,6 +565,292 @@ class TestViews(unittest.TestCase):
             updated_html = response.set_data.call_args[0][0]
             self.assertIn("utm_content:test1,test2", updated_html)
             self.assertIn("utm_medium:test2", updated_html)
+
+
+class TestKnowledgeSections(unittest.TestCase):
+    """Test suite for get_knowledge_sections function using real files"""
+
+    def setUp(self):
+        self.app = flask.Flask(__name__)
+        # Create a temporary directory for testing
+        self.temp_dir = tempfile.mkdtemp()
+        self.webapp_dir = Path(self.temp_dir) / "webapp"
+        self.webapp_dir.mkdir(parents=True, exist_ok=True)
+
+        # Override the app's root_path to our webapp directory
+        self.app.root_path = str(self.webapp_dir)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+
+    def tearDown(self):
+        self.app_context.pop()
+        import shutil
+
+        shutil.rmtree(self.temp_dir)
+
+    def _create_knowledge_category(
+        self, slug, title, description, articles=None
+    ):
+        """Helper to create a knowledge category with real files"""
+        # Create templates/knowledge/{slug}/ directory
+        category_dir = Path(self.temp_dir) / "templates" / "knowledge" / slug
+        category_dir.mkdir(parents=True, exist_ok=True)
+
+        # Create index.html with title and description
+        index_html = f"""
+            {{% set title = "{title}" %}}
+            {{% set description = "{description}" %}}
+            <html>
+            <body>
+                <h1>{{ title }}</h1>
+                <p>{{ description }}</p>
+            </body>
+            </html>
+        """
+        index_file = category_dir / "index.html"
+        index_file.write_text(index_html.strip())
+
+        # Create markdown articles if provided
+        if articles:
+            for article in articles:
+                article_slug = article["slug"]
+                article_content = f"""---
+context:
+  hero_title: {article["title"]}
+  description: {article["description"]}
+  tag: {article["tag"]}
+---
+
+# {article["title"]}
+
+{article["description"]}
+"""
+                md_file = category_dir / f"{article_slug}.md"
+                md_file.write_text(article_content.strip())
+
+    def test_slug_extraction_from_directory_name(self):
+        """Test that slug is correctly extracted from directory name"""
+        self._create_knowledge_category(
+            slug="ubuntu-and-linux",
+            title="Ubuntu and Linux",
+            description="Learn about Ubuntu",
+            articles=[],
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(len(sections), 1)
+            self.assertEqual(sections[0]["slug"], "ubuntu-and-linux")
+
+    def test_title_extraction_from_html(self):
+        """Test that title is correctly extracted from HTML"""
+        self._create_knowledge_category(
+            slug="linux",
+            title="Getting Started with Linux",
+            description="Learn Linux basics",
+            articles=[],
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(
+                sections[0]["title"], "Getting Started with Linux"
+            )
+
+    def test_description_extraction_from_html(self):
+        """Test that description is correctly extracted from HTML"""
+        self._create_knowledge_category(
+            slug="devops",
+            title="DevOps",
+            description="Learn DevOps best practices and methodologies",
+            articles=[],
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(
+                sections[0]["description"],
+                "Learn DevOps best practices and methodologies",
+            )
+
+    def test_articles_extraction_and_population(self):
+        """Test that articles are correctly extracted and populated"""
+        articles = [
+            {
+                "slug": "aws-basics",
+                "title": "AWS Basics",
+                "description": "Introduction to AWS",
+                "tag": "cloud",
+            },
+            {
+                "slug": "azure-intro",
+                "title": "Azure Intro",
+                "description": "Introduction to Azure",
+                "tag": "cloud",
+            },
+            {
+                "slug": "gcp-guide",
+                "title": "GCP Guide",
+                "description": "Introduction to GCP",
+                "tag": "cloud",
+            },
+        ]
+
+        self._create_knowledge_category(
+            slug="cloud-and-infrastructure",
+            title="Cloud and infrastructure",
+            description="Cloud and infrastructure description",
+            articles=articles,
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(len(sections), 1)
+            self.assertEqual(len(sections[0]["articles"]), 3)
+            self.assertEqual(
+                sections[0]["articles"][0]["hero_title"], "AWS Basics"
+            )
+            self.assertEqual(
+                sections[0]["articles"][1]["hero_title"], "Azure Intro"
+            )
+            self.assertEqual(
+                sections[0]["articles"][2]["hero_title"], "GCP Guide"
+            )
+
+    def test_all_four_fields_together(self):
+        """
+        Test that slug, title, description, and articles
+        are all correctly populated
+        """
+        articles = [
+            {
+                "slug": "fundamentals",
+                "title": "K8s Fundamentals",
+                "description": "Core concepts",
+                "tag": "kubernetes",
+            },
+            {
+                "slug": "deployments",
+                "title": "Advanced Deployments",
+                "description": "Advanced patterns",
+                "tag": "kubernetes",
+            },
+        ]
+
+        self._create_knowledge_category(
+            slug="kubernetes-guide",
+            title="Kubernetes Complete Guide",
+            description="Guide to Kubernetes orchestration",
+            articles=articles,
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            # Verify all four fields
+            self.assertEqual(sections[0]["slug"], "kubernetes-guide")
+            self.assertEqual(sections[0]["title"], "Kubernetes Complete Guide")
+            self.assertEqual(
+                sections[0]["description"], "Guide to Kubernetes orchestration"
+            )
+            self.assertEqual(len(sections[0]["articles"]), 2)
+
+            # Verify structure of returned dict
+            expected_keys = {"slug", "title", "description", "articles"}
+            self.assertEqual(set(sections[0].keys()), expected_keys)
+
+    def test_multiple_sections(self):
+        """Test retrieval of multiple sections"""
+        self._create_knowledge_category(
+            slug="linux",
+            title="Linux Guide",
+            description="Learn Linux",
+            articles=[],
+        )
+        self._create_knowledge_category(
+            slug="containers",
+            title="Container Guide",
+            description="Learn Containers",
+            articles=[],
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(len(sections), 2)
+            slugs = [s["slug"] for s in sections]
+            self.assertIn("linux", slugs)
+            self.assertIn("containers", slugs)
+
+    def test_filters_underscore_directories(self):
+        """Test that directories starting with underscore are filtered out"""
+        self._create_knowledge_category(
+            slug="valid-section",
+            title="Valid Section",
+            description="This should be included",
+            articles=[],
+        )
+
+        # Create a directory with underscore (should be ignored)
+        underscore_dir = (
+            Path(self.temp_dir) / "templates" / "knowledge" / "_invalid"
+        )
+        underscore_dir.mkdir(parents=True, exist_ok=True)
+        (underscore_dir / "index.html").write_text(
+            '{% set title = "Invalid" %}'
+        )
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(len(sections), 1)
+            self.assertEqual(sections[0]["slug"], "valid-section")
+
+    def test_empty_knowledge_directory(self):
+        """Test when knowledge directory is empty"""
+        # Create the knowledge dir but leave it empty
+        knowledge_dir = Path(self.temp_dir) / "templates" / "knowledge"
+        knowledge_dir.mkdir(parents=True, exist_ok=True)
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(sections, [])
+
+    def test_missing_knowledge_directory(self):
+        """Test when knowledge directory doesn't exist"""
+        # Don't create any knowledge directory
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            self.assertEqual(sections, [])
+
+    def test_category_without_index_html(self):
+        """Test that categories without index.html are skipped"""
+        self._create_knowledge_category(
+            slug="valid-section",
+            title="Valid Section",
+            description="This should be included",
+            articles=[],
+        )
+
+        # Create a category without index.html
+        no_index_dir = (
+            Path(self.temp_dir) / "templates" / "knowledge" / "no-index"
+        )
+        no_index_dir.mkdir(parents=True, exist_ok=True)
+
+        with self.app.test_request_context():
+            sections = get_knowledge_sections()
+
+            # Should only have the valid section
+            self.assertEqual(len(sections), 1)
+            self.assertEqual(sections[0]["slug"], "valid-section")
 
 
 if __name__ == "__main__":
