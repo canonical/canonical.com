@@ -1,13 +1,17 @@
 # ============================================================================
 # robots.txt for canonical.com
 # Optimized for maximum AI visibility and LLM Context Efficiency
-# Last updated: 2026-03-18
+# Last updated: 2026-04-16
 # ============================================================================
 
 # ============================================================================
 # DEFAULT RULES — all crawlers
 # ============================================================================
 User-Agent: *
+
+# Knowledge hub
+Allow: /knowledge/*.md
+Allow: /knowledge/*/
 
 # Authentication, API & JSON endpoints
 Disallow: /legal/contributors/agreement/api
@@ -59,10 +63,14 @@ User-Agent: Claude-Web
 
 # Nudge toward Markdown endpoints
 Allow: /*?format=md
+Allow: /knowledge/
+Allow: /knowledge/*/
+Allow: /knowledge/*.md
 
 # High-Value Content Priority (Verified product & doc routes)
 Allow: /blog/
 Allow: /documentation/
+Allow: /knowledge/
 Allow: /juju/docs/
 Allow: /maas/docs/
 Allow: /microk8s/docs/
