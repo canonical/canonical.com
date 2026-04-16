@@ -369,7 +369,7 @@ class ResourcesSection(Pattern):
 
     @property
     def schema_name(self) -> str:
-        return "resources-section"
+        return "resources"
 
     def process_pattern(self):
         params_str = self._build_params_str()
@@ -384,24 +384,6 @@ class ResourcesSection(Pattern):
 
     def write_import(self):
         return '{% from "_macros/vf_resources.jinja" import vf_resources %}'
-
-    def validate_payload(self):
-        # load json schema for resources
-        with open(
-            Path(current_app.root_path).resolve().parent
-            / "static/json/page-generator/schemas/resources.json",
-            "r",
-        ) as f:
-            RESOURCES_SCHEMA = json.load(f)
-
-        # Extract the "data" schema
-        # self.data only contains the inner data object
-        data_schema = RESOURCES_SCHEMA.get("properties", {}).get("data", {})
-        # Preserve definitions for referenced schemas
-        if "definitions" in RESOURCES_SCHEMA:
-            data_schema["definitions"] = RESOURCES_SCHEMA["definitions"]
-
-        return super().validate_payload(data_schema)
 
 
 def create_page_generator(data: dict) -> PageGenerator:

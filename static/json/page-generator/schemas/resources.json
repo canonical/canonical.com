@@ -7,11 +7,13 @@
     },
     "data": {
       "type": "object",
+      "required": ["title", "blocks"],
       "properties": {
         "title": { "$ref": "#/definitions/titleObject" },
         "padding": { "enum": ["deep", "shallow", "default"] },
         "blocks": {
           "type": "array",
+          "contains": { "$ref": "#/definitions/resourcesBlock" },
           "items": {
             "oneOf": [
               { "$ref": "#/definitions/descriptionBlock" },
@@ -26,6 +28,7 @@
   "definitions": {
     "titleObject": {
       "type": "object",
+      "required": ["text"],
       "properties": {
         "text": { "type": "string" },
         "link_attrs": {
@@ -34,7 +37,8 @@
             "href": { "type": "string" }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "descriptionBlock": {
       "type": "object",
@@ -43,12 +47,14 @@
         "padding": { "enum": ["shallow"] },
         "item": {
           "type": "object",
+          "required": ["type", "content"],
           "properties": {
             "type": { "enum": ["text", "html"] },
             "content": { "type": "string" }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "ctaBlock": {
       "type": "object",
@@ -64,12 +70,18 @@
               "items": { "$ref": "#/definitions/linkObject" }
             },
             "link": { "$ref": "#/definitions/linkObject" }
-          }
+          },
+          "anyOf": [
+            { "required": ["primary"] },
+            { "required": ["secondaries"] },
+            { "required": ["link"] }
+          ]
         }
       }
     },
     "linkObject": {
       "type": "object",
+      "required": ["content_html", "attrs"],
       "properties": {
         "content_html": { "type": "string" },
         "attrs": {
@@ -82,6 +94,7 @@
     },
     "resourcesBlock": {
       "type": "object",
+      "required": ["categories"],
       "properties": {
         "type": { "const": "resources" },
         "render_images": { "type": "boolean" },
@@ -90,19 +103,29 @@
           "type": "array",
           "items": {
             "type": "object",
+            "required": ["title", "items"],
             "properties": {
               "title": { "type": "string" },
               "items": {
                 "type": "array",
                 "items": {
                   "type": "object",
+                  "required": ["title"],
                   "properties": {
                     "title": { "$ref": "#/definitions/titleObject" },
                     "description": {
                       "type": "object",
+                      "required": ["text"],
                       "properties": {
-                        "text": { "type": "string" }
-                      }
+                        "text": { "type": "string" },
+                        "attrs": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "additionalProperties": false
                     },
                     "metadata": {
                       "type": "object",
@@ -111,6 +134,7 @@
                           "type": "array",
                           "items": {
                             "type": "object",
+                            "required": ["text"],
                             "properties": {
                               "text": { "type": "string" },
                               "link_attrs": {
@@ -124,9 +148,10 @@
                         },
                         "date": {
                           "type": "object",
+                          "required": ["text"],
                           "properties": {
                             "text": { "type": "string" },
-                            "link_attrs": {
+                            "link": {
                               "type": "object",
                               "properties": {
                                 "href": { "type": "string" }
@@ -134,7 +159,8 @@
                             }
                           }
                         }
-                      }
+                      },
+                      "additionalProperties": false
                     },
                     "image": {
                       "type": "object",
@@ -142,20 +168,25 @@
                         "type": { "enum": ["default", "logo"] },
                         "attrs": {
                           "type": "object",
+                          "required": ["src"],
                           "properties": {
                             "src": { "type": "string" },
                             "alt": { "type": "string" }
                           }
                         }
-                      }
+                      },
+                      "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
-      }
+      },
+      "additionalProperties": false
     }
   }
 }
