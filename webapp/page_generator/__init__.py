@@ -184,8 +184,10 @@ class PageGenerator:
         p_name = self.data.get("page_name", "").lstrip("/")
         return Path(p_path) / f"{p_name}.html"
 
-    def generate(self) -> str:
-        """Generate the page and return the relative path."""
+    def _generate_html(self) -> str:
+        """Generate formatted HTML without writing it to disk."""
+        self.patterns = []
+
         # Create patterns
         self._create_patterns()
 
@@ -195,19 +197,24 @@ class PageGenerator:
             if not is_valid:
                 raise ValueError(f"Pattern validation failed: {error_msg}")
 
-        # Build HTML
         html_parts = [
             self.html_builder.init_html(),
             self._build_content(),
             self.html_builder.finish_html(),
         ]
         html_content = "".join(html_parts)
+        return self.formatter.format(html_content)
 
-        # Format HTML
-        formatted_html = self.formatter.format(html_content)
+    def generate(self) -> str:
+        """Generate the page and return the relative path."""
+        formatted_html = self._generate_html()
         # Write to file
         output_path = self._get_output_path()
         return self.file_writer.write(output_path, formatted_html)
+
+    def preview(self) -> str:
+        """Generate and return formatted HTML without persisting it."""
+        return self._generate_html()
 
 
 class HTMLGenerator:

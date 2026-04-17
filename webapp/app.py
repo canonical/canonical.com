@@ -44,6 +44,7 @@ from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import ConnectionError, HTTPError, RetryError
 from webapp.page_generator import create_page_generator
+from webapp.page_generator.schema import SchemaLoader
 from werkzeug.exceptions import HTTPException
 from urllib3.exceptions import MaxRetryError
 from slugify import slugify
@@ -1832,18 +1833,28 @@ def check_redirect(response):
     return append_utms_cookie_to_ubuntu_links(response)
 
 
-# TODO(WD-32786) - create a POST endpoint that accepts a form payload
-# and generates webpage
-@app.route("/create-page")
-def generator():
-    with open(
-        Path(app.root_path).resolve().parent
-        / "static/json/page-generator/examples/resources.json",
-        "r",
-        encoding="utf-8",
-    ) as f:
-        data = json.load(f)
+if environment != "production":
 
-    page = create_page_generator(data)
-    page_path = page.generate()
-    return flask.redirect(str(page_path))
+    def _normalise_page_generator_payload(payload: dict) -> dict:
+        patterns = payload.get("patterns") or payload.get("sections") or []
+        return {
+            "page_name": payload.get("page_name", "preview"),
+            "page_path": payload.get("page_path", "/page-generator/preview"),
+            "patterns": patterns,
+        }
+
+    @app.route("/create-page", methods=["GET"])
+    def page_generator():
+        return flask.render_template("create-page/index.html")
+
+    @app.route("/create-page/schemas", methods=["GET"])
+    def page_generator_schemas():
+        return flask.jsonify(SchemaLoader.get_all_schemas())
+
+    @app.route("/create-page/preview", methods=["POST"])
+    def page_generator_preview():
+        payload = flask.request.get_json(silent=True) or {}
+        generator = create_page_generator(
+            _normalise_page_generator_payload(payload)
+        )
+        return flask.jsonify({"html": generator.preview()})

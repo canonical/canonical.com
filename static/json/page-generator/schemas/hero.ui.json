@@ -1,0 +1,163 @@
+{
+  "$pattern": "hero",
+  "ui:label": "Hero section",
+  "ui:description": "Hero banner with configurable layout, text, calls to action and optional media.",
+  "fields": {
+    "layout": {
+      "ui:widget": "radio-group",
+      "ui:label": "Layout",
+      "ui:required": true,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single"
+    },
+    "title_text": {
+      "ui:widget": "text",
+      "ui:label": "Title",
+      "ui:placeholder": "Enter hero title",
+      "ui:required": true,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single"
+    },
+    "subtitle_text": {
+      "ui:widget": "text",
+      "ui:label": "Subtitle",
+      "ui:placeholder": "Enter subtitle",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    },
+    "is_split_on_medium": {
+      "ui:widget": "checkbox",
+      "ui:label": "Split on medium screens",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    },
+    "display_blank_signpost_image_space": {
+      "ui:widget": "checkbox",
+      "ui:label": "Reserve signpost image space",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    }
+  },
+  "blocks": {
+    "description": {
+      "ui:label": "Description",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 3,
+      "fields": {
+        "type": {
+          "ui:widget": "select",
+          "ui:label": "Content type",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Content",
+          "ui:rows": 4,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "cta-block": {
+      "ui:label": "Call to action",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "fields": {
+        "primary": {
+          "ui:widget": "link-editor",
+          "ui:label": "Primary CTA",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "secondaries": {
+          "ui:widget": "link-editor",
+          "ui:label": "Secondary CTAs",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 3
+        },
+        "link": {
+          "ui:widget": "link-editor",
+          "ui:label": "Standalone link",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "image": {
+      "ui:label": "Image",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "fields": {
+        "attrs.src": {
+          "ui:widget": "text",
+          "ui:label": "Image URL",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "attrs.alt": {
+          "ui:widget": "text",
+          "ui:label": "Alt text",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "aspect_ratio": {
+          "ui:widget": "select",
+          "ui:label": "Aspect ratio",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "caption_html": {
+          "ui:widget": "text",
+          "ui:label": "Caption",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "is_highlighted": {
+          "ui:widget": "checkbox",
+          "ui:label": "Highlighted",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "is_cover": {
+          "ui:widget": "checkbox",
+          "ui:label": "Cover image",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "signpost_image": {
+      "ui:label": "Signpost image",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "fields": {
+        "attrs.src": {
+          "ui:widget": "text",
+          "ui:label": "Image URL",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "attrs.alt": {
+          "ui:widget": "text",
+          "ui:label": "Alt text",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "is_highlighted": {
+          "ui:widget": "checkbox",
+          "ui:label": "Highlighted",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    }
+  }
+}
