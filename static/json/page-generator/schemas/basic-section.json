@@ -1,0 +1,296 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": { "const": "basic-section" },
+    "data": {
+      "type": "object",
+      "properties": {
+        "title": { "$ref": "#/definitions/titleObject" },
+        "label_text": { "type": "string" },
+        "subtitle": { "$ref": "#/definitions/subtitleObject" },
+        "top_rule_variant": {
+          "enum": ["default", "muted", "highlighted", "none"]
+        },
+        "attrs": {
+          "type": "object"
+        },
+        "padding": { "enum": ["deep", "shallow", "default"] },
+        "override_last_item_padding": { "type": "boolean", "default": false },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/descriptionBlock" },
+              { "$ref": "#/definitions/imageBlock" },
+              { "$ref": "#/definitions/videoBlock" },
+              { "$ref": "#/definitions/ctaBlock" },
+              { "$ref": "#/definitions/listBlock" },
+              { "$ref": "#/definitions/codeBlock" },
+              { "$ref": "#/definitions/logoBlock" },
+              { "$ref": "#/definitions/linkedLogoBlock" },
+              { "$ref": "#/definitions/notificationBlock" }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "titleObject": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "link_attrs": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string" }
+          }
+        }
+      }
+    },
+    "subtitleObject": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "heading_level": { "enum": [4, 5] }
+      }
+    },
+    "descriptionBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "description" },
+        "padding": { "enum": ["shallow"] },
+        "item": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["text", "html"] },
+            "content": { "type": "string" }
+          }
+        }
+      }
+    },
+    "ctaBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "cta-block" },
+        "padding": { "enum": ["shallow"] },
+        "item": {
+          "type": "object",
+          "properties": {
+            "primary": { "$ref": "#/definitions/linkObject" },
+            "secondaries": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/linkObject" }
+            },
+            "link": { "$ref": "#/definitions/linkObject" }
+          }
+        }
+      }
+    },
+    "linkObject": {
+      "type": "object",
+      "properties": {
+        "content_html": { "type": "string" },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string" }
+          }
+        }
+      }
+    },
+    "imageBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "image" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "aspect_ratio": { "enum": ["16-9", "3-2", "2-3", "cinematic"] },
+            "caption_html": { "type": "string" },
+            "is_highlighted": { "type": "boolean" },
+            "is_cover": { "type": "boolean" },
+            "attrs": { "$ref": "#/definitions/imageAttrs" }
+          }
+        }
+      }
+    },
+    "videoBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "video" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "attrs": { "$ref": "#/definitions/videoAttrs" }
+          }
+        }
+      }
+    },
+    "imageAttrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": "string", "format": "uri" },
+        "alt": { "type": "string" }
+      }
+    },
+    "videoAttrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": "string", "format": "uri" },
+        "allowfullscreen": { "type": "string" }
+      }
+    },
+    "listBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "list" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "list_items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/listItemObject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "listItemObject": {
+      "type": "object",
+      "properties": {
+        "list_item_type": {
+          "enum": ["bullet", "tick", "cross", "number"]
+        },
+        "content": { "type": "string" },
+        "sublist": {
+          "type": "object",
+          "properties": {
+            "list_items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/listItemObject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "codeBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "code-block" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "content": { "type": "string" },
+            "is_code_snippet": { "type": "boolean", "default": false }
+          }
+        }
+      }
+    },
+    "logoBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "logo-block" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "is_fixed_width": { "type": "boolean", "default": true },
+            "logos": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "has_line_break_after": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "attrs": {
+                    "type": "object",
+                    "properties": {
+                      "src": { "type": "string", "format": "uri" },
+                      "alt": { "type": "string" },
+                      "class": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "linkedLogoBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "linked-logo-block" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "href": { "type": "string", "format": "uri" },
+                  "text": { "type": "string" },
+                  "label": { "type": "string" },
+                  "image_attrs": {
+                    "type": "object",
+                    "properties": {
+                      "src": { "type": "string", "format": "uri" },
+                      "alt": { "type": "string" },
+                      "width": { "type": "string" },
+                      "height": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            },
+            "is_fixed_width": { "type": "boolean", "default": true },
+            "logos": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "has_line_break_after": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "attrs": {
+                    "type": "object",
+                    "properties": {
+                      "src": { "type": "string", "format": "uri" },
+                      "alt": { "type": "string" },
+                      "class": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "notificationBlock": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "notification" },
+        "item": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": ["positive", "negative", "caution", "information"]
+            },
+            "title": { "type": "string" },
+            "content": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

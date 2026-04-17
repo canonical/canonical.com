@@ -338,11 +338,19 @@ class BasicSection(Pattern):
         return "basic-section"
 
     def process_pattern(self):
-        # TODO: Implement basic section pattern
-        pass
+        params_str = self._build_params_str()
+
+        self.pattern_html += f"""
+            {{{{ vf_basic_section(
+                {params_str}
+            ) }}}}
+        """
 
     def write_import(self):
-        return None
+        return (
+            '{% from "_macros/vf_basic-section.jinja" '
+            "import vf_basic_section %}"
+        )
 
 
 class CTASection(Pattern):
