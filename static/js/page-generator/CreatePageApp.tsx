@@ -1,120 +1,43 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Notification,
-  Row,
-} from "@canonical/react-components";
-
-type SelectedPattern = {
-  id: string;
-  patternName: string;
-};
-
-type SchemaDefinition = {
-  label: string;
-  description: string;
-  schema: {
-    properties?: {
-      data?: {
-        required?: string[];
-      };
-    };
-  };
-  uiSchema: {
-    fields?: Record<string, { [key: string]: unknown }>;
-    blocks?: Record<string, { [key: string]: unknown }>;
-  };
-};
-
-type SchemasResponse = Record<string, SchemaDefinition>;
-
-declare global {
-  interface Window {
-    PAGE_GENERATOR_CONFIG?: {
-      schemasUrl: string;
-      previewUrl?: string;
-    };
-  }
-}
-
-const SINGLE_INSTANCE_PATTERNS = new Set(["hero"]);
+import { Notification, Spinner } from "@canonical/react-components";
+import { useCallback, useState } from "react";
+import SectionEditor from "./components/SectionEditor";
+import SectionSelector from "./components/SectionSelector";
+import StepIndicator from "./components/StepIndicator";
+import { usePreview } from "./hooks/usePreview";
+import { useSave } from "./hooks/useSave";
+import { useSchemas } from "./hooks/useSchemas";
+import { SectionState } from "./types";
 
 const CreatePageApp = () => {
-  const [schemas, setSchemas] = useState<SchemasResponse>({});
-  const [selectedPatterns, setSelectedPatterns] = useState<SelectedPattern[]>(
-    []
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: schemas = {}, isLoading, error } = useSchemas();
+  const previewMutation = usePreview();
+  const saveMutation = useSave();
 
-  useEffect(() => {
-    const loadSchemas = async () => {
-      try {
-        const response = await fetch(
-          window.PAGE_GENERATOR_CONFIG?.schemasUrl || "/create-page/schemas"
-        );
+  const [activeStep, setActiveStep] = useState<1 | 2>(1);
+  const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
+  const [sections, setSections] = useState<SectionState[]>([]);
+  const [previewHtml, setPreviewHtml] = useState("");
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [savedUrl, setSavedUrl] = useState<string | null>(null);
 
-        if (!response.ok) {
-          throw new Error(`Failed to load schemas (${response.status})`);
-        }
-
-        const data = (await response.json()) as SchemasResponse;
-        setSchemas(data);
-      } catch (loadError) {
-        setError(
-          loadError instanceof Error
-            ? loadError.message
-            : "Failed to load schemas"
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    void loadSchemas();
-  }, []);
-
-  const countSelectedPatterns = (patternName: string) => {
-    return selectedPatterns.filter(
-      (pattern) => pattern.patternName === patternName
-    ).length;
-  };
-
-  const canAddPattern = (patternName: string) => {
-    if (!SINGLE_INSTANCE_PATTERNS.has(patternName)) {
-      return true;
-    }
-
-    return countSelectedPatterns(patternName) === 0;
-  };
-
-  const addPattern = (patternName: string) => {
-    if (!canAddPattern(patternName)) {
-      return;
-    }
-
-    setSelectedPatterns((current) => [
+  const addSection = (patternName: string) => {
+    setSections((current) => [
       ...current,
       {
-        id: `${patternName}-${current.length + 1}-${Date.now()}`,
+        id: `${patternName}-${Date.now()}-${Math.round(Math.random() * 9999)}`,
         patternName,
+        data: {},
       },
     ]);
   };
 
-  const removePattern = (patternId: string) => {
-    setSelectedPatterns((current) =>
-      current.filter((pattern) => pattern.id !== patternId)
-    );
+  const removeSection = (id: string) => {
+    setSections((current) => current.filter((section) => section.id !== id));
   };
 
-  const movePattern = (patternId: string, direction: "up" | "down") => {
-    setSelectedPatterns((current) => {
-      const currentIndex = current.findIndex(
-        (pattern) => pattern.id === patternId
-      );
+  const moveSection = (id: string, direction: "up" | "down") => {
+    setSections((current) => {
+      const currentIndex = current.findIndex((section) => section.id === id);
 
       if (currentIndex === -1) {
         return current;
@@ -128,115 +51,108 @@ const CreatePageApp = () => {
       }
 
       const next = [...current];
-      const [movedItem] = next.splice(currentIndex, 1);
-      next.splice(targetIndex, 0, movedItem);
+      const [movedSection] = next.splice(currentIndex, 1);
+      next.splice(targetIndex, 0, movedSection);
       return next;
     });
   };
 
+  const updateSection = (id: string, data: Record<string, unknown>) => {
+    setSections((current) =>
+      current.map((section) => {
+        if (section.id !== id) {
+          return section;
+        }
+
+        return { ...section, data };
+      })
+    );
+  };
+
+  const previewPage = useCallback(async () => {
+    setApiError(null);
+
+    try {
+      const response = await previewMutation.mutateAsync({
+        page_name: "preview",
+        page_path: "/page-generator/preview",
+        sections,
+      });
+      setPreviewHtml(response.html);
+      setViewMode("preview");
+    } catch (previewError) {
+      setApiError(
+        previewError instanceof Error
+          ? previewError.message
+          : "Failed to preview page"
+      );
+    }
+  }, [previewMutation, sections]);
+
+  const savePage = useCallback(async () => {
+    setApiError(null);
+    setSavedUrl(null);
+
+    try {
+      const response = await saveMutation.mutateAsync({
+        page_name: "generated-page",
+        page_path: "/page-generator",
+        sections,
+      });
+      setSavedUrl(response.url);
+    } catch (saveError) {
+      setApiError(
+        saveError instanceof Error ? saveError.message : "Failed to save page"
+      );
+    }
+  }, [saveMutation, sections]);
+
   return (
     <div>
+      <h1 className="p-heading--2">Create page</h1>
+
+      <StepIndicator
+        activeStep={activeStep}
+        onStepChange={setActiveStep}
+        canAccessStepTwo={sections.length > 0}
+      />
+
       {error ? (
         <Notification severity="negative" title="Unable to load schemas">
-          {error}
+          {error instanceof Error ? error.message : "Failed to load schemas"}
         </Notification>
       ) : null}
 
-      <section>
-        <h2 className="p-heading--4">Step 1: Choose patterns</h2>
-        <p>
-          This scaffold already uses the real backend schema registry. The next
-          step is wiring these definitions into the dynamic form engine.
-        </p>
-        {isLoading ? <p>Loading pattern definitions…</p> : null}
-        <Row>
-          {Object.entries(schemas).map(([patternName, definition]) => {
-            const requiredFields =
-              definition.schema.properties?.data?.required || [];
-            const selectionCount = countSelectedPatterns(patternName);
-            const isSingleInstance = SINGLE_INSTANCE_PATTERNS.has(patternName);
-            const isAddDisabled = !canAddPattern(patternName);
+      {isLoading ? <Spinner text="Loading schemas…" /> : null}
 
-            return (
-              <Col size={4} key={patternName}>
-                <Card title={definition.label}>
-                  <p>{definition.description}</p>
-                  <p>
-                    <strong>Selected:</strong> {selectionCount}
-                    {isSingleInstance ? " (single instance only)" : ""}
-                  </p>
-                  <p>
-                    <strong>Required fields:</strong>{" "}
-                    {requiredFields.length > 0
-                      ? requiredFields.join(", ")
-                      : "No top-level required fields"}
-                  </p>
-                  <p>
-                    <strong>Configured fields:</strong>{" "}
-                    {Object.keys(definition.uiSchema.fields || {}).length}
-                  </p>
-                  <p>
-                    <strong>Configured blocks:</strong>{" "}
-                    {Object.keys(definition.uiSchema.blocks || {}).length}
-                  </p>
-                  <Button
-                    appearance={selectionCount > 0 ? "positive" : "base"}
-                    disabled={isAddDisabled}
-                    onClick={() => addPattern(patternName)}
-                    type="button"
-                  >
-                    {isSingleInstance ? "Add pattern" : "Add another"}
-                  </Button>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </section>
+      {!isLoading && activeStep === 1 ? (
+        <SectionSelector
+          schemas={schemas}
+          sections={sections}
+          onAddSection={addSection}
+          onMoveSection={moveSection}
+          onRemoveSection={removeSection}
+          onNext={() => setActiveStep(2)}
+        />
+      ) : null}
 
-      <section className="u-sv3">
-        <h2 className="p-heading--4">Current selection</h2>
-        {selectedPatterns.length ? (
-          <ul className="p-list--divided">
-            {selectedPatterns.map((pattern, index) => (
-              <li key={pattern.id}>
-                <div className="row u-no-padding--top u-no-padding--bottom">
-                  <div className="col-6">
-                    {index + 1}. {schemas[pattern.patternName]?.label || pattern.patternName}
-                  </div>
-                  <div className="col-6">
-                    <Button
-                      appearance="base"
-                      disabled={index === 0}
-                      onClick={() => movePattern(pattern.id, "up")}
-                      type="button"
-                    >
-                      Move up
-                    </Button>{" "}
-                    <Button
-                      appearance="base"
-                      disabled={index === selectedPatterns.length - 1}
-                      onClick={() => movePattern(pattern.id, "down")}
-                      type="button"
-                    >
-                      Move down
-                    </Button>{" "}
-                    <Button
-                      appearance="negative"
-                      onClick={() => removePattern(pattern.id)}
-                      type="button"
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No patterns selected yet.</p>
-        )}
-      </section>
+      {!isLoading && activeStep === 2 ? (
+        <SectionEditor
+          schemas={schemas}
+          sections={sections}
+          onUpdateSection={updateSection}
+          onBack={() => setActiveStep(1)}
+          onPreview={previewPage}
+          onSave={savePage}
+          isPreviewing={previewMutation.isPending}
+          isSaving={saveMutation.isPending}
+          previewHtml={previewHtml}
+          error={apiError}
+          savedUrl={savedUrl}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+      ) : null}
     </div>
   );
 };

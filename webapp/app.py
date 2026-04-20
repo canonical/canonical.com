@@ -44,6 +44,11 @@ from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import ConnectionError, HTTPError, RetryError
 from webapp.page_generator import create_page_generator
+from webapp.page_generator.helper import (
+    build_page_url,
+    normalise_page_generator_payload,
+    page_generator_error,
+)
 from webapp.page_generator.schema import SchemaLoader
 from werkzeug.exceptions import HTTPException
 from urllib3.exceptions import MaxRetryError
@@ -1835,26 +1840,73 @@ def check_redirect(response):
 
 if environment != "production":
 
-    def _normalise_page_generator_payload(payload: dict) -> dict:
-        patterns = payload.get("patterns") or payload.get("sections") or []
-        return {
-            "page_name": payload.get("page_name", "preview"),
-            "page_path": payload.get("page_path", "/page-generator/preview"),
-            "patterns": patterns,
-        }
-
-    @app.route("/create-page", methods=["GET"])
+    @app.route("/create-page", methods=["GET", "POST"])
     def page_generator():
+        if flask.request.method == "POST":
+            payload = flask.request.get_json(silent=True) or {}
+
+            try:
+                normalised_payload = normalise_page_generator_payload(payload)
+                generator = create_page_generator(normalised_payload)
+                preview_html = generator.preview()
+            except ValueError as error:
+                return page_generator_error(str(error))
+            except Exception:
+                logger.exception("Page generator preview failed")
+                return page_generator_error(
+                    "Failed to generate preview", status_code=500
+                )
+
+            return flask.jsonify(
+                {
+                    "preview_url": flask.url_for("page_generator_preview"),
+                    "page_path": build_page_url(normalised_payload),
+                    "html": preview_html,
+                }
+            )
+
         return flask.render_template("create-page/index.html")
 
     @app.route("/create-page/schemas", methods=["GET"])
     def page_generator_schemas():
-        return flask.jsonify(SchemaLoader.get_all_schemas())
+        try:
+            return flask.jsonify(SchemaLoader.get_all_schemas())
+        except (FileNotFoundError, ValueError, OSError) as error:
+            return page_generator_error(str(error), status_code=500)
 
     @app.route("/create-page/preview", methods=["POST"])
     def page_generator_preview():
         payload = flask.request.get_json(silent=True) or {}
-        generator = create_page_generator(
-            _normalise_page_generator_payload(payload)
+        try:
+            normalised_payload = normalise_page_generator_payload(payload)
+            generator = create_page_generator(normalised_payload)
+            return flask.jsonify({"html": generator.preview()})
+        except ValueError as error:
+            return page_generator_error(str(error))
+        except Exception:
+            logger.exception("Page generator preview endpoint failed")
+            return page_generator_error(
+                "Failed to generate preview", status_code=500
+            )
+
+    @app.route("/create-page/save", methods=["POST"])
+    def page_generator_save():
+        payload = flask.request.get_json(silent=True) or {}
+
+        try:
+            normalised_payload = normalise_page_generator_payload(payload)
+            generator = create_page_generator(normalised_payload)
+            page_url = generator.generate()
+        except ValueError as error:
+            return page_generator_error(str(error))
+        except Exception:
+            logger.exception("Page generator save failed")
+            return page_generator_error("Failed to save page", status_code=500)
+
+        permanent_url = f"/{str(page_url).lstrip('/')}"
+        return flask.jsonify(
+            {
+                "url": permanent_url,
+                "page_path": permanent_url,
+            }
         )
-        return flask.jsonify({"html": generator.preview()})

@@ -1,17 +1,19 @@
 {
   "$pattern": "resources",
-  "ui:label": "Resources section",
-  "ui:description": "Categorised resources with optional description, CTA and media-rich resource cards.",
+  "ui:label": "Resources Section",
+  "ui:description": "Categorised resource cards with optional images and metadata",
   "fields": {
     "padding": {
       "ui:widget": "radio-group",
       "ui:label": "Padding",
+      "ui:required": false,
       "ui:visibility": "default",
       "ui:multiplicity": "single"
     },
     "title": {
       "ui:widget": "text",
-      "ui:label": "Section title",
+      "ui:label": "Section Title",
+      "ui:required": false,
       "ui:visibility": "default",
       "ui:multiplicity": "single",
       "ui:subfields": {
@@ -55,7 +57,7 @@
       }
     },
     "cta-block": {
-      "ui:label": "Call to action",
+      "ui:label": "Call to Action",
       "ui:visibility": "addable",
       "ui:multiplicity": "single",
       "fields": {
@@ -71,23 +73,17 @@
           "ui:visibility": "addable",
           "ui:multiplicity": "multiple",
           "ui:maxItems": 3
-        },
-        "link": {
-          "ui:widget": "link-editor",
-          "ui:label": "Standalone link",
-          "ui:visibility": "addable",
-          "ui:multiplicity": "single"
         }
       }
     },
     "resources": {
-      "ui:label": "Resource cards",
+      "ui:label": "Resource Cards",
       "ui:visibility": "addable",
       "ui:multiplicity": "single",
       "fields": {
         "render_images": {
           "ui:widget": "checkbox",
-          "ui:label": "Show images",
+          "ui:label": "Show images on cards",
           "ui:visibility": "default",
           "ui:multiplicity": "single"
         },
