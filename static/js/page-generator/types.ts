@@ -41,6 +41,7 @@ export interface UIBlockSchema {
 
 export interface UISchema {
   "$pattern": string;
+  "$blocksField"?: string;
   "ui:label": string;
   "ui:description"?: string;
   fields?: Record<string, UIFieldSchema>;

@@ -120,8 +120,11 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
   };
 
   const topFields = Object.entries(schemaDefinition.uiSchema.fields || {});
-  const blocks = Array.isArray(values.blocks)
-    ? (values.blocks as Array<{ type?: string; item?: Record<string, unknown> }>)
+  // The data-model property holding the repeatable blocks array.
+  // Defaults to "blocks" but can be overridden per-pattern (e.g. basic-section uses "items").
+  const blocksField = schemaDefinition.uiSchema["$blocksField"] || "blocks";
+  const blocks = Array.isArray(values[blocksField])
+    ? (values[blocksField] as Array<{ type?: string; item?: Record<string, unknown> }>)
     : [];
 
   const topLevelAddable = topFields
@@ -198,7 +201,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           id={name}
           label={field["ui:label"]}
           checked={Boolean(currentValue)}
-          onChange={(e) => setValueAt(name, e.target.checked)}
+          onChange={(e) => setValueAt(name, (e.target as HTMLInputElement).checked)}
         />
       );
     }
@@ -350,17 +353,17 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
               onRemove={() => {
                 const next = [...blocks];
                 next.splice(blockIndex, 1);
-                setValueAt("blocks", next);
+                setValueAt(blocksField, next);
               }}
             >
               {Object.entries(blockSchemaDef.fields || {}).map(([fieldKey, field]) => {
                 // Resolve the correct oneOf branch for this block type,
                 // then navigate into item.<fieldKey> to get the field-level schema.
-                const blocksItemsSchema = getSchemaAtPath(dataSchema, "blocks")?.items;
+                const blocksItemsSchema = getSchemaAtPath(dataSchema, blocksField)?.items;
                 const matchedBlockSchema = findBlockSchema(blocksItemsSchema, blockType);
                 const blockFieldSchema = getSchemaAtPath(matchedBlockSchema, `item.${fieldKey}`);
                 return renderField(
-                  `blocks.${blockIndex}.item.${fieldKey}`,
+                  `${blocksField}.${blockIndex}.item.${fieldKey}`,
                   field,
                   blockFieldSchema
                 );
@@ -384,7 +387,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
             }
           });
 
-          setValueAt("blocks", [...blocks, { type: blockType, item: initialItem }]);
+          setValueAt(blocksField, [...blocks, { type: blockType, item: initialItem }]);
         }}
       />
     </div>
