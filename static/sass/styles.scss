@@ -71,6 +71,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include pattern-venobox;
 @include maas-styles;
 @include canonical-p-nojs-navigation;
+@include vf-u-align;
 
 @media screen and ($breakpoint-large <= width) {
   .p-section__u-no-padding--top {
@@ -642,11 +643,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
-.p-breadcrumbs {
-  margin-bottom: $spv--small;
-}
-
 // XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
 .p-pagination {
   flex-wrap: wrap;
@@ -1112,4 +1108,43 @@ body:not(.js-enabled) {
 // Events and roadshows
 #browse-events-table tbody tr:last-child {
   border-bottom: 1px solid $colors--theme--border-low-contrast;
+}
+
+// Adjust navigation to be below meganav
+.p-in-page-navigation {
+  top: 4rem;
+}
+
+@media screen and (width < 1036px) {
+  [class^=grid-col]:has(>.p-in-page-navigation) {
+    top: 3.5rem;
+  }
+}
+
+.p-markdown {
+  h2 {
+    padding-top: .55rem !important;
+  }
+
+  h3, h4 {
+    padding-top: .45rem !important;
+  }
+}
+
+.p-knowledge-breadcrumbs__item {
+  font-weight: 400 !important;
+  margin-right: 0;
+}
+
+.p-knowledge-breadcrumbs {
+  list-style: none;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.p-knowledge-breadcrumbs__item--home::after,
+.p-knowledge-breadcrumbs__item:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }

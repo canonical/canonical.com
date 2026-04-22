@@ -1,0 +1,26 @@
+{% from "macros/_vf_card.jinja" import vf_card %}
+
+<section class="p-section">
+  <div class="p-section--shallow">
+    <h2>{{ section.title }}</h2>
+    <p>{{ section.description }}</p>
+  </div>
+
+  <div class="p-section--shallow grid-row">
+    {% for article in section.articles[:3] %}
+      {{ vf_card(
+        columns=2,
+        link=article.url,
+        heading=article.hero_title,
+        footer={
+          "content_type": article.tag or section.title,
+        }
+      ) }}
+    {% endfor %}
+  </div>
+  {% if section.articles|length > 3 %}
+    <div class="u-align--right">
+      <a class="p-button u-no-margin--bottom" href="/knowledge/{{ section.slug }}">View all articles</a>
+    </div>
+  {% endif %}
+</section>

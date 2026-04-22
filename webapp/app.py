@@ -55,6 +55,8 @@ from webapp.views import (
     build_events_index,
     build_canonical_days_index,
     append_utms_cookie_to_ubuntu_links,
+    build_knowledge_index,
+    build_knowledge_category_index,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -1014,6 +1016,28 @@ app.add_url_rule(
     view_func=PressCenter.as_view("press_center", blog_views=blog_views),
 )
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
+
+
+# Knowledge hub
+app.add_url_rule("/knowledge", view_func=build_knowledge_index())
+
+
+def register_knowledge_category_routes():
+    base_path = Path(app.root_path).parent / "templates" / "knowledge"
+
+    if base_path.exists():
+        for category_dir in sorted(base_path.iterdir()):
+            if category_dir.is_dir() and not category_dir.name.startswith("_"):
+                category_slug = category_dir.name
+                app.add_url_rule(
+                    f"/knowledge/{category_slug}",
+                    view_func=build_knowledge_category_index(category_slug),
+                    endpoint=f"knowledge_{category_slug}",
+                )
+
+
+# Register all knowledge hub category routes dynamically
+register_knowledge_category_routes()
 
 
 # Template finder

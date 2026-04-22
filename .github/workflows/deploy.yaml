@@ -3,9 +3,22 @@ name: Deploy
 on:
   push:
     branches:
-      - remove-olly-libs
       - main
-
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment to deploy to (staging or production)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      branch:
+        description: 'Branch to deploy (production always requires main)'
+        required: false
+        default: 'main'
+        type: string
 concurrency:
   group: canonical-com-deploy
   cancel-in-progress: false
@@ -20,6 +33,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Setup LXD
         uses: canonical/setup-lxd@main
@@ -43,6 +58,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -88,6 +105,7 @@ jobs:
   deploy-staging:
     runs-on:
       [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
@@ -128,6 +146,19 @@ jobs:
 
   deploy-production:
     runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
+    if: |
+      always() &&
+      needs.pack-charm.result == 'success' &&
+      needs.publish-image.result == 'success' &&
+      (needs.deploy-staging.result == 'success' || needs.deploy-staging.result == 'skipped') &&
+      (
+        github.event_name == 'push' ||
+        (
+          github.event_name == 'workflow_dispatch' &&
+          github.event.inputs.environment == 'production' &&
+          github.event.inputs.branch == 'main'
+        )
+      )
     needs: [pack-charm, publish-image, deploy-staging]
     steps:
       - name: Checkout Code
