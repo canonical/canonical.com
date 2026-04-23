@@ -1,0 +1,65 @@
+name: Agentic SEO Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write 
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Agentic SEO
+        id: seo-check
+
+        run: npx agentic-seo --json > agentic-seo-results.json || true
+
+      - name: Comment PR with results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read and parse the JSON output
+            let results;
+            try {
+              const fileContent = fs.readFileSync('./agentic-seo-results.json', 'utf8');
+              results = JSON.parse(fileContent);
+            } catch (err) {
+              console.log("Could not read JSON output.", err);
+              return;
+            }
+            
+            const { score, grade, summary } = results;
+            
+            // Format the comment
+            const body = `### 🤖 Agentic SEO Check
+            **Score:** ${score}/100 
+            **Grade:** ${grade}
+            
+            **Summary:**
+            * 🔴 **Errors:** ${summary.errors}
+            * 🟠 **Warnings:** ${summary.warnings}
+            * 🟢 **Passed:** ${summary.passed}
+            
+            _Run \`npx agentic-seo\` locally to see the full breakdown and fixes._`;
+            
+            // Post the comment to the PR
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
