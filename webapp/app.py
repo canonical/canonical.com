@@ -50,6 +50,7 @@ from slugify import slugify
 
 # Local
 from canonicalwebteam.markdown_response import MarkdownResponse
+from webapp.page_generator.pr_generator import PRGenerator
 from webapp.views import (
     json_asset_query,
     build_case_study_index,
@@ -1833,7 +1834,8 @@ def check_redirect(response):
 
 
 # TODO(WD-32786) - create a POST endpoint that accepts a form payload
-# and generates webpage
+# and generates a PR with a new page
+# and returns a link to PR
 @app.route("/create-page")
 def generator():
     with open(
@@ -1846,4 +1848,11 @@ def generator():
 
     page = create_page_generator(data)
     page_path = page.generate()
-    return flask.redirect(str(page_path))
+    file_path = Path("templates") / f"{page_path}.html"
+
+    pr_generator = PRGenerator(get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO"))
+    pr_link = pr_generator.create_pull_request(file_path)
+    if pr_link is None:
+        error_msg = "Failed to create pull request. Please check logs"
+        return {"error": error_msg}, 500
+    return pr_link, 200
