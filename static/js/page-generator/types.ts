@@ -50,7 +50,7 @@ export interface UISchema {
 
 export interface JSONSchema {
   type?: string;
-  enum?: string[];
+  enum?: (string | number | boolean)[];
   default?: unknown;
   required?: string[];
   properties?: Record<string, JSONSchema>;

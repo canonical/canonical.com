@@ -12,9 +12,13 @@ import BlockCard from "./widgets/BlockCard";
 import LinkEditor from "./widgets/LinkEditor";
 import RadioGroupWidget from "./widgets/RadioGroupWidget";
 import ResourceCardEditor from "./widgets/ResourceCardEditor";
-import { buildInitialValues, getNestedValue, setNestedValue } from "../utils/buildInitialValues";
+import {
+  buildInitialValues,
+  getNestedValue,
+  setNestedValue,
+} from "../utils/buildInitialValues";
 import { isRequired, isVisible } from "../utils/resolveConditions";
-import { resolveRefs, findBlockSchema } from "../utils/resolveRefs";
+import { findBlockSchema, resolveRefs } from "../utils/resolveRefs";
 import { JSONSchema, SchemaDefinition, UIFieldSchema } from "../types";
 
 interface Props {
@@ -23,84 +27,67 @@ interface Props {
   onChange: (value: Record<string, unknown>) => void;
 }
 
+// Return true when a value is considered "filled in" (used to hide addable
+// fields once they've been cleared back to empty).
 const hasValue = (value: unknown): boolean => {
-  if (value === undefined || value === null) {
-    return false;
-  }
-
-  if (typeof value === "string") {
-    return value.trim().length > 0;
-  }
-
-  if (Array.isArray(value)) {
-    return value.length > 0;
-  }
-
-  if (typeof value === "object") {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object")
     return Object.keys(value as Record<string, unknown>).length > 0;
-  }
-
   return true;
 };
 
+// Navigate a (fully-dereferenced) JSON Schema tree via a dot-separated property
+// path.  Only traverses `.properties` — call resolveRefs first so there are no
+// $ref indirections left.
 const getSchemaAtPath = (
   rootSchema: JSONSchema | undefined,
   path: string
 ): JSONSchema | undefined => {
-  if (!rootSchema) {
-    return undefined;
-  }
-
+  if (!rootSchema) return undefined;
   return path.split(".").reduce<JSONSchema | undefined>((current, segment) => {
-    if (!current) {
-      return undefined;
-    }
-
-    if (current.properties && current.properties[segment]) {
-      return current.properties[segment];
-    }
-
+    if (!current) return undefined;
+    if (current.properties?.[segment]) return current.properties[segment];
     return undefined;
   }, rootSchema);
 };
 
+// Return the appropriate empty / default value for a newly-activated field.
 const getDefaultByWidget = (field: UIFieldSchema): unknown => {
-  if (field["ui:widget"] === "checkbox") {
-    return false;
-  }
-
+  // Fields with sub-groups (e.g. title with text + link) are objects.
+  if (field["ui:subfields"]) return {};
+  if (field["ui:widget"] === "checkbox") return false;
   if (field["ui:widget"] === "link-editor") {
-    if (field["ui:multiplicity"] === "multiple") {
-      return [];
-    }
-
-    return { content_html: "", attrs: { href: "" } };
+    return field["ui:multiplicity"] === "multiple"
+      ? []
+      : { content_html: "", attrs: { href: "" } };
   }
-
-  if (field["ui:multiplicity"] === "multiple") {
-    return [];
-  }
-
+  if (field["ui:multiplicity"] === "multiple") return [];
   return "";
 };
 
 const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
-  // Resolve all $ref pointers once so downstream lookups work without indirection.
+  // Resolve all $ref pointers once so downstream schema lookups work without
+  // any indirection.
   const resolvedSchema = useMemo(
     () => resolveRefs(schemaDefinition.schema),
     [schemaDefinition.schema]
   );
   const dataSchema = resolvedSchema.properties?.data;
 
-  const initialValues = useMemo(() => {
-    if (!dataSchema) return {};
-    return buildInitialValues(dataSchema);
-  }, [dataSchema]);
+  const initialValues = useMemo(
+    () => (dataSchema ? buildInitialValues(dataSchema) : {}),
+    [dataSchema]
+  );
 
   const [values, setValues] = useState<Record<string, unknown>>(initialValues);
-  const [activatedFields, setActivatedFields] = useState<Set<string>>(new Set());
+  // Tracks which "addable" top-level fields the user has explicitly added.
+  const [activatedFields, setActivatedFields] = useState<Set<string>>(
+    new Set()
+  );
 
-  // Report changes to parent whenever internal state updates.
+  // Report every change upward to the parent (CreatePageApp).
   useEffect(() => {
     onChange(values);
   }, [values]);
@@ -114,28 +101,43 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
   }
 
   const getValueAt = (path: string): unknown => getNestedValue(values, path);
-
-  const setValueAt = (path: string, val: unknown) => {
+  const setValueAt = (path: string, val: unknown) =>
     setValues((prev) => setNestedValue(prev, path, val));
-  };
 
   const topFields = Object.entries(schemaDefinition.uiSchema.fields || {});
-  // The data-model property holding the repeatable blocks array.
-  // Defaults to "blocks" but can be overridden per-pattern (e.g. basic-section uses "items").
+
+  // The data-model property that holds the repeatable blocks array.
+  // Defaults to "blocks" but basic-section overrides it to "items".
   const blocksField = schemaDefinition.uiSchema["$blocksField"] || "blocks";
   const blocks = Array.isArray(values[blocksField])
-    ? (values[blocksField] as Array<{ type?: string; item?: Record<string, unknown> }>)
+    ? (values[blocksField] as Array<{
+        type?: string;
+        item?: Record<string, unknown>;
+      }>)
     : [];
 
+  // Addable top-level fields that haven't been activated or filled in yet.
   const topLevelAddable = topFields
     .filter(([, field]) => field["ui:visibility"] === "addable")
-    .filter(([fieldKey]) => !hasValue(getValueAt(fieldKey)))
+    .filter(
+      ([fieldKey]) =>
+        !activatedFields.has(fieldKey) && !hasValue(getValueAt(fieldKey))
+    )
     .map(([fieldKey, field]) => ({ value: fieldKey, label: field["ui:label"] }));
 
+  /**
+   * Render a single form field given its UI schema descriptor, full dot-path
+   * `name` into the form values, and optional JSON Schema for enum options.
+   *
+   * `contextValues` is only needed for resource-card-list fields: it provides
+   * the containing block's top-level values so that "../../<field>" condition
+   * paths (used in the resources pattern) can be resolved.
+   */
   const renderField = (
     name: string,
     field: UIFieldSchema,
-    fieldSchema?: JSONSchema
+    fieldSchema?: JSONSchema,
+    contextValues?: Record<string, unknown>
   ): ReactNode => {
     if (!isVisible(field, values)) return null;
 
@@ -143,9 +145,9 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
     const currentValue = getValueAt(name);
 
     if (field["ui:widget"] === "radio-group") {
-      const options = (fieldSchema?.enum || []).map((option) => ({
-        label: option,
-        value: option,
+      const options = (fieldSchema?.enum ?? []).map((option) => ({
+        label: String(option),
+        value: String(option),
       }));
       return (
         <RadioGroupWidget
@@ -175,6 +177,26 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
     }
 
     if (field["ui:widget"] === "select") {
+      const enumOptions = fieldSchema?.enum ?? [];
+      // Coerce to number when the schema type is numeric OR when the enum
+      // itself contains numbers (e.g. heading_level: [4, 5] has no explicit
+      // type). The select widget always yields strings via e.target.value, so
+      // without this the backend rejects "5" because it expects 5.
+      const enumHasNumbers = fieldSchema?.enum?.some(
+        (v) => typeof v === "number"
+      );
+      const coerce = (raw: string): string | number => {
+        if (!raw) return raw;
+        if (
+          fieldSchema?.type === "integer" ||
+          fieldSchema?.type === "number" ||
+          enumHasNumbers
+        ) {
+          const n = Number(raw);
+          return isNaN(n) ? raw : n;
+        }
+        return raw;
+      };
       return (
         <Select
           key={name}
@@ -182,12 +204,16 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           label={field["ui:label"]}
           required={required}
           value={String(currentValue ?? "")}
-          onChange={(e) => setValueAt(name, e.target.value)}
+          onChange={(e) => setValueAt(name, coerce(e.target.value))}
           options={[
-            { label: `Choose ${field["ui:label"].toLowerCase()}`, value: "", disabled: true },
-            ...(fieldSchema?.enum || []).map((enumValue) => ({
-              label: enumValue,
-              value: enumValue,
+            {
+              label: `Choose ${field["ui:label"].toLowerCase()}`,
+              value: "",
+              disabled: true,
+            },
+            ...enumOptions.map((enumValue) => ({
+              label: String(enumValue),
+              value: String(enumValue),
             })),
           ]}
         />
@@ -201,7 +227,9 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           id={name}
           label={field["ui:label"]}
           checked={Boolean(currentValue)}
-          onChange={(e) => setValueAt(name, (e.target as HTMLInputElement).checked)}
+          onChange={(e) =>
+            setValueAt(name, (e.target as HTMLInputElement).checked)
+          }
         />
       );
     }
@@ -239,7 +267,12 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
             <Button
               type="button"
               appearance="base"
-              onClick={() => setValueAt(name, [...items, { content_html: "", attrs: { href: "" } }])}
+              onClick={() =>
+                setValueAt(name, [
+                  ...items,
+                  { content_html: "", attrs: { href: "" } },
+                ])
+              }
             >
               Add another
             </Button>
@@ -252,17 +285,41 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           key={name}
           label={field["ui:label"]}
           required={required}
-          value={currentValue as { content_html: string; attrs: { href: string } } | undefined}
+          value={
+            currentValue as
+              | { content_html: string; attrs: { href: string } }
+              | undefined
+          }
           onChange={(val) => setValueAt(name, val)}
         />
       );
     }
 
     if (field["ui:widget"] === "resource-card-list") {
-      return <ResourceCardEditor key={name} label={field["ui:label"]} />;
+      // Derive block-level context from the parent path so that nested item
+      // fields can resolve "../../<field>" condition paths.
+      const parts = name.split(".");
+      const parentPath = parts.slice(0, -1).join(".");
+      const blockData =
+        contextValues ??
+        (parentPath
+          ? (getValueAt(parentPath) as Record<string, unknown>)
+          : values);
+
+      return (
+        <ResourceCardEditor
+          key={name}
+          label={field["ui:label"]}
+          value={(currentValue as Record<string, unknown>[]) || []}
+          onChange={(val) => setValueAt(name, val)}
+          fieldDef={field}
+          jsonSchema={fieldSchema}
+          contextValues={blockData || {}}
+        />
+      );
     }
 
-    // Default: text input
+    // Default: plain text input
     return (
       <Input
         key={name}
@@ -277,12 +334,15 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
     );
   };
 
-  const blockDefinitions = Object.entries(schemaDefinition.uiSchema.blocks || {});
+  const blockDefinitions = Object.entries(
+    schemaDefinition.uiSchema.blocks || {}
+  );
 
+  // Blocks still available to add (respect maxItems and single-instance rule).
   const addableBlocks = blockDefinitions
     .filter(([, block]) => block["ui:visibility"] === "addable")
     .filter(([blockType, block]) => {
-      const count = blocks.filter((item) => item.type === blockType).length;
+      const count = blocks.filter((b) => b.type === blockType).length;
       if (block["ui:multiplicity"] === "single" && count > 0) return false;
       if (block["ui:maxItems"] && count >= block["ui:maxItems"]) return false;
       return true;
@@ -291,9 +351,16 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
 
   return (
     <div>
+      {/* ── Top-level fields ─────────────────────────────────── */}
       {topFields.map(([fieldKey, field]) => {
         const visibility = field["ui:visibility"];
-        if (visibility === "addable" && !activatedFields.has(fieldKey) && !hasValue(getValueAt(fieldKey))) return null;
+        if (
+          visibility === "addable" &&
+          !activatedFields.has(fieldKey) &&
+          !hasValue(getValueAt(fieldKey))
+        ) {
+          return null;
+        }
 
         const fieldSchema = getSchemaAtPath(dataSchema, fieldKey);
         const subfields = field["ui:subfields"];
@@ -329,6 +396,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
         />
       </div>
 
+      {/* ── Block list ───────────────────────────────────────── */}
       <div className="u-sv2">
         {blocks.map((block, blockIndex) => {
           const blockType = block.type || "unknown";
@@ -341,10 +409,31 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
                 severity="information"
                 title="Unsupported block"
               >
-                This block type is not yet mapped in the UI schema renderer.
+                Block type "{blockType}" is not mapped in the UI schema.
               </Notification>
             );
           }
+
+          // Resolve the matching oneOf branch from the JSON Schema so we can
+          // look up enum options and types for individual fields.
+          const blocksItemsSchema =
+            getSchemaAtPath(dataSchema, blocksField)?.items;
+          const matchedBlockSchema = findBlockSchema(
+            blocksItemsSchema,
+            blockType
+          );
+
+          // The resources block stores its fields directly on the block object
+          // (no `item` wrapper), unlike all other block types.
+          const hasItemWrapper = Boolean(
+            matchedBlockSchema?.properties?.item
+          );
+
+          // Block-level values (used as contextValues for resource-card-list
+          // fields so that "../../<field>" conditions can be resolved).
+          const blockData = getValueAt(
+            `${blocksField}.${blockIndex}`
+          ) as Record<string, unknown> | undefined;
 
           return (
             <BlockCard
@@ -356,18 +445,26 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
                 setValueAt(blocksField, next);
               }}
             >
-              {Object.entries(blockSchemaDef.fields || {}).map(([fieldKey, field]) => {
-                // Resolve the correct oneOf branch for this block type,
-                // then navigate into item.<fieldKey> to get the field-level schema.
-                const blocksItemsSchema = getSchemaAtPath(dataSchema, blocksField)?.items;
-                const matchedBlockSchema = findBlockSchema(blocksItemsSchema, blockType);
-                const blockFieldSchema = getSchemaAtPath(matchedBlockSchema, `item.${fieldKey}`);
-                return renderField(
-                  `${blocksField}.${blockIndex}.item.${fieldKey}`,
-                  field,
-                  blockFieldSchema
-                );
-              })}
+              {Object.entries(blockSchemaDef.fields || {}).map(
+                ([fieldKey, field]) => {
+                  // Choose whether the data lives at item.<field> or directly
+                  // on the block object (resources block has no item wrapper).
+                  const fieldPath = hasItemWrapper
+                    ? `${blocksField}.${blockIndex}.item.${fieldKey}`
+                    : `${blocksField}.${blockIndex}.${fieldKey}`;
+
+                  const blockFieldSchema = hasItemWrapper
+                    ? getSchemaAtPath(matchedBlockSchema, `item.${fieldKey}`)
+                    : getSchemaAtPath(matchedBlockSchema, fieldKey);
+
+                  return renderField(
+                    fieldPath,
+                    field,
+                    blockFieldSchema,
+                    blockData
+                  );
+                }
+              )}
             </BlockCard>
           );
         })}
@@ -380,14 +477,30 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           const blockDef = schemaDefinition.uiSchema.blocks?.[blockType];
           if (!blockDef) return;
 
-          const initialItem: Record<string, unknown> = {};
+          // Determine whether this block type uses an `item` wrapper.
+          const blocksItemsSchema =
+            getSchemaAtPath(dataSchema, blocksField)?.items;
+          const matchedBlockSchema = findBlockSchema(
+            blocksItemsSchema,
+            blockType
+          );
+          const hasItemWrapper = Boolean(
+            matchedBlockSchema?.properties?.item
+          );
+
+          // Build initial values for the "default"-visibility fields.
+          const initialFields: Record<string, unknown> = {};
           Object.entries(blockDef.fields).forEach(([fieldKey, field]) => {
             if (field["ui:visibility"] === "default") {
-              initialItem[fieldKey] = getDefaultByWidget(field);
+              initialFields[fieldKey] = getDefaultByWidget(field);
             }
           });
 
-          setValueAt(blocksField, [...blocks, { type: blockType, item: initialItem }]);
+          const newBlock = hasItemWrapper
+            ? { type: blockType, item: initialFields }
+            : { type: blockType, ...initialFields };
+
+          setValueAt(blocksField, [...blocks, newBlock]);
         }}
       />
     </div>
