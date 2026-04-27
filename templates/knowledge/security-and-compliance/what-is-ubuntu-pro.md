@@ -77,9 +77,9 @@ Here are some commands you could use on your machine:
 
 {{ text_list_kh(
   items=[
-  "pro security-status: Shows which packages are missing security updates",
-  "sudo pro fix CVE-YYYY-XXXX: Instantly triages and applies the fix for a specific vulnerability",
-  "sudo pro enable esm-apps or sudo pro enable livepatch: to enable specific services"
+  "<code>pro security-status</code>: Shows which packages are missing security updates",
+  "<code>sudo pro fix CVE-YYYY-XXXX</code>: Instantly triages and applies the fix for a specific vulnerability",
+  "<code>sudo pro enable esm-apps</code> or <code>sudo pro enable livepatch</code>: to enable specific services"
 ]) }}
 
 [View a complete list of helpful terminal commands ›](https://documentation.ubuntu.com/pro-client/en/latest/references/commands/)
@@ -151,10 +151,10 @@ An Ubuntu Pro subscription typically starts between $25 and $500 per year, depen
 
 {{ text_list_kh(
   items=[
-  "Personal: This tier is designed for individual users, developers, and small-scale home labs. It provides the full technical suite of Ubuntu Pro at no cost for up to 5 machines (or 50 machines for official Ubuntu Community members).",
-  "Enterprise: This is the standard paid tier for organizations that have their own internal Linux expertise but need enterprise-grade security and compliance tools. It is billed per workstation ($25/year) or per server ($500/year).",
-  "Ubuntu Pro + Support: This is the highest tier, combining all technical features with direct access to Canonical’s engineering team. It is intended for mission-critical environments where downtime is a high risk. It includes 24/7 or 24/5 "human-in-the-loop" support for troubleshooting \"break-fix\" issues.",
-  "Legacy add-on: Available as an add-on to paid plans, this tier extends the total security maintenance window from 10 years to 15 years."
+  "<strong>Personal</strong>: This tier is designed for individual users, developers, and small-scale home labs. It provides the full technical suite of Ubuntu Pro at no cost for up to 5 machines (or 50 machines for official Ubuntu Community members).",
+  "<strong>Enterprise</strong>: This is the standard paid tier for organizations that have their own internal Linux expertise but need enterprise-grade security and compliance tools. It is billed per workstation ($25/year) or per server ($500/year).",
+  "<strong>Ubuntu Pro + Support</strong>: This is the highest tier, combining all technical features with direct access to Canonical’s engineering team. It is intended for mission-critical environments where downtime is a high risk. It includes 24/7 or 24/5 \"human-in-the-loop\" support for troubleshooting \"break-fix\" issues.",
+  "<strong>Legacy add-on</strong>: Available as an add-on to paid plans, this tier extends the total security maintenance window from 10 years to 15 years."
 ]) }}
 
 ### Is Ubuntu Pro good value for money?
@@ -166,11 +166,11 @@ Research shows that the average IT team spends approximately 6 to 8 hours per we
 
 ## How can I check the security coverage of all packages on my Ubuntu machine?
 
-The most direct way to get this information is by running the pro security-status command in your Linux terminal. This command gives users a breakdown of packages from Main and Universe repositories, how long they will be supported for and identifies the packages installed on the machine that would benefit from an Ubuntu Pro subscription.
+The most direct way to get this information is by running the <code>pro security-status</code> command in your Linux terminal. This command gives users a breakdown of packages from Main and Universe repositories, how long they will be supported for and identifies the packages installed on the machine that would benefit from an Ubuntu Pro subscription.
 
 ### How do I install Ubuntu Pro?
 
-Because Ubuntu Pro is a service subscription rather than a new operating system, you don’t "install" it in the traditional sense. Instead, you attach your existing Ubuntu LTS installation to a subscription by obtaining a token from the Ubuntu Pro dashboard and running sudo pro attach <TOKEN>. Once attached, you can confirm that your services are active by running pro status in the CLI terminal.
+Because Ubuntu Pro is a service subscription rather than a new operating system, you don’t "install" it in the traditional sense. Instead, you attach your existing Ubuntu LTS installation to a subscription by obtaining a token from the [Ubuntu Pro dashboard](https://ubuntu.com/pro/dashboard) and running <code>sudo pro attach `<TOKEN>`</code>. Once attached, you can confirm that your services are active by running <code>pro status</code> in the CLI terminal.
 
 ### Can I try Ubuntu Pro before I buy it?
 
