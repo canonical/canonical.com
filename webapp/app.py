@@ -88,12 +88,11 @@ from webapp.utils.juju_doc_search import (
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
-# Can be seen on sitemap_index.xml
+# Can be seen on sitemap.xml
 DYNAMIC_SITEMAPS = [
     "careers",
     "partners",
     "blog",
-    "knowledge",
 ]
 
 # Web tribe websites custom search ID
