@@ -12,13 +12,13 @@ context:
     buttons:
       - text: "Talk to an expert"
         url: "https://ubuntu.com/contact-us/form?product=pro"
-        type: "link"
+        type: "button"
+        variant: "positive"
       - text: "Get Ubuntu Pro"
         url: "https://ubuntu.com/pro/subscribe"
-        type: "link"
+        type: "button"
       - text: "Learn more about Ubuntu Pro ›"
         url: "https://ubuntu.com/pro"
-        type: "link"
   blog:
     title: "Latest from our blog"
     id: 3586
