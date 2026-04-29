@@ -5,6 +5,7 @@
     "name": { "const": "basic-section" },
     "data": {
       "type": "object",
+      "required": ["title", "items"],
       "properties": {
         "title": { "$ref": "#/definitions/titleObject" },
         "label_text": { "type": "string" },
@@ -13,7 +14,10 @@
           "enum": ["default", "muted", "highlighted", "none"]
         },
         "attrs": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "padding": { "enum": ["deep", "shallow", "default"] },
         "override_last_item_padding": { "type": "boolean", "default": false },
@@ -39,6 +43,7 @@
   "definitions": {
     "titleObject": {
       "type": "object",
+      "required": ["text"],
       "properties": {
         "text": { "type": "string" },
         "link_attrs": {
@@ -51,27 +56,33 @@
     },
     "subtitleObject": {
       "type": "object",
+      "required": ["text"],
       "properties": {
         "text": { "type": "string" },
         "heading_level": { "enum": [4, 5] }
-      }
+      },
+      "additionalProperties": false
     },
     "descriptionBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "description" },
         "padding": { "enum": ["shallow"] },
         "item": {
           "type": "object",
+          "required": ["type", "content"],
           "properties": {
             "type": { "enum": ["text", "html"] },
             "content": { "type": "string" }
-          }
+          },
+          "additionalProperties": false
         }
       }
     },
     "ctaBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "cta-block" },
         "padding": { "enum": ["shallow"] },
@@ -84,12 +95,18 @@
               "items": { "$ref": "#/definitions/linkObject" }
             },
             "link": { "$ref": "#/definitions/linkObject" }
-          }
+          },
+          "anyOf": [
+            { "required": ["primary"] },
+            { "required": ["secondaries"] },
+            { "required": ["link"] }
+          ]
         }
       }
     },
     "linkObject": {
       "type": "object",
+      "required": ["content_html", "attrs"],
       "properties": {
         "content_html": { "type": "string" },
         "attrs": {
@@ -102,10 +119,12 @@
     },
     "imageBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "image" },
         "item": {
           "type": "object",
+          "required": ["attrs"],
           "properties": {
             "aspect_ratio": { "enum": ["16-9", "3-2", "2-3", "cinematic"] },
             "caption_html": { "type": "string" },
@@ -118,6 +137,7 @@
     },
     "videoBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "video" },
         "item": {
@@ -130,27 +150,40 @@
     },
     "imageAttrs": {
       "type": "object",
+      "required": ["src"],
       "properties": {
         "src": { "type": "string", "format": "uri" },
         "alt": { "type": "string" }
+      },
+      "additionalProperties": {
+        "type": "string"
       }
     },
     "videoAttrs": {
       "type": "object",
+      "required": ["src"],
       "properties": {
         "src": { "type": "string", "format": "uri" },
         "allowfullscreen": { "type": "string" }
+      },
+      "additionalProperties": {
+        "type": "string"
       }
     },
     "listBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "list" },
         "item": {
           "type": "object",
+          "required": ["list_items"],
           "properties": {
             "list_items": {
               "type": "array",
+              "contains": {
+                "$ref": "#/definitions/listItemObject"
+              },
               "items": {
                 "$ref": "#/definitions/listItemObject"
               }
@@ -161,6 +194,7 @@
     },
     "listItemObject": {
       "type": "object",
+      "required": ["list_item_type", "content"],
       "properties": {
         "list_item_type": {
           "enum": ["bullet", "tick", "cross", "number"]
@@ -168,42 +202,51 @@
         "content": { "type": "string" },
         "sublist": {
           "type": "object",
+          "required": ["list_items"],
           "properties": {
             "list_items": {
               "type": "array",
+              "contains": { "$ref": "#/definitions/listItemObject" },
               "items": {
                 "$ref": "#/definitions/listItemObject"
               }
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "codeBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "code-block" },
         "item": {
           "type": "object",
+          "required": ["content"],
           "properties": {
             "content": { "type": "string" },
             "is_code_snippet": { "type": "boolean", "default": false }
-          }
+          },
+          "additionalProperties": false
         }
       }
     },
     "logoBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "logo-block" },
         "item": {
           "type": "object",
+          "required": ["logos"],
           "properties": {
             "is_fixed_width": { "type": "boolean", "default": true },
             "logos": {
               "type": "array",
               "items": {
                 "type": "object",
+                "required": ["attrs"],
                 "properties": {
                   "has_line_break_after": {
                     "type": "boolean",
@@ -211,65 +254,57 @@
                   },
                   "attrs": {
                     "type": "object",
+                    "required": ["src"],
                     "properties": {
                       "src": { "type": "string", "format": "uri" },
                       "alt": { "type": "string" },
                       "class": { "type": "string" }
+                    },
+                    "additionalProperties": {
+                      "type": "string"
                     }
                   }
                 }
               }
             }
-          }
+          },
+          "additionalProperties": false
         }
       }
     },
     "linkedLogoBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "linked-logo-block" },
         "item": {
           "type": "object",
+          "required": ["links"],
           "properties": {
             "links": {
               "type": "array",
               "items": {
                 "type": "object",
+                "required": ["href", "text", "image_attrs"],
                 "properties": {
                   "href": { "type": "string", "format": "uri" },
                   "text": { "type": "string" },
                   "label": { "type": "string" },
                   "image_attrs": {
                     "type": "object",
+                    "required": ["src", "alt", "width", "height"],
                     "properties": {
                       "src": { "type": "string", "format": "uri" },
                       "alt": { "type": "string" },
                       "width": { "type": "string" },
                       "height": { "type": "string" }
+                    },
+                    "additionalProperties": {
+                      "type": "string"
                     }
                   }
-                }
-              }
-            },
-            "is_fixed_width": { "type": "boolean", "default": true },
-            "logos": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "has_line_break_after": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "attrs": {
-                    "type": "object",
-                    "properties": {
-                      "src": { "type": "string", "format": "uri" },
-                      "alt": { "type": "string" },
-                      "class": { "type": "string" }
-                    }
-                  }
-                }
+                },
+                "additionalProperties": false
               }
             }
           }
@@ -278,17 +313,21 @@
     },
     "notificationBlock": {
       "type": "object",
+      "required": ["item"],
       "properties": {
         "type": { "const": "notification" },
         "item": {
           "type": "object",
+          "required": ["type"],
           "properties": {
             "type": {
               "enum": ["positive", "negative", "caution", "information"]
             },
             "title": { "type": "string" },
             "content": { "type": "string" }
-          }
+          },
+          "anyOf": [{ "required": ["title"] }, { "required": ["content"] }],
+          "additionalProperties": false
         }
       }
     }

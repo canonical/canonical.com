@@ -56,6 +56,7 @@ from slugify import slugify
 
 # Local
 from canonicalwebteam.markdown_response import MarkdownResponse
+from webapp.page_generator.pr_generator import PRGenerator
 from webapp.views import (
     json_asset_query,
     build_case_study_index,
@@ -1897,16 +1898,20 @@ if environment != "production":
             normalised_payload = normalise_page_generator_payload(payload)
             generator = create_page_generator(normalised_payload)
             page_url = generator.generate()
+            pr_generator = PRGenerator(get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO"))
+            pr_link = pr_generator.create_pull_request(Path("templates") / f"{page_url}.html")
+            if pr_link is None:
+                error_msg = "Failed to create pull request. Please check logs"
+                return {"error": error_msg}, 500
         except ValueError as error:
             return page_generator_error(str(error))
         except Exception:
             logger.exception("Page generator save failed")
             return page_generator_error("Failed to save page", status_code=500)
 
-        permanent_url = f"/{str(page_url).lstrip('/')}"
         return flask.jsonify(
             {
-                "url": permanent_url,
-                "page_path": permanent_url,
+                "url": pr_link,
+                "page_path": pr_link,
             }
         )
