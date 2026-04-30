@@ -7,13 +7,14 @@ interface Option {
 
 interface Props {
   label: string;
+  name: string;
   options: Option[];
   required?: boolean;
   value: string;
   onChange: (value: string) => void;
 }
 
-const RadioGroupWidget = ({ label, options, required, value, onChange }: Props) => {
+const RadioGroupWidget = ({ label, name, options, required, value, onChange }: Props) => {
   return (
     <fieldset className="p-form__group">
       <legend className={`p-form__label${required ? " is-required" : ""}`}>
@@ -24,7 +25,7 @@ const RadioGroupWidget = ({ label, options, required, value, onChange }: Props) 
           <RadioInput
             key={option.value}
             label={option.label}
-            name={label}
+            name={name}
             checked={value === option.value}
             onChange={() => onChange(option.value)}
           />

@@ -23,9 +23,6 @@
       "ui:visibility": "addable",
       "ui:multiplicity": "single",
       "ui:conditions": {
-        "visibleWhen": {
-          "variant": "block"
-        },
         "requiredWhen": {
           "variant": "block"
         }
@@ -65,24 +62,45 @@
         }
       },
       "fields": {
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "CTA content (HTML)",
+          "ui:placeholder": "<a href='/url'>Link text &rsaquo;</a>",
+          "ui:rows": 3,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "default" },
+            "requiredWhen": { "variant": "default" }
+          }
+        },
         "primary": {
           "ui:widget": "link-editor",
           "ui:label": "Primary CTA",
           "ui:visibility": "default",
-          "ui:multiplicity": "single"
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
         },
         "secondaries": {
           "ui:widget": "link-editor",
           "ui:label": "Secondary CTAs",
           "ui:visibility": "addable",
           "ui:multiplicity": "multiple",
-          "ui:maxItems": 3
+          "ui:maxItems": 3,
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
         },
         "link": {
           "ui:widget": "link-editor",
           "ui:label": "Standalone link",
           "ui:visibility": "addable",
-          "ui:multiplicity": "single"
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
         }
       }
     }

@@ -361,8 +361,30 @@ class CTASection(Pattern):
     def schema_name(self) -> str:
         return "cta-section"
 
+    def _normalize_blocks(self) -> list:
+        """Ensure cta blocks with a content field have type='html' set."""
+        blocks = self.data.get("blocks", [])
+        normalized = []
+        for block in blocks:
+            if block.get("type") == "cta":
+                item = dict(block.get("item", {}))
+                if item.get("content") and not item.get("type"):
+                    item["type"] = "html"
+                block = {**block, "item": item}
+            normalized.append(block)
+        return normalized
+
     def process_pattern(self):
-        params_str = self._build_params_str()
+        data = {**self.data, "blocks": self._normalize_blocks()}
+        params_list = []
+        for key, value in data.items():
+            if isinstance(value, str):
+                params_list.append(f'{key}="{value}"')
+            elif isinstance(value, bool):
+                params_list.append(f"{key}={str(value).lower()}")
+            else:
+                params_list.append(f"{key}={json.dumps(value)}")
+        params_str = ",\n    ".join(params_list)
 
         self.pattern_html += f"""
             {{% call(slot) vf_cta_section(

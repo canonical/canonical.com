@@ -1849,7 +1849,8 @@ if environment != "production":
             try:
                 normalised_payload = normalise_page_generator_payload(payload)
                 generator = create_page_generator(normalised_payload)
-                preview_html = generator.preview()
+                jinja_template = generator.preview()
+                preview_html = flask.render_template_string(jinja_template)
             except ValueError as error:
                 return page_generator_error(str(error))
             except Exception:
@@ -1881,7 +1882,9 @@ if environment != "production":
         try:
             normalised_payload = normalise_page_generator_payload(payload)
             generator = create_page_generator(normalised_payload)
-            return flask.jsonify({"html": generator.preview()})
+            jinja_template = generator.preview()
+            rendered_html = flask.render_template_string(jinja_template)
+            return flask.jsonify({"html": rendered_html})
         except ValueError as error:
             return page_generator_error(str(error))
         except Exception:
@@ -1898,8 +1901,12 @@ if environment != "production":
             normalised_payload = normalise_page_generator_payload(payload)
             generator = create_page_generator(normalised_payload)
             page_url = generator.generate()
-            pr_generator = PRGenerator(get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO"))
-            pr_link = pr_generator.create_pull_request(Path("templates") / f"{page_url}.html")
+            pr_generator = PRGenerator(
+                get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO")
+            )
+            pr_link = pr_generator.create_pull_request(
+                Path("templates") / f"{page_url}.html"
+            )
             if pr_link is None:
                 error_msg = "Failed to create pull request. Please check logs"
                 return {"error": error_msg}, 500

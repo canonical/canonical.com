@@ -1,4 +1,5 @@
 import { Button, Col, Notification, Row } from "@canonical/react-components";
+import { useEffect } from "react";
 import PreviewPane from "./PreviewPane";
 import SchemaForm from "./SchemaForm";
 import { SchemaDefinition, SectionState } from "../types";
@@ -34,6 +35,12 @@ const SectionEditor = ({
   viewMode,
   onViewModeChange,
 }: Props) => {
+  useEffect(() => {
+    if (error) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [error]);
+
   return (
     <>
       {error ? (
@@ -51,8 +58,8 @@ const SectionEditor = ({
       <div className="grid-row">
 
         <div className="p-segmented-control">
-          <ul className="p-segmented-control__list">
-            <li className="p-segmented-control__item">
+            <ul className="p-segmented-control__list">
+              <li className="p-segmented-control__item" style={{ listStyleType: "none" }}>
               <button
                 type="button"
                 className={`p-segmented-control__button ${viewMode === "edit" ? "is-active" : ""
@@ -78,78 +85,78 @@ const SectionEditor = ({
 
       {viewMode === "preview" ? (
         <PreviewPane html={previewHtml} />
-      ) : (
-        <>
-          {sections.map((section, index) => {
-            const schemaDefinition = schemas[section.patternName];
-            const label =
-              schemaDefinition?.label || section.patternName;
+      ) : null}
 
-            return (
-              <div key={section.id}>
-                {index > 0 ? <hr /> : null}
-                <div className="grid-row">
-                  <div className="grid-col-2">
-                    <p
-                      className="p-text--small-caps"
-                      style={{ paddingTop: "0.5rem" }}
+      <div style={{ display: viewMode !== "edit" ? "none" : undefined }}>
+        {sections.map((section, index) => {
+          const schemaDefinition = schemas[section.patternName];
+          const label =
+            schemaDefinition?.label || section.patternName;
+
+          return (
+            <div key={section.id}>
+              {index > 0 ? <hr /> : null}
+              <div className="grid-row">
+                <div className="grid-col-2">
+                  <p
+                    className="p-text--small-caps"
+                    style={{ paddingTop: "0.5rem" }}
+                  >
+                    {label}
+                  </p>
+                </div>
+                <div className="grid-col-6">
+                  {schemaDefinition ? (
+                    <SchemaForm
+                      schemaDefinition={schemaDefinition}
+                      value={section.data}
+                      onChange={(nextData) => {
+                        onUpdateSection(section.id, nextData);
+                      }}
+                    />
+                  ) : (
+                    <Notification
+                      severity="negative"
+                      title="Missing schema"
                     >
-                      {label}
-                    </p>
-                  </div>
-                  <div className="grid-col-6">
-                    {schemaDefinition ? (
-                      <SchemaForm
-                        schemaDefinition={schemaDefinition}
-                        value={section.data}
-                        onChange={(nextData) => {
-                          onUpdateSection(section.id, nextData);
-                        }}
-                      />
-                    ) : (
-                      <Notification
-                        severity="negative"
-                        title="Missing schema"
-                      >
-                        Could not load schema for {section.patternName}.
-                      </Notification>
-                    )}
-                  </div>
+                      Could not load schema for {section.patternName}.
+                    </Notification>
+                  )}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
 
-          <hr />
+        <hr />
 
-          <div className="grid-row">
-            <div className="grid-col-2" />
-            <div className="grid-col-6">
-              <div className="u-sv1">
-                <Button
-                  type="button"
-                  appearance="positive"
-                  onClick={onPreview}
-                  disabled={isPreviewing || sections.length === 0}
-                >
-                  {isPreviewing ? "Generating preview…" : "Generate preview"}
-                </Button>{" "}
-                <Button
-                  type="button"
-                  appearance="brand"
-                  onClick={onSave}
-                  disabled={isSaving || sections.length === 0}
-                >
-                  {isSaving ? "Saving…" : "Save page"}
-                </Button>{" "}
-                <Button type="button" appearance="base" onClick={onBack}>
-                  Back
-                </Button>
-              </div>
+        <div className="grid-row">
+          <div className="grid-col-2" />
+          <div className="grid-col-6">
+            <div className="u-sv1">
+              <Button
+                type="button"
+                appearance="positive"
+                onClick={onPreview}
+                disabled={isPreviewing || sections.length === 0}
+              >
+                {isPreviewing ? "Generating preview…" : "Generate preview"}
+              </Button>{" "}
+              <Button
+                type="button"
+                appearance="brand"
+                onClick={onSave}
+                disabled={isSaving || sections.length === 0}
+              >
+                {isSaving ? "Saving…" : "Save page"}
+              </Button>{" "}
+              <Button type="button" appearance="base" onClick={onBack}>
+                Back
+              </Button>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </>
   );
 };

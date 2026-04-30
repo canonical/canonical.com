@@ -6,7 +6,7 @@ import {
   Select,
   Textarea,
 } from "@canonical/react-components";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import AddFieldDropdown from "./AddFieldDropdown";
 import BlockCard from "./widgets/BlockCard";
 import LinkEditor from "./widgets/LinkEditor";
@@ -54,10 +54,10 @@ const getSchemaAtPath = (
 };
 
 // Return the appropriate empty / default value for a newly-activated field.
-const getDefaultByWidget = (field: UIFieldSchema): unknown => {
+const getDefaultByWidget = (field: UIFieldSchema, jsonSchema?: JSONSchema): unknown => {
   // Fields with sub-groups (e.g. title with text + link) are objects.
   if (field["ui:subfields"]) return {};
-  if (field["ui:widget"] === "checkbox") return false;
+  if (field["ui:widget"] === "checkbox") return jsonSchema?.default ?? false;
   if (field["ui:widget"] === "link-editor") {
     return field["ui:multiplicity"] === "multiple"
       ? []
@@ -86,6 +86,18 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
   const [activatedFields, setActivatedFields] = useState<Set<string>>(
     new Set()
   );
+
+  // Stable prefix for DOM IDs so multiple SchemaForm instances don't clash.
+  const formId = useRef(`sf-${Math.random().toString(36).slice(2)}`);
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!pendingScrollId) return;
+    document
+      .getElementById(pendingScrollId)
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    setPendingScrollId(null);
+  }, [pendingScrollId]);
 
   // Report every change upward to the parent (CreatePageApp).
   useEffect(() => {
@@ -153,6 +165,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
         <RadioGroupWidget
           key={name}
           label={field["ui:label"]}
+          name={`${formId.current}-${name}`}
           options={options}
           required={required}
           value={String(currentValue ?? "")}
@@ -367,7 +380,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
 
         if (subfields) {
           return (
-            <div key={fieldKey} className="u-sv2">
+            <div key={fieldKey} id={`${formId.current}-field-${fieldKey}`} className="u-sv2">
               <h4 className="p-heading--5">{field["ui:label"]}</h4>
               {Object.entries(subfields).map(([subKey, subField]) =>
                 renderField(
@@ -380,7 +393,11 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           );
         }
 
-        return renderField(fieldKey, field, fieldSchema);
+        return (
+          <div key={fieldKey} id={`${formId.current}-field-${fieldKey}`}>
+            {renderField(fieldKey, field, fieldSchema)}
+          </div>
+        );
       })}
 
       <div className="u-sv2">
@@ -391,7 +408,9 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
             const fieldDef = schemaDefinition.uiSchema.fields?.[fieldName];
             if (!fieldDef) return;
             setActivatedFields((prev) => new Set(prev).add(fieldName));
-            setValueAt(fieldName, getDefaultByWidget(fieldDef));
+            const jsonFieldSchema = getSchemaAtPath(dataSchema, fieldName);
+            setValueAt(fieldName, getDefaultByWidget(fieldDef, jsonFieldSchema));
+            setPendingScrollId(`${formId.current}-field-${fieldName}`);
           }}
         />
       </div>
@@ -436,8 +455,8 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
           ) as Record<string, unknown> | undefined;
 
           return (
+            <div key={`${block.type}-${blockIndex}`} id={`${formId.current}-block-${blockIndex}`}>
             <BlockCard
-              key={`${block.type}-${blockIndex}`}
               title={blockSchemaDef["ui:label"]}
               onRemove={() => {
                 const next = [...blocks];
@@ -466,6 +485,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
                 }
               )}
             </BlockCard>
+            </div>
           );
         })}
       </div>
@@ -488,11 +508,20 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
             matchedBlockSchema?.properties?.item
           );
 
-          // Build initial values for the "default"-visibility fields.
+          // Build initial values for "default"-visibility fields and all
+          // checkbox fields. Checkboxes must always be explicitly initialized
+          // to false so the backend receives the correct value when the user
+          // leaves them unchecked (absence of a boolean is treated as true
+          // by the macro).
           const initialFields: Record<string, unknown> = {};
           Object.entries(blockDef.fields).forEach(([fieldKey, field]) => {
-            if (field["ui:visibility"] === "default") {
-              initialFields[fieldKey] = getDefaultByWidget(field);
+            if (
+              field["ui:visibility"] === "default" ||
+              field["ui:widget"] === "checkbox"
+            ) {
+              const jsonPath = hasItemWrapper ? `item.${fieldKey}` : fieldKey;
+              const jsonFieldSchema = getSchemaAtPath(matchedBlockSchema, jsonPath);
+              initialFields[fieldKey] = getDefaultByWidget(field, jsonFieldSchema);
             }
           });
 
@@ -501,6 +530,7 @@ const SchemaForm = ({ schemaDefinition, value: _value, onChange }: Props) => {
             : { type: blockType, ...initialFields };
 
           setValueAt(blocksField, [...blocks, newBlock]);
+          setPendingScrollId(`${formId.current}-block-${blocks.length}`);
         }}
       />
     </div>
