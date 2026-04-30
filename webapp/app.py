@@ -342,16 +342,6 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/sitemap-links.xml")
-def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
     response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
