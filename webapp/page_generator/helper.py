@@ -7,7 +7,9 @@ from .schema import SchemaLoader
 _SAFE_NAME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
 
 
-def page_generator_error(message: str, field: str = "payload", status_code: int = 400):
+def page_generator_error(
+    message: str, field: str = "payload", status_code: int = 400
+):
     return (
         flask.jsonify({"errors": [{"field": field, "message": message}]}),
         status_code,
@@ -31,10 +33,14 @@ def normalise_page_generator_sections(sections) -> list:
 
         name = section.get("name") or section.get("pattern")
         if not name or not isinstance(name, str):
-            raise ValueError(f"Section at index {index} must include a pattern name")
+            raise ValueError(
+                f"Section at index {index} must include a pattern name"
+            )
 
         if not _SAFE_NAME_RE.match(name):
-            raise ValueError("Invalid section name at index" f" {index}: '{name}'")
+            raise ValueError(
+                "Invalid section name at index" f" {index}: '{name}'"
+            )
 
         try:
             SchemaLoader.get_schema(name)
@@ -74,7 +80,9 @@ def normalise_page_generator_payload(payload: dict) -> dict:
         raise ValueError("'page_path' must be a string")
 
     if ".." in page_name or "/" in page_name or "\\" in page_name:
-        raise ValueError("'page_name' must not contain" " path separators or '..'")
+        raise ValueError(
+            "'page_name' must not contain" " path separators or '..'"
+        )
     if ".." in page_path:
         raise ValueError("'page_path' must not contain '..'")
 

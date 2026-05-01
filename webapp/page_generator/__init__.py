@@ -80,7 +80,9 @@ class PatternFactory:
             "resources": ResourcesSection,
         }
 
-    def create(self, pattern_type: str, pattern_data: dict) -> Optional["Pattern"]:
+    def create(
+        self, pattern_type: str, pattern_data: dict
+    ) -> Optional["Pattern"]:
         """Create a pattern instance based on type."""
         pattern_class = self._patterns.get(pattern_type)
         if pattern_class:
@@ -107,9 +109,11 @@ class HTMLContentBuilder:
 
     def add_content_start(self) -> None:
         """Add the content block start."""
-        self.content_parts.append("""
+        self.content_parts.append(
+            """
             {% block content %}
-        """)
+        """
+        )
 
     def add_patterns(self, patterns: List["Pattern"]) -> None:
         """Process patterns and add their HTML."""
@@ -168,7 +172,9 @@ class PageGenerator:
         for pattern in self.data.get("patterns", []):
             pattern_type = pattern.get("name")
             pattern_data = pattern.get("data", {})
-            pattern_instance = self.pattern_factory.create(pattern_type, pattern_data)
+            pattern_instance = self.pattern_factory.create(
+                pattern_type, pattern_data
+            )
             if pattern_instance:
                 self.patterns.append(pattern_instance)
 
@@ -353,7 +359,10 @@ class BasicSection(Pattern):
         """
 
     def write_import(self):
-        return '{% from "_macros/vf_basic-section.jinja" ' "import vf_basic_section %}"
+        return (
+            '{% from "_macros/vf_basic-section.jinja" '
+            "import vf_basic_section %}"
+        )
 
 
 class CTASection(Pattern):
@@ -390,7 +399,9 @@ class CTASection(Pattern):
         """
 
     def write_import(self):
-        return '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
+        return (
+            '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
+        )
 
 
 class ResourcesSection(Pattern):
