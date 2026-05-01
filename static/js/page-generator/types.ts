@@ -3,6 +3,7 @@ export type UIWidget =
   | "textarea"
   | "select"
   | "radio-group"
+  | "segmented-control"
   | "checkbox"
   | "link-editor"
   | "block-list"
@@ -34,6 +35,7 @@ export interface UIBlockSchema {
   "ui:multiplicity": "single" | "multiple";
   "ui:maxItems"?: number;
   "ui:conditions"?: {
+    visibleWhen?: UICondition;
     requiredWhen?: UICondition;
   };
   fields: Record<string, UIFieldSchema>;
@@ -89,18 +91,8 @@ export interface SaveResponse {
   page_path: string;
 }
 
-export interface APIErrorItem {
-  field: string;
-  message: string;
-}
-
-export interface APIErrorResponse {
-  errors: APIErrorItem[];
-}
-
 export interface PageGeneratorConfig {
   schemasUrl: string;
-  createUrl: string;
   previewUrl: string;
   saveUrl: string;
 }

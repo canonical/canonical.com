@@ -1,4 +1,4 @@
-import { ContextualMenu } from "@canonical/react-components";
+import { Button, ContextualMenu } from "@canonical/react-components";
 
 interface AddOption {
   label: string;
@@ -12,11 +12,18 @@ interface Props {
 }
 
 const AddFieldDropdown = ({ label, options, onAdd }: Props) => {
+  if (options.length === 0) {
+    return (
+      <Button type="button" disabled>
+        {label}
+      </Button>
+    );
+  }
+
   return (
     <ContextualMenu
       toggleLabel={label}
-      toggleAppearance="base"
-      toggleDisabled={options.length === 0}
+      toggleClassName="p-button"
       links={options.map((option) => ({
         children: option.label,
         onClick: () => {

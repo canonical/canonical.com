@@ -11,6 +11,7 @@ const PreviewPane = ({ html }: Props) => {
     <iframe
       title="Page preview"
       srcDoc={html}
+      sandbox="allow-same-origin"
       style={{ width: "100%", minHeight: "700px", border: "1px solid #d9d9d9" }}
     />
   );

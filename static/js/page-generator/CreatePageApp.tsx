@@ -1,5 +1,5 @@
 import { Notification, Spinner } from "@canonical/react-components";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import SectionEditor from "./components/SectionEditor";
 import SectionSelector from "./components/SectionSelector";
 import StepIndicator from "./components/StepIndicator";
@@ -7,6 +7,19 @@ import { usePreview } from "./hooks/usePreview";
 import { useSave } from "./hooks/useSave";
 import { useSchemas } from "./hooks/useSchemas";
 import { SectionState } from "./types";
+import { areSectionRequiredFieldsFilled } from "./utils/resolveConditions";
+
+function splitPagePath(input: string) {
+  const trimmed = input.replace(/^\/+|\/+$/g, "");
+  const lastSlash = trimmed.lastIndexOf("/");
+  if (lastSlash === -1) {
+    return { name: trimmed, path: "/" };
+  }
+  return {
+    name: trimmed.substring(lastSlash + 1),
+    path: "/" + trimmed.substring(0, lastSlash),
+  };
+}
 
 const CreatePageApp = () => {
   const { data: schemas = {}, isLoading, error } = useSchemas();
@@ -19,6 +32,8 @@ const CreatePageApp = () => {
   const [previewHtml, setPreviewHtml] = useState("");
   const [apiError, setApiError] = useState<string | null>(null);
   const [savedUrl, setSavedUrl] = useState<string | null>(null);
+  const [pageName, setPageName] = useState("generated-page");
+  const [isPreviewStale, setIsPreviewStale] = useState(false);
 
   const addSection = (patternName: string) => {
     setSections((current) => [
@@ -29,10 +44,12 @@ const CreatePageApp = () => {
         data: {},
       },
     ]);
+    setIsPreviewStale(true);
   };
 
   const removeSection = (id: string) => {
     setSections((current) => current.filter((section) => section.id !== id));
+    setIsPreviewStale(true);
   };
 
   const moveSection = (id: string, direction: "up" | "down") => {
@@ -55,6 +72,7 @@ const CreatePageApp = () => {
       next.splice(targetIndex, 0, movedSection);
       return next;
     });
+    setIsPreviewStale(true);
   };
 
   const updateSection = (id: string, data: Record<string, unknown>) => {
@@ -65,47 +83,61 @@ const CreatePageApp = () => {
         }
 
         return { ...section, data };
-      })
+      }),
     );
+    setIsPreviewStale(true);
   };
 
   const previewPage = useCallback(async () => {
     setApiError(null);
 
     try {
+      const { name } = splitPagePath(pageName);
       const response = await previewMutation.mutateAsync({
-        page_name: "preview",
+        page_name: name,
         page_path: "/page-generator/preview",
         sections,
       });
       setPreviewHtml(response.html);
       setViewMode("preview");
+      setIsPreviewStale(false);
     } catch (previewError) {
       setApiError(
         previewError instanceof Error
           ? previewError.message
-          : "Failed to preview page"
+          : "Failed to preview page",
       );
     }
-  }, [previewMutation, sections]);
+  }, [previewMutation, sections, pageName]);
 
   const savePage = useCallback(async () => {
     setApiError(null);
     setSavedUrl(null);
 
     try {
+      const { name, path } = splitPagePath(pageName);
       const response = await saveMutation.mutateAsync({
-        page_name: "generated-page",
-        page_path: "/page-generator",
+        page_name: name,
+        page_path: path,
         sections,
       });
       setSavedUrl(response.url);
     } catch (saveError) {
       setApiError(
-        saveError instanceof Error ? saveError.message : "Failed to save page"
+        saveError instanceof Error ? saveError.message : "Failed to save page",
       );
     }
-  }, [saveMutation, sections]);
+  }, [saveMutation, sections, pageName]);
+
+  const allRequiredFilled = useMemo(
+    () =>
+      sections.length > 0 &&
+      sections.every((section) => {
+        const def = schemas[section.patternName];
+        return def ? areSectionRequiredFieldsFilled(def, section.data) : true;
+      }),
+    [sections, schemas],
+  );
 
   return (
     <div>
@@ -151,6 +183,10 @@ const CreatePageApp = () => {
           savedUrl={savedUrl}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
+          pageName={pageName}
+          onPageNameChange={setPageName}
+          isPreviewStale={isPreviewStale}
+          allRequiredFilled={allRequiredFilled}
         />
       ) : null}
     </div>

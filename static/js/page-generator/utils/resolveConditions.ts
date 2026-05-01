@@ -1,4 +1,9 @@
-import { UICondition, UIFieldSchema } from "../types";
+import {
+  SchemaDefinition,
+  UIBlockSchema,
+  UICondition,
+  UIFieldSchema,
+} from "../types";
 
 const getValueByPath = (
   values: Record<string, unknown>,
@@ -44,6 +49,13 @@ export const isVisible = (
   return matchesCondition(values, field["ui:conditions"]?.visibleWhen);
 };
 
+export const isBlockVisible = (
+  block: UIBlockSchema,
+  values: Record<string, unknown>
+): boolean => {
+  return matchesCondition(values, block["ui:conditions"]?.visibleWhen);
+};
+
 export const isRequired = (
   field: UIFieldSchema,
   values: Record<string, unknown>
@@ -52,5 +64,33 @@ export const isRequired = (
     return true;
   }
 
-  return matchesCondition(values, field["ui:conditions"]?.requiredWhen);
+  const condition = field["ui:conditions"]?.requiredWhen;
+  if (!condition) return false;
+  return matchesCondition(values, condition);
+};
+
+const isFilled = (value: unknown): boolean => {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object")
+    return Object.keys(value as Record<string, unknown>).length > 0;
+  return true;
+};
+
+/**
+ * Returns true when every required top-level field in the section
+ * has a non-empty value.
+ */
+export const areSectionRequiredFieldsFilled = (
+  definition: SchemaDefinition,
+  data: Record<string, unknown>
+): boolean => {
+  const fields = definition.uiSchema.fields || {};
+  for (const [key, field] of Object.entries(fields)) {
+    if (!isVisible(field, data)) continue;
+    if (!isRequired(field, data)) continue;
+    if (!isFilled(getValueByPath(data, key))) return false;
+  }
+  return true;
 };

@@ -1,7 +1,8 @@
-import { Button, Col, Notification, Row } from "@canonical/react-components";
+import { Button, Input, Notification } from "@canonical/react-components";
 import { useEffect } from "react";
 import PreviewPane from "./PreviewPane";
 import SchemaForm from "./SchemaForm";
+import SegmentedControlWidget from "./widgets/SegmentedControlWidget";
 import { SchemaDefinition, SectionState } from "../types";
 
 interface Props {
@@ -18,6 +19,10 @@ interface Props {
   savedUrl: string | null;
   viewMode: "edit" | "preview";
   onViewModeChange: (mode: "edit" | "preview") => void;
+  pageName: string;
+  onPageNameChange: (name: string) => void;
+  isPreviewStale: boolean;
+  allRequiredFilled: boolean;
 }
 
 const SectionEditor = ({
@@ -34,12 +39,16 @@ const SectionEditor = ({
   savedUrl,
   viewMode,
   onViewModeChange,
+  pageName,
+  onPageNameChange,
+  isPreviewStale,
+  allRequiredFilled,
 }: Props) => {
   useEffect(() => {
-    if (error) {
+    if (error || savedUrl) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [error]);
+  }, [error, savedUrl]);
 
   return (
     <>
@@ -55,43 +64,32 @@ const SectionEditor = ({
         </Notification>
       ) : null}
 
-      <div className="grid-row">
-
-        <div className="p-segmented-control">
-            <ul className="p-segmented-control__list">
-              <li className="p-segmented-control__item" style={{ listStyleType: "none" }}>
-              <button
-                type="button"
-                className={`p-segmented-control__button ${viewMode === "edit" ? "is-active" : ""
-                  }`}
-                onClick={() => onViewModeChange("edit")}
-              >
-                Edit
-              </button>
-            </li>
-            <li className="p-segmented-control__item">
-              <button
-                type="button"
-                className={`p-segmented-control__button ${viewMode === "preview" ? "is-active" : ""
-                  }`}
-                onClick={() => onViewModeChange("preview")}
-              >
-                Preview
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <SegmentedControlWidget
+        label=""
+        options={[
+          { label: "Edit", value: "edit" },
+          { label: "Preview", value: "preview" },
+        ]}
+        value={viewMode}
+        onChange={(val) => onViewModeChange(val as "edit" | "preview")}
+      />
 
       {viewMode === "preview" ? (
-        <PreviewPane html={previewHtml} />
+        <>
+          {isPreviewStale && previewHtml ? (
+            <Notification severity="caution" title="Preview may be outdated">
+              Content has changed since the last preview. Generate a new preview
+              to see the latest changes.
+            </Notification>
+          ) : null}
+          <PreviewPane html={previewHtml} />
+        </>
       ) : null}
 
       <div style={{ display: viewMode !== "edit" ? "none" : undefined }}>
         {sections.map((section, index) => {
           const schemaDefinition = schemas[section.patternName];
-          const label =
-            schemaDefinition?.label || section.patternName;
+          const label = schemaDefinition?.label || section.patternName;
 
           return (
             <div key={section.id}>
@@ -115,10 +113,7 @@ const SectionEditor = ({
                       }}
                     />
                   ) : (
-                    <Notification
-                      severity="negative"
-                      title="Missing schema"
-                    >
+                    <Notification severity="negative" title="Missing schema">
                       Could not load schema for {section.patternName}.
                     </Notification>
                   )}
@@ -133,12 +128,25 @@ const SectionEditor = ({
         <div className="grid-row">
           <div className="grid-col-2" />
           <div className="grid-col-6">
+            <div className="u-sv2">
+              <Input
+                type="text"
+                label="Page path"
+                placeholder="e.g. academy/my-new-page"
+                help="Path relative to templates/, e.g. academy/my-new-page"
+                required
+                value={pageName}
+                onChange={(e) => onPageNameChange(e.target.value)}
+              />
+            </div>
             <div className="u-sv1">
               <Button
                 type="button"
                 appearance="positive"
                 onClick={onPreview}
-                disabled={isPreviewing || sections.length === 0}
+                disabled={
+                  isPreviewing || sections.length === 0 || !allRequiredFilled
+                }
               >
                 {isPreviewing ? "Generating preview…" : "Generate preview"}
               </Button>{" "}

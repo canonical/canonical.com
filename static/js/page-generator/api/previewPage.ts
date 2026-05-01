@@ -10,7 +10,7 @@ interface PreviewPayload {
 export const previewPage = async (
   payload: PreviewPayload
 ): Promise<PreviewResponse> => {
-  const response = await fetch(endpoints.createUrl, {
+  const response = await fetch(endpoints.previewUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

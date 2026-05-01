@@ -1,11 +1,13 @@
+import re
+
 import flask
 
 from .schema import SchemaLoader
 
+_SAFE_NAME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9_-]*$")
 
-def page_generator_error(
-    message: str, field: str = "payload", status_code: int = 400
-):
+
+def page_generator_error(message: str, field: str = "payload", status_code: int = 400):
     return (
         flask.jsonify({"errors": [{"field": field, "message": message}]}),
         status_code,
@@ -29,9 +31,10 @@ def normalise_page_generator_sections(sections) -> list:
 
         name = section.get("name") or section.get("pattern")
         if not name or not isinstance(name, str):
-            raise ValueError(
-                f"Section at index {index} must include a pattern name"
-            )
+            raise ValueError(f"Section at index {index} must include a pattern name")
+
+        if not _SAFE_NAME_RE.match(name):
+            raise ValueError("Invalid section name at index" f" {index}: '{name}'")
 
         try:
             SchemaLoader.get_schema(name)
@@ -63,12 +66,17 @@ def normalise_page_generator_payload(payload: dict) -> dict:
     normalised_patterns = normalise_page_generator_sections(source)
 
     page_name = payload.get("page_name", "preview")
-    page_path = payload.get("page_path", "/page-generator/preview")
+    page_path = payload.get("page_path", "/")
 
     if not isinstance(page_name, str) or not page_name.strip():
         raise ValueError("'page_name' must be a non-empty string")
-    if not isinstance(page_path, str) or not page_path.strip():
-        raise ValueError("'page_path' must be a non-empty string")
+    if not isinstance(page_path, str):
+        raise ValueError("'page_path' must be a string")
+
+    if ".." in page_name or "/" in page_name or "\\" in page_name:
+        raise ValueError("'page_name' must not contain" " path separators or '..'")
+    if ".." in page_path:
+        raise ValueError("'page_path' must not contain '..'")
 
     return {
         "page_name": page_name,

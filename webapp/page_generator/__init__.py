@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 import subprocess
 from flask import current_app
@@ -6,6 +7,14 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Protocol
 from jsonschema import validate, ValidationError
 from .schema import SchemaLoader
+
+_SAFE_KEY_RE = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_]*$")
+
+
+def _escape_jinja_string(value: str) -> str:
+    """Escape a string for safe use as a double-quoted
+    literal in Jinja source."""
+    return value.replace("\\", "\\\\").replace('"', '\\"')
 
 
 class FileWriter(Protocol):
@@ -71,12 +80,7 @@ class PatternFactory:
             "resources": ResourcesSection,
         }
 
-    def register_pattern(self, pattern_type: str, pattern_class: type):
-        self._patterns[pattern_type] = pattern_class
-
-    def create(
-        self, pattern_type: str, pattern_data: dict
-    ) -> Optional["Pattern"]:
+    def create(self, pattern_type: str, pattern_data: dict) -> Optional["Pattern"]:
         """Create a pattern instance based on type."""
         pattern_class = self._patterns.get(pattern_type)
         if pattern_class:
@@ -103,11 +107,9 @@ class HTMLContentBuilder:
 
     def add_content_start(self) -> None:
         """Add the content block start."""
-        self.content_parts.append(
-            """
+        self.content_parts.append("""
             {% block content %}
-        """
-        )
+        """)
 
     def add_patterns(self, patterns: List["Pattern"]) -> None:
         """Process patterns and add their HTML."""
@@ -133,6 +135,8 @@ class TemplateFileWriter:
     def write(self, path: Path, content: str) -> str:
         """Write content to file and return relative path."""
         full_path = self.base_path / path
+        if not full_path.resolve().is_relative_to(self.base_path.resolve()):
+            raise ValueError(f"Output path must be within {self.base_path}")
         full_path.parent.mkdir(parents=True, exist_ok=True)
         with open(full_path, "w", encoding="utf-8") as f:
             f.write(content)
@@ -164,9 +168,7 @@ class PageGenerator:
         for pattern in self.data.get("patterns", []):
             pattern_type = pattern.get("name")
             pattern_data = pattern.get("data", {})
-            pattern_instance = self.pattern_factory.create(
-                pattern_type, pattern_data
-            )
+            pattern_instance = self.pattern_factory.create(pattern_type, pattern_data)
             if pattern_instance:
                 self.patterns.append(pattern_instance)
 
@@ -287,12 +289,16 @@ class Pattern(ABC):
             error_path = " -> ".join([str(p) for p in e.path])
             return False, f"Validation Error at [{error_path}]: {e.message}"
 
-    def _build_params_str(self) -> str:
+    def _build_params_str(self, data=None) -> str:
         """Build a Jinja-compatible parameter string from self.data."""
+        if data is None:
+            data = self.data
         params_list = []
-        for key, value in self.data.items():
+        for key, value in data.items():
+            if not _SAFE_KEY_RE.match(key):
+                continue
             if isinstance(value, str):
-                params_list.append(f'{key}="{value}"')
+                params_list.append(f'{key}="{_escape_jinja_string(value)}"')
             elif isinstance(value, bool):
                 params_list.append(f"{key}={str(value).lower()}")
             else:
@@ -347,10 +353,7 @@ class BasicSection(Pattern):
         """
 
     def write_import(self):
-        return (
-            '{% from "_macros/vf_basic-section.jinja" '
-            "import vf_basic_section %}"
-        )
+        return '{% from "_macros/vf_basic-section.jinja" ' "import vf_basic_section %}"
 
 
 class CTASection(Pattern):
@@ -376,15 +379,7 @@ class CTASection(Pattern):
 
     def process_pattern(self):
         data = {**self.data, "blocks": self._normalize_blocks()}
-        params_list = []
-        for key, value in data.items():
-            if isinstance(value, str):
-                params_list.append(f'{key}="{value}"')
-            elif isinstance(value, bool):
-                params_list.append(f"{key}={str(value).lower()}")
-            else:
-                params_list.append(f"{key}={json.dumps(value)}")
-        params_str = ",\n    ".join(params_list)
+        params_str = self._build_params_str(data)
 
         self.pattern_html += f"""
             {{% call(slot) vf_cta_section(
@@ -395,9 +390,7 @@ class CTASection(Pattern):
         """
 
     def write_import(self):
-        return (
-            '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
-        )
+        return '{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}'
 
 
 class ResourcesSection(Pattern):

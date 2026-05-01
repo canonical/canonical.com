@@ -19,6 +19,10 @@ interface Props {
 
 const SINGLE_INSTANCE_PATTERNS = new Set(["hero"]);
 
+// Display order for the section cards. Patterns listed here appear first,
+// in the given order; any remaining patterns follow alphabetically.
+const PATTERN_ORDER = ["hero", "basic-section", "cta-section", "resources"];
+
 const SectionSelector = ({
   schemas,
   sections,
@@ -37,43 +41,50 @@ const SectionSelector = ({
         <Col size={6}>
           <h3 className="p-heading--5">Available sections</h3>
           <Row>
-            {Object.entries(schemas).map(([patternName, definition]) => {
-              const count = countSelected(patternName);
-              const isSingle = SINGLE_INSTANCE_PATTERNS.has(patternName);
-              const disabled = isSingle && count > 0;
+            {Object.entries(schemas)
+              .sort(([a], [b]) => {
+                const ai = PATTERN_ORDER.indexOf(a);
+                const bi = PATTERN_ORDER.indexOf(b);
+                if (ai !== -1 && bi !== -1) return ai - bi;
+                if (ai !== -1) return -1;
+                if (bi !== -1) return 1;
+                return a.localeCompare(b);
+              })
+              .map(([patternName, definition]) => {
+                const count = countSelected(patternName);
+                const isSingle = SINGLE_INSTANCE_PATTERNS.has(patternName);
+                const disabled = isSingle && count > 0;
 
-              return (
-                <Col size={6} key={patternName}>
-                  <Card>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      <h4 className="p-heading--5 u-no-margin--bottom">
-                        {definition.label}
-                      </h4>
-                      {count > 0 ? (
-                        <Badge value={count} />
-                      ) : null}
-                    </div>
-                    <p className="u-text--muted">{definition.description}</p>
-                    <Button
-                      type="button"
-                      appearance="base"
-                      disabled={disabled}
-                      onClick={() => onAddSection(patternName)}
-                      dense
-                    >
-                      {disabled ? "Added" : isSingle ? "Add section" : "Add"}
-                    </Button>
-                  </Card>
-                </Col>
-              );
-            })}
+                return (
+                  <Col size={6} key={patternName}>
+                    <Card>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        <h4 className="p-heading--5 u-no-margin--bottom">
+                          {definition.label}
+                        </h4>
+                        {count > 0 ? <Badge value={count} /> : null}
+                      </div>
+                      <p className="u-text--muted">{definition.description}</p>
+                      <Button
+                        type="button"
+                        appearance="base"
+                        disabled={disabled}
+                        onClick={() => onAddSection(patternName)}
+                        dense
+                      >
+                        {disabled ? "Added" : isSingle ? "Add section" : "Add"}
+                      </Button>
+                    </Card>
+                  </Col>
+                );
+              })}
           </Row>
         </Col>
 
