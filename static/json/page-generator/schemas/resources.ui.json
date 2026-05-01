@@ -1,0 +1,206 @@
+{
+  "$pattern": "resources",
+  "ui:label": "Resources Section",
+  "ui:description": "Categorised resource cards with optional images and metadata",
+  "fields": {
+    "padding": {
+      "ui:widget": "radio-group",
+      "ui:label": "Padding",
+      "ui:required": false,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single"
+    },
+    "title": {
+      "ui:widget": "text",
+      "ui:label": "Section Title",
+      "ui:required": false,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single",
+      "ui:subfields": {
+        "text": {
+          "ui:widget": "text",
+          "ui:label": "Title text",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "link_attrs.href": {
+          "ui:widget": "text",
+          "ui:label": "Title link URL",
+          "ui:placeholder": "https://...",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    }
+  },
+  "blocks": {
+    "description": {
+      "ui:label": "Description",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 2,
+      "fields": {
+        "type": {
+          "ui:widget": "select",
+          "ui:label": "Content type",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Content",
+          "ui:rows": 3,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "cta-block": {
+      "ui:label": "Call to Action",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "fields": {
+        "primary": {
+          "ui:widget": "link-editor",
+          "ui:label": "Primary CTA",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "secondaries": {
+          "ui:widget": "link-editor",
+          "ui:label": "Secondary CTAs",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 3
+        },
+        "link": {
+          "ui:widget": "link-editor",
+          "ui:label": "Standalone link",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "resources": {
+      "ui:label": "Resource Cards",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "fields": {
+        "render_images": {
+          "ui:widget": "checkbox",
+          "ui:label": "Show images on cards",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "render_categories": {
+          "ui:widget": "checkbox",
+          "ui:label": "Show category headings",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "categories": {
+          "ui:widget": "resource-card-list",
+          "ui:label": "Categories",
+          "ui:visibility": "default",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 6,
+          "ui:itemSchema": {
+            "title": {
+              "ui:widget": "text",
+              "ui:label": "Category title",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "items": {
+              "ui:widget": "resource-card-list",
+              "ui:label": "Resources",
+              "ui:visibility": "default",
+              "ui:multiplicity": "multiple",
+              "ui:maxItems": 12,
+              "ui:itemSchema": {
+                "title.text": {
+                  "ui:widget": "text",
+                  "ui:label": "Resource title",
+                  "ui:required": true,
+                  "ui:visibility": "default",
+                  "ui:multiplicity": "single"
+                },
+                "title.link_attrs.href": {
+                  "ui:widget": "text",
+                  "ui:label": "Resource URL",
+                  "ui:placeholder": "https://...",
+                  "ui:visibility": "default",
+                  "ui:multiplicity": "single"
+                },
+                "description.text": {
+                  "ui:widget": "textarea",
+                  "ui:label": "Description",
+                  "ui:rows": 2,
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "single"
+                },
+                "image.attrs.src": {
+                  "ui:widget": "text",
+                  "ui:label": "Image URL",
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "single",
+                  "ui:conditions": {
+                    "visibleWhen": {
+                      "../../render_images": true
+                    }
+                  }
+                },
+                "image.attrs.alt": {
+                  "ui:widget": "text",
+                  "ui:label": "Image alt text",
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "single",
+                  "ui:conditions": {
+                    "visibleWhen": {
+                      "../../render_images": true
+                    }
+                  }
+                },
+                "image.type": {
+                  "ui:widget": "select",
+                  "ui:label": "Image type",
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "single",
+                  "ui:conditions": {
+                    "visibleWhen": {
+                      "../../render_images": true
+                    }
+                  }
+                },
+                "metadata.authors": {
+                  "ui:widget": "resource-card-list",
+                  "ui:label": "Authors",
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "multiple",
+                  "ui:maxItems": 5,
+                  "ui:itemSchema": {
+                    "text": {
+                      "ui:widget": "text",
+                      "ui:label": "Author name"
+                    },
+                    "link_attrs.href": {
+                      "ui:widget": "text",
+                      "ui:label": "Author URL"
+                    }
+                  }
+                },
+                "metadata.date.text": {
+                  "ui:widget": "text",
+                  "ui:label": "Date",
+                  "ui:visibility": "addable",
+                  "ui:multiplicity": "single"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

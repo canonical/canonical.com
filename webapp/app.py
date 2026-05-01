@@ -44,6 +44,12 @@ from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
 from requests.exceptions import ConnectionError, HTTPError, RetryError
 from webapp.page_generator import create_page_generator
+from webapp.page_generator.helper import (
+    build_page_url,
+    normalise_page_generator_payload,
+    page_generator_error,
+)
+from webapp.page_generator.schema import SchemaLoader
 from werkzeug.exceptions import HTTPException
 from urllib3.exceptions import MaxRetryError
 from slugify import slugify
@@ -1833,26 +1839,86 @@ def check_redirect(response):
     return append_utms_cookie_to_ubuntu_links(response)
 
 
-# TODO(WD-32786) - create a POST endpoint that accepts a form payload
-# and generates a PR with a new page
-# and returns a link to PR
-@app.route("/create-page")
-def generator():
-    with open(
-        Path(app.root_path).resolve().parent
-        / "static/json/page-generator/examples/basic-section.json",
-        "r",
-        encoding="utf-8",
-    ) as f:
-        data = json.load(f)
+if environment != "production":
 
-    page = create_page_generator(data)
-    page_path = page.generate()
-    file_path = Path("templates") / f"{page_path}.html"
+    @app.route("/create-page", methods=["GET", "POST"])
+    def page_generator():
+        if flask.request.method == "POST":
+            payload = flask.request.get_json(silent=True) or {}
 
-    pr_generator = PRGenerator(get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO"))
-    pr_link = pr_generator.create_pull_request(file_path)
-    if pr_link is None:
-        error_msg = "Failed to create pull request. Please check logs"
-        return {"error": error_msg}, 500
-    return pr_link, 200
+            try:
+                normalised_payload = normalise_page_generator_payload(payload)
+                generator = create_page_generator(normalised_payload)
+                jinja_template = generator.preview()
+                preview_html = flask.render_template_string(jinja_template)
+            except ValueError as error:
+                return page_generator_error(str(error))
+            except Exception:
+                logger.exception("Page generator preview failed")
+                return page_generator_error(
+                    "Failed to generate preview", status_code=500
+                )
+
+            return flask.jsonify(
+                {
+                    "preview_url": flask.url_for("page_generator_preview"),
+                    "page_path": build_page_url(normalised_payload),
+                    "html": preview_html,
+                }
+            )
+
+        return flask.render_template("create-page/index.html")
+
+    @app.route("/create-page/schemas", methods=["GET"])
+    def page_generator_schemas():
+        try:
+            return flask.jsonify(SchemaLoader.get_all_schemas())
+        except (FileNotFoundError, ValueError, OSError) as error:
+            return page_generator_error(str(error), status_code=500)
+
+    @app.route("/create-page/preview", methods=["POST"])
+    def page_generator_preview():
+        payload = flask.request.get_json(silent=True) or {}
+        try:
+            normalised_payload = normalise_page_generator_payload(payload)
+            generator = create_page_generator(normalised_payload)
+            jinja_template = generator.preview()
+            rendered_html = flask.render_template_string(jinja_template)
+            return flask.jsonify({"html": rendered_html})
+        except ValueError as error:
+            return page_generator_error(str(error))
+        except Exception:
+            logger.exception("Page generator preview endpoint failed")
+            return page_generator_error(
+                "Failed to generate preview", status_code=500
+            )
+
+    @app.route("/create-page/save", methods=["POST"])
+    def page_generator_save():
+        payload = flask.request.get_json(silent=True) or {}
+
+        try:
+            normalised_payload = normalise_page_generator_payload(payload)
+            generator = create_page_generator(normalised_payload)
+            page_url = generator.generate()
+            pr_generator = PRGenerator(
+                get_flask_env("PAGE_GENERATOR_UPSTREAM_REPO")
+            )
+            pr_link = pr_generator.create_pull_request(
+                Path("templates") / f"{page_url}.html"
+            )
+            if pr_link is None:
+                error_msg = "Failed to create pull request. Please check logs"
+                return {"error": error_msg}, 500
+        except ValueError as error:
+            return page_generator_error(str(error))
+        except Exception:
+            logger.exception("Page generator save failed")
+            return page_generator_error("Failed to save page", status_code=500)
+
+        return flask.jsonify(
+            {
+                "url": pr_link,
+                "page_path": pr_link,
+            }
+        )

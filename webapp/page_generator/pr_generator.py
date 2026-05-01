@@ -15,7 +15,6 @@ class PRGenerator:
         self.repo_name = repo_name
         self.repository = None
         self.new_branch_name = None
-        self.link = None
 
     def setup_branch(self, base_branch: str = "main"):
         """Prepares the repository and creates a new feature branch."""

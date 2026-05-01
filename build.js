@@ -5,6 +5,7 @@ const { sassPlugin } = require("esbuild-sass-plugin");
 // prettier-ignore
 let entries = {
   "careerExplorer": "./static/js/career-explorer/App.tsx",
+  "page-generator": "./static/js/page-generator/app.tsx",
   "side-navigation": "./static/js/side-navigation.js",
   "forms": "./static/js/forms.js",
   "prepare-form-inputs": "./static/js/prepare-form-inputs.js",

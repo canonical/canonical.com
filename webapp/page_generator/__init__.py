@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 import subprocess
 from flask import current_app
@@ -6,6 +7,14 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Protocol
 from jsonschema import validate, ValidationError
 from .schema import SchemaLoader
+
+_SAFE_KEY_RE = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_]*$")
+
+
+def _escape_jinja_string(value: str) -> str:
+    """Escape a string for safe use as a double-quoted
+    literal in Jinja source."""
+    return value.replace("\\", "\\\\").replace('"', '\\"')
 
 
 class FileWriter(Protocol):
@@ -71,9 +80,6 @@ class PatternFactory:
             "resources": ResourcesSection,
         }
 
-    def register_pattern(self, pattern_type: str, pattern_class: type):
-        self._patterns[pattern_type] = pattern_class
-
     def create(
         self, pattern_type: str, pattern_data: dict
     ) -> Optional["Pattern"]:
@@ -133,6 +139,8 @@ class TemplateFileWriter:
     def write(self, path: Path, content: str) -> str:
         """Write content to file and return relative path."""
         full_path = self.base_path / path
+        if not full_path.resolve().is_relative_to(self.base_path.resolve()):
+            raise ValueError(f"Output path must be within {self.base_path}")
         full_path.parent.mkdir(parents=True, exist_ok=True)
         with open(full_path, "w", encoding="utf-8") as f:
             f.write(content)
@@ -184,8 +192,10 @@ class PageGenerator:
         p_name = self.data.get("page_name", "").lstrip("/")
         return Path(p_path) / f"{p_name}.html"
 
-    def generate(self) -> str:
-        """Generate the page and return the relative path."""
+    def _generate_html(self) -> str:
+        """Generate formatted HTML without writing it to disk."""
+        self.patterns = []
+
         # Create patterns
         self._create_patterns()
 
@@ -195,19 +205,24 @@ class PageGenerator:
             if not is_valid:
                 raise ValueError(f"Pattern validation failed: {error_msg}")
 
-        # Build HTML
         html_parts = [
             self.html_builder.init_html(),
             self._build_content(),
             self.html_builder.finish_html(),
         ]
         html_content = "".join(html_parts)
+        return self.formatter.format(html_content)
 
-        # Format HTML
-        formatted_html = self.formatter.format(html_content)
+    def generate(self) -> str:
+        """Generate the page and return the relative path."""
+        formatted_html = self._generate_html()
         # Write to file
         output_path = self._get_output_path()
         return self.file_writer.write(output_path, formatted_html)
+
+    def preview(self) -> str:
+        """Generate and return formatted HTML without persisting it."""
+        return self._generate_html()
 
 
 class HTMLGenerator:
@@ -280,12 +295,16 @@ class Pattern(ABC):
             error_path = " -> ".join([str(p) for p in e.path])
             return False, f"Validation Error at [{error_path}]: {e.message}"
 
-    def _build_params_str(self) -> str:
+    def _build_params_str(self, data=None) -> str:
         """Build a Jinja-compatible parameter string from self.data."""
+        if data is None:
+            data = self.data
         params_list = []
-        for key, value in self.data.items():
+        for key, value in data.items():
+            if not _SAFE_KEY_RE.match(key):
+                continue
             if isinstance(value, str):
-                params_list.append(f'{key}="{value}"')
+                params_list.append(f'{key}="{_escape_jinja_string(value)}"')
             elif isinstance(value, bool):
                 params_list.append(f"{key}={str(value).lower()}")
             else:
@@ -354,8 +373,22 @@ class CTASection(Pattern):
     def schema_name(self) -> str:
         return "cta-section"
 
+    def _normalize_blocks(self) -> list:
+        """Ensure cta blocks with a content field have type='html' set."""
+        blocks = self.data.get("blocks", [])
+        normalized = []
+        for block in blocks:
+            if block.get("type") == "cta":
+                item = dict(block.get("item", {}))
+                if item.get("content") and not item.get("type"):
+                    item["type"] = "html"
+                block = {**block, "item": item}
+            normalized.append(block)
+        return normalized
+
     def process_pattern(self):
-        params_str = self._build_params_str()
+        data = {**self.data, "blocks": self._normalize_blocks()}
+        params_str = self._build_params_str(data)
 
         self.pattern_html += f"""
             {{% call(slot) vf_cta_section(

@@ -1,0 +1,111 @@
+{
+  "$pattern": "cta-section",
+  "ui:label": "CTA section",
+  "ui:description": "CTA strip with variant-driven title and block requirements.",
+  "fields": {
+    "layout": {
+      "ui:widget": "radio-group",
+      "ui:label": "Layout",
+      "ui:required": true,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single"
+    },
+    "variant": {
+      "ui:widget": "segmented-control",
+      "ui:label": "Variant",
+      "ui:visibility": "default",
+      "ui:multiplicity": "single"
+    },
+    "title_text": {
+      "ui:widget": "text",
+      "ui:label": "Title",
+      "ui:placeholder": "Enter section title",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "ui:conditions": {
+        "requiredWhen": {
+          "variant": "block"
+        }
+      }
+    }
+  },
+  "blocks": {
+    "description": {
+      "ui:label": "Description",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 2,
+      "ui:conditions": {
+        "visibleWhen": { "variant": "block" }
+      },
+      "fields": {
+        "type": {
+          "ui:widget": "select",
+          "ui:label": "Content type",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Content",
+          "ui:rows": 3,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "cta": {
+      "ui:label": "Call to action",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "ui:conditions": {
+        "requiredWhen": {
+          "variant": "default"
+        }
+      },
+      "fields": {
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "CTA content (HTML)",
+          "ui:placeholder": "<a href='/url'>Link text &rsaquo;</a>",
+          "ui:rows": 3,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "default" },
+            "requiredWhen": { "variant": "default" }
+          }
+        },
+        "primary": {
+          "ui:widget": "link-editor",
+          "ui:label": "Primary CTA",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
+        },
+        "secondaries": {
+          "ui:widget": "link-editor",
+          "ui:label": "Secondary CTAs",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 3,
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
+        },
+        "link": {
+          "ui:widget": "link-editor",
+          "ui:label": "Standalone link",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single",
+          "ui:conditions": {
+            "visibleWhen": { "variant": "block" }
+          }
+        }
+      }
+    }
+  }
+}

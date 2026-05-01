@@ -1,0 +1,33 @@
+{% extends 'base_index.html' %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  <section class="p-strip is-shallow">
+    <div class="row">
+      <div class="col-10">
+        <h1>Create page</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-strip is-shallow">
+    <div class="row">
+      <div class="col-12">
+        <div id="page-generator-root"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    window.PAGE_GENERATOR_CONFIG = {
+      schemasUrl: "{{ url_for('page_generator_schemas') }}",
+      createUrl: "{{ url_for('page_generator') }}",
+      previewUrl: "{{ url_for('page_generator_preview') }}",
+      saveUrl: "{{ url_for('page_generator_save') }}"
+    };
+  </script>
+  <script src="{{ versioned_static('js/dist/page-generator.js') }}"></script>
+{% endblock %}

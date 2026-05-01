@@ -1,0 +1,386 @@
+{
+  "$pattern": "basic-section",
+  "$blocksField": "items",
+  "ui:label": "Basic section",
+  "ui:description": "Versatile content section with rich block support: text, images, video, CTAs, lists, code, logos and notifications.",
+  "fields": {
+    "title": {
+      "ui:widget": "text",
+      "ui:label": "Title",
+      "ui:required": false,
+      "ui:visibility": "default",
+      "ui:multiplicity": "single",
+      "ui:subfields": {
+        "text": {
+          "ui:widget": "text",
+          "ui:label": "Title text",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "link_attrs.href": {
+          "ui:widget": "text",
+          "ui:label": "Title link URL",
+          "ui:placeholder": "https://...",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "label_text": {
+      "ui:widget": "text",
+      "ui:label": "Label",
+      "ui:placeholder": "e.g. Product Overview",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    },
+    "subtitle": {
+      "ui:widget": "text",
+      "ui:label": "Subtitle",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single",
+      "ui:subfields": {
+        "text": {
+          "ui:widget": "textarea",
+          "ui:label": "Subtitle text",
+          "ui:rows": 2,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "heading_level": {
+          "ui:widget": "select",
+          "ui:label": "Heading level",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "top_rule_variant": {
+      "ui:widget": "select",
+      "ui:label": "Top rule variant",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    },
+    "padding": {
+      "ui:widget": "radio-group",
+      "ui:label": "Padding",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    },
+    "override_last_item_padding": {
+      "ui:widget": "checkbox",
+      "ui:label": "Override last item padding",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "single"
+    }
+  },
+  "blocks": {
+    "description": {
+      "ui:label": "Description",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 5,
+      "fields": {
+        "type": {
+          "ui:widget": "select",
+          "ui:label": "Content type",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Content",
+          "ui:rows": 4,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "image": {
+      "ui:label": "Image",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 4,
+      "fields": {
+        "attrs.src": {
+          "ui:widget": "text",
+          "ui:label": "Image URL",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "attrs.alt": {
+          "ui:widget": "text",
+          "ui:label": "Alt text",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "aspect_ratio": {
+          "ui:widget": "select",
+          "ui:label": "Aspect ratio",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "caption_html": {
+          "ui:widget": "text",
+          "ui:label": "Caption",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "is_highlighted": {
+          "ui:widget": "checkbox",
+          "ui:label": "Highlighted",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "is_cover": {
+          "ui:widget": "checkbox",
+          "ui:label": "Cover image",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "video": {
+      "ui:label": "Video",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 2,
+      "fields": {
+        "attrs.src": {
+          "ui:widget": "text",
+          "ui:label": "Video URL",
+          "ui:placeholder": "https://www.youtube.com/embed/...",
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "attrs.allowfullscreen": {
+          "ui:widget": "text",
+          "ui:label": "Allow fullscreen attribute",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "cta-block": {
+      "ui:label": "Call to action",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 3,
+      "fields": {
+        "primary": {
+          "ui:widget": "link-editor",
+          "ui:label": "Primary CTA",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "secondaries": {
+          "ui:widget": "link-editor",
+          "ui:label": "Secondary CTAs",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 3
+        },
+        "link": {
+          "ui:widget": "link-editor",
+          "ui:label": "Standalone link",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "list": {
+      "ui:label": "List",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 4,
+      "fields": {
+        "list_items": {
+          "ui:widget": "resource-card-list",
+          "ui:label": "List items",
+          "ui:visibility": "default",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 20,
+          "ui:itemSchema": {
+            "list_item_type": {
+              "ui:widget": "select",
+              "ui:label": "Item type",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "content": {
+              "ui:widget": "text",
+              "ui:label": "Content",
+              "ui:required": true,
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            }
+          }
+        }
+      }
+    },
+    "code-block": {
+      "ui:label": "Code block",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 3,
+      "fields": {
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Code content",
+          "ui:rows": 8,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "is_code_snippet": {
+          "ui:widget": "checkbox",
+          "ui:label": "Render as code snippet",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        }
+      }
+    },
+    "logo-block": {
+      "ui:label": "Logo block",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 2,
+      "fields": {
+        "is_fixed_width": {
+          "ui:widget": "checkbox",
+          "ui:label": "Fixed width logos",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "logos": {
+          "ui:widget": "resource-card-list",
+          "ui:label": "Logos",
+          "ui:visibility": "default",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 12,
+          "ui:itemSchema": {
+            "attrs.src": {
+              "ui:widget": "text",
+              "ui:label": "Logo URL",
+              "ui:required": true,
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "attrs.alt": {
+              "ui:widget": "text",
+              "ui:label": "Alt text",
+              "ui:required": true,
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "has_line_break_after": {
+              "ui:widget": "checkbox",
+              "ui:label": "Line break after",
+              "ui:visibility": "addable",
+              "ui:multiplicity": "single"
+            }
+          }
+        }
+      }
+    },
+    "linked-logo-block": {
+      "ui:label": "Linked logo block",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 2,
+      "fields": {
+        "is_fixed_width": {
+          "ui:widget": "checkbox",
+          "ui:label": "Fixed width logos",
+          "ui:visibility": "addable",
+          "ui:multiplicity": "single"
+        },
+        "links": {
+          "ui:widget": "resource-card-list",
+          "ui:label": "Linked logos",
+          "ui:visibility": "default",
+          "ui:multiplicity": "multiple",
+          "ui:maxItems": 12,
+          "ui:itemSchema": {
+            "href": {
+              "ui:widget": "text",
+              "ui:label": "Link URL",
+              "ui:required": true,
+              "ui:placeholder": "https://...",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "text": {
+              "ui:widget": "text",
+              "ui:label": "Link text",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "label": {
+              "ui:widget": "text",
+              "ui:label": "Label",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "image_attrs.src": {
+              "ui:widget": "text",
+              "ui:label": "Image URL",
+              "ui:required": true,
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "image_attrs.alt": {
+              "ui:widget": "text",
+              "ui:label": "Image alt text",
+              "ui:visibility": "default",
+              "ui:multiplicity": "single"
+            },
+            "image_attrs.width": {
+              "ui:widget": "text",
+              "ui:label": "Image width",
+              "ui:visibility": "addable",
+              "ui:multiplicity": "single"
+            },
+            "image_attrs.height": {
+              "ui:widget": "text",
+              "ui:label": "Image height",
+              "ui:visibility": "addable",
+              "ui:multiplicity": "single"
+            }
+          }
+        }
+      }
+    },
+    "notification": {
+      "ui:label": "Notification",
+      "ui:visibility": "addable",
+      "ui:multiplicity": "multiple",
+      "ui:maxItems": 3,
+      "fields": {
+        "type": {
+          "ui:widget": "select",
+          "ui:label": "Notification type",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "title": {
+          "ui:widget": "text",
+          "ui:label": "Title",
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        },
+        "content": {
+          "ui:widget": "textarea",
+          "ui:label": "Content",
+          "ui:rows": 3,
+          "ui:required": true,
+          "ui:visibility": "default",
+          "ui:multiplicity": "single"
+        }
+      }
+    }
+  }
+}
