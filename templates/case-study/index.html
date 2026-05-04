@@ -6,7 +6,6 @@
 
 {% block meta_description %}Ubuntu Case Studies{% endblock %}
 
-
 {% block body_class %}
   is-paper
 {% endblock body_class %}
@@ -20,125 +19,133 @@
     <div class="grid-row">
       <div class="grid-col-start-large-3 grid-col-6">
         <h1>Case Studies</h1>
-        <h2>Explore how we help organizations adopt</br> open source at scale.</h2>
-      </div>
+        <h2>
+          Explore how we help organizations adopt
+        </br />
+        open source at scale.
+      </h2>
     </div>
-  </section>
-
-  <section>
-        <form action="/" class="js-case-study-form">
-      <div class="grid-row">
-        <div class="grid-col-start-large-3 grid-col-6" style="display: flex; gap: 1rem; ">
-          <div>
-            <h3 class="p-heading--5">Filter by</h3>
-          </div>
-          <!-- Language Selector -->
+  </div>
+</section>
+<section>
+  <form action="/" class="js-case-study-form">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6"
+           style="display: flex;
+                  gap: 1rem">
+        <div>
+          <h3 class="p-heading--5">Filter by</h3>
+        </div>
+        <!-- Language Selector -->
+        <div class="p-form__group">
+          <select name="language-selector"
+                  style="background-color: #f3f3f3;
+                         border: none;
+                         max-width: min-content"
+                  class="js-language-selector u-no-margin--bottom">
+            <option value="">Language</option>
+            <option value="zh-TW">Chinese (Traditional)</option>
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="es">Espa&ntilde;ol</option>
+            <option value="fr">Fran&ccedil;ais</option>
+            <option value="it">Italiano</option>
+            <option value="kr">Korean</option>
+            <option value="pt">Portugu&ecirc;s</option>
+            <option value="ru">Русс&#1082;&#1080;&#1081;</option>
+            <option value="tr">T&uuml;rk&ccedil;e</option>
+          </select>
+        </div>
+        <!-- Tag Selector -->
+        {% if tags %}
           <div class="p-form__group">
-            <select name="language-selector" style="background-color: #f3f3f3; border: none; max-width: min-content;"
-                    class="js-language-selector u-no-margin--bottom">
-              <option value="">Language</option>
-              <option value="zh-TW">Chinese (Traditional)</option>
-              <option value="de">Deutsch</option>
-              <option value="en">English</option>
-              <option value="es">Espa&ntilde;ol</option>
-              <option value="fr">Fran&ccedil;ais</option>
-              <option value="it">Italiano</option>
-              <option value="kr">Korean</option>
-              <option value="pt">Portugu&ecirc;s</option>
-              <option value="ru">Русс&#1082;&#1080;&#1081;</option>
-              <option value="tr">T&uuml;rk&ccedil;e</option>
+            <select name="tag-selector"
+                    style="background-color: #f3f3f3;
+                           border: none;
+                           max-width: min-content"
+                    class="js-tag-selector u-no-margin--bottom">
+              <option value="">Tag</option>
+              {% for tag in tags %}
+                {% if tag %}<option value="{{ tag }}">{{ tag }}</option>{% endif %}
+              {% endfor %}
             </select>
           </div>
-          <!-- Tag Selector -->
-          {% if tags %}
-            <div class="p-form__group">
-              <select name="tag-selector" style="background-color: 
-#f3f3f3; border: none; max-width: min-content;" class="js-tag-selector u-no-margin--bottom">
-                <option value="">Tag</option>
-                {% for tag in tags %}
-                  {% if tag %}
-                    <option value="{{ tag }}">{{ tag }}</option>
-                  {% endif %}
-                {% endfor %}
-              </select>
-            </div>
-          {% endif %}
-        </div>
-        </div>
+        {% endif %}
       </div>
-    </form>
-  </section>
-
-  <section class="p-section--shallow" id="posts-list">
-    <div id="posts-content">
-      {% if metadata %}
-        {% for case_study in metadata %}
-          {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
-            {% include "case-study/_case-study-card.html" %}
-          {% endwith %}
-        {% endfor %}
-      {% else %}
-        <p>No case studies found for the selected filter.</p>
-      {% endif %}
     </div>
+  </form>
+</section>
+
+<section class="p-section--shallow" id="posts-list">
+  <div id="posts-content">
+    {% if metadata %}
+      {% for case_study in metadata %}
+        {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
+          {% include "case-study/_case-study-card.html" %}
+        {% endwith %}
+      {% endfor %}
+    {% else %}
+      <p>No case studies found for the selected filter.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% if total_pages > 1 %}
+  <section class="p-strip is-shallow">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% set row_class = "grid-row" %}
+      {% set col_class = "grid-col-start-large-3 grid-col-6" %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
   </section>
+{% endif %}
 
-  {% if total_pages > 1 %}
-    <section class="p-strip is-shallow">
-      {% with %}
-        {% set total_pages = total_pages %}
-        {% set current_page = current_page %}
-        {% set row_class = "grid-row" %}
-        {% set col_class = "grid-col-start-large-3 grid-col-6" %}
-        {% include "shared/_pagination.html" %}
-      {% endwith %}
-    </section>
-  {% endif %}
+<script>
+  function clearFilters() {
+    window.location.assign("/case-study");
+  }
 
-  <script>
-    function clearFilters() {
-  window.location.assign("/case-study");
-}
+  (function() {
+    const languageSelector = document.querySelector(".js-language-selector");
+    const tagSelector = document.querySelector(".js-tag-selector");
+    const urlObj = new URL(window.location);
 
-(function() {
-  const languageSelector = document.querySelector(".js-language-selector");
-  const tagSelector = document.querySelector(".js-tag-selector");
-  const urlObj = new URL(window.location);
-
-  function setFiltersDropdown(key, selector) {
-    if (!selector) return;
-    if (urlObj.searchParams.has(key)) {
-      selector.value = urlObj.searchParams.get(key);
+    function setFiltersDropdown(key, selector) {
+      if (!selector) return;
+      if (urlObj.searchParams.has(key)) {
+        selector.value = urlObj.searchParams.get(key);
+      }
     }
-  }
 
-  setFiltersDropdown("language", languageSelector);
-  setFiltersDropdown("tag", tagSelector);
+    setFiltersDropdown("language", languageSelector);
+    setFiltersDropdown("tag", tagSelector);
 
-  function setFilters(key, selector) {
-    if (!selector) return;
-    const value = selector.value;
-    if (value) {
-      urlObj.searchParams.set(key, value);
-    } else {
-      urlObj.searchParams.delete(key);
+    function setFilters(key, selector) {
+      if (!selector) return;
+      const value = selector.value;
+      if (value) {
+        urlObj.searchParams.set(key, value);
+      } else {
+        urlObj.searchParams.delete(key);
+      }
     }
-  }
 
-  function applyFilters() {
-    setFilters("language", languageSelector);
-    setFilters("tag", tagSelector);
-    urlObj.searchParams.delete("page");
-    window.location = urlObj.href;
-  }
+    function applyFilters() {
+      setFilters("language", languageSelector);
+      setFilters("tag", tagSelector);
+      urlObj.searchParams.delete("page");
+      window.location = urlObj.href;
+    }
 
-  if (languageSelector) {
-    languageSelector.addEventListener("change", applyFilters);
-  }
-  if (tagSelector) {
-    tagSelector.addEventListener("change", applyFilters);
-  }
-})();
+    if (languageSelector) {
+      languageSelector.addEventListener("change", applyFilters);
+    }
+    if (tagSelector) {
+      tagSelector.addEventListener("change", applyFilters);
+    }
+  })();
   //   function clearFilters(e) {
   //     addLoadingSpinner(e.currentTarget);
   //     window.location.assign("/case-study");
@@ -211,5 +218,6 @@
   //     clearFiltersButton.addEventListener("click", clearFilters);
   //     caseStudyForm.addEventListener("submit", applyFilters);
   //   })()
-  // </script>
+  // 
+</script>
 {% endblock %}
