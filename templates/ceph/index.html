@@ -5,6 +5,7 @@
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/112DDIEC7yQYzT1EqiPEdFBcGZtGaFUnpQWkTY6MW9eI/edit?tab=t.jijjhiya0no5
@@ -369,9 +370,17 @@
     items=[
       {
         "type": "description",
+        "padding": "shallow",
         "item": {
           "type": "text",
-          "content": "<p><a href='https://www.brighttalk.com/webcast/6793/520582'>Canonical Ceph for Enterprise</p>"
+          "content": "<p><a href='#'>Canonical Ceph for Enterprise</a></p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<p>A single Ceph cluster can address block, file, and object storage needs, all while complementing proprietary and public cloud solutions.</p><p>In this webinar, we review the storage challenges faced by enterprises, and explain how Ceph can solve many of them. We will also demonstrate some of the key features of Ceph that provide solutions for disaster recovery and support various compliance requirements.</p>"
         }
       },
       {
@@ -379,10 +388,71 @@
         "padding": "shallow",
         "item": {
           "type": "text",
-          "content": "This block has no additional padding (even though it requested shallow padding), because it is the last item in the section."
+          "content": "<p><a href='#'>Cloud storage cost optimization</a></p>"
         }
       },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<p>Calculating the total cost of ownership of cloud storage isn't straightforward, as pricing typically includes components beyond the capacity consumed. In this webinar, we break down the total cost of storing data in public clouds, and explore how adopting Ceph can reduce costs.</p>"
+        }
+      },
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "<p><a href='#'>Introduction to cloud-native storage</a></p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<p>Moving away from hosted container solutions? Storage is a critical part of the equation. Learn how to align dynamic cloud-native application delivery with persistent storage in this whitepaper.</p>"
+        }
+      },
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "<p><a href='#'>AI storage with Ceph</a></p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "<p>Discover how AI impacts your storage systems and what it means for your business. Discover insights into storage economics, scale out storage architecture, and AI application improvements to improve storage performance.</p>"
+        }
+      }
     ]
   ) }}
 
+  {{ vf_blog(
+    title={"text": "Latest blogs about ceph"},
+    padding="deep",
+    template_config={
+      "enabled": True, 
+      "template_container_id": "ceph-blog-container", 
+      "layout": "4-blocks",
+      "template_id": "ceph-blog-template"
+    })
+  }}
+
 {% endblock %}
+
+<script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
+<script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+<script>
+  canonicalLatestNews.fetchLatestNews({
+    imageClasses: ["p-image-container__image"],
+    limit: "4",
+    articlesContainerSelector: "#ceph-blog-container",
+    articleTemplateSelector: "#ceph-blog-template",
+    excerptLength: 180,
+    tagId: 3184 // This is the specific numeric tag ID for 'ceph' on the Ubuntu blog
+  })
+</script>
