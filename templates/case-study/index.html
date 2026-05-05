@@ -30,19 +30,14 @@
 <section>
   <form action="/" class="js-case-study-form">
     <div class="grid-row">
-      <div class="grid-col-start-large-3 grid-col-6"
-           style="display: flex;
-                  gap: 1rem">
+      <div class="grid-col-start-large-3 grid-col-6 p-case-study__filters">
         <div>
           <h3 class="p-heading--5">Filter by</h3>
         </div>
         <!-- Language Selector -->
         <div class="p-form__group">
           <select name="language-selector"
-                  style="background-color: #f3f3f3;
-                         border: none;
-                         max-width: min-content"
-                  class="js-language-selector u-no-margin--bottom">
+                  class="js-language-selector p-case-study__filter-select u-no-margin--bottom">
             <option value="">Language</option>
             <option value="zh-TW">Chinese (Traditional)</option>
             <option value="de">Deutsch</option>
@@ -60,10 +55,7 @@
         {% if tags %}
           <div class="p-form__group">
             <select name="tag-selector"
-                    style="background-color: #f3f3f3;
-                           border: none;
-                           max-width: min-content"
-                    class="js-tag-selector u-no-margin--bottom">
+                    class="js-tag-selector p-case-study__filter-select u-no-margin--bottom">
               <option value="">Tag</option>
               {% for tag in tags %}
                 {% if tag %}<option value="{{ tag }}">{{ tag }}</option>{% endif %}
@@ -85,7 +77,11 @@
         {% endwith %}
       {% endfor %}
     {% else %}
-      <p>No case studies found for the selected filter.</p>
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <p>No case studies found for the selected filter.</p>
+      </div>
+    </div>
     {% endif %}
   </div>
 </section>
@@ -146,78 +142,6 @@
       tagSelector.addEventListener("change", applyFilters);
     }
   })();
-  //   function clearFilters(e) {
-  //     addLoadingSpinner(e.currentTarget);
-  //     window.location.assign("/case-study");
-  //   }
 
-  //   function addLoadingSpinner(button) {
-  //     const spinnerIcon = document.createElement("i");
-  //     const buttonIsDark = button.classList.contains("p-button--positive");
-  //     spinnerIcon.className = "p-icon--spinner u-animation--spin" + (buttonIsDark ? " is-light" : "");
-
-  //     // retain button dimensions
-  //     const {
-  //       width,
-  //       height
-  //     } = button.getBoundingClientRect();
-  //     Object.assign(button.style, {
-  //       width: `${width}px`,
-  //       height: `${height}px`
-  //     });
-
-  //     button.disabled = true;
-  //     button.innerText = "";
-  //     button.appendChild(spinnerIcon);
-  //   }
-
-  //   (function() {
-  //     const caseStudyForm = document.querySelector(".js-case-study-form");
-  //     const languageSelector = document.querySelector(".js-language-selector");
-  //     const tagSelector = document.querySelector(".js-tag-selector");
-
-  //     const applyFiltersButton = document.querySelector(".js-apply-filters");
-  //     const clearFiltersButton = document.querySelector(".js-clear-filters");
-  //     const urlObj = new URL(window.location);
-
-  //     if (urlObj.search !== "") {
-  //       clearFiltersButton.removeAttribute("disabled");
-  //     }
-
-  //     function setFiltersDropdown(key, selector) {
-  //       if (!selector) {
-  //         return;
-  //       }
-  //       if (urlObj.searchParams.has(key)) {
-  //         selector.value = urlObj.searchParams.get(key);
-  //       }
-  //     }
-
-  //     setFiltersDropdown("language", languageSelector);
-  //     setFiltersDropdown("tag", tagSelector);
-
-  //     function setFilters(key, selector) {
-  //       if (selector.value != "all") {
-  //         urlObj.searchParams.set(key, selector.value);
-  //       } else {
-  //         urlObj.searchParams.delete(key);
-  //       }
-  //     }
-
-  //     function applyFilters() {
-  //       event.preventDefault();
-
-  //       addLoadingSpinner(applyFiltersButton);
-
-  //       setFilters("language", languageSelector);
-  //       setFilters("tag", tagSelector);
-
-  //       urlObj.searchParams.delete("page");
-  //       window.location = urlObj.href;
-  //     }
-  //     clearFiltersButton.addEventListener("click", clearFilters);
-  //     caseStudyForm.addEventListener("submit", applyFilters);
-  //   })()
-  // 
 </script>
 {% endblock %}
