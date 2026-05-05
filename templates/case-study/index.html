@@ -20,9 +20,7 @@
       <div class="grid-col-start-large-3 grid-col-6">
         <h1>Case Studies</h1>
         <h2>
-          Explore how we help organizations adopt
-        </br />
-        open source at scale.
+          Explore how we help organizations adopt <br class="u-hide--small u-hide--medium" /> open source at scale.
       </h2>
     </div>
   </div>
@@ -32,7 +30,7 @@
     <div class="grid-row">
       <div class="grid-col-start-large-3 grid-col-6 p-case-study__filters">
         <div>
-          <h3 class="p-heading--5">Filter by</h3>
+          <h3 class="p-heading--5 p-case-study__filter-heading">Filter by</h3>
         </div>
         <!-- Language Selector -->
         <div class="p-form__group">
@@ -69,10 +67,10 @@
 </section>
 
 <section class="p-section--shallow" id="posts-list">
-  <div id="posts-content">
+  <div id="posts-content" class="p-case-study__cards">
     {% if metadata %}
       {% for case_study in metadata %}
-        {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags, image=case_study.image %}
+        {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags, image=case_study.meta_image %}
           {% include "case-study/_case-study-card.html" %}
         {% endwith %}
       {% endfor %}
@@ -87,12 +85,13 @@
 </section>
 
 {% if total_pages > 1 %}
-  <section class="p-strip is-shallow">
+  <section class="p-section--deep">
     {% with %}
       {% set total_pages = total_pages %}
       {% set current_page = current_page %}
       {% set row_class = "grid-row" %}
       {% set col_class = "grid-col-start-large-3 grid-col-6" %}
+      {% set is_case_study = True %}
       {% include "shared/_pagination.html" %}
     {% endwith %}
   </section>
