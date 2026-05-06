@@ -410,25 +410,4 @@
 {{ load_form("/ceph") | safe }}
 <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 <script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
-
-<script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-{# djlint:off #}
-<script>
-    canonicalLatestNews.fetchLatestNews(
-      {
-        articlesContainerSelector: "#maas-latest",
-        articleTemplateSelector: "#maas-latest-template",
-        excerptLength: 200,
-        {% if group_id %}
-          groupId: {{ group_id }},
-        {% endif %}
-        {% if tag_id %}
-          tagId: {{ tag_id }},
-        {% endif %}
-        linkImage: true,
-        limit: 4
-      }
-    )
-</script>
-{# djlint:on #}
 {% endblock %}
