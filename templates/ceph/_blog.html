@@ -23,19 +23,14 @@
 <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
 {# djlint:off #}
 <script>
-    canonicalLatestNews.fetchLatestNews(
-      {
-        articlesContainerSelector: "#ceph-latest",
-        articleTemplateSelector: "#ceph-latest-template",
-        excerptLength: 200,
-        hostname: "https://canonical.com",
-        {% if group_id %}
-          groupId: {{ group_id }},
-        {% endif %}
-        tagId: {% if tag_id %}{{ tag_id }}{% else %}1453{% endif %},
-        linkImage: true,
-        limit: 4
-      }
-    )
+  canonicalLatestNews.fetchLatestNews({
+    articlesContainerSelector: "#ceph-latest",
+    articleTemplateSelector: "#ceph-latest-template",
+    excerptLength: 180,
+    hostname: "https://canonical.com",
+    tagId: 1780,
+    linkImage: true,
+    limit: 4
+  });
 </script>
 {# djlint:on #}
