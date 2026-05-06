@@ -418,16 +418,19 @@
 {{ load_form("/ceph") | safe }}
 <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 <script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
+
 <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+{# djlint:off #}
 <script>
   canonicalLatestNews.fetchLatestNews({
-    imageClasses: ["p-image-container__image"],
-    limit: "4",
     articlesContainerSelector: "#ceph-blog-container",
     articleTemplateSelector: "#ceph-blog-template",
     excerptLength: 180,
-    tagId: 3184 // This is the specific numeric tag ID for 'ceph' on the Ubuntu blog
-  })
+    tagId: 3184, 
+    linkImage: true,
+    limit: 4
+  });
 </script>
+{# djlint:on #}
 
 {% endblock %}
