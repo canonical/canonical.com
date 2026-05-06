@@ -3,9 +3,9 @@
     <hr class="p-rule" />
     <h2 class="p-muted-heading">Latest blogs about Ceph</h2>
   </div>
-  <div class="grid-row" id="maas-latest"></div>
+  <div class="grid-row" id="ceph-latest"></div>
 
-  <template id="maas-latest-template">
+  <template id="ceph-latest-template">
     <div class="grid-col-2 grid-col-medium-2 u-equal-height-items">
       <div class="p-section--shallow">
         <div class="u-crop--16-9">
@@ -25,15 +25,14 @@
 <script>
     canonicalLatestNews.fetchLatestNews(
       {
-        articlesContainerSelector: "#maas-latest",
-        articleTemplateSelector: "#maas-latest-template",
+        articlesContainerSelector: "#ceph-latest",
+        articleTemplateSelector: "#ceph-latest-template",
         excerptLength: 200,
+        hostname: "https://canonical.com",
         {% if group_id %}
           groupId: {{ group_id }},
         {% endif %}
-        {% if tag_id %}
-          tagId: {{ tag_id }},
-        {% endif %}
+        tagId: {% if tag_id %}{{ tag_id }}{% else %}1453{% endif %},
         linkImage: true,
         limit: 4
       }
