@@ -400,21 +400,13 @@
           <p>Discover how AI impacts your storage systems and what it means for your business. Discover insights into storage economics, scale out storage architecture, and AI application improvements to improve storage performance.</p>
         </div>
       </div>
-      
     </div>
   </section>
 
-  <section class="grid-row p-section--deep">
-  {{ vf_blog(
-    title={"text": "Latest blogs about ceph"},
-    padding="deep",
-    template_config={
-      "enabled": True, 
-      "template_container_id": "maas-latest", 
-      "layout": "4-blocks",
-      "template_id": "maas-latest-template"
-    })
-  }}
+  {% with tag_id="1304" %}
+    {% include "ceph/_blog.html" %}
+  {% endwith %}
+
   </section>
 
 {{ load_form("/ceph") | safe }}
