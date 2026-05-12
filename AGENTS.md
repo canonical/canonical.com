@@ -81,8 +81,7 @@ yarn lint-python
 Important caveats from validation:
 
 - `python3 app.py` does **not** start a web server; it only imports `webapp.app`.
-- `yarn serve` was **not** reliable in this host environment after ad-hoc installs; it failed with `ModuleNotFoundError: No module named 'zope.event'`.
-- If you need to serve the full site locally, prefer `dotrun` over raw `yarn serve`.
+- If you need to serve the full site locally, prefer `dotrun`, because that is the workflow used in the README and CI.
 
 ### Docker helper
 
@@ -127,16 +126,7 @@ SERVICE_ACCOUNT_PRIVATE_KEY=test_private_key \
 python3 -m coverage run --source=webapp --omit=webapp/marketo.py -m unittest $(find tests/ -name 'test_*.py' ! -name 'test_marketo.py')
 ```
 
-Observed behavior:
-
-- In this environment, the first Python test run failed before executing tests because of a system `pyOpenSSL`/Twisted mismatch (`TypeError: deprecated() got an unexpected keyword argument 'name'`).
-- This was fixed by running:
-
-```bash
-python3 -m pip install --user --upgrade pyOpenSSL
-```
-
-- After that fix, the CI-style Python test command passed (`Ran 163 tests ... OK`).
+This CI-style Python test command passed with the fake secrets above.
 
 ### Jinja lint
 
