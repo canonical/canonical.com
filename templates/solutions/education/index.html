@@ -1,0 +1,563 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+{% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+
+{% block title %}Open source for education{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1Qsfj1DQGoEJ0H-Guzr63C1RirD8d8mFO8lrPtZ-_kGg/edit?tab=t.0
+{% endblock meta_copydoc %}
+
+{% block meta_description %}
+  Canonical provides trusted and reliable open source solutions for academic institutions — with FIPS compliance and CIS hardening out of the box.
+{% endblock meta_description %}
+
+{% block meta_keywords %}
+  Open source for academic institutions, Open source for schools, Open source for Education, Ubuntu for Education
+{% endblock meta_keywords %}
+
+{% block meta_image %}
+  https://assets.ubuntu.com/v1/97ac948d-hero.jpg
+{% endblock meta_image %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='Open source for education',
+    layout='50/50',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Harness the power of open source for schools, colleges, universities, and academic institutions. Advance teaching, learning, and research with trusted, scalable, and cost-effective infrastructure backed by Canonical, the publisher of Ubuntu.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'image' -%}
+      {{ lite_video(video_id="fRJVLNekGg8", video_title="How Ubuntu keeps your system secure, stable and current") }}
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         aria-controls="education-modal"
+         class="p-button--positive js-invoke-modal">Get in touch</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_tab_section(
+    title={"text": "Why choose our open source infrastructure for education?"},
+    layout="50-50",
+    tabs=[
+      {
+        "tab_html": "Security",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">A securely designed foundation</h3>
+                  <p>
+                    Start with Ubuntu, our securely designed foundation, which delivers transparency, predictability, and automations to help your academic institution to safeguard your open source stack and meet compliance requirements. Ubuntu is a trusted platform used in millions of production environments and devices.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/security">Learn about Ubuntu’s security features</a>
+                  <hr class="is-muted">
+                  '
+              }
+            },
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <p>
+                    Ubuntu Pro is Canonical’s comprehensive subscription for open source security, support, and compliance. Access a trusted open source repository, hardening configurations, and compliance profiles for FIPS, CIS, and other stringent security standards. Ubuntu Pro also offers up to 15 years of vulnerability fixes for your OS, infrastructure, and applications.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/pro/free-trial">Try free for 30 days</a>
+                  <a href="https://ubuntu.com/pro">Learn more about Ubuntu Pro&nbsp;&rsaquo;</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+      {
+        "tab_html": "Compliance",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Compliance standards</h3>
+                  <p>
+                    Our approach makes it easier to meet compliance and stringent security standards, such as FIPS 140-3, FedRAMP, CIS, DISA-STIG, CMMC 2.0 and more.
+                    <br>
+                    <br>
+                    Achieve compliance throughout your academic infrastructure with Ubuntu Pro – on premises, in air-gapped environments, on the edge, and on public clouds. Help to protect classified, controlled, and sensitive data, while remaining cost-efficient.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/security/security-standards">Learn about security standards on Ubuntu</a>
+                  <hr class="is-muted">
+                  '
+              }
+            },
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Management tools</h3>
+                  <p>
+                    Manage your Ubuntu fleets easily and remain compliant. Landscape – available with your Ubuntu Pro subscription – automates security patches and audits, saving you time and giving you visibility into your estate.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/landscape">Discover Landscape</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+      {
+        "tab_html": "Virtualization",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Modernize virtualized infrastructures</h3>
+                  <p>
+                    Many educational institutions have systems that run on legacy infrastructure, increasing potential risk exposure.
+                    <br>
+                    <br>
+                    Canonical offers security-maintained, open source alternatives to proprietary software – saving universities, colleges, and schools time and money.
+                  </p>
+                  '
+              }
+            },
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Learn about:</h3>
+                  <ul class="p-list--divided u-no-margin--bottom">
+                    <li class="p-list__item has-bullet">
+                      <a href="/openstack">OpenStack</a>, our highly customizable private cloud
+                    </li>
+                    <li class="p-list__item has-bullet">
+                      <a href="/microcloud">MicroCloud</a>, our low entry-barrier, lightweight cloud
+                    </li>
+                    <li class="p-list__item has-bullet">
+                      <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a>, a cloud-native platform for maintaining containerized applications
+                    </li>
+                  </ul>
+                  '
+              }
+            },
+          ]
+        }
+      },
+    ])
+  }}
+
+  {{ vf_tab_section(
+    title={"text": "Our solutions in action"},
+    layout="50-50",
+    tabs=[
+      {
+        "tab_html": "NMSU",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <img src="https://assets.ubuntu.com/v1/6b18ea6d-nmsu_logo.png" style="height: 104px" alt="New Mexico State University logo">
+                  <h3 class="p-heading--5">New Mexico State University (NMSU) Physical Science Laboratory drives agile and compliant federal research with Ubuntu</h3>
+                  <p>
+                    Learn how NSMU Physical Science Laboratory set its sights on becoming fully CMMC and FIPS 140 compliant within one year, getting FIPS 140 certified cryptographic packages at a cost 4-5 times lower than alternative solutions.
+                  </p>
+                  <a class="p-button" href="https://pages.ubuntu.com/rs/066-EOV-335/images/new-mexico-state-university-case-study.pdf">Get the case study</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+      {
+        "tab_html": "UOF",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <img src="https://assets.ubuntu.com/v1/5e6808db-uof_logo.png" style="height: 104px" alt="Université de l’Ontario Français logo">
+                  <h3 class="p-heading--5">The Université de l’Ontario Français supports its vision for growing connected campuses with Canonical’s MicroCloud and Professional Services</h3>
+                  <p>
+                    Learn how the Université de l’Ontario Français is working with Canonical to build a foundation for future campus growth with reliable cloud services.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/engage/university-ontario-francais-microcloud-case-study">Get the case study</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+      {
+        "tab_html": "UTAS",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <img src="https://assets.ubuntu.com/v1/ffce96a1-utas_logo.png" style="height: 104px" alt="University of Tasmania logo">
+                  <h3 class="p-heading--5">University of Tasmania unlocks real-time space tracking with AI/ML supercomputing</h3>
+                  <p>
+                    Learn how Tasmania University is modernizing its space-tracking data processing with the Firmus Supercloud, built on Canonical’s open source infrastructure stack.
+                  </p>
+                  <a class="p-button" href="https://pages.ubuntu.com/rs/066-EOV-335/images/The%20University%20of%20Tasmania%20Case%20study%20%7C%20Canonical.pdf">Get the case study</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+      {
+        "tab_html": "UAB",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <img src="https://assets.ubuntu.com/v1/c8d96f07-uab_logo.png" style="height: 104px" alt="University of Alabama at Birmingham logo">
+                  <h3 class="p-heading--5">UAB accelerates research with Canonical and Dell</h3>
+                  <p>
+                    Learn how the University of Alabama at Birmingham empowers its researchers with modern, containerized applications and Canonical Kubernetes on Dell Technologies infrastructure.
+                  </p>
+                  <a class="p-button" href="https://ubuntu.com/engage/university-of-alabama-at-birmingham-accelerates-research-with-canonical-and-dell">Get the case study</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
+    ])
+  }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Open source innovation and automation for higher education</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Reduce complexity with automation</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Simplify your systems.</p>
+
+      <ul class="p-list--divided u-no-margin--bottom">
+        <li class="p-list__item has-bullet">
+          <a href="/maas">MAAS</a>: automate server provisioning, deployment, and management.
+        </li>
+        <li class="p-list__item has-bullet">
+          <a href="https://ubuntu.com/landscape">Landscape</a>: automate security patching, auditing, and compliance tasks across your Ubuntu estate.
+        </li>
+        <li class="p-list__item has-bullet">
+          <a href="https://ubuntu.com/kubernetes">Kubernetes</a>: streamline containerized application deployment, scaling, and lifecycle management.
+        </li>
+        <li class="p-list__item has-bullet">
+          <a href="https://documentation.ubuntu.com/security/docs/compliance/usg/">Ubuntu Security Guide (USG)</a>: simplify configuration, hardening, and auditing Linux for compliance.
+        </li>
+      </ul>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Data and AI</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Take advantage of our trusted and compliant open source AI stack to build your next academic research project. Explore cost efficient options with Ubuntu Pro. Unlock both innovation and full-stack security maintenance at an unbeatable price.
+      </p>
+      <div class="p-cta-block">
+        <a href="/solutions/ai">Explore our AI solutions&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Bring systems to the edge</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        Academic institutions rely on edge computing to process data locally, for fast response times and keeping sensitive data close to the source. Canonical’s trusted, reliable, and cost-efficient edge computing systems can scale and adapt to changing demands.
+        <div class="p-cta-block">
+          <a href="/solutions/infrastructure/edge-computing">Find out more about edge computing&nbsp;&rsaquo;</a>
+        </div>
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_linked_logo_section(
+    title_text="Our public cloud partners",
+    layout="25/75",
+    links=[
+      {
+        "href": "https://ubuntu.com/aws",
+        "text": "Learn more about Canonical’s partnership with AWS&nbsp;&rsaquo;",
+        "label": "AWS",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/63b8e7fe-aws_logo.png",
+          "alt": "",
+          "width": "568",
+          "height": "320"
+        }
+      },
+      {
+        "href": "https://ubuntu.com/azure",
+        "text": "Learn more about Canonical’s partnership with Microsoft Azure&nbsp;&rsaquo;",
+        "label": "Microsoft Azure",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/a2d83804-microsoft_azure_logo.png",
+          "alt": "",
+          "width": "568",
+          "height": "320"
+        }
+      },
+      {
+        "href": "https://ubuntu.com/gcp",
+        "text": "Learn more about Canonical’s partnership with Google Cloud&nbsp;&rsaquo;",
+        "label": "Google Cloud",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/c1c0abc7-google_cloud_logo.png",
+          "alt": "",
+          "width": "568",
+          "height": "320"
+        }
+      },
+      {
+        "href": "https://ubuntu.com/cloud/public-cloud",
+        "text": "Learn more about Canonical’s public cloud partnerships&nbsp;&rsaquo;",
+        "label": "IBM cloud",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/6283e911-ibm_cloud_logo.png",
+          "alt": "",
+          "width": "568",
+          "height": "320"
+        }
+      },
+      {
+        "href": "https://ubuntu.com/cloud/public-cloud",
+        "text": "Learn more about Canonical’s public cloud partnerships&nbsp;&rsaquo;",
+        "label": "Oracle cloud",
+        "image_attrs": {
+          "src": "https://assets.ubuntu.com/v1/d9ba59fe-oracle_cloud_logo.png",
+          "alt": "",
+          "width": "568",
+          "height": "320"
+        }
+      },
+    ],
+    )
+  }}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Additional resources",
+    image_aspect_ratio_large="auto",
+    image_aspect_ratio_medium="auto",
+    image_aspect_ratio_small="auto",
+    items=[
+      {
+        "title_text": "A guide to infrastructure hardening",
+        "title_link_attrs": {'href': 'https://ubuntu.com/engage/a-guide-to-infrastructure-hardening'},
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/52ff7c6f-infra_hardening.jpg"
+          class="p-image-container__image"
+          width="2840"
+          height="1900"
+          alt="" />',
+        "description_html": "<p>
+          Security threats make it imperative to lock down systems and prevent attackers from gaining a foothold. This whitepaper provides an overview of best practices to improve the security posture of your Linux-based infrastructure deployments and harden your systems.
+        </p>",
+      },
+      {
+        "title_text": "Ubuntu compliance guide for US public sector",
+        "title_link_attrs": {'href': 'https://ubuntu.com/engage/security-compliance-US-public-sector-FIPS-DISASTIG'},
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/86118d94-ubuntu_compliance_us.jpg"
+          class="p-image-container__image"
+          width="2840"
+          height="1900"
+          alt="" />',
+        "description_html": "<p>
+          Navigating the maze of complex compliance requirements facing the US Public Sector is a daunting prospect. If you’re looking to understand what FIPS, FedRAMP and DISA-STIG are all about, this whitepaper is for you.
+        </p>",
+      },
+      {
+        "title_text": "Understand IoT security and IoT compliance across global markets",
+        "title_link_attrs": {'href': 'https://ubuntu.com/engage/iot-compliance-in-the-global-market-a-guide-for-iot-device-manufacturers'},
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/f9894671-understand_iot_security.jpg"
+          class="p-image-container__image"
+          width="2840"
+          height="1900"
+          alt="" />',
+        "description_html": "<p>
+          Today, the global IoT marketplace is defined by a new wave of regulation that requires increasingly robust security standards from IoT devices. This comprehensive guide will help you to understand the new global compliance landscape for IoT devices and manufacturers, and learn how you can meet compliance in every regional market.
+        </p>",
+      },
+      {
+        "title_text": "A guide to open source vulnerability management",
+        "title_link_attrs": {'href': 'https://ubuntu.com/engage/vulnerability-management'},
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/9ed3ffdb-os_vulnerability.jpg"
+          class="p-image-container__image"
+          width="2840"
+          height="1900"
+          alt="" />',
+        "description_html": "<p>
+          Open source software is transparent by design and, therefore, easier to audit for security flaws, but maintaining and securing open source software can be complex. This guide provides insights into open source vulnerability management, highlighting the challenges faced by organizations, and offering best practices to overcome them for effective cybersecurity.
+        </p>",
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {{ vf_basic_section(
+    title={"text": "Helping you stay compliant"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <p>
+              Meeting the requirements of major compliance requirements for academic institutions is straightforward with Canonical.
+            </p>
+            '
+        }
+      },
+      {
+        "type": "linked-logo-block",
+        "item": {
+          "links": [
+            {
+              "href": "https://ubuntu.com/security/fips",
+              "text": "Learn more about meeting FIPS requirements with Canonical ›",
+              "label": "FIPS",
+              "image_attrs": {
+                "src": "https://assets.ubuntu.com/v1/1ac474e2-fips.png",
+                "alt": "FIPS",
+                "width": "568",
+                "height": "320"
+              }
+            },
+            {
+              "href": "https://ubuntu.com/security/disa-stig",
+              "text": "Learn more about meeting DISA-STIG requirements with Canonical ›",
+              "label": "DISA-STIG",
+              "image_attrs": {
+                "src": "https://assets.ubuntu.com/v1/fbd1558c-disa.png",
+                "alt": "DISA-STIG",
+                "width": "568",
+                "height": "320"
+              }
+            },
+            {
+              "href": "https://ubuntu.com/security/fedramp",
+              "text": "Learn more about meeting FedRAMP requirements with Canonical ›",
+              "label": "FedRAMP",
+              "image_attrs": {
+                "src": "https://assets.ubuntu.com/v1/a32385e7-fedramp.png",
+                "alt": "FedRAMP",
+                "width": "568",
+                "height": "320"
+              }
+            },
+            {
+              "href": "https://ubuntu.com/security/cis",
+              "text": "Learn more about meeting CIS requirements with Canonical ›",
+              "label": "CIS",
+              "image_attrs": {
+                "src": "https://assets.ubuntu.com/v1/7b6026a5-cis.png",
+                "alt": "CIS",
+                "width": "568",
+                "height": "320"
+              }
+            },
+          ]
+        }
+      }
+    ]
+  ) }}
+
+  {% call(slot) vf_cta_section(
+    title_text='Canonical can support unique requirements for academic institutions.',
+    variant='default',
+    layout='100',
+    blocks=[
+      {
+        "type": "cta",
+        "item": {
+          "type": "html",
+          "content": '<a href="/contact-us" aria-controls="education-modal" class="js-invoke-modal">Contact us to discuss your use case&nbsp;&rsaquo;</a>'
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
+
+  {{ vf_blog(
+    title={"text": "Latest from our blog"},
+    padding="deep",
+    template_config={
+      "enabled": True,
+      "template_container_id": "articles",
+      "layout": "4-blocks",
+      "template_id": "template",
+    })
+  }}
+
+  {{ load_form("/solutions/education") | safe }}
+
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script>
+    canonicalLatestNews.fetchLatestNews({
+      imageClasses: ["p-image-container__image"],
+      limit: "4",
+      tagIds: " 3829, 2562, 4063, 3903, 4468, 4464, 4392, 1228, 4417, 4391, 3830, 4632, 4633, 4749, 2900, 1245, 3586, 1295, 1920, 1397",
+      articlesContainerSelector: "#articles",
+      articleTemplateSelector: "#template",
+      excerptLength: 180,
+      gtmEventLabel: "Vanilla Blog pattern template example",
+    })
+  </script>
+{% endblock content %}

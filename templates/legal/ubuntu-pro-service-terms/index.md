@@ -3,8 +3,8 @@ wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu Pro service terms"
   description: "Ubuntu and Canonical Legal - Ubuntu Pro service terms"
-  update_date: "16 Jun 2025"
-  copydoc: https://docs.google.com/document/d/1aeqs6k-jgTf8xu3bOcloYpRgvIy7DuGjwyk7TLeTcqw/edit
+  update_date: "25 Apr 2026"
+  copydoc: https://docs.google.com/document/d/15Cl60o6Mkgdkgaamvj2Yn1jUX7lHLkDIiXveZpCsDyI/edit
 ---
 
 # Service terms
@@ -114,7 +114,7 @@ When used in this Agreement, the following terms mean:
    4.  No amendment or modification of this Agreement or any Order will be binding upon the parties unless made in writing and signed by the authorised representatives of both parties.
    5.  A failure or delay by a party to exercise any right or remedy under this Agreement will not be construed or operate as a waiver of that right or remedy. No single or partial exercise of any right or remedy will preclude the further exercise of that right or remedy by that party.
    6.  During the term of this Agreement and for 6 months thereafter, neither party will solicit to be hired or hire, as an employee or independent contractor, any individual (i) who is then the personnel of the other party or any of its Affiliates or was the personnel of the other party or any of its Affiliates during the previous 6 months (unless the other party terminated that individual's employment or contract) and (ii) who the other party came into contact with as a result of this Agreement. Nothing in this Clause will prevent either party from hiring or contracting with any person who applies for such job or contract as an unsolicited response to a generally advertised invitation by the relevant party.
-   7.  This Agreement, including all Orders, represents the entire terms agreed between the parties in relation to its subject matter and supersedes all previous contracts or arrangements (including any usage or custom and any terms arising through any course of dealing) of any kind between the parties relating to its subject matter. Each Order is independent of any other Order and does not (unless specifically stated therein to do so) override any previously agreed Order. No terms or conditions included in or delivered with any Customer acceptance of Services, proposal, purchase order or similar document will form part of this Agreement.
+   7.  This Agreement, including all Orders, represents the entire terms agreed between the parties in relation to its subject matter and supersedes all previous contracts or arrangements (including any usage or custom and any terms arising through any course of dealing) of any kind between the parties relating to its subject matter. Each Order is independent of any other Order and does not (unless specifically stated therein to do so) override any previously agreed Order. No terms or conditions included in or delivered with (i) any Customer proposal, order, receipt, acceptance, confirmation, purchase order, correspondence or other document, or (ii) any invoicing or vendor onboarding or registration document, form, or process that Customer submits or requires Canonical to complete, regardless of whether or when such terms or conditions were provided to Canonical, will be binding upon the parties.
    8.  Each of the provisions of this Agreement and each Order will be construed as independent of every other such provision, so that if any provision of this Agreement and each Order will be determined by any court of competent authority to be illegal, invalid and/or unenforceable this will not affect any other provision of this Agreement or any Order, which will remain in full force and effect.
    9.  Nothing in this Agreement or any Order and no action taken by the parties pursuant to this Agreement will be construed as creating a partnership or joint venture of any kind between the parties or as constituting either party as the agent of the other party. No party will have the authority to bind the other party or to contract in the name of or create a liability against the other party.
    10.  Any notice required to be given or sent under this Agreement will be in writing and delivered to the recipient at the address set out in this Agreement or, if no address is set out, to the recipient’s registered office address. Canonical’s correspondence address is: The Office Group, St Dunstans House, 4th floor, 201 Borough High St, London SE1 1JAA. A party may update its address by providing notice to the other party. Valid delivery methods are (i) in-person delivery, (ii) first class registered post (or equivalent), or (iii) internationally recognised overnight courier service.
@@ -137,6 +137,7 @@ When used in this Agreement, the following terms mean:
 - [20 May 2016 ›](/legal/ubuntu-pro-service-terms/2016-05-20)
 - [09 September 2015 ›](/legal/ubuntu-pro-service-terms/2015-09-09)
 - [24 June 2015 ›](/legal/ubuntu-pro-service-terms/2015-06-24)
+- [16 June 2025 ›](/legal/ubuntu-pro-service-terms/2025-06-16)
 
 ### Japanese translation
 

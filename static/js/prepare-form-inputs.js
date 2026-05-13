@@ -22,18 +22,31 @@ export async function prepareInputFields(phoneInput, countryInput) {
     setupIntlTelInput(countryCode, phoneInput);
   }
   if (countryInput) {
-    preFormatCountry(countryCode, countryInput);
+    const noPreselect = countryInput.closest("form")?.hasAttribute("data-no-preselect-country");
+    preFormatCountry(countryCode, countryInput, noPreselect);
   }
 }
 
 /**
- * Sets the value of the country input field.
+ * Sets the value of the country input field, or moves the detected country
+ * to the top of the list without selecting it when noPreselect is true.
  *
  * @param {string} countryCode - ISO country code to set as the value.
  * @param {HTMLSelectElement} countryInput - The select element for the country.
+ * @param {boolean} noPreselect - If true, moves the detected country to the top of the list without selecting it.
  */
-function preFormatCountry(countryCode, countryInput) {
-  countryInput.value = countryCode;
+function preFormatCountry(countryCode, countryInput, noPreselect) {
+  if (noPreselect) {
+    const matchingOption = countryInput.querySelector(`option[value="${countryCode.toUpperCase()}"]`);
+    if (matchingOption) {
+      const selectOption = countryInput.querySelector('option[value=""]');
+      if (selectOption) {
+        selectOption.after(matchingOption);
+      }
+    }
+  } else {
+    countryInput.value = countryCode;
+  }
 }
 
 /**

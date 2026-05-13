@@ -1,14 +1,17 @@
-<article class="col-4 blog-p-card--post">
-  <header class="blog-p-card__header--cloud-and-server">
-    <h5 class="p-muted-heading u-no-margin--bottom">Case Study</h5>
-  </header>
-  <div class="blog-p-card__content">
-    <h4>
-      <a href="{% if active == 'false' and preview != None %}{{ title_link }}?preview{% else %}{{ title_link }}{% endif %}">{{ title | safe }}</a>
-    </h4>
-    <p class="u-no-padding--bottom u-hide--small">{{ description | safe }}</p>
+  {% set card_link = title_link ~ '?preview' if active == 'false' and preview != None else title_link %}
+  {% set card_footer = {"content_type": tags} if tags else None %}
+  <div class="grid-row">
+    <div class="grid-col-start-large-3 grid-col-6">
+      {{ vf_card(
+        columns="6",
+        link=card_link,
+        heading=title,
+        image={
+          "src": image if image else "https://assets.ubuntu.com/v1/1199af9d-fallback-thumbnail-dark.jpg",
+          "alt": title
+        },
+        description=description,
+        footer=card_footer
+      ) }}
+    </div>
   </div>
-  <footer class="blog-p-card__footer">
-    {{ tags }}
-  </footer>
-</article>
