@@ -1,0 +1,95 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_card.jinja" import vf_card %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block title %}{{ title }} | Knowledge{% endblock title %}
+
+{% block outer_content %}
+  {% block content %}
+    {% set breadcrumbs = [{"name": title }] %}
+    {% include '/partial/_knowledge_breadcrumbs.html' %}
+
+    {% call(slot) vf_hero(
+      title_text=title,
+      layout='25/75',
+      display_blank_signpost_image_space="true",
+      blocks=[
+        {
+          "type": "description",
+          "padding": "shallow",
+          "item": {
+            "type": "text",
+            "content": description
+          }
+        }
+      ]
+    ) -%}
+    {%- endcall -%}
+
+    <section class="p-section">
+      {% if articles %}
+        <div class="grid-row">
+          {% for article in articles %}
+            {{ vf_card(
+              columns=2,
+              link=article.url,
+              heading=article.hero_title,
+              footer={
+                "content_type": article.tag or hero_title,
+              }
+            ) }}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="grid-row">
+          <div class="grid-col-start-large-3 grid-col-6">
+            <p>No articles available in this category.</p>
+          </div>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="p-section--deep">
+      <div class="grid-row--25-75">
+        <hr class="p-rule" />
+        <div class="grid-col">
+          <h2>Newsletter signup</h2>
+        </div>
+
+        <div class="grid-col">
+          <p>Get the latest Ubuntu news and updates in your inbox.</p>
+          <form action="https://ubuntu.com/marketo/submit"
+                method="post"
+                id="mktoForm_4960">
+            <label class="is-required" for="email">Work email:</label>
+            <input required=""
+                    id="email"
+                    name="email"
+                    maxlength="255"
+                    type="email"
+                    pattern="^[^ ]+@[^ ]+\.[a-z]{2,26}$" />
+            <label class="p-checkbox is-required">
+              <input required=""
+                      class="p-checkbox__input"
+                      value="yes"
+                      aria-labelledby="canonicalUpdatesOptIn"
+                      name="canonicalUpdatesOptIn"
+                      type="checkbox" />
+              <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
+            </label>
+            <p>
+              By submitting this form, I confirm that I have read and agree to <a href="#">Canonical's Privacy Policy</a>.
+            </p>
+            <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
+          </form>
+        </div>
+        
+      </div>
+    </section>
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}What is MicroCloud?{% endblock %}
+
+{% block meta_description %}
+  Find out more about Canonical’s lightweight, open source cloud platform, MicroCloud. Learn about what MicroCloud is, its components, and how it works.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1iKCpf2eOXzxZJcUll9TS2kAtpMbV4OtpqPxpHeL0OTA/edit
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='What is MicroCloud?',
+    layout='25/75',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "MicroCloud is Canonical’s lightweight, low entry barrier open source cloud. It combines virtualization, software defined storage, and networking into an efficient platform for anyone who needs a straightforward path to production-grade clusters. Deploy a MicroCloud in minutes, and manage with ease."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/microcloud/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "microcloud-modal"
+            }
+          },
+          "link": {
+            "content_html": "Watch the intro to MicroCloud",
+            "attrs": {
+              "href": "https://ubuntu.com/engage/introduction-to-microcloud",
+              "class": "p-button"
+            }
+          }
+        }
+      },
+    ]
+  ) -%}
+  {%- endcall -%}
+
+{% call(slot) vf_equal_heights(
+  title_text="What makes up a MicroCloud?",
+  image_aspect_ratio_large="square", 
+  items=[
+    {
+      "title_text": "Open source virtualization with LXD",
+      "image_html":  '<img src="https://assets.ubuntu.com/v1/e5b0458b-os_virtualization.png" class="p-image-container__image" width="568" height="568" alt="" />',
+"description_html": "<p><a href='/lxd'>LXD</a> provides KVM/QEMU VMs and system containers for running workloads across the cluster. It acts as the control plane for workloads, with a user-friendly GUI, CLI, or API for managing your environment.</p>",
+      "cta_html": "<a href='https://pages.ubuntu.com/rs/066-EOV-335/images/LXD%20DATASHEET.pdf'>Learn more in the LXD datasheet&nbsp;&rsaquo;</a>"
+    },
+    {
+      "title_text": "Distributed software defined storage with MicroCeph",
+        "image_html":  '<img src="https://assets.ubuntu.com/v1/b4ead00a-microceph.png" class="p-image-container__image" width="568" height="568" alt="" />',
+"description_html": "<p>MicroCeph combines block, object, and file storage within a single cluster, removing the need for multiple storage solutions. MicroCeph is scalable and reliable, making it the perfect storage solution for any cloud.</p>",
+      "cta_html": "<a href='https://assets.ubuntu.com/v1/d3d27787-canonical_ceph_datasheet_q4_2025.pdf'>Learn more about Ceph’s features&nbsp;&rsaquo;</a>"
+    },
+    {
+      "title_text": "Trusted software defined networking with MicroOVN",
+      "image_html":  '<img src="https://assets.ubuntu.com/v1/d74339cb-microovn.png" class="p-image-container__image" width="568" height="568" alt="" />',
+"description_html": "<p>MicroOVN provides virtual network abstractions, such as virtual L2 and L3 overlays, security groups, DHCP, and other networking services. It separates logical network topology from physical infrastructure, making the cloud easier to operate.</p>",
+      "cta_html": "<a href='https://documentation.ubuntu.com/microcloud/v2/microcloud/explanation/networking/'>Learn more about MicroCloud’s networking approach&nbsp;&rsaquo;</a>"
+    }
+  ]
+) %}
+    {% if slot == "description" %}
+      <p>MicroCloud brings together three core components, each responsible for a key layer of the stack: virtualization with LXD, software defined storage with MicroCeph, and software defined networking with MicroOVN.</p>
+    {% endif %}
+    {% if slot == "cta" %}
+      <a href="https://www.youtube.com/watch?v=z01z7n21r-4&list=PLwFSk464RMxltsjo86tvpOaT34HFFuXIw" class="p-button">Watch MicroCloud in action</a>
+    {% endif %}
+  {% endcall %}
+
+  {{ vf_basic_section(
+    title={"text": "What does a MicroCloud cluster look like?"},
+    is_split_on_medium=true,
+    items=[
+      {
+        "type": "image",
+        "is_highlighted": true,
+        "padding": "shallow",
+        "item": {
+          "aspect_ratio": "3-2",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/99fde820-microcloud_cluster_updated.jpg",
+            "alt": "Diagram of three Ubuntu members connected to a local network, each running MicroOVN for networking, LXD for VM and container workloads, and MicroCeph for distributed storage.",
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p>A typical MicroCloud cluster consists of three or more machines, each running the same MicroCloud stack. One or two member clusters are also supported, but will not be highly available. Within a MicroCloud, all services are distributed, and the cluster operates as a single system.</p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p>During bootstrap, MicroCloud automatically discovers peer nodes, forms the LXD cluster, creates the distributed storage pool, and sets up the virtual network.</p>
+            <p>Once initialized, workloads can be scheduled on any cluster member, storage is replicated across the cluster, and networking is available everywhere by default. If a member goes down, instances can be restarted on another member, and data remains available, minimizing the risk of data loss.</p>
+            <p>The result is a compact, resilient cloud: simple to deploy, easy to manage, and ready for production.</p>
+            <p><a href='https://ubuntu.com/engage/distributed-cloud-infrastructure-microcloud'>Discover how MicroCloud simplifies cloud infrastructure&nbsp;&rsaquo;</a></p>"
+        }
+      },
+    ],
+  ) }}
+
+  {% call(slot) vf_resources(
+      title={
+        "text": "External storage integrations",
+      },
+      blocks=[
+        {
+          "type": "description",
+          "item": {
+            "type": "text",
+            "content": "MicroCloud supports a variety of external storage options, natively integrated through LXD."
+          }
+        },
+        {
+          "type": "resources",
+          "render_images": true,
+          "render_categories": false,
+          "categories": [
+            {
+              "title": "Category 1",
+              "items": [
+                {
+                  "title": {
+                    "text": "Modernizing IT infrastructure with Dell PowerFlex and Canonical LXD",
+                    "link_attrs": {
+                      "href": "https://ubuntu.com/engage/dell-powerflex-canonical-lxd"
+                    }
+                  },
+                  "description": {
+                    "text": "Through Canonical’s partnership with Dell, PowerFlex is natively supported as an external storage option in both standalone LXD and MicroCloud deployments.",
+                  },
+                  "image": {
+                    "type": "logo",
+                    "attrs": {
+                      "src": "https://assets.ubuntu.com/v1/d4b2fb76-dell_technologies.png",
+                      "alt": "Dell Technologies"
+                    }
+                  }
+                },
+                {
+                  "title": {
+                    "text": "Canonical LXD native integration with Pure Storage FlashArray",
+                    "link_attrs": {
+                      "href": "https://ubuntu.com/engage/lxd-pure-storage"
+                    }
+                  },
+                  "description": {
+                    "text": "Canonical, in collaboration with Pure Storage, have created a unified virtualization and storage platform. It combines the open source virtualization of Canonical LXD, or full MicroCloud, with the high-performance, always-on storage of Pure Storage FlashArray.",
+                  },
+                  "image": {
+                    "type": "logo",
+                    "attrs": {
+                      "src": "https://assets.ubuntu.com/v1/86443326-pure_storage.png",
+                      "alt": "Pure Storage"
+                    }
+                  }
+                },
+                {
+                  "title": {
+                    "text": "Native integration available between Canonical LXD and HPE Alletra",
+                    "link_attrs": {
+                      "href": "https://ubuntu.com/blog/canonical_lxd_hpe_alletra"
+                    }
+                  },
+                  "description": {
+                    "text": "HPE Alletra is designed to deliver mission-critical storage at an accessible price point, offering a consistent data experience across various cloud environments. With this integration, Canonical LXD and MicroCloud users can now provision and manage Alletra block storage.",
+                  },
+                  "image": {
+                    "type": "logo",
+                    "attrs": {
+                      "src": "https://assets.ubuntu.com/v1/78709fe5-hpe.png",
+                      "alt": "Hewlett Packard Enterprise"
+                    }
+                  }
+                }
+              ]
+            },
+          ]
+        },
+        ]
+      ) -%}
+  {% endcall -%}
+
+  {% call(slot) vf_cta_section(
+      title_text='Have further questions?',
+      variant='default',
+      layout='100',
+      attrs={'id': 'full-width-default'},
+      blocks=[
+        {
+          "type": "cta",
+          "item": {
+            "type": "html",
+            "content": '<a href="/microcloud/contact-us" class="js-invoke-modal" aria-controls="microcloud-modal">Reach out to our experts&nbsp;&rsaquo;</a>'
+          }
+        }
+      ]
+    ) -%}
+  {% endcall -%}
+
+  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+
+  {{ load_form("/microcloud") | safe }}
+{% endblock content %}

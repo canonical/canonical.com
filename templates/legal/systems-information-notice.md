@@ -2,7 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Legal Notice – System Information"
-  update_date: "May 2018"
+  update_date: "Dec 2025"
   copydoc: "https://drive.google.com/drive/folders/0B3hNyKyLEnE6clUxQndBME5uRXM"
 ---
 
@@ -17,6 +17,8 @@ We are Canonical Group Limited. Our address is 5 New Street Square, London, EC4A
 ## What system information do we collect?
 
 During installation of Ubuntu, non-personally-identifiable system information may be shared with Canonical, including the following:
+
+### Metrics collected by Ubuntu Report
 
 - Version
 - OEM (Vendor, Product)
@@ -37,6 +39,50 @@ During installation of Ubuntu, non-personally-identifiable system information ma
   - Language
   - Minimal install selected or not
   - Restricted Add-ons selected or not
+
+### Metrics collected by Ubuntu Insights
+
+- Insights Version
+- Collection Time
+- Hardware
+  - Product (Vendor, Product Name, Version)
+  - CPU (Name, Vendor, Architecture, Total Threads, Socket Count, Cores per socket, Threads per socket)
+  - GPU (Device Name, Vendor, Driver)
+  - Memory (Total Physical Size)
+  - Disks and Partitions (Size, Type, Children)
+  - Screens (Resolution, Physical Size, Refresh Rate)
+- Software
+  - OS (Family, Distribution, Version)
+  - BIOS (Vendor, Version)
+  - Language/Locale
+  - Timezone
+- WSL
+  - WSL Subsystem Version
+  - Systemd enablement at boot
+  - Interoperability enablement
+  - WSL Version
+  - Kernel Version
+- Ubuntu (Desktop, WSL, Etc.)
+  - Pro-attachment state
+- Desktop Installer
+  - Install Type
+  - OEM
+  - Media
+  - Partition Method
+  - Language
+  - Minimal
+  - Restricted Add-ons
+  - Use Active Method (Use Microsoft Active Directory)
+  - Stages
+- Ubuntu Upgrader
+  - Version upgrading from
+  - Original install media
+  - Upgrade method
+  - Stages
+- Desktop
+  - Desktop Environment
+  - Session Name
+  - Session Type
 
 Note that all of the system information may be shared with Canonical. If you would prefer that Canonical does not receive any item of system information, please do not agree to it being shared.
 
