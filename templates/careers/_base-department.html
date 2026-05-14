@@ -171,14 +171,14 @@
           </h3>
         </div>
         <div id="latest-articles"
-             class="col-6 col-medium-3"
-             style="padding-top: 0.5rem">
-          <div style="min-height: 9.1rem">
+ class="col-6 col-medium-3 s-13d7a1"
+ >
+          <div class="s-013534">
             <i class="p-icon--spinner u-animation--spin">Loading...</i>
           </div>
         </div>
       </div>
-      <template style="display:none" id="articles-template">
+      <template id="articles-template" class="s-6b99de">
         <article class="u-extra-space">
           <div class="blog-p-card__content">
             <hr class="p-rule" />
@@ -189,7 +189,7 @@
       </template>
       <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
       {# djlint: off #}
-      <script>
+      <script nonce="{{ csp_nonce }}">
         canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
           articleTemplateSelector: "#articles-template",

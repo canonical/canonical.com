@@ -1,5 +1,9 @@
 import { DotLottie } from "@lottiefiles/dotlottie-web";
-import lottie from "lottie-web";
+// `lottie_light` is the same player API without the After Effects
+// expression evaluator. We don't use AE expressions in any of our
+// Lottie JSON, and the full build's `new Function()` call would
+// otherwise force 'unsafe-eval' in our CSP.
+import lottie from "lottie-web/build/player/lottie_light";
 
 // Suru animations
 // Initialize light animation

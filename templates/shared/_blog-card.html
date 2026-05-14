@@ -24,7 +24,7 @@
     {% else %}
       <h2 class="{% if heading_class %}{{ heading_class }}{% else %}p-heading--3{% endif %}">
     {% endif %}
-    <a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'blog', 'eventAction' : 'clicks blog feed link', 'eventLabel' : 'canonical.com{% if tag_name %}/{{ tag_name }}{% else %} homepage{% endif %}', 'eventValue' : undefined });">
+    <a href="/blog{% if tag_name %}/tag/{{ tag_name }}{% endif %}" data-ga-event="GAEvent" data-ga-category="blog" data-ga-action="clicks blog feed link" data-ga-label="canonical.com{% if tag_name %}/{{ tag_name }}{% else %} homepage{% endif %}">
       {% if heading_topic %}
         {{ heading_topic }}&nbsp;&rsaquo;
       {% else %}
@@ -36,7 +36,7 @@
   <div class="row">
     <div class="{% if spotlight %}col-9{% else %}col-12{% endif %}">
       <div id="horizontal-latest-articles" class="p-equal-height-row--wrap">
-        <div style="min-height: 9.1rem"><i class="p-icon--spinner u-animation--spin">Loading...</i></div>
+        <div class="s-013534"><i class="p-icon--spinner u-animation--spin">Loading...</i></div>
       </div>
     </div>
     {% if spotlight %}
@@ -45,7 +45,7 @@
     {% endif %}
   </div>
 
-  <template style="display:none" id="horizontal-articles-template">
+  <template id="horizontal-articles-template" class="s-6b99de">
     <div class="p-equal-height-row__col">
       {% if not hide_date %}
         <div class="p-equal-height-row__item">
@@ -73,7 +73,7 @@
   </template>
 
   {% if spotlight %}
-  <template style="display:none" id="spotlight-template">
+  <template id="spotlight-template" class="s-6b99de">
     <hr class="p-rule--muted u-hide--large" />
     <div class="row">
       <div class="col-medium-2 col-small-4 col-3">
@@ -91,7 +91,7 @@
   {% endif %}
 
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews(
       {
         articlesContainerSelector: "#horizontal-latest-articles",

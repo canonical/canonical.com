@@ -16,7 +16,7 @@
 
 {% block content %}
   <!-- StackOverflow ad tracking pixel -->
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var a = String(Math.floor(Math.random() * 10000000000000000));
       new Image().src = "https://pubads.g.doubleclick.net/activity;xsp=5024608;ord=" + a + "?";
@@ -58,9 +58,8 @@
       </div>
       <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
         <img src="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg"
-             alt=""
-             style="aspect-ratio: 5.1775700934579;
-                    width: 100%" />
+ alt=""
+ class="s-323b7f"/>
       </div>
     </div>
   </section>
@@ -81,7 +80,7 @@
             {% for dept in departments_overview %}
               {% if dept.count > 0 %}
                 <div class="col-3 col-medium-12 col-small-12 p-department-cards__container">
-                  <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
+                  <a href="/careers/{{ dept.slug }}" class="s-190f09">
                     <div class="p-department-cards__card">
                       <div class="p-department-cards__image-container">
                         <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"

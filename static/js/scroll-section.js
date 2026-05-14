@@ -1,4 +1,5 @@
-import lottie from "lottie-web";
+// See homepage/animations.js for why we use lottie_light.
+import lottie from "lottie-web/build/player/lottie_light";
 
 const wrappers = document.querySelectorAll(".scroll-section");
 

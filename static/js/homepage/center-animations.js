@@ -1,4 +1,6 @@
-import lottie from "lottie-web";
+// See animations.js for why we use lottie_light (no expression
+// evaluator → no `new Function()` → no 'unsafe-eval' in CSP).
+import lottie from "lottie-web/build/player/lottie_light";
 
 // Initialize the centrepage animation
 const centrepage = lottie.loadAnimation({

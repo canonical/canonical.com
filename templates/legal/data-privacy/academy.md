@@ -73,7 +73,7 @@ We also have procedures in place to deal with any suspected data security breach
 
 We hope that we can resolve any query or concern you raise about our use of your information. You can contact us at any time. Any questions, comments and requests regarding this Privacy notice or any other related matter are welcomed and should be addressed to <a href="mailto:dataprotection@canonical.com">dataprotection@canonical.com</a> or to the address below:
 
-<div style="margin: 2rem;">
+<div class="s-c75f30">
   <p>
     Legal, Canonical<br />
     5 New Street Square<br/>
@@ -86,7 +86,7 @@ Alternatively, you can use the relevant contact us form.
 
 If you have a complaint about our use of your information, you can contact the Information Commissioner's Office via their website at <a href="https://ico.org.uk/make-a-complaint">ico.org.uk/make-a-complaint</a> or write to them at:
 
-<div style="margin: 2rem;">
+<div class="s-c75f30">
   <p>
     Information Commissioner's Office<br />
     Wycliffe House<br />

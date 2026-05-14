@@ -43,7 +43,7 @@ You can also ask for it to be erased and you can ask for us to give you a copy o
 
 If you have a complaint about our use of your information, you can contact the Information Commissioner’s Office via their website at <a href="https://ico.org.uk/concerns/">ico.org.uk/concerns/</a> or write to them at:
 
-<div style="margin: 2rem;">
+<div class="s-c75f30">
   <p>
     Information Commissioner's Office<br />
     Wycliffe House<br />
