@@ -6,6 +6,7 @@ These guard against the most common regressions when iterating on CSP:
 - nonce reused across requests (would defeat the security model)
 - nonce leaked into directives that shouldn't have it
 """
+
 import re
 import unittest
 
@@ -43,8 +44,7 @@ class CSPNonceTests(unittest.TestCase):
             self.assertEqual(
                 len(nonces),
                 1,
-                f"expected exactly one nonce token in {d}, "
-                f"got {nonces!r}",
+                f"expected exactly one nonce token in {d}, " f"got {nonces!r}",
             )
 
     def test_nonce_changes_between_requests(self):
