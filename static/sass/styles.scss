@@ -38,12 +38,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_venobox";
 @import "maas_styles";
 
-// Generated utility classes that replaced inline `style="..."` attrs
-// across templates (see scripts/migrate_inline_styles.py). Kept as a
-// separate partial so future audits can see CSP-driven additions in
-// one place.
-@import "inline-styles-migration";
-
 @include vanilla;
 @include additional-p-icons;
 @include vf-p-grid-8;
@@ -79,6 +73,14 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-nojs-navigation;
 @include vf-u-align;
 @include vf-p-content-card;
+
+// Generated utility classes that replaced inline `style="..."` attrs
+// across templates (see scripts/migrate_inline_styles.py). MUST come
+// LAST so these single-class selectors override same-specificity
+// framework rules (e.g. vanilla's `.p-modal { display: flex }`) — the
+// inline `style=""` attributes they replaced had even higher specificity
+// than that, so the override must be preserved.
+@import "inline-styles-migration";
 
 @media screen and ($breakpoint-large <= width) {
   .p-section__u-no-padding--top {
