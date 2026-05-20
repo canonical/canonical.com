@@ -12,7 +12,7 @@ context:
   <link href="https://www.tfaforms.com/css/form.css"
         rel="stylesheet"
         type="text/css" />
-  <script>
+  <script nonce="{{ csp_nonce }}">
     wFORMS.behaviors.prefill.skip = false;
   </script>
   <style type="text/css" media="screen">
@@ -57,7 +57,7 @@ context:
     }
 
   </style>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     /* make jslint happy */
     /*global base2, document, wFORMS, $, $$ */
 
@@ -112,7 +112,7 @@ context:
     };
 
   </script>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     // hides US State selection field unless country is US
     document.addEventListener("DOMContentLoaded", function() {
       var countryInput = document.querySelector("#tfa_Country");

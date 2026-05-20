@@ -356,3 +356,9 @@ function getCustomFields(event) {
   const textarea = document.getElementById("Comments_from_lead__c");
   textarea.value = message;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".js-form-custom-fields").forEach(function (form) {
+    form.addEventListener("submit", getCustomFields);
+  });
+});

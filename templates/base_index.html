@@ -138,7 +138,8 @@
 
           <script defer src="{{ versioned_static('js/dist/navigation.js') }}"></script>
           <script src="{{ versioned_static('js/dist/forms.js') }}"></script>
-          <script>
+          <script defer src="{{ versioned_static('js/csp-event-handlers.js') }}"></script>
+          <script nonce="{{ csp_nonce }}">
             (function() {
               // Form submission notification
               var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success", "#contact-form-fail"];
@@ -167,7 +168,7 @@
           <script src="{{ versioned_static('js/dist/watch-consent-changes.js') }}"></script>
 
            <!-- Google Tag Manager -->
-          <script>
+          <script nonce="{{ csp_nonce }}">
             document.addEventListener('DOMContentLoaded', () => {
               /** init gtm after 2 seconds - can be adjusted */
               setTimeout(initGTM, 2000);

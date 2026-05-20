@@ -5,7 +5,7 @@ context:
   copydoc: "https://docs.google.com/document/d/1LU9eJrUSufbbcsvQQUecmrUcw316EfTYgFpFK9HRwJg/edit"
 ---
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ csp_nonce }}">
   // initialize our variables
   var captchaReady = 0;
   var wFORMSReady = 0;
@@ -114,7 +114,7 @@ context:
 </script>
 <script src='https://www.google.com/recaptcha/api.js?onload=gCaptchaReadyCallback&render=explicit&hl=en_GB' async
 defer></script>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ csp_nonce }}">
   document.addEventListener("DOMContentLoaded", function() {
     var warning = document.getElementById("javascript-warning");
     if (warning != null) {
@@ -133,7 +133,7 @@ defer></script>
     }
   });
 </script>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ csp_nonce }}">
   document.addEventListener("DOMContentLoaded", function(){
     const FORM_TIME_START = Math.floor((new Date).getTime()/1000);
     let formElement = document.getElementById("tfa_0");
@@ -174,7 +174,7 @@ defer></script>
 <link href="https://www.tfaforms.com/wForms/3.4/css/blank/wforms.css" rel="stylesheet" type="text/css" />
 <link href="https://www.tfaforms.com/dist/form-builder/5.0.0/wforms-jsonly.css?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2" rel="alternate stylesheet" title="This stylesheet activated by javascript" type="text/css" />
 <script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/wforms.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2"></script>
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ csp_nonce }}">
   wFORMS.behaviors.prefill.skip = false;
 </script>
 <script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/localization-en_GB.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2"></script>
