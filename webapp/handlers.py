@@ -66,6 +66,7 @@ CSP = {
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
+        "www.googleadservices.com",
         "js.zi-scripts.com",
         "*.google-analytics.com",
         "px.ads.linkedin.com",
