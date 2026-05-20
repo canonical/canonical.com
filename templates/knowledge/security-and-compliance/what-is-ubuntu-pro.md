@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-05-08
   tag: "Ubuntu Pro"
   title: "What is Ubuntu Pro?"
   breadcrumb: "What is Ubuntu Pro"

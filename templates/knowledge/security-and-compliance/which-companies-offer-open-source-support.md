@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-05-15
   tag: "Support"
   title: "Which companies offer open source support?"
   breadcrumb: "Which companies offer open source support?"

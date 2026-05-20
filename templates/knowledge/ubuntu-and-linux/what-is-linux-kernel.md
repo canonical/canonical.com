@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Ubuntu and Linux"
+  publish_date: 2026-04-17
   description: "Understand the Linux kernel, its history and functionality. Learn about its Unix roots, creation by Linus Torvalds, open-source nature (GPLv2), and its core role in managing hardware, processes, and components."
   tag: "Linux kernel"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"

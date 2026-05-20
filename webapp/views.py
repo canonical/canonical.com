@@ -367,12 +367,13 @@ def get_articles_from_category(category_dir, category_slug):
         category_slug: The slug of the category
 
     Returns:
-        A list of article dictionaries
+        A list of article dictionaries, sorted from most to least
+        recently published (by the `publish_date` frontmatter field).
+        Articles missing `publish_date` sort to the end.
     """
     articles = []
-    md_files = sorted(category_dir.glob("*.md"))
 
-    for md_file in md_files:
+    for md_file in category_dir.glob("*.md"):
         try:
             with open(md_file, "r", encoding="utf-8") as f:
                 content = f.read()
@@ -383,29 +384,54 @@ def get_articles_from_category(category_dir, category_slug):
                 if len(parts) >= 2:
                     try:
                         frontmatter = yaml.safe_load(parts[1])
+                        context = frontmatter.get("context", {}) or {}
                         article_slug = md_file.stem
+
+                        publish_date = context.get("publish_date")
+                        # yaml may parse ISO dates into date/datetime objects;
+                        # accept strings too and normalise.
+                        if isinstance(publish_date, datetime.datetime):
+                            publish_date = publish_date.date()
+                        elif isinstance(publish_date, str):
+                            try:
+                                publish_date = datetime.date.fromisoformat(
+                                    publish_date
+                                )
+                            except ValueError:
+                                logger.warning(
+                                    f"Invalid publish_date in {md_file}: "
+                                    f"{publish_date!r}"
+                                )
+                                publish_date = None
 
                         # Build article metadata
                         article = {
-                            "hero_title": frontmatter.get("context", {}).get(
+                            "hero_title": context.get(
                                 "hero_title", md_file.stem
                             ),
-                            "description": frontmatter.get("context", {}).get(
-                                "description", ""
-                            ),
+                            "description": context.get("description", ""),
                             "url": (
                                 f"/knowledge/{category_slug}/"
                                 f"{article_slug}"
                             ),
-                            "tag": frontmatter.get("context", {}).get(
-                                "tag", ""
-                            ),
+                            "tag": context.get("tag", ""),
+                            "publish_date": publish_date,
                         }
                         articles.append(article)
                     except yaml.YAMLError:
                         logger.error(f"YAML parsing error in {md_file}")
         except Exception as e:
             logger.error(f"Error reading {md_file}: {e}")
+
+    # Sort most → least recently published. Articles without a publish_date
+    # fall to the end; ties break alphabetically by hero_title for stability.
+    articles.sort(
+        key=lambda a: (
+            a["publish_date"] is None,
+            -(a["publish_date"].toordinal() if a["publish_date"] else 0),
+            a["hero_title"].lower(),
+        )
+    )
 
     return articles
 
