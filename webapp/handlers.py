@@ -73,8 +73,7 @@ CSP = {
         "ws.zoominfo.com",
         "youtube.com",
         "google.com",
-
-        # Europe 
+        # Europe
         "www.google.at",
         "www.google.be",
         "www.google.ch",
@@ -95,7 +94,6 @@ CSP = {
         "www.google.pt",
         "www.google.ro",
         "www.google.se",
-
         # Americas
         "www.google.ca",
         "www.google.cl",
@@ -104,7 +102,6 @@ CSP = {
         "www.google.com.br",
         "www.google.com.mx",
         "www.google.com.pe",
-
         # Asia & Pacific
         "www.google.co.id",
         "www.google.co.in",
@@ -119,7 +116,6 @@ CSP = {
         "www.google.com.sg",
         "www.google.com.tw",
         "www.google.com.vn",
-
         # Africa & Middle East
         "www.google.co.id",
         "www.google.co.in",
@@ -134,7 +130,6 @@ CSP = {
         "www.google.com.sg",
         "www.google.com.tw",
         "www.google.com.vn",
-
         "fonts.google.com",
         "maps.googleapis.com",
         "pixel-config.reddit.com",
