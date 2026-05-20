@@ -113,7 +113,7 @@ context:
   };
 </script>
 <script src='https://www.google.com/recaptcha/api.js?onload=gCaptchaReadyCallback&render=explicit&hl=en_GB' async
-defer></script>
+defer nonce="{{ csp_nonce }}"></script>
 <script type="text/javascript" nonce="{{ csp_nonce }}">
   document.addEventListener("DOMContentLoaded", function() {
     var warning = document.getElementById("javascript-warning");
@@ -173,11 +173,11 @@ defer></script>
 
 <link href="https://www.tfaforms.com/wForms/3.4/css/blank/wforms.css" rel="stylesheet" type="text/css" />
 <link href="https://www.tfaforms.com/dist/form-builder/5.0.0/wforms-jsonly.css?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2" rel="alternate stylesheet" title="This stylesheet activated by javascript" type="text/css" />
-<script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/wforms.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2"></script>
+<script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/wforms.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2" nonce="{{ csp_nonce }}"></script>
 <script type="text/javascript" nonce="{{ csp_nonce }}">
   wFORMS.behaviors.prefill.skip = false;
 </script>
-<script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/localization-en_GB.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2"></script>
+<script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/localization-en_GB.js?v=9cab24f50ea39e2cd0e4eb3def0940a2b3cb2ad2" nonce="{{ csp_nonce }}"></script>
 
 <section class="p-strip u-no-padding--top">
   <div class="row">

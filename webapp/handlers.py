@@ -13,6 +13,7 @@ CSP = {
     ],
     "script-src-elem": [
         "'self'",
+        "'strict-dynamic'",
         "assets.ubuntu.com",
         "www.google-analytics.com",
         "www.googletagmanager.com",

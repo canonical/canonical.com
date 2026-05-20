@@ -1465,9 +1465,9 @@
   </section>
 
   {{ load_form("/") | safe }}
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
-  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
   <script nonce="{{ csp_nonce }}">
     function loadScript(url) {
       const script = document.createElement('script');

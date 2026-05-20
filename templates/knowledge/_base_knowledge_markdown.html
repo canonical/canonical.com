@@ -120,8 +120,8 @@
     })
   }}
   
-  <script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+  <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
   <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews({
       imageClasses: ["p-image-container__image"],
@@ -137,7 +137,7 @@
   <script type="module"
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
   
   {% endblock %}
 
