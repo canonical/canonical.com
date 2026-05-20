@@ -101,7 +101,7 @@ Network segmentation divides an environment into isolated zones, restricting the
 
 ### Encryption
 
-Encryption protects data across three states: at rest, in transit, and in use. Data at rest is protected through full disk encryption and database-level encryption, ensuring that physical access to storage media does not expose sensitive information. Data in transit is secured via protocols like TLS, preventing interception and tampering during network communication. Data in use is the newest frontier; confidential computing technologies use hardware-level memory encryption to protect data even while it is being processed, defending against attackers who have compromised the host operating system or hypervisor. Together, these three layers ensure that data remains unintelligible to unauthorized parties regardless of where it exists in the system.
+Encryption protects data across three states: at rest, in transit, and in use. Data at rest is protected through full disk encryption and database-level encryption, ensuring that physical access to storage media does not expose sensitive information. Data in transit is secured via protocols like TLS, preventing interception and tampering during network communication. Data in use is the newest frontier; [confidential computing](https://ubuntu.com/confidential-computing) technologies use hardware-level memory encryption to protect data even while it is being processed, defending against attackers who have compromised the host operating system or hypervisor. Together, these three layers ensure that data remains unintelligible to unauthorized parties regardless of where it exists in the system.
 
 ### Data loss prevention (DLP)
 
