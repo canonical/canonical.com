@@ -64,7 +64,7 @@
     <div class="l-docs__sticky-container">
       {% if versions | length > 1 %}
         <label for="version-select" class="u-hide">Version</label>
-        <select name="version-select" id="version-select" onChange="window.location.href=this.value">
+        <select name="version-select" id="version-select" data-js-navigate-on-change>
         {% for version in versions %}
           {% set active = docs_version == version['path'] %}
           <option value="{{ version_paths[version['path']] }}"{% if active %} selected{% endif %}>{{ version['version'] }}</option>

@@ -7,34 +7,6 @@
 {% block extra_metatags %}<meta name="robots" content="noindex" />{% endblock %}
 
 {% block content %}
-  <script>
-    function showProgressDetail(stage) {
-      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
-      const showLessBtn = document.querySelector(`.show-less-${stage}`);
-      const details = document.querySelectorAll(`.progress-detail-${stage}`);
-
-      [].forEach.call(details, function(detail) {
-        if (detail.classList.contains("u-hide")) {
-          detail.classList.remove("u-hide")
-          showMoreBtn.classList.add("u-hide")
-          showLessBtn.classList.remove("u-hide")
-        }
-      })
-    }
-
-    function hideProgressDetail(stage) {
-      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
-      const showLessBtn = document.querySelector(`.show-less-${stage}`);
-      const details = document.querySelectorAll(`.progress-detail-${stage}`);
-      [].forEach.call(details, function(detail) {
-        if (!detail.classList.contains("u-hide")) {
-          detail.classList.add("u-hide")
-          showMoreBtn.classList.remove("u-hide")
-          showLessBtn.classList.add("u-hide")
-        }
-      })
-    };
-  </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <!-- Start of thank you for applying section -->
     <section class="p-strip--image is-dark is-deep"
@@ -155,7 +127,7 @@
             {% if application['hiring_lead']["bio"] %}
               <p>{{ application['hiring_lead']["bio"][0] | safe }}</p>
               <a href=""
-                 onclick="showProgressDetail('hiring-lead'); event.preventDefault();"
+                 data-js-progress-show="hiring-lead"
                  class="show-more-hiring-lead">Show more</a>
               <div class="progress-detail-hiring-lead u-hide">
                 {% for bio in application['hiring_lead']["bio"] %}
@@ -163,7 +135,7 @@
                 {% endfor %}
               </div>
               <a href=""
-                 onclick="hideProgressDetail('hiring-lead'); event.preventDefault();"
+                 data-js-progress-hide="hiring-lead"
                  class="show-less-hiring-lead u-hide">Show less</a>
             {% endif %}
           </div>
