@@ -1220,9 +1220,9 @@
 
   {{ load_form("/juju") | safe }}
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
   <script async defer
           src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
           integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
