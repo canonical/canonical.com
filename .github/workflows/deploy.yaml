@@ -87,6 +87,9 @@ jobs:
   publish-image:
     runs-on: ubuntu-latest
     needs: pack-rock
+    permissions:
+      contents: read
+      packages: write
     outputs:
       image_url: ${{ steps.set_image_url.outputs.image_url }}
     steps:
