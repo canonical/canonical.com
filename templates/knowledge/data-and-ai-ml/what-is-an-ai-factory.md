@@ -145,15 +145,54 @@ AI factories can be deployed on either public cloud or private infrastructure, b
 
 AI factories can be utilized in any industry for any use case where organizations need to continuously generate actionable intelligence and agentic experiences at scale. Examples include:
 
-{{ text_list_kh(
-  items=[
-    "Manufacturing: Predictive maintenance; Process automation; Quality control",
-    "Autonomous vehicles: Training autonomous driving systems; Digital twin validation; Fleet orchestration",
-    "Healthcare: Drug discovery; Medicine personalization; Patient diagnostics",
-    "Financial services: Fraud detection; Risk assessment; Market simulation and forecasting",
-    "Telecommunications: Network orchestration; Threat detection; Customer support LLM as a service",
-    "Productivity workflows: Large-scale private data analysis; Enterprise apps"
+
+### Manufacturing
+
+{{ text_list_kh(items=[
+  "Predictive maintenance",
+  "Process automation",
+  "Quality control"
 ]) }}
+
+### Autonomous vehicles
+
+{{ text_list_kh(items=[
+  "Training autonomous driving systems",
+  "Digital twin validation",
+  "Fleet orchestration"
+]) }}
+
+### Healthcare
+
+{{ text_list_kh(items=[
+  "Drug discovery",
+  "Medicine personalization",
+  "Patient diagnostics"
+]) }}
+
+### Financial services
+
+{{ text_list_kh(items=[
+  "Fraud detection",
+  "Risk assessment",
+  "Market simulation and forecasting"
+]) }}
+
+### Telecommunications
+
+{{ text_list_kh(items=[
+  "Network orchestration",
+  "Threat detection",
+  "Customer support LLM as a service"
+]) }}
+
+### Productivity workflows
+
+{{ text_list_kh(items=[
+  "Large-scale private data analysis",
+  "Enterprise apps"
+]) }}
+
 
 ## How does Canonical help with AI factories?
 
