@@ -358,7 +358,7 @@ function getCustomFields(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".js-form-custom-fields").forEach(function (form) {
+  document.querySelectorAll("[data-js-form-custom-fields]").forEach(function (form) {
     form.addEventListener("submit", getCustomFields);
   });
 });

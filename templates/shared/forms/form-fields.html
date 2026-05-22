@@ -1,8 +1,9 @@
 <section class="p-section" data-md-strip>
-  <form class="js-form-custom-fields{% if isModal %} js-modal-form{% endif %}"
+  <form {% if isModal %}class="js-modal-form"{% endif %}
         action="https://ubuntu.com/marketo/submit"
         method="post"
         id="mktoForm_{{ form_id }}"
+        data-js-form-custom-fields
         {% if formData.noPreselectCountry %}data-no-preselect-country{% endif %}>
     {% for fieldset in fieldsets %}
 
