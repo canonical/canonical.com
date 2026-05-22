@@ -1,3 +1,15 @@
+/**
+ * CSP-safe GA event tracking.
+ *
+ * Replaces inline `onclick="dataLayer.push(...)"` handlers (disallowed under
+ * our Content Security Policy) by binding listeners to elements that declare
+ * their GA event via `data-ga-*` attributes:
+ *   - data-ga-category / data-ga-action / data-ga-label  (click events)
+ *   - data-ga-extra-category / -action / -label          (secondary click event on same element)
+ *   - data-ga-submit-category / -action / -label         (form submit events)
+ *
+ * Each handler pushes a `GAEvent` to window.dataLayer for Google Tag Manager.
+ */
 (function () {
   "use strict";
 
@@ -9,40 +21,33 @@
     }
   }
 
-  function pushDataLayer(el) {
+  function pushGAEvent(category, action, label) {
+    if (!category || !action) return;
     if (typeof window.dataLayer === "undefined") {
       window.dataLayer = [];
     }
-    var category = el.getAttribute("data-ga-category");
-    var action = el.getAttribute("data-ga-action");
-    var label = el.getAttribute("data-ga-label");
-    var extra = el.getAttribute("data-ga-extra-category");
-    var extraAction = el.getAttribute("data-ga-extra-action");
-    var extraLabel = el.getAttribute("data-ga-extra-label");
-    if (category && action) {
-      window.dataLayer.push({
-        event: "GAEvent",
-        eventCategory: category,
-        eventAction: action,
-        eventLabel: label || undefined,
-        eventValue: undefined,
-      });
-    }
-    if (extra && extraAction) {
-      window.dataLayer.push({
-        event: "GAEvent",
-        eventCategory: extra,
-        eventAction: extraAction,
-        eventLabel: extraLabel || undefined,
-        eventValue: undefined,
-      });
-    }
+    window.dataLayer.push({
+      event: "GAEvent",
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label || undefined,
+      eventValue: undefined,
+    });
   }
 
   ready(function () {
     document.querySelectorAll("[data-ga-category]").forEach(function (el) {
       el.addEventListener("click", function () {
-        pushDataLayer(el);
+        pushGAEvent(
+          el.getAttribute("data-ga-category"),
+          el.getAttribute("data-ga-action"),
+          el.getAttribute("data-ga-label"),
+        );
+        pushGAEvent(
+          el.getAttribute("data-ga-extra-category"),
+          el.getAttribute("data-ga-extra-action"),
+          el.getAttribute("data-ga-extra-label"),
+        );
       });
     });
 
@@ -50,17 +55,11 @@
       .querySelectorAll("[data-ga-submit-category]")
       .forEach(function (form) {
         form.addEventListener("submit", function () {
-          if (typeof window.dataLayer === "undefined") {
-            window.dataLayer = [];
-          }
-          window.dataLayer.push({
-            event: "GAEvent",
-            eventCategory: form.getAttribute("data-ga-submit-category"),
-            eventAction: form.getAttribute("data-ga-submit-action"),
-            eventLabel:
-              form.getAttribute("data-ga-submit-label") || undefined,
-            eventValue: undefined,
-          });
+          pushGAEvent(
+            form.getAttribute("data-ga-submit-category"),
+            form.getAttribute("data-ga-submit-action"),
+            form.getAttribute("data-ga-submit-label"),
+          );
         });
       });
   });
