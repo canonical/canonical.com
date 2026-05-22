@@ -61,8 +61,8 @@
   {% include "/shared/forms/form-fields.html" %}
 {% endif %}
 
-<script defer src="{{ versioned_static('js/modals.js') }}"></script>
-<script>
+<script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
+<script nonce="{{ csp_nonce }}">
   document.querySelector('form').addEventListener('submit', function(event) {
     dataLayer.push({
       'event': 'GAEvent',

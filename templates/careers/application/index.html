@@ -7,6 +7,34 @@
 {% block extra_metatags %}<meta name="robots" content="noindex" />{% endblock %}
 
 {% block content %}
+  <script nonce="{{ csp_nonce }}">
+    function showProgressDetail(stage) {
+      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+      const showLessBtn = document.querySelector(`.show-less-${stage}`);
+      const details = document.querySelectorAll(`.progress-detail-${stage}`);
+
+      [].forEach.call(details, function(detail) {
+        if (detail.classList.contains("u-hide")) {
+          detail.classList.remove("u-hide")
+          showMoreBtn.classList.add("u-hide")
+          showLessBtn.classList.remove("u-hide")
+        }
+      })
+    }
+
+    function hideProgressDetail(stage) {
+      const showMoreBtn = document.querySelector(`.show-more-${stage}`);
+      const showLessBtn = document.querySelector(`.show-less-${stage}`);
+      const details = document.querySelectorAll(`.progress-detail-${stage}`);
+      [].forEach.call(details, function(detail) {
+        if (!detail.classList.contains("u-hide")) {
+          detail.classList.add("u-hide")
+          showMoreBtn.classList.remove("u-hide")
+          showLessBtn.classList.add("u-hide")
+        }
+      })
+    };
+  </script>
   {% if application["status"] == "active" or ( application["status"] != "active" and application["to_be_rejected"] == True ) %}
     <!-- Start of thank you for applying section -->
     <section class="p-strip--image is-dark is-deep"
@@ -302,19 +330,22 @@
     </section>
   {% endif %}
 
-  <script>
-    function showInput() {
-      const selectValue = document.getElementById('withdrawal-reason').value;
-      const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
-      const otherInput = document.querySelector('.other-input')
-      if (selectValue === "33") {
-        otherInput.style.display = "block";
-        withdrawalReasonOther.setAttribute("required", "true")
-      } else {
-        otherInput.style.display = "none";
-        withdrawalReasonOther.removeAttribute("required")
-      }
-    }
+  <script nonce="{{ csp_nonce }}">
+    (function () {
+      const withdrawalReason = document.getElementById('withdrawal-reason');
+      if (!withdrawalReason) return;
+      withdrawalReason.addEventListener('change', function () {
+        const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
+        const otherInput = document.querySelector('.other-input');
+        if (withdrawalReason.value === "33") {
+          otherInput.style.display = "block";
+          withdrawalReasonOther.setAttribute("required", "true");
+        } else {
+          otherInput.style.display = "none";
+          withdrawalReasonOther.removeAttribute("required");
+        }
+      });
+    })();
 
     (function() {
 

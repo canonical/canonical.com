@@ -58,7 +58,7 @@
             </li>
           {% endfor %}
         </ul>
-        <button id="load-more-button" class="p-button" onclick="loadMoreResults()">Load more results</button>
+        <button id="load-more-button" class="p-button">Load more results</button>
       </div>
     </section>
   {% else %}
@@ -91,14 +91,13 @@
     </section>
   {% endif %}
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     document.addEventListener("DOMContentLoaded", function() {
       let visibleResults = 10;
       const loadMoreButton = document.getElementById("load-more-button");
+      if (!loadMoreButton) return;
 
-      window.loadMoreResults = function() {
-        if (!loadMoreButton) return;
-
+      loadMoreButton.addEventListener("click", function () {
         loadMoreButton.innerText = "Loading...";
         loadMoreButton.disabled = true;
 
@@ -119,7 +118,7 @@
             loadMoreButton.disabled = false;
           }
         }, 500);
-      };
+      });
     });
   </script>
 {% endblock content %}
