@@ -11,7 +11,7 @@
       {% endif %}
   {% endif %}
 </div>
-<script>
+<script nonce="{{ csp_nonce }}">
   const interviewTime = new Date("{{ interview["start"]["datetime"] }}");
   const userTime = interviewTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
   const offset = -(interviewTime.getTimezoneOffset() / 60)

@@ -187,9 +187,9 @@
           </div>
         </article>
       </template>
-      <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+      <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
       {# djlint: off #}
-      <script>
+      <script nonce="{{ csp_nonce }}">
         canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
           articleTemplateSelector: "#articles-template",
@@ -210,4 +210,4 @@
 <script async defer
         src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
         integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>

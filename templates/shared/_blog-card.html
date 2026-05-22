@@ -90,8 +90,8 @@
   </template>
   {% endif %}
 
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-  <script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews(
       {
         articlesContainerSelector: "#horizontal-latest-articles",

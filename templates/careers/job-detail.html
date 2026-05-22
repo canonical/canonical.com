@@ -11,7 +11,7 @@
 {% block extra_metatags %}
 <link rel="alternate" type="application/rss+xml"  href="/careers/feed" title="All job roles | Canonical Careers"/>
 
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
   {
     "@context" : "https://schema.org/",
     "@type" : "JobPosting",
@@ -126,7 +126,7 @@
   </div>
 </div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   (function () {
     const formEl = document.getElementById("job-apply-form");
     if (!formEl) {
@@ -191,11 +191,11 @@
   })();
 </script>
 
-<script defer>
+<script defer nonce="{{ csp_nonce }}">
     document.querySelectorAll('a[href*="legal"]').forEach(function (a) {
       a.setAttribute('target', '_blank');
     })
 </script>
 
-<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
+<script defer src="{{ versioned_static('js/file-validation.js') }}" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
