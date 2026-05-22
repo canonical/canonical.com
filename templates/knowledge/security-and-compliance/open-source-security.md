@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-04-15
   tag: "Security"
   title: "What is open source security?"
   breadcrumb: "What is open source security?"

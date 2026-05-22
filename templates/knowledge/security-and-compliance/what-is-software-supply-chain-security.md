@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-05-01
   tag: "Security"
   title: "What is software supply chain security?"
   breadcrumb: "What is software supply chain security?"
