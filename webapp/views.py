@@ -258,7 +258,7 @@ def build_canonical_days_index(engage_docs):
             offset=None,
             tag_value="roadshow",
             key="type",
-            value="roadshow"
+            value="roadshow",
         )
         total_pages = math.ceil(current_total / limit)
 
