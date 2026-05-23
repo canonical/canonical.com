@@ -88,12 +88,18 @@ from webapp.utils.juju_doc_search import (
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
-# Can be seen on sitemap.xml
+# Can be seen on /sitemap.xml
 DYNAMIC_SITEMAPS = [
     "careers",
     "partners",
     "blog",
+    "knowledge",
+    "microk8s/docs",
+    "dqlite/docs",
+    "mir/docs",
+    "maas/docs",
 ]
+
 
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
@@ -1736,8 +1742,9 @@ def build_sitemap_tree(exclude_paths=None):
 # Endpoint for retrieving parsed directory tree
 def get_sitemaps_tree():
     try:
+        templates_path = os.getcwd() + "/templates"
         tree = directory_parser.scan_directory(
-            os.getcwd() + "/templates", exclude_paths=DYNAMIC_SITEMAPS
+            templates_path, exclude_paths=DYNAMIC_SITEMAPS
         )
     except Exception as e:
         return {"Error:": str(e)}, 500

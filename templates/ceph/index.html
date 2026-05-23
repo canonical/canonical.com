@@ -1,0 +1,411 @@
+{% extends 'base_index.html' %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/112DDIEC7yQYzT1EqiPEdFBcGZtGaFUnpQWkTY6MW9eI/edit?tab=t.jijjhiya0no5
+{% endblock %}
+
+{% block title %}
+  Canonical Ceph
+{% endblock %}
+
+{% block meta_description %}
+  Canonical Ceph is an open source, enterprise ready multi-protocol software-defined storage solution for all on-premises workloads.
+{% endblock %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% block content %} 
+  {% call(slot) vf_hero(
+    title_text='Canonical Ceph',
+    subtitle_text='Open source <br> software-defined storage',
+    layout='50/50',
+    is_split_on_medium=true,
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Scalable, multi-protocol storage, proven across numerous enterprise production environments, preferred for its 
+          on-demand public cloud-style storage provisioning. Deploy Ceph in minutes to support all on-premises workloads, including 
+          OpenStack, Kubernetes, and MicroCloud."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Get in touch",
+            "attrs": {
+              "href": "#contact-modal",
+              "class": "js-invoke-modal",
+              "aria-controls": "contact-modal"
+            }
+          },
+          "secondaries": [
+            {
+              "content_html": "Calculate your storage costs",
+              "attrs": {
+                "href": "https://ubuntu.com/ceph/pricing-calculator"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": true,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/23fe4064-hero_img.png"
+          }
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Canonical Ceph: Proven and Trusted"
+    },
+    blocks=[
+      {
+        "stat": "10+",
+        "description": "Years"
+      },
+      {
+        "stat": "1,000,000+",
+        "description": "Downloads"
+      },
+      {
+        "stat": "1 minute",
+        "description": "To get started"
+      }
+    ]
+  ) }}
+
+    <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col">
+        <h2>
+          Success stories
+          <br />
+          with Canonical Ceph
+        </h2>
+      </div>
+      <div class="col">
+        <div class="u-embedded-media">
+          <iframe class="u-embedded-media__element"
+                  width="500"
+                  height="300"
+                  src="https://www.youtube.com/embed/kpehQMo7weA"
+                  title="From 3PB to 20PB: Sanger Institute&#39;s Ceph Journey with Canonical"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+        <p>
+          Designed from the ground up for petabyte-scale deployments, Canonical's Ceph solutions include only open source components with highly automated operations to drive down the total cost of ownership.
+          <br>
+          If you do not have the in house expertise to operate your own storage infrastructure Canonical Ceph is available as a managed service.
+        </p>
+        <p>
+          <a href="/ceph/support">Learn more about Ceph support&nbsp;&rsaquo;</a>
+        </p>
+        <hr>
+        <p>
+          The Wellcome Sanger Institute initially opted for self-maintained Ceph storage, but as their capacity needs grew from 3 PB to over 20 PB, they turned to Canonical to resolve their scaling challenges.
+        </p>
+        <p>
+          With the help of Canonical support, the Institute's latest Ceph rollout decreased from a month to just four days.
+        </p>
+        <p>
+          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Wellcome%20Sanger%20Institute%20Case%20Study.pdf">Learn how Wellcome Sanger achieved a cost-effective Ceph infrastructure&nbsp;&rsaquo;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_logo_section(
+    mode="default",
+    title={
+      "text": "Notable Ceph Users"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            {
+              "src": "https://assets.ubuntu.com/v1/25de15ba-cern_logo.png"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/452b82e9-deutsche_telekom.png"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/ff0f90e7-bloomberg_logo.png"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/3fd1dd71-cisco_logo.png"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/9aaed3fc-dreamhost_logo.png"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/65626de1-digitalocean_logo.png"
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+  <p>Ceph is used across a broad range of industries, from academic institutions, to telco, to cloud service providers (CSPs).</p>
+  {%- endif -%}
+  {% endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Canonical Ceph deployment and operations</h2>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Deploying Ceph</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Canonical can help you to design and install your Ceph cluster, from hardware selection through to integration with the rest of your infrastructure.</p>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Operating Ceph</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Day-2 operations are straightforward, thanks to highly automated procedures for software version upgrades and hardware expansions, as well as managing hardware replacement.</p>
+      <p>If you prefer to treat your storage as-a-service, <a href="https://ubuntu.com/ceph/managed"> we offer Managed Ceph</a> – a Ceph cluster fully managed by Canonical.</p>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">A choice of tooling</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_3' -%}
+    <p>The choice is yours: use your own operations framework, or take advantage of the benefits of deploying with Juju and Charms.<br>
+    Each Ubuntu LTS release ships with a version of Ceph that is supported for up to 15 years.</p>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_4' -%}
+    <h3 class="p-heading--5">Long Term Support (LTS)</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_4' -%}
+      <p>To maximize Ceph upgrade flexibility for customers, Ceph versions are regularly released and maintained through Ubuntu updates and security repositories, as well as the Ubuntu Cloud Archive.</p>
+      <p>This maintains the balance between remaining at the forefront of innovation and providing long-term support predictability.</p>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_5' -%}
+    <h3 class="p-heading--5">Economic advantage</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_5' -%}
+    <p>
+      Consolidate block, file, and object storage workloads into a single Ceph cluster to increase operational efficiency.
+    </p>
+    <p>
+      Repatriate workloads from public clouds to cut costs. Discover <a href="https://ubuntu.com/blog/predict-compare-and-reduce-costs-with-our-s3-cost-calculator"> Ceph’s cost benefits</a>, and try our <a href="https://ubuntu.com/ceph/pricing-calculator"> Ceph pricing calculator </a> to learn how much you could save with Ceph.
+    </p>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_title_6' -%}
+    <h3 class="p-heading--5">The Ubuntu and Ceph  support cadence</h3>
+    {%- endif -%}
+    
+    {%- if slot == 'list_item_description_6' -%}
+      <table aria-label="">
+        <thead>
+          <tr>
+            <th>Ubuntu 20.04.x <br>LTS Focal</th>
+            <th>Ubuntu 22.04.x <br>LTS Jammy</th>
+            <th>Ubuntu 24.04.x <br>LTS Noble</th>
+            <th>Ubuntu 26.04.x <br>LTS Resolute</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Ceph Quincy <br> 17.2.x</th>
+            <td>Ceph Reef <br> 18.2.x</td>
+            <td>Ceph Squid <br> 19.2.x *</td>
+            <td>Ceph Tentacle <br> 20.2.x *</td>
+          </tr>
+          <tr>
+            <th>Ceph Pacific <br> 16.2.x</th>
+            <td>Ceph Quincy <br> 17.2.x *</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <th>Ceph Octopus <br> 15.2.x *</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr class="p-rule--muted">
+      <p class="u-text--muted">* Releases denoted with an asterisk are supported under the full LTS commitment.</p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="More choice <br>for your infrastructure",
+    highlight_images=True,
+    attrs={ "id": "3-columns-responsive" },
+    items=[
+      {
+        "title_text": "Storage-as-a-Service",
+        'image_html':  '<img src="https://assets.ubuntu.com/v1/c75a82d3-storage.png" alt="" class="p-image-container__image" width="284" height="426" />',
+        "description_html": "<p>Juju-orchestrated, snap-delivered private cloud storage. Model based operations make it easy to get started with Ceph, and even easier to scale and maintain.</p>",
+        'cta_html': '<a href="https://charmhub.io/microceph">Find out more on Charmhub&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": "Ceph containers",
+        'image_html':  '<img src="https://assets.ubuntu.com/v1/88343e84-containers.png" alt="" class="p-image-container__image" width="284" height="426" />',
+        "description_html": "<p>Deploy and manage Ceph using your own choice of tooling, like cephadm or Rook, with trusted OCI compliant container images from Canonical.</p>",
+        'cta_html': '<a href="https://github.com/canonical/ceph-containers/pkgs/container/ceph">Find out more on GitHub&nbsp;&rsaquo;</a>'
+      },
+      {
+        "title_text": "Training / Local dev",
+        'image_html':  '<img src="https://assets.ubuntu.com/v1/9271b4de-training.png" alt="" class="p-image-container__image" width="284" height="426" />',
+        "description_html": "<p>Use the lightweight snap for small scale deployments, snaptraining, and local-development.</p>",
+        'cta_html': '<a href="https://snapcraft.io/microceph">Find out more in the Snap Store&nbsp;&rsaquo;</a>'
+      }
+    ]) %}
+    {% if slot == "description" %}
+    <p>
+    Across all shapes and sizes of infrastructure, Canonical Ceph provides all the benefits of upstream Ceph in easily deployable and security maintained packages.
+    </p>
+    <div class="p-cta-block">
+      <a href="https://ubuntu.com/ceph/install" class="p-button">Install now</a>
+    </div>
+    {% endif %}
+  {% endcall %}
+
+  {{ vf_basic_section(
+    title={"text": "Why choose Canonical Ceph?"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "
+            <p>
+              Canonical Ceph management tooling enables you to orchestrate the entire lifecycle of deployment, configuration, and operation of a Ceph cluster, no matter its size or complexity. 
+            </p>
+          "
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "
+            <p>
+              Our tooling simplifies both installation automation and Day-2 operations orchestration, including monitoring, scaling, upgrades, and hardware maintenance – all while remaining interoperable with other infrastructure and application management solutions.
+            </p>
+          "
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "16-9",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/05d8547f-why_choose_ceph.png"
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<p> <hr class="p-rule--muted"><strong>Benefits of Canonical Ceph</strong></p><br>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": 
+"
+<ul>
+  <li>Highly scalable, from Terabytes to Exabytes</li>
+  <li>Highly reliable, with no single point of failure</li>
+  <li>Protect your data with replication and erasure coding</li>
+  <li>Enable BCP/DR with remote replication</li>
+  <li>Highly secure client authentication and data at rest encryption</li>
+  <li>Compatible with Amazon S3 and OpenStack Swift APIs</li>
+  <li>Decrease CapEx by using commodity hardware</li>
+  <li>Decrease OpEx through failure detection, self-management, and self-healing</li>
+  <li>Configurable and optimizable for cost and performance</li>
+</ul>
+"
+        }
+      }
+    ],
+    attrs= {"id": "mixed-content-section"}
+  ) }}
+
+  <section class="p-section">
+    <div class="grid-row--50-50-on-large">
+      <hr class="p-rule">
+      
+      <div class="grid-col">
+        <h2>Learn more <br>about Canonical Ceph</h2>
+      </div>
+      
+      <div class="grid-col">
+
+        <div class="p-section--shallow">
+          <h5><a href="https://ubuntu.com/engage/enterprise-ceph">Canonical Ceph for Enterprise</a></h5>
+          <p>A single Ceph cluster can address block, file, and object storage needs, all while complementing proprietary and public cloud solutions.</p>
+          <p>In this webinar, we review the storage challenges faced by enterprises, and explain how Ceph can solve many of them. We will also demonstrate some of the key features of Ceph that provide solutions for disaster recovery and support various compliance requirements.</p>
+        </div>
+
+        <div class="p-section--shallow">
+          <h5><a href="https://ubuntu.com/engage/optimize-cloud-storage-costs">Cloud storage cost optimization</a></h5>
+          <p>Calculating the total cost of ownership of cloud storage isn't straightforward, as pricing typically includes components beyond the capacity consumed. In this webinar, we break down the total cost of storing data in public clouds, and explore how adopting Ceph can reduce costs.</p>
+        </div>
+
+        <div class="p-section--shallow">
+          <h5><a href="https://ubuntu.com/engage/introduction-to-cloud-native-storage">Introduction to cloud-native storage</a></h5>
+          <p>Moving away from hosted container solutions? Storage is a critical part of the equation. Learn how to align dynamic cloud-native application delivery with persistent storage in this whitepaper.</p>
+        </div>
+        
+        <div>
+          <h5><a href="https://ubuntu.com/engage/ai-storage-with-ceph">AI storage with Ceph</a></h5>
+          <p>Discover how AI impacts your storage systems and what it means for your business. Discover insights into storage economics, scale out storage architecture, and AI application improvements to improve storage performance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include "ceph/_blog.html" %}
+
+{{ load_form("/ceph") | safe }}
+<script defer src="{{ versioned_static('js/modals.js') }}"></script>
+<script src="{{ versioned_static('js/in-page-navigation.js') }}"></script>
+{% endblock %}
