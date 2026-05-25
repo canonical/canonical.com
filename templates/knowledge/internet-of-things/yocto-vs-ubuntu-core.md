@@ -225,7 +225,7 @@ Here’s a concise overview of the main areas of comparison between Yocto and Ub
   "<strong>Securely designed operating environment:</strong> Yocto requires manual effort to achieve a secure operating environment, whereas Ubuntu Core has these protections (including Secure boot, full disk encryption, and application isolation) built-in by default.",
   "<strong>OTA updates:</strong> Yocto relies on third-party solutions like Mender for over-the-air updates, while Ubuntu Core provides native, atomic updates with integrated rollback functionality.",
   "<strong>Supply chain transparency:</strong> Yocto places the responsibility for supply chain transparency on the developer, whereas Ubuntu Core utilizes a centralized snap store for streamlined auditing.",
-  "<strong>Vulnerability management:</strong> Yocto requires a "do-it-yourself" approach to identifying and patching vulnerabilities, while Ubuntu Core offers Canonical-managed vulnerability management for up to 15 years.",
+  "<strong>Vulnerability management:</strong> Yocto requires a \"do-it-yourself\" approach to identifying and patching vulnerabilities, while Ubuntu Core offers Canonical-managed vulnerability management for up to 15 years.",
   "<strong>Secure Boot & encryption:</strong> Yocto necessitates manual configuration for secure boot and disk encryption, whereas Ubuntu Core supports these security features out of the box.",
   "<strong>Long-term security and support:</strong> Yocto typically provides security support for only a matter of months, while Ubuntu Core offers a significantly longer lifecycle of up to 15 years.",
 ])}}
