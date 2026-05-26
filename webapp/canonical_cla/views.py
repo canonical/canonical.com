@@ -175,11 +175,8 @@ def canonical_cla_api_proxy():
     # is in the allowed endpoints list
     # Parse the URL to extract just the path for validation
     parsed_url = urlparse.urlparse(request_url)
-    canonical_cla_api_host = urlparse.urlparse(
-        CANONICAL_CLA_API_URL
-    ).hostname
 
-    if parsed_url.netloc and parsed_url.hostname != canonical_cla_api_host:
+    if parsed_url.netloc:
         error_response = flask.make_response(
             {"detail": "Endpoint not allowed"}
         )
