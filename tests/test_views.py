@@ -271,7 +271,7 @@ class TestViews(unittest.TestCase):
             call_args = mock_engage_docs.get_index.call_args
             self.assertEqual(call_args[1]["tag_value"], "roadshow")
             self.assertEqual(call_args[1]["key"], "type")
-            self.assertEqual(call_args[1]["value"], "event")
+            self.assertEqual(call_args[1]["value"], "roadshow")
 
     @patch("webapp.views.flask.render_template")
     def test_canonical_days_filters_incomplete_events(
