@@ -7,7 +7,15 @@
 {% from "macros/_macros-highlights.jinja" import highlights %}
 {% from "macros/_macros-text.jinja" import text %}
 {% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from 'macros/_macros-case-study-video.jinja' import case_study_video %}
 {% from "macros/_macros-cta.jinja" import cta %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous"></script>
+{% endblock extra_metatags %}
 
 {% block title %}Unibap powers robust and accessible space computing with Ubuntu{% endblock %}
 
@@ -246,6 +254,14 @@
     hide_image_small=True
     )
     -%}
+  {%- endcall -%}
+
+  {%- call(slot) case_study_video(top_rule_variant="muted", title="Optional video section title", video_id="i9oDHGPBlwo", video_title="Trusted open source for everyone", caption="Optional video caption goes here") -%}
+    {%- if slot == "content" -%}
+      <p>
+        Optional paragraph text: To meet these challenges, Canonical deployed its Kubernetes and Ceph distributions across data centres located at ESA’s European Space Operations Centre in Darmstadt, Germany. Canonical assisted ESA in the architecture, design and deployment of Kubernetes across hundreds of VMs and dozens of clusters, all connected to physical clusters of Ceph storage, as part of its Managed Services offering. Canonical are also working on the deployment of PostgreSQL and Kafka, which will also be a Managed Service, allowing ESA to focus more on supporting mission operations.
+      </p>
+    {%- endif -%}
   {%- endcall -%}
 
 {% endblock %}
