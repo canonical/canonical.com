@@ -61,14 +61,18 @@
         <thead>
           <tr>
             <th data-column="0" data-type="string">
+              <strong>Event Name</strong>
+              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Event Name" style="border-style: none;"></button>
+            </th>
+            <th data-column="1" data-type="string">
               <strong>Location</strong>
               <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Location" style="border-style: none;"></button>
             </th>
-            <th data-column="1" data-type="string">
+            <th data-column="2" data-type="string">
               <strong>Region</strong>
               <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Region" style="border-style: none;"></button>
             </th>
-            <th data-column="2" data-type="date">
+            <th data-column="3" data-type="date">
               <strong>Date</strong>
               <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Date" style="border-style: none;"></button>
             </th>
@@ -81,6 +85,9 @@
             {% set ns.counter = ns.counter + 1 %}
             {% if ns.counter <= 10 or metadata | length < TRUNCATE_THRESHOLD %}
               <tr>
+                <td data-heading="Event Name">
+                  <a href="{{ data.path }}">{{ data.topic_name or '—' }}</a>
+                </td>
                 <td data-heading="Location">
                   <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
                 </td>
