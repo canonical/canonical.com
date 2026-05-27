@@ -1,0 +1,41 @@
+# This macro is used to add videos to case studies.
+
+# Params
+# top_rule_variant(optional): Variant of the top rule to use (One of "default", "highlighted", "muted", "none". Default is "muted")
+# title(optional): Title of the video section
+# video_id (required): ID of the YouTube video to embed
+# video_title (required): Title of the video for accessibility
+# caption(optional): Caption for the video
+
+# Slots
+# content: Main content of the video section
+
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
+{% from '_macros/shared/vf_section_top_rule.jinja' import vf_section_top_rule %}
+
+{%- macro case_study_video(video_id, video_title, top_rule_variant="muted", title="", caption="") -%}
+  {%- set paragraph_content = caller('content') -%}
+  {%- set has_paragraph_content = paragraph_content|trim|length > 0 %}
+
+  <section class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        {{ vf_section_top_rule(top_rule_variant=top_rule_variant) }}
+        {%- if title -%}
+          <h2 class="p-section--shallow">{{ title }}</h2>
+        {%- else -%}
+          <h2 class="u-off-screen">{{ video_title }}</h2>
+        {%- endif -%}
+        {%- if video_id and video_title -%}
+          <div class="u-sv-3">{{ lite_video(video_id=video_id, video_title=video_title) }}</div>
+        {%- endif -%}
+        {%- if caption -%}
+          <p class="u-text--muted">{{ caption }}</p>
+        {%- endif -%}
+        {%- if has_paragraph_content -%}
+          {{ paragraph_content | safe }}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endmacro -%}
