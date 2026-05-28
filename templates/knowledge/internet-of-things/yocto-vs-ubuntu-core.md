@@ -29,7 +29,7 @@ context:
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
 
-The Yocto Project is a customizable framework for building bespoke Linux distributions, requiring the manufacturer to own the entire software lifecycle. In contrast, Ubuntu Core is a production-grade, security-hardened operating system that provides a maintained, long-termed platform for embedded devices.
+The Yocto Project is a customizable framework for building bespoke Linux distributions, requiring the manufacturer to own the entire software lifecycle. In contrast, Ubuntu Core is a production-grade, security-hardened operating system that provides a maintained, long-term platform for embedded devices.
 
 This article compares the two Linux platforms, the Yocto Project and Ubuntu Core, examining their architectural and support models, as well as how they address lifecycle security for embedded devices in light of new regulations like the EU Cyber Resilience Act (CRA). 
 
@@ -107,9 +107,9 @@ The Yocto Project is backed by a broad community of silicon vendors, independent
 
 ### What are the limitations of Yocto?
 
-Yocto’s strengths in prototyping and early development come with some challenges, including from the long-term support, level of abstraction, and complexity of builds.
+Yocto’s strengths in prototyping and early development come with some challenges, including long-term support, the level of abstraction, and the complexity of builds.
 
-For example, the Yocto community's support window for any given release is limited to only a few months, has no integrated security maintenance pipeline, and does not have a built-in mechanism for over-the-air updates This means that manufacturers shipping long-lived devices must either track upstream releases continuously or risk operating on unsupported, potentially vulnerable software. 
+For example, the Yocto community's support window for any given release is limited to only a few months, has no integrated security maintenance pipeline, and does not have a built-in mechanism for over-the-air updates. This means that manufacturers shipping long-lived devices must either track upstream releases continuously or risk operating on unsupported, potentially vulnerable software.
 
 Maintaining a Yocto-based system in production is therefore a substantial, ongoing commitment. For device manufacturers, this often translates into a need for skilled, full-stack Linux distribution engineers on staff for the entire operational lifetime of their product, which is a high and often underestimated cost.
 
@@ -171,9 +171,9 @@ Ubuntu Core is built from the same artefacts as the corresponding Ubuntu LTS rel
 
 **System snaps:** deliver services critical to system function, including network-manager, modem-manager, bluez, and console-conf. A secondary tier enables device capabilities like audio, power, storage, and container orchestration via Microk8s and LXD.
 
-**Boot assets:** defines device-specific properties including the bootloader configuration and partition layout. It is typically issued and signed by the board OEM/ODMs.
+**Boot assets:** define device-specific properties, including the bootloader configuration and partition layout. It is typically issued and signed by the board OEM/ODMs.
 
-**Base snap:** holds the runtime environment inside which applications run, and serves and the root filesystem. It includes basic Ubuntu LTS packages.
+**Base snap:** holds the runtime environment inside which applications run, and serves as the root filesystem. It includes basic Ubuntu LTS packages.
 
 **Kernel snap:** holds the kernel image, associated modules, and an initial ramdisk. Firmware and device tree files can optionally be included. The kernel snap can be updated but cannot be swapped.
 
