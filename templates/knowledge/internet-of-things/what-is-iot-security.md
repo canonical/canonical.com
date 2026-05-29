@@ -12,11 +12,11 @@ context:
     description: "Learn about Canonical's IoT security solutions, like Ubuntu Core, which offer strong, updatable defenses for devices throughout their entire lifecycle. Discover specific security features, certification steps, and best practices for creating secure IoT products."
     buttons:
       - text: "Contact us"
-        url: "https://canonical.com/solutions/iot-and-devices#get-in-touch"
+        url: "/solutions/iot-and-devices#get-in-touch"
         type: "button"
         variant: "positive"
       - text: "Learn more about IoT security"
-        url: "https://canonical.com/solutions/iot-and-devices"
+        url: "/solutions/iot-and-devices"
         type: "button"
       - text: "Read our Ubuntu Core success stories ›"
         url: "https://ubuntu.com/core/stories"
@@ -96,7 +96,7 @@ The main considerations for IoT security include:
 ]) }}
 
 ### Secure-by-default device configuration
-A secure IoT deployment begins with a device that is hardened from the moment it is powered on. This means shipping systems with minimal services enabled, tightly controlled connectivity, and only the components required for the device’s intended purpose. Disabling unused interfaces, whether WiFi, Bluetooth, USB ports, or IPv6, reduces the number of potential entry points for attackers. Equally important is removing any default credentials and enforcing strong, least-privilege access policies so that users and applications only interact with the resources they truly need. Ubuntu Core starts with this security baseline configuration, setting a strong foundation for the rest of the device’s lifecycle.
+A secure IoT deployment begins with a device that is hardened from the moment it is powered on. This means shipping systems with minimal services enabled, tightly controlled connectivity, and only the components required for the device’s intended purpose. Disabling unused interfaces, whether WiFi, Bluetooth, USB ports, or IPv6, reduces the number of potential entry points for attackers. Equally important is removing any default credentials and enforcing strong, least-privilege access policies so that users and applications only interact with the resources they truly need. <a href="https://ubuntu.com/core">Ubuntu Core</a> starts with this security baseline configuration, setting a strong foundation for the rest of the device’s lifecycle.
 
 ### System integrity and trusted boot
 Ensuring the integrity of the device’s firmware and operating system is fundamental to preventing persistent compromise. A trusted boot process verifies each layer of the system before it runs, ensuring that unauthorized or tampered components cannot be loaded. When combined with an immutable or read-only system design and strict application confinement, this approach limits an attacker’s ability to modify system behaviour even if they gain some level of access. Keeping applications isolated from one another, and from the underlying OS, helps maintain predictable and secure device operation in the field. 
