@@ -35,7 +35,7 @@ This knowledge hub article defines IoT security, outlines common challenges, det
 ## IoT security: an overview
 IoT security aims to protect IoT devices, the data they generate and collect, and the networks they interact with from cyberincidents.
 
-IoT security is a high-stakes, high-risk discipline, because unlike traditional IT systems, IoT systems are often highly distributed, resource-constrained, and deployed in unmonitored or physically exposed environments. These factors, combined with the widespread use of IoT across thousands of data-rich and lucrative industries, makes IoT assets a valuable and sensitive target for attackers.
+IoT security is a high-stakes, high-risk discipline, because unlike traditional IT systems, IoT systems are often highly distributed, resource-constrained, and deployed in unmonitored or physically exposed environments. These factors, combined with the widespread use of IoT across thousands of data-rich and lucrative industries, make IoT assets a valuable and sensitive target for attackers.
 
 A securely designed operating system (OS), trusted update infrastructure, and long-term security maintenance are essential to protect IoT devices and deployments against attacks, and to meet stringent security standards. Security engineers should focus their efforts on the underlying operating system, firmware, network configuration, and update mechanisms as the most critical points of control to reduce the risk of cyberincidents.
 
@@ -138,7 +138,7 @@ Ubuntu Core is designed around a hardened, minimal footprint and an immutable sy
 Canonical’s secure boot framework and fully signed snap-based system ensure that only verified software is allowed to run on the device. Each component, from kernel to application, is cryptographically validated, providing a robust foundation for trusted execution. With mandatory confinement and sandboxing, applications are isolated and prevented from interacting with the OS or hardware beyond their explicit permissions. Together, these mechanisms make persistent compromise far more difficult, even under physical or remote attack.
 
 ### Verified, transactional, and reliable OTA updates
-One of Canonical’s strongest contributions is its transactional, tamper-proof update system, built directly into Ubuntu Core. Updates are atomic and automatically rollback if anything goes wrong, eliminating the risk of “bricked” devices. Every update is signed, authenticated, and distributed through Canonical’s infrastructure. 
+One of Canonical’s strongest contributions is its transactional, tamper-proof update system, built directly into Ubuntu Core. Updates are atomic and automatically roll back if anything goes wrong, eliminating the risk of “bricked” devices. Every update is signed, authenticated, and distributed through Canonical’s infrastructure. 
 
 ### Long-term maintenance
 For manufacturers that require extended coverage, [Ubuntu Pro](http://www.ubuntu.com/pro) provides up to 15 years of security maintenance for thousands of open-source packages, ensuring all dependencies that are used in your device receive timely patches. This long-term maintenance model directly supports regulatory compliance requirements such as the Cyber Resilience Act (CRA).
@@ -146,7 +146,7 @@ For manufacturers that require extended coverage, [Ubuntu Pro](http://www.ubuntu
 [Learn how to build compliant IoT deployments for the CRA ›](https://ubuntu.com/engage/cra-regulations-for-ubuntu)
 
 ### Full fleet visibility and lifecycle management
-Secure operation at scale requires comprehensive fleet awareness. Through [Landscape](https://ubuntu.com/landscape), Canonical delivers tooling to monitor update status, enforce compliance, and manage devices throughout their lifecycle. Landscape supports patch delivery, remote configuration, and policy enforcement. Available with a Ubuntu Pro subscription, Landscape helps device makers secure fleet posture across hundreds or thousands of deployed devices, whether you are using Ubuntu Desktop, Server, or Core.
+Secure operation at scale requires comprehensive fleet awareness. Through [Landscape](https://ubuntu.com/landscape), Canonical delivers tooling to monitor update status, enforce compliance, and manage devices throughout their lifecycle. Landscape supports patch delivery, remote configuration, and policy enforcement. Available with an Ubuntu Pro subscription, Landscape helps device makers secure fleet posture across hundreds or thousands of deployed devices, whether you are using Ubuntu Desktop, Server, or Core.
 
 [Explore what Landscape can do for IoT security ›](https://ubuntu.com/landscape/features)
 
