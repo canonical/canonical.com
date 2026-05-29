@@ -1149,3 +1149,55 @@ body:not(.js-enabled) {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+
+.p-case-study__filters {
+  display: flex;
+  gap: $spv--large;
+  @media screen and (width < $breakpoint-small) {
+    flex-direction: column;
+    padding-bottom: $spv--x-large;
+    
+    .p-case-study__filter-heading {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.p-case-study__filter-select {
+  background-color: $color-paper;
+  border: none;
+  max-width: min-content;
+  text-overflow: ellipsis;
+
+  @media screen and (width < $breakpoint-small) {
+    padding-left: 0;
+  }
+}
+
+.p-pagination__case-study {
+  @extend .p-pagination;
+  @media screen and ($breakpoint-large > width) {
+    justify-content: center;
+  }
+}
+
+.p-case-study__cards {
+  @media screen and (width < $breakpoint-small) {
+    .p-content-card__image-wrapper {
+      display: none;
+    }
+
+    .p-content-card__hover-content {
+      display: none;
+    }
+
+    .p-content-card {
+      height: auto;
+      min-height: unset;
+    }
+
+    .p-content-card__body {
+      grid-template-rows: auto;
+    }
+  }
+}

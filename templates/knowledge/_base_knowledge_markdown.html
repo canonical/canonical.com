@@ -15,7 +15,7 @@
 
   {% block content %}
 
-  {% set category_slug = category | lower | replace(' ', '-') %}
+  {% set category_slug = category | lower | replace('/', '-') | replace(' ', '-') %}
   {% set breadcrumbs = [
     {"name": category, "href": "/knowledge/" + category_slug},
     {"name": breadcrumb }
@@ -134,7 +134,10 @@
       {% endif %}
     })
   </script>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous"></script>
   
   {% endblock %}
 

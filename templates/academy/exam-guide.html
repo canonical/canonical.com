@@ -153,6 +153,18 @@ body_class %}
                   <ul>
                         <li>
                           <a
+                            href="#common-technical-issues-exams-page-does-not-reflect-purchase-immediately">Your Exams page does not reflect purchase immediately</a>
+                        </li>
+                        <li>
+                          <a
+                            href="#common-technical-issues-failed-to-load-exams-after-reloading">Your Exams shows "Failed to load exams" after reloading page</a>
+                        </li>
+                        <li>
+                          <a
+                            href="#common-technical-issues-keyboard-stops-working">Keyboard stops working in exam after clicking outside of environment</a>
+                        </li>
+                        <li>
+                          <a
                             href="#common-technical-issues-proctoring-fails-to-accept-microphone-permissions"
                             >Proctoring fails to accept microphone permissions</a
                           >
@@ -224,8 +236,7 @@ body_class %}
         Each occupational track has different requirements, and exams can be
         taken at your own pace. The SysAdmin track requires receiving a passing
         score on all four exams: Using Linux Terminal, Using Ubuntu Desktop,
-        Using Ubuntu Server, and a fourth exam on more advanced skills currently
-        in development, with each exam lasting between 60-90 minutes depending
+        Using Ubuntu Server, and Using DevOps Principles, with each exam lasting between 60-90 minutes depending
         on test taker’s proficiency and speed. (Those requiring additional
         accommodations should email their request to
         <a href="mailto:exams@canonical.com">exams@canonical.com</a> prior to
@@ -280,7 +291,11 @@ body_class %}
       <p>Securing Server Access 24%</p>
       <p>Managing Processes 26%</p>
       <br />
-      <p><strong>Fourth Exam (details TBA soon)</strong></p>
+      <p><strong>Using DevOps Principles, (duration estimated 90-120 mins)</strong></p>
+      <p>Using Tools for Automation and System Updating 32%</p>
+      <p>Understanding Deployment Technologies 34%</p>
+      <p>Monitoring & Troubleshooting Systems</p>
+      <br />
       <h3 id="about-the-academy-general-scoring-information">
         General scoring information
       </h3>
@@ -802,19 +817,19 @@ body_class %}
         inside the primary exam host node.
       </p>
       <p>
-        When the proctor check-in launches into the exam, you will be given an
-        introduction message before you hit “Start”. Once you hit “Start”, your
-        exam environment will load, and your timer will start. Depending on your 
-        screen size, you may need to scroll to see the timer in the lower right 
-        hand corner.
-      </p>
-      <p>
         {{
           image(
             url="https://assets.ubuntu.com/v1/455429b5-4.png",
             alt="Exam environment introduction",
             width="2048") | safe
         }}
+      </p>
+      <p>
+        When the proctor check-in launches into the exam, you will be given an
+        introduction message before you hit “Start”. Once you hit “Start”, your
+        exam environment will load, and your timer will start. Depending on your 
+        screen size, you may need to scroll to see the timer in the lower right 
+        hand corner.
       </p>
       <p>
         The exam environment is a browser-based Ubuntu Desktop, and exam
@@ -824,13 +839,26 @@ body_class %}
         exam items.
       </p>
       <p>
+        If you have difficulties managing screen space due to a small screen size, Activities and Workspaces are supported in the GNOME environment:
+      </p>
+      <p>
+        {{ image(url="https://assets.ubuntu.com/v1/21c5149b-exam_gnome.png",
+          alt="Exam environment during exam",
+          width="3044",
+          height="661",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+        }}
+      </p>
+      <p>
         Individuals are discouraged from using reference materials from outside
         of the exam environment. All exam tasks, including connecting to other
         nodes, will occur within the browser-based exam environment and will not
         require any resources from the user’s host system. In-exam browsers
         allow access to documentation and Ubuntu manpages. Exam environments use
         <a href="https://wiki.ubuntu.com/Minimal">Minimal Ubuntu images</a> and
-        have man pages pre-loaded on the initial node only.
+        have man pages pre-loaded on the initial node. You may use man pages and official Ubuntu documentation from within the exam environment. You may not open additional tabs or windows on your client-side computer.
       </p>
       <p>
         While some events may be nonfatal, please note that the environment is
@@ -852,11 +880,13 @@ body_class %}
         and review them as needed.
       </p>
       <p>
-        {{
-          image(
-            url="https://assets.ubuntu.com/v1/d4ba6f64-5.png",
-            alt="Exam environment during exam",
-            width="2048") | safe
+        {{ image(url="https://assets.ubuntu.com/v1/f61a00f0-examscreen.png",
+          alt="",
+          width="3100",
+          height="1790",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
         }}
       </p>
       <p>
@@ -919,6 +949,34 @@ body_class %}
         <strong>Ctrl-Alt-Shift</strong> at the same time.
       </p>
       <h2 class="p-heading--1" id="common-technical-issues">Common Technical Issues</h2>
+      <h3 id="common-technical-issues-exams-page-does-not-reflect-purchase-immediately">
+        Your Exams page does not reflect purchase immediately
+      </h3>
+      <p>
+        On occasion you may find that your exam is not immediately reflected. This is of concern with beta exams which may not have traditional purchasing messages. Please wait a few minutes and reload the page before contacting support.
+      </p>
+      <h3 id="common-technical-issues-failed-to-load-exams-after-reloading">
+        Your Exams shows "Failed to load exams" after reloading page
+      </h3>
+      <p>
+        This is a known login caching issue and a fix is in progress. If reloading the page does not correct the issue, log out and login to Ubuntu One again.
+      </p>
+      <p>
+        {{ image(url="https://assets.ubuntu.com/v1/84e71a6f-exam_failed_to_load.png",
+          alt="",
+          width="1740",
+          height="419",
+          hi_def=True,
+          loading="lazy"
+          ) | safe
+        }}
+      </p>
+      <h3 id="common-technical-issues-keyboard-stops-working">
+        Keyboard stops working in exam after clicking outside of environment
+      </h3>
+      <p>
+        This is an issue with a fix in progress. On occasion, examinees may click outside of the exam environment, causing your keyboard to be associated with the browser environment instead of the in-exam environment. If this state does not recover, log out of the exam, and return via the link at academy.canonical.com.
+      </p>
       <h3 id="common-technical-issues-proctoring-fails-to-accept-microphone-permissions">
         Proctoring fails to accept microphone permissions
       </h3>

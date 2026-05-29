@@ -311,21 +311,11 @@ function generateSelectors(navRoot) {
  * @returns {string} The heading ID
  */
 function generateHeadingId(heading) {
-  if (heading.id && !document.getElementById(heading.id)) {
+  if (heading.id) {
     return heading.id;
   }
 
-  let baseId = slugify(heading.textContent);
-  let id = baseId;
-
-  // Handle duplicate IDs
-  let counter = 1;
-  while (document.getElementById(id)) {
-    appendix = counter == 1 ? '' : `-${counter}`;
-    id = baseId + appendix;
-    counter++;
-  }
-
+  const id = slugify(heading.textContent);
   heading.id = id;
   return id;
 }

@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-04-20
   tag: "Security"
   title: "Security vs compliance: what's the difference?"
   breadcrumb: "Security vs compliance"

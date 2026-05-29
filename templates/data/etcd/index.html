@@ -1,0 +1,454 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1vZaVT4t9D0x_ltKi9Cf3Q__YbXMbMNja24qSA4r97r8
+{% endblock meta_copydoc %}
+
+{% block title %}Enterprise-grade solutions for your etcd deployments{% endblock %}
+
+{% block meta_description %}
+  Get enterprise-grade etcd support from Canonical. Enjoy security, automation, and SLA-backed expertise for your etcd clusters across private and public clouds.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Enterprise support for etcd databases',
+    layout='25/75',
+    is_split_on_medium=true
+    ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/18f7bc01-etcd_logo.png",
+            alt="",
+            width="852",
+            height="321",
+            hi_def=True,
+            loading="auto") | safe
+      }}
+    {%- endif -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Secure and automate the deployment, maintenance and upgrades of your etcd clusters thanks to our hardened artifacts, open source automation, and SLA-backed support.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive js-invoke-modal"
+         aria-controls="data-etcd-modal"
+         href="/contact-us">Contact us</a>
+      <a href="https://canonical-charmed-etcd.readthedocs-hosted.com/tutorial/" class="p-button">Try etcd</a>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "Run etcd across public and private clouds"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+          image(url="https://assets.ubuntu.com/v1/3e9cd9c9-openstack_logo.png",
+            alt="OpenStack",
+            width="384",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"}),
+          image(url="https://assets.ubuntu.com/v1/bfc292f6-microcloud_logo.png",
+            alt="MicroCloud",
+            width="393",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"}),
+          image(url="https://assets.ubuntu.com/v1/db869316-vmware_logo_s.png",
+            alt="VMware",
+            width="322",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"}),
+          image(url="https://assets.ubuntu.com/v1/18fad36a-aws_logo.png",
+            alt="AWS",
+            width="151",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"}),
+          image(url="https://assets.ubuntu.com/v1/eebb672a-google_cloud_logo.png",
+            alt="Google Cloud Platform",
+            width="369",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"}),
+          image(url="https://assets.ubuntu.com/v1/f53b5c3a-microsoft_azure_logo.png",
+            alt="Microsoft Azure",
+            width="272",
+            height="312",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs",
+            attrs={"class": "p-logo-section__logo"})
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+    <p>When you use our etcd artifacts, you benefit from optimized configurations for every cloud. You can run etcd on public clouds on top of VMs. You can also run etcd in your private data center on top of MAAS and MicroCloud, OpenStack, or VMware.</p>
+  {%- endif -%}
+  {%- endcall %}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "1000+<br class=\"u-hide--small\"> users",
+        "headline": "Rely on our etcd",
+        "description": "Our etcd artifacts are proven in thousands of deployments globally across verticals.",
+        "link": {
+          "url": "/contact-us",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "9+<br class=\"u-hide--small\"> automations",
+        "headline": "To scale your operations",
+        "description": "Including deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical-charmed-etcd.readthedocs-hosted.com/how-to/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~&nbsp;30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in either your lab or your production environments.",
+        "link": {
+          "url": "https://canonical-charmed-etcd.readthedocs-hosted.com/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+    <h2>etcd deployment options</h2>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5">Snap</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+    <p>Get our etcd snap to benefit from added confinement and atomic updates on all major <a href="https://snapcraft.io/docs/distro-support">Linux distributions</a> while having a minimal footprint and attack surface.</p>
+    <a href="https://snapcraft.io/etcd" class="p-button">Install etcd on Linux</a>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5">Container</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+    <p class="u-no-margin--bottom">Our etcd rocks are OCI compliant container images. They come in a few flavors:</p>
+    <ul>
+      <li>Separate and minimalist container images for etcd, etcdctl, and etcdutl.</li>
+      <li>A single etcd container combining all the needed tools.</li>
+    </ul>
+    <a href="https://github.com/canonical/charmed-etcd-rock" class="p-button">View GitHub repo</a>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">Software operator</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+    <p>Our charm helps you automate the operations of your etcd clusters, including deployment, scaling, backup, encryption, and upgrades.</p>
+    <a href="https://canonical-charmed-etcd.readthedocs-hosted.com/how-to/" class="p-button">Explore all features</a>
+  {%- endif -%}
+
+  {%- if slot == 'cta' -%}
+    <a class="p-button--positive js-invoke-modal"
+       aria-controls="data-etcd-modal"
+       href="/contact-us">Contact us about your etcd deployment</a>
+  {%- endif -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row">
+      <hr />
+      <div class="col-6">
+        <h2>Popular etcd use cases</h2>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-8">
+        <div class="p-equal-height-row--wrap">
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container p-image-container--2-3 is-cover is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/df6340f7-kubernetes.png",
+                  alt="",
+                  width="568",
+                  height="852",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p class="p-heading--5">Kubernetes control plane storage</p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>etcd is the de-facto data store for Kubernetes. Using <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> together with our etcd artifacts is the best way to get reliable and securely maintained K8s deployments.</p>
+            </div>
+          </div>
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container p-image-container--2-3 is-cover is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/a6204781-configuration_management.png",
+                  alt="",
+                  width="568",
+                  height="852",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p class="p-heading--5">Configuration management</p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>etcd is a highly reliable and strongly consistent key-value store, which makes it a foundational component for building resilient and fault-tolerant systems. For example, it can be used as the source of truth for configuration management among diverse applications.</p>
+            </div>
+          </div>
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container p-image-container--2-3 is-cover is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/7aac50b3-service_discovery.png",
+                  alt="",
+                  width="568",
+                  height="852",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p class="p-heading--5">Service discovery</p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>Due to its strong consistency and simple API, etcd is often used for service discovery in geo-distributed setups. Typically, service providers will publish their endpoints in etcd and consumers will regularly check it for any endpoint change.</p>
+              <p>etcd is a good alternative to <a href="https://canonical-zookeeper.readthedocs-hosted.com/">Apache Zookeeper</a> or Consul for service discovery related use cases.</p>
+            </div>
+          </div>
+          <div class="p-equal-height-row__col is-borderless">
+            <div class="p-equal-height-row__item">
+              <div class="p-image-container p-image-container--2-3 is-cover is-highlighted">
+                {{ image(url="https://assets.ubuntu.com/v1/ca9ba3c8-distributed_locking.png",
+                  alt="",
+                  width="568",
+                  height="852",
+                  hi_def=True,
+                  loading="lazy",
+                  attrs={"class": "p-image-container__image"}) | safe
+                }}
+              </div>
+              <hr class="p-rule--highlight">
+            </div>
+            <div class="p-equal-height-row__item">
+              <p class="p-heading--5">Distributed locking</p>
+            </div>
+            <div class="p-equal-height-row__item">
+              <p>When operations must be coordinated across multiple nodes, you can either rely on a central orchestrator to serialize them or implement distributed locking to ensure mutual exclusion. Thanks to its strong serializability guarantees, etcd is a reliable foundation for implementing these patterns.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ vf_basic_section(
+    title={"text": "etcd support services"},
+    padding="shallow",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<p>Whether you are exploring etcd or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Our on-demand services help you address specific challenges by designing the right solutions, providing targeted knowledge transfer, or delivering timely expert consulting tailored to your needs."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Get in touch",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "p-button--positive js-invoke-modal",
+              "aria-controls": "data-etcd-modal"
+            }
+          },
+        }
+      }
+    ]
+  ) }}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">Subscription-based</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Security maintenance</li>
+          <li class="p-list__item is-ticked">24/7 phone and ticket support</li>
+          <li class="p-list__item is-ticked">SLA-backed firefighting support</li>
+          <li class="p-list__item is-ticked">Managed deployments</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
+      </div>
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">On-demand</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Workshops</li>
+          <li class="p-list__item is-ticked">Deployment packages</li>
+          <li class="p-list__item is-ticked">Consulting packages</li>
+          <li class="p-list__item is-ticked">Trainings</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {{ vf_basic_section(
+    title={"text": "Community and support"},
+    padding="deep",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <h3 class="p-text--small-caps">Connect with the community</h3>
+            <ul class="p-list">
+              <li class="p-list__item">
+                <a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://discourse.charmhub.io/tag/etcd">Discourse forum&nbsp;&rsaquo;</a>
+              </li>
+            </ul>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-text--small-caps">Contact us</h3>
+            <a class="p-button js-invoke-modal"
+               aria-controls="data-etcd-modal"
+               href="/contact-us">Tell us more about your needs</a>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-text--small-caps">Read more about</h3>
+            <ul class="p-list">
+              <li class="p-list__item">
+                <a href="https://canonical-charmed-etcd.readthedocs-hosted.com/">Charmed etcd&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://documentation.ubuntu.com/canonical-kubernetes/latest/snap/reference/etcd/">Canonical K8s with etcd&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://documentation.ubuntu.com/canonical-kubernetes/latest/charm/howto/etcd/">Canonical K8s with external etcd&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/data-backups">Data backups&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/choose-a-database">How to choose a DBMS&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://ubuntu.com/engage/database-cloud-migration">Database cloud migration&nbsp;&rsaquo;</a>
+              </li>
+            </ul>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-text--small-caps">Contribute</h3>
+            <ul class="p-list">
+              <li class="p-list__item">
+                <a href="https://github.com/canonical/charmed-etcd-operator">etcd operator&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://github.com/canonical/charmed-etcd-snap">etcd snap&nbsp;&rsaquo;</a>
+              </li>
+              <li class="p-list__item">
+                <a href="https://github.com/canonical/charmed-etcd-rock">etcd rock&nbsp;&rsaquo;</a>
+              </li>
+            </ul>
+          '
+        }
+      }
+    ]
+  ) }}
+
+  {{ load_form("/data/etcd") | safe }}
+
+{% endblock %}
