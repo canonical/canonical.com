@@ -60,7 +60,7 @@
 
           {% set current_path = url_for(request.endpoint, **request.view_args) %}
           {% if "/careers" in current_path %}
-            <script src="https://www.google.com/recaptcha/enterprise.js?render={{ recaptcha_site_key }}" defer></script>
+            <script src="https://www.google.com/recaptcha/enterprise.js?render={{ recaptcha_site_key }}" defer nonce="{{ csp_nonce }}"></script>
             <meta name="twitter:image"
                   content="https://assets.ubuntu.com/v1/c17ef7b4-careers-meta-image-resized.png" />
             <meta property="og:image"
@@ -108,7 +108,7 @@
                 crossorigin />
 
           <script src="https://assets.ubuntu.com/v1/703e23c9-lazysizes+noscript+native-loading.5.1.2.min.js"
-                  defer></script>
+                  defer nonce="{{ csp_nonce }}"></script>
 
           <link rel="stylesheet" type="text/css" media="screen" href="{{ versioned_static("css/styles.css") }}" />
         </head>
@@ -136,9 +136,9 @@
             {% include 'partial/_footer.html' %}
           {% endblock footer %}
 
-          <script defer src="{{ versioned_static('js/dist/navigation.js') }}"></script>
-          <script src="{{ versioned_static('js/dist/forms.js') }}"></script>
-          <script>
+          <script defer src="{{ versioned_static('js/dist/navigation.js') }}" nonce="{{ csp_nonce }}"></script>
+          <script src="{{ versioned_static('js/dist/forms.js') }}" nonce="{{ csp_nonce }}"></script>
+          <script nonce="{{ csp_nonce }}">
             (function() {
               // Form submission notification
               var bannerElements = ["#success", "#newsletter-signup", "#contact-form-success", "#contact-form-fail"];
@@ -162,12 +162,14 @@
           </script>
           
           <!-- Cookie policy -->
-          <script src="{{ versioned_static('js/modules/cookie-policy/cookie-loader.js') }}"></script>
-          <script src="{{ versioned_static('js/dist/cookie-policy-with-callback.js') }}"></script>
-          <script src="{{ versioned_static('js/dist/watch-consent-changes.js') }}"></script>
+          <script src="{{ versioned_static('js/modules/cookie-policy/cookie-loader.js') }}" nonce="{{ csp_nonce }}"></script>
+          <script src="{{ versioned_static('js/dist/cookie-policy-with-callback.js') }}" nonce="{{ csp_nonce }}"></script>
+          <script src="{{ versioned_static('js/dist/watch-consent-changes.js') }}" nonce="{{ csp_nonce }}"></script>
+
+          <script defer src="{{ versioned_static('js/usabilla-loader.js') }}" nonce="{{ csp_nonce }}"></script>
 
            <!-- Google Tag Manager -->
-          <script>
+          <script nonce="{{ csp_nonce }}">
             document.addEventListener('DOMContentLoaded', () => {
               /** init gtm after 2 seconds - can be adjusted */
               setTimeout(initGTM, 2000);

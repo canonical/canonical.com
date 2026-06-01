@@ -7,7 +7,7 @@
 {% block extra_metatags %}<meta name="robots" content="noindex" />{% endblock %}
 
 {% block content %}
-  <script>
+  <script nonce="{{ csp_nonce }}">
     function showProgressDetail(stage) {
       const showMoreBtn = document.querySelector(`.show-more-${stage}`);
       const showLessBtn = document.querySelector(`.show-less-${stage}`);
@@ -155,7 +155,7 @@
             {% if application['hiring_lead']["bio"] %}
               <p>{{ application['hiring_lead']["bio"][0] | safe }}</p>
               <a href=""
-                 onclick="showProgressDetail('hiring-lead'); event.preventDefault();"
+                 data-js-progress-show="hiring-lead"
                  class="show-more-hiring-lead">Show more</a>
               <div class="progress-detail-hiring-lead u-hide">
                 {% for bio in application['hiring_lead']["bio"] %}
@@ -163,7 +163,7 @@
                 {% endfor %}
               </div>
               <a href=""
-                 onclick="hideProgressDetail('hiring-lead'); event.preventDefault();"
+                 data-js-progress-hide="hiring-lead"
                  class="show-less-hiring-lead u-hide">Show less</a>
             {% endif %}
           </div>
@@ -330,19 +330,22 @@
     </section>
   {% endif %}
 
-  <script>
-    function showInput() {
-      const selectValue = document.getElementById('withdrawal-reason').value;
-      const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
-      const otherInput = document.querySelector('.other-input')
-      if (selectValue === "33") {
-        otherInput.style.display = "block";
-        withdrawalReasonOther.setAttribute("required", "true")
-      } else {
-        otherInput.style.display = "none";
-        withdrawalReasonOther.removeAttribute("required")
-      }
-    }
+  <script nonce="{{ csp_nonce }}">
+    (function () {
+      const withdrawalReason = document.getElementById('withdrawal-reason');
+      if (!withdrawalReason) return;
+      withdrawalReason.addEventListener('change', function () {
+        const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
+        const otherInput = document.querySelector('.other-input');
+        if (withdrawalReason.value === "33") {
+          otherInput.style.display = "block";
+          withdrawalReasonOther.setAttribute("required", "true");
+        } else {
+          otherInput.style.display = "none";
+          withdrawalReasonOther.removeAttribute("required");
+        }
+      });
+    })();
 
     (function() {
 
