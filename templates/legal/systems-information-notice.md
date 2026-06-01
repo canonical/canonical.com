@@ -42,18 +42,44 @@ During installation of Ubuntu, non-personally-identifiable system information ma
 
 ### Metrics collected by Ubuntu Insights
 
-- Insights Version
-- Collection Time
+- Common Metrics
+  - Insights Version
+  - Collection Time
 - Hardware
-  - Product (Vendor, Product Name, Version)
-  - CPU (Name, Vendor, Architecture, Total Threads, Socket Count, Cores per socket, Threads per socket)
-  - GPU (Device Name, Vendor, Driver)
-  - Memory (Total Physical Size)
-  - Disks and Partitions (Size, Type, Children)
-  - Screens (Resolution, Physical Size, Refresh Rate)
+  - Product
+    - Vendor
+    - Product Name
+    - Version
+  - CPU
+    - Name
+    - Vendor
+    - Architecture
+    - Total Threads
+    - Socket Count
+    - Cores per socket
+    - Threads per socket
+  - GPU (Per)
+    - Device Name
+    - Vendor
+    - Driver
+  - Memory
+    - Total Physical Size
+  - Disks and Partitions
+    - Size
+    - Type
+    - Children
+  - Screens (Per)
+    - Resolution
+    - Physical Size
+    - Refresh Rate
 - Software
-  - OS (Family, Distribution, Version)
-  - BIOS (Vendor, Version)
+  - OS
+    - Family
+    - Distribution
+    - Version
+  - BIOS
+    - Vendor
+    - Version
   - Language/Locale
   - Timezone
 - WSL
