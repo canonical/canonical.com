@@ -9,6 +9,10 @@
  *   - data-ga-submit-category / -action / -label         (form submit events)
  *
  * Each handler pushes a `GAEvent` to window.dataLayer for Google Tag Manager.
+ *
+ * Also wires up CSP-safe replacements for inline UI handlers:
+ *   - data-js-clear-prev-input   clears the preceding input and refocuses it
+ *   - data-js-navigate-on-change navigates to the selected option's value
  */
 (function () {
   "use strict";
@@ -60,6 +64,27 @@
             form.getAttribute("data-ga-submit-action"),
             form.getAttribute("data-ga-submit-label"),
           );
+        });
+      });
+
+    document
+      .querySelectorAll("[data-js-clear-prev-input]")
+      .forEach(function (button) {
+        button.addEventListener("click", function () {
+          const input = button.previousElementSibling;
+          if (!input) return;
+          input.value = "";
+          input.focus();
+        });
+      });
+
+    document
+      .querySelectorAll("[data-js-navigate-on-change]")
+      .forEach(function (select) {
+        select.addEventListener("change", function () {
+          if (select.value) {
+            window.location.href = select.value;
+          }
         });
       });
   });
