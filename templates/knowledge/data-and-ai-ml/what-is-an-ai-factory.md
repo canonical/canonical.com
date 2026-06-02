@@ -208,27 +208,27 @@ Canonical helps organizations build AI factories by delivering an integrated, en
   ) | safe
 }}
 
-## Certified hardware
+### Certified hardware
 
 To build the most efficient, performant AI factory, it is important to mix and match different AI accelerators (GPUs, NPUs, and ASICs) from different vendors depending on the best option for different AI workloads. That’s why Canonical [partners with leading silicon vendors](https://canonical.com/partners/silicon) to ensure that Ubuntu runs optimally across all major architectures, including AMD, Ampere, Arm, Intel, MediaTek, NVIDIA, Qualcomm, and RISC-V. This means that enterprises can always pick the optimal hardware for their AI factories without being locked into a single software ecosystem.
 
 [Ubuntu Certified Hardware](https://ubuntu.com/certified) accelerates time-to-market for organizations building and scaling AI factories, since they don’t need to spend months validating whether a given piece of hardware will work in their fleet. With Canonical providing standardized, pre-integrated secure boot enablement and firmware delivery, there is no need for enterprises to perform custom OS engineering for each new hardware deployment.
 
-## Hardware automation
+### Hardware automation
 
 Some degree of hardware failures and low-level software issues are inevitable, given the high density of compute deployed in AI factories. This can easily impact the uptime and ROI of the system. [Canonical MAAS](https://canonical.com/maas) solves this through hardware automation, providing a way to manage bare metal infrastructure as if they were cloud resources. MAAS enables enterprises to provision, reconfigure, and redeploy physical servers through automated workflows rather than manual processes - drastically reducing potential downtime for expensive compute resources.
 
 [Read a blog about bare metal automation in AI factories ›](https://ubuntu.com/blog/the-bare-metal-problem-in-ai-factories)
 
-## Operating system
+### Operating system
 
 [Ubuntu](https://ubuntu.com/) is the operating system of choice for AI, and building your AI factory on Ubuntu gives you access to the broadest ecosystem of optimized machine learning tools and libraries. The host OS is also the foundation that directly manages the underlying hardware of the AI factory, and Ubuntu is engineered to run optimally across all major silicon architectures.
 
-## Orchestration software
+### Orchestration software
 
 Managing an AI factory requires sophisticated orchestration to allocate resources across virtual machines and containers at scale. [Canonical OpenStack](https://canonical.com/openstack), backed by Sunbeam, provides an easy-to-consume and enterprise-grade cloud foundation for AI factories. [Canonical Kubernetes](https://ubuntu.com/kubernetes) is a performant, securely designed, opinionated, and CNCF conformant distribution of Kubernetes that enables organizations to seamlessly orchestrate cloud-native AI workloads.
 
-## Long-term security and stability
+### Long-term security and stability
 
 AI factories are large-scale, long-term investments that require the same stability, security, and lifecycle management as traditional mission-critical IT. Canonical delivers this long-term stability and reliability with Ubuntu Pro, a comprehensive service that provides up to 15 years of security updates for the entire AI/ML stack, ensuring the AI factory is maintained and patched against vulnerabilities for its entire lifecycle.
 
