@@ -15,7 +15,7 @@
 
   {% block content %}
 
-  {% set category_slug = category | lower | replace(' ', '-') %}
+  {% set category_slug = category | lower | replace('/', '-') | replace(' ', '-') %}
   {% set breadcrumbs = [
     {"name": category, "href": "/knowledge/" + category_slug},
     {"name": breadcrumb }
