@@ -19,7 +19,7 @@ context:
       - text: "Download the datasheet"
         url: "https://assets.ubuntu.com/v1/e7f9bb41-Ubuntu%20Core%20DS%201.5.2024.pdf"
         type: "button"
-      - text: "Read more about CRA compliance on Ubuntu ›"
+      - text: "Read more about CRA compliance on Ubuntu\u00A0\u203A"
         url: "https://ubuntu.com/engage/iot-compliance-in-the-global-market-a-guide-for-iot-device-manufacturers?_gl=1*1w6nc6w*_gcl_au*MjAyNTc4NzE0Mi4xNzc4MTQ3MDEx"
         type: "link"
   blog:
@@ -89,7 +89,7 @@ Yocto carries a high maintenance overhead that requires dedicated in-house Linux
 
 Yocto requires moderate to high internal effort to achieve Cyber Resilience Act compliance, while Ubuntu Core provides platform-level features and long-term security maintenance for streamlined CRA compliance.
 
-[Read a detailed comparison guide for CRA compliance ›](https://ubuntu.com/engage/cra-yocto-core)
+[Read a detailed comparison guide for CRA compliance&nbsp;&rsaquo;](https://ubuntu.com/engage/cra-yocto-core)
 
 ## What is the Yocto Project?
 
@@ -151,7 +151,7 @@ Ubuntu Core is a production-grade, security-hardened variant of Ubuntu designed 
 
 The architectural foundation of Ubuntu Core is built on the understanding that traditional Linux packaging and distribution are not well-suited to the embedded world. Intermittent connectivity, the high cost of on-site intervention, the proliferation of software publishers, and the need for strict application isolation all demand a different approach. Ubuntu Core solves these problems with snaps: a secure, containerized, dependency-free, cross-platform Linux packaging format. Ubuntu Core and its applications run within a confined and transaction-based environment, and every component of the system, from user-space applications and daemons to the kernel and device drivers, is packaged and delivered as a snap.
 
-[Find out more about Ubuntu Core’s features ›](https://ubuntu.com/core/features)
+[Find out more about Ubuntu Core’s features&nbsp;&rsaquo;](https://ubuntu.com/core/features)
 
 #### What are snaps?
 
@@ -183,7 +183,7 @@ Ubuntu Core’s architecture gives developers a well-defined, reproducible image
 
 Ubuntu Core implements fully transactional, atomic updates. An update is applied only if it completes successfully. If anything goes wrong, whether due to a software bug, a power outage, or a network interruption, the system automatically rolls back to its last known stable state. This guarantee applies equally to application snaps and to the kernel and base OS, ensuring that no update, however critical, can render a device unresponsive.
 
-[Learn more about Ubuntu Core updates and features ›](http://www.ubuntu.com/core)
+[Learn more about Ubuntu Core updates and features&nbsp;&rsaquo;](http://www.ubuntu.com/core)
 
 ### Why is Ubuntu Core ideal for fleets of remote devices and distributed operations?
 
@@ -197,7 +197,7 @@ Ubuntu Core benefits from Canonical's long-term support commitment. Devices runn
 
 The EU Cyber Resilience Act (CRA) is a regulation that establishes mandatory cybersecurity requirements for software and digital products sold within the European market. Its purpose is to standardize currently fragmented national approaches by defining baseline security expectations that apply across a product's entire lifecycle, including planning, design, development, deployment, maintenance, and end-of-life.
 
-[Read a full breakdown of the CRA ›](https://canonical.com/blog/a-cisos-comprehensive-breakdown-of-the-cyber-resilience-act)
+[Read a full breakdown of the CRA&nbsp;&rsaquo;](https://canonical.com/blog/a-cisos-comprehensive-breakdown-of-the-cyber-resilience-act)
 
 The CRA imposes comprehensive cybersecurity obligations on device manufacturers to ensure products entering the EU market are secure throughout their lifecycle. These requirements move beyond 'nice-to-have' features, making robust security, transparency, documentation, and maintainable update infrastructure mandatory for compliance.
 
@@ -211,7 +211,7 @@ These requirements include:
   "Secure Over-the-Air (OTA) update mechanisms"
 ])}}
 
-[Explore IoT best practices for embedded and IoT manufacturers ›](https://canonical.com/blog/what-the-cyber-resilience-act-cra-means-for-iot-manufacturers)
+[Explore IoT best practices for embedded and IoT manufacturers&nbsp;&rsaquo;](https://canonical.com/blog/what-the-cyber-resilience-act-cra-means-for-iot-manufacturers)
 
 ### How do Yocto and Ubuntu Core compare under the CRA?
 
