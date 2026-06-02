@@ -16,7 +16,7 @@
     {% if is_early_stage %}
       <p>There are several parts to this stage:</p>
       <a href=""
-         onclick="showProgressDetail('assessment'); event.preventDefault();"
+         data-js-progress-show="assessment"
          class="show-more-assessment">Show more</a>
     {% endif %}
     <div class="progress-detail-assessment {{ 'u-hide' if is_early_stage }}">
@@ -115,7 +115,7 @@
         {% endif %}
       {% endfor %}
       <a href=""
-         onclick="hideProgressDetail('assessment'); event.preventDefault();"
+         data-js-progress-hide="assessment"
          class="show-less-assessment u-hide">Show less</a>
     </div>
     <p>
