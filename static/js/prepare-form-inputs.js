@@ -56,10 +56,11 @@ function preFormatCountry(countryCode, countryInput, noPreselect) {
  * @param {HTMLInputElement} phoneInput - The input element for the phone number.
  */
 export function setupIntlTelInput(countryCode, phoneInput) {
+  const inputName = phoneInput.name;
   iti = intlTelInput(phoneInput, {
     utilsScript: "/static/js/modules/intl-tel-input/utils.js",
     separateDialCode: true,
-    hiddenInput: phoneInput.name,
+    hiddenInput: () => ({ phone: inputName, country: `${inputName}_country` }),
     initialCountry: countryCode,
   });
 
