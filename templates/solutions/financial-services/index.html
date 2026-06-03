@@ -21,7 +21,7 @@
   <script type="module"
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock extra_metatags %}
 
 {% block content %}
@@ -491,6 +491,6 @@
 
   {{ load_form("/solutions/financial-services") | safe }}
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock content %}
