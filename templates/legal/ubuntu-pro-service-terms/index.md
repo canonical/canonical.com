@@ -39,7 +39,7 @@ When used in this Agreement, the following terms mean:
 
 **Registration Process**: The process under which a Customer registers with Canonical to receive Services purchased through Canonical's reseller.
 
-**Services**: the services to be performed by Canonical as identified and described in the Order and/or at [https://www.ubuntu.com/legal/ubuntu-pro-description](https://www.ubuntu.com/legal/ubuntu-pro-description) and/or [https://ubuntu.com/legal/solution-support](https://ubuntu.com/legal/solution-support) and/or [https://ubuntu.com/training](https://ubuntu.com/training), and/or [https://canonical.com/academy](https://canonical.com/academy).
+**Services**: the services to be performed by Canonical as identified and described in the Order and/or at [https://ubuntu.com/legal/ubuntu-pro-description](https://ubuntu.com/legal/ubuntu-pro-description) and/or [https://ubuntu.com/legal/solution-support](https://ubuntu.com/legal/solution-support) and/or [https://ubuntu.com/training](https://ubuntu.com/training), and/or [https://canonical.com/academy](https://canonical.com/academy).
 
 **Software**: the software to be provided by Canonical to Customer as set out in the applicable Order, which may include Ubuntu Content and Canonical Content.
 
