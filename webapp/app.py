@@ -949,20 +949,6 @@ class BlogView(flask.views.View):
     def __init__(self, blog_views):
         self.blog_views = blog_views
 
-
-class PressCenter(BlogView):
-    def dispatch_request(self):
-        page_param = flask.request.args.get("page", default=1, type=int)
-        category_param = flask.request.args.get(
-            "category", default="", type=str
-        )
-        context = self.blog_views.get_group(
-            "canonical-announcements", page_param, category_param
-        )
-
-        return flask.render_template("press-center/index.html", **context)
-
-
 class BlogSitemapIndex(BlogView):
     def dispatch_request(self):
         with get_requests_session() as session:
@@ -1010,6 +996,12 @@ blog_views = BlogViews(
     per_page=11,
 )
 
+latest_news_blog_views = BlogViews(
+    api=BlogAPI(session=get_requests_session()),
+    excluded_tags=[3184, 3265, 3599],
+    per_page=16,
+)
+
 app.add_url_rule(
     "/blog/sitemap.xml",
     view_func=BlogSitemapIndex.as_view("sitemap", blog_views=blog_views),
@@ -1018,10 +1010,19 @@ app.add_url_rule(
     "/blog/sitemap/<regex('.+'):slug>.xml",
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
-app.add_url_rule(
-    "/press-center",
-    view_func=PressCenter.as_view("press_center", blog_views=blog_views),
-)
+@app.route("/press-center")
+def press_center_redirect():
+        return flask.redirect("/blog/latest-news", code=301)
+
+@app.route("/blog/latest-news")
+def blog_latest_news():
+    page = flask.request.args.get("page", default=1, type=int)
+    context = latest_news_blog_views.get_index(
+        page=page, category_slug="announcement"
+    )
+    return flask.render_template("blog/latest-news.html", **context)
+
+
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 
