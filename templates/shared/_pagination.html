@@ -1,7 +1,7 @@
 <section {% if not is_case_study %}class="p-section"{% endif %}>
   <div class="{% if row_class %} {{ row_class }} {% else %} row {% endif %}">
     <div class="{% if col_class %} {{ col_class }} {% else %} col-9 col-start-large-4 col-medium-4 col-start-medium-3 {% endif %}">
-      {% if not is_case_study %}<hr class="p-rule--muted" />{% endif %}
+      {% if not is_case_study and not is_blog %}<hr class="p-rule--muted" />{% endif %}
       {% if current_page and total_pages and total_pages > 1 %}
         <ol class="{% if is_case_study %} p-pagination__case-study {% else %} p-pagination {% endif %}">
           <li class="p-pagination__item">

@@ -1,53 +1,99 @@
 {% extends "base_index.html" %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+
 {% block title %}Canonical Blog{% endblock %}
 
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
 {% block extra_metatags %}
-  <link rel="alternate" type="application/rss+xml"  href="/blog/feed" title="Canonical.com's Blog RSS feed">
+  <link rel="alternate"
+        type="application/rss+xml"
+        href="/blog/feed"
+        title="Canonical.com's Blog RSS feed" />
 {% endblock %}
 
-{% block body_class %}is-paper{% endblock body_class %}
-
 {% block content %}
-<div class="p-strip">
-  <div class="row">
-    <div class="col-9 col-start-large-4 col-medium-4 col-start-medium-3">
-      <div class="row p-section">
-        <div class="col-6 col-medium-4">
-          <h1>Blog</h1>
-        </div>
+  <div class="p-suru--25-75">
+    <div class="grid-row">
+      <div class="grid-col-6 grid-col-start-large-3">
+        <h1 class="p-heading--display">The Source</h1>
+        <ul class="p-inline-list--middot">
+          <div class="p-heading--5" style="display: inline;">Stay informed:&MediumSpace;</div>
+          <li class="p-inline-list__item">
+            <a href="/blog/latest-news">Press center</a>
+          </li>
+          <li class="p-inline-list__item">
+            <a href="https://ubuntu.com/blog">Ubuntu tech blog</a>
+          </li>
+          <li class="p-inline-list__item">
+            <a href="https://discourse.ubuntu.com/">Ubuntu Discourse</a>
+          </li>
+          <li class="p-inline-list__item">
+            <a href="https://canonical.com/events"
+               aria-label="link to canonical events">Events</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-</div>
-{% if current_page and current_page == 1 %}
-  {% if featured_articles %}
-    {% include "blog/featured-articles.html" %}
+
+  {% if current_page and current_page == 1 and featured_articles %}
+    {% include "blog/featured-article.html" %}
   {% endif %}
-  <div class="row p-section">
-    <hr class="p-rule" />
-    <div class="col-3 col-medium-2">
-      <h2>Newsletter <br />signup</h2>
-    </div>
 
-    <div class="col-6 col-medium-4">
-      {% include 'blog/newsletter-form.html' %}
+  <section class="p-section--shallow">
+    <div class="grid-row">
+      {% for article in articles %}
+        {% if loop.index == 9 %}
+          <hr class="u-hide--large p-rule" />
+          <div>{% include 'blog/newsletter-form.html' %}</div>
+        {% endif %}
+        {% if 4491 not in article.tags %}
+          {% include 'blog/blog-card.html' %}
+        {% endif %}
+      {% endfor %}
     </div>
-  </div>
-{% endif %}
-<section class="p-section" id="posts-list">
-  <div class="row">
-  {% for article in articles %}
-    {% if 4491 not in article.tags %}
-      {% include 'blog/blog-card.html' %}
-    {% endif %}
-  {% endfor %}
-  </div>
-</section>
+  </section>
 
-{% with %}
-  {% set total_pages = total_pages %}
-  {% set current_page = current_page %}
-  {% include "shared/_pagination.html" %}
-{% endwith %}
+  <section class="p-strip is-shallow">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set is_blog = True %}
+      {% set current_page = current_page %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
+
+  {# djlint:off #}
+  {{ vf_basic_section(
+    title={"text": "Deep dives for developers"},
+    label_text="Ubuntu tech blog",
+    padding="deep",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Visit the Ubuntu Tech Blog for deep dives into product features, step-by-step tutorials, and the latest updates from Canonical's engineering teams."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Go to the Ubuntu blog&nbsp;<i class='p-icon-themed--external-link'></i>",
+            "attrs": {
+              "href": "https://ubuntu.com/blog",
+              "class": "p-button--themed"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
+  {# djlint:on #}
 
 {% endblock content %}
