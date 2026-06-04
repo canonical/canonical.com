@@ -107,7 +107,7 @@ context:
   </table>
 </main>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   const elements = {
     content: document.getElementById("content"),
     empty: document.getElementById("empty"),
@@ -200,7 +200,7 @@ context:
   }
 </script>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   /**
   Toggles the expanded/collapsed classed on side navigation element.
 
