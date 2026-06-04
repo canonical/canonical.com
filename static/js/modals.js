@@ -268,7 +268,9 @@ function getCustomFields(event) {
           /** @type {HTMLSelectElement} */
           const selectInput = input;
           message +=
-            selectInput.options[selectInput.selectedIndex]?.textContent + comma + " ";
+            selectInput.options[selectInput.selectedIndex]?.textContent +
+            comma +
+            " ";
           break;
         case "radio":
           /** @type {HTMLInputElement} */
@@ -358,7 +360,9 @@ function getCustomFields(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("[data-js-form-custom-fields]").forEach(function (form) {
-    form.addEventListener("submit", getCustomFields);
-  });
+  document
+    .querySelectorAll("[data-js-form-custom-fields]")
+    .forEach(function (form) {
+      form.addEventListener("submit", getCustomFields);
+    });
 });
