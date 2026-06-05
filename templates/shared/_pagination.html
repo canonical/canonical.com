@@ -16,21 +16,21 @@
             {% endif %}
           </li>
 
-          {# always show 5 pages in pagination #}
+          {# always show 5 pages in pagination (3 on small screens) #}
           {% if current_page > 4 and current_page == total_pages %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item u-hide--small">
               <a href="?{{ modify_query({'page': current_page - 4}) }}" class="p-pagination__link">{{ current_page - 4 }}</a>
             </li>
           {% endif %}
 
           {% if current_page > 3 and current_page == total_pages %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item u-hide--small">
               <a href="?{{ modify_query({'page': current_page - 3}) }}" class="p-pagination__link">{{ current_page - 3 }}</a>
             </li>
           {% endif %}
 
           {% if current_page > 2 %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item{% if current_page != total_pages %} u-hide--small{% endif %}">
               <a href="?{{ modify_query({'page': current_page - 2}) }}" class="p-pagination__link">{{ current_page - 2 }}</a>
             </li>
           {% endif %}
@@ -53,25 +53,25 @@
           {% endif %}
 
           {% if current_page < total_pages - 1 %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item{% if current_page != 1 %} u-hide--small{% endif %}">
               <a href="?{{ modify_query({'page': current_page + 2}) }}" class="p-pagination__link">{{ current_page + 2 }}</a>
             </li>
           {% endif %}
 
           {% if current_page < total_pages - 2 and current_page == 1 %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item u-hide--small">
               <a href="?{{ modify_query({'page': current_page + 3}) }}" class="p-pagination__link">{{ current_page + 3 }}</a>
             </li>
           {% endif %}
 
           {% if current_page < total_pages - 3 and current_page == 1 %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item u-hide--small">
               <a href="?{{ modify_query({'page': current_page + 4}) }}" class="p-pagination__link">{{ current_page + 4 }}</a>
             </li>
           {% endif %}
 
           {% if current_page < total_pages - 3 and current_page == 2 %}
-            <li class="p-pagination__item">
+            <li class="p-pagination__item u-hide--small">
               <a href="?{{ modify_query({'page': current_page + 3}) }}" class="p-pagination__link">{{ current_page + 3 }}</a>
             </li>
           {% endif %}
