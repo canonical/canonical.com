@@ -1,5 +1,7 @@
 {% extends "base_index.html" %}
 
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 
 {% block meta_description %}{{ article.meta_description }}{% endblock %}
@@ -147,14 +149,34 @@
   </article>
 
   {% if related_articles %}
-    <section class="p-section">
-      <div class="u-fixed-width">
-        <h4 class="p-muted-heading">Related posts</h4>
-      </div>
-      {% for article in related_articles %}
-        {% include 'blog/blog-card.html' %}
-      {% endfor %}
-    </section>
+    {% set blog_articles = [] %}
+    {% for article in related_articles %}
+      {% set blog_article = {
+        "title": {
+          "text": article.title.rendered|safe,
+          "link_attrs": {"href": "/blog/" + article.slug}
+        },
+        "description": {
+          "text": article.excerpt.raw.replace('[…]', '')|striptags|truncate(180)
+        },
+        "metadata": {
+          "authors": [{
+            "text": article.author.name,
+            "link_attrs": {"href": "/blog/author/" + article.author.slug}
+          }],
+          "date": {"text": article.date}
+        }
+      } %}
+      {% if article.image and article.image.source_url %}
+        {% set _ = blog_article.update({"image": {"attrs": {"src": article.image.source_url, "alt": ""}}}) %}
+      {% endif %}
+      {% set _ = blog_articles.append(blog_article) %}
+    {% endfor %}
+
+    {{ vf_blog(
+      title={"text": "Related posts"},
+      articles=blog_articles
+    ) }}
   {% endif %}
 
 {% endblock %}
