@@ -364,7 +364,7 @@ app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 # tag_ids:
 # openstack - 1327
 def render_openstack_blogs():
-    blogs = BlogViews(
+    blogs = CanonicalBlogViews(
         api=BlogAPI(session=get_requests_session()),
         excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
         tag_ids=[1327],
@@ -1004,7 +1004,44 @@ class BlogSitemapPage(BlogView):
             return response
 
 
-blog_views = BlogViews(
+class CanonicalBlogViews(BlogViews):
+    related_articles_limit = 4
+
+    def _get_article_context(
+        self, article, related_tag_ids=[], excluded_tags=[]
+    ):
+        context = super()._get_article_context(
+            article, related_tag_ids, excluded_tags
+        )
+
+        tags = article["_embedded"].get("wp:term", [{}, {}])[1]
+        current_tag_ids = set(tag["id"] for tag in tags)
+
+        all_related_articles, _ = self.api.get_articles(
+            tags=[tag["id"] for tag in tags],
+            tags_exclude=excluded_tags,
+            per_page=10,
+            exclude=[article["id"]],
+        )
+
+        related_articles = []
+        for related_article in all_related_articles:
+            if set(related_tag_ids) <= set(related_article["tags"]):
+                related_articles.append(related_article)
+            related_article["compatibility"] = len(
+                current_tag_ids.intersection(set(related_article["tags"]))
+            )
+
+        context["related_articles"] = sorted(
+            related_articles,
+            key=lambda article: article["compatibility"],
+            reverse=True,
+        )[: self.related_articles_limit]
+
+        return context
+
+
+blog_views = CanonicalBlogViews(
     api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
     per_page=11,
@@ -1401,7 +1438,7 @@ maas_blog_api = BlogAPI(
     thumbnail_height=199,
 )
 maas_blog = build_blueprint(
-    BlogViews(
+    CanonicalBlogViews(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
