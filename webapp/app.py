@@ -58,6 +58,7 @@ from webapp.views import (
     build_knowledge_index,
     build_knowledge_category_index,
     get_knowledge_sections,
+    CanonicalBlogViews,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -1002,43 +1003,6 @@ class BlogSitemapPage(BlogView):
             response = flask.make_response(xml)
             response.headers["Content-Type"] = "application/xml"
             return response
-
-
-class CanonicalBlogViews(BlogViews):
-    related_articles_limit = 4
-
-    def _get_article_context(
-        self, article, related_tag_ids=[], excluded_tags=[]
-    ):
-        context = super()._get_article_context(
-            article, related_tag_ids, excluded_tags
-        )
-
-        tags = article["_embedded"].get("wp:term", [{}, {}])[1]
-        current_tag_ids = set(tag["id"] for tag in tags)
-
-        all_related_articles, _ = self.api.get_articles(
-            tags=[tag["id"] for tag in tags],
-            tags_exclude=excluded_tags,
-            per_page=10,
-            exclude=[article["id"]],
-        )
-
-        related_articles = []
-        for related_article in all_related_articles:
-            if set(related_tag_ids) <= set(related_article["tags"]):
-                related_articles.append(related_article)
-            related_article["compatibility"] = len(
-                current_tag_ids.intersection(set(related_article["tags"]))
-            )
-
-        context["related_articles"] = sorted(
-            related_articles,
-            key=lambda article: article["compatibility"],
-            reverse=True,
-        )[: self.related_articles_limit]
-
-        return context
 
 
 blog_views = CanonicalBlogViews(

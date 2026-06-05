@@ -131,20 +131,22 @@
         </div>
       </div>
     </header>
-    <hr class="p-rule is-fixed-width" />
     <div class="row">
-      <aside class="aside col-3 col-medium-2">
-        <div class="p-section">
+      <hr class="p-rule col-6 col-start-large-4 col-medium-4 col-start-medium-3" />
+    </div>
+    <div class="row">
+      <section class="p-section col-6 col-start-large-4 col-medium-4">
+        {{ article.content.rendered|safe }}
+      </section>
+      <aside class="aside col-3 col-start-large-10 col-medium-2">
+        <div class="blog-article-newsletter">
           <div class="p-section--shallow">
             <hr class="p-rule u-hide--medium u-hide--large" />
-            <h2 class="p-muted-heading">Newsletter signup</h2>
+            <h2 class="p-muted-heading">Sign up for our newsletter</h2>
           </div>
           {% include 'blog/newsletter-form.html' %}
         </div>
       </aside>
-      <section class="p-section col-6 col-medium-4">
-        {{ article.content.rendered|safe }}
-      </section>
     </div>
   </article>
 
