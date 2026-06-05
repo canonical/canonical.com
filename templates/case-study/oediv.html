@@ -2,12 +2,39 @@
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 
-{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
 {% from "macros/_macros-text-list.jinja" import text_list %}
 {% from "macros/_macros-highlights.jinja" import highlights %}
 {% from "macros/_macros-text.jinja" import text %}
 {% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-case-study-video.jinja" import case_study_video %}
 {% from "macros/_macros-cta.jinja" import cta %}
+
+{%- macro en_quote(quote_text, name, title, organisation) -%}
+  <div class="p-section--shallow">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6 grid-col-medium-3 grid-col-start-medium-2">
+        <hr class="p-rule--muted" />
+        <div class="grid-row">
+          <div class="grid-col-4">
+            <div class="p-section--shallow">
+              <p class="p-heading--4">
+                <i>&#8220;{{ quote_text|safe }}&#8221;</i>
+              </p>
+            </div>
+          </div>
+          <div class="grid-col-2">
+            <hr class="p-rule--muted u-hide--large" />
+            <p>
+              <strong>{{ name }}</strong>
+              <br />
+              <span class="u-text--muted">{{ title }}, {{ organisation }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endmacro -%}
 
 {% block title %}OEDIV standardizes with Ubuntu Pro for 6 years of zero downtime{% endblock %}
 
@@ -20,6 +47,13 @@
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1zc2tStMpgS-Vx_HN6wk90dnDUG9eAn_WPttHdaDhb4A/edit?tab=t.0
 {% endblock %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
+{% endblock extra_metatags %}
 
 {% block inner_content %}
   {%- call(slot) vf_hero(
@@ -52,29 +86,43 @@
     {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) highlights(num_items=3) -%}
-    {%- if slot == 'highlights_item_content_1' -%}
-      By adopting Ubuntu Pro, OEDIV shrank critical maintenance windows from 3 hours down to 45 minutes and reduced manual engineering tasks by 70%
-    {%- endif -%}
-    {%- if slot == 'highlights_item_content_2' -%}
-      These infrastructure improvements fostered a stable environment that resulted in zero standby calls over a six-year period
-    {%- endif -%}
-    {%- if slot == 'highlights_item_content_3' -%}
-      Ubuntu Pro’s extensive security coverage for open source packages enables OEDIV to explore new business opportunities
-    {%- endif -%}
-  {%- endcall %}
+  <section class="p-section">
+    <div class="grid-row">
+      <h2 class="p-text--small-caps">Highlights</h2>
+      <hr class="p-rule--muted" />
+    </div>
+    <ul class="p-list u-no-margin--bottom">
+      <div class="grid-row">
+        <div class="grid-col-2 grid-col-start-large-3 u-text-max-width">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              By adopting Ubuntu Pro, OEDIV shrank critical maintenance windows from 3 hours down to 45 minutes and reduced manual engineering tasks by 70%
+            </p>
+          </li>
+        </div>
+        <div class="grid-col-2 u-text-max-width">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              These infrastructure improvements fostered a stable environment that resulted in zero standby calls over a six-year period
+            </p>
+          </li>
+        </div>
+        <div class="grid-col-2 u-text-max-width">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              Ubuntu Pro’s extensive security coverage for open source packages enables OEDIV to explore new business opportunities
+            </p>
+          </li>
+        </div>
+      </div>
+    </ul>
+  </section>
 
-  {%- call(slot) image_wrapper() -%}
-    {%- if slot == 'image_content' %}
-      {{ image(url="https://assets.ubuntu.com/v1/a0c7ca9b-image1.jpg",
-            alt="",
-            width="2464",
-            height="1027",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-image-container__image"}) | safe
-      }}
-    {%- endif -%}
+  {%- call(slot) case_study_video(
+      video_id="vG4TL1sofCA",
+      video_title="OEDIV Ubuntu Pro Case Study",
+      title="Watch the full video case study"
+    ) -%}
   {%- endcall -%}
 
   {%- call(slot) text(title="Introduction") -%}
@@ -91,16 +139,12 @@
     {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) quote_wrapper(
+  {{ en_quote(
     quote_text="Our customers rely on us to keep their systems modern, up-to-date, and secure. Our critical infrastructure customers and others with strict security compliance needs expect prompt reaction to every vulnerability. Without Ubuntu Pro, meeting that core responsibility and reacting as fast as they need just wouldn't be possible.",
-    citation_source_name_text="Michel",
-    citation_source_title_text="Technology Owner Linux Platforms",
-    citation_source_organisation_text="OEDIV",
-    is_shallow=True,
-    hide_image_small=True
-    )
-    -%}
-  {%- endcall -%}
+    name="Michel",
+    title="Technology Owner Linux Platforms",
+    organisation="OEDIV"
+  ) }}
 
   {%- call(slot) text(title="Challenge") -%}
     {%- if slot == 'content' -%}
@@ -119,6 +163,13 @@
     {%- endif -%}
   {%- endcall -%}
 
+  {{ en_quote(
+    quote_text="Version lag in other Linux distros has been a sore point. In the past we needed to configure disaster recovery for VMs. We had v22 and we needed v25 – but it wasn’t available in our distro, which was three years behind. It was just not usable. With Ubuntu, the latest version was available and fast to deploy.",
+    name="Martin",
+    title="Team Lead for Managed Platforms",
+    organisation="OEDIV"
+  ) }}
+
   {%- call(slot) image_wrapper() -%}
     {%- if slot == 'image_content' %}
       {{ image(url="https://assets.ubuntu.com/v1/9d979f19-image2.jpg",
@@ -130,17 +181,6 @@
             attrs={"class": "p-image-container__image"}) | safe
       }}
     {%- endif -%}
-  {%- endcall -%}
-
-  {%- call(slot) quote_wrapper(
-    quote_text="Version lag in other Linux distros has been a sore point. In the past we needed to configure disaster recovery for VMs. We had v22 and we needed v25 – but it wasn’t available in our distro, which was three years behind. It was just not usable. With Ubuntu, the latest version was available and fast to deploy.",
-    citation_source_name_text="Martin",
-    citation_source_title_text="Team Lead for Managed Platforms",
-    citation_source_organisation_text="OEDIV",
-    is_shallow=True,
-    hide_image_small=True
-    )
-    -%}
   {%- endcall -%}
 
   {%- call(slot) text(title="Solution") -%}
@@ -157,6 +197,13 @@
     {%- endif -%}
   {%- endcall -%}
 
+  {{ en_quote(
+    quote_text="The in-place upgrades are perfect. It’s so easy to migrate and automate. With Ubuntu, you get the latest releases automatically, and upgrading is as simple as typing ‘apt upgrade.’ We’ve cut down migration time from 3 hours to just 45 minutes.<br><br>From a management perspective, Ubuntu Pro just makes it all easier. Before, we had ten different contracts and ten different support people. But with Canonical and Ubuntu Pro, you get a single point of support for all those different technologies – Apache, Postgres, MySQL, everything. That's a massive advantage. I would choose it again and again.",
+    name="Martin",
+    title="Team Lead for Managed Platforms",
+    organisation="OEDIV"
+  ) }}
+
   {%- call(slot) image_wrapper() -%}
     {%- if slot == 'image_content' %}
       {{ image(url="https://assets.ubuntu.com/v1/5c29f127-image3.jpg",
@@ -168,20 +215,6 @@
             attrs={"class": "p-image-container__image"}) | safe
       }}
     {%- endif -%}
-  {%- endcall -%}
-
-  {%- call(slot) quote_wrapper(
-    quote_text="The in-place upgrades are perfect. It’s so easy to migrate and automate. With Ubuntu, you get the latest releases automatically, and upgrading is as simple as typing ‘apt upgrade.’ We’ve cut down migration time from 3 hours to just 45 minutes.
-    <br>
-    <br>
-    From a management perspective, Ubuntu Pro just makes it all easier. Before, we had ten different contracts and ten different support people. But with Canonical and Ubuntu Pro, you get a single point of support for all those different technologies – Apache, Postgres, MySQL, everything. That's a massive advantage. I would choose it again and again.",
-    citation_source_name_text="Martin",
-    citation_source_title_text="Team Lead for Managed Platforms",
-    citation_source_organisation_text="OEDIV",
-    is_shallow=True,
-    hide_image_small=True
-    )
-    -%}
   {%- endcall -%}
 
   {%- call(slot) text(title="Results") -%}
@@ -201,16 +234,12 @@
     {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) quote_wrapper(
+  {{ en_quote(
     quote_text="Before we used Ubuntu Pro, we’d get monthly requests to install a specific piece of software or support specific packages and it just wasn’t possible. Everything changed with Ubuntu Pro: we don't have to focus on just Apache or Postgres; we can deliver anything. This opens up new business opportunities that just weren’t on the table before.",
-    citation_source_name_text="Marvin",
-    citation_source_title_text="Systems Engineer Linux",
-    citation_source_organisation_text="OEDIV",
-    is_shallow=True,
-    hide_image_small=True
-    )
-    -%}
-  {%- endcall -%}
+    name="Marvin",
+    title="Systems Engineer Linux",
+    organisation="OEDIV"
+  ) }}
 
 {% endblock %}
 
