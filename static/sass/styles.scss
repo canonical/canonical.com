@@ -75,6 +75,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-nojs-navigation;
 @include vf-u-align;
 @include vf-p-content-card;
+@include p-strip--suru-shallow;
 
 @media screen and ($breakpoint-large <= width) {
   .p-section__u-no-padding--top {
@@ -654,6 +655,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 // XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
 .p-pagination {
   flex-wrap: wrap;
+  display: inline-flex !important;
 }
 
 .aside {
