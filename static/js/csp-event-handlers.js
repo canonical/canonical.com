@@ -87,5 +87,34 @@
           }
         });
       });
+    
+    // toggle the progress detail sections (candidate dashboard "Show more"/"Show less")
+    document
+      .querySelectorAll("[data-js-progress-show]")
+      .forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          showProgressDetail(link.getAttribute("data-js-progress-show"));
+        });
+      });
+
+    document
+      .querySelectorAll("[data-js-progress-hide]")
+      .forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          hideProgressDetail(link.getAttribute("data-js-progress-hide"));
+        });
+      });
+
+    // reveal a progress detail section while still letting the link's href
+    // anchor navigate (candidate dashboard)
+    document
+      .querySelectorAll("[data-js-progress-show-nav]")
+      .forEach(function (link) {
+        link.addEventListener("click", function () {
+          showProgressDetail(link.getAttribute("data-js-progress-show-nav"));
+        });
+      });
   });
 })();
