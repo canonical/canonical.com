@@ -191,7 +191,7 @@ defer nonce="{{ csp_nonce }}"></script>
 
       <div class="wFormContainer" >
         <div class="wFormHeader"></div>
-        <style type="text/css">
+        <style type="text/css" nonce="{{ csp_nonce }}">
           #tfa_Firstname,
           *[id^="tfa_Firstname["] {
             width: 60 !important;
@@ -341,14 +341,14 @@ defer nonce="{{ csp_nonce }}"></script>
             height: auto !important;
           }
         </style><div class=""><div class="wForm" id="36087-WRPR" dir="ltr">
-          <div class="codesection" id="code-36087"><style type="text/css">
+          <div class="codesection" id="code-36087"><style type="text/css" nonce="{{ csp_nonce }}">
             .supportInfo {
               display: none;
             }
           </style></div>
           <form method="post" action="https://www.tfaforms.com/responses/processor" class=" labelsLeftAligned" id="36087" role="form" enctype="multipart/form-data">
             <div class="htmlSection" id="tfa_9631608629065"><div class="htmlContent" id="tfa_9631608629065-HTML">
-              <p class="western" style="margin-bottom: 0cm">* signifies a required field</p>
+              <p class="western u-margin-bottom-0cm">* signifies a required field</p>
             </div></div>
             <fieldset id="tfa_Yourcontactdetai" class="section">
               <legend id="tfa_Yourcontactdetai-L">Your contact details</legend>
@@ -687,7 +687,7 @@ defer nonce="{{ csp_nonce }}"></script>
                       <label id="tfa_9631608629067-L" class="label preField " for="tfa_9631608629067">If you would like to include an attachment with your request please add it here</label><div class="inputWrapper"><input type="file" id="tfa_9631608629067" name="tfa_9631608629067" size="" title="If you would like to include an attachment with your request please add it here" class=""></div>
                     </div>
                     <div class="actions" id="36087-A">
-                      <div id="google-captcha" style="display: none">
+                      <div class="u-display-none" id="google-captcha">
                         <br><div class="captcha">
                           <div class="oneField">
                             <div class="g-recaptcha" id="g-recaptcha-render-div"></div>
@@ -696,12 +696,12 @@ defer nonce="{{ csp_nonce }}"></script>
                           </div>
                           <div class="captchaHelp">reCAPTCHA helps prevent automated form spam.<br>
                           </div>
-                          <div id="disabled-explanation" class="captchaHelp" style="display: none">The submit button will be disabled until you complete the CAPTCHA.</div>
+                          <div id="disabled-explanation" class="captchaHelp u-display-none">The submit button will be disabled until you complete the CAPTCHA.</div>
                         </div>
                       </div>
                       <input type="submit" data-label="Submit" class="primaryAction" id="submit_button" value="Submit">
                     </div>
-                    <div style="clear:both"></div>
+                    <div class="u-clear-both"></div>
                     <input type="hidden" value="36087" name="tfa_dbFormId" id="tfa_dbFormId"><input type="hidden" value="" name="tfa_dbResponseId" id="tfa_dbResponseId"><input type="hidden" value="c004ae4348a8919232a477fa58f8a3bf" name="tfa_dbControl" id="tfa_dbControl"><input type="hidden" value="29" name="tfa_dbVersionId" id="tfa_dbVersionId"><input type="hidden" value="" name="tfa_switchedoff" id="tfa_switchedoff">
                   </form>
                 </div></div><div class="wFormFooter"><p class="supportInfo"><a target="new" class="contactInfoLink" href="https://www.tfaforms.com/forms/help/36087">Contact Information</a><br></p></div>

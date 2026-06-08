@@ -41,9 +41,7 @@
         </h1>
         <ul class="p-list">
           {% for result in sorted_results %}
-            <li class="p-list__item search-result"
-                style="padding-bottom: 0.75rem;
-                       {% if loop.index > 10 %}display: none;{% endif %}">
+            <li class="p-list__item search-result u-padding-bottom-0-75rem{% if loop.index > 10 %} u-display-none{% endif %}">
               <h5 class="u-no-margin--bottom">
                 <a href="{{ result.url }}" target="_blank">{{ result.title }}</a>&nbsp;
                 {% set search_path = "search.html" if result.domain == "ops.readthedocs.io"
