@@ -7,12 +7,12 @@
   link="/blog/" ~ article.slug,
   heading=article.title.rendered | safe,
   image={
-    "src": article.image.source_url,
+    "src": article.image.source_url if article.image and article.image.source_url else "https://assets.ubuntu.com/v1/94c82a15-blog_fallback_image.png",
     "alt": article.title.rendered | striptags
   },
   footer={
     "content_type": article.group.name if article.group else "Company"
   },
-  description=article.excerpt.raw | replace("[…]", "") | truncate(162)
+  description=article.excerpt.raw | replace("[…]", "") | truncate(340)
 ) }}
   {# djlint:on #}
