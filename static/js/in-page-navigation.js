@@ -3,9 +3,9 @@
  *  - Generates in-page navigation if scope is set to "full-page".
  *  - Initializes navigation interactions.
  */
-document.addEventListener('DOMContentLoaded', () => {
-  const documentBody = document.querySelector('body');
-  const navRoots = documentBody.querySelectorAll('.p-in-page-navigation');
+document.addEventListener("DOMContentLoaded", () => {
+  const documentBody = document.querySelector("body");
+  const navRoots = documentBody.querySelectorAll(".p-in-page-navigation");
   navRoots.forEach((navRoot) => {
     buildInPageNavigation(navRoot);
     initNavigationInteraction(navRoot);
@@ -23,7 +23,7 @@ function buildInPageNavigation(navRoot) {
 
   // If not full-page, assume manual navigation structure
   const scope = navRoot.dataset.inPageNavigationScope;
-  if (scope !== 'full-page') {
+  if (scope !== "full-page") {
     return;
   }
 
@@ -33,32 +33,34 @@ function buildInPageNavigation(navRoot) {
     return;
   }
 
-  const navList = navRoot.querySelector('.js-in-page-nav-list');
-  const itemTemplate = document.querySelector('.js-in-page-nav-template-item');
-  const sublistTemplate = document.querySelector('.js-in-page-nav-template-sublist');
+  const navList = navRoot.querySelector(".js-in-page-nav-list");
+  const itemTemplate = document.querySelector(".js-in-page-nav-template-item");
+  const sublistTemplate = document.querySelector(
+    ".js-in-page-nav-template-sublist"
+  );
   let currentPrimaryItem = null;
   let currentNestedList = null;
   let isFirst = true;
 
   headings.forEach((heading) => {
     const id = generateHeadingId(heading);
-    const text = heading.textContent.trim().replace(/\s+/g, ' '); // Remove whitespace
+    const text = heading.textContent.trim().replace(/\s+/g, " "); // Remove whitespace
     const tooltipId = `${id}-tooltip`;
     const isPrimaryList = heading.matches(selectors.primarySelector);
     const itemClone = itemTemplate.content.cloneNode(true);
-    const li = itemClone.querySelector('li');
-    const link = itemClone.querySelector('a');
-    const tooltipWrapper = itemClone.querySelector('.p-tooltip--right');
-    const tooltipMessage = itemClone.querySelector('.p-tooltip__message');
+    const li = itemClone.querySelector("li");
+    const link = itemClone.querySelector("a");
+    const tooltipWrapper = itemClone.querySelector(".p-tooltip--right");
+    const tooltipMessage = itemClone.querySelector(".p-tooltip__message");
 
     link.href = `#${id}`;
     link.textContent = text;
-    tooltipWrapper.setAttribute('aria-describedby', tooltipId);
+    tooltipWrapper.setAttribute("aria-describedby", tooltipId);
     tooltipMessage.id = tooltipId;
     tooltipMessage.textContent = text;
 
     if (isFirst) {
-      link.classList.add('is-active');
+      link.classList.add("is-active");
       isFirst = false;
     }
 
@@ -71,7 +73,7 @@ function buildInPageNavigation(navRoot) {
       // Append to sublist under current primary list
       if (!currentNestedList) {
         const nestedListClone = sublistTemplate.content.cloneNode(true);
-        currentNestedList = nestedListClone.querySelector('ul');
+        currentNestedList = nestedListClone.querySelector("ul");
         currentPrimaryItem.appendChild(currentNestedList);
       }
       if (currentNestedList) {
@@ -90,25 +92,29 @@ function buildInPageNavigation(navRoot) {
  * @param {HTMLElement} navRoot - The .p-in-page-navigation element
  */
 function initNavigationInteraction(navRoot) {
-  const toggle = navRoot.querySelector('.p-in-page-navigation__dropdown-toggle');
-  const navList = navRoot.querySelector('.js-in-page-nav-list');
+  const toggle = navRoot.querySelector(
+    ".p-in-page-navigation__dropdown-toggle"
+  );
+  const navList = navRoot.querySelector(".js-in-page-nav-list");
 
   if (toggle && navList) {
-    toggle.addEventListener('click', function () {
-      if (toggle.getAttribute('aria-expanded') === 'true') {
-        navRoot.classList.remove('is-expanded');
-        toggle.setAttribute('aria-expanded', 'false');
-        navList.setAttribute('aria-expanded', 'false');
-        toggle.querySelector('.p-icon--chevron-down').classList.remove('u-hide');
-        toggle.querySelector('.p-icon--chevron-up').classList.add('u-hide');
+    toggle.addEventListener("click", function () {
+      if (toggle.getAttribute("aria-expanded") === "true") {
+        navRoot.classList.remove("is-expanded");
+        toggle.setAttribute("aria-expanded", "false");
+        navList.setAttribute("aria-expanded", "false");
+        toggle
+          .querySelector(".p-icon--chevron-down")
+          .classList.remove("u-hide");
+        toggle.querySelector(".p-icon--chevron-up").classList.add("u-hide");
         // Ensure active item is visible in horizontal layout
         scrollActiveNavItemIntoView();
       } else {
-        navRoot.classList.add('is-expanded');
-        toggle.setAttribute('aria-expanded', 'true');
-        navList.setAttribute('aria-expanded', 'true');
-        toggle.querySelector('.p-icon--chevron-down').classList.add('u-hide');
-        toggle.querySelector('.p-icon--chevron-up').classList.remove('u-hide');
+        navRoot.classList.add("is-expanded");
+        toggle.setAttribute("aria-expanded", "true");
+        navList.setAttribute("aria-expanded", "true");
+        toggle.querySelector(".p-icon--chevron-down").classList.add("u-hide");
+        toggle.querySelector(".p-icon--chevron-up").classList.remove("u-hide");
       }
     });
   }
@@ -125,17 +131,23 @@ function initNavigationInteraction(navRoot) {
   function updateActiveLink(headingId) {
     const targetLink = navRoot.querySelector(`a[href='#${headingId}']`);
     // Ignore links that are hidden in horizontal layout
-    const parentList = targetLink ? targetLink.closest('.p-in-page-navigation__list') : null;
+    const parentList = targetLink
+      ? targetLink.closest(".p-in-page-navigation__list")
+      : null;
 
-    if (!targetLink || !parentList || window.getComputedStyle(parentList, null).display === 'none') {
+    if (
+      !targetLink ||
+      !parentList ||
+      window.getComputedStyle(parentList, null).display === "none"
+    ) {
       return;
     }
 
     navigationLinks.forEach((link) => {
-      if (link.getAttribute('href') === `#${headingId}`) {
-        link.classList.add('is-active');
+      if (link.getAttribute("href") === `#${headingId}`) {
+        link.classList.add("is-active");
       } else {
-        link.classList.remove('is-active');
+        link.classList.remove("is-active");
       }
     });
     setTimeout(() => scrollActiveNavItemIntoView(targetLink), 300);
@@ -158,7 +170,7 @@ function initNavigationInteraction(navRoot) {
 
     observer = new IntersectionObserver(
       function (entries) {
-        if (typeof navItemClicked !== 'undefined' && navItemClicked) {
+        if (typeof navItemClicked !== "undefined" && navItemClicked) {
           return;
         }
         entries.forEach((entry) => {
@@ -168,9 +180,9 @@ function initNavigationInteraction(navRoot) {
         });
       },
       {
-        rootMargin: isLargeView ? '-10% 0px -50% 0px' : '-10% 0px -75% 0px',
+        rootMargin: isLargeView ? "-10% 0px -50% 0px" : "-10% 0px -75% 0px",
         threshold: 0.5,
-      },
+      }
     );
 
     headings.forEach((heading) => observer.observe(heading));
@@ -180,28 +192,28 @@ function initNavigationInteraction(navRoot) {
   manageObserver();
 
   // Update observer rootMargins on viewport resize
-  window.addEventListener('resize', debounce(manageObserver, 250));
+  window.addEventListener("resize", debounce(manageObserver, 250));
 
   // Handle navigation link clicks
   let navItemClicked = false;
   navigationLinks.forEach(function (link) {
-    link.addEventListener('click', function (e) {
+    link.addEventListener("click", function (e) {
       e.preventDefault();
       navItemClicked = true;
 
       // Handle active state
       navigationLinks.forEach(function (navLink) {
-        navLink.classList.remove('is-active');
+        navLink.classList.remove("is-active");
       });
-      link.classList.add('is-active');
+      link.classList.add("is-active");
 
       // Handle smooth scroll
-      const targetId = link.getAttribute('href');
+      const targetId = link.getAttribute("href");
       const targetHeading = document.querySelector(targetId);
       if (targetHeading) {
-        targetHeading.setAttribute('tabindex', '-1');
-        targetHeading.focus({preventScroll: true});
-        targetHeading.scrollIntoView({behavior: 'smooth'});
+        targetHeading.setAttribute("tabindex", "-1");
+        targetHeading.focus({ preventScroll: true });
+        targetHeading.scrollIntoView({ behavior: "smooth" });
         history.pushState(null, null, targetId);
       }
 
@@ -221,8 +233,8 @@ function initNavigationInteraction(navRoot) {
   navigationLinks.forEach(function (link) {
     if (spansMoreThanTwoLines(link)) {
       const linkContainer = link.parentNode;
-      const tooltip = linkContainer.querySelector('.p-tooltip__message');
-      tooltip.classList.remove('u-hide');
+      const tooltip = linkContainer.querySelector(".p-tooltip__message");
+      tooltip.classList.remove("u-hide");
       attachPositionTooltipListener(linkContainer);
     }
   });
@@ -258,15 +270,15 @@ function getHeadingExcludes(navRoot, headings) {
 
   const excludeRules = excludeAttr
     .trim()
-    .split(',')
+    .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
   const excludeList = [];
 
   excludeRules.forEach((rule) => {
-    if (rule.toLowerCase().startsWith('text:')) {
+    if (rule.toLowerCase().startsWith("text:")) {
       // Text-based exclusion
-      const textToMatch = rule.split('text:')[1].trim().toLowerCase();
+      const textToMatch = rule.split("text:")[1].trim().toLowerCase();
       headings.forEach((heading) => {
         if (heading.textContent.trim().toLowerCase() === textToMatch) {
           excludeList.push(heading);
@@ -301,8 +313,10 @@ function getHeadingExcludes(navRoot, headings) {
 function generateSelectors(navRoot) {
   const primarySelector = navRoot.dataset.inPageNavigationPrimary;
   const secondarySelector = navRoot.dataset.inPageNavigationSecondary ?? null;
-  const query = secondarySelector ? `${primarySelector}, ${secondarySelector}` : primarySelector;
-  return {primarySelector, secondarySelector, query};
+  const query = secondarySelector
+    ? `${primarySelector}, ${secondarySelector}`
+    : primarySelector;
+  return { primarySelector, secondarySelector, query };
 }
 
 /**
@@ -326,7 +340,7 @@ function generateHeadingId(heading) {
  * @returns {NodeList} List of navigation link elements
  */
 function getNavigationLinks(navRoot) {
-  return navRoot.querySelectorAll('.p-in-page-navigation__link');
+  return navRoot.querySelectorAll(".p-in-page-navigation__link");
 }
 
 /**
@@ -339,11 +353,11 @@ function slugify(text) {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
 }
 
 /**
@@ -357,8 +371,8 @@ function spansMoreThanTwoLines(element) {
   const originalDisplay = element.style.display;
   const originalLineClamp = element.style.webkitLineClamp;
 
-  element.style.display = 'block';
-  element.style.webkitLineClamp = 'unset';
+  element.style.display = "block";
+  element.style.webkitLineClamp = "unset";
 
   const style = window.getComputedStyle(element);
   const lineHeight = parseFloat(style.lineHeight);
@@ -377,20 +391,20 @@ function spansMoreThanTwoLines(element) {
  */
 function scrollActiveNavItemIntoView(link) {
   if (!link) {
-    link = document.querySelector('.p-in-page-navigation__link.is-active');
+    link = document.querySelector(".p-in-page-navigation__link.is-active");
   }
-  const listItem = link.closest('.p-in-page-navigation__item');
-  const navList = listItem?.closest('.js-in-page-nav-list');
+  const listItem = link.closest(".p-in-page-navigation__item");
+  const navList = listItem?.closest(".js-in-page-nav-list");
 
   if (!listItem || !navList) return;
 
   // Horizontal scroll on the nav container only
   const listLeft = navList.getBoundingClientRect().left;
   const itemLeft = listItem.getBoundingClientRect().left;
-  
+
   if (!listItem || !navList) return;
 
-  navList.scrollTo({ left: listItem.offsetLeft-10, behavior: 'smooth' });
+  navList.scrollTo({ left: listItem.offsetLeft - 10, behavior: "smooth" });
 }
 
 /**
@@ -398,7 +412,10 @@ function scrollActiveNavItemIntoView(link) {
  * @returns {number} The width of the viewport in pixels
  */
 function getCurrentViewportWidth() {
-  return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  return Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
 }
 
 /**
@@ -409,14 +426,14 @@ function getCurrentViewportWidth() {
  * @param {HTMLElement} tooltipContainer - The .p-tooltip element
  */
 function attachPositionTooltipListener(tooltipContainer) {
-  const tooltipMessage = tooltipContainer.querySelector('.p-tooltip__message');
+  const tooltipMessage = tooltipContainer.querySelector(".p-tooltip__message");
   if (!tooltipMessage) return;
 
   // One hover update the tooltip position property to be used in CSS
-  tooltipContainer.addEventListener('mouseenter', function () {
+  tooltipContainer.addEventListener("mouseenter", function () {
     const rect = tooltipContainer.getBoundingClientRect();
-    tooltipMessage.style.setProperty('--tooltip-left', `${rect.right + 8}px`);
-    tooltipMessage.style.setProperty('--tooltip-top', `${rect.top + 24}px`);
+    tooltipMessage.style.setProperty("--tooltip-left", `${rect.right + 8}px`);
+    tooltipMessage.style.setProperty("--tooltip-top", `${rect.top + 24}px`);
   });
 }
 
