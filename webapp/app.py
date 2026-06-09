@@ -993,12 +993,6 @@ class BlogSitemapPage(BlogView):
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
-    per_page=11,
-)
-
-latest_news_blog_views = BlogViews(
-    api=BlogAPI(session=get_requests_session()),
-    excluded_tags=[3184, 3265, 3599],
     per_page=16,
 )
 
@@ -1017,7 +1011,7 @@ def press_center_redirect():
 @app.route("/blog/latest-news")
 def blog_latest_news():
     page = flask.request.args.get("page", default=1, type=int)
-    context = latest_news_blog_views.get_index(
+    context = blog_views.get_index(
         page=page, category_slug="announcement"
     )
     return flask.render_template("blog/latest-news.html", **context)
