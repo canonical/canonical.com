@@ -1,4 +1,88 @@
+import logging
+
+import requests
+import secrets
+
+import flask
 from canonicalwebteam.flask_base.env import get_flask_env
+
+logger = logging.getLogger(__name__)
+
+# Used if the live fetch from Google fails at startup. Covers the regions
+# we've historically seen in CSP reports.
+_GOOGLE_DOMAINS_FALLBACK = [
+    "www.google.com",
+    # Europe
+    "www.google.at",
+    "www.google.be",
+    "www.google.ch",
+    "www.google.co.uk",
+    "www.google.cz",
+    "www.google.de",
+    "www.google.dk",
+    "www.google.es",
+    "www.google.fi",
+    "www.google.fr",
+    "www.google.gr",
+    "www.google.hu",
+    "www.google.ie",
+    "www.google.it",
+    "www.google.nl",
+    "www.google.no",
+    "www.google.pl",
+    "www.google.pt",
+    "www.google.ro",
+    "www.google.se",
+    # Americas
+    "www.google.ca",
+    "www.google.cl",
+    "www.google.co",
+    "www.google.com.ar",
+    "www.google.com.br",
+    "www.google.com.mx",
+    "www.google.com.pe",
+    # Asia & Pacific
+    "www.google.co.id",
+    "www.google.co.in",
+    "www.google.co.jp",
+    "www.google.co.kr",
+    "www.google.co.nz",
+    "www.google.co.th",
+    "www.google.com.au",
+    "www.google.com.hk",
+    "www.google.com.my",
+    "www.google.com.ph",
+    "www.google.com.sg",
+    "www.google.com.tw",
+    "www.google.com.vn",
+]
+
+
+def _fetch_google_supported_domains():
+    """
+    Fetch Google's published list of regional search domains so GTM can
+    reach the user's local google.<tld>. Falls back to a hardcoded list
+    if the request fails so CSP remains valid.
+    """
+    try:
+        response = requests.get(
+            "https://www.google.com/supported_domains", timeout=5
+        )
+        response.raise_for_status()
+        domains = [
+            "www" + line.strip()
+            for line in response.text.splitlines()
+            if line.strip().startswith(".google.")
+        ]
+        if domains:
+            return domains
+        logger.warning("Google supported_domains response was empty")
+    except requests.RequestException as exc:
+        logger.warning("Failed to fetch Google supported_domains: %s", exc)
+    return _GOOGLE_DOMAINS_FALLBACK
+
+
+GOOGLE_DOMAINS = _fetch_google_supported_domains()
 
 CSP = {
     "default-src": ["'self'"],
@@ -10,6 +94,7 @@ CSP = {
     ],
     "script-src-elem": [
         "'self'",
+        "'strict-dynamic'",
         "assets.ubuntu.com",
         "www.google-analytics.com",
         "www.googletagmanager.com",
@@ -39,8 +124,6 @@ CSP = {
         "api.livechatinc.com",
         "secure.livechatinc.com",
         "www.tfaforms.com",
-        # This is necessary for Google Tag Manager to function properly.
-        "'unsafe-inline'",
     ],
     "font-src": [
         "'self'",
@@ -53,12 +136,9 @@ CSP = {
         "'self'",
         "blob:",
         "'unsafe-eval'",
-        "'unsafe-hashes'",
-        "'unsafe-inline'",
     ],
     "connect-src": [
         "'self'",
-        "www.google.com",
         "ubuntu.com",
         "analytics.google.com",
         "www.googletagmanager.com",
@@ -73,6 +153,9 @@ CSP = {
         "ws.zoominfo.com",
         "youtube.com",
         "google.com",
+        # Regional google.<tld> domains used by GTM, sourced live from
+        # https://www.google.com/supported_domains at app startup.
+        *GOOGLE_DOMAINS,
         "fonts.google.com",
         "maps.googleapis.com",
         "pixel-config.reddit.com",
@@ -130,8 +213,18 @@ CSP = {
     ],
 }
 
+NONCED_DIRECTIVES = ("script-src", "script-src-elem")
+
 
 def init_handlers(app):
+
+    @app.before_request
+    def set_csp_nonce():
+        flask.g.csp_nonce = secrets.token_urlsafe(16)
+
+    @app.context_processor
+    def inject_csp_nonce():
+        return {"csp_nonce": getattr(flask.g, "csp_nonce", "")}
 
     @app.after_request
     def add_headers(response):
@@ -151,14 +244,20 @@ def init_handlers(app):
         resources.
         """
 
-        def get_csp_as_str(csp={}):
+        def get_csp_as_str(csp={}, nonce=None):
             csp_str = ""
             for key, values in csp.items():
-                csp_value = " ".join(values)
+                directive_values = list(values)
+                if nonce and key in NONCED_DIRECTIVES:
+                    directive_values.append(f"'nonce-{nonce}'")
+                csp_value = " ".join(directive_values)
                 csp_str += f"{key} {csp_value}; "
             return csp_str.strip()
 
-        response.headers["Content-Security-Policy"] = get_csp_as_str(CSP)
+        nonce = getattr(flask.g, "csp_nonce", None)
+        response.headers["Content-Security-Policy"] = get_csp_as_str(
+            CSP, nonce=nonce
+        )
 
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"

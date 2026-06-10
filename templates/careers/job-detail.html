@@ -11,7 +11,7 @@
 {% block extra_metatags %}
 <link rel="alternate" type="application/rss+xml"  href="/careers/feed" title="All job roles | Canonical Careers"/>
 
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
   {
     "@context" : "https://schema.org/",
     "@type" : "JobPosting",
@@ -79,12 +79,7 @@
   <div class="col-6">
     <hr class="p-rule"/>
     <h3 class="p-heading--5">Apply for this role</h3>
-    <form id="job-apply-form" action="/careers/{{ job.id }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" onsubmit="dataLayer.push({
-          'event': 'GAEvent',
-          'eventCategory': 'Form',
-          'eventAction': 'job application: {{ job.id }}',
-          'eventLabel': 'Submit Application',
-          'eventValue': undefined });" >
+    <form id="job-apply-form" action="/careers/{{ job.id }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" data-ga-submit-category="Form" data-ga-submit-action="job application: {{ job.id }}" data-ga-submit-label="Submit Application" >
       <fieldset style="border: none; margin-bottom: 0; padding: 0;">
         <p class="required-legend u-align-text--right ">Required</p>
         <input type="hidden" name="id" value="{{ job.id }}" />
@@ -131,7 +126,7 @@
   </div>
 </div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   (function () {
     const formEl = document.getElementById("job-apply-form");
     if (!formEl) {
@@ -196,11 +191,11 @@
   })();
 </script>
 
-<script defer>
+<script defer nonce="{{ csp_nonce }}">
     document.querySelectorAll('a[href*="legal"]').forEach(function (a) {
       a.setAttribute('target', '_blank');
     })
 </script>
 
-<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
+<script defer src="{{ versioned_static('js/file-validation.js') }}" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

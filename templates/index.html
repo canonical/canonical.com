@@ -38,7 +38,7 @@
 {% endblock body_class %}
 
 {% block content %}
-  <script>
+  <script nonce="{{ csp_nonce }}">
     // adds js-enabled to the body to show some elements
     document.body.classList.add('js-enabled');
     // adds aria-selected & aria-hidden to 
@@ -53,7 +53,7 @@
       });
     });
   </script>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var a = String(Math.floor(Math.random() * 10000000000000000));
       new Image().src = 'https://pubads.g.doubleclick.net/activity;xsp=4822915;ord=' + a + '?';
@@ -1465,10 +1465,10 @@
   </section>
 
   {{ load_form("/") | safe }}
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
-  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}"></script>
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-  <script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/dist/homepage_carousel.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
     function loadScript(url) {
       const script = document.createElement('script');
       script.src = url;
@@ -1501,7 +1501,7 @@
   </script>
 
   {# djlint: off #}
-  <script>
+  <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews({
       articlesContainerSelector: "#latest-articles",
       articleTemplateSelector: "#articles-template",
