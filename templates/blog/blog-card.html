@@ -1,45 +1,18 @@
-<div class="p-section--shallow">
-  <hr class="p-rule is-fixed-width" />
-  <div class="row">
-    <div class="aside col-3 col-medium-2">
-      <p>
-        <a href="/blog/author/{{ article.author.slug }}">{{ article.author.name }}</a>
-        <br />
-        {{ article.date }}
-      </p>
-    </div>
-    <div class="col-6 col-medium-4">
-      <h3 class="p-heading--4">
-        <a href="/blog/{{ article.slug }}">{{ article.title.rendered|safe }}</a>
-      </h3>
-      <span class="p-chip--information">
-        <span class="p-chip__value">
-          {% if request.path == "topic/blog/cloud-and-server" %}
-            Cloud and Server
-          {% elif request.path == "topic/blog/desktop" %}
-            Desktop
-          {% elif request.path == "topic/blog/internet-of-things" %}
-            Internet of Things
-          {% else %}
-            {% if article.group %}
-              {{ article.group.name }}
-            {% else %}
-              Ubuntu
-            {% endif %}
-          {% endif %}
-        </span>
-      </span>
-      <span class="p-chip--information">
-        <span class="p-chip__value">{% include 'blog/singular-category.html' %}</span>
-      </span>
-      <p class="u-hide--small u-hide--medium">{{ article.excerpt.raw.replace('[…]', '') |truncate(1000) }}...</p>
-    </div>
-    <div class="col-3 u-hide--small u-hide--medium">
-      {% if article.image and article.image.source_url %}
-        <a href="/blog/{{ article.slug }}" aria-hidden="true" tabindex="-1">
-          <div class="p-image-wrapper">{{ article.image.rendered|safe }}</div>
-        </a>
-      {% endif %}
-    </div>
-  </div>
-</div>
+  {# djlint:off #}
+
+{% from "_macros/vf_card.jinja" import vf_card %}
+
+{{ vf_card(
+  columns="4",
+  link="/blog/" ~ article.slug,
+  heading=article.title.rendered | safe,
+  image={
+    "src": article.image.source_url,
+    "alt": article.title.rendered | striptags
+  },
+  footer={
+    "content_type": article.group.name if article.group else "Company"
+  },
+  description=article.excerpt.raw | replace("[…]", "") | truncate(162)
+) }}
+  {# djlint:on #}
