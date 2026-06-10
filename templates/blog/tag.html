@@ -1,5 +1,7 @@
 {% extends "base_index.html" %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block title %}Blog posts tagged "{{ tag.name }}"{% endblock %}
 
 {% block body_class %}
@@ -8,16 +10,12 @@
 
 {% block content %}
 
-  <div class="p-strip">
-    <div class="grid-row">
-      <div class="grid-col-4 grid-col-start-large-3">
-        <h1>
-          Blog posts tagged
-          "{{ tag.name }}"
-        </h1>
-      </div>
-    </div>
-  </div>
+  {% call(slot) vf_hero(
+    title_text='Blog posts tagged "' ~ tag.name ~ '"',
+    layout='25/75',
+    display_blank_signpost_image_space=True,
+    ) -%}
+  {%- endcall -%}
 
   <section class="p-section--shallow">
     <div class="grid-row">
