@@ -348,7 +348,7 @@ defer nonce="{{ csp_nonce }}"></script>
           </style></div>
           <form method="post" action="https://www.tfaforms.com/responses/processor" class=" labelsLeftAligned" id="36087" role="form" enctype="multipart/form-data">
             <div class="htmlSection" id="tfa_9631608629065"><div class="htmlContent" id="tfa_9631608629065-HTML">
-              <p class="western u-margin-bottom-0cm">* signifies a required field</p>
+              <p class="western u-margin-bottom-0">* signifies a required field</p>
             </div></div>
             <fieldset id="tfa_Yourcontactdetai" class="section">
               <legend id="tfa_Yourcontactdetai-L">Your contact details</legend>

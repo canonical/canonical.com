@@ -1,10 +1,22 @@
-// Utility classes replacing inline style attributes, generated to allow
-// removing 'unsafe-inline' from the style-src CSP directive (WD-36639).
-// Each class reproduces the exact declarations of the original inline style.
+// Utility classes replacing the inline style attributes that had to be removed
+// when dropping 'unsafe-inline' from the style-src CSP directive (WD-36639).
+// Two groups:
+//   1. Single-property atomic utilities (`u-<property>-<value>`) — compose
+//      several on one element in the markup rather than baking multi-property
+//      sets into one class. Names describe the value they apply (negatives and
+//      sub-1 values are spelled out so the name can't mislead).
+//   2. Page-specific helpers named by usage, for one-off values (hero
+//      backgrounds, the animated hero heading) that don't generalise.
 
-.u-align-content-center-padding-0-2rem-0-2rem {
+// 1. Atomic utilities
+// -----------------------------------------------------------------------------
+
+.u-align-content-center {
   align-content: center;
-  padding: 0 2rem;
+}
+
+.u-align-items-center {
+  align-items: center;
 }
 
 .u-align-self-center {
@@ -16,66 +28,31 @@
 }
 
 .u-animation-delay-0-50s {
-  animation-delay: 0.50s;
+  animation-delay: 0.5s;
 }
 
 .u-animation-delay-0-75s {
   animation-delay: 0.75s;
 }
 
-.u-animation-delay-1-5s {
-  animation-delay: 1.5s;
-}
-
 .u-animation-delay-1s {
   animation-delay: 1s;
 }
 
-.u-aspect-ratio-5-1775700934579-width-100 {
-  aspect-ratio: 5.1776;
-  width: 100%;
-}
-
-.u-background-313131 {
-  background: #313131;
+.u-animation-delay-1-5s {
+  animation-delay: 1.5s;
 }
 
 .u-background-color-transparent {
   background-color: transparent;
 }
 
-.u-background-image-url-https-assets-ubuntu-com-v1-b9eafff9-become-a-partner-hero-image-png {
-  background-image: url('https://assets.ubuntu.com/v1/b9eafff9-Become-a-partner-hero-image.png');
-}
-
-.u-background-image-url-https-assets-ubuntu-com-v1-e54487e2-maas-docs-suru-png {
-  background-image: url('https://assets.ubuntu.com/v1/e54487e2-maas-docs-suru.png');
-}
-
-.u-background-position-100-0-background-size-150vw-background-image-url-https-assets-ubuntu-com-v1-78c0cbe3-05-suru2-dark-2k-jpg {
-  background-position: 100% 0;
-  background-size: 150vw;
-  background-image: url('https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg');
-}
-
-.u-background-url-https-assets-ubuntu-com-v1-18717572-05-suru2-light-glow-8k-edited-png-70-bottom-background-size-cover {
-  background: url("https://assets.ubuntu.com/v1/18717572-05_suru2_light_glow_8K_edited.png") 70% bottom;
-  background-size: cover;
-}
-
-.u-border-left-1px-solid-rgba-255-255-255-0-25-padding-left-1-375rem {
-  border-left: 1px solid rgb(255 255 255 / 25%);
-  padding-left: 1.375rem;
+.u-border-bottom-0 {
+  border-bottom: 0;
 }
 
 .u-border-none {
   border: none;
-}
-
-.u-border-none-margin-bottom-0-padding-0 {
-  border: none;
-  margin-bottom: 0;
-  padding: 0;
 }
 
 .u-border-right-0 {
@@ -94,17 +71,20 @@
   clear: both;
 }
 
-.u-display-block-border-bottom-0-overflow-auto-padding-left-1-5rem-padding-top-1rem {
-  display: block;
-  border-bottom: 0;
-  overflow: auto;
-  padding-left: 1.5rem;
-  padding-top: 1rem;
+.u-color-black {
+  color: black;
 }
 
-.u-display-flex-align-items-center {
+.u-cursor-initial {
+  cursor: initial;
+}
+
+.u-display-block {
+  display: block;
+}
+
+.u-display-flex {
   display: flex;
-  align-items: center;
 }
 
 .u-display-inline-block {
@@ -115,9 +95,8 @@
   display: none;
 }
 
-.u-display-none-visibility-hidden {
-  display: none;
-  visibility: hidden;
+.u-flex-direction-column {
+  flex-direction: column;
 }
 
 .u-float-right {
@@ -136,14 +115,24 @@
   font-weight: 500;
 }
 
+.u-grid-column-end-span-12 {
+  grid-column-end: span 12;
+}
+
 .u-grid-column-span-6 {
   grid-column: span 6;
 }
 
-.u-height-100-display-flex-flex-direction-column {
+.u-height-100 {
   height: 100%;
-  display: flex;
-  flex-direction: column;
+}
+
+.u-height-95 {
+  height: 95%;
+}
+
+.u-height-32px {
+  height: 32px;
 }
 
 .u-height-104px {
@@ -158,14 +147,8 @@
   height: 4rem;
 }
 
-.u-height-95-overflow-hidden {
-  height: 95%;
-  overflow: hidden;
-}
-
-.u-height-auto-width-100 {
+.u-height-auto {
   height: auto;
-  width: 100%;
 }
 
 .u-justify-content-space-between {
@@ -180,12 +163,20 @@
   margin: 2rem;
 }
 
-.u-margin-bottom-0cm {
+.u-margin-bottom-0 {
   margin-bottom: 0;
+}
+
+.u-margin-bottom-0-5rem {
+  margin-bottom: 0.5rem;
 }
 
 .u-margin-bottom-1rem {
   margin-bottom: 1rem;
+}
+
+.u-margin-bottom-1-5rem {
+  margin-bottom: 1.5rem;
 }
 
 .u-margin-bottom-2rem {
@@ -196,15 +187,11 @@
   margin-bottom: 4rem;
 }
 
-.u-margin-bottom-5rem {
-  margin-bottom: .5rem;
-}
-
 .u-margin-left-15px {
   margin-left: 15px;
 }
 
-.u-margin-left-1rem {
+.u-margin-left-negative-1rem {
   margin-left: -1rem;
 }
 
@@ -224,22 +211,12 @@
   margin-top: 1rem;
 }
 
-.u-margin-top-55px {
-  margin-top: -55px;
-}
-
 .u-margin-top-auto {
   margin-top: auto;
 }
 
-.u-max-width-352px-animation-delay-1s-animation-duration-0-25s-font-weight-300-font-size-20-9px-line-height-31-35px-letter-spacing-0 {
-  max-width: 352px;
-  animation-delay: 1s;
-  animation-duration: 0.25s;
-  font-weight: 300;
-  font-size: 20.9px;
-  line-height: 31.35px;
-  letter-spacing: 0%;
+.u-margin-top-negative-55px {
+  margin-top: -55px;
 }
 
 .u-max-width-500rem {
@@ -250,12 +227,12 @@
   min-height: 200px;
 }
 
-.u-min-height-25rem {
-  min-height: 25rem;
-}
-
 .u-min-height-600px {
   min-height: 600px;
+}
+
+.u-min-height-25rem {
+  min-height: 25rem;
 }
 
 .u-min-height-9-1rem {
@@ -274,8 +251,24 @@
   opacity: 1;
 }
 
+.u-overflow-auto {
+  overflow: auto;
+}
+
+.u-overflow-hidden {
+  overflow: hidden;
+}
+
 .u-overflow-x-auto {
   overflow-x: auto;
+}
+
+.u-padding-0 {
+  padding: 0;
+}
+
+.u-padding-0-2rem {
+  padding: 0 2rem;
 }
 
 .u-padding-0-5rem {
@@ -286,17 +279,11 @@
   padding: 1.5rem;
 }
 
-.u-padding-1-5rem-height-95-overflow-hidden {
-  padding: 1.5rem;
-  height: 95%;
-  overflow: hidden;
-}
-
 .u-padding-20px {
   padding: 20px;
 }
 
-.u-padding-4rem-0rem {
+.u-padding-4rem-0 {
   padding: 4rem 0;
 }
 
@@ -312,6 +299,10 @@
   padding-bottom: 4rem;
 }
 
+.u-padding-left-1-5rem {
+  padding-left: 1.5rem;
+}
+
 .u-padding-left-2rem {
   padding-left: 2rem;
 }
@@ -320,33 +311,28 @@
   padding-left: 2.5rem;
 }
 
-.u-padding-left-2-5rem-grid-column-end-span-12 {
-  padding-left: 2.5rem;
-  grid-column-end: span 12;
+.u-padding-top-0-4rem {
+  padding-top: 0.4rem;
 }
 
 .u-padding-top-0-5rem {
   padding-top: 0.5rem;
 }
 
-.u-padding-top-4rem {
-  padding-top: .4rem;
+.u-padding-top-1rem {
+  padding-top: 1rem;
 }
 
 .u-position-relative {
   position: relative;
 }
 
-.u-position-static-transform-none-margin-bottom-1-5rem-background-color-f3f3f3 {
+.u-position-static {
   position: static;
-  transform: none;
-  margin-bottom: 1.5rem;
-  background-color: #f3f3f3;
 }
 
-.u-position-sticky-top-65px {
+.u-position-sticky {
   position: sticky;
-  top: 65px;
 }
 
 .u-scroll-margin-top-3-5rem {
@@ -365,17 +351,6 @@
   text-decoration: none;
 }
 
-.u-text-decoration-none-color-black {
-  text-decoration: none;
-  color: black;
-}
-
-.u-text-decoration-none-color-black-cursor-initial {
-  text-decoration: none;
-  color: black;
-  cursor: initial;
-}
-
 .u-text-decoration-unset {
   text-decoration: unset;
 }
@@ -388,11 +363,6 @@
   text-wrap: wrap;
 }
 
-.u-text-wrap-wrap-display-none {
-  text-wrap: wrap;
-  display: none;
-}
-
 .u-top-3-5rem {
   top: 3.5rem;
 }
@@ -401,50 +371,52 @@
   top: 4rem;
 }
 
-.u-top-4rem-z-index-1 {
-  top: 4rem;
-  z-index: 1;
-}
-
 .u-top-5rem {
   top: 5rem;
+}
+
+.u-top-7px {
+  top: 7px;
+}
+
+.u-top-65px {
+  top: 65px;
+}
+
+.u-transform-none {
+  transform: none;
+}
+
+.u-visibility-hidden {
+  visibility: hidden;
 }
 
 .u-white-space-nowrap {
   white-space: nowrap;
 }
 
-.u-white-space-nowrap-border-none {
-  white-space: nowrap;
-  border: none;
+.u-width-30 {
+  width: 30%;
+}
+
+.u-width-50 {
+  width: 50%;
+}
+
+.u-width-60 {
+  width: 60%;
 }
 
 .u-width-100 {
   width: 100%;
 }
 
-.u-width-30 {
-  width: 30%;
-}
-
-.u-width-32px-height-32px-position-relative-top-7px {
-  width: 32px;
-  height: 32px;
-  position: relative;
-  top: 7px;
-}
-
 .u-width-40-75 {
   width: 40.75%;
 }
 
-.u-width-50-display-none {
-  width: 50%;
-  display: none;
-}
-
-.u-width-60 {
-  width: 60%;
+.u-width-32px {
+  width: 32px;
 }
 
 .u-width-default {
@@ -455,7 +427,62 @@
   word-break: break-word;
 }
 
-.u-z-index-3-position-relative {
+.u-z-index-1 {
+  z-index: 1;
+}
+
+.u-z-index-3 {
   z-index: 3;
-  position: relative;
+}
+
+// 2. Page-specific helpers (named by usage)
+// -----------------------------------------------------------------------------
+
+.u-background-grey-light {
+  background-color: #f3f3f3;
+}
+
+.u-background-grey-dark {
+  background: #313131;
+}
+
+.u-divider-left {
+  border-left: 1px solid rgb(255 255 255 / 25%);
+  padding-left: 1.375rem;
+}
+
+// Wide, short Suru banner image (e.g. careers, mlflow).
+.u-suru-banner-image {
+  aspect-ratio: 5.1776;
+  width: 100%;
+}
+
+.u-partner-hero-background {
+  background-image: url("https://assets.ubuntu.com/v1/b9eafff9-Become-a-partner-hero-image.png");
+}
+
+.u-maas-tutorial-background {
+  background-image: url("https://assets.ubuntu.com/v1/e54487e2-maas-docs-suru.png");
+}
+
+.u-suru-dark-background {
+  background-position: 100% 0;
+  background-size: 150vw;
+  background-image: url("https://assets.ubuntu.com/v1/78c0cbe3-05_suru2_dark_2K.jpg");
+}
+
+.u-suru-light-background {
+  background: url("https://assets.ubuntu.com/v1/18717572-05_suru2_light_glow_8K_edited.png") 70% bottom;
+  background-size: cover;
+}
+
+// Animated hero heading (careers progression page).
+.u-animated-heading {
+  max-width: 352px;
+  animation-delay: 1s;
+  animation-duration: 0.25s;
+  font-weight: 300;
+  font-size: 20.9px;
+  line-height: 31.35px;
+  letter-spacing: 0;
 }
