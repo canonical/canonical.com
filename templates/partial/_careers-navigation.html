@@ -10,8 +10,8 @@
         {% for department in sorted_departments.values() %}
           <li  class="p-list__item u-no-padding--top u-no-padding--bottom p-form__control {% if request.path|get_secondary_nav_path == department.slug %}is-active{% endif %}">
             <label class="p-checkbox u-no-margin--bottom">
-              <input type="checkbox" aria-labelledby="{{department.slug}}" class="p-checkbox__input js-filter" name="{{department.name}}">
-              <span class="p-checkbox__label" id="{{department.slug}}">{{ department.name }}</span>
+              <input type="checkbox" aria-labelledby="{{ department.slug }}" class="p-checkbox__input js-filter" name="{{ department.name }}">
+              <span class="p-checkbox__label" id="{{ department.slug }}">{{ department.name }}</span>
             </label>
           </li>
         {% endfor %}
