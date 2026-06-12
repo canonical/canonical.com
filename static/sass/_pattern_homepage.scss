@@ -134,9 +134,9 @@
   }
 
   .p-homepage-card {
-    background-color: #202020; /* dark background */
+    background-color: #202020;
     padding: 0;
-    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    border: 1px solid rgb(255 255 255 / 10%);
     justify-content: space-between;
     align-items: center;
   }
@@ -146,11 +146,37 @@
   }
 
   .p-homepage-blog-card {
-    background-color: #202020; /* dark background */
-    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    background-color: #202020;
+    border: 1px solid rgb(255 255 255 / 10%);
     padding: 0;
+
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    // These cards opt out of Vanilla's equal-height subgrid (display: flex
+    // above), so drop the 4-row span too — otherwise the spanned grid tracks
+    // absorb the margin that's meant to separate stacked cards.
+    grid-row: auto;
+
     @media screen and (width < $breakpoint-large) {
       padding-bottom: 0;
+
+      & + & {
+        margin-top: 1.5rem;
+      }
+    }
+
+    .p-equal-height-row__item {
+      position: relative !important;
+      bottom: auto !important;
+      top: auto !important;
+      transform: none !important;
+      flex: 0 0 auto; 
+      
+      &:last-child {
+        margin-top: auto; 
+        flex: 1 1 auto;
+      }
     }
 
     a {
