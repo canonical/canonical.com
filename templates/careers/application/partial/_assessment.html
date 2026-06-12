@@ -26,9 +26,8 @@
             The Written Interview: As the first part of this stage we invite you to submit your answers to some questions specifically designed so that we can find out more about your experience and skill set. This is your opportunity to highlight your key strengths for this position. To ensure that we mitigate against unconscious bias in our hiring process we ask that you refrain from including any personal identifiable information in this document.
           </p>
           {% if application["custom_fields"]["written_interview_submitted_at"] %}
-            <p style="padding-left: 2.5rem;
-                      grid-column-end: span 12"
-               class="u-no-margin--bottom">
+            <p
+               class="u-no-margin--bottom u-padding-left-2-5rem u-grid-column-end-span-12">
               <i class="p-icon--success">Received</i>
               We've received your submission.
             </p>
@@ -39,9 +38,8 @@
             Psychometric assessment: As part of our professional review this assessment will help us to understand your fluid intelligence.
           </p>
           {% if application["gia_feedback"] %}
-            <p style="padding-left: 2.5rem;
-                      grid-column-end: span 12"
-               class="u-no-margin--bottom"
+            <p
+               class="u-no-margin--bottom u-padding-left-2-5rem u-grid-column-end-span-12"
                id="reportRequestContainer">
               <button id="showRequestAssessmentModal"
                       aria-controls="request-assessment-modal">Request assessment report</button>
@@ -85,10 +83,10 @@
                   </footer>
                 </div>
               </section>
-              <script async src="{{ versioned_static('js/applications/get-report.js') }}"></script>
+              <script async src="{{ versioned_static('js/applications/get-report.js') }}" nonce="{{ csp_nonce }}"></script>
             </div>
             <div class="u-hide">
-              <p style="padding-left: 2.5rem;" class="u-no-margin--bottom">
+              <p class="u-no-margin--bottom u-padding-left-2-5rem">
                 <a href="{{ application['gia_feedback'].url }}" download>Download your GIA feedback document <i class="p-icon--begin-downloading"></i></a>
               </p>
             </div>
