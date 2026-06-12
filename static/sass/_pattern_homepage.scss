@@ -153,6 +153,16 @@
       padding-bottom: 0;
     }
 
+    // On small screens the cards stack vertically, so the equal-height-row
+    // `grid-template-rows: subgrid` layout provides no visual benefit. Some
+    // older iOS Safari versions render the subgrid incorrectly and collapse
+    // the rows, causing the title and excerpt to overlap. Fall back to normal
+    // block flow on small screens to avoid this.
+    @media screen and (width < $breakpoint-small) {
+      display: block;
+      grid-template-rows: none;
+    }
+
     a {
       color: var(--vf-color-link-default);
     }
