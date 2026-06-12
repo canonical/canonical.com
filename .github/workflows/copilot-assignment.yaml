@@ -1,0 +1,30 @@
+name: Assign Issue to Copilot
+# This workflow is triggered when an issue is labeled
+on:
+  issues:
+    types:
+      - labeled
+
+# This workflow needs permission to modify issues
+permissions:
+  issues: write
+
+# This workflow contains one job: assign_copilot_user
+jobs:
+  assign_copilot_user:
+    name: Assign issue to copilot
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'copilot'
+    steps:
+      # This step assigns the issue to the copilot user
+      - name: Assign issue to copilot
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees: ['copilot']
+            });
