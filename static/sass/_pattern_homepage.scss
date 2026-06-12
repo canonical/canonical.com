@@ -162,10 +162,11 @@
     @media screen and (width < $breakpoint-small) {
       display: flex !important;
       flex-direction: column;
-      height: 100%;
-      // Opt out of the 4-row subgrid span too, otherwise the spanned grid
-      // tracks absorb the margin that separates stacked cards.
+      // Opt out of the 4-row subgrid span, and stop the card stretching to
+      // fill its grid track — otherwise a taller card grows down into the next
+      // one and swallows the gap between them.
       grid-row: auto;
+      align-self: start;
 
       & + & {
         margin-top: 1.5rem;
@@ -176,12 +177,6 @@
         bottom: auto !important;
         top: auto !important;
         transform: none !important;
-        flex: 0 0 auto;
-
-        &:last-child {
-          margin-top: auto;
-          flex: 1 1 auto;
-        }
       }
     }
 
