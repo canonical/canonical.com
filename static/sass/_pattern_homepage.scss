@@ -150,32 +150,38 @@
     border: 1px solid rgb(255 255 255 / 10%);
     padding: 0;
 
-    display: flex !important;
-    flex-direction: column;
-    height: 100%;
-    // These cards opt out of Vanilla's equal-height subgrid (display: flex
-    // above), so drop the 4-row span too — otherwise the spanned grid tracks
-    // absorb the margin that's meant to separate stacked cards.
-    grid-row: auto;
-
     @media screen and (width < $breakpoint-large) {
       padding-bottom: 0;
+    }
+
+    // On small screens Vanilla collapses the image, title and excerpt into a
+    // single subgrid column, which overlaps (excerpt over title) on some
+    // iOS/Safari builds. Lay the card out with flexbox there instead — medium
+    // and large keep Vanilla's equal-height grid (image left / text right)
+    // untouched.
+    @media screen and (width < $breakpoint-small) {
+      display: flex !important;
+      flex-direction: column;
+      height: 100%;
+      // Opt out of the 4-row subgrid span too, otherwise the spanned grid
+      // tracks absorb the margin that separates stacked cards.
+      grid-row: auto;
 
       & + & {
         margin-top: 1.5rem;
       }
-    }
 
-    .p-equal-height-row__item {
-      position: relative !important;
-      bottom: auto !important;
-      top: auto !important;
-      transform: none !important;
-      flex: 0 0 auto; 
-      
-      &:last-child {
-        margin-top: auto; 
-        flex: 1 1 auto;
+      .p-equal-height-row__item {
+        position: relative !important;
+        bottom: auto !important;
+        top: auto !important;
+        transform: none !important;
+        flex: 0 0 auto;
+
+        &:last-child {
+          margin-top: auto;
+          flex: 1 1 auto;
+        }
       }
     }
 
