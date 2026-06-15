@@ -18,33 +18,33 @@
 
 {% block content %}
   {# djlint:off #}
-  {% set blocks = [
-    {
-      "type": "description",
-      "item": {
-        "type": "html",
-        "content": '<p class="p-text--small-caps">' ~ total_posts ~ ' posts</p>'
-      }
-    }
-  ] %}
-  {% if author.id != 217 %}
-    {% set _ = blocks.insert(0, {
-      "type": "signpost_image",
-      "item": {
-        "is_highlighted": False,
-        "attrs": {
-          "src": author.avatar_urls['96'],
-          "alt": author.name,
-        }
-      }
-    }) %}
-  {% endif %}
-  
+  {#- avatar_urls is a dict with keys 24, 48, 96 -#}
   {% call(slot) vf_hero(
     title_text=author.name,
     layout='25/75',
     display_blank_signpost_image_space=True,
-    blocks=blocks
+    blocks=(
+      [
+        {
+          "type": "signpost_image",
+          "item": {
+            "is_highlighted": False,
+            "attrs": {
+              "src": author.avatar_urls['96'],
+              "alt": author.name,
+            }
+          }
+        }
+      ] if author.id != 217 else []
+    ) + [
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<p class="p-text--small-caps">' ~ total_posts ~ ' posts</p>'
+        }
+      }
+    ]
   ) -%}
   {%- endcall -%}
   {# djlint:on #}
