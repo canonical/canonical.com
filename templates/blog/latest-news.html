@@ -71,6 +71,10 @@
     </div>
   </section>
 
+  {% if current_page and current_page == 1 and featured_articles %}
+    {% include "blog/featured-article.html" %}
+  {% endif %}
+
   <section class="p-section">
     <div class="grid-row">
       {% for article in articles %}
