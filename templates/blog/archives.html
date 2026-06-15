@@ -33,7 +33,7 @@
                 <a href="/blog/{{ article.slug }}">{{ article.title.rendered|safe }}</a>
               </h3>
               <div class="p-media-object__content">
-                <p>By <a href="/blog/author/{{article.author.slug}}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>, {{ article.date }}</p>
+                <p>By <a href="/blog/author/{{ article.author.slug }}" title="More about {{ article.author.name }}">{{ article.author.name }}</a>, {{ article.date }}</p>
 
                 <p>{{ article.excerpt.raw.replace("[…]", "")|truncate(162) }}</p>
               </div>
@@ -48,11 +48,11 @@
         <ul class="p-list">
           {% for year in descending_years(2006) %}
             <li class="p-list__item">
-              <h5><a class="p-link--soft" href="/blog/archives?year={{year}}">{{year}}</a></h5>
+              <h5><a class="p-link--soft" href="/blog/archives?year={{ year }}">{{ year }}</a></h5>
 
               <ul class="p-inline-list--middot">
                 {% for month in months_list(year) %}
-                  <li class="p-inline-list__item"><a class="p-link--soft" href="/blog/archives?year={{year}}&amp;month={{month.number}}{% if group %}&group={{group.slug}}{% endif %}">{{ month.name }}</a></li>
+                  <li class="p-inline-list__item"><a class="p-link--soft" href="/blog/archives?year={{ year }}&amp;month={{ month.number }}{% if group %}&group={{ group.slug }}{% endif %}">{{ month.name }}</a></li>
                 {% endfor %}
               </ul>
             </li>
@@ -69,5 +69,4 @@
       {% include "shared/_pagination.html" %}
     {% endwith %}
   </section>
-</section>
 {% endblock %}
