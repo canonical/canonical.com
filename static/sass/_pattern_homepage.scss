@@ -154,25 +154,22 @@
     // single subgrid column, which overlaps (excerpt over title) on some
     // iOS/Safari builds. Lay the card out with flexbox there instead — medium
     // and large keep Vanilla's equal-height grid (image left / text right)
-    // untouched.
+    // untouched. Qualifying with `&.p-equal-height-row__col` raises specificity
+    // above Vanilla's `.p-equal-height-row .p-equal-height-row__col`, so these
+    // win without `!important`.
     @media screen and (width < $breakpoint-small) {
-      display: flex !important;
-      flex-direction: column;
-      // Opt out of the 4-row subgrid span, and stop the card stretching to
-      // fill its grid track — otherwise a taller card grows down into the next
-      // one and swallows the gap between them.
-      grid-row: auto;
-      align-self: start;
+      &.p-equal-height-row__col {
+        display: flex;
+        flex-direction: column;
+        // Opt out of the 4-row subgrid span, and stop the card stretching to
+        // fill its grid track — otherwise a taller card grows down into the
+        // next one and swallows the gap between them.
+        grid-row: auto;
+        align-self: start;
+      }
 
       & + & {
         margin-top: 1.5rem;
-      }
-
-      .p-equal-height-row__item {
-        position: relative !important;
-        bottom: auto !important;
-        top: auto !important;
-        transform: none !important;
       }
     }
 
