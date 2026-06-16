@@ -64,6 +64,14 @@
                   content="https://assets.ubuntu.com/v1/c17ef7b4-careers-meta-image-resized.png" />
           {% endif %}
 
+          <!--
+            Pass the CSP nonce to lite-youtube so the <style> it injects into
+            its shadow DOM is allowed by our nonce-based style-src directive.
+            Must run before the deferred lite-youtube module upgrades the
+            element.
+          -->
+          <script nonce="{{ csp_nonce }}">window.liteYouTubeNonce = "{{ csp_nonce }}";</script>
+
           {% block extra_metatags %}{% endblock %}
 
           <link rel="apple-touch-icon"
