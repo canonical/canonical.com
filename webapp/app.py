@@ -58,7 +58,6 @@ from webapp.views import (
     build_knowledge_index,
     build_knowledge_category_index,
     get_knowledge_sections,
-    CanonicalBlogViews,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -365,7 +364,7 @@ app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 # tag_ids:
 # openstack - 1327
 def render_openstack_blogs():
-    blogs = CanonicalBlogViews(
+    blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
         excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
         tag_ids=[1327],
@@ -1005,7 +1004,7 @@ class BlogSitemapPage(BlogView):
             return response
 
 
-blog_views = CanonicalBlogViews(
+blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
     per_page=11,
@@ -1402,7 +1401,7 @@ maas_blog_api = BlogAPI(
     thumbnail_height=199,
 )
 maas_blog = build_blueprint(
-    CanonicalBlogViews(
+    BlogViews(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
