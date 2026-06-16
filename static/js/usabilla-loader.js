@@ -2,13 +2,10 @@
   // Capture this script's CSP nonce while it is the currently executing
   // script. Under `strict-dynamic`, host allowlisting is disabled, so the
   // injected Usabilla script must carry the page nonce to be trusted.
-  var nonce =
-    (document.currentScript && document.currentScript.nonce) || "";
+  var nonce = (document.currentScript && document.currentScript.nonce) || "";
 
   function hasConsent() {
-    var match = document.cookie.match(
-      /(?:^|;\s*)_cookies_accepted=([^;]+)/
-    );
+    var match = document.cookie.match(/(?:^|;\s*)_cookies_accepted=([^;]+)/);
     return match && (match[1] === "all" || match[1] === "performance");
   }
 
