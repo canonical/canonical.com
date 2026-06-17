@@ -2,14 +2,13 @@
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
-{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
 
 {% block title %}Support | Ceph{% endblock %}
 {% block body_class %}is-paper{% endblock %}
 
 {% block meta_description %}
-  Canonical is the leading managed Ceph provider, we build, support and manage Ceph clusters in any location.
+  Change enterprise Ceph support, consulting, and managed services.
 {% endblock meta_description %}
 
 {% block meta_copydoc %}
@@ -25,7 +24,7 @@
   ) -%}
     {%- if slot == 'description' -%}
       <p>Canonical helps you adopt Ceph software defined storage, with a variety of options to suit your organization’s needs and available expertise. From fully managed services to 24/7/365 on-demand troubleshooting, get Ceph support with <a href="https://ubuntu.com/support">guaranteed SLAs</a> from a team of trusted experts.</p>
-      <p>Learn how the European Space Agency leverages Ceph, managed by Canonical, to support space missions. </p>
+      <p>Learn how the European Space Agency leverages Ceph, managed by Canonical, to support space missions. Test text insert</p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <a href="#get-in-touch" class="p-button--positive" aria-label="contact-modal">Get in touch</a>
@@ -46,66 +45,6 @@
     {%- endif -%}
   {% endcall -%}
 
-  {%- call(slot) vf_tiered_list(
-    is_description_full_width_on_desktop=false,
-    is_list_full_width_on_tablet=true
-  ) -%}
-    {%- if slot == 'title' -%}
-      <h2>Services for Canonical Ceph</h2>
-    {%- endif -%}
-
-    {%- if slot == 'description' -%}
-      <p>
-        From the initial design and hardware selection, to ongoing software support and management, Canonical’s offerings cover all types of Ceph deployments on Ubuntu. Available 24/7/365, by telephone and ticket.
-      </p>
-      <p><a href="/ceph">Discover Canonical Ceph &rsaquo;</a></p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_1' -%}
-      <h3 class="p-heading--5">Design and delivery</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_1' -%}
-      <p>Canonical offers fixed price Ceph consulting packages. Our basic package gets your Ceph cluster up and running in a standardized configuration. Alternatively, for a tailored deployment architecture which meets your unique requirements, choose our plus offering.</p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_2' -%}
-      <h3 class="p-heading--5">Support</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_2' -%}
-      <p>24/7/365 on demand enterprise Ceph support. Get guaranteed SLAs, including knowledge base access, troubleshooting, and bug fixing, to ensure peace of mind for your Ceph deployments.</p>
-      <p><a href="https://ubuntu.com/support">Explore support &rsaquo;</a></p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_3' -%}
-      <h3 class="p-heading--5">Managed services</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_3' -%}
-      <p>Fully managed storage as a service, based on Ceph. Managed services covers operations and maintenance, with 24/7 monitoring, incident management, capacity planning, and upgrades.</p>
-      <p><a href="https://ubuntu.com/managed-infrastructure">Explore managed services &rsaquo;</a></p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_4' -%}
-      <h3 class="p-heading--5">Firefighting support</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_4' -%}
-      <p>Firefighting support offers a bridge between self-management with troubleshooting support, and a managed service. Get access to on-call engineers to assist with the most critical problems.</p>
-      <p><a href="https://ubuntu.com/managed/firefighting-support">Explore firefighting support &rsaquo;</a></p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_5' -%}
-      <h3 class="p-heading--5">Security and compliance</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_5' -%}
-      <p>Make your systems more secure and simplify compliance with Ubuntu Pro. Get up to 15 years of security maintenance for all artifacts used in Canonical Ceph.</p>
-      <p><a href="https://ubuntu.com/pro">Learn about Ubuntu Pro &rsaquo;</a></p>
-    {%- endif -%}
-  {%- endcall -%}
-
   {{ vf_data_spotlight(
     title={
       "text": "Enterprise-grade Ceph support",
@@ -113,7 +52,6 @@
     blocks=[
       {
         "stat": "1 hour",
-        "description": "Response time SLA for severity 1 issues.",
       },
       {
         "stat": "24/7/365",
