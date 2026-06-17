@@ -1,20 +1,21 @@
 # Params
-# num_item (requires 3-4 items): Number of items
+# num_items (requires 3-4 items): Number of items
+# title (optional): Heading text shown above the highlights list
 # Slots
 # highlights_item_content_[1-4] (required): Highlights list item content
 
-{%- macro highlights(num_items) -%}
+{%- macro highlights(num_items, title="Highlights") -%}
   <section class="p-section">
     {% if num_items <= 4 %}
       <div class="grid-row">
-        {% if num_items == 4 %}<h2 class="p-text--small-caps">Highlights</h2>{% endif %}
+        {% if num_items == 4 %}<h2 class="p-text--small-caps">{{ title }}</h2>{% endif %}
         <hr class="p-rule--muted" />
       </div>
       <ul class="p-list u-no-margin--bottom">
         <div class="grid-row">
           {% if num_items < 4 %}
             <div class="grid-col-2">
-              <h2 class="p-text--small-caps">Highlights</h2>
+              <h2 class="p-text--small-caps">{{ title }}</h2>
             </div>
           {% endif %}
 
@@ -38,7 +39,7 @@
           <hr class="p-rule--muted" />
           <div class="grid-row">
             <div class="grid-col-2">
-              <h2 class="p-text--small-caps">Highlights</h2>
+              <h2 class="p-text--small-caps">{{ title }}</h2>
             </div>
             <div class="grid-col-4">
               <ul class="p-list--divided u-text-max-width">

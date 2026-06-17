@@ -1,0 +1,249 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}TNTECH evita aumento de preço em infraestrutura com migração para MicroCloud em 4 semanas{% endblock %}
+
+{% block meta_description %}
+A Tennessee Tech reconstruiu mais de 1700 VMs de alta rotatividade em menos de 4 semanas, migrando de um ambiente legado para o MicroCloud de código aberto e protegendo seu ambiente crítico de treinamento em cibersegurança.
+{% endblock %}
+
+{% block meta_company_name %}Tennessee Technology University{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="TNTECH escapa de aumento de preço em infraestrutura com rápida migração para MicroCloud em 4 semanas",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/14ff4fa2-tennessee_tech_logo.png",
+            alt="",
+            width="852",
+            height="174",
+            hi_def=True,
+            loading="auto"
+          ) | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="Sobre a Tennessee Tech University") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      A Tennessee Tech University (TNTECH) é uma universidade pública abrangente localizada em Cookeville, Tennessee, com aproximadamente 10.700 estudantes. A universidade oferece mais de 225 áreas de estudo com um forte foco em disciplinas STEM.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Os estudantes de cibersegurança da universidade estão sendo treinados para combater alguns dos malwares mais perigosos do planeta, usando o Cyber Range do CEROC.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      O Cyber Range fornece um ambiente especializado para o estudo de malware vivo e contido, simulando ataques cibernéticos ofensivos e conduzindo análises dinâmicas em infraestruturas críticas, como sistemas de controle industrial e redes bancárias.
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=4, title="Destaques") -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      O Cyber Range do CEROC estava ameaçado pelos custos crescentes e por um prazo iminente para migrar de seu stack existente.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Com o MicroCloud, o CEROC migrou para um sistema confiável e estável onde mais de 6.500 VMs são cicladas por semestre sem um único problema de licenciamento.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Em apenas 4 semanas, o CEROC implantou um cluster de 10 nós executando o Ubuntu 22.04 LTS, contando com 13TB de RAM total e 270TB de armazenamento bruto alimentado pelo MicroCeph.
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_4' -%}
+      A confiabilidade e a estabilidade do MicroCloud permitem que o CEROC continue sua pesquisa de ponta em cibersegurança, onde os alunos podem estudar malwares vivos com segurança em ambientes logicamente isolados (airgapped).
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/3789f22d-image1.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Construindo a infraestrutura de cibersegurança do amanhã") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        O Centro de Educação, Pesquisa e Extensão em Cibersegurança (CEROC), parte da Faculdade de Engenharia da Tennessee Tech University, é movido por uma missão clara: equipar os alunos com o conhecimento e as habilidades necessárias para enfrentar os malwares e as ameaças cibernéticas mais perigosas e destrutivas do mundo – construindo uma infraestrutura digital mais segura e um futuro mais protegido para a sociedade.
+      </p>
+      <p>
+        Para prepará-los para esse trabalho vital, o CEROC oferece treinamento defensivo e ofensivo, onde os alunos participam de cenários complexos de simulação (role-playing). Por exemplo, os alunos podem atuar como SysAdmins em Centros de Operações de Segurança (SOC) defendendo infraestruturas críticas contra atacantes, ou praticar testes de invasão (penetration testing) em bancos virtuais ou navios de cruzeiro.
+      </p>
+      <p>
+        O Cyber Range do CEROC é a base para todo esse treinamento. O Cyber Range é um ambiente de sandbox altamente especializado e seguro que permite aos alunos realizar análises dinâmicas em vírus de computador vivos, worms e ransomware, ou praticar situações de ataque cibernético de alto risco onde dados altamente sensíveis ou infraestruturas críticas estão em jogo. Nesse ambiente de "laboratório", é crucial que o trabalho com ameaças reais não cause danos reais aos sistemas fora do range. No sandbox, as consequências dos erros podem simplesmente ser deletadas junto com a VM onde foram cometidos.
+      </p>
+      <p>
+        No entanto, essa infraestrutura crítica foi ameaçada quando o provedor de virtualização legado do CEROC enviou repentinamente um aviso de aumentos de custos inviáveis e o fim de sua categoria de licenciamento educacional.
+      </p>
+      <p>
+        Para o engenheiro do Cyber Range do CEROC, Travis Lee, isso não era apenas uma linha de orçamento; ameaçava a viabilidade de um sistema sob medida de alta velocidade que gerencia mais de 6.500 máquinas virtuais efêmeras a cada semestre. Incumbida de apoiar pesquisas críticas de cibersegurança que envolvem malware vivo e contido e cargas de trabalho especializadas de GPU Nvidia A100, a equipe teve que encontrar uma maneira de migrar 1.700 VMs simultâneas para uma nova plataforma antes do novo semestre.
+      </p>
+      <p>
+        Esta é a história de como o CEROC migrou todo o Cyber Range em menos de 4 semanas, usando a combinação de código aberto e alto desempenho do Ubuntu, MicroCloud e Ubuntu Pro + Support.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="A cotação revisada do nosso provedor anterior excedeu nosso orçamento anual disponível para o Cyber Range. Ao mesmo tempo, o modelo de licenciamento acadêmico que estávamos usando estava terminando perto do início do semestre de agosto. Isso criou um desafio operacional significativo: precisávamos migrar um cluster de 10 nós, incluindo um nó de GPU, e reconstruir aproximadamente 1.700 VMs de produção a tempo de evitar interrupções no currículo de cibersegurança.",
+    citation_source_name_text="Travis Lee",
+    citation_source_title_text="Engenheiro de Cyber Range",
+    citation_source_organisation_text="CEROC",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+    {%- if slot == 'signpost_image' -%}{%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Desafio") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        O Cyber Range da Tennessee Tech não é um ambiente virtualizado comum. Ao contrário das nuvens corporativas padrão, este sistema de 10 nós precisa lidar com uma rotatividade constante de milhares de VMs simultâneas criadas e destruídas ao longo de um único semestre.
+      </p>
+      <p>
+        Antes de implementar o MicroCloud, a universidade dependia de uma infraestrutura de virtualização legada que estava em vigor desde 2017. Tudo isso chegou ao fim quando o CEROC enfrentou um aumento de preço insustentável. Esses custos astronômicos significavam que uma migração para outros provedores ou sistemas era necessária. Uma opção de código aberto e mais econômica era extremamente necessária.
+      </p>
+      <p>
+        No entanto, a busca por um substituto foi uma tarefa complexa. Os requisitos técnicos altamente rígidos do Cyber Range significavam que muitas opções convencionais simplesmente não eram viáveis. Por exemplo, o Cyber Range utiliza um nó de GPU NVIDIA A100 para análise de malware vivo e pesquisa de IA, o que significava que o novo hypervisor precisava ser compatível com a matriz de suporte do NVIDIA AI Enterprise – estreitando imediatamente a lista de plataformas suportadas. Das poucas opções comerciais restantes que podiam atender aos requisitos de compatibilidade de hardware, várias foram descartadas como inadequadas para o fluxo de trabalho específico de alta rotatividade e alta velocidade do Cyber Range.
+      </p>
+      <p>
+        Além disso, a solução escolhida precisava ser projetada de forma segura e mantida contra as vulnerabilidades mais recentes, devido à infraestrutura crítica altamente sensível e ao fator de risco do trabalho envolvido.
+        Não eram apenas as demandas de orçamento e hardware que funcionavam como bloqueios – era encontrar a escolha certa para sua missão de abertura e aprimoramento da comunidade.
+      </p>
+      <p>
+        O CEROC retribuía regularmente à sua comunidade, compartilhando ferramentas de cibersegurança, treinamento e conscientização com escolas de ensino fundamental e médio, além de faculdades comunitárias que carecem de orçamento para software corporativo. Para dar continuidade a esse trabalho importante, a universidade precisava de uma plataforma que fosse de código aberto em sua essência: uma que não apenas atendesse aos requisitos do sistema e às especificações de desempenho, mas que pudesse ser compartilhada a custos baixos ou nulos com escolas, centros comunitários e o público em geral, para o bem maior da cibersegurança de toda a comunidade do CEROC.
+      </p>
+      <p>
+        No final das contas, o Ubuntu e o MicroCloud foram o caminho de código aberto que o CEROC escolheu para migrar e reconstruir seu vital Cyber Range.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Estamos lidando com um ambiente enorme e em constante mudança. Temos VMs subindo e descendo constantemente, algumas permanecendo ativas por apenas cerca de 48 horas antes de as destruirmos. No pico, podemos ter até 6.500 VMs em execução ao longo de um semestre. Chamamos isso de 'sistema unicórnio'. É uma configuração muito especial e de nicho – o que tornou muito difícil encontrar uma tecnologia pronta para enfrentá-la.",
+    citation_source_name_text="Travis Lee",
+    citation_source_title_text="Engenheiro de Cyber Range",
+    citation_source_organisation_text="CEROC",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+    {%- if slot == 'signpost_image' -%}{%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/f32f1097-image2.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solução") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Para substituir sua infraestrutura legada que se tornou inacessível, a Tennessee Tech implementou um ambiente MicroCloud auto-implantado integrado ao Ubuntu 22.04 LTS e executado principalmente em servidores e hardware Dell.
+      </p>
+      <p>
+        O <a href="/microcloud">MicroCloud</a> é uma nuvem leve, rica em recursos e de código aberto para computação sob demanda na periferia (edge computing). O MicroCloud reutiliza premissas de nuvem comprovadas com recursos de cluster autônomos e automatizados que resolvem os desafios típicos da computação de borda, permitindo escalar de um pequeno cluster de 1 nó para um cluster maior de 50 nós. A natureza de código aberto do MicroCloud, sua simplicidade e fácil escalabilidade para clusters maiores o tornaram a escolha ideal.
+        .
+      </p>
+      <p>
+        A nova arquitetura foi projetada para desempenho de extrema alta densidade, consistindo em um cluster de 10 nós com cerca de 13TB de RAM total e 270TB de armazenamento bruto. Um nó especializado equipado com quatro GPUs NVIDIA A100 foi integrado ao cluster para facilitar a pesquisa de malware orientada por IA.
+      </p>
+      <p>
+        O processo de instalação do MicroCloud permitiu uma mudança rápida, graças à sua documentação extensa e à capacidade de testar toda a lógica de cluster de 3 nós dentro de máquinas virtuais antes de se comprometer com o hardware físico.
+      </p>
+      <p>
+        Naturalmente, a complexidade e o tamanho da configuração do CEROC levaram a desafios na migração onde as tecnologias foram levadas aos seus limites de design. Para lidar com esses problemas, o CEROC utilizou o Ubuntu Pro + Support, a assinatura abrangente da Canonical para segurança, suporte e conformidade, dando-lhes acesso a respostas rápidas e assistência com problemas que não conseguiam resolver sozinhos. A aquisição do Ubuntu Pro + Support foi simples e rápida, como um opcional adquirido diretamente através da Dell, um fornecedor de hardware já estabelecido para o CEROC.
+      </p>
+      <p>
+        A assistência oportuna e especializada dos engenheiros de suporte da Canonical desempenhou um papel fundamental para suavizar a transição, fornecendo ajuda direta e rápida sempre que surgiram problemas. Em vez de lidar com um suporte técnico (help desk) tradicional, a equipe do CEROC pôde trabalhar ao lado de engenheiros que emitiram correções imediatas (hotfixes) e ajustes de banco de dados especificamente adaptados para a carga de trabalho de alta rotatividade do Cyber Range.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Durante a migração, usamos a documentação disponível da Canonical, fóruns e o suporte de engenharia para resolver problemas técnicos à medida que surgiam. Do ponto de vista de compras, o Ubuntu Pro + Support também foi simples de obter porque estava disponível como um opcional através da Dell, o que se encaixava em nosso processo existente de aquisição de hardware.",
+    citation_source_name_text="Travis Lee",
+    citation_source_title_text="Engenheiro de Cyber Range",
+    citation_source_organisation_text="CEROC",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+    {%- if slot == 'signpost_image' -%}{%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/328a4c33-image3.jpg",
+            alt="",
+            width="1848",
+            height="771",
+            hi_def=True,
+            loading="lazy",
+            attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Resultados") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        A migração do CEROC para o MicroCloud entregou um estado operacional de alto desempenho, confiável e com suporte de longo prazo para a Tennessee Tech University. O CEROC foi capaz de migrar com sucesso 10 nós e reconstruir 1.700 VMs de produção em menos de quatro semanas.
+      </p>
+      <p>
+        Tecnicamente, a implementação provou ser uma potência de confiabilidade e desempenho em escala. A integração do MicroCeph (uma versão leve do Ceph implantada via snap, projetada para implantação simples e rápida de clusters de armazenamento distribuído no Linux) resultou em um ambiente de armazenamento extremamente rápido, onde projetos de grande escala são construídos e implantados significativamente mais rápido do que na configuração legada anterior. O sistema agora gerencia uma carga simultânea de 2.100 VMs com estabilidade total, enquanto o suporte nativo a contêineres no LXD permitiu à universidade quase triplicar sua densidade de carga de trabalho – escalando para uma capacidade de 4.700 instâncias no mesmo hardware físico.
+      </p>
+      <p>
+        A nova configuração também se beneficiou de melhorias de desempenho: testes de um ambiente de 100 máquinas mostram que o MicroCloud leva apenas 4 minutos para ser construído – um tempo de construção 20% mais rápido do que a solução anterior do CEROC. Isso garante que a nova solução possa ser dimensionada com maior facilidade.
+      </p>
+      <p>
+        A nova infraestrutura também traz segurança aprimorada, graças ao compromisso simplificado de manutenção de segurança fornecido pelo Ubuntu Pro. Isso fornece a segurança de longo prazo, a conformidade e a previsibilidade operacional de que precisam como uma grande instituição educacional.
+      </p>
+      <p>
+        Além da estabilidade e economia, a migração deu ao CEROC a oportunidade de reconstruir, atualizar e otimizar sistemas com décadas de existência, ao mesmo tempo em que abriu espaço para tecnologias novas e de ponta. Com essa migração em larga escala, o CEROC reconstruiu com sucesso todo o seu pipeline de automação e criou novas automações para gerenciar a alocação de endereços IP. O MicroCloud, rodando em Ubuntu, mostrou-se naturalmente compatível com o ecossistema NVIDIA AI Enterprise, permitindo à universidade buscar pesquisas de Machine Learning e Computação Quântica dentro do mesmo ambiente virtualizado usado para laboratórios básicos.
+      </p>
+      <p>
+        Esta nova configuração do MicroCloud também respeita a missão de extensão da universidade: com ela, a universidade pode compartilhar suas pesquisas e ferramentas com as escolas de ensino fundamental e médio e faculdades comunitárias que mais precisam delas – sem os custos tradicionais de assinaturas corporativas.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Fomos capazes de avaliar o MicroCloud em um ambiente de teste antes de implantá-lo no cluster de produção. A documentação e os recursos de suporte foram extremamente úteis durante a migração, e o projeto foi concluído a tempo para o início do semestre, o que foi incrível.",
+    citation_source_name_text="Travis Lee",
+    citation_source_title_text="Engenheiro de Cyber Range",
+    citation_source_organisation_text="CEROC",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+    {%- if slot == 'signpost_image' -%}{%- endif -%}
+  {%- endcall -%}
+
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Entre em contato conosco para saber mais", link="https://canonical.com/microcloud/contact-us", has_modal=true) }}
+{% endblock %}
