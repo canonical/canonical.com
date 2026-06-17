@@ -15,9 +15,9 @@
   <section class="p-strip">
     <div class="row">
       <div class="col-9 col-medium-4 col-start-large-4 col-start-medium-3">
-        <h1 class="p-heading--display"">Press Center</h1>
+        <h1 class="p-heading--display"">Press center</h1>
         <p>
-          Learn <a href="canonical.com/company">about Canonical</a>, read our <a href="canonical.com/case-study">case studies</a> or head over to <a href="canonical.com/blog">The Source</a> for our</br>
+          Learn <a href="/company">about Canonical</a>, read our <a href="/case-study">case studies</a> or head over to <a href="/blog">The Source</a> for our</br>
           thought leadership posts.
         </p>
       </div>
@@ -83,11 +83,13 @@
     </div>
   </section>
 
-  <section class="p-section">
+  <section>
     {% with %}
       {% set total_pages = total_pages %}
+      {% set is_blog = True %}
       {% set current_page = current_page %}
-      {% set hide_horizontal_rule = True %}
+      {% set row_class = "grid-row" %}
+      {% set col_class = "grid-col-start-large-3 grid-col-4 u-align--center" %}
       {% include "shared/_pagination.html" %}
     {% endwith %}
   </section>
