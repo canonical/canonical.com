@@ -22,10 +22,7 @@
           <meta property="og:url" content="{{ request.url }}" />
           <meta property="og:site_name" content="Canonical" />
           
-          <title>
-
-            {% block title %}Canonical | Trusted open source for enterprises{% endblock %}
-          </title>
+          <title>{% block title %}Trusted open source for enterprises{% endblock %} | Canonical</title>
           {% if self.title() %}
             <meta name="twitter:title" content="{{ self.title() }} | Canonical" />
             <meta property="og:title" content="{{ self.title() }} | Canonical" />
@@ -66,6 +63,14 @@
             <meta property="og:image"
                   content="https://assets.ubuntu.com/v1/c17ef7b4-careers-meta-image-resized.png" />
           {% endif %}
+
+          <!--
+            Pass the CSP nonce to lite-youtube so the <style> it injects into
+            its shadow DOM is allowed by our nonce-based style-src directive.
+            Must run before the deferred lite-youtube module upgrades the
+            element.
+          -->
+          <script nonce="{{ csp_nonce }}">window.liteYouTubeNonce = "{{ csp_nonce }}";</script>
 
           {% block extra_metatags %}{% endblock %}
 
@@ -116,11 +121,10 @@
         <body class=" 
           {% block body_class %}{% endblock %} l-site">
           <!-- Google Tag Manager (noscript) -->
-          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5BPGQ6"
+          <noscript><iframe class="u-display-none u-visibility-hidden" src="https://www.googletagmanager.com/ns.html?id=GTM-M5BPGQ6"
         height="0"
         width="0"
-        style="display:none;
-               visibility:hidden"></iframe></noscript>
+       ></iframe></noscript>
           <a href="#main-content" class="u-off-screen">Skip to main content</a>
 
           {% include "partial/_notifications.html" %}
