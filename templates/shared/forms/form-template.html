@@ -1,21 +1,17 @@
 {% set form_id = formId or formData.formId %}
 
 {% if isModal %}
-  <div class="p-modal" style="display: none;" id="{{ modalId }}">
+  <div class="p-modal u-display-none" id="{{ modalId }}">
     <div class="p-modal__dialog js-modal-content is-wide-modal"
          role="dialog"
          aria-labelledby="modal-title"
          aria-describedby="modal-description">
-        <header class="p-modal__header"
-                style="display: block;
-                        border-bottom: 0;
-                        overflow: auto;
-                        padding-left: 1.5rem;
-                        padding-top: 1rem;">
-          <button class="p-modal__close p-modal-close-button js-close-modal"
+        <header class="p-modal__header u-display-block u-border-bottom-0 u-overflow-auto u-padding-left-1-5rem u-padding-top-1rem"
+               >
+          <button class="p-modal__close p-modal-close-button js-close-modal u-margin-left-negative-1rem"
                   aria-controls="{{ modalId }}"
                   aria-label="Close active modal"
-                  style="margin-left: -1rem">Close</button>
+                 >Close</button>
           <h3 id="modal-title">{{ formData.title }}</h3>
         </header>
       {% if formData.introText %}
@@ -61,8 +57,8 @@
   {% include "/shared/forms/form-fields.html" %}
 {% endif %}
 
-<script defer src="{{ versioned_static('js/modals.js') }}"></script>
-<script>
+<script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
+<script nonce="{{ csp_nonce }}">
   document.querySelector('form').addEventListener('submit', function(event) {
     dataLayer.push({
       'event': 'GAEvent',

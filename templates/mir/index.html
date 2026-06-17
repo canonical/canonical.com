@@ -5,9 +5,7 @@
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 
-{% block title %}
-  Canonical Mir Display Server
-{% endblock title %}
+{% block title %}Mir display server{% endblock title %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1wqmWPx4TJ_oJoFt4gBOg4trYMIAsugMYtHGXzYJx8kc/edit#
@@ -223,12 +221,12 @@
         </h2>
       </div>
       <div class="grid-col-6">
-        <div style="overflow-x: auto;">
-          <table aria-label="Mir compatibility table" style="min-width: 460px;">
+        <div class="u-overflow-x-auto">
+          <table class="u-min-width-460px" aria-label="Mir compatibility table">
             <thead>
               <tr>
                 <th>Platform</th>
-                <th style="width: 60%">Driver Requirements</th>
+                <th class="u-width-60">Driver Requirements</th>
                 <th>Examples</th>
               </tr>
             </thead>
@@ -256,7 +254,7 @@
               </tr>
               <tr>
                 <td>atomic-kms</td>
-                <td style="word-break: break-word;">
+                <td class="u-word-break-break-word">
                   Atomic KMS, libgbm and an EGL supporting
                   <br />
                   EGL_WL_bind_wayland_display and/or
@@ -370,5 +368,5 @@
   <script async defer
           src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
           integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

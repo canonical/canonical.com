@@ -96,8 +96,8 @@ DYNAMIC_SITEMAPS = [
     "knowledge",
     "microk8s/docs",
     "dqlite/docs",
-    "mir/docs",
     "maas/docs",
+    "tests",
 ]
 
 

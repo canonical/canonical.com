@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/19TIwT-GU5wADQmohicj14MnpHEqNqp0422WLunFsbJU
 {% endblock meta_copydoc %}
 
-{% block title %}Canonical - company information{% endblock %}
+{% block title %}Company information{% endblock %}
 
 {% block meta_description %}
   About Canonical |The publisher of Ubuntu and provider of open source security, support and services
@@ -352,7 +352,7 @@
     </div>
   </section>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     const locations = [
       [{
         "lat": 51.5043601,
@@ -385,12 +385,12 @@
     ]
     const isSprintMap = false;
   </script>
-  <script defer src="{{ versioned_static('js/locations-map.js') }}"></script>
+  <script defer src="{{ versioned_static('js/locations-map.js') }}" nonce="{{ csp_nonce }}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly"
-          defer></script>
+          defer nonce="{{ csp_nonce }}"></script>
   <script type="module"
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

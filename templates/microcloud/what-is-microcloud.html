@@ -6,7 +6,7 @@
 {% from "_macros/vf_resources.jinja" import vf_resources %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
-{% block title %}What is MicroCloud?{% endblock %}
+{% block title %}Overview | MicroCloud{% endblock %}
 
 {% block meta_description %}
   Find out more about Canonical’s lightweight, open source cloud platform, MicroCloud. Learn about what MicroCloud is, its components, and how it works.
@@ -225,7 +225,7 @@
     ) -%}
   {% endcall -%}
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
 
   {{ load_form("/microcloud") | safe }}
 {% endblock content %}

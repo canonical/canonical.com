@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/1o8ind3Zav-kwrUDWgiMJnkw2QLpniKgdlWrw9byIvlE/edit#heading=h.ov7lrxgwh2dv
 {% endblock meta_copydoc %}
 
-{% block title %}Canonical Careers{% endblock %}
+{% block title %}Careers{% endblock %}
 
 {% block meta_description %}
   Looking for a career in open source? Be where the cutting edge is established and amplify the impact of open source. Browse careers at Canonical.
@@ -16,7 +16,7 @@
 
 {% block content %}
   <!-- StackOverflow ad tracking pixel -->
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var a = String(Math.floor(Math.random() * 10000000000000000));
       new Image().src = "https://pubads.g.doubleclick.net/activity;xsp=5024608;ord=" + a + "?";
@@ -57,10 +57,9 @@
         </div>
       </div>
       <div class="u-fixed-width u-no-padding u-hide--medium u-hide--small">
-        <img src="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg"
+        <img class="u-suru-banner-image" src="https://assets.ubuntu.com/v1/7f34ade9-website_suru_25.jpg"
              alt=""
-             style="aspect-ratio: 5.1775700934579;
-                    width: 100%" />
+             />
       </div>
     </div>
   </section>
@@ -81,7 +80,7 @@
             {% for dept in departments_overview %}
               {% if dept.count > 0 %}
                 <div class="col-3 col-medium-12 col-small-12 p-department-cards__container">
-                  <a href="/careers/{{ dept.slug }}" style="text-decoration: none">
+                  <a class="u-text-decoration-none" href="/careers/{{ dept.slug }}">
                     <div class="p-department-cards__card">
                       <div class="p-department-cards__image-container">
                         <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
@@ -186,6 +185,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}"></script>
+  <script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

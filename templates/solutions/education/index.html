@@ -193,7 +193,7 @@
               "item": {
                 "type": "html",
                 "content": '
-                  <img src="https://assets.ubuntu.com/v1/6b18ea6d-nmsu_logo.png" style="height: 104px" alt="New Mexico State University logo">
+                  <img class="u-height-104px" src="https://assets.ubuntu.com/v1/6b18ea6d-nmsu_logo.png" alt="New Mexico State University logo">
                   <h3 class="p-heading--5">New Mexico State University (NMSU) Physical Science Laboratory drives agile and compliant federal research with Ubuntu</h3>
                   <p>
                     Learn how NSMU Physical Science Laboratory set its sights on becoming fully CMMC and FIPS 140 compliant within one year, getting FIPS 140 certified cryptographic packages at a cost 4-5 times lower than alternative solutions.
@@ -215,7 +215,7 @@
               "item": {
                 "type": "html",
                 "content": '
-                  <img src="https://assets.ubuntu.com/v1/5e6808db-uof_logo.png" style="height: 104px" alt="Université de l’Ontario Français logo">
+                  <img class="u-height-104px" src="https://assets.ubuntu.com/v1/5e6808db-uof_logo.png" alt="Université de l’Ontario Français logo">
                   <h3 class="p-heading--5">The Université de l’Ontario Français supports its vision for growing connected campuses with Canonical’s MicroCloud and Professional Services</h3>
                   <p>
                     Learn how the Université de l’Ontario Français is working with Canonical to build a foundation for future campus growth with reliable cloud services.
@@ -237,7 +237,7 @@
               "item": {
                 "type": "html",
                 "content": '
-                  <img src="https://assets.ubuntu.com/v1/ffce96a1-utas_logo.png" style="height: 104px" alt="University of Tasmania logo">
+                  <img class="u-height-104px" src="https://assets.ubuntu.com/v1/ffce96a1-utas_logo.png" alt="University of Tasmania logo">
                   <h3 class="p-heading--5">University of Tasmania unlocks real-time space tracking with AI/ML supercomputing</h3>
                   <p>
                     Learn how Tasmania University is modernizing its space-tracking data processing with the Firmus Supercloud, built on Canonical’s open source infrastructure stack.
@@ -259,7 +259,7 @@
               "item": {
                 "type": "html",
                 "content": '
-                  <img src="https://assets.ubuntu.com/v1/c8d96f07-uab_logo.png" style="height: 104px" alt="University of Alabama at Birmingham logo">
+                  <img class="u-height-104px" src="https://assets.ubuntu.com/v1/c8d96f07-uab_logo.png" alt="University of Alabama at Birmingham logo">
                   <h3 class="p-heading--5">UAB accelerates research with Canonical and Dell</h3>
                   <p>
                     Learn how the University of Alabama at Birmingham empowers its researchers with modern, containerized applications and Canonical Kubernetes on Dell Technologies infrastructure.
@@ -547,9 +547,9 @@
 
   {{ load_form("/solutions/education") | safe }}
 
-  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
-  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-  <script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews({
       imageClasses: ["p-image-container__image"],
       limit: "4",

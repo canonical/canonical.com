@@ -5,9 +5,7 @@
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_rich-vertical-list.jinja" import vf_rich_vertical_list %}
 
-{% block title %}
-  Automate software operations with Juju and charms
-{% endblock title %}
+{% block title %}Juju{% endblock title %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1IFnKQ3GQth7HSo1VlDy4nRyoFYPL9fjJN8jNuY8Nr2Q/edit?tab=t.0
@@ -1224,9 +1222,9 @@
 
   {{ load_form("/juju") | safe }}
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
   <script async defer
           src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
           integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
