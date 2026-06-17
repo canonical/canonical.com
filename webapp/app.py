@@ -1004,9 +1004,6 @@ app.add_url_rule(
     "/blog/sitemap/<regex('.+'):slug>.xml",
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
-@app.route("/press-center")
-def press_center_redirect():
-        return flask.redirect("/blog/latest-news", code=301)
 
 @app.route("/blog/latest-news")
 def blog_latest_news():
