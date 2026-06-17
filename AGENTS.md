@@ -17,7 +17,8 @@
 - `webapp/greenhouse.py`, `webapp/google_calendar.py`, `webapp/recaptcha.py`, `webapp/marketo.py`, `webapp/partners.py` - external integrations and feature-specific helpers.
 - `webapp/canonical_cla/` - Canonical CLA routes/views.
 - `templates/` - Jinja templates and markdown-backed page content. Most content-only changes happen here.
-- `templates/legal/**/*.md`, `templates/knowledge/**/*.md` - markdown source content rendered by the site.
+- `templates/legal/**/*.md` - markdown source content rendered by the site.
+- `templates/knowledge/**/*` - knowledgehub pages.
 - `static/js/` - browser JS/TS entrypoints and React code.
   - `static/js/career-explorer/` - React/TypeScript careers explorer.
   - `static/js/canonical-cla/` - React client for the CLA pages.
@@ -64,23 +65,23 @@ yarn run build-js   # TS/JS → static/js/dist/
 ## Testing
 
 ```bash
-dotrun test             # All Python + JS tests with coverage
-dotrun test-python      # Python unittest + VCR cassettes
-dotrun test-js          # Jest
-dotrun test-marketo     # Marketo forms test
-dotrun test-kh          # Knowledgehub tests
-dotrun test-e2e         # Playwright end-to-end tests
-dotrun percy-snapshot   # Visual regression
+yarn test             # All Python + JS tests with coverage
+yarn test-python      # Python unittest + VCR cassettes
+yarn test-js          # Jest
+yarn test-marketo     # Marketo forms test
+yarn test-kh          # Knowledgehub tests
+yarn test-e2e         # Playwright end-to-end tests
+yarn percy-snapshot   # Visual regression
 ```
 
 ## Linting and formatting
 
 ```bash
-dotrun lint-python      # flake8 + black --check (line-length 79)
-dotrun lint-scss        # stylelint
+yarn lint-python      # flake8 + black --check (line-length 79)
+yarn lint-scss        # stylelint
 
-dotrun format-python    # black --line-length 79
-dotrun format-prettier  # prettier
+yarn format-python    # black --line-length 79
+yarn format-prettier  # prettier
 
 djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/jinja - uses `.djlintrc`
 ```
@@ -92,7 +93,7 @@ djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/ji
 | Discourse API | Blog, takeovers, docs, tutorials | `DISCOURSE_API_KEY`, `DISCOURSE_API_USERNAME`, `CHARMHUB_DISCOURSE_API_KEY`, `CHARMHUB_DISCOURSE_API_USERNAME`, `MAAS_DISCOURSE_API_KEY`, `MAAS_DISCOURSE_API_USERNAME` |
 | Careers       | Careers related                  | `HARVEST_API_KEY`, `APPLICATION_CRYPTO_SECRET_KEY` |
 | Greenhouse    | Candidate applications           | `GREENHOUSE_API_KEY` |
-| Google Console | Google console APIs             | `SERVICE_ACCOUNT_EMAIL`, `SERVICE_ACCOUNT_PRIVATE_KEY` |
+| Google Calendar | Google Calendar service-account auth             | `SERVICE_ACCOUNT_EMAIL`, `SERVICE_ACCOUNT_PRIVATE_KEY` |
 | Marketo       | Marketing / lead gen             | `MARKETO_API_URL`, `MARKETO_API_CLIENT`, `MARKETO_API_SECRET` |
 | CLA API       | Canonical CLA frontend/backend   | `CANONICAL_CLA_API_URL` |
 | reCAPTCHA     | Bot protection                   | `RECAPTCHA_ENABLED`, `RECAPTCHA_SITE_KEY`, `RECAPTCHA_PROJECT_ID`, `RECAPTCHA_API_KEY`, `RECAPTCHA_SCORE_THRESHOLD` |
