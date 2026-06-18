@@ -19,6 +19,9 @@
 - `templates/` - Jinja templates and markdown-backed page content. Most content-only changes happen here.
 - `templates/legal/**/*.md` - markdown source content rendered by the site.
 - `templates/knowledge/**/*` - knowledgehub pages.
+- `templates/sitemap-index.xml` - top-level sitemap index that links to all section sitemaps.
+- `templates/sitemap-links.xml`, `templates/careers/sitemap.xml`, `templates/partners/sitemap.xml`, `templates/knowledge/sitemap.xml`, `templates/data/sitemap.xml` - per-section sitemap templates rendered by routes in `webapp/app.py`.
+- `templates/sitemap_tree.xml` - generated (git-ignored) full sitemap; the `/sitemap_tree.xml` route (`build_sitemap_tree` in `webapp/app.py`) regenerates it from the `templates/` tree on a `POST` and serves it on `GET`.
 - `static/js/` - browser JS/TS entrypoints and React code.
   - `static/js/career-explorer/` - React/TypeScript careers explorer.
   - `static/js/canonical-cla/` - React client for the CLA pages.
@@ -36,6 +39,7 @@
 - `requirements.txt` - pinned Python dependencies.
 - `.github/workflows/pr.yaml` - the most important CI definition; use it as the source of truth for lint/test/build expectations.
 - `.github/workflows/playwright.yaml`, `forms-test.yaml`, `percy-pr.yaml` - specialized browser/form/visual workflows.
+- `.github/workflows/sitemap.yaml` - on any `templates/**` push to `main`, POSTs to the live `https://canonical.com/sitemap_tree.xml` endpoint with `SITEMAP_SECRET` to regenerate the git-ignored `templates/sitemap_tree.xml` from the current `templates/` tree.
 - `Dockerfile` - production image build.
 - `run` - older Docker helper script; works, but README + CI favor `dotrun`.
 - `entrypoint` - actual Gunicorn/Talisker server command used by `yarn serve` and container runs.
@@ -49,6 +53,7 @@ dotrun
 
 - The site serves successfully at `http://localhost:8002`.
 - The first `dotrun` command may take longer than expected because it checks/pulls the dotrun image, creates `.venv`, and installs dependencies.
+- For dependency conflicts, it is recommended to run `dotrun clean` first.
 
 Dependencies: Python venv in `.venv/`, Node modules via Yarn.
 
@@ -110,6 +115,7 @@ djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/ji
 - If you change `templates/*.html`, run `djlint` on the changed file(s).
 - If you change navigation behavior or menu content, inspect `navigation.yaml`, `secondary-navigation.yaml`, `webapp/navigation.py`, and the Playwright navigation tests together.
 - If you change JS/TS entrypoints, remember `yarn build-js` depends on `scripts/build-modules.sh`.
+- If you add or move pages under `templates/`, expect the `sitemap.yaml` workflow to regenerate the sitemap on merge to `main`; update the relevant `templates/**/sitemap*.xml` source when a section's URLs change, and run `tests/test_sitemap.py` to validate.
 - Prefer `dotrun` for any task that needs the whole site running.
 - Trust this file first; only search when the task falls outside these instructions or the instructions prove incomplete.
 
