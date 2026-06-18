@@ -58,7 +58,7 @@
 
   <article class="p-section--shallow">
     <header class="row">
-      <div class="aside col-3 col-medium-2">
+      <div class="aside col-3 col-medium-6">
         <div class="p-media-object">
           {% if article.author %}
             {% if article.author and article.author.id == 217 %}
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-      <div class="col-9 col-medium-4">
+      <div class="col-9 col-medium-6">
         <div class="p-section--shallow">
           <div class="p-section--shallow">
             <h1>{{ article.title.rendered|safe }}</h1>
@@ -108,17 +108,55 @@
       </div>
     </header>
     <div class="row">
-      <section class="p-section col-6 col-start-large-4 col-medium-4">
+      <section class="p-section col-6 col-start-large-4 col-medium-6">
         <hr class="p-rule" />
+        <button type="button"
+                id="shareArticle"
+                class="p-button--base has-icon u-hide--large">
+          <i class="p-icon--share"></i>
+          <span>Share the article</span>
+        </button>
         {{ article.content.rendered|safe }}
       </section>
-      <aside class="aside col-3 col-start-large-10 col-medium-2">
+      <aside class="aside col-3 col-start-large-10 col-medium-6">
         <div class="blog-article-newsletter">
           <div class="p-section--shallow">
             <hr class="p-rule u-hide--medium u-hide--large" />
             <h2 class="p-muted-heading">Sign up for our newsletter</h2>
           </div>
           {% include 'blog/newsletter-form.html' %}
+        </div>
+        <div class="blog-article-share u-hide--medium u-hide--small">
+          <h2 class="p-muted-heading">Share on</h2>
+          <ul class="p-inline-list u-no-margin--bottom">
+            <li class="p-inline-list__item">
+              <a title="Share on X"
+                 href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
+                <img src="https://assets.ubuntu.com/v1/4a485af7-x_icon.svg"
+                     alt="Share on X"
+                     width="24"
+                     height="24" />
+              </a>
+            </li>
+            <li class="p-inline-list__item">
+              <a title="Share on Facebook"
+                 href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+                <img src="https://assets.ubuntu.com/v1/d78c98ff-fb_icon.svg"
+                     alt="Share on Facebook"
+                     width="24"
+                     height="24" />
+              </a>
+            </li>
+            <li class="p-inline-list__item">
+              <a title="Share on LinkedIn"
+                 href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
+                <img src="https://assets.ubuntu.com/v1/af14595b-li_icon.svg"
+                     alt="Share on LinkedIn"
+                     width="24"
+                     height="24" />
+              </a>
+            </li>
+          </ul>
         </div>
       </aside>
     </div>
@@ -154,5 +192,18 @@
       articles=blog_articles
     ) }}
   {% endif %}
+
+  <script nonce="{{ csp_nonce }}">
+    document
+      .getElementById("shareArticle")
+      ?.addEventListener("click", function () {
+        if (navigator.share) {
+          navigator.share({
+            title: document.title,
+            url: window.location.href,
+          });
+        }
+      });
+  </script>
 
 {% endblock %}
