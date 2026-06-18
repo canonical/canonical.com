@@ -176,12 +176,17 @@ class TestRoutes(VCRTestCase):
         self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
 
     def test_blog_latest_news(self):
-        """When given the latest news URL, we should return a 200 status code."""
+        """
+        When given the latest news URL,
+        we should return a 200 status code.
+        """
 
         self.assertEqual(self.client.get("/blog/latest-news").status_code, 200)
 
     def test_blog_latest_news_with_page_param(self):
-        """When given latest news with page query, we should return a 200 status code."""
+        """
+        When given latest news with page query,
+        we should return a 200 status code."""
 
         self.assertEqual(
             self.client.get("/blog/latest-news?page=2").status_code,
