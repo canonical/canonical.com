@@ -949,6 +949,7 @@ class BlogView(flask.views.View):
     def __init__(self, blog_views):
         self.blog_views = blog_views
 
+
 class BlogSitemapIndex(BlogView):
     def dispatch_request(self):
         with get_requests_session() as session:
@@ -1005,12 +1006,11 @@ app.add_url_rule(
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
 
+
 @app.route("/blog/latest-news")
 def blog_latest_news():
     page = flask.request.args.get("page", default=1, type=int)
-    context = blog_views.get_index(
-        page=page, category_slug="announcement"
-    )
+    context = blog_views.get_index(page=page, category_slug="announcement")
     return flask.render_template("blog/latest-news.html", **context)
 
 
