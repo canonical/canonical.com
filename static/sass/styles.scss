@@ -40,6 +40,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "maas_styles";
 
 @include vanilla;
+@import "fonts"; // Include after 'vanilla' to override
 @include additional-p-icons;
 @include vf-p-grid-8;
 @include vf-p-icon-status-waiting;
@@ -1213,3 +1214,8 @@ body:not(.js-enabled) {
     }
   }
 }
+
+// Utility classes that replace inline style attributes (WD-36639).
+// Imported last so this single-class utility layer wins same-specificity
+// ties, mirroring the precedence the original inline styles had.
+@import "utilities_csp";

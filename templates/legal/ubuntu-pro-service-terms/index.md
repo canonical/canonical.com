@@ -3,8 +3,8 @@ wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu Pro service terms"
   description: "Ubuntu and Canonical Legal - Ubuntu Pro service terms"
-  update_date: "25 Apr 2026"
-  copydoc: https://docs.google.com/document/d/15Cl60o6Mkgdkgaamvj2Yn1jUX7lHLkDIiXveZpCsDyI/edit
+  update_date: "1 June 2026"
+  copydoc: https://docs.google.com/document/d/1gE_W8PBj3hv-af25n3-Vpm3oWC3RhLRQVk6wVy18TVY
 ---
 
 # Service terms
@@ -130,6 +130,8 @@ When used in this Agreement, the following terms mean:
 
 ### Older versions
 
+- [25 April 2026 ›](/legal/ubuntu-pro-service-terms/2026-04-25)
+- [16 June 2025 ›](/legal/ubuntu-pro-service-terms/2025-06-16)
 - [10 December 2024 ›](/legal/ubuntu-pro-service-terms/2024-12-10)
 - [16 February 2024 ›](/legal/ubuntu-pro-service-terms/2024-02-16)
 - [25 January 2023 ›](/legal/ubuntu-pro-service-terms/2023-01-25)
@@ -138,7 +140,6 @@ When used in this Agreement, the following terms mean:
 - [20 May 2016 ›](/legal/ubuntu-pro-service-terms/2016-05-20)
 - [09 September 2015 ›](/legal/ubuntu-pro-service-terms/2015-09-09)
 - [24 June 2015 ›](/legal/ubuntu-pro-service-terms/2015-06-24)
-- [16 June 2025 ›](/legal/ubuntu-pro-service-terms/2025-06-16)
 
 ### Japanese translation
 

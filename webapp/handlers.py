@@ -193,7 +193,6 @@ CSP = {
     "style-src": [
         "'self'",
         "cdn.jsdelivr.net",
-        "'unsafe-inline'",
         "www.tfaforms.com",
     ],
     "media-src": [
@@ -213,7 +212,7 @@ CSP = {
     ],
 }
 
-NONCED_DIRECTIVES = ("script-src", "script-src-elem")
+NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
 
 
 def init_handlers(app):
