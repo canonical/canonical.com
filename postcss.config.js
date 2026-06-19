@@ -48,6 +48,7 @@ let config = {
           /^cc-/, // Cookie consent related
           /^optanon/, // Cookie consent related
           /^has-/, // State-related classes
+          /blog-article/, // Blog article layout (incl. dynamic .wp-block-embed)
         ],
         deep: [/form-.+/],
         keyframes: true,
