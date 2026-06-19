@@ -102,7 +102,7 @@ function requiredCheckbox(fieldset, target) {
  */
 function setDataLayerConsentInfo() {
   /** @type {Array} */
-  const dataLayer = window.dataLayer || [];
+  const dataLayer = (window.dataLayer) || [];
   const latestConsentUpdateElements = dataLayer
     .slice()
     .reverse()

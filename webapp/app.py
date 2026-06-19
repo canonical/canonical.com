@@ -1007,7 +1007,7 @@ class BlogSitemapPage(BlogView):
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
     excluded_tags=[3184, 3265, 3599],
-    per_page=16,
+    per_page=11,
 )
 
 app.add_url_rule(

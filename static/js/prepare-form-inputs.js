@@ -22,9 +22,7 @@ export async function prepareInputFields(phoneInput, countryInput) {
     setupIntlTelInput(countryCode, phoneInput);
   }
   if (countryInput) {
-    const noPreselect = countryInput
-      .closest("form")
-      ?.hasAttribute("data-no-preselect-country");
+    const noPreselect = countryInput.closest("form")?.hasAttribute("data-no-preselect-country");
     preFormatCountry(countryCode, countryInput, noPreselect);
   }
 }
@@ -39,9 +37,7 @@ export async function prepareInputFields(phoneInput, countryInput) {
  */
 function preFormatCountry(countryCode, countryInput, noPreselect) {
   if (noPreselect) {
-    const matchingOption = countryInput.querySelector(
-      `option[value="${countryCode.toUpperCase()}"]`
-    );
+    const matchingOption = countryInput.querySelector(`option[value="${countryCode.toUpperCase()}"]`);
     if (matchingOption) {
       const selectOption = countryInput.querySelector('option[value=""]');
       if (selectOption) {
@@ -161,7 +157,7 @@ function setupOtherInputs() {
     const typedTextarea = textarea;
     /** @type {HTMLInputElement | null} */
     const triggerInputEle = document.querySelector(
-      `#${typedTextarea.dataset.inputId}`
+      `#${typedTextarea.dataset.inputId}`,
     );
     document
       .querySelectorAll(`[name=${triggerInputEle.name}]`)

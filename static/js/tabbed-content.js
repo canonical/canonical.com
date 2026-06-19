@@ -136,12 +136,7 @@
 
       tab.addEventListener("focus", () => {
         setActiveTab(tab, tabs);
-        updatePaginationButtonStates(
-          prevButton,
-          nextButton,
-          tabs,
-          tabContainer
-        );
+        updatePaginationButtonStates(prevButton, nextButton, tabs, tabContainer);
       });
 
       tab.index = index;
@@ -191,18 +186,11 @@
   /**
    * Disables pagination buttons based on the current active tab.
    */
-  const updatePaginationButtonStates = (
-    prevButton,
-    nextButton,
-    tabs,
-    tabContainer
-  ) => {
+  const updatePaginationButtonStates = (prevButton, nextButton, tabs, tabContainer) => {
     if (prevButton && nextButton) {
-      const currentTab = tabContainer.querySelector(
-        ".p-tabs__item[aria-selected='true']"
-      );
+      const currentTab = tabContainer.querySelector(".p-tabs__item[aria-selected='true']");
       const currentIndex = tabs.indexOf(currentTab);
-
+      
       if (currentIndex === 0) {
         prevButton.disabled = true;
         nextButton.disabled = false;
@@ -214,8 +202,8 @@
         nextButton.disabled = true;
       }
     }
-  };
-
+  }
+  
   /**
       Cycles through an array of tab elements and ensures
       only the target tab and its content are selected
