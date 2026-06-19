@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/1N399Pym7aTEuTf_OAJiFrYcbtsy3iUHV-f82afSplcI/edit
 {% endblock meta_copydoc %}
 
-{% block title %}Run production-grade Apache Spark on Kubernetes{% endblock %}
+{% block title %}Apache Spark on Kubernetes | Apache Spark{% endblock %}
 
 {% block meta_description %}
   Charmed Spark simplifies provisioning and maintenance for Apache Spark on Kubernetes on any Public & Private Cloud
@@ -34,7 +34,7 @@ spark-client.spark-shell</pre>
           Simplify the provisioning and maintenance of Apache Spark on Kubernetes with Charmed Spark. Run it on any Public or Private Cloud.
         </p>
         <hr class="p-rule" />
-        <a href="/data/docs/spark/k8s" class="p-button--positive">Try it now</a>
+        <a href="https://canonical-charmed-spark.readthedocs-hosted.com/main" class="p-button--positive">Try it now</a>
         <a class="p-button js-invoke-modal" aria-controls="data-spark-modal" href="/contact-us">Contact us</a>
       </div>
     </div>
@@ -62,7 +62,7 @@ spark-client.spark-shell</pre>
             Converge your big data workloads with other applications on the same infrastructure
           </li>
           <li class="p-list__item has-bullet">
-            Get the same user experience in your lab as you get in the cloud with <a href="https://microk8s.io">MicroK8s</a>
+            Get the same user experience in your lab as you get in the cloud with <a href="/microk8s">MicroK8s</a>
           </li>
         </ul>
         <hr class="p-rule" />
@@ -71,7 +71,7 @@ spark-client.spark-shell</pre>
         </p>
         <p>New users can get up and running with Charmed Spark on MicroK8s in just a few commands.</p>
         <hr class="p-rule" />
-        <a class="p-button" href="/data/docs/spark/k8s">Access the docs</a>
+        <a class="p-button" href="https://canonical-charmed-spark.readthedocs-hosted.com/main">Access the docs</a>
       </div>
     </div>
   </section>
@@ -345,11 +345,6 @@ spark-client.spark-shell</pre>
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/spark#success" %}
-    {% include "data/_form-data-spark.html" %}
-  {% endwith %}
+  {{ load_form("/data/spark-on-kubernetes") | safe }}
 
 {% endblock %}

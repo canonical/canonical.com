@@ -1,0 +1,15 @@
+# This macro is used to embed YouTube videos using the Lite YouTube player.
+# Params
+# video_id (required): ID of the YouTube video to embed
+# video_title (required): Title of the video for accessibility
+
+{%- macro lite_video(video_id, video_title) -%}
+    <div class="u-embedded-media">
+        <lite-youtube videoid="{{ video_id }}" posterquality="maxresdefault" videotitle="{{ video_title }}">
+        <a href="https://www.youtube.com/embed/{{ video_id }}?rel=0"
+           title="Play Video">
+            <span class="lyt-visually-hidden">{{ video_title }}</span>
+        </a>
+        </lite-youtube>
+    </div>
+{%- endmacro -%}

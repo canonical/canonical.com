@@ -45,4 +45,5 @@ function initMap() {
   });
 }
 
+export { initMap };
 window.initMap = initMap;

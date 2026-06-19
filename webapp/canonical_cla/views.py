@@ -6,7 +6,9 @@ import flask
 import requests
 from canonicalwebteam.flask_base.env import get_flask_env
 
-CANONICAL_CLA_API_URL = get_flask_env("CANONICAL_CLA_API_URL")
+CANONICAL_CLA_API_URL = str(
+    get_flask_env("CANONICAL_CLA_API_URL", default="https://cla.canonical.com")
+)
 
 ALLOWED_ENDPOINTS = [
     "/github/login",
@@ -40,7 +42,7 @@ def update_query_params(url: str, **params) -> str:
     return urlparse.urlunparse(url_parts)
 
 
-def validate_agreement_url(url: str) -> str:
+def validate_agreement_url(url: Optional[str]) -> str:
     """
     Validate and sanitize agreement_url to prevent open redirect
     vulnerabilities.
@@ -86,6 +88,9 @@ def canonical_cla_api_github_login():
     response = flask.redirect(agreement_url)
     if access_token:
         response.set_cookie(
+            "github_access_token_session", access_token, httponly=True
+        )
+        response.set_cookie(
             "github_oauth2_session", access_token, httponly=True
         )
     response.cache_control.no_store = True
@@ -102,6 +107,7 @@ def canonical_cla_api_github_logout():
     )
     agreement_url = validate_agreement_url(agreement_url)
     response = flask.redirect(agreement_url)
+    response.delete_cookie("github_access_token_session", httponly=True)
     response.delete_cookie("github_oauth2_session", httponly=True)
     response.cache_control.no_store = True
     return response
@@ -130,6 +136,9 @@ def canonical_cla_api_launchpad_login():
     response = flask.redirect(agreement_url)
     if access_token:
         response.set_cookie(
+            "launchpad_access_token_session", access_token, httponly=True
+        )
+        response.set_cookie(
             "launchpad_oauth_session", access_token, httponly=True
         )
     response.cache_control.no_store = True
@@ -146,6 +155,7 @@ def canonical_cla_api_launchpad_logout():
     )
     agreement_url = validate_agreement_url(agreement_url)
     response = flask.redirect(agreement_url)
+    response.delete_cookie("launchpad_access_token_session", httponly=True)
     response.delete_cookie("launchpad_oauth_session", httponly=True)
     response.cache_control.no_store = True
     return response
@@ -165,6 +175,16 @@ def canonical_cla_api_proxy():
     # is in the allowed endpoints list
     # Parse the URL to extract just the path for validation
     parsed_url = urlparse.urlparse(request_url)
+
+    if parsed_url.netloc:
+        error_response = flask.make_response(
+            {"detail": "Endpoint not allowed"}
+        )
+        error_response.headers["Content-Type"] = "application/json"
+        error_response.status_code = 403
+        error_response.cache_control.no_store = True
+        return error_response
+
     request_path = parsed_url.path
 
     if request_path not in ALLOWED_ENDPOINTS:

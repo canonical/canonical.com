@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/17eHoiLrhFLrfV8UXD_4bxn-yY1_YToxf4cs8-5kYkxo/edit
 {% endblock meta_copydoc %}
 
-{% block title %}Enterprise AI edge computing{% endblock %}
+{% block title %}Edge computing | AI{% endblock %}
 
 {% block meta_description %}
   Get everything you need to deploy AI at the edge in one solution. Secure and compliant open source optimised for embedded AI use cases.
@@ -194,7 +194,7 @@
         </p>
         <hr class="p-rule--muted" />
         <p class="p-section--shallow">
-          <a href="https://microk8s.io/">Learn more about MicroK8s&nbsp;&rsaquo;</a>
+          <a href="/microk8s">Learn more about MicroK8s&nbsp;&rsaquo;</a>
         </p>
       </div>
     </div>
@@ -262,11 +262,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/solutions/ai/edge") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai/edge#contact-form-success" %}
-
-    {% include "solutions/ai/_form-ai.html" %}
-  {% endwith %}
 {% endblock %}

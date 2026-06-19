@@ -5,7 +5,6 @@ import gzip
 import hashlib
 import json
 import logging
-import math
 import os
 import re
 from http.client import responses
@@ -16,14 +15,17 @@ from flask_cors import cross_origin
 from cachetools import TTLCache, cached
 import requests
 import semver
+import random
 
 import bleach
 import canonicalwebteam.directory_parser as directory_parser
 import flask
 import markdown
 import yaml
+import sentry_sdk
 
 # Packages
+from sentry_sdk.integrations.flask import FlaskIntegration
 from canonicalwebteam import image_template
 from canonicalwebteam.blog import BlogAPI, BlogViews, build_blueprint
 from canonicalwebteam.discourse import (
@@ -40,12 +42,24 @@ from canonicalwebteam.form_generator import FormGenerator
 from canonicalwebteam.search import build_search_view
 from canonicalwebteam.templatefinder import TemplateFinder
 from jinja2 import ChoiceLoader, FileSystemLoader
-from requests.exceptions import HTTPError
+from requests.exceptions import ConnectionError, HTTPError, RetryError
+from werkzeug.exceptions import HTTPException
+from urllib3.exceptions import MaxRetryError
 from slugify import slugify
 
 # Local
-from webapp.views import json_asset_query
-from webapp.application import application
+from canonicalwebteam.markdown_response import MarkdownResponse
+from webapp.views import (
+    json_asset_query,
+    build_case_study_index,
+    build_events_index,
+    build_canonical_days_index,
+    append_utms_cookie_to_ubuntu_links,
+    build_knowledge_index,
+    build_knowledge_category_index,
+    get_knowledge_sections,
+)
+from webapp.application import application_bp
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -74,12 +88,18 @@ from webapp.utils.juju_doc_search import (
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
-# Can be seen on sitemap_index.xml
+# Can be seen on /sitemap.xml
 DYNAMIC_SITEMAPS = [
     "careers",
     "partners",
     "blog",
+    "knowledge",
+    "microk8s/docs",
+    "dqlite/docs",
+    "maas/docs",
+    "tests",
 ]
+
 
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
@@ -92,6 +112,10 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Markdown endpoint for LLM/crawler optimization
+# Serves any page as Markdown via ?format=md query parameter
+MarkdownResponse(app)
 
 # Load env variables after the app is initialized
 CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
@@ -129,7 +153,7 @@ charmhub_discourse_api = DiscourseAPI(
 search_session = get_requests_session()
 discourse_session = get_requests_session()
 
-app.register_blueprint(application, url_prefix="/careers/application")
+app.register_blueprint(application_bp, url_prefix="/careers/application")
 
 
 # Prepare forms
@@ -259,9 +283,53 @@ def _get_all_departments(greenhouse, harvest) -> tuple:
     return all_departments, departments_overview
 
 
-sentry = app.extensions["sentry"]
+# Sentry setup
+sentry_dsn = get_flask_env("SENTRY_DSN")
+environment = get_flask_env("FLASK_ENV", "production")
 
-init_handlers(app, sentry)
+
+def sentry_before_send(event, hint):
+    """
+    Filter Sentry events.
+    Excludes all 4xx errors and upstream connection failures.
+    """
+    if "exc_info" in hint:
+        _, exc_value, _ = hint["exc_info"]
+        # Check if the exception is an HTTPException
+        # (which includes 4xx errors)
+        if (
+            isinstance(exc_value, HTTPException)
+            and 400 <= exc_value.code < 500
+        ):
+            # return None to discard the event
+            return None
+        # Also filter requests.exceptions.HTTPError for 4xx upstream responses
+        if isinstance(exc_value, requests.exceptions.HTTPError):
+            response = getattr(exc_value, "response", None)
+            if response is not None and 400 <= response.status_code < 500:
+                return None
+        # Sample 5% of transient upstream connection failures
+        # (e.g. WordPress API being unavailable)
+        if isinstance(exc_value, (MaxRetryError, RetryError, ConnectionError)):
+            error_msg = str(exc_value)
+
+            # Sample blog/WordPress API retry errors
+            if "/wp-json/wp/v2" in error_msg:
+                if random.random() > 0.05:  # Drop 95% of blog API retry errors
+                    return None
+    return event
+
+
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        send_default_pii=True,
+        environment=environment,
+        integrations=[FlaskIntegration()],
+        before_send=sentry_before_send,
+    )
+
+init_handlers(app)
 
 
 @app.route("/")
@@ -395,6 +463,8 @@ def get_latest_versions():
         juju_json_response = juju_response.json()
         juju_versions = []
         for release in juju_json_response:
+            if release["draft"] or release["prerelease"]:
+                continue
             # get semver
             version = semver.VersionInfo.parse(
                 release["tag_name"].replace("juju-", "").lstrip("v")
@@ -477,6 +547,24 @@ def careers_rss(greenhouse):
     return response
 
 
+def is_remote(job_post):
+    location = job_post.get("location")
+    if location is None:
+        logger.error(f"location is None for job_post_id={job_post.get('id')}")
+        return True
+    location_name = location.get("name")
+    if location_name is None:
+        logger.error(
+            f"location_name is None for job_post_id={job_post.get('id')}"
+        )
+        return True
+    location_name = location_name.lower()
+    if "home based" in location_name:
+        return True
+
+    return False
+
+
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
     methods=["GET", "POST"],
@@ -498,15 +586,33 @@ def handle_job_details(job_id, job_title):
 
 def job_details(session, greenhouse, harvest, job_id):
     context = {
-        "bleach": bleach,
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
     }
 
     try:
-        # Greenhouse job board API (get_vacancy) doesn't show inactive roles
         context["job"] = harvest.get_job_post(job_id)
+
+        # Handle job posting that are no longer open
+        if not context["job"].get("active") or not context["job"].get("live"):
+            response = flask.make_response(
+                flask.render_template(
+                    "careers/404-job-closed.html", **context
+                ),
+                404,
+            )
+            response.headers["Cache-Control"] = (
+                "public, "
+                "max-age=600, "  # 5 minutes to allow for quick recovery
+                "must-revalidate, "
+                "stale-while-revalidate=0, "
+                "stale-if-error=0"
+            )
+            return response
+
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        context["job"]["is_remote"] = is_remote(context["job"])
+
     except HTTPError as error:
         if error.response.status_code == 404:
             logger.exception(
@@ -547,7 +653,17 @@ def job_details(session, greenhouse, harvest, job_id):
                 "text": f"{response.reason}. Please try again!",
             }
 
-    return flask.render_template("/careers/job-detail.html", **context)
+    response = flask.make_response(
+        flask.render_template("careers/job-detail.html", **context)
+    )
+    response.headers["Cache-Control"] = (
+        "public, "
+        "max-age=3600, "
+        "must-revalidate, "
+        "stale-while-revalidate=0, "
+        "stale-if-error=0"
+    )
+    return response
 
 
 @app.route("/careers/career-explorer")
@@ -909,6 +1025,44 @@ app.add_url_rule(
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 
+# Knowledge hub
+app.add_url_rule("/knowledge", view_func=build_knowledge_index())
+
+
+@app.route("/knowledge/sitemap.xml")
+def knowledge_sitemap():
+    sections = get_knowledge_sections()
+
+    context = {
+        "sections": sections,
+    }
+
+    xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
+def register_knowledge_category_routes():
+    base_path = Path(app.root_path).parent / "templates" / "knowledge"
+
+    if base_path.exists():
+        for category_dir in sorted(base_path.iterdir()):
+            if category_dir.is_dir() and not category_dir.name.startswith("_"):
+                category_slug = category_dir.name
+                app.add_url_rule(
+                    f"/knowledge/{category_slug}",
+                    view_func=build_knowledge_category_index(category_slug),
+                    endpoint=f"knowledge_{category_slug}",
+                )
+
+
+# Register all knowledge hub category routes dynamically
+register_knowledge_category_routes()
+
+
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
@@ -1064,160 +1218,6 @@ def allow_src(tag, name, value):
         p = urlparse(value)
         return (not p.netloc) or p.netloc in allowed_sources
     return False
-
-
-# Data Platform Spark on K8s docs
-data_spark_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=8963,
-        url_prefix="/data/docs/spark/k8s",
-    ),
-    document_template="/data/docs/spark/k8s/document.html",
-    url_prefix="/data/docs/spark/k8s",
-    blueprint_name="data-docs-spark-k8s",
-)
-app.add_url_rule(
-    "/data/docs/spark/k8s/search",
-    "data-docs-spark-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/spark/k8s",
-        template_path="/data/docs/spark/k8s/search-results.html",
-    ),
-)
-data_spark_k8s_docs.init_app(app)
-
-# Data Platform MySQL on IAAS docs
-data_mysql_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9925,
-        url_prefix="/data/docs/mysql/iaas",
-    ),
-    document_template="/data/docs/mysql/iaas/document.html",
-    url_prefix="/data/docs/mysql/iaas",
-    blueprint_name="data-docs-mysql-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mysql/iaas/search",
-    "data-docs-mysql-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/iaas",
-        template_path="/data/docs/mysql/iaas/search-results.html",
-    ),
-)
-data_mysql_iaas_docs.init_app(app)
-
-# Data Platform MySQL on K8s docs
-data_mysql_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9680,
-        url_prefix="/data/docs/mysql/k8s",
-    ),
-    document_template="/data/docs/mysql/k8s/document.html",
-    url_prefix="/data/docs/mysql/k8s",
-    blueprint_name="data-docs-mysql-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mysql/k8s/search",
-    "data-docs-mysql-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mysql/k8s",
-        template_path="/data/docs/mysql/k8s/search-results.html",
-    ),
-)
-data_mysql_k8s_docs.init_app(app)
-
-# Data Platform MongoDB on IaaS docs
-data_mongodb_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=12461,
-        url_prefix="/data/docs/mongodb/iaas",
-    ),
-    document_template="/data/docs/mongodb/iaas/document.html",
-    url_prefix="/data/docs/mongodb/iaas",
-    blueprint_name="data-docs-mongodb-iaas",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/iaas/search",
-    "data-docs-mongodb-vm-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/iaas",
-        template_path="/data/docs/mongodb/iaas/search-results.html",
-    ),
-)
-data_mongodb_iaas_docs.init_app(app)
-
-# Data Platform MongoDB on K8s docs
-data_mongodb_k8s_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10265,
-        url_prefix="/data/docs/mongodb/k8s",
-    ),
-    document_template="/data/docs/mongodb/k8s/document.html",
-    url_prefix="/data/docs/mongodb/k8s",
-    blueprint_name="data-docs-mongodb-k8s",
-)
-app.add_url_rule(
-    "/data/docs/mongodb/k8s/search",
-    "data-docs-mongodb-k8s-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/mongodb/k8s",
-        template_path="/data/docs/mongodb/k8s/search-results.html",
-    ),
-)
-data_mongodb_k8s_docs.init_app(app)
-
-# Data Platform OpenSearch on IaaS docs
-data_opensearch_iaas_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=9729,
-        url_prefix="/data/docs/opensearch/iaas",
-    ),
-    document_template="/data/docs/opensearch/iaas/document.html",
-    url_prefix="/data/docs/opensearch/iaas",
-    blueprint_name="data-docs-opensearch-iaas",
-)
-app.add_url_rule(
-    "/data/docs/opensearch/iaas/search",
-    "data-docs-opensearch-iaas-search",
-    build_search_view(
-        app=app,
-        session=search_session,
-        site="canonical.com/data/docs/opensearch/iaas",
-        template_path="/data/docs/opensearch/iaas/search-results.html",
-    ),
-)
-data_opensearch_iaas_docs.init_app(app)
-
-
-# Data Platform index docs
-data_docs = Docs(
-    parser=DocParser(
-        api=charmhub_discourse_api,
-        index_topic_id=10863,
-        url_prefix="/data/docs",
-    ),
-    document_template="/data/docs/document.html",
-    url_prefix="/data/docs/",
-    blueprint_name="data_docs",
-)
-
-data_docs.init_app(app)
 
 
 dqlite_docs = Docs(
@@ -1554,66 +1554,6 @@ def no_cache(response):
     return response
 
 
-def build_case_study_index(engage_docs):
-    def case_study_index():
-        page = flask.request.args.get("page", default=1, type=int)
-        preview = flask.request.args.get("preview")
-        language = flask.request.args.get("language", default=None, type=str)
-        tag = flask.request.args.get("tag", default=None, type=str)
-        limit = 21
-        offset = (page - 1) * limit
-
-        if tag or language:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit,
-                offset,
-                tag_value=tag,
-                key="type",
-                value="case study",
-                second_key="language",
-                second_value=language,
-            )
-        else:
-            (
-                metadata,
-                count,
-                active_count,
-                current_total,
-            ) = engage_docs.get_index(
-                limit, offset, key="type", value="case study"
-            )
-        total_pages = math.ceil(current_total / limit)
-
-        for case_study in metadata:
-            path = case_study["path"]
-            if path.startswith("/engage"):
-                case_study["path"] = "https://ubuntu.com" + path
-
-        tags = engage_docs.get_engage_pages_tags()
-        # strip whitespace, remove dupes and order alphabetically
-        processed_tags = sorted({tag.strip() for tag in tags if tag.strip()})
-
-        return flask.render_template(
-            "case-study/index.html",
-            forum_url=engage_docs.api.base_url,
-            metadata=metadata,
-            page=page,
-            preview=preview,
-            language=language,
-            posts_per_page=limit,
-            total_pages=total_pages,
-            current_page=page,
-            tags=processed_tags,
-        )
-
-    return case_study_index
-
-
 # Canonical Academy
 def cred_exam_content(**_):
     exam_name = flask.request.args.get("exam")
@@ -1636,7 +1576,7 @@ app.add_url_rule(
     methods=["GET"],
 )
 
-# Case study
+# Engage pages
 DISCOURSE_API_KEY = os.getenv("DISCOURSE_API_KEY")
 DISCOURSE_API_USERNAME = os.getenv("DISCOURSE_API_USERNAME")
 engage_pages_discourse_api = DiscourseAPI(
@@ -1646,16 +1586,26 @@ engage_pages_discourse_api = DiscourseAPI(
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
 )
-case_study_path = "/case-study"
-case_studies = EngagePages(
+engage_pages = EngagePages(
     api=engage_pages_discourse_api,
     category_id=51,
     page_type="engage-pages",
     exclude_topics=[17229, 18033, 17250],
 )
 
+
+case_study_path = "/case-study"
 app.add_url_rule(
-    case_study_path, view_func=build_case_study_index(case_studies)
+    case_study_path, view_func=build_case_study_index(engage_pages)
+)
+
+
+events_path = "/events"
+app.add_url_rule(events_path, view_func=build_events_index(engage_pages))
+
+canonical_days_path = "/events/canonical-days"
+app.add_url_rule(
+    canonical_days_path, view_func=build_canonical_days_index(engage_pages)
 )
 
 # Mir Server
@@ -1692,8 +1642,36 @@ app.add_url_rule(
 
 mir_docs.init_app(app)
 
+# Microk8s
+microk8s_url_prefix = "/microk8s/docs"
+microk8s_discourse_api = Docs(
+    parser=DocParser(
+        api=DiscourseAPI(
+            base_url="https://discuss.kubernetes.io/",
+            session=get_requests_session(),
+        ),
+        index_topic_id=11243,
+        url_prefix=microk8s_url_prefix,
+    ),
+    blueprint_name="microk8s-docs",
+    document_template="microk8s/docs/document.html",
+    url_prefix=microk8s_url_prefix,
+)
+app.add_url_rule(
+    "/microk8s/docs/search",
+    "microk8s-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/microk8s/docs",
+        template_path="microk8s/docs/search-results.html",
+    ),
+)
+microk8s_discourse_api.init_app(app)
 
 # Sitemap parser
+
+
 def build_sitemap_tree(exclude_paths=None):
     def create_sitemap(sitemap_path):
         directory_path = os.getcwd() + "/templates"
@@ -1726,7 +1704,7 @@ def build_sitemap_tree(exclude_paths=None):
 
         # Update sitemap with POST request
         if flask.request.method == "POST":
-            expected_secret = os.getenv("SITEMAP_SECRET")
+            expected_secret = get_flask_env("SITEMAP_SECRET")
             provided_secret = flask.request.headers.get(
                 "Authorization", ""
             ).replace("Bearer ", "")
@@ -1746,6 +1724,10 @@ def build_sitemap_tree(exclude_paths=None):
         if not os.path.exists(sitemap_path):
             xml_sitemap = create_sitemap(sitemap_path)
 
+        # If still missing (generation failed), return an error
+        if not os.path.exists(sitemap_path):
+            return {"error": "Sitemap not available"}, 503
+
         # Serve the existing sitemap
         with open(sitemap_path, "r") as f:
             xml_sitemap = f.read()
@@ -1760,8 +1742,9 @@ def build_sitemap_tree(exclude_paths=None):
 # Endpoint for retrieving parsed directory tree
 def get_sitemaps_tree():
     try:
+        templates_path = os.getcwd() + "/templates"
         tree = directory_parser.scan_directory(
-            os.getcwd() + "/templates", exclude_paths=DYNAMIC_SITEMAPS
+            templates_path, exclude_paths=DYNAMIC_SITEMAPS
         )
     except Exception as e:
         return {"Error:": str(e)}, 500
@@ -1855,3 +1838,18 @@ if get_flask_env("DEBUG") or app.debug:
         Expose all routes under templates/tests if in development/testing mode.
         """
         return flask.render_template(f"tests/{subpath}.html")
+
+
+if environment != "production":
+
+    @app.route("/sentry-debug")
+    def trigger_error():
+        """Endpoint to trigger a Sentry error for testing purposes."""
+        1 / 0
+        return "This won't be reached"
+
+
+# Append utms cookie to Ubuntu redirect links
+@app.after_request
+def check_redirect(response):
+    return append_utms_cookie_to_ubuntu_links(response)

@@ -19,25 +19,31 @@ let config = {
         "static/*.md",
         "static/*.tsx",
         "static/*.xml",
+        "node_modules/@canonical/cookie-policy/build/js/cookie-policy.js",
         "node_modules/flickity/dist/flickity.pkgd.min.js",
         "node_modules/leaflet/dist/leaflet.js",
         "node_modules/venobox/dist/venobox.min.js",
-        "node_modules/vanilla-framework/templates/_macros/*.jinja"
+        "node_modules/vanilla-framework/templates/_macros/*.jinja",
+        "node_modules/intl-tel-input/build/js/utils.js"
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
         standard: [
-          /^cookie-policy/,
-          /^form/,
+          /^cookie-policy/, // Cookie policy classes
+          /^form/, // Form related classes
           /^p-/, // Preserve form related classes
           /^u-/, // Utility classes
           /^js-/, // JavaScript-related classes
           /^leaflet-/, // Leaflet classes for map
           /^vbox-/, // VenoBox classes
           /^venobox/, // VenoBox classes
+          /^row/, // Protects Vanilla Framework rows (row, row--75-25, etc.)
+          /^col/, // Protects Vanilla Framework columns (col, col-8, col-medium-4, etc.)
+          /^grid-row/, // Protects modern Vanilla Framework rows (grid-row, etc.)
+          /^grid-col/, // Protects modern Vanilla Framework columns (grid-col, etc.)
         ],
         greedy: [
-          /^iti/,
+          /^iti/, // intl-tel-input classes
           /^mktoForm/, // Marketo forms
           /^cc-/, // Cookie consent related
           /^optanon/, // Cookie consent related

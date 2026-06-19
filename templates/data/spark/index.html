@@ -1,13 +1,13 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
-{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1sM8pgyM-N8VK8fyHgMsW21PdXUiqYrdRkPkipIljNd0/edit
 {% endblock meta_copydoc %}
 
-{% block title %}Solution for Apache Spark on Kubernetes{% endblock %}
+{% block title %}Apache Spark{% endblock %}
 
 {% block canonical_url %}{{ request.host_url }}data/spark{% endblock %}
 
@@ -343,7 +343,7 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
-        <a href="/data/docs/spark/k8s">Get started with Charmed Spark&nbsp;&rsaquo;</a>
+        <a href="https://canonical-charmed-spark.readthedocs-hosted.com/main">Get started with Charmed Spark&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>
@@ -402,11 +402,10 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/data/spark") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/spark#success" %}
-    {% include "data/_form-data-spark.html" %}
-  {% endwith %}
-
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

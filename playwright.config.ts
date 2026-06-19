@@ -14,7 +14,7 @@ dotenv.config({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: path.join(__dirname, "tests/playwright/tests/forms"),
+  testDir: path.join(__dirname, "tests/playwright/tests"),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -38,8 +38,13 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'checkout',
-      testMatch: "*.spec.ts",
+      name: 'forms',
+      testMatch: "forms/*.spec.ts",
+      use: { ...devices['Desktop Chrome']},
+    },
+    {
+      name: 'navigation',
+      testMatch: "navigation/*.spec.ts",
       use: { ...devices['Desktop Chrome']},
     },
   ],

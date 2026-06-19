@@ -2,7 +2,7 @@
 
 {% block meta_copydoc %}https://docs.google.com/document/d/15C3k-htvapwp-WTrYQ2SdHBW20Lp9IinpY9mkvo6q3U{% endblock %}
 
-{% block title %}Executive Summit | Partners{% endblock %}
+{% block title %}Executive summit | Partners{% endblock %}
 
 {% block meta_description %}
   Connect with partners from around the globe to learn about open source, from data centre to the cloud, to maximize your company sales.
@@ -210,10 +210,6 @@
     </div>
   </section>
 
-  {% with %}
-    {% set formid = "5121" %}
-    {% set returnURL = "https://canonical.com/partners/executive-summit#success" %}
-    {% include "partners/partial/_executive-summit-form.html" %}
-  {% endwith %}
+  {{ load_form("/partners/executive-summit") | safe }}
 
 {% endblock %}

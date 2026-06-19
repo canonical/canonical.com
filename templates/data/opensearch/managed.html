@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/19gcIoKEibXTvZCsmtYCSQBMnBUmNUJI6RaLoMHL2_TA/edit
 {% endblock %}
 
-{% block title %}Managed OpenSearch services by Canonical{% endblock %}
+{% block title %}Managed services | OpenSearch{% endblock %}
 
 {% block meta_description %}
   Learn about Canonical’s managed services for OpenSearch, the industry leading open source search engine, analytics tool and vector database.
@@ -354,7 +354,7 @@
     <div class="row--50-50">
       <div class="col">
         <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top" style="min-height: 600px">
+        <div class="p-card--overlay u-no-padding--top u-min-height-600px">
           <div class="row">
             <div class="col-4 col-medium-2 col-small-3">
               <h3 class="u-align-text--left u-no-margin--bottom">Managed OpenSearch on public cloud instances</h3>
@@ -382,7 +382,7 @@
       </div>
       <div class="col">
         <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top" style="min-height: 600px">
+        <div class="p-card--overlay u-no-padding--top u-min-height-600px">
           <div class="row">
             <div class="col-4 col-medium-2 col-small-3">
               <h3 class="u-align-text--left u-no-margin--bottom">Managed OpenSearch on OpenStack</h3>
@@ -451,11 +451,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  {{ load_form("/data/opensearch/managed") | safe }}
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/opensearch#success" %}
-
-    {% include "data/_form-data-opensearch.html" %}
-  {% endwith %}
 {% endblock %}

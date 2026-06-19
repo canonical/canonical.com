@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import {
   fillExistingFields,
   acceptCookiePolicy,
@@ -9,7 +9,7 @@ import {
   formRadioFields,
 } from "../../helpers/form-fields.ts";
 
-const openModal = async (page) => {
+const openModal = async (page: Page) => {
   await page.goto("/tests/_form-generator");
   await acceptCookiePolicy(page);
   const contactUsLink = page.locator('a[aria-controls="contact-modal"]');

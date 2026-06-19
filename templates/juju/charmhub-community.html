@@ -4,7 +4,7 @@
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
-{% block title %}Juju | The simplest way to deploy and maintain applications in the cloud{% endblock %}
+{% block title %}Charmhub community | Juju{% endblock %}
 
 {% block meta_description %}
   Juju is an open source orchestration engine for software operators that enables the deployment, integration and lifecycle management of applications at any scale, on any infrastructure.
@@ -140,7 +140,7 @@
             </select>
           </form>
       </div>
-      <div class="grid-col" style="min-height: 200px;" data-tablist="explore-charms-on-charmhub">
+      <div class="grid-col u-min-height-200px" data-tablist="explore-charms-on-charmhub">
         <div class="grid-row p-tabs__content"
              id="databases-tab"
              role="tabpanel"
@@ -386,7 +386,8 @@
   {% call(slot) vf_cta_section(
     title_text='Get started with Juju today',
     variant='block',
-    layout='100'
+    layout='100',
+    attrs={'id': 'get-started'}
     ) -%}
     {%- if slot == 'cta' -%}
       <a href="https://documentation.ubuntu.com/juju" class="p-button--positive">Read Docs</a>
@@ -395,5 +396,5 @@
   {% endcall -%}
 
   {{ load_form("/juju") | safe }}
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
 {% endblock %}

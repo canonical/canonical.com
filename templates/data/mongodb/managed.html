@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/1ZkJA6le_PfFZK8WBDgoUksKlQzX8HgUNL8HNJwWKhv0/edit
 {% endblock meta_copydoc %}
 
-{% block title %}Managed MongoDB services by Canonical{% endblock %}
+{% block title %}Managed services | MongoDB{% endblock %}
 
 {% block meta_description %}
   Learn about Canonical's managed services for MongoDB, the industry leading NoSQL database.
@@ -465,11 +465,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-  {% with %}
-    {% set formid = "4903" %}
-    {% set returnURL = "https://canonical.com/data/mongodb#success" %}
-    {% include "data/_form-data-mongodb.html" %}
-  {% endwith %}
+  {{ load_form("/data/mongodb/managed") | safe }}
 
 {% endblock %}

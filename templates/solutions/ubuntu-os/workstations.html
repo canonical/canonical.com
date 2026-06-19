@@ -5,7 +5,7 @@
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "macros/_macros-image.jinja" import image_wrapper %}
 
-{% block title %}Performance and compliance for enterprise workstations with Ubuntu{% endblock %}
+{% block title %}Workstations | Ubuntu OS{% endblock %}
 
 {% block description %}
   Choose a workstation Linux OS that unlocks the full performance of your hardware and your teams. Discover Ubuntu as a proven OS for enterprise workstations.
@@ -436,10 +436,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ubuntu-os/workstations#contact-form-success" %}
-    {% set formid = "1253" %}
-    {% include "solutions/ubuntu-os/_form-ubuntu-os.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ubuntu-os/workstations", 1253) | safe }}
+
 {% endblock %}

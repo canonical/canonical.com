@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/1eMvLlW6U-3ZWRRtY3Bq2u6EaFRqop4n6x8wgj3OWw-k/edit
 {% endblock meta_copydoc %}
 
-{% block title %}GenAI infrastructure{% endblock %}
+{% block title %}GenAI | AI{% endblock %}
 
 {% block meta_description %}
   Use open source GenAI infrastructure to take your models to market faster and more securely.
@@ -201,12 +201,7 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/solutions/ai#contact-form-success" %}
-
-    {% include "solutions/ai/_form-ai.html" %}
-  {% endwith %}
+  {{ load_form("/solutions/ai/genai") | safe }}
 
 {% endblock %}

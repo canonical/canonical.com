@@ -17,9 +17,13 @@
           <li class="p-inline-list__item">
             <a class="js-revoke-cookie-manager" href="#">Manage your tracker settings</a>
           </li>
-          <li class="p-inline-list__item">
-            <a href="https://github.com/canonical/multipass/issues/new/choose">Report a bug on Multipass itself</a>
-          </li>
+          {% from "docs/macros/_bug_link_macro.html" import get_bug_link %}
+          {% set bug_link = get_bug_link(product_name) %}
+          {% if bug_link.strip() %}
+            <li class="p-inline-list__item">
+              <a href="{{ bug_link }}">Report a bug on {{ product_name }} itself</a>
+            </li>
+          {% endif %}
           <li class="p-inline-list__item">
             <a aria-label="External link to report a bug on this site"
                href="https://github.com/canonical/canonical.com/issues/new?template=ISSUE_TEMPLATE.md">

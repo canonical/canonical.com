@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/19TIwT-GU5wADQmohicj14MnpHEqNqp0422WLunFsbJU
 {% endblock meta_copydoc %}
 
-{% block title %}Canonical - company information{% endblock %}
+{% block title %}Company information{% endblock %}
 
 {% block meta_description %}
   About Canonical |The publisher of Ubuntu and provider of open source security, support and services
@@ -15,6 +15,7 @@
 {% endblock body_class %}
 
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 {% block content %}
   <section class="p-section--hero">
@@ -53,17 +54,7 @@
             Together, we enable organizations and end users everywhere to innovate with confidence on the largest supported collection of open source software.
           </p>
         </div>
-        <div class="u-embedded-media">
-          <iframe class="u-embedded-media__element"
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/i9oDHGPBlwo?si=O1tiFV3rP-t4x5l8"
-                  title="Trusted open sourse for everyone"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-        </div>
+        {{ lite_video(video_id="i9oDHGPBlwo", video_title="Trusted open sourse for everyone") }}
       </div>
     </div>
   </section>
@@ -175,12 +166,10 @@
     is_split_on_medium=true,
     items=[
       {
-        "type": "video",
+        "type": "description",
         "item": {
-          "attrs": {
-            "src": "https://www.youtube.com/embed/pGub0U7h9pE",
-            "allowfullscreen": ""
-          }
+          "type": "html",
+          "content": lite_video(video_id="cAcum4kK1ng", video_title="Canonical’s open source portfolio, explained")
         }
       },
       {
@@ -363,7 +352,7 @@
     </div>
   </section>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     const locations = [
       [{
         "lat": 51.5043601,
@@ -396,8 +385,12 @@
     ]
     const isSprintMap = false;
   </script>
-  <script defer src="{{ versioned_static('js/locations-map.js') }}"></script>
+  <script defer src="{{ versioned_static('js/locations-map.js') }}" nonce="{{ csp_nonce }}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly"
-          defer></script>
+          defer nonce="{{ csp_nonce }}"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

@@ -4,7 +4,7 @@
   https://docs.google.com/document/d/1EcgdnMdW5jfZLLhcisUNMMtsPT-4alaPm3zirtvXEMk/edit?tab=t.0#heading=h.3ppydbf0tgen
 {% endblock meta_copydoc %}
 
-{% block title %}Get support for Apache Spark, an open parallel, distributed data processing framework.{% endblock %}
+{% block title %}Support | Apache Spark{% endblock %}
 
 {% block meta_description %}
   Get support for Apache Spark, from Canonical. 24/7 or weekday support and up to ten years security patching per release track.
@@ -463,11 +463,8 @@
       </div>
     </div>
   </section>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
 
-  {% with %}
-    {% set returnURL = "https://canonical.com/data/spark#success" %}
-    {% include "data/_form-data-spark.html" %}
-  {% endwith %}
+  {{ load_form("/data/spark/support") | safe }}
 
 {% endblock %}

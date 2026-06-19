@@ -9,7 +9,14 @@ context:
 <section class="p-section">
 <h1>Legal terms and conditions</h1>
 <p>We have a number of legal agreements to protect your personal data and the contributions you make to the projects we manage. We also have agreements that enable us to share intellectual property (which includes our trademarks and content as well as code), plus legal descriptions of exactly what our support services cover.</p>
+</section>
 
+<section class="p-section--shallow">
+  <hr class="p-rule">
+  <h3>Business Code of Conduct</h3>
+  <p>This Code establishes a clear and unified standard governing Canonical's operations, as well as the expectations we hold for our business partners throughout their entire value chain.</p>
+  <hr class="p-rule--muted">
+  [View our business code of conduct&nbsp;&rsaquo;](https://assets.ubuntu.com/v1/b5f3fd1b-2026_canonical_business_code_of_conduct.pdf)
 </section>
 
 <section class="p-section--shallow">

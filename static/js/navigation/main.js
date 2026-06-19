@@ -2,9 +2,7 @@ import throttle from "../utils/throttle";
 
 import {
   navigation,
-  secondaryNavigation,
   toggles,
-  topLevelNavigationItems,
 } from "./elements";
 
 import { closeSearch, handleSearch } from "./search";
@@ -74,6 +72,7 @@ document.addEventListener("click", function (event) {
 function toggleDropdown(toggle) {
   const target = document.getElementById(toggle.getAttribute("aria-controls"));
   if (target) {
+    closeNotifications();
     // check if the toggled dropdown is child of another dropdown
     const isNested = target.parentNode.closest(".p-navigation__dropdown");
     if (!isNested) {
@@ -95,6 +94,11 @@ function toggleDropdown(toggle) {
       navigation.removeEventListener("keydown", handleDesktopKeyboardEvents);
     }
   }
+}
+
+function closeNotifications() {
+  const notification = document.querySelector(".p-popup-notification:target");
+  if (notification) notification.style.display = "none";
 }
 
 /**
