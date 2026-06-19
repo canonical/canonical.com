@@ -2,6 +2,7 @@ import logging
 
 import requests
 import secrets
+import sentry_sdk
 
 import flask
 from canonicalwebteam.flask_base.env import get_flask_env
@@ -83,6 +84,10 @@ def _fetch_google_supported_domains():
 
 
 GOOGLE_DOMAINS = _fetch_google_supported_domains()
+
+# Same-origin endpoint registered below in init_handlers(); browsers send
+# CSP violation reports here regardless of the page's own connect-src.
+CSP_REPORT_PATH = "/csp-report"
 
 CSP = {
     "default-src": ["'self'"],
@@ -176,6 +181,9 @@ CSP = {
         "secure.livechatinc.com",
         "web.facebook.com",
         "www.tfaforms.com",
+        # Fallback WASM CDN for homepage Lottie animations, see
+        # static/js/homepage/animations.js
+        "unpkg.com",
     ],
     "frame-src": [
         "'self'",
@@ -210,12 +218,87 @@ CSP = {
         "cdn.livechatinc.com",
         "secure.livechatinc.com",
     ],
+    "form-action": [
+        "'self'",
+        "https://pages.ubuntu.com",
+        "https://ubuntu.com",
+    ],
+    "object-src": ["'none'"],
+    "base-uri": ["'self'"],
+    "worker-src": ["'self'"],
+    "report-uri": [CSP_REPORT_PATH],
 }
+
+# These sources seem stale but since marketing tags can be
+# injected at runtime via GTM, outside this repo, we can't
+# be fully sure they're unused from static analysis alone.
+# Put them in a report-only CSP so we can watch Sentry for violations before
+# removing them from the enforced CSP above.
+
+_CSP_REPORT_ONLY_REMOVALS = {
+    "script-src-elem": [
+        "script.crazyegg.com",
+        "js.zi-scripts.com",
+        "snap.licdn.com",
+        "buttons.github.io",
+        "www.tfaforms.com",
+    ],
+    "connect-src": [
+        "*.crazyegg.com",
+        "js.zi-scripts.com",
+        "px.ads.linkedin.com",
+        "ws.zoominfo.com",
+        "www.tfaforms.com",
+    ],
+    "style-src": ["www.tfaforms.com"],
+    "script-src": ["'unsafe-eval'"],
+}
+
+
+def _build_csp_report_only(csp):
+    stricter = {directive: list(values) for directive, values in csp.items()}
+    for directive, stale_values in _CSP_REPORT_ONLY_REMOVALS.items():
+        stricter[directive] = [
+            value for value in stricter[directive] if value not in stale_values
+        ]
+    return stricter
+
+
+CSP_REPORT_ONLY = _build_csp_report_only(CSP)
 
 NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
 
 
 def init_handlers(app):
+
+    @app.route(CSP_REPORT_PATH, methods=["POST"])
+    def csp_report():
+        """
+        Browsers POST violations here for both the enforced CSP and the
+        Content-Security-Policy-Report-Only header (report bodies include
+        a "disposition" field of "enforce" or "report" to tell them apart).
+        """
+        report = flask.request.get_json(silent=True, force=True) or {}
+        violation = report.get("csp-report", {})
+        logger.warning("CSP violation report: %s", report)
+
+        if violation:
+            with sentry_sdk.new_scope() as scope:
+                scope.set_extra("csp-report", violation)
+                scope.fingerprint = [
+                    "csp-violation",
+                    violation.get("violated-directive", "unknown"),
+                    violation.get("blocked-uri", "unknown"),
+                ]
+                sentry_sdk.capture_message(
+                    "CSP violation ({}): {} blocked {}".format(
+                        violation.get("disposition", "enforce"),
+                        violation.get("violated-directive", "unknown"),
+                        violation.get("blocked-uri", "unknown"),
+                    ),
+                    level="warning",
+                )
+        return "", 204
 
     @app.before_request
     def set_csp_nonce():
@@ -256,6 +339,9 @@ def init_handlers(app):
         nonce = getattr(flask.g, "csp_nonce", None)
         response.headers["Content-Security-Policy"] = get_csp_as_str(
             CSP, nonce=nonce
+        )
+        response.headers["Content-Security-Policy-Report-Only"] = (
+            get_csp_as_str(CSP_REPORT_ONLY, nonce=nonce)
         )
 
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
