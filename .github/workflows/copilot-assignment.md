@@ -8,7 +8,9 @@ on:
 
 if: github.event.label.name == 'copilot'
 
-engine: copilot
+engine:
+  id: copilot
+  model: gpt-5
 
 permissions:
   issues: read
@@ -20,6 +22,7 @@ safe-outputs:
   assign-to-agent:
     name: copilot
     target: triggering
+    model: gpt-5
 ---
 
 Assign the GitHub Copilot coding agent to this issue. The agent will read the issue, implement a solution, and open a pull request for review.
