@@ -2,6 +2,7 @@ import logging
 import os
 import responses
 import unittest
+from unittest.mock import patch
 
 from vcr_unittest import VCRTestCase
 from webapp.app import app, get_latest_versions
@@ -175,22 +176,34 @@ class TestRoutes(VCRTestCase):
         response = self.client.get("/robots.txt")
         self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
 
-    def test_blog_latest_news(self):
-        """
-        When given the latest news URL,
-        we should return a 200 status code.
-        """
+    @patch("webapp.app.flask.render_template", return_value="latest-news")
+    @patch("webapp.app.blog_views.get_index", return_value={})
+    def test_blog_latest_news_defaults_to_page_one(
+        self, mock_get_index, mock_render_template
+    ):
+        response = self.client.get("/blog/latest-news")
 
-        self.assertEqual(self.client.get("/blog/latest-news").status_code, 200)
+        self.assertEqual(response.status_code, 200)
+        mock_get_index.assert_called_once_with(
+            page=1, category_slug="announcement"
+        )
+        mock_render_template.assert_called_once_with(
+            "blog/latest-news.html"
+        )
 
-    def test_blog_latest_news_with_page_param(self):
-        """
-        When given latest news with page query,
-        we should return a 200 status code."""
+    @patch("webapp.app.flask.render_template", return_value="latest-news")
+    @patch("webapp.app.blog_views.get_index", return_value={})
+    def test_blog_latest_news_uses_page_query_param(
+        self, mock_get_index, mock_render_template
+    ):
+        response = self.client.get("/blog/latest-news?page=3")
 
-        self.assertEqual(
-            self.client.get("/blog/latest-news?page=2").status_code,
-            200,
+        self.assertEqual(response.status_code, 200)
+        mock_get_index.assert_called_once_with(
+            page=3, category_slug="announcement"
+        )
+        mock_render_template.assert_called_once_with(
+            "blog/latest-news.html"
         )
 
 
