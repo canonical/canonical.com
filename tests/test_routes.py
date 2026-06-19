@@ -187,9 +187,7 @@ class TestRoutes(VCRTestCase):
         mock_get_index.assert_called_once_with(
             page=1, category_slug="announcement"
         )
-        mock_render_template.assert_called_once_with(
-            "blog/latest-news.html"
-        )
+        mock_render_template.assert_called_once_with("blog/latest-news.html")
 
     @patch("webapp.app.flask.render_template", return_value="latest-news")
     @patch("webapp.app.blog_views.get_index", return_value={})
@@ -202,9 +200,7 @@ class TestRoutes(VCRTestCase):
         mock_get_index.assert_called_once_with(
             page=3, category_slug="announcement"
         )
-        mock_render_template.assert_called_once_with(
-            "blog/latest-news.html"
-        )
+        mock_render_template.assert_called_once_with("blog/latest-news.html")
 
 
 class TestJujuVersion(unittest.TestCase):
