@@ -60,7 +60,7 @@ export function setupIntlTelInput(countryCode, phoneInput) {
   iti = intlTelInput(phoneInput, {
     utilsScript: "/static/js/modules/intl-tel-input/utils.js",
     separateDialCode: true,
-    hiddenInput: () => ({ phone: inputName, country: `${inputName}_country` }),
+    hiddenInput: () => ({ phone: inputName }),
     initialCountry: countryCode,
   });
 
