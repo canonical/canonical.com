@@ -145,6 +145,7 @@ CSP = {
         "o4510662863749120.ingest.de.sentry.io",
         "www.google-analytics.com",
         "*.crazyegg.com",
+        "*.clarity.ms",
         "*.doubleclick.net",
         "*.g.doubleclick.net",
         "www.googleadservices.com",
