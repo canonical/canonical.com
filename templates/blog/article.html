@@ -1,5 +1,7 @@
 {% extends "base_index.html" %}
 
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 
 {% block meta_description %}{{ article.meta_description }}{% endblock %}
@@ -54,9 +56,9 @@
   {% set breadcrumbs = [{"name": "Blog", "href": "/blog"}, {"name": "Article"}] %}
   {% include '/partial/_breadcrumbs.html' %}
 
-  <article class="p-section--shallow">
-    <header class="row">
-      <div class="aside col-3 col-medium-2">
+  <article>
+    <header class="grid-row">
+      <div class="aside grid-col-2 grid-col-medium-4">
         <div class="p-media-object">
           {% if article.author %}
             {% if article.author and article.author.id == 217 %}
@@ -65,6 +67,7 @@
                    alt=""
                    />
             {% else %}
+              {# '96' selects the 96x96px avatar variant returned by the WP API #}
               <img src="{{ article.author.avatar_urls['96'] }}"
                    class="p-media-object__image is-round u-align-self-center"
                    alt=""
@@ -81,12 +84,12 @@
                 </span>
                 <br />
               {% endif %}
-              <span>on {{ article.date }}</span>
+              <span>{{ article.date }}</span>
             </p>
           </div>
         </div>
       </div>
-      <div class="col-9 col-medium-4">
+      <div class="grid-col-6 grid-col-medium-4">
         <div class="p-section--shallow">
           <div class="p-section--shallow">
             <h1>{{ article.title.rendered|safe }}</h1>
@@ -102,59 +105,106 @@
             </div>
           {% endif %}
 
-          <ul class="p-inline-list">
-            <span class="p-text--default">Share on:</span>
+        </div>
+      </div>
+    </header>
+    <div class="grid-row">
+      <section class="p-section grid-col-4 grid-col-start-large-3 grid-col-medium-4">
+        <hr class="p-rule" />
+        <button type="button"
+                id="shareArticle"
+                class="p-button--base has-icon u-hide--large">
+          <i class="p-icon--share"></i>
+          <span>Share the article</span>
+        </button>
+        {{ article.content.rendered|safe }}
+      </section>
+      <aside class="aside grid-col-2 grid-col-start-large-7 grid-col-medium-4">
+        <div class="blog-article-newsletter">
+          <div class="p-section--shallow">
+            <h2 class="p-muted-heading">Sign up for our newsletter</h2>
+          </div>
+          {% include 'blog/newsletter-form-compact.html' %}
+        </div>
+        <div class="blog-article-share u-hide--medium u-hide--small">
+          <h2 class="p-muted-heading">Share on</h2>
+          <ul class="p-inline-list u-no-margin--bottom">
             <li class="p-inline-list__item">
-              <a class="p-icon--facebook"
-                 title="Share on Facebook"
-                 href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
-                Facebook
-              </a>
-            </li>
-            <li class="p-inline-list__item">
-              <a class="p-icon--twitter"
-                 title="Share on Twitter"
+              <a title="Share on X"
                  href="https://twitter.com/share?text={{ article.title.rendered|safe|urlencode }}&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;hashtags=ubuntu">
-                Twitter
+                <img src="https://assets.ubuntu.com/v1/4a485af7-x_icon.svg"
+                     alt="Share on X"
+                     width="24"
+                     height="24" />
               </a>
             </li>
             <li class="p-inline-list__item">
-              <a class="p-icon--linkedin"
-                 title="Share on LinkedIn"
+              <a title="Share on Facebook"
+                 href="https://www.facebook.com/sharer/sharer.php?u=https://www.canonical.com/blog/{{ article.slug }}">
+                <img src="https://assets.ubuntu.com/v1/d78c98ff-fb_icon.svg"
+                     alt="Share on Facebook"
+                     width="24"
+                     height="24" />
+              </a>
+            </li>
+            <li class="p-inline-list__item">
+              <a title="Share on LinkedIn"
                  href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.canonical.com/blog/{{ article.slug }}&amp;title={{ article.title.rendered|safe|urlencode }}">
-                LinkedIn
+                <img src="https://assets.ubuntu.com/v1/af14595b-li_icon.svg"
+                     alt="Share on LinkedIn"
+                     width="24"
+                     height="24" />
               </a>
             </li>
           </ul>
         </div>
-      </div>
-    </header>
-    <hr class="p-rule is-fixed-width" />
-    <div class="row">
-      <aside class="aside col-3 col-medium-2">
-        <div class="p-section">
-          <div class="p-section--shallow">
-            <hr class="p-rule u-hide--medium u-hide--large" />
-            <h2 class="p-muted-heading">Newsletter signup</h2>
-          </div>
-          {% include 'blog/newsletter-form.html' %}
-        </div>
       </aside>
-      <section class="p-section col-6 col-medium-4">
-        {{ article.content.rendered|safe }}
-      </section>
     </div>
   </article>
 
   {% if related_articles %}
-    <section class="p-section">
-      <div class="u-fixed-width">
-        <h4 class="p-muted-heading">Related posts</h4>
-      </div>
-      {% for article in related_articles %}
-        {% include 'blog/blog-card.html' %}
-      {% endfor %}
-    </section>
+    {% set blog_articles = [] %}
+    {% for article in related_articles %}
+      {% set blog_article = {
+        "title": {
+          "text": article.title.rendered|safe,
+          "link_attrs": {"href": "/blog/" + article.slug}
+        },
+        "description": {
+          "text": article.excerpt.raw.replace('[…]', '')|striptags|truncate(180)
+        },
+        "metadata": {
+          "authors": [{
+            "text": article.author.name,
+            "link_attrs": {"href": "/blog/author/" + article.author.slug}
+          }],
+          "date": {"text": article.date}
+        }
+      } %}
+      {% if article.image and article.image.source_url %}
+        {% set _ = blog_article.update({"image": {"attrs": {"src": article.image.source_url, "alt": ""}}}) %}
+      {% endif %}
+      {% set _ = blog_articles.append(blog_article) %}
+    {% endfor %}
+
+    {{ vf_blog(
+      title={"text": "Related posts"},
+      articles=blog_articles,
+      padding="deep"
+    ) }}
   {% endif %}
+
+  <script nonce="{{ csp_nonce }}">
+    document
+      .getElementById("shareArticle")
+      ?.addEventListener("click", function () {
+        if (navigator.share) {
+          navigator.share({
+            title: document.title,
+            url: window.location.href,
+          });
+        }
+      });
+  </script>
 
 {% endblock %}

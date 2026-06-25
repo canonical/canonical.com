@@ -24,7 +24,7 @@ let config = {
         "node_modules/leaflet/dist/leaflet.js",
         "node_modules/venobox/dist/venobox.min.js",
         "node_modules/vanilla-framework/templates/_macros/*.jinja",
-        "node_modules/intl-tel-input/build/js/utils.js"
+        "node_modules/intl-tel-input/build/js/utils.js",
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {
@@ -48,6 +48,7 @@ let config = {
           /^cc-/, // Cookie consent related
           /^optanon/, // Cookie consent related
           /^has-/, // State-related classes
+          /blog-article/, // Blog article layout (incl. dynamic .wp-block-embed)
         ],
         deep: [/form-.+/],
         keyframes: true,
