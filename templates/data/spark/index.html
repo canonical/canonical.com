@@ -1,13 +1,13 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
-{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1sM8pgyM-N8VK8fyHgMsW21PdXUiqYrdRkPkipIljNd0/edit
 {% endblock meta_copydoc %}
 
-{% block title %}Solution for Apache Spark on Kubernetes{% endblock %}
+{% block title %}Apache Spark{% endblock %}
 
 {% block canonical_url %}{{ request.host_url }}data/spark{% endblock %}
 
@@ -404,4 +404,8 @@
 
   {{ load_form("/data/spark") | safe }}
 
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

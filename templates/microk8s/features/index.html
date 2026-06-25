@@ -1,8 +1,6 @@
 {% extends 'base_index.html' %}
 
-{% block title %}
-  MicroK8s features
-{% endblock title %}
+{% block title %}Features | MicroK8s{% endblock title %}
 
 {% block meta_description %}
   MicroK8s high availability is automatic when three or more nodes are joined into the cluster. If there are more than three nodes, then a spare one is automatically promoted if a data store node goes offline, creating a zero-ops resilient HA Kubernetes which can lose nodes and heal itself.
@@ -63,7 +61,7 @@
 
   {{ load_form("/microk8s/features") | safe }}
 
-  <script src="{{ versioned_static('js/side-navigation.js') }}"></script>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script src="{{ versioned_static('js/side-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

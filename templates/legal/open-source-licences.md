@@ -22,7 +22,7 @@ context:
         <li class="p-side-navigation__item--title"><span class="p-side-navigation__text">Releases</span></li>
         <li class="p-side-navigation__item">
           <a class="p-side-navigation__link" href="/legal/open-source-licences?release=noble" data-file="45d39226-licensing_noble_base_install.json">
-            24.04 LTS (Noble Nautilus)
+            24.04 LTS (Noble Numbat)
           </a>
         </li>
         <li class="p-side-navigation__item">
@@ -32,7 +32,7 @@ context:
         </li>
         <li class="p-side-navigation__item">
           <a class="p-side-navigation__link" href="/legal/open-source-licences?release=focal" data-file="4f31fa98-licensing-focal-base-install.json">
-            20.04 (Focal Fossa)
+            20.04 LTS (Focal Fossa)
           </a>
         </li>
         <li class="p-side-navigation__item">
@@ -107,7 +107,7 @@ context:
   </table>
 </main>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   const elements = {
     content: document.getElementById("content"),
     empty: document.getElementById("empty"),
@@ -200,7 +200,7 @@ context:
   }
 </script>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   /**
   Toggles the expanded/collapsed classed on side navigation element.
 

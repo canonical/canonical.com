@@ -7,9 +7,9 @@
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
-{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
-{% block title %}MicroCloud: your open source cloud platform{% endblock %}
+{% block title %}MicroCloud{% endblock %}
 
 {% block meta_description %}
   MicroCloud offers a lightweight, automated, and trusted open source cloud platform, integrated with the best open source cloud infrastructure components
@@ -56,8 +56,8 @@
       <h2>Deploy a fully functional open source cloud platform in minutes:</h2>
       <div class="row-cli__commands u-hide--medium u-hide--small"
            aria-hidden="true">
-        <p class="p-heading--2 u-no-padding--top u-no-margin--bottom"
-           style="display: inline-block">$</p>
+        <p class="p-heading--2 u-no-padding--top u-no-margin--bottom u-display-inline-block"
+          >$</p>
         <span class="row-cli__commands-list typer"
               id="main"
               data-words="snap install microcloud lxd microceph microovn,microcloud init,microcloud join"
@@ -500,8 +500,12 @@
   {% endif %}
   {% endcall %}
   
-  <script src="/static/js/typer.js" defer></script>
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script src="/static/js/typer.js" defer nonce="{{ csp_nonce }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 
   {{ load_form("/microcloud") | safe }}
 

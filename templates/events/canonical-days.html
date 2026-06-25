@@ -5,9 +5,7 @@
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
-{% block title %}
-  Canonical Events
-{% endblock title %}
+{% block title %}Canonical Days | Events{% endblock title %}
 
 {% block meta_description %}
   Meet local open source experts at the Canonical Days
@@ -55,29 +53,39 @@
   <section class="p-section">
     <div class="grid-row">
       <table class="p-table--mobile-card js-sortable-table"
-              data-heading="Find a Canonical Day near you">
+              data-heading="Find a Canonical Day near you"
+              data-sort-column="2"
+              data-sort-direction="asc">
         <thead>
           <tr>
             <th data-column="0" data-type="string">
-              <strong>Location</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Location" style="border-style: none;"></button>
+              <strong>Event Name</strong>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none" aria-label="Sort by Event Name"></button>
             </th>
             <th data-column="1" data-type="string">
-              <strong>Region</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Region" style="border-style: none;"></button>
+              <strong>Location</strong>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none" aria-label="Sort by Location"></button>
             </th>
-            <th data-column="2" data-type="date">
+            <th data-column="2" data-type="string">
+              <strong>Region</strong>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none" aria-label="Sort by Region"></button>
+            </th>
+            <th data-column="3" data-type="date">
               <strong>Date</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" aria-label="Sort by Date" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none" aria-label="Sort by Date"></button>
             </th>
           </tr>
         </thead>
         <tbody class="js-events-truncated">
+          {% set TRUNCATE_THRESHOLD = 12 %}
           {% set ns = namespace(counter=0) %}
-          {% for data in metadata %}    
+          {% for data in metadata %}
             {% set ns.counter = ns.counter + 1 %}
-            {% if ns.counter <= 5 %}
+            {% if ns.counter <= 10 or metadata | length < TRUNCATE_THRESHOLD %}
               <tr>
+                <td data-heading="Event Name">
+                  <a href="{{ data.path }}">{{ data.topic_name or '—' }}</a>
+                </td>
                 <td data-heading="Location">
                   <a href="{{ data.path }}">{{ data.event_location or '—' }}</a>
                 </td>
@@ -92,7 +100,7 @@
           {% endfor %}
         </tbody>
 
-        {% if metadata | length > 5 %}
+        {% if metadata | length >= TRUNCATE_THRESHOLD %}
           <tbody class="js-events-all u-hide">
             {% for data in metadata %}    
               <tr>
@@ -110,7 +118,7 @@
           </tbody>
         {% endif %}
       </table>
-      {% if metadata | length > 5 %}
+      {% if metadata | length >= TRUNCATE_THRESHOLD %}
       <div>
         <button class="p-button js-toggle-show-events">Show all events</button>
       </div>
@@ -202,5 +210,5 @@
     ])
   }}
 
-  <script src="/static/js/dist/events.js"></script>
+  <script src="/static/js/dist/events.js" nonce="{{ csp_nonce }}"></script>
 {% endblock content %}

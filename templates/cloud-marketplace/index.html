@@ -12,7 +12,7 @@
   https://docs.google.com/document/d/18D8Ir-fQooR8FA_952tik_mzwAuiFynOCjUXBmbgYr4/edit
 {% endblock %}
 
-{% block title %}Canonical’s cloud marketplace solutions{% endblock %}
+{% block title %}Cloud marketplace solutions{% endblock %}
 
 {% block meta_description %}
   Find Canonical’s managed data and AI applications on cloud marketplaces. Effortlessly run your favourite open source databases and big data tools on the cloud of your choice.
@@ -689,6 +689,6 @@
 
   {{ load_form("/cloud-marketplace") | safe }}
 
-  <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
-  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
+  <script defer src="{{ versioned_static('js/tabbed-content.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

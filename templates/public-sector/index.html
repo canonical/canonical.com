@@ -6,7 +6,7 @@
 {% from "_macros/vf_linked-logo-section.jinja" import vf_linked_logo_section %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
-{% from 'macros/_macro-lite-video.jinja' import lite_video %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 {% block title %}Open source for public sector and government{% endblock %}
 
@@ -26,7 +26,9 @@
 
 {% block extra_metatags %}
   <script type="module"
-          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock extra_metatags %}
 
 {% block content %}
@@ -704,6 +706,6 @@
     ]) }}
 
   {{ load_form("/public-sector") | safe }}
-  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
 
 {% endblock content %}

@@ -39,6 +39,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "maas_styles";
 
 @include vanilla;
+@import "fonts"; // Include after 'vanilla' to override
 @include additional-p-icons;
 @include vf-p-grid-8;
 @include vf-p-icon-status-waiting;
@@ -71,6 +72,8 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include pattern-venobox;
 @include maas-styles;
 @include canonical-p-nojs-navigation;
+@include vf-u-align;
+@include vf-p-content-card;
 
 @media screen and ($breakpoint-large <= width) {
   .p-section__u-no-padding--top {
@@ -125,13 +128,23 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 
 // Overide the path to flags for dial codes
 .iti__flag {
-  background-image: url("#{$assets-path}21572c97-flags.png");
+  background-image: url("#{$assets-path}685bc1a3-flags.png");
 }
+
 // stylelint-disable-next-line media-feature-name-no-vendor-prefix
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .iti__flag {
-    background-image: url("#{$assets-path}d6f84371-flags%402x.png");
+    background-image: url("#{$assets-path}01807c27-flags@2x.png");
   }
+}
+
+// Override dropdown background colours to match theme
+.iti__dropdown-content {
+  background-color: $colors--theme--background-default;
+}
+
+.iti__country.iti__highlight {
+  background-color: $colors--theme--background-hover;
 }
 
 .iti {
@@ -642,11 +655,6 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   }
 }
 
-// XXX 03/07/23 Lyubomir Popov - remove when this is fixed https://github.com/canonical/vanilla-framework/issues/4818
-.p-breadcrumbs {
-  margin-bottom: $spv--small;
-}
-
 // XXX 03/07/23 Lyubomir Popov - prevents overflow on mobile; high specificity selectors require !importnat to override. Remove whan this is fixed: https://github.com/canonical/vanilla-framework/issues/4820
 .p-pagination {
   flex-wrap: wrap;
@@ -1113,3 +1121,99 @@ body:not(.js-enabled) {
 #browse-events-table tbody tr:last-child {
   border-bottom: 1px solid $colors--theme--border-low-contrast;
 }
+
+// Adjust navigation to be below meganav
+.p-in-page-navigation {
+  top: 4rem;
+}
+
+@media screen and (width < 1036px) {
+  [class^=grid-col]:has(>.p-in-page-navigation) {
+    top: 3.5rem;
+  }
+}
+
+.p-markdown {
+  h2 {
+    padding-top: .55rem !important;
+  }
+
+  h3, h4 {
+    padding-top: .45rem !important;
+  }
+}
+
+.p-knowledge-breadcrumbs__item {
+  font-weight: 400 !important;
+  margin-right: 0;
+}
+
+.p-knowledge-breadcrumbs {
+  list-style: none;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.p-knowledge-breadcrumbs__item--home::after,
+.p-knowledge-breadcrumbs__item:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.p-case-study__filters {
+  display: flex;
+  gap: $spv--large;
+  @media screen and (width < $breakpoint-small) {
+    flex-direction: column;
+    padding-bottom: $spv--x-large;
+    
+    .p-case-study__filter-heading {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.p-case-study__filter-select {
+  background-color: $color-paper;
+  border: none;
+  max-width: min-content;
+  text-overflow: ellipsis;
+
+  @media screen and (width < $breakpoint-small) {
+    padding-left: 0;
+  }
+}
+
+.p-pagination__case-study {
+  @extend .p-pagination;
+  @media screen and ($breakpoint-large > width) {
+    justify-content: center;
+  }
+}
+
+.p-case-study__cards {
+  @media screen and (width < $breakpoint-small) {
+    .p-content-card__image-wrapper {
+      display: none;
+    }
+
+    .p-content-card__hover-content {
+      display: none;
+    }
+
+    .p-content-card {
+      height: auto;
+      min-height: unset;
+    }
+
+    .p-content-card__body {
+      grid-template-rows: auto;
+    }
+  }
+}
+
+// Utility classes that replace inline style attributes (WD-36639).
+// Imported last so this single-class utility layer wins same-specificity
+// ties, mirroring the precedence the original inline styles had.
+@import "utilities_csp";

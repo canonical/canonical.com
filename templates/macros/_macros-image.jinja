@@ -8,19 +8,28 @@
   {%- set image_content = caller('image_content') -%}
   {%- set has_image = image_content|trim|length>0 -%}
   <section class="p-section">
-    <div class="row">
-      {% if right_align %}<div class="col-start-large-4 col-9">{% endif %}
+    <div class="grid-row">
+      {% if right_align %}<div class="grid-col-start-large-3 grid-col-6">{% endif %}
       {% if has_image %}
         <div class="p-image-container u-align--{% if right_align %}right{% else %}center{% endif %} u-vertically-center u-no-padding--bottom">
           {{ image_content }}
         </div>      
       {% endif %}
       {% if caption %}
-      <div class="col-start-large-4 col-9">
+      <div class="grid-col-start-large-3 grid-col-6">
         <p class="u-text--muted u-no-max-width">{{ caption }}</p>
       </div>
       {% endif %}
       {% if right_align %}</div>{% endif %}
     </div>
   </section>
+{%- endmacro -%}
+
+{%- macro image_kh(url, alt, width=1200, height=800, loading="lazy", hi_def=True, caption="") -%}
+  <div class="p-section--shallow p-image-container">
+    <img class="p-image-container__image" src="{{ url }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}" loading="{{ loading }}" />
+    {%- if caption %}
+      <p class="u-text--muted">{{ caption }}</p>
+    {%- endif %}
+  </div>
 {%- endmacro -%}

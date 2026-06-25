@@ -171,14 +171,14 @@
           </h3>
         </div>
         <div id="latest-articles"
-             class="col-6 col-medium-3"
-             style="padding-top: 0.5rem">
-          <div style="min-height: 9.1rem">
+             class="col-6 col-medium-3 u-padding-top-0-5rem"
+            >
+          <div class="u-min-height-9-1rem">
             <i class="p-icon--spinner u-animation--spin">Loading...</i>
           </div>
         </div>
       </div>
-      <template style="display:none" id="articles-template">
+      <template class="u-display-none" id="articles-template">
         <article class="u-extra-space">
           <div class="blog-p-card__content">
             <hr class="p-rule" />
@@ -187,9 +187,9 @@
           </div>
         </article>
       </template>
-      <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
+      <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
       {# djlint: off #}
-      <script>
+      <script nonce="{{ csp_nonce }}">
         canonicalLatestNews.fetchLatestNews({
           articlesContainerSelector: "#latest-articles",
           articleTemplateSelector: "#articles-template",
@@ -207,4 +207,7 @@
   {% include custom_blog_section %}
 {% endif %}
 
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script async defer
+        src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
+        integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
+        crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>

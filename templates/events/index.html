@@ -3,9 +3,7 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 
-{% block title %}
-  Canonical Events
-{% endblock title %}
+{% block title %}Events{% endblock title %}
 
 {% block meta_description %}  
 {% endblock meta_description %}
@@ -26,8 +24,9 @@
   ) -%}
     {%- if slot == 'description' -%}
     <p>
-      Whether it's in person or virtual, there are always things happening in the Canonical world. 
-      Come make some new friends, share your knowledge, and join the fun.
+      Whether it’s in person or virtual, there are always things happening in
+      the Canonical world. Come explore new developer tech, discover new
+      approaches to enterprise IT, share your knowledge, or join the community.
     </p>
     {%- endif -%}
 
@@ -112,19 +111,19 @@
           <tr>
             <th data-column="0" data-type="link">
               <strong>Event name</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none"></button>
             </th>
             <th data-column="1" data-type="string">
               <strong>Location</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none"></button>
             </th>
             <th data-column="2" data-type="string">
               <strong>Region</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none"></button>
             </th>
             <th data-column="3" data-type="date">
               <strong>Date</strong>
-              <button class="js-sortable-table__button p-icon--sort-both" style="border-style: none;"></button>
+              <button class="js-sortable-table__button p-icon--sort-both u-border-style-none"></button>
             </th>
           </tr>
         </thead>
@@ -179,5 +178,5 @@
     </div>
   </section>
 
-  <script src="/static/js/dist/events.js"></script>
+  <script src="/static/js/dist/events.js" nonce="{{ csp_nonce }}"></script>
 {% endblock content %}

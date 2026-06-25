@@ -1,0 +1,186 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}PhonePe simplifies fintech compliance with Ubuntu Pro{% endblock %}
+
+{% block meta_description %}
+  How India’s largest digital payments company streamlines fintech security and PCI-DSS compliance for Linux and open source with Ubuntu Pro
+{% endblock %}
+
+{% block meta_company_name %}PhonePe{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/1kUYuN_WFyrgtBDBJuLZvM-x3_TKmzVm8fck3xpHBBC8{% endblock %}
+{% block meta_image %}https://assets.ubuntu.com/v1/bba37324-phonepe.png{% endblock %}
+{% block meta_discourse_url %}https://discourse.ubuntu.com/t/case-study-phonepe-simplifies-fintech-compliance-with-ubuntu-pro/83650{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="PhonePe simplifies fintech compliance with Ubuntu Pro",
+    layout="25/75",
+    is_split_on_medium="true") -%}
+    {% if slot == "signpost_image" %}
+      {{ image(url="https://assets.ubuntu.com/v1/16ad00ce-phonepe_logo.png",
+            alt="",
+            width="852",
+            height="174",
+            hi_def=True,
+            loading="auto"
+          ) | safe
+      }}
+    {% endif %}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About PhonePe") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      PhonePe is India’s largest digital payments platform. The company was founded in 2015 and is headquartered in Bengaluru.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      PhonePe enables users to make payments and investments via a mobile app with a Unified Payments Interface, serving over 600 million registered users. The PhonePe app processes approximately 330-350 million transactions per day.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      The award-winning payment platform is run by an infrastructure team with over 150 employees.
+    {%- endif -%}
+    {%- if slot == 'list_item_content_4' -%}
+      PhonePe standardized most of its platform on Ubuntu as its operating system, and runs a fleet of over 30,000 servers. 
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=3) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      With open source software, PhonePe can innovate with fewer constraints. 
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      PhonePe chose Ubuntu for its extensive hardware support, performance, and long term support (LTS) commitment. 
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      With Ubuntu Pro, PhonePe is able to meet security and compliance requirements for the highly regulated financial services market with ease.
+    {%- endif -%}
+  {%- endcall %}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/d0c10ff1-image1.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy"
+          ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="A trusted OS for a trusted payments platform") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        PhonePe is on a mission to democratize payment services in India. Over the years, the company has expanded to new segments including insurance, loans, and wealth management. As a leading fintech platform, PhonePe needs to ensure a smooth and reliable user experience while complying with strict regulatory requirements, such as the Payment Card Industry Data Security Standard (PCI-DSS), and regulations set by the Securities and Exchange Board of India (SEBI). The company is a big proponent of open source software and had chosen Ubuntu to run most of their infrastructure. When faced with the need to meet an increasing set of cybersecurity compliance requirements, PhonePe chose Ubuntu Pro for seamless and consistent security patching across its estate.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We have been an Ubuntu house from the very beginning. Our first release was Trusty Tahr and we never looked back. We chose Ubuntu for its regular version upgrades and long term support. It just works. Enabling Ubuntu Pro was an obvious choice for us.",
+    citation_source_name_text="Senior SRE leadership",
+    citation_source_organisation_text="at PhonePe",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        India processes the world’s <a href="https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=154912&ModuleId=3&reg=3&lang=2">highest volume</a> of digital payments. Millions of citizens and businesses rely on the country’s Unified Payments Interface to partake in the digital economy. PhonePe was one of the first fintech providers to benefit from this payment transformation, and launched with a mission to make payments accessible and reliable. Like many financial services companies, PhonePe relies heavily on open source to innovate quickly. The company itself open sources some of its solutions, including an alternative to Kubernetes called <a href="https://phonepe.github.io/drove-orchestrator/index.html">Drove</a>. When faced with an increasing wave of cybersecurity regulations, the company had to look for a more efficient way to handle security patching across its large open source software stack.
+      </p>
+      <p>
+        The regulations PhonePe is subject to include the Payment Card Industry Data Security Standard (PCI-DSS), and those set forth by the Insurance Regulatory and Development Authority of India (IRDAI), the Reserve Bank of India (RBI) and the Securities and Exchange Board of India (SEBI). PhonePe needed a way to maintain core open source packages in order to meet these regulatory requirements and uphold their cybersecurity commitments.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We have a large fleet so it’s not very practical to constantly upgrade to get the latest security fixes. We did some brainstorming internally and considered other Linux distributions, but we could get what we needed with Ubuntu’s Expanded Security Maintenance (ESM) and coverage for the Ubuntu Universe repository. We needed a way to stay on top of security patches and wanted something reliable. Thanks to Ubuntu Pro, we can confidently pass our compliance audits.",
+    citation_source_name_text="Senior SRE leadership",
+    citation_source_organisation_text="at PhonePe",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/d74dac6e-image2.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy"
+          ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        PhonePe’s infrastructure team has been a long-time “Ubuntu house” since 2015. PhonePe’s leadership considers that the OS is really stable and is happy with the level of support it receives. With Ubuntu Pro, PhonePe gets the flexibility to plan migrations to subsequent Ubuntu versions while benefiting from tested and carefully applied fixes that are backported to previous versions. This provides stability while facilitating ongoing innovation.
+      </p>
+      <p>
+        “We use open source because it enables you to test new software without worrying about constant licensing checks,” PhonePe’s SRE leadership explains. “If we used proprietary software across such a large fleet of virtual machines, we’d have to hire people just to deal with licenses. With open source operating systems like Ubuntu we can skip the licensing overhead, we just try things out when we want to, and can engage Canonical when we need to. If there is one thing we don’t have to worry about in our ecosystem, it’s Ubuntu.”
+      </p>
+      <p>
+        Besides the benefit of stability, PhonePe’s team prefers Ubuntu for its extensive hardware support and performance.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We run Ubuntu for databases, queuing systems and many other types of workloads. We run performance tests consistently across these, and there are no surprises. The fact that Canonical has been around for 20 years and works with leading hardware vendors like Dell also made Ubuntu an obvious choice for us. We can’t afford to have an OS where certain NICs or cards won’t run. The beauty of Ubuntu is that it just works.",
+    citation_source_name_text="Senior SRE leadership",
+    citation_source_organisation_text="at PhonePe",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' %}
+      {{ image(url="https://assets.ubuntu.com/v1/724e058b-image3.jpg",
+            alt="",
+            width="2464",
+            height="1027",
+            hi_def=True,
+            loading="lazy"
+          ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Thanks to Ubuntu and Ubuntu Pro, PhonePe can confidently pass its compliance audits and continue serving millions of users with confidence. “Our team is able to provide a stable and securely maintained environment for all of the applications our different business units run. We can deliver a highly responsive and reliable product as a result,” adds PhonePe’s SRE leadership.
+      </p>
+      <p>
+        While the lack of consistent security maintenance was a blocker in the past, PhonePe was able to overcome those limitations with Ubuntu Pro and Ubuntu as its trusted platform.
+      </p>
+      <p>
+        “It’s difficult to quantify the positive impact of a security patching solution like Ubuntu Pro, but the absence of it can be quite debilitating. It’s a bit like oxygen - you don’t think about it while you’re breathing easily but it’s the very thing keeping your system alive and moving.” - <b>Senior SRE leadership</b> <span class="u-text--muted">at PhonePe</span>
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Learn more about Ubuntu Pro", link="https://ubuntu.com/pro") }}
+{% endblock %}

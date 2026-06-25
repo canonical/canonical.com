@@ -8,7 +8,7 @@
 
 {% from "_macros/vf_blog.jinja" import vf_blog %}
 
-  {% block title %}Get open source security from Canonical{% endblock %}
+  {% block title %}Open source security{% endblock %}
 
   {% block meta_description %}
     Standardize your open source supply chain with the publisher of Ubuntu. Ideal to stay compliant across your devices, apps, cloud infrastructure, and systems.
@@ -414,9 +414,9 @@
           </p>
         </div>
       </div>
-      <div class="u-fixed-width" style="padding: 1.5rem">
-        <div class="p-image-container is-highlighted u-hide--small"
-             style="padding: 0.5rem">
+      <div class="u-fixed-width u-padding-1-5rem">
+        <div class="p-image-container is-highlighted u-hide--small u-padding-0-5rem"
+            >
           {{ image(url="https://assets.ubuntu.com/v1/e257171f-Overall%20portfolio_new_1200pxW.png",
                     alt="",
                     width="1200",
@@ -650,8 +650,8 @@
       </div>
     </section>
 
-    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"></script>
-    <script>
+    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+    <script nonce="{{ csp_nonce }}">
       canonicalLatestNews.fetchLatestNews({
         // Make sure you add `p-image-container__image` to ensure the article image receives the correct styling.
         imageClasses: ["p-image-container__image"],

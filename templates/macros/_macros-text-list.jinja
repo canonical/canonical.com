@@ -5,8 +5,8 @@
 
 {%- macro text_list(title) -%}
   <section class="p-section">
-    <div class="row">
-      <div class="col-start-large-4 col-9">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
         <hr class="p-rule--muted" />
         <h2 class="p-section--shallow">{{ title }}</h2>
         <ul class="p-list--divided u-text-max-width u-no-margin--bottom">
@@ -23,4 +23,26 @@
       </div>
     </div>
   </section>
+{%- endmacro -%}
+
+# Params
+# items (required): List of text items to be rendered in the list
+# type (optional): "bullet" or "number", defaults to "bullet"
+
+{%- macro text_list_kh(items, type="bullet") -%}
+  <div class="grid-row">
+      {% if type == "number" %}
+        <ol class="p-list--divided u-text-max-width">
+      {% else %}
+        <ul class="p-list--divided u-text-max-width">
+      {% endif %}
+        {% for item in items %}
+          <li class="p-list__item {% if type == 'bullet' %}has-bullet{% endif %}">{{ item }}</li>
+        {% endfor %}
+      {% if type == "number" %}
+        </ol>
+      {% else %}
+        </ul>
+      {% endif %}
+  </div>
 {%- endmacro -%}

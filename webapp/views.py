@@ -3,11 +3,17 @@ import flask
 import requests
 import math
 import datetime
+import yaml
+import logging
+from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
 import re
+
+
+logger = logging.getLogger(__name__)
 
 
 def json_asset_query(file_name):
@@ -248,7 +254,11 @@ def build_canonical_days_index(engage_docs):
             active_count,
             current_total,
         ) = engage_docs.get_index(
-            limit, offset=None, tag_value="roadshow", key="type", value="event"
+            limit,
+            offset=None,
+            tag_value="roadshow",
+            key="type",
+            value="roadshow",
         )
         total_pages = math.ceil(current_total / limit)
 
@@ -283,12 +293,12 @@ def build_canonical_days_index(engage_docs):
                     valid_events.append(events)
         metadata = valid_events
 
-        # Sort by latest event
+        # Sort by earliest event
         metadata.sort(
             key=lambda x: datetime.datetime.strptime(
                 x.get("event_date", "31 December 1999"), "%d %B %Y"
             ),
-            reverse=True,
+            reverse=False,
         )
 
         return flask.render_template(
@@ -350,3 +360,197 @@ def append_utms_cookie_to_ubuntu_links(response):
             response.set_data(data)
 
     return response
+
+
+def get_articles_from_category(category_dir, category_slug):
+    """
+    Get articles from markdown files in a category directory.
+
+    Args:
+        category_dir: Path object to the category directory
+        category_slug: The slug of the category
+
+    Returns:
+        A list of article dictionaries, sorted from most to least
+        recently published (by the `publish_date` frontmatter field).
+        Articles missing `publish_date` sort to the end.
+    """
+    articles = []
+
+    for md_file in category_dir.glob("*.md"):
+        try:
+            with open(md_file, "r", encoding="utf-8") as f:
+                content = f.read()
+
+            # Parse YAML frontmatter
+            if content.startswith("---"):
+                parts = content.split("---", 2)
+                if len(parts) >= 2:
+                    try:
+                        frontmatter = yaml.safe_load(parts[1])
+                        context = frontmatter.get("context", {}) or {}
+                        article_slug = md_file.stem
+
+                        publish_date = context.get("publish_date")
+                        # yaml may parse ISO dates into date/datetime objects;
+                        # accept strings too and normalise.
+                        if isinstance(publish_date, datetime.datetime):
+                            publish_date = publish_date.date()
+                        elif isinstance(publish_date, str):
+                            try:
+                                publish_date = datetime.date.fromisoformat(
+                                    publish_date
+                                )
+                            except ValueError:
+                                logger.warning(
+                                    f"Invalid publish_date in {md_file}: "
+                                    f"{publish_date!r}"
+                                )
+                                publish_date = None
+
+                        # Build article metadata
+                        article = {
+                            "hero_title": context.get(
+                                "hero_title", md_file.stem
+                            ),
+                            "description": context.get("description", ""),
+                            "url": (
+                                f"/knowledge/{category_slug}/"
+                                f"{article_slug}"
+                            ),
+                            "tag": context.get("tag", ""),
+                            "publish_date": publish_date,
+                        }
+                        articles.append(article)
+                    except yaml.YAMLError:
+                        logger.error(f"YAML parsing error in {md_file}")
+        except Exception as e:
+            logger.error(f"Error reading {md_file}: {e}")
+
+    # Sort most → least recently published. Articles without a publish_date
+    # fall to the end; ties break alphabetically by hero_title for stability.
+    articles.sort(
+        key=lambda a: (
+            a["publish_date"] is None,
+            -(a["publish_date"].toordinal() if a["publish_date"] else 0),
+            a["hero_title"].lower(),
+        )
+    )
+
+    return articles
+
+
+def get_knowledge_sections():
+    """
+    Traverse all directories within knowledge/ and
+    extract title, description, and articles from each category.
+
+    Returns:
+        A list of dictionaries with 'slug', 'title', 'description',
+        and 'articles' keys
+    """
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    knowledge_dir = templates_dir / "knowledge"
+
+    sections = []
+
+    if knowledge_dir.exists():
+        # Iterate through all subdirectories in knowledge/
+        for category_dir in sorted(knowledge_dir.iterdir()):
+
+            # Skip non-directories and files starting with underscore
+            if not category_dir.is_dir() or category_dir.name.startswith("_"):
+                continue
+
+            index_file = category_dir / "index.html"
+
+            if index_file.exists():
+                try:
+                    with open(index_file, "r", encoding="utf-8") as f:
+                        content = f.read()
+
+                    # Extract title and description using regex
+                    title_match = re.search(
+                        r"{%\s*set\s+title\s*=\s*['\"]([^'\"]+)['\"]", content
+                    )
+                    title = (
+                        title_match.group(1)
+                        if title_match
+                        else category_dir.name
+                    )
+                    description_match = re.search(
+                        r"{%\s*set\s+description\s*=\s*['\"]([^'\"]+)['\"]",
+                        content,
+                    )
+                    description = (
+                        description_match.group(1) if description_match else ""
+                    )
+
+                    # Get articles from markdown files
+                    articles = []
+                    if category_dir.exists():
+                        articles = get_articles_from_category(
+                            category_dir, category_dir.name
+                        )
+
+                    sections.append(
+                        {
+                            "slug": category_dir.name,
+                            "title": title,
+                            "description": description,
+                            "articles": articles,
+                        }
+                    )
+
+                except Exception as e:
+                    flask.current_app.logger.warning(
+                        f"Error retrieving knowledge section "
+                        f"{category_dir.name}: {e}"
+                    )
+
+    return sections
+
+
+def build_knowledge_index():
+    """
+    Build the main knowledge index by scanning all category directories
+    for hero titles and descriptions.
+
+    Returns:
+        A view function that renders the main index with all categories
+    """
+
+    def knowledge_index():
+        sections = get_knowledge_sections()
+        return flask.render_template("knowledge/index.html", sections=sections)
+
+    return knowledge_index
+
+
+def build_knowledge_category_index(category_slug):
+    """
+    Build a knowledge category index by scanning markdown files
+    in the category directory.
+
+    Args:
+        category_slug: The slug of the category (e.g., 'ubuntu-and-linux')
+
+    Returns:
+        A view function that renders the index with article metadata
+    """
+
+    def knowledge_category_index():
+        templates_dir = Path(flask.current_app.root_path).parent / "templates"
+        category_dir = templates_dir / "knowledge" / category_slug
+
+        articles = []
+
+        # Scan for markdown files in the category directory
+        if category_dir.exists():
+            articles = get_articles_from_category(category_dir, category_slug)
+
+        return flask.render_template(
+            f"knowledge/{category_slug}/index.html", articles=articles
+        )
+
+    return knowledge_category_index
