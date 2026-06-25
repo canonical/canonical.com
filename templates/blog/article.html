@@ -57,8 +57,8 @@
   {% include '/partial/_breadcrumbs.html' %}
 
   <article>
-    <header class="row">
-      <div class="aside col-3 col-medium-6">
+    <header class="grid-row">
+      <div class="aside grid-col-2 grid-col-medium-4">
         <div class="p-media-object">
           {% if article.author %}
             {% if article.author and article.author.id == 217 %}
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-      <div class="col-9 col-medium-6">
+      <div class="grid-col-6 grid-col-medium-4">
         <div class="p-section--shallow">
           <div class="p-section--shallow">
             <h1>{{ article.title.rendered|safe }}</h1>
@@ -107,8 +107,8 @@
         </div>
       </div>
     </header>
-    <div class="row">
-      <section class="p-section col-6 col-start-large-4 col-medium-6">
+    <div class="grid-row">
+      <section class="p-section grid-col-4 grid-col-start-large-3 grid-col-medium-4">
         <hr class="p-rule" />
         <button type="button"
                 id="shareArticle"
@@ -118,12 +118,12 @@
         </button>
         {{ article.content.rendered|safe }}
       </section>
-      <aside class="aside col-3 col-start-large-10 col-medium-6">
+      <aside class="aside grid-col-2 grid-col-start-large-7 grid-col-medium-4">
         <div class="blog-article-newsletter">
           <div class="p-section--shallow">
             <h2 class="p-muted-heading">Sign up for our newsletter</h2>
           </div>
-          {% include 'blog/newsletter-form.html' %}
+          {% include 'blog/newsletter-form-compact.html' %}
         </div>
         <div class="blog-article-share u-hide--medium u-hide--small">
           <h2 class="p-muted-heading">Share on</h2>
