@@ -82,7 +82,10 @@ function clearSessionValues() {
 }
 
 function watchConsentChanges() {
-  if (windowWithCookieStore.cookieStore && (windowWithCookieStore.cookieStore).addEventListener) {
+  if (
+    windowWithCookieStore.cookieStore &&
+    windowWithCookieStore.cookieStore.addEventListener
+  ) {
     const handleChange = (event) => {
       const changed = (event.changed || []).some(
         (cookie) => cookie.name === "_cookies_accepted"
@@ -98,7 +101,7 @@ function watchConsentChanges() {
       }
     };
 
-    (windowWithCookieStore.cookieStore).addEventListener("change", handleChange);
+    windowWithCookieStore.cookieStore.addEventListener("change", handleChange);
   }
 
   if (hasConsent()) {
