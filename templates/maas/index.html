@@ -1,18 +1,6 @@
 {% extends "base_index.html" %}
 
-{% block extra_metatags %}
-  <!-- TEMP GTM analytics implementation until full requirement in WD-37373:
-       https://warthogs.atlassian.net/browse/WD-37373 -->
-  <!-- Google Tag Manager -->
-  <script nonce="{{ csp_nonce }}">
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-N384JMX2');
-  </script>
-  <!-- End Google Tag Manager -->
-{% endblock %}
+{% set gtm_container_id = "GTM-N384JMX2" %}
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}

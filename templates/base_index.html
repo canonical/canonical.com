@@ -193,20 +193,27 @@
                 return false;
               }
               window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-              
-              (function(w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({
-                  'gtm.start': new Date().getTime(),
-                  event: 'gtm.js'
-                });
-                var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-              })(window, document, 'script', 'dataLayer', 'GTM-M5BPGQ6');
+
+              var containersToLoad = ['GTM-M5BPGQ6'];
+              {% if gtm_container_id %}
+              containersToLoad.push('{{ gtm_container_id }}');
+              {% endif %}
+
+              containersToLoad.forEach(function(containerId) {
+                (function(w, d, s, l, i) {
+                  w[l] = w[l] || [];
+                  w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                  });
+                  var f = d.getElementsByTagName(s)[0],
+                  j = d.createElement(s),
+                  dl = l != 'dataLayer' ? '&l=' + l : '';
+                  j.async = true;
+                  j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                  f.parentNode.insertBefore(j, f);
+                })(window, document, 'script', 'dataLayer', containerId);
+              });
             }
           </script>
 
