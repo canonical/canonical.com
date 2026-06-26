@@ -86,7 +86,7 @@ jobs:
       - name: Install python dependencies
         run: |
           python3 -m pip install --upgrade pip
-          sudo pip3 install djlint
+          sudo pip3 install "$(grep -m1 -E '^djlint==' requirements.txt)" "click>=8.1"
 
       - name: Get changed HTML files in the templates folder
         id: changed-files
