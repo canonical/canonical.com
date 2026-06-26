@@ -99,7 +99,7 @@ jobs:
         if: env.CHANGED_FILES != ''
         run: |
           echo "The following files have changed: $CHANGED_FILES"
-          djlint $CHANGED_FILES --lint --profile="jinja"
+          PYTHONPATH=. djlint $CHANGED_FILES --lint --profile="jinja"
 
   test-python:
     runs-on: ubuntu-22.04
