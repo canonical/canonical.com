@@ -145,6 +145,8 @@ CSP = {
         "o4510662863749120.ingest.de.sentry.io",
         "www.google-analytics.com",
         "*.crazyegg.com",
+        "*.clarity.ms",
+        "*.doubleclick.net",
         "*.g.doubleclick.net",
         "www.googleadservices.com",
         "js.zi-scripts.com",
@@ -192,6 +194,13 @@ CSP = {
     ],
     "style-src": [
         "'self'",
+        # Third-party scripts (GTM, intl-tel-input, lite-youtube, etc.) set
+        # inline *style attributes* on elements. Style attributes cannot be
+        # covered by a nonce or a regular hash, so 'unsafe-inline' is required.
+        # Note: style-src is deliberately NOT in NONCED_DIRECTIVES — a
+        # nonce-source in this directive would make the browser ignore
+        # 'unsafe-inline'.
+        "'unsafe-inline'",
         "cdn.jsdelivr.net",
         "www.tfaforms.com",
     ],
@@ -212,7 +221,7 @@ CSP = {
     ],
 }
 
-NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
+NONCED_DIRECTIVES = ("script-src", "script-src-elem")
 
 
 def init_handlers(app):
