@@ -20,6 +20,7 @@ let entries = {
   "watch-consent-changes": "./static/js/watch-consent-changes.js",
   "events": "./static/js/events.js",
   "in-page-navigation": "./static/js/in-page-navigation.js",
+  "prism": "./static/js/prism.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
