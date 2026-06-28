@@ -927,42 +927,46 @@
     </div>
   </section>
 
-  {% call(slot) vf_rich_vertical_list(
-      title_text='Add visibility and compliance controls with JAAS.',
-      list_item_tick_style="tick"
-    ) -%}
-    {%- if slot == 'description' -%}
-      <p>
-        JAAS (Juju as a service) is your centralised enterprise control plane for Juju deployments.
-      </p>
-    {%- endif -%}
-    {%- if slot == 'list_item_1' -%}
-      Manage hundreds of Juju controllers
-    {%- endif -%}
-    {%- if slot == 'list_item_2' -%}
-      Add fine grained access controls.
-    {%- endif -%}
-    {%- if slot == 'list_item_3' -%}
-      Enable enhanced audit functionalities.
-    {%- endif -%}
-    {%- if slot == 'list_item_4' -%}
-      Protect deployments by having a smaller attack area.
-    {%- endif -%}
-    {%- if slot == 'cta' -%}
-      <a href="/jaas" class="p-button--positive">Discover JAAS</a>
-    {%- endif -%}
-    {%- if slot == 'image' -%}
-      <div class="u-embedded-media">
-        {{ image(url="https://assets.ubuntu.com/v1/ed078d85-juju-dashboard.gif",
-                  alt="",
-                  height="779",
-                  width="1200",
-                  hi_def=True,
-                  loading="lazy",) | safe
-        }}
-      </div>
-    {%- endif -%}
-  {% endcall -%}
+  {{ vf_rich_vertical_list(
+    title={ 'text': 'Add visibility and compliance controls with JAAS.' },
+    items=[
+      {
+        'type': 'description',
+        'item': {
+          'type': 'text',
+          'content': 'JAAS (Juju as a service) is your centralised enterprise control plane for Juju deployments.'
+        }
+      },
+      {
+        'type': 'list',
+        'item': {
+          'list_items': [
+            { 'list_item_type': 'tick', 'content': 'Manage hundreds of Juju controllers' },
+            { 'list_item_type': 'tick', 'content': 'Add fine grained access controls.' },
+            { 'list_item_type': 'tick', 'content': 'Enable enhanced audit functionalities.' },
+            { 'list_item_type': 'tick', 'content': 'Protect deployments by having a smaller attack area.' },
+          ]
+        }
+      },
+      {
+        'type': 'cta-block',
+        'item': {
+          'primary': { 'content_html': 'Discover JAAS', 'attrs': { 'href': '/jaas' } }
+        }
+      }
+    ],
+    media={
+      'type': 'image',
+      'fit': 'contain',
+      'attrs': image(url="https://assets.ubuntu.com/v1/ed078d85-juju-dashboard.gif",
+                alt="",
+                height="779",
+                width="1200",
+                hi_def=True,
+                loading="lazy",
+                output_mode="attrs",)
+    }
+  ) }}
 
   <section class="p-section">
     <hr class="is-fixed-width" />
