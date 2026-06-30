@@ -431,7 +431,6 @@ def init_handlers(app):
             return "", 204
 
         _forward_csp_violation(violation, host, directive, disposition)
-        print("\n\n", _csp_throttler._seen, "\n\n")
         return "", 204
 
     @app.before_request
