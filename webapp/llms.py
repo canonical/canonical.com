@@ -75,16 +75,29 @@ def _page_url(path, markdown=False):
     return url
 
 
-def _make_page(node):
-    """Return a page dict for *node*, or None if it is not a content page."""
+def _make_page(node, overrides=None):
+    """Return a page dict for *node*, or None if it is not a content page.
+
+    *overrides* (from llms.yaml, keyed by path) can correct the title or
+    description, or drop the page entirely via ``exclude``.
+    """
+    overrides = overrides or {}
     title = node.get("title")
     path = node.get("name") or "/"
     if not title or node.get("sitemap_exclude") or NOISE_PATH_RE.search(path):
         return None
+
+    override = overrides.get(path, {})
+    if override.get("exclude"):
+        return None
+
+    description = override.get("description")
+    if description is None:
+        description = node.get("description")
     return {
         "path": path,
-        "title": _clean(title),
-        "description": _clean(node.get("description")),
+        "title": _clean(override.get("title") or title),
+        "description": _clean(description),
     }
 
 
@@ -94,17 +107,17 @@ def _heading_from_path(path):
     return segment.replace("-", " ").replace("_", " ").strip().title()
 
 
-def _collect_pages(node, pages):
+def _collect_pages(node, pages, overrides=None):
     """Depth-first collect every content page under *node*."""
-    page = _make_page(node)
+    page = _make_page(node, overrides)
     if page:
         pages.append(page)
     for child in node.get("children", []):
-        _collect_pages(child, pages)
+        _collect_pages(child, pages, overrides)
     return pages
 
 
-def _build_sections(tree):
+def _build_sections(tree, overrides=None):
     """Group the page tree into ordered (heading, [pages]) sections.
 
     Top-level directories with children become their own section; the home
@@ -114,20 +127,20 @@ def _build_sections(tree):
     sections = []
 
     # Home page (root index) and any top-level leaf pages.
-    home = _make_page(tree)
+    home = _make_page(tree, overrides)
     if home:
         main_pages.append(home)
 
     for child in tree.get("children", []):
         if child.get("children"):
-            pages = _collect_pages(child, [])
+            pages = _collect_pages(child, [], overrides)
             if pages:
                 heading = _clean(child.get("title")) or _heading_from_path(
                     child.get("name")
                 )
                 sections.append((heading, pages))
         else:
-            page = _make_page(child)
+            page = _make_page(child, overrides)
             if page:
                 main_pages.append(page)
 
@@ -160,6 +173,47 @@ def _link_bullet(link):
     return line
 
 
+def _load_config():
+    """Load and parse llms.yaml, returning a dict (empty if absent/invalid).
+
+    The config is purely additive/corrective on top of auto-generation, so a
+    missing or malformed file never breaks the generated output.
+    """
+    path = os.path.join(os.getcwd(), LLMS_CONFIG_FILE)
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path) as config_file:
+            return yaml.safe_load(config_file) or {}
+    except (OSError, yaml.YAMLError):
+        logger.exception("Failed to read %s", LLMS_CONFIG_FILE)
+        return {}
+
+
+def _load_overrides():
+    """Load per-page overrides from llms.yaml, keyed by page path.
+
+    Each value may set ``title`` and/or ``description`` (to fix a weak or
+    wrong auto-generated entry) or ``exclude: true`` (to drop the page). This
+    is the "automatically generated and overridable" layer: the page list is
+    still discovered automatically, but the docs team can correct entries in
+    place without editing templates.
+    """
+    overrides = {}
+    for path, override in (_load_config().get("overrides") or {}).items():
+        if not isinstance(override, dict):
+            continue
+        normalised = {}
+        if override.get("exclude"):
+            normalised["exclude"] = True
+        if override.get("title"):
+            normalised["title"] = _clean(override.get("title"))
+        if override.get("description") is not None:
+            normalised["description"] = _clean(override.get("description"))
+        overrides[path] = normalised
+    return overrides
+
+
 def _load_extra_sections():
     """Load curated extra link sections from llms.yaml.
 
@@ -168,19 +222,8 @@ def _load_extra_sections():
     file is absent, empty or malformed — extras are purely additive, so a bad
     config never breaks the generated files.
     """
-    path = os.path.join(os.getcwd(), LLMS_CONFIG_FILE)
-    if not os.path.exists(path):
-        return []
-
-    try:
-        with open(path) as config_file:
-            config = yaml.safe_load(config_file) or {}
-    except (OSError, yaml.YAMLError):
-        logger.exception("Failed to read %s", LLMS_CONFIG_FILE)
-        return []
-
     sections = []
-    for section in config.get("extra") or []:
+    for section in _load_config().get("extra") or []:
         heading = _clean(section.get("heading"))
         links = []
         for link in section.get("links") or []:
@@ -202,7 +245,7 @@ def _load_extra_sections():
 def generate_llms_txt():
     """Build the llms.txt index from the template tree."""
     tree = _scan_tree()
-    sections = _build_sections(tree)
+    sections = _build_sections(tree, _load_overrides())
 
     lines = [f"# {SITE_TITLE}", "", f"> {SITE_DESCRIPTION}", ""]
     for heading, pages in sections:
@@ -230,7 +273,7 @@ def generate_llms_full_txt(app):
     never breaks the whole file.
     """
     tree = _scan_tree()
-    pages = _collect_pages(tree, [])
+    pages = _collect_pages(tree, [], _load_overrides())
 
     client = app.test_client()
     parts = [

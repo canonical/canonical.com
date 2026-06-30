@@ -65,6 +65,25 @@ class TestLlmsHelpers(unittest.TestCase):
                 f"{path} should be filtered",
             )
 
+    def test_make_page_applies_overrides(self):
+        node = {"name": "/events", "title": "Events", "description": ""}
+        overrides = {"/events": {"description": "Meet us at conferences."}}
+        page = llms._make_page(node, overrides)
+        self.assertEqual(page["title"], "Events")
+        self.assertEqual(page["description"], "Meet us at conferences.")
+
+    def test_make_page_override_title_and_exclude(self):
+        node = {"name": "/lxd", "title": "LXD", "description": "old"}
+        # Title override
+        self.assertEqual(
+            llms._make_page(node, {"/lxd": {"title": "LXD containers"}})[
+                "title"
+            ],
+            "LXD containers",
+        )
+        # Exclude override drops the page
+        self.assertIsNone(llms._make_page(node, {"/lxd": {"exclude": True}}))
+
     def test_bullet_with_and_without_description(self):
         self.assertEqual(
             llms._bullet({"path": "/lxd", "title": "LXD", "description": "D"}),
@@ -106,6 +125,30 @@ class TestLlmsExtraSections(unittest.TestCase):
     def test_missing_file_returns_empty(self):
         with patch.object(llms, "LLMS_CONFIG_FILE", "/no/such/llms.yaml"):
             self.assertEqual(llms._load_extra_sections(), [])
+            self.assertEqual(llms._load_overrides(), {})
+
+    def test_load_overrides(self):
+        self._write_config(
+            """
+overrides:
+  /events:
+    description: Meet us at conferences.
+  /lxd:
+    title: LXD containers
+  /internal:
+    exclude: true
+  /bad:
+    something: ignored
+"""
+        )
+        overrides = llms._load_overrides()
+        self.assertEqual(
+            overrides["/events"], {"description": "Meet us at conferences."}
+        )
+        self.assertEqual(overrides["/lxd"], {"title": "LXD containers"})
+        self.assertEqual(overrides["/internal"], {"exclude": True})
+        # A no-op override normalises to an empty dict.
+        self.assertEqual(overrides["/bad"], {})
 
     def test_parses_valid_sections(self):
         self._write_config(
