@@ -65,8 +65,9 @@
           {% endif %}
 
           <!--
-            Pass the CSP nonce to lite-youtube so the <style> it injects into
-            its shadow DOM is allowed by our nonce-based style-src directive.
+            Pass the CSP nonce to lite-youtube for the <style> it injects into
+            its shadow DOM. style-src now allows 'unsafe-inline', so this is
+            defensive in case the directive ever tightens back to nonce-based.
             Must run before the deferred lite-youtube module upgrades the
             element.
           -->
