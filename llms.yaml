@@ -1,0 +1,122 @@
+# =============================================================================
+#  llms.yaml  —  what AI assistants are told about canonical.com
+# =============================================================================
+#
+#  WHAT IS THIS FILE?
+#  ------------------
+#  Canonical.com publishes two plain-text files for AI assistants (ChatGPT,
+#  Claude, Perplexity, and so on):
+#
+#      canonical.com/llms.txt        a tidy list of our pages, with a short
+#                                    description of each
+#      canonical.com/llms-full.txt   the full text of those pages
+#
+#  Most of that list is built AUTOMATICALLY from the website, so when a new
+#  page is published it appears on its own — you do not need to add it here.
+#
+#  You only edit THIS file when you want to:
+#      1. OVERRIDES — fix or hide one of the automatic entries, or
+#      2. EXTRA     — add your own links (for example to documentation or
+#                     community sites that are not part of canonical.com).
+#
+#  Both are explained, with examples, further down.
+#
+#
+#  THE GOLDEN RULES (please read once)
+#  -----------------------------------
+#  * A line that starts with "#" is a note, like this one. It is ignored.
+#    To turn an example into a real entry, delete the "# " at the start of
+#    each of its lines. To switch an entry off again, put "# " back.
+#
+#  * Indentation is made of SPACES — two spaces for each step to the right.
+#    Do NOT press the Tab key; it looks the same but breaks the file.
+#
+#  * Keep the same shape as the examples (the words ending in ":" and the
+#    "-" bullets line up exactly). If unsure, copy an example and change the
+#    words, not the layout.
+#
+#  * A description is one short sentence. Put it on a single line. Avoid the
+#    characters : # " unless the whole sentence is wrapped in "quotes".
+#
+#
+#  HOW TO PUBLISH A CHANGE
+#  -----------------------
+#  1. Edit this file (in GitHub or your editor) and save.
+#  2. Open a pull request. An automatic check ("lint") will tell you if an
+#     entry is missing a description, repeats a description, or looks like it
+#     was copied onto the wrong link.
+#  3. Once it is reviewed and merged, the published files update on the next
+#     site deploy — usually within the hour. Nothing else to do.
+#
+#  (Developers can run the same check locally with: yarn lint-llms)
+#
+#
+# =============================================================================
+#  1. OVERRIDES  —  fix or hide one of the automatic entries
+# =============================================================================
+#
+#  Use this when an automatically listed page has a missing, weak, or wrong
+#  description, or when a page should not be listed at all.
+#
+#  You refer to a page by its "path" — the part of the address after
+#  "canonical.com". For example:
+#
+#      Address:  https://canonical.com/lxd        ->  path is  /lxd
+#      Address:  https://canonical.com/maas/docs  ->  path is  /maas/docs
+#
+#  For each path you can set any of:
+#      description:   replace the one-line summary shown next to the page
+#      title:         replace the link text shown for the page
+#      exclude: true  remove the page from the list entirely
+#
+#  EXAMPLE — to use the examples below, delete the "# " in front of the lines
+#  you want, and edit the text:
+#
+overrides:
+  # /events:
+  #   description: Meet Canonical at conferences and events around the world.
+  #
+  # /juju/why-juju:
+  #   description: Why Juju is the right way to operate your applications.
+  #
+  # /some/internal-only-page:
+  #   exclude: true
+
+
+# =============================================================================
+#  2. EXTRA  —  add your own links
+# =============================================================================
+#
+#  Use this to add links the website cannot list on its own — for example
+#  product documentation, community forums, or other Canonical sites.
+#
+#  Links are grouped into sections. Each section has:
+#      heading:   the section title (e.g. "Documentation")
+#      links:     a list of links, each with:
+#                     title:        the link text                 (required)
+#                     url:          the full web address          (required)
+#                     description:  one short sentence about it    (required)
+#
+#  WHAT IT PRODUCES — the entry below appears in llms.txt as:
+#
+#      ## Documentation
+#      - [Juju](https://canonical.com/juju/docs/juju-cli/page): Command
+#        reference and documentation for the Juju CLI.
+#
+#  TIPS
+#  * Every link needs a description — it is the most useful part for an AI
+#    assistant, and the automatic check will fail without one.
+#  * Do not reuse the same description on two different links (a common
+#    copy-paste mistake the check will catch).
+#  * Make sure the description matches the link — e.g. a "Juju" link should
+#    describe Juju, not another product.
+#
+#  EXAMPLE — this one is live. Copy a link block (the four "- title" lines)
+#  to add more, and add another "- heading" block to start a new section.
+#
+extra:
+  - heading: Documentation
+    links:
+      - title: Juju
+        url: https://canonical.com/juju/docs/juju-cli/page/llms.txt
+        description: Command reference and documentation for the Juju CLI.
