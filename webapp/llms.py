@@ -53,9 +53,10 @@ EXCLUDE_PATHS = [
 # (form/flow pages rather than content) and so are excluded from llms.txt.
 NOISE_PATH_RE = re.compile(r"(contact-us|thank-you|/results)$")
 
-# Writer-maintained file (repo root) of extra curated link sections that are
-# appended to both generated files. The auto-discovered page lists are not
-# affected — this only adds links. See llms.yaml.
+# Writer-maintained file (repo root) with per-page overrides and extra curated
+# link sections. In llms.txt the curated sections are rendered first (before
+# the auto-discovered page lists); in llms-full.txt they follow the page
+# content. See llms.yaml.
 LLMS_CONFIG_FILE = "llms.yaml"
 
 
@@ -248,17 +249,20 @@ def generate_llms_txt():
     sections = _build_sections(tree, _load_overrides())
 
     lines = [f"# {SITE_TITLE}", "", f"> {SITE_DESCRIPTION}", ""]
-    for heading, pages in sections:
-        lines.append(f"## {heading}")
-        lines.append("")
-        lines.extend(_bullet(page) for page in pages)
-        lines.append("")
 
-    # Curated extra link sections from llms.yaml.
+    # Curated extra link sections from llms.yaml are rendered first, so the
+    # docs team's high-value links keep priority and are not dropped by
+    # context-limited crawlers that read from the top.
     for heading, links in _load_extra_sections():
         lines.append(f"## {heading}")
         lines.append("")
         lines.extend(_link_bullet(link) for link in links)
+        lines.append("")
+
+    for heading, pages in sections:
+        lines.append(f"## {heading}")
+        lines.append("")
+        lines.extend(_bullet(page) for page in pages)
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"

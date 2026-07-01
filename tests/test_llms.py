@@ -157,7 +157,7 @@ extra:
   - heading: Documentation
     links:
       - title: Ubuntu Server docs
-        url: https://documentation.ubuntu.com/server/
+        url: https://ubuntu.com/server/docs
         description: Official docs.
       - title: Discourse
         url: https://discourse.ubuntu.com/
@@ -171,7 +171,7 @@ extra:
             links[0],
             {
                 "title": "Ubuntu Server docs",
-                "url": "https://documentation.ubuntu.com/server/",
+                "url": "https://ubuntu.com/server/docs",
                 "description": "Official docs.",
             },
         )
@@ -213,7 +213,7 @@ extra:
                 [
                     {
                         "title": "Ubuntu Server docs",
-                        "url": "https://documentation.ubuntu.com/server/",
+                        "url": "https://ubuntu.com/server/docs",
                         "description": "Official docs.",
                     }
                 ],
@@ -223,8 +223,12 @@ extra:
         self.assertIn("## Documentation", output)
         self.assertIn(
             "- [Ubuntu Server docs]"
-            "(https://documentation.ubuntu.com/server/): Official docs.",
+            "(https://ubuntu.com/server/docs): Official docs.",
             output,
+        )
+        # Curated sections render before the auto-generated page list.
+        self.assertLess(
+            output.index("## Documentation"), output.index("## Main pages")
         )
 
 
