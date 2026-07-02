@@ -1012,7 +1012,7 @@ app.add_url_rule(
 @app.route("/blog/latest-news")
 def blog_latest_news():
     page = flask.request.args.get("page", default=1, type=int)
-    context = blog_views.get_index(page=page, category_slug="announcement")
+    context = blog_views.get_index(page=page, category_slug="announcements")
     return flask.render_template("blog/latest-news.html", **context)
 
 
