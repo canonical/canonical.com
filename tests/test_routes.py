@@ -185,7 +185,7 @@ class TestRoutes(VCRTestCase):
 
         self.assertEqual(response.status_code, 200)
         mock_get_index.assert_called_once_with(
-            page=1, category_slug="announcement"
+            page=1, category_slug="announcements"
         )
         mock_render_template.assert_called_once_with("blog/latest-news.html")
 
@@ -198,7 +198,7 @@ class TestRoutes(VCRTestCase):
 
         self.assertEqual(response.status_code, 200)
         mock_get_index.assert_called_once_with(
-            page=3, category_slug="announcement"
+            page=3, category_slug="announcements"
         )
         mock_render_template.assert_called_once_with("blog/latest-news.html")
 
