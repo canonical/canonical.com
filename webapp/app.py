@@ -366,7 +366,7 @@ app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 def render_openstack_blogs():
     blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
-        category_ids=[4878, 4877],
+        category_ids=[4878],
         # kubeflow-news, not-ubuntu, langkr
         excluded_tags=[3408, 3960, 4491],
         tag_ids=[1327],
@@ -995,7 +995,7 @@ class BlogSitemapPage(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
-    category_ids=[4878, 4877],
+    category_ids=[4878],
     per_page=16,
 )
 
@@ -1399,7 +1399,7 @@ maas_blog = build_blueprint(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
-        category_ids=[4878, 4877],
+        category_ids=[4878],
     ),
 )
 
