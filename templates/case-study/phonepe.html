@@ -98,7 +98,7 @@
   {%- call(slot) text(title="Challenge") -%}
     {%- if slot == 'content' -%}
       <p>
-        India processes the world’s <a href="https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=154912&ModuleId=3&reg=3&lang=2">highest volume</a> of digital payments. Millions of citizens and businesses rely on the country’s Unified Payments Interface to partake in the digital economy. PhonePe was one of the first fintech providers to benefit from this payment transformation, and launched with a mission to make payments accessible and reliable. Like many financial services companies, PhonePe relies heavily on open source to innovate quickly. The company itself open sources some of its solutions, including an alternative to Kubernetes called <a href="https://phonepe.github.io/drove-orchestrator/index.html">Drove</a>. When faced with an increasing wave of cybersecurity regulations, the company had to look for a more efficient way to handle security patching across its large open source software stack.
+        India processes the world’s highest volume of digital payments. Millions of citizens and businesses rely on the country’s Unified Payments Interface to partake in the digital economy. PhonePe was one of the first fintech providers to benefit from this payment transformation, and launched with a mission to make payments accessible and reliable. Like many financial services companies, PhonePe relies heavily on open source to innovate quickly. The company itself open sources some of its solutions, including an alternative to Kubernetes called <a href="https://phonepe.github.io/drove-orchestrator/index.html">Drove</a>. When faced with an increasing wave of cybersecurity regulations, the company had to look for a more efficient way to handle security patching across its large open source software stack.
       </p>
       <p>
         The regulations PhonePe is subject to include the Payment Card Industry Data Security Standard (PCI-DSS), and those set forth by the Insurance Regulatory and Development Authority of India (IRDAI), the Reserve Bank of India (RBI) and the Securities and Exchange Board of India (SEBI). PhonePe needed a way to maintain core open source packages in order to meet these regulatory requirements and uphold their cybersecurity commitments.
@@ -174,10 +174,17 @@
       <p>
         While the lack of consistent security maintenance was a blocker in the past, PhonePe was able to overcome those limitations with Ubuntu Pro and Ubuntu as its trusted platform.
       </p>
-      <p>
-        “It’s difficult to quantify the positive impact of a security patching solution like Ubuntu Pro, but the absence of it can be quite debilitating. It’s a bit like oxygen - you don’t think about it while you’re breathing easily but it’s the very thing keeping your system alive and moving.” - <b>Senior SRE leadership</b> <span class="u-text--muted">at PhonePe</span>
-      </p>
     {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="It’s difficult to quantify the positive impact of a security patching solution like Ubuntu Pro, but the absence of it can be quite debilitating. It’s a bit like oxygen - you don’t think about it while you’re breathing easily but it’s the very thing keeping your system alive and moving.",
+    citation_source_name_text="Senior SRE leadership",
+    citation_source_organisation_text="at PhonePe",
+    is_shallow=True,
+    hide_image_small=True
+    )
+    -%}
   {%- endcall -%}
 {% endblock %}
 
