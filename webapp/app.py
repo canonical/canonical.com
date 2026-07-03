@@ -1008,16 +1008,19 @@ app.add_url_rule(
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
 
+app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
+
+latest_news_blog_views = BlogViews(
+    api=BlogAPI(session=get_requests_session()),
+    category_ids=[4881], # announcements
+    per_page=16,
+)
 
 @app.route("/blog/latest-news")
 def blog_latest_news():
     page = flask.request.args.get("page", default=1, type=int)
-    context = blog_views.get_index(page=page, category_slug="announcements")
+    context = latest_news_blog_views.get_index(page=page)
     return flask.render_template("blog/latest-news.html", **context)
-
-
-app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
-
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
