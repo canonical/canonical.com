@@ -17,6 +17,7 @@ templates automatically. The full page content reuses the existing
 import logging
 import os
 import re
+import tempfile
 
 import canonicalwebteam.directory_parser as directory_parser
 import flask
@@ -191,7 +192,7 @@ def _load_config():
         return {}
 
 
-def _load_overrides():
+def _load_overrides(config=None):
     """Load per-page overrides from llms.yaml, keyed by page path.
 
     Each value may set ``title`` and/or ``description`` (to fix a weak or
@@ -199,9 +200,13 @@ def _load_overrides():
     is the "automatically generated and overridable" layer: the page list is
     still discovered automatically, but the docs team can correct entries in
     place without editing templates.
+
+    Pass an already-parsed *config* to avoid re-reading the file.
     """
+    if config is None:
+        config = _load_config()
     overrides = {}
-    for path, override in (_load_config().get("overrides") or {}).items():
+    for path, override in (config.get("overrides") or {}).items():
         if not isinstance(override, dict):
             continue
         normalised = {}
@@ -215,16 +220,20 @@ def _load_overrides():
     return overrides
 
 
-def _load_extra_sections():
+def _load_extra_sections(config=None):
     """Load curated extra link sections from llms.yaml.
 
     Returns a list of ``(heading, [links])`` tuples, where each link is a dict
     with ``title``, ``url`` and ``description``. Returns an empty list if the
     file is absent, empty or malformed — extras are purely additive, so a bad
     config never breaks the generated files.
+
+    Pass an already-parsed *config* to avoid re-reading the file.
     """
+    if config is None:
+        config = _load_config()
     sections = []
-    for section in _load_config().get("extra") or []:
+    for section in config.get("extra") or []:
         heading = _clean(section.get("heading"))
         links = []
         for link in section.get("links") or []:
@@ -245,15 +254,16 @@ def _load_extra_sections():
 
 def generate_llms_txt():
     """Build the llms.txt index from the template tree."""
+    config = _load_config()
     tree = _scan_tree()
-    sections = _build_sections(tree, _load_overrides())
+    sections = _build_sections(tree, _load_overrides(config))
 
     lines = [f"# {SITE_TITLE}", "", f"> {SITE_DESCRIPTION}", ""]
 
     # Curated extra link sections from llms.yaml are rendered first, so the
     # docs team's high-value links keep priority and are not dropped by
     # context-limited crawlers that read from the top.
-    for heading, links in _load_extra_sections():
+    for heading, links in _load_extra_sections(config):
         lines.append(f"## {heading}")
         lines.append("")
         lines.extend(_link_bullet(link) for link in links)
@@ -276,8 +286,10 @@ def generate_llms_full_txt(app):
     render (e.g. transient upstream errors) are skipped so a single failure
     never breaks the whole file.
     """
+    config = _load_config()
     tree = _scan_tree()
-    pages = _collect_pages(tree, [], _load_overrides())
+    pages = _collect_pages(tree, [], _load_overrides(config))
+    extra_sections = _load_extra_sections(config)
 
     client = app.test_client()
     parts = [
@@ -313,7 +325,7 @@ def generate_llms_full_txt(app):
             parts.append(body)
 
     # Curated extra link sections from llms.yaml.
-    for heading, links in _load_extra_sections():
+    for heading, links in extra_sections:
         parts.append("")
         parts.append(f"## {heading}")
         parts.append("")
@@ -351,15 +363,25 @@ def build_llms_view(app, key):
 
     def generate_file():
         content = config["generator"](app)
-        with open(file_path, "w") as f:
-            f.write(content)
+        # Write to a temp file in the same directory and atomically replace,
+        # so a concurrent GET never reads a half-written file.
+        directory = os.path.dirname(file_path) or "."
+        fd, tmp_path = tempfile.mkstemp(dir=directory, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as f:
+                f.write(content)
+            os.replace(tmp_path, file_path)
+        except Exception:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+            raise
         logger.info("%s saved to %s", key, file_path)
         return content
 
     def serve_llms_file():
         # Regenerate with an authenticated POST (used by CI on deploy).
         if flask.request.method == "POST":
-            expected_secret = get_flask_env("SITEMAP_SECRET")
+            expected_secret = get_flask_env("LLMS_SECRET")
             provided_secret = flask.request.headers.get(
                 "Authorization", ""
             ).replace("Bearer ", "")

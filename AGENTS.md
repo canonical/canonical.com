@@ -33,6 +33,7 @@
 - `navigation.yaml` - primary navigation data source.
 - `secondary-navigation.yaml` - secondary nav/page sidebar data source.
 - `redirects.yaml` - redirects config.
+- `llms.yaml` - docs-team-owned config for the LLM indexes (`/llms.txt`, `/llms-full.txt`), read at runtime by `webapp/llms.py`. Two keys: `overrides` (per-page `title`/`description`/`exclude` to correct an auto-generated entry) and `extra` (curated link sections, rendered first in `llms.txt`). Validated by `scripts/lint_llms.py` (via `yarn lint-llms`, part of `yarn lint-python`); must be listed in `rockcraft.yaml` so it ships in the image.
 - `tests/` - Python unit tests plus JS/Jest and Playwright tests.
   - `tests/js/` - Jest tests for browser modules.
   - `tests/playwright/` - E2E tests; `tests/playwright/tests/navigation/README.md` explains navigation coverage.

@@ -13,19 +13,16 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Regenerate llms.txt
         run: |
           curl --fail-with-body -X POST "https://canonical.com/llms.txt" \
-          -H "Authorization: Bearer ${{ secrets.SITEMAP_SECRET }}"
+          -H "Authorization: Bearer ${{ secrets.LLMS_SECRET }}"
 
       - name: Regenerate llms-full.txt
         run: |
           curl --fail-with-body --max-time 300 -X POST \
           "https://canonical.com/llms-full.txt" \
-          -H "Authorization: Bearer ${{ secrets.SITEMAP_SECRET }}"
+          -H "Authorization: Bearer ${{ secrets.LLMS_SECRET }}"
 
       - name: Send message on failure
         if: failure()

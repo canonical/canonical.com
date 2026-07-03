@@ -369,7 +369,7 @@ class TestLlmsRoutes(unittest.TestCase):
         mock_generate.assert_called_once()
 
     def test_post_unauthorized(self):
-        os.environ["SITEMAP_SECRET"] = "known-secret"
+        os.environ["LLMS_SECRET"] = "known-secret"
         response = self.client.post(
             "/llms.txt",
             headers={"Authorization": "Bearer wrong-secret"},
@@ -378,7 +378,7 @@ class TestLlmsRoutes(unittest.TestCase):
         self.assertEqual(response.get_json(), {"error": "Unauthorized"})
 
     def test_post_authorized_regenerates(self):
-        os.environ["SITEMAP_SECRET"] = "known-secret"
+        os.environ["LLMS_SECRET"] = "known-secret"
         response = self.client.post(
             "/llms.txt",
             headers={"Authorization": "Bearer known-secret"},
