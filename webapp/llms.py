@@ -22,7 +22,6 @@ import tempfile
 import canonicalwebteam.directory_parser as directory_parser
 import flask
 import yaml
-from canonicalwebteam.flask_base.env import get_flask_env
 
 logger = logging.getLogger(__name__)
 
@@ -354,54 +353,47 @@ LLMS_FILES = {
 }
 
 
+def write_llms_file(app, key):
+    """Generate an llms file and write it to disk, returning its contents.
+
+    Used both at build time (scripts/generate_llms.py) and by the runtime
+    fallback. Writes to a temp file in the same directory and atomically
+    replaces, so a concurrent reader never sees a half-written file.
+    """
+    config = LLMS_FILES[key]
+    file_path = os.path.join(os.getcwd(), config["filename"])
+    content = config["generator"](app)
+
+    directory = os.path.dirname(file_path) or "."
+    fd, tmp_path = tempfile.mkstemp(dir=directory, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as f:
+            f.write(content)
+        os.replace(tmp_path, file_path)
+    except Exception:
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise
+    logger.info("%s saved to %s", key, file_path)
+    return content
+
+
 def build_llms_view(app, key):
-    """Return a Flask view that serves (GET) or regenerates (POST) an
-    llms file, mirroring the sitemap_tree.xml generate-on-POST pattern.
+    """Return a Flask view that serves an llms file from disk.
+
+    The files are generated at build time (scripts/generate_llms.py) and
+    shipped in the image, so a normal request is a fast disk read. If the
+    file is missing (e.g. local development) it is generated on demand.
     """
     config = LLMS_FILES[key]
     file_path = os.path.join(os.getcwd(), config["filename"])
 
-    def generate_file():
-        content = config["generator"](app)
-        # Write to a temp file in the same directory and atomically replace,
-        # so a concurrent GET never reads a half-written file.
-        directory = os.path.dirname(file_path) or "."
-        fd, tmp_path = tempfile.mkstemp(dir=directory, suffix=".tmp")
-        try:
-            with os.fdopen(fd, "w") as f:
-                f.write(content)
-            os.replace(tmp_path, file_path)
-        except Exception:
-            if os.path.exists(tmp_path):
-                os.remove(tmp_path)
-            raise
-        logger.info("%s saved to %s", key, file_path)
-        return content
-
     def serve_llms_file():
-        # Regenerate with an authenticated POST (used by CI on deploy).
-        if flask.request.method == "POST":
-            expected_secret = get_flask_env("LLMS_SECRET")
-            provided_secret = flask.request.headers.get(
-                "Authorization", ""
-            ).replace("Bearer ", "")
-
-            if not expected_secret or provided_secret != expected_secret:
-                logger.warning("Invalid secret provided for %s", key)
-                return {"error": "Unauthorized"}, 401
-
-            try:
-                generate_file()
-            except Exception as error:
-                logger.exception("Failed to generate %s", key)
-                return {"error": f"Could not generate {key}: {error}"}, 500
-
-            return {"message": f"{key} successfully generated"}, 200
-
-        # Generate on demand if the file is missing (e.g. fresh container).
+        # Generate on demand if the file is missing (e.g. local dev, where the
+        # build-time step has not run). In the image the file always ships.
         if not os.path.exists(file_path):
             try:
-                generate_file()
+                write_llms_file(app, key)
             except Exception:
                 logger.exception("Failed to generate %s", key)
 

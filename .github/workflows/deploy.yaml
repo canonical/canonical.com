@@ -69,6 +69,15 @@ jobs:
           yarn install
           yarn run build
 
+      # Bake the LLM indexes into the image so every pod serves them from disk
+      # instead of rendering every page at request time (which times out for
+      # llms-full.txt). templates/ is primed by the rock, so the files ship.
+      - name: Pre-generate llms.txt and llms-full.txt
+        run: |
+          sudo apt-get update && sudo apt-get install --yes python3-setuptools
+          sudo pip3 install -r requirements.txt
+          python3 scripts/generate_llms.py
+
       - name: Setup LXD
         uses: canonical/setup-lxd@main
 

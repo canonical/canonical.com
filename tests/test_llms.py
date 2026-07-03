@@ -368,24 +368,22 @@ class TestLlmsRoutes(unittest.TestCase):
         self.assertIn("full content", response.get_data(as_text=True))
         mock_generate.assert_called_once()
 
-    def test_post_unauthorized(self):
-        os.environ["LLMS_SECRET"] = "known-secret"
-        response = self.client.post(
-            "/llms.txt",
-            headers={"Authorization": "Bearer wrong-secret"},
-        )
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.get_json(), {"error": "Unauthorized"})
+    def test_post_not_allowed(self):
+        # Generation happens at build time; the routes are read-only.
+        self.assertEqual(self.client.post("/llms.txt").status_code, 405)
+        self.assertEqual(self.client.post("/llms-full.txt").status_code, 405)
 
-    def test_post_authorized_regenerates(self):
-        os.environ["LLMS_SECRET"] = "known-secret"
-        response = self.client.post(
-            "/llms.txt",
-            headers={"Authorization": "Bearer known-secret"},
+    def test_write_llms_file_is_atomic(self):
+        # write_llms_file leaves no temp files and produces a complete file.
+        content = llms.write_llms_file(app, "llms.txt")
+        path = _llms_file_path("llms.txt")
+        self.assertTrue(os.path.exists(path))
+        with open(path) as handle:
+            self.assertEqual(handle.read(), content)
+        tmp_dir = os.path.dirname(path)
+        self.assertEqual(
+            [f for f in os.listdir(tmp_dir) if f.endswith(".tmp")], []
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("successfully generated", response.get_json()["message"])
-        self.assertTrue(os.path.exists(_llms_file_path("llms.txt")))
 
 
 if __name__ == "__main__":

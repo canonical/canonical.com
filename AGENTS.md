@@ -22,7 +22,7 @@
 - `templates/sitemap-index.xml` - top-level sitemap index that links to all section sitemaps.
 - `templates/sitemap-links.xml`, `templates/careers/sitemap.xml`, `templates/partners/sitemap.xml`, `templates/knowledge/sitemap.xml`, `templates/data/sitemap.xml` - per-section sitemap templates rendered by routes in `webapp/app.py`.
 - `templates/sitemap_tree.xml` - generated (git-ignored) full sitemap; the `/sitemap_tree.xml` route (`build_sitemap_tree` in `webapp/app.py`) regenerates it from the `templates/` tree on a `POST` and serves it on `GET`.
-- `templates/llms.txt`, `templates/llms-full.txt` - generated (git-ignored) LLM site indexes (https://llmstxt.org/); the `/llms.txt` and `/llms-full.txt` routes (`build_llms_view` in `webapp/llms.py`) regenerate them on an authenticated `POST` and serve them from disk on `GET`, mirroring the sitemap_tree pattern. `llms.txt` is built from the `directory_parser` template tree; `llms-full.txt` renders every page to Markdown via the `?format=md` endpoint.
+- `templates/llms.txt`, `templates/llms-full.txt` - generated (git-ignored) LLM site indexes (https://llmstxt.org/). Pre-generated at build time by `scripts/generate_llms.py` (run in the `pack-rock` job of `.github/workflows/deploy.yaml` before `rockcraft pack`) so they ship in the image; the `/llms.txt` and `/llms-full.txt` routes (`build_llms_view` in `webapp/llms.py`) serve them read-only from disk, regenerating on demand only if missing (local dev). `llms.txt` is built from the `directory_parser` template tree; `llms-full.txt` renders every page to Markdown via the `?format=md` endpoint.
 - `static/js/` - browser JS/TS entrypoints and React code.
   - `static/js/career-explorer/` - React/TypeScript careers explorer.
   - `static/js/canonical-cla/` - React client for the CLA pages.
@@ -42,7 +42,7 @@
 - `.github/workflows/pr.yaml` - the most important CI definition; use it as the source of truth for lint/test/build expectations.
 - `.github/workflows/playwright.yaml`, `forms-test.yaml`, `percy-pr.yaml` - specialized browser/form/visual workflows.
 - `.github/workflows/sitemap.yaml` - on any `templates/**` push to `main`, POSTs to the live `https://canonical.com/sitemap_tree.xml` endpoint with `SITEMAP_SECRET` to regenerate the git-ignored `templates/sitemap_tree.xml` from the current `templates/` tree.
-- `.github/workflows/llms.yaml` - on any `templates/**` push to `main`, POSTs to the live `/llms.txt` and `/llms-full.txt` endpoints with `SITEMAP_SECRET` to regenerate those git-ignored files (same pattern as `sitemap.yaml`).
+- `.github/workflows/deploy.yaml` - on push to `main`, builds/rolls out the image; its `pack-rock` job pre-generates `templates/llms.txt` and `templates/llms-full.txt` (`scripts/generate_llms.py`) so they ship baked into every pod.
 - `Dockerfile` - production image build.
 - `run` - older Docker helper script; works, but README + CI favor `dotrun`.
 - `entrypoint` - actual Gunicorn/Talisker server command used by `yarn serve` and container runs.
