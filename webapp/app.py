@@ -1010,7 +1010,7 @@ app.add_url_rule(
 
 latest_news_blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
-    category_ids=[4881], # announcements
+    category_ids=[4881],  # announcements
     per_page=16,
 )
 
