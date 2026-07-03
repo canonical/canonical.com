@@ -74,6 +74,34 @@
 
           {% block extra_metatags %}{% endblock %}
 
+          <script type="application/ld+json" nonce="{{ csp_nonce }}">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://canonical.com/#organization",
+              "name": "Canonical",
+              "url": "https://canonical.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://assets.ubuntu.com/v1/756d9941-canonical-logo.png",
+                "width": 364,
+                "height": 384
+              },
+              "sameAs": [
+                "https://x.com/canonical",
+                "https://www.linkedin.com/company/canonical/",
+                "https://github.com/canonical",
+                "https://www.wikidata.org/wiki/Q39064"
+              ],
+              "subOrganization": {
+                "@type": "Organization",
+                "@id": "https://ubuntu.com/#organization",
+                "name": "Ubuntu",
+                "url": "https://ubuntu.com/"
+              }
+            }
+          </script>
+
           <link rel="apple-touch-icon"
                 sizes="180x180"
                 href="https://assets.ubuntu.com/v1/f38b9c7e-COF%20apple-touch-icon.png" />
