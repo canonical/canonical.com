@@ -11,7 +11,7 @@ context:
   hero_title: "What is container security?"
   cta:
     description: |
-      Find out more Explore Canonical’s container offerings, and find out more about how 
+      Explore Canonical’s container offerings, and find out more about how 
       Canonical’s approach to secure containers, long-term support, and defense in depth 
       helps make containers safer and more sustainable.
     buttons:
@@ -48,7 +48,7 @@ beyond, with active protection during runtime.
 
 Challenges in container security are varied, ranging from the wide attack surface of bloated 
 container images, to the security scanning gap of typical distroless images. 
-Some of the biggest challenges include: 
+Some of the biggest challenges include:
 
 {{ text_list_kh(
   items=[
@@ -59,16 +59,16 @@ Some of the biggest challenges include:
     "Absence of a long-term support strategy"
 ]) }}
 
-### CVE noise and alert fatigue 
+### CVE noise and alert fatigue
 
 Standard container images are often shipped with a full OS, shell, package manager, and 
 utilities, resulting in chunky containers and a wide attack surface. The inclusion of unnecessary 
 components leads to vulnerability bloat, as modern security scanners flag all known issues within 
 an image. As a result, security and engineering teams waste significant effort triaging huge 
 volumes of Common Vulnerabilities and Exposures (CVE) alerts, for components that may not be used 
-by the application at runtime. 
+by the application at runtime.
 
-### Software supply chain blind spots 
+### Software supply chain blind spots
 
 Supply chain risks can be introduced by pulling pre-built images from public registries without 
 verifying their contents. Modern applications are built using a deep stack of dependencies, some 
@@ -76,34 +76,34 @@ of which may come from unverified upstream sources. If these dependencies are bu
 container, it can expose organizations consuming this container to the risk of deploying 
 malicious code or unpatched software directly into production. Whilst containers may be 
 ephemeral, software contracts are not, and relying on semantic versioning as a software contract 
-can lead to breaking changes in an application’s dependencies. 
+can lead to breaking changes in an application’s dependencies.
 
-### Distroless security gap 
+### Distroless security gap
 
 In an attempt to combat vulnerability bloat, many organizations attempt to build distroless 
 images. The typical approach to building distroless images is top-down, inflating the base image 
 and cherry-picking to trim it down. The complex builds, specialized tooling, and deep distro 
 knowledge required to build a distroless image with full accuracy mean that package metadata, 
-crucial for precise security scanning, is often omitted, leading to inaccurate CVE reporting. 
+crucial for precise security scanning, is often omitted, leading to inaccurate CVE reporting.
 
-### Misconfiguration 
+### Misconfiguration
 
 Containers that execute as `root` or run with elevated privileges can allow malicious users to 
 exploit vulnerabilities and escape the container’s isolation, compromising the underlying host 
-operating system. 
+operating system.
 
-### Poor support and patching strategies 
+### Poor support and patching strategies
 
 The dynamic nature of container environments, and the disjointed lifecycles of the underlying 
 components, means that there is significant overhead in maintaining a secure posture, requiring 
 continuous tracking of various End-of-Life (EOL) dates and applying patches across thousands of 
 images. In the absence of a long-term support strategy, images quickly become non-compliant, and 
-hazardous technical debt gets accumulated. 
+hazardous technical debt gets accumulated.
 
 
-## What are the best practices for container security? 
+## What are the best practices for container security?
 
-The core best practices for container security are: 
+The core best practices for container security are:
 
 {{ text_list_kh(
   items=[
@@ -113,69 +113,69 @@ The core best practices for container security are:
     "Security scanning integration",
     "Strictly immutable containers",
     "Long-term maintenance strategy",
-    "Security in depth "
+    "Security in depth"
 ]) }}
 
-### Use minimal base images 
+### Use minimal base images
 
 Moving away from general-purpose OS base images to minimal images helps to reduce attack surface, 
 removing unnecessary components that an attacker could exploit. Canonical’s OCI-compliant, 
 [chiseled Ubuntu containers](https://ubuntu.com/containers/chiseled), known as rocks, contain the 
 minimal set of dependencies needed for your application to run, without shells, utilities, and 
-package managers. 
+package managers.
 
-### Ensure non-root execution 
+### Ensure non-root execution
 
 Containers should never run as `root`. Adhering to the principle of least privilege (running 
 processes as an unprivileged user) prevents compromised containers from taking over the 
-underlying host. Rocks are designed to execute as non-root out of the box. 
+underlying host. Rocks are designed to execute as non-root out of the box.
 
-### Build from trusted sources 
+### Build from trusted sources
 
 Containers should only be built from trusted sources. Pulling in undocumented dependencies from 
 public registries introduces massive risk. Rocks eliminate the software supply chain security 
 gap, by ensuring every required package comes from a Canonical-maintained source 
-(e.g., the Ubuntu archives). 
+(e.g., the Ubuntu archives).
 
-### Monitor and implement CVE reporting 
+### Monitor and implement CVE reporting
 
 Leverage scanning tools in your CI/CD pipelines to catch CVEs before deployment. Ensure that your 
 minimal images retain package metadata, so they can be accurately scanned for vulnerabilities 
 without risk of returning false negatives. Canonical’s chiseled approach ensures that rocks are 
-minimal in size, but retain the required metadata for scanning accuracy. 
+minimal in size, but retain the required metadata for scanning accuracy.
 
-### Build using immutable containers 
+### Build using immutable containers
 
 Patching, updating, or modifying a running container in production should be avoided, to prevent 
 configuration drift and ensure that unnecessary privileges and utilities (e.g., requiring `root` 
 and `apt` to install packages) are eliminated. If a vulnerability is found, the image must be 
 rebuilt at the source and redeployed. Rocks enforce this immutability by default, by shipping 
 without tools like `apt`, `wget`, or `bash` inside the container, making it practically 
-impossible for administrators and threat actors to alter the runtime environment. 
+impossible for administrators and threat actors to alter the runtime environment.
 
-### Long-term maintenance 
+### Long-term maintenance
 
 Containers should be based on a foundation that offers long-term security patching. By aligning 
 your container strategy with an enterprise lifecycle, such as Ubuntu LTS, you can ensure that 
 your containers will receive continuous CVE fixes for years without having to constantly migrate 
-to new images. 
+to new images.
 
-### Implement multi-layer protection 
+### Implement multi-layer protection
 
 Instead of relying on a single security control, multiple independent layers of protection should 
 be put in place across every level of the system. This ensures that, if one defense is bypassed, 
-the next layer is ready to contain the threat. 
+the next layer is ready to contain the threat.
 
-[Learn more about security in depth ›](https://canonical.com/knowledge/security-and-compliance/what-is-security-in-depth) 
+[Learn more about security in depth ›](https://canonical.com/knowledge/security-and-compliance/what-is-security-in-depth)
 
 
-## How does Canonical help with container security? 
+## How does Canonical help with container security?
 
 Adhering to container security best practices is made easy with Canonical’s products. Users have 
 the option to [consume off-the-shelf OCI-compliant images](https://hub.docker.com/u/ubuntu), 
 known as rocks, which are secured and maintained under Ubuntu Pro. Alternatively, they can craft 
 their own rocks using Rockcraft and Chisel, or request custom images to be delivered through 
-Container Build Service. Canonical’s offerings that help with container security include: 
+Container Build Service. Canonical’s offerings that help with container security include:
 
 {{ text_list_kh(
   items=[
@@ -186,14 +186,14 @@ Container Build Service. Canonical’s offerings that help with container securi
     "Container Build Service"
 ]) }}
 
-### What are rocks? 
+### What are rocks?
 
 [Rocks](https://documentation.ubuntu.com/rockcraft/stable/explanation/rocks/) are Canonical’s 
 OCI-compliant, minimal container images. They are hardened by design, and built from trusted, 
 heavily audited Ubuntu sources. Running as non-root by default, rocks enforce the principle of 
 least privilege, and their minimal size means a small attack surface, whilst retaining the 
 crucial package metadata needed for accurate security scans. 
-Key aspects that set rocks apart include: 
+Key aspects that set rocks apart include:
 
 {{ text_list_kh(
   items=[
@@ -203,16 +203,16 @@ Key aspects that set rocks apart include:
     "<strong>Package metadata:</strong> Rocks extend the OCI image information by including additional metadata inside each rock, allowing container applications to easily inspect the properties of the image they are running on, at execution time."
 ]) }}
 
-[Learn more about rocks ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/rocks/) 
+[Learn more about rocks ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/rocks/)
 
-### Package slicing with Chisel 
+### Package slicing with Chisel
 
 Chisel is a novel package manager that slices packages to create compact, secure software. 
 The engine behind rocks, Chisel builds images bottom-up, installing only the bare minimum files 
 and dependencies an application needs to run. It omits shells, utilities, and package managers, 
 stripping attackers of the tools they need to enact living-off-the-land attacks. Unlike 
 traditional distroless approaches, Chisel preserves slice metadata, so that security scanners can 
-accurately report CVEs rather than false negatives. 
+accurately report CVEs rather than false negatives.
 
 [Read more about Chisel ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/chisel/)
 
@@ -230,29 +230,29 @@ accurately report CVEs rather than false negatives.
   video_title="Reinventing distroless with chiseled Ubuntu containers") | safe
 }}
 
-### Container-optimized service management 
+### Container-optimized service management
 
 Pebble is a container-optimized service manager that enables the seamless orchestration of a 
 collection of local service processes as an organised set. It is the default entrypoint for all 
 rocks, providing a predictable and powerful abstraction layer between the user and the container 
 application. Pebble uses declarative YAML files to orchestrate services natively, eliminating the 
-security risk posed when using imperative shell scripts to start multiple processes in a container. 
+security risk posed when using imperative shell scripts to start multiple processes in a container.
 
-[Read more about Pebble ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/pebble/) 
+[Read more about Pebble ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/pebble/)
 
-### Building rocks 
+### Building rocks
 
 Rockcraft is a tool to build rocks, driven by a declarative rockcraft.yaml file. Unlike complex, 
 multi-stage Dockerfiles that may hide unverified upstream code or insecure configurations, 
 Rockcraft standardizes the build process, producing minimal images through a repeatable, 
-auditable build pipeline. 
+auditable build pipeline.
 
-[Craft your own rock ›](https://documentation.ubuntu.com/rockcraft/stable/) 
+[Craft your own rock ›](https://documentation.ubuntu.com/rockcraft/stable/)
 
-### Container Build Service 
+### Container Build Service
 
 With Container Build Service, Canonical can build, maintain, and secure minimal container images 
 at a user’s request, onboarding any open source dependency needed, providing an LTS commitment of 
-up to 15 years, and fixing critical CVEs in a timely manner. 
+up to 15 years, and fixing critical CVEs in a timely manner.
 
 [Learn more about Container Build Service ›](https://ubuntu.com/containers/container-build-service)
