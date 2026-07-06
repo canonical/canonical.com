@@ -366,7 +366,9 @@ app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 def render_openstack_blogs():
     blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
-        excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
+        category_ids=[4878],
+        # kubeflow-news, not-ubuntu, langkr
+        excluded_tags=[3408, 3960, 4491],
         tag_ids=[1327],
         per_page=4,
         blog_title="OpenStack blogs",
@@ -993,7 +995,7 @@ class BlogSitemapPage(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
-    excluded_tags=[3184, 3265, 3599],
+    category_ids=[4878],
     per_page=16,
 )
 
@@ -1006,16 +1008,23 @@ app.add_url_rule(
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
 
+latest_news_blog_views = BlogViews(
+    api=BlogAPI(session=get_requests_session()),
+    category_ids=[4881],  # announcements
+    per_page=16,
+)
 
+
+# Registered before the blog blueprint so this rule takes precedence over the
+# library's built-in JSON "/blog/latest-news" endpoint.
 @app.route("/blog/latest-news")
 def blog_latest_news():
     page = flask.request.args.get("page", default=1, type=int)
-    context = blog_views.get_index(page=page, category_slug="announcement")
+    context = latest_news_blog_views.get_index(page=page)
     return flask.render_template("blog/latest-news.html", **context)
 
 
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
-
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
@@ -1397,7 +1406,7 @@ maas_blog = build_blueprint(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
-        excluded_tags=[3184, 3265, 3408],
+        category_ids=[4878],
     ),
 )
 

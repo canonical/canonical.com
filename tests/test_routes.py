@@ -177,29 +177,25 @@ class TestRoutes(VCRTestCase):
         self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
 
     @patch("webapp.app.flask.render_template", return_value="latest-news")
-    @patch("webapp.app.blog_views.get_index", return_value={})
+    @patch("webapp.app.latest_news_blog_views.get_index", return_value={})
     def test_blog_latest_news_defaults_to_page_one(
         self, mock_get_index, mock_render_template
     ):
         response = self.client.get("/blog/latest-news")
 
         self.assertEqual(response.status_code, 200)
-        mock_get_index.assert_called_once_with(
-            page=1, category_slug="announcement"
-        )
+        mock_get_index.assert_called_once_with(page=1)
         mock_render_template.assert_called_once_with("blog/latest-news.html")
 
     @patch("webapp.app.flask.render_template", return_value="latest-news")
-    @patch("webapp.app.blog_views.get_index", return_value={})
+    @patch("webapp.app.latest_news_blog_views.get_index", return_value={})
     def test_blog_latest_news_uses_page_query_param(
         self, mock_get_index, mock_render_template
     ):
         response = self.client.get("/blog/latest-news?page=3")
 
         self.assertEqual(response.status_code, 200)
-        mock_get_index.assert_called_once_with(
-            page=3, category_slug="announcement"
-        )
+        mock_get_index.assert_called_once_with(page=3)
         mock_render_template.assert_called_once_with("blog/latest-news.html")
 
 
