@@ -220,7 +220,7 @@ accurately report CVEs rather than false negatives.
   alt="Image depicting a side-by-side comparison of 3 rocks: \n1. Python rock with an Ubuntu base: This contains additional utilities, leading to a wider attack surface. It is 42MB, and 114MB in Docker local registry. \n2. Python rock with a bare base: This contains no additional utilities, but includes the entire Python package and dependencies. It is 28MB, and 74MB in Docker local registry. \n3. Chiseled Python rock: This has no additional utilities, and only includes the necessary bits of Python and dependencies. It is 13MB, is STIG/CIS compliant off-the-shelf, and provides a 61%+ CVE reduction compared to equivalent standard or distroless images.",
   width="2748",
   height="1546",
-  hi_def=True,
+  is_highlighted=True,
   loading="lazy",
   caption="Build minimal images using Chisel"
   ) | safe

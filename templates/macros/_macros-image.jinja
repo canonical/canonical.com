@@ -25,9 +25,11 @@
   </section>
 {%- endmacro -%}
 
-{%- macro image_kh(url, alt, width=1200, height=800, loading="lazy", hi_def=True, caption="") -%}
-  <div class="p-section--shallow p-image-container">
-    <img class="p-image-container__image" src="{{ url }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}" loading="{{ loading }}" />
+{%- macro image_kh(url, alt, width=1200, height=800, loading="lazy", is_highlighted=False, caption="") -%}
+  <div class="p-section--shallow">
+    <div class="p-image-container {%- if is_highlighted %} is-highlighted {% endif -%}">
+      <img class="p-image-container__image" src="{{ url }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}" loading="{{ loading }}" />
+    </div>
     {%- if caption %}
       <p class="u-text--muted">{{ caption }}</p>
     {%- endif %}
