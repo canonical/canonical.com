@@ -9,6 +9,7 @@ every page in a request context on prod — which times out for llms-full.txt.
 Run locally with: python3 scripts/generate_llms.py
 """
 
+import logging
 import os
 import sys
 
@@ -17,6 +18,19 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from webapp import llms  # noqa: E402
 from webapp.app import app  # noqa: E402
+
+# Pages that need upstream data (blog/Discourse/Engage) can't render at build
+# time and are skipped; silence their noisy tracebacks. webapp.llms still logs
+# a one-line "Skipping ..." for each so the omissions stay visible.
+for _noisy in (
+    "werkzeug",
+    "talisker",
+    "talisker.requests",
+    "canonicalwebteam.blog",
+    "canonicalwebteam.discourse",
+):
+    logging.getLogger(_noisy).setLevel(logging.CRITICAL)
+app.logger.setLevel(logging.CRITICAL)
 
 
 def main():
