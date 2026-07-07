@@ -31,3 +31,5 @@ cp node_modules/venobox/dist/venobox.min.js static/js/modules/venobox/venobox.mi
 mkdir -p static/js/modules/vanilla-framework/js
 cp -r node_modules/vanilla-framework/templates/_macros/ static/js/modules/vanilla-framework
 cp -r node_modules/vanilla-framework/templates/static/js/tabs.js static/js/modules/vanilla-framework/js/.
+
+mkdir -p static/js/dist/prism-components && cp -r node_modules/prismjs/components/*.min.js static/js/dist/prism-components/

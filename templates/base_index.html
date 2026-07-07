@@ -70,9 +70,37 @@
             Must run before the deferred lite-youtube module upgrades the
             element.
           -->
-          <script nonce="{{ csp_nonce }}">window.liteYouTubeNonce = "{{ csp_nonce }}";</script>
+          <script nonce="{{ csp_nonce }}">window.liteYouTubeNonce = {{ csp_nonce | tojson }};</script>
 
           {% block extra_metatags %}{% endblock %}
+
+          <script type="application/ld+json" nonce="{{ csp_nonce }}">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://canonical.com/#organization",
+              "name": "Canonical",
+              "url": "https://canonical.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://assets.ubuntu.com/v1/756d9941-canonical-logo.png",
+                "width": 364,
+                "height": 384
+              },
+              "sameAs": [
+                "https://x.com/canonical",
+                "https://www.linkedin.com/company/canonical/",
+                "https://github.com/canonical",
+                "https://www.wikidata.org/wiki/Q39064"
+              ],
+              "subOrganization": {
+                "@type": "Organization",
+                "@id": "https://ubuntu.com/#organization",
+                "name": "Ubuntu",
+                "url": "https://ubuntu.com/"
+              }
+            }
+          </script>
 
           <link rel="apple-touch-icon"
                 sizes="180x180"
