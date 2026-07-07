@@ -266,6 +266,7 @@ def _load_extra_sections(config=None):
 
 def generate_llms_txt():
     """Build the llms.txt index from the template tree."""
+    return 
     config = _load_config()
     tree = _scan_tree()
     sections = _build_sections(tree, _load_overrides(config))
