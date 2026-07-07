@@ -33,6 +33,8 @@ from canonicalwebteam.discourse import (
     DocParser,
     Docs,
     EngagePages,
+    RateLimitedError,
+    ResponseCache,
     TutorialParser,
     Tutorials,
 )
@@ -149,6 +151,7 @@ charmhub_discourse_api = DiscourseAPI(
     api_key=CHARMHUB_DISCOURSE_API_KEY,
     api_username=CHARMHUB_DISCOURSE_API_USERNAME,
     get_topics_query_id=2,
+    cache=ResponseCache(ttl=600),
 )
 search_session = get_requests_session()
 discourse_session = get_requests_session()
@@ -1225,6 +1228,7 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=discourse_session,
+            cache=ResponseCache(ttl=600),
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1258,6 +1262,7 @@ maas_docs = Docs(
             base_url="https://discourse.maas.io/",
             session=discourse_session,
             get_topics_query_id=2,
+            cache=ResponseCache(ttl=600),
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1342,6 +1347,7 @@ tutorials_discourse = Tutorials(
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
+            cache=ResponseCache(ttl=600),
         ),
         index_topic_id=1289,
         url_prefix="/maas/tutorials",
@@ -1440,6 +1446,38 @@ def handle_maas_goget():
         path == "/maas" or path.startswith("/maas/")
     ) and flask.request.query_string == b"go-get=1":
         return flask.render_template("maas/gomod.html"), 200
+
+
+@app.errorhandler(503)
+def service_unavailable(error):
+    """
+    Rendered when an upstream API (e.g. Discourse) is rate-limiting us
+    and there is no cached response to fall back on. Retry-After tells
+    well-behaved clients and crawlers when to come back.
+    """
+    accepts = flask.request.accept_mimetypes
+    wants_json = flask.request.path.endswith(".json") or (
+        accepts.accept_json and not accepts.accept_html
+    )
+    if wants_json:
+        response = flask.make_response(
+            flask.jsonify(error="Service temporarily unavailable"), 503
+        )
+    else:
+        response = flask.make_response(flask.render_template("500.html"), 503)
+    retry_after = getattr(error, "retry_after", None)
+    response.headers["Retry-After"] = str(retry_after or 60)
+    return response
+
+
+@app.errorhandler(RateLimitedError)
+def discourse_rate_limited(error):
+    """
+    The discourse package raises RateLimitedError when Discourse
+    returns 429 and no cached response is available; serve the same
+    503 as any other upstream outage.
+    """
+    return service_unavailable(error)
 
 
 @app.errorhandler(502)
@@ -1585,6 +1623,7 @@ engage_pages_discourse_api = DiscourseAPI(
     get_topics_query_id=14,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
+    cache=ResponseCache(ttl=300),
 )
 engage_pages = EngagePages(
     api=engage_pages_discourse_api,
@@ -1614,6 +1653,7 @@ discourse_api = DiscourseAPI(
     session=search_session,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
+    cache=ResponseCache(ttl=600),
 )
 
 
@@ -1649,6 +1689,7 @@ microk8s_discourse_api = Docs(
         api=DiscourseAPI(
             base_url="https://discuss.kubernetes.io/",
             session=get_requests_session(),
+            cache=ResponseCache(ttl=600),
         ),
         index_topic_id=11243,
         url_prefix=microk8s_url_prefix,
