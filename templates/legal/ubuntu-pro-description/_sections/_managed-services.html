@@ -1,0 +1,159 @@
+<h3 id="managed-services">21. Managed Services</h3>
+
+<ol>
+    <li>
+        <p>Managed Services are an add-on to Ubuntu Pro + <a href="#def-infra-support">Infra Support</a> (24/7) or Ubuntu Pro + Support (24/7). When added, Canonical will manage the <a href="#def-environment">Environment</a> as described below.</p>
+        <p>Environments benefiting from Managed Services can be deployed on-premises, in the public cloud, or on a combination of the two. To be eligible for Managed Services, the Environment must be deployed (manually or automatically) or validated by Canonical.</p>
+    </li>
+    <li>
+        The Managed Services team will remotely operate, monitor, and manage the <a href="#def-environment">Environment</a> by:
+        <ol>
+            <li>
+                Service continuity
+                <ol>
+                    <li>24/7 Monitoring, excluding security-related monitoring</li>
+                    <li>24/7 Alerts</li>
+                    <li>Telemetry Dashboards (accessible also to customers)</li>
+                </ol>
+            </li>
+            <li>
+                (Non-security) Incident management
+                <ol>
+                    <li>Prevention and recovery of platforms (ie network, power, compute, storage) and services (ie cloud APIs, observability, connectivity) outages</li>
+                    <li>Diagnosis of external service issues (ie firewall, DNSs, proxies)</li>
+                    <li>Root Cause Analysis for S1 incidents</li>
+                    <li>Node crash recovery</li>
+                </ol>
+            </li>
+            <li>
+                Operations
+                <ol>
+                    <li>Backup/Restore of control plane services</li>
+                    <li>Patching/Rebooting (cadence)</li>
+                    <li>Packages refreshed (cadence)</li>
+                    <li>Upgrades (with tailored cadence depending on the offer)</li>
+                    <li>Storage and capacity management/warnings</li>
+                    <li><a href="#def-cves-high-and-critical">CVEs (High and Critical)</a> patching/mitigation</li>
+                    <li>Compute expansion/contraction/replacement</li>
+                    <li>Storage expansion/contraction/replacement</li>
+                    <li>SSL certificate rotation and updates</li>
+                    <li>Support for OpenStack roles: Admin, Reader, and Member</li>
+                    <li>Permission and authorization</li>
+                    <li>Admin creation and revocation</li>
+                    <li>Performance tuning and diagnostics</li>
+                </ol>
+            </li>
+            <li>
+                Coordination
+                <ol>
+                    <li>Weekly meeting (more than a total of 20 nodes)</li>
+                    <li>Monthly as requested by the customer</li>
+                </ol>
+            </li>
+            <li>Ticket-based tracking of cases</li>
+            <li>
+                Administrative access. Managed Services will provide the customer with access to the following applications and/or services:
+                <ol>
+                    <li>The OpenStack or Kubernetes dashboard, API and CLI</li>
+                    <li>Landscape (restricted to read-only access)</li>
+                    <li>Monitoring and logging system (restricted to read-only access)</li>
+                    <li>Only Canonical will have login access to <a href="#def-environment">Environment</a> <a href="#def-node">nodes</a></li>
+                </ol>
+            </li>
+            <li><a href="#def-environment">Environment</a> size. Managed Services will add or remove <a href="#def-node">nodes</a> from the <a href="#def-environment">Environment</a> as requested by the customer through a support ticket, provided that the <a href="#def-environment">Environment</a> does not go under the <a href="#def-minimum-size-requirement">Minimum Size Requirement</a>. As all <a href="#def-environment">Environment</a> <a href="#def-node">nodes</a> must be covered under the service, additional fees may apply.</li>
+            <li>OpsConsultancy packages. Managed Services will provide hours of OpsConsultancy required by the customer through a support ticket, provided that the activity the consultancy is required is pertinent with the Environment. The OpsConsulting additional fees apply and will be charged the month after the completion of the consultancy.</li>
+            <li>For Environments deployed directly from public cloud marketplaces, Customer is responsible for configuring the Environment's upper and lower node limits at the time of deployment, within the options presented by the marketplace listing. Customer can request to change these limits via Support ticket or, where possible, directly on the marketplace dashboard.</li>
+            <li>
+                Ubuntu, OpenStack, and Kubernetes upgrades. Managed Services will ensure the customer's <a href="#def-environment">Environment</a> remains on a supported LTS version of Ubuntu and OpenStack and/or Kubernetes
+                <ol>
+                    <li>Upgrades will be performed on a per-AZ basis within maintenance windows decided in agreement with Customer.</li>
+                    <li>Downtime should be expected for non-cloud-native workloads that cannot be migrated away from the availability zone undergoing upgrade.</li>
+                    <li>If cloud utilization is very high and spare capacity is below 20%, upgrade risks will need to be carefully evaluated with the customer, potentially causing delays or preventing the project from being undertaken.</li>
+                    <li>For applications deployed directly from public cloud marketplaces, Managed Services will perform upgrades in pre-defined standing maintenance windows. These upgrades will be announced with reasonable notice, and Customer may opt to skip to the next standing maintenance window if required.</li>
+                    <li>Customer may pin its project to a specific version by asking Managed Services to disable the upgrades. Subsequent requests for upgrades will be evaluated.</li>
+                    <li>Managed Services will provide planned upgrades and maintenance Monday to Friday during Canonical working days. Standing maintenance periods may be pre-appointed following mutual agreements with Customer.</li>
+                    <li>Customer may skip upgrades up to three times, after which automated upgrades will be disabled.</li>
+                </ol>
+            </li>
+            <li>Managed Applications. Canonical will manage applications from its <a href="https://ubuntu.com/managed/apps">managed applications portfolio</a>. Canonical will expose only API and other user-level interfaces of the applications</li>
+        </ol>
+    </li>
+    <li>
+        No other operations will be provided by Managed Services unless contractually agreed between Canonical and Customer prior to the Environment's deployment. The Managed Service does not provide:
+        <ol>
+            <li>
+                For managed Infrastructure:
+                <ol>
+                    <li>Managing, monitoring, backup or recovery of the operating system, customer generated data and any applications running within virtual machine instances or Container Instances</li>
+                    <li>Support for the ability to run virtual machine instances using images other than those provided by Canonical</li>
+                </ol>
+            </li>
+            <li>For self-deployed applications on public clouds, Canonical will not provide Managed Services for external or third-party components integrated within the Canonical-operated Environment.</li>
+            <li>Evaluation and resolution of any incompatibility or malfunction of external components caused by updates to the <a href="#def-environment">Environment</a> remains the responsibility of the Customer.</li>
+            <li>Alternative scheduling of updates or upgrades</li>
+            <li>Unsupported versions of Ubuntu, OpenStack, Kubernetes, or applications</li>
+            <li>Adherence to the Customer's Change Management requirements/regulations without a DSE</li>
+            <li>Integration with Customer's ticketing system without a TAM</li>
+        </ol>
+    </li>
+    <li>
+        Service conclusion. At the end of the service term, the Managed Service will initiate an operational transfer. Operational transfer includes:
+        <ol>
+            <li>Hand over of all credentials of the hosts, management software, Landscape and Applications to the customer. The continued operation of Landscape is subject to purchase and agreement of appropriate licence terms</li>
+            <li>Coordination of any applicable training (if purchased)</li>
+            <li>For self-deployed applications, Managed Services will transfer the access to the environment's resources exclusively to Customer. This cannot be undone, and future deployments will use the most current component version which may cause incompatibilities with decommissioned <a href="#def-environment">Environments</a>.</li>
+        </ol>
+    </li>
+    <li>
+        Customer dependencies. Managed Services requires:
+        <ol>
+            <li>Credentials to the Infrastructure being used for the Applications in the case in which such infrastructure is not managed by Canonical (i.e. Managed OpenStack)</li>
+            <li>Continuous VPN access for Canonical support personnel to the <a href="#def-environment">Environment</a></li>
+            <li>For self-deployed Environments, continuous access to the Environment's resources</li>
+            <li>Utilisation parameters per <a href="#def-node">Node</a> to be kept below the maximum specified in the design document provided by Canonical when the <a href="#def-environment">Environment</a> is delivered to the customer</li>
+            <li>The facility where the <a href="#def-environment">Environment</a> is hosted to comply with the minimum required measures to function, including but not limited to, connectivity, sufficient power supply, sufficient cooling system, and physical access control to the <a href="#def-environment">Environment</a></li>
+            <li>The <em>entire</em> <a href="#def-environment">Environment</a> to be covered by Managed Services</li>
+        </ol>
+    </li>
+    <li>
+        Minimum size requirement. Managed Services can only be provided for <a href="#def-environment">Environments</a> with:
+        <ol>
+            <li>At least 12 deployed nodes for any eligible OpenStack release</li>
+            <li>At least 9 deployed nodes for any other compatible product</li>
+            <li>For <a href="#def-environment">Environments</a> deployed directly from public cloud marketplaces, there is no minimum size requirement.</li>
+        </ol>
+    </li>
+    <li>
+        Uptime service level
+        <p>The Managed Service includes the following uptime service levels:</p>
+        <table class="p-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Data plane — workloads across two regions</th>
+                    <th>Data plane — workloads in a single region</th>
+                    <th>Control plane (API, web UI, CLI)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Uptime</strong></td>
+                    <td>99.9%</td>
+                    <td>99.5%</td>
+                    <td>99%</td>
+                </tr>
+            </tbody>
+        </table>
+        <ol>
+            <li>
+                Data plane includes:
+                <ol>
+                    <li>Virtualisation (for workloads that are architected to not depend on a single compute <a href="#def-node">node</a>)</li>
+                    <li>Storage (block &amp; object)</li>
+                    <li>Network for instances</li>
+                </ol>
+            </li>
+            <li>Downtime must be directly attributable to Canonical in order for it to count against the service level and is measured across a 12-month period. Planned maintenance windows and any requests by the customer are not taken into account when calculating uptime. Planned maintenance is carried out as required by Canonical, Monday to Friday during Canonical working days</li>
+        </ol>
+    </li>
+</ol>

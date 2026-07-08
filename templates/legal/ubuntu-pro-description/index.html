@@ -53,32 +53,20 @@
 
         {#
           Section divs intentionally have NO id attributes. The id attributes
-          live on the h2/h3 headings rendered inside each div (injected by
-          _inject_heading_ids in ubuntu_pro_description.py). Having both an id
-          on the wrapper div AND on the heading would create duplicate ids,
-          which is invalid HTML and breaks anchor-link navigation.
+          live on the h2/h3 headings inside each include file. Having both an
+          id on the wrapper div AND on the heading would create duplicate ids.
         #}
-        <div>{{ sections.get('introduction', '') | safe }}</div>
-
-        <div>{{ sections.get('security-compliance', '') | safe }}</div>
-
-        <div>{{ sections.get('support', '') | safe }}</div>
-
-        <div>{{ sections.get('support-services-process', '') | safe }}</div>
-
-        <div>{{ sections.get('add-ons', '') | safe }}</div>
-
-        <div>{{ sections.get('managed-services', '') | safe }}</div>
-
-        <div>{{ sections.get('firefighting-support', '') | safe }}</div>
-
-        <div>{{ sections.get('ops-consultancy', '') | safe }}</div>
-
-        <div>{{ sections.get('professional-support-services', '') | safe }}</div>
-
-        <div>{{ sections.get('embedded-services', '') | safe }}</div>
-
-        <div>{{ sections.get('definitions', '') | safe }}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_introduction.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_security-compliance.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_support.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_support-services-process.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_add-ons.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_managed-services.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_firefighting-support.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_ops-consultancy.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_professional-support-services.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_embedded-services.html" %}</div>
+        <div>{% include "legal/ubuntu-pro-description/_sections/_definitions.html" %}</div>
       </div>
 
       <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">{# Side content goes here #}</div>

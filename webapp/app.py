@@ -1064,20 +1064,18 @@ register_knowledge_category_routes()
 
 
 # ── Ubuntu Pro Description ──────────────────────────────────────────────────
-# Explicit routes are needed here because the content is rendered from a
-# Markdown file (content.md) that must be pre-processed before being passed
-# to the templates. The TemplateFinder catch-all below cannot do this, so
-# these routes must be registered before it.
+# Explicit routes are needed here so we can pass EFFECTIVE_DATE and
+# PAGE_NAVIGATION from ubuntu_pro_description.py into the templates.
+# The TemplateFinder catch-all below cannot inject template context, so these
+# routes must be registered before it.
 from webapp import ubuntu_pro_description as _upsd
 
 
 @app.route("/legal/ubuntu-pro-description")
 @app.route("/legal/ubuntu-pro-description/")
 def ubuntu_pro_description():
-    sections = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/index.html",
-        sections=sections,
         effective_date=_upsd.EFFECTIVE_DATE,
         page_navigation=_upsd.PAGE_NAVIGATION,
     )
@@ -1085,21 +1083,17 @@ def ubuntu_pro_description():
 
 @app.route("/legal/ubuntu-pro-description/print")
 def ubuntu_pro_description_print():
-    # This route powers the "Export to PDF" feature. The browser opens it in
-    # a new tab via window.open(), auto-triggers window.print() on load, then
-    # closes the tab via the afterprint event. selected_sections controls which
-    # document sections are included in the printed output, making the export
-    # tamper-proof (the user cannot manipulate the main page DOM to change what
-    # ends up in the PDF — the content is re-rendered from source here).
+    # Powers the "Export to PDF" feature. The browser opens this URL in a new
+    # tab, auto-triggers window.print(), then closes via the afterprint event.
+    # selected_sections controls which sections are rendered, making the export
+    # tamper-proof: the user cannot alter the main page DOM to change the PDF.
     sections_param = flask.request.args.get("sections", "")
     selected_sections = [
         s.strip() for s in sections_param.split(",") if s.strip()
     ]
-    sections = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/_print.html",
         selected_sections=selected_sections,
-        sections=sections,
         effective_date=_upsd.EFFECTIVE_DATE,
     )
 
