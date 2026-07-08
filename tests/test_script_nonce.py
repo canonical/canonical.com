@@ -14,8 +14,8 @@ TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 
 # Match a single <script ...> opening tag (may span multiple lines).
 SCRIPT_OPEN_TAG = re.compile(r"<script\b[^>]*>", re.IGNORECASE | re.DOTALL)
-HAS_SRC = re.compile(r"\bsrc=", re.IGNORECASE)
-HAS_NONCE = re.compile(r"\bnonce\b", re.IGNORECASE)
+HAS_SRC = re.compile(r"(?<![-\w])src\s*=", re.IGNORECASE)
+HAS_NONCE = re.compile(r"(?<![-\w])nonce\s*=", re.IGNORECASE)
 
 
 class TestScriptNonce(unittest.TestCase):
