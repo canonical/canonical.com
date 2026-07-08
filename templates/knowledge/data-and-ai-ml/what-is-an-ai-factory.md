@@ -202,7 +202,6 @@ Canonical helps organizations build AI factories by delivering an integrated, en
   alt="Technology stack diagram depicting full-stack AI infrastructure starting with silicon partners Intel, NVIDIA, AMD, MediaTek, Arm, Qualcomm, and Ampere. Above this, Canonical MAAS handles hardware automation and Canonical Ubuntu serves as the operating system. The infrastructure management layer displays Canonical OpenStack, Kubernetes, Landscape, and MicroCloud. Data solutions include PostgreSQL, Cassandra, Apache Spark, etcd, MySQL, MongoDB, Redis, Kafka, Ceph, OpenSearch, and Valkey. The top AI/ML layer features Kubeflow, MLflow, Feast, and vLLM.",
   width="1200",
   height="610",
-  hi_def=True,
   loading="lazy",
   caption="What full-stack AI infrastructure looks like, starting with silicon partners"
   ) | safe

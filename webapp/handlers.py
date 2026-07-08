@@ -470,12 +470,18 @@ def init_handlers(app):
             return csp_str.strip()
 
         nonce = getattr(flask.g, "csp_nonce", None)
-        response.headers["Content-Security-Policy"] = get_csp_as_str(
-            CSP, nonce=nonce
+        # Skip sitemaps to avoid false CSP errors
+        is_sitemap = (
+            "sitemap" in flask.request.path
+            and flask.request.path.endswith(".xml")
         )
-        response.headers["Content-Security-Policy-Report-Only"] = (
-            get_csp_as_str(CSP_REPORT_ONLY, nonce=nonce)
-        )
+        if not is_sitemap:
+            response.headers["Content-Security-Policy"] = get_csp_as_str(
+                CSP, nonce=nonce
+            )
+            response.headers["Content-Security-Policy-Report-Only"] = (
+                get_csp_as_str(CSP_REPORT_ONLY, nonce=nonce)
+            )
 
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
