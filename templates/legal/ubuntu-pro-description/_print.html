@@ -27,45 +27,14 @@
     <link rel="stylesheet"
           type="text/css"
           href="{{ versioned_static('css/styles.css') }}" />
-    <style nonce="{{ csp_nonce }}">
-      /*
-        @page margin trick to control browser print headers/footers:
-        - margin-top: 14mm  → leaves space for the browser to render its
-          own header (date, page title). Remove this if you want no header.
-        - margin-right/bottom/left: 0  → no space for the browser's URL
-          footer, so it is suppressed.
-        Content margins are handled on <body> instead, so the text does not
-        run to the page edges.
-
-        NOTE: CSS cannot selectively show/hide individual browser header/
-        footer fields (e.g. keep page number, hide URL). That would require
-        a server-side renderer such as WeasyPrint or Puppeteer.
-      */
-      @page {
-        margin: 14mm 0 0 0;
-        size: A4;
-      }
-
-      body {
-        margin: 0 20mm;
-      }
-    </style>
-    <script nonce="{{ csp_nonce }}">
-      /*
-        On load: register afterprint BEFORE calling print() so the handler is
-        always in place. afterprint fires after the user closes the print dialog
-        (whether they printed or cancelled), then window.close() shuts the tab.
-        Using afterprint rather than calling close() directly after print()
-        prevents the tab from closing before the dialog even appears (window.print
-        is not guaranteed to be synchronous in all browsers).
-      */
-      window.addEventListener('load', function() {
-        window.addEventListener('afterprint', function() {
-          window.close();
-        });
-        window.print();
-      });
-    </script>
+    {# Print-page layout (page margins, @page rules). Separate file so these
+       rules do not affect printing of other pages on canonical.com. #}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ versioned_static('css/ubuntu-pro-description-print.css') }}" />
+    {# Triggers window.print() on load and closes the tab via afterprint. #}
+    <script src="{{ versioned_static('js/ubuntu-pro-description-print.js') }}"
+            nonce="{{ csp_nonce }}"></script>
   </head>
   <body>
     <div class="row">

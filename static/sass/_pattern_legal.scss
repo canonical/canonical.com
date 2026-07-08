@@ -1,0 +1,15 @@
+@mixin canonical-p-legal {
+  // Severity-levels table in the Support Services Process section has 8
+  // columns. The grid-col-4 content container is too narrow for it to render
+  // without clipping. This wrapper enables horizontal scrolling and overrides
+  // the global table-layout:fixed so column widths follow content, not the
+  // container width.
+  .p-sev-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .p-table {
+      table-layout: auto;
+    }
+  }
+}

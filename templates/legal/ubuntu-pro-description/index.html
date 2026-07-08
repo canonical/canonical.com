@@ -48,7 +48,7 @@
                 secondary_heading="h3") }}
       </div>
 
-      <div class="grid-col-4 grid-col-medium-4 grid-col-small-4">
+      <div class="grid-col-6 grid-col-medium-4 grid-col-small-4">
         <h1>Ubuntu Pro Description</h1>
 
         {#
@@ -68,8 +68,6 @@
         <div>{% include "legal/ubuntu-pro-description/_sections/_embedded-services.html" %}</div>
         <div>{% include "legal/ubuntu-pro-description/_sections/_definitions.html" %}</div>
       </div>
-
-      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">{# Side content goes here #}</div>
     </div>
 
     {# ── Export PDF modal ─────────────────────────────────────────────────
@@ -171,46 +169,12 @@
             nonce="{{ csp_nonce }}"></script>
     {# modal.js: generic Vanilla modal handler from static/js/src/modal.js.
        Served directly from source — no build step required.
-       initModals() below wires it to the export-pdf-modal. #}
+       ubuntu-pro-description.js calls initModals() after this loads. #}
     <script src="{{ versioned_static('js/src/modal.js') }}"
             nonce="{{ csp_nonce }}"></script>
-
-    <script nonce="{{ csp_nonce }}">
-      initModals('#export-pdf-modal', '[aria-controls=export-pdf-modal]', false);
-
-      (function() {
-        document.addEventListener('click', function(e) {
-          var target = e.target;
-
-          // Export button: open print view in new tab
-          if (target.classList.contains('js-export-pdf')) {
-            var checked = Array.prototype.slice.call(
-              document.querySelectorAll(
-                '#export-pdf-modal input[name="section"]:checked'
-              )
-            ).map(function(cb) {
-              return cb.value;
-            });
-            if (checked.length === 0) return;
-            var url = '/legal/ubuntu-pro-description/print?sections=' +
-              checked.join(',');
-            window.open(url, '_blank', 'noopener,noreferrer');
-            return;
-          }
-
-          // Select all checkbox link
-          if (target.classList.contains('js-select-all')) {
-            e.preventDefault();
-            document.querySelectorAll(
-              '#export-pdf-modal input[name="section"]'
-            ).forEach(function(cb) {
-              cb.checked = true;
-            });
-            return;
-          }
-        });
-      })();
-    </script>
+    {# Page-specific handlers: modal init, Export button, Select-all link. #}
+    <script src="{{ versioned_static('js/ubuntu-pro-description.js') }}"
+            nonce="{{ csp_nonce }}"></script>
 
   {% endblock content %}
 {% endblock outer_content %}
