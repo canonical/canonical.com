@@ -1,0 +1,131 @@
+<!--
+  Print / PDF export view for Ubuntu Pro Description
+  ===================================================
+  This template is a STANDALONE HTML document (no Jinja extends). It does NOT
+  inherit base_index.html because that would pull in the full site navigation,
+  footer, notification bars, and scripts — all of which must be absent from
+  the printed PDF.
+
+  It is opened in a new browser tab by the "Export" button in the modal on
+  /legal/ubuntu-pro-description. On load it auto-triggers window.print() and
+  closes the tab once the user dismisses the print dialog (afterprint event).
+
+  Only the sections whose ids appear in the ?sections=... query string are
+  rendered. This makes the export tamper-proof: because this page is a fresh
+  server render, any DOM manipulation the user did on the main page has no
+  effect on what is printed.
+
+  Selected sections are passed to this template as `selected_sections` (a
+  Python list) from the Flask route in app.py.
+-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ubuntu Pro Description | Ubuntu and Canonical Legal</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ versioned_static('css/styles.css') }}" />
+    <style nonce="{{ csp_nonce }}">
+      /*
+        @page margin trick to control browser print headers/footers:
+        - margin-top: 14mm  → leaves space for the browser to render its
+          own header (date, page title). Remove this if you want no header.
+        - margin-right/bottom/left: 0  → no space for the browser's URL
+          footer, so it is suppressed.
+        Content margins are handled on <body> instead, so the text does not
+        run to the page edges.
+
+        NOTE: CSS cannot selectively show/hide individual browser header/
+        footer fields (e.g. keep page number, hide URL). That would require
+        a server-side renderer such as WeasyPrint or Puppeteer.
+      */
+      @page {
+        margin: 14mm 0 0 0;
+        size: A4;
+      }
+
+      body {
+        margin: 0 20mm;
+      }
+    </style>
+    <script nonce="{{ csp_nonce }}">
+      /*
+        On load: register afterprint BEFORE calling print() so the handler is
+        always in place. afterprint fires after the user closes the print dialog
+        (whether they printed or cancelled), then window.close() shuts the tab.
+        Using afterprint rather than calling close() directly after print()
+        prevents the tab from closing before the dialog even appears (window.print
+        is not guaranteed to be synchronous in all browsers).
+      */
+      window.addEventListener('load', function() {
+        window.addEventListener('afterprint', function() {
+          window.close();
+        });
+        window.print();
+      });
+    </script>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-12">
+        <p class="p-muted-heading">{{ effective_date }}</p>
+        <h1>Ubuntu Pro Description</h1>
+      </div>
+    </div>
+
+    {# Introduction and Security & compliance are always included;
+       their checkboxes are `disabled` in the modal so the user cannot
+       deselect them. #}
+    <div class="row" id="introduction-print">
+      <div class="col-12">{{ sections.get('introduction', '') | safe }}</div>
+    </div>
+
+    <div class="row" id="security-compliance-print">
+      <div class="col-12">{{ sections.get('security-compliance', '') | safe }}</div>
+    </div>
+
+    {# Support Services Process is always bundled with Support because it
+       is a direct continuation of the Support section in the document
+       and has no separate checkbox in the export modal. #}
+    {% if 'support' in selected_sections %}
+      <div class="row" id="support-print">
+        <div class="col-12">
+          {{ sections.get('support', '') | safe }}
+          {{ sections.get('support-services-process', '') | safe }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# The "Add-Ons" section in content.md is just the h2 heading "Add-Ons".
+       We only render it when at least one add-on section is selected so that
+       the heading does not appear as an orphan with no content beneath it. #}
+    {% set has_addons = (
+          'managed-services' in selected_sections or
+          'firefighting-support' in selected_sections or
+          'ops-consultancy' in selected_sections or
+          'professional-support-services' in selected_sections or
+          'embedded-services' in selected_sections
+        ) %}
+    {% if has_addons %}
+      <div class="row">
+        <div class="col-12">{{ sections.get('add-ons', '') | safe }}</div>
+      </div>
+    {% endif %}
+
+    {% for sid in ['managed-services', 'firefighting-support', 'ops-consultancy', 'professional-support-services', 'embedded-services'] %}
+      {% if sid in selected_sections %}
+        <div class="row" id="{{ sid }}-print">
+          <div class="col-12">{{ sections.get(sid, '') | safe }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {# Definitions are always included; their checkbox is `disabled` in
+       the modal so the user cannot deselect them. #}
+    <div class="row" id="definitions-print">
+      <div class="col-12">{{ sections.get('definitions', '') | safe }}</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,228 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_in-page-navigation.jinja" import vf_in_page_navigation %}
+
+{% block title %}Ubuntu Pro Description | Ubuntu and Canonical Legal{% endblock title %}
+
+{% block meta_description %}Ubuntu Pro is a subscription that gives you an additional stream of security updates and packages that meet compliance requirements, such as FIPS or FedRAMP.{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/15URkXf2vh7bv89n-cWQPeaP2EehSNUnUCoZvGbNTYFA/edit?tab=t.0#heading=h.qiw9yfakfi7k
+{% endblock meta_copydoc %}
+
+{% block outer_content %}
+
+  {% block content %}
+
+    <div class="p-strip u-no-padding--bottom">
+      <div class="row">
+        <div class="col-6">
+          <h4 class="p-muted-heading">{{ effective_date | safe }}</h4>
+        </div>
+        <div class="col-6">
+          <p class="u-align--right">
+            <button class="p-button"
+                    aria-controls="export-pdf-modal"
+                    aria-expanded="false">Export to PDF</button>
+          </p>
+        </div>
+        <div class="col-12">
+          <hr class="u-margin-bottom-2rem" />
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
+        {#
+          scope="manual": navigation items are defined in PAGE_NAVIGATION
+          (webapp/ubuntu_pro_description.py) rather than auto-generated from
+          headings. primary_heading/secondary_heading tell the IntersectionObserver
+          which heading levels to watch so it can highlight the active nav item
+          as the user scrolls. The h2/h3 ids it reads are injected at render time
+          by _inject_heading_ids() — they are NOT in content.md.
+        #}
+        {{ vf_in_page_navigation(navigation_items=page_navigation,
+                scope="manual",
+                primary_heading="h2",
+                secondary_heading="h3") }}
+      </div>
+
+      <div class="grid-col-4 grid-col-medium-4 grid-col-small-4">
+        <h1>Ubuntu Pro Description</h1>
+
+        {#
+          Section divs intentionally have NO id attributes. The id attributes
+          live on the h2/h3 headings rendered inside each div (injected by
+          _inject_heading_ids in ubuntu_pro_description.py). Having both an id
+          on the wrapper div AND on the heading would create duplicate ids,
+          which is invalid HTML and breaks anchor-link navigation.
+        #}
+        <div>{{ sections.get('introduction', '') | safe }}</div>
+
+        <div>{{ sections.get('security-compliance', '') | safe }}</div>
+
+        <div>{{ sections.get('support', '') | safe }}</div>
+
+        <div>{{ sections.get('support-services-process', '') | safe }}</div>
+
+        <div>{{ sections.get('add-ons', '') | safe }}</div>
+
+        <div>{{ sections.get('managed-services', '') | safe }}</div>
+
+        <div>{{ sections.get('firefighting-support', '') | safe }}</div>
+
+        <div>{{ sections.get('ops-consultancy', '') | safe }}</div>
+
+        <div>{{ sections.get('professional-support-services', '') | safe }}</div>
+
+        <div>{{ sections.get('embedded-services', '') | safe }}</div>
+
+        <div>{{ sections.get('definitions', '') | safe }}</div>
+      </div>
+
+      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">{# Side content goes here #}</div>
+    </div>
+
+    {# ── Export PDF modal ─────────────────────────────────────────────────
+       Opened by the "Export to PDF" button via aria-controls.
+       modal.js (static/js/src/modal.js) handles open/close/backdrop/ESC.
+       initModals() is called in the inline script below.
+
+       The two `disabled` checkboxes (security-compliance, definitions) are
+       always included in any export; the user cannot deselect them.
+       When the user clicks Export, the inline script collects the checked
+       section ids and opens /legal/ubuntu-pro-description/print?sections=...
+       in a new tab which auto-prints and then closes itself.
+    #}
+    <div class="p-modal u-display-none" id="export-pdf-modal">
+      <section class="p-modal__dialog"
+               role="dialog"
+               aria-modal="true"
+               aria-labelledby="export-pdf-modal-title"
+               aria-describedby="export-pdf-modal-description">
+        <header class="p-modal__header">
+          <h2 class="p-modal__title" id="export-pdf-modal-title">Export service level agreement as PDF</h2>
+          <button class="p-modal__close"
+                  aria-controls="export-pdf-modal"
+                  aria-label="Close active modal">Close</button>
+        </header>
+        <p id="export-pdf-modal-description">Include the sections relevant for you:</p>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="security-compliance"
+                 checked
+                 disabled />
+          <span class="p-checkbox__label">Security and compliance</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="support" />
+          <span class="p-checkbox__label">Support</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="managed-services" />
+          <span class="p-checkbox__label">Managed services</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="firefighting-support" />
+          <span class="p-checkbox__label">Firefighting support</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="ops-consultancy" />
+          <span class="p-checkbox__label">OpsConsultancy</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="professional-support-services" />
+          <span class="p-checkbox__label">Professional Support Services</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="embedded-services" />
+          <span class="p-checkbox__label">Embedded Services</span>
+        </label>
+        <label class="p-checkbox">
+          <input class="p-checkbox__input"
+                 type="checkbox"
+                 name="section"
+                 value="definitions"
+                 checked
+                 disabled />
+          <span class="p-checkbox__label">Definitions</span>
+        </label>
+        <footer class="p-modal__footer">
+          <a href="#" class="js-select-all u-float-left">Select all</a>
+          <button class="u-no-margin--bottom" aria-controls="export-pdf-modal">Cancel</button>
+          <button class="p-button--positive u-no-margin--bottom js-export-pdf"
+                  aria-controls="export-pdf-modal">Export</button>
+        </footer>
+      </section>
+    </div>
+
+    {# in-page-navigation.js: scroll-tracking IntersectionObserver that
+       highlights the active nav item as headings enter the viewport. #}
+    <script src="{{ versioned_static('js/in-page-navigation.js') }}"
+            nonce="{{ csp_nonce }}"></script>
+    {# modal.js: generic Vanilla modal handler from static/js/src/modal.js.
+       Served directly from source — no build step required.
+       initModals() below wires it to the export-pdf-modal. #}
+    <script src="{{ versioned_static('js/src/modal.js') }}"
+            nonce="{{ csp_nonce }}"></script>
+
+    <script nonce="{{ csp_nonce }}">
+      initModals('#export-pdf-modal', '[aria-controls=export-pdf-modal]', false);
+
+      (function() {
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          // Export button: open print view in new tab
+          if (target.classList.contains('js-export-pdf')) {
+            var checked = Array.prototype.slice.call(
+              document.querySelectorAll(
+                '#export-pdf-modal input[name="section"]:checked'
+              )
+            ).map(function(cb) {
+              return cb.value;
+            });
+            if (checked.length === 0) return;
+            var url = '/legal/ubuntu-pro-description/print?sections=' +
+              checked.join(',');
+            window.open(url, '_blank', 'noopener,noreferrer');
+            return;
+          }
+
+          // Select all checkbox link
+          if (target.classList.contains('js-select-all')) {
+            e.preventDefault();
+            document.querySelectorAll(
+              '#export-pdf-modal input[name="section"]'
+            ).forEach(function(cb) {
+              cb.checked = true;
+            });
+            return;
+          }
+        });
+      })();
+    </script>
+
+  {% endblock content %}
+{% endblock outer_content %}

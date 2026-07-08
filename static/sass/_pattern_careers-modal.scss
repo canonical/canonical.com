@@ -1,4 +1,7 @@
 @mixin canonical-p-careers-modal {
+  // This mixin is @include'd globally in styles.scss, so these rules apply
+  // to ALL .p-modal elements across the site. Keep global overrides minimal
+  // and scope anything careers-specific to a more precise selector below.
   .p-modal {
     position: fixed;
     z-index: 100;
@@ -11,14 +14,21 @@
     .p-modal__dialog {
       margin-bottom: 0;
       max-height: 100%;
-      overflow-y: scroll;
+      // Changed from `scroll` (always shows scrollbar) to `auto` (scrollbar
+      // only appears when content actually overflows). Applies to all modals.
+      overflow-y: auto;
 
       @media (min-width: $breakpoint-small + 100px) {
         max-width: $breakpoint-large - 1;
         min-width: $breakpoint-small;
       }
     }
+  }
 
+  // Scoped to the careers assessment modal only — do not broaden this selector.
+  // Other careers modals (e.g. withdrawal) use p-withdrawal-modal__header, not
+  // p-modal__header, so they are unaffected.
+  #request-assessment-modal {
     .p-modal__header {
       border-bottom: 0;
       display: block;
