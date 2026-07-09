@@ -41,9 +41,9 @@ It is a common misconception that Ubuntu Pro is a different version or a separat
 
 ### Is Ubuntu Pro mandatory for using Ubuntu?
 
-No, Ubuntu Pro is not mandatory for using Ubuntu. Ubuntu remains an open source operating system that is free to download and use. You can continue to run standard Ubuntu LTS (Long Term Support) without a subscription for as long as you like. Standard LTS provides five years of free security maintenance for the Main repository, which covers the core OS.
+No, Ubuntu Pro is not mandatory for using Ubuntu. Ubuntu remains an open source operating system that is free to download and use. Standard LTS provides five years of free security maintenance for the Main repository, which covers the core OS.
 
-Ubuntu Pro should be treated as an optional security and compliance subscription that sits on top of your existing OS. It doesn't replace your current Ubuntu installation, it simply unlocks additional security features and patches that aren't included in the standard version. While not required, the subscription provides significant advantages like up to 15 years of security maintenance, Kernel Livepatch, compliance automation tools, and fleet management.
+Ubuntu Pro is an optional security and compliance subscription that sits on top of your existing OS. It doesn't replace your current Ubuntu installation, it simply unlocks additional security features and patches that aren't included in the standard version. While not required, the subscription provides significant advantages like up to 15 years of security maintenance, Kernel Livepatch, compliance automation tools, and fleet management.
 
 ## What is included in Ubuntu Pro?
 

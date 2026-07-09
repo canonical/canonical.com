@@ -182,15 +182,7 @@ Open source catalogs are curated repositories of vetted software components, cre
 
 These catalogs are critical because they act as a "first line of defense" in supply chain security, filtering out malicious or unmaintained code before it can be integrated into a production environment.
 
-With Ubuntu, Canonical offers a vast collection of software components, organized into a set of official repositories:
-
-{{ text_list_kh(
-  items=[
-  "Main – Officially supported, open source software",
-  "Restricted – Officially supported, closed source software",
-  "Universe – Community-maintained, open source software, with maintenance through Ubuntu Pro",
-  "Multiverse – Varying support, license-restricted, or patented software",
-]) }}
+With Ubuntu, Canonical offers a vast collection of software components, organized into a set of official repositories.
 
 Through Ubuntu Pro, all of the packages in Ubuntu Universe get security maintenance from Canonical as well as packages in Ubuntu Main, giving users a centralized, tiered, and cryptographically-verifiable ecosystem of software to use with confidence.
 
@@ -227,7 +219,6 @@ Canonical enables you to simplify your open source software supply chain, provid
 Canonical’s comprehensive security maintenance subscription, Ubuntu Pro, provides access to large repositories of security maintained open source packages, giving your team a trusted open source catalog.
 
 [Learn more about vulnerability management in Ubuntu ›](https://ubuntu.com/security/vulnerability-management)
-[See what’s included in Ubuntu Pro ›](https://ubuntu.com/pro)
 
 ### A certified and compliant OSS vendor
 
