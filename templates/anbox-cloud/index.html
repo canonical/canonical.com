@@ -31,6 +31,7 @@
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
 
 {% block content %}
   {% call(slot) vf_hero(
@@ -335,7 +336,7 @@
       {
         "title_text": "Containerized Android",
         "image_html": image(
-          url="https://assets.ubuntu.com/v1/a06e6b6d-containerized_android.png",
+          url="https://assets.ubuntu.com/v1/9f015601-containerized_android_updated.png",
           alt="",
           width="852",
           height="852",
@@ -351,7 +352,7 @@
       {
         "title_text": "Virtualized Android",
         "image_html": image(
-          url="https://assets.ubuntu.com/v1/e8dc3f0c-virtualized_android.png",
+          url="https://assets.ubuntu.com/v1/cecc0902-virtualized_android_updated.png",
           alt="",
           width="852",
           height="852",
@@ -395,7 +396,7 @@
       <p>Many Android platform teams already produce their own system images for development and validation. These images may include custom kernels, modified system services, vendor components, hardware abstraction layers, or Android Automotive OS customizations.</p>
       <p>With virtualized Android, teams can bring AOSP-based images, Cuttlefish artifacts, AAOS builds, or vendor-modified Android systems and run them through Anbox Cloud.</p>
       <p>Anbox Cloud provides the orchestration, lifecycle management, networking, automation, and streaming layer around those systems, allowing teams to reuse existing Android build outputs while moving execution into scalable infrastructure.</p>
-      <div class="p-cta-block">
+      <div class="p-cta-block u-no-padding--bottom">
         <a href="https://assets.ubuntu.com/v1/bb5269cc-anbox_cloud.%2520Containerized%2520and%2520Virtualized%2520Android%2520Datasheet.pdf" class="p-button">Read the virtualized Android datasheet</a>
         <a href="https://ubuntu.com/engage/virtualized-android" class="p-button">Download the whitepaper</a>
       </div>
@@ -558,14 +559,14 @@
   ) }}
 
   {{ vf_basic_section(
-    title={"text": "Proven on state-of-the-art Arm infrastructure"},
+    title={"text": "Proven on state-of-the-art <br /> Arm infrastructure" | safe},
     items=[
       {
         "type": "description",
         "padding": "shallow",
         "item": {
           "type": "html",
-          "content": lite_video(video_id="rPJEZ_tr_1w", video_title="Video Placeholder")
+          "content": lite_video(video_id="hfsaeCElLqo", video_title="Anbox Cloud on C4A metal")
         }
       },
       {
@@ -602,7 +603,7 @@
     is_shallow=true
     ) -%}
     {%- if slot == "signpost_image" -%}
-      {{ image(url="https://assets.ubuntu.com/v1/2179f22d-nvidia-logo.png",
+      {{ image(url="https://assets.ubuntu.com/v1/9e6283c1-nvidia.png",
         alt="NVIDIA logo",
         width="852",
         height="312",
@@ -619,7 +620,7 @@
     is_shallow=true
     ) -%}
     {%- if slot == "signpost_image" -%}
-      {{ image(url="https://assets.ubuntu.com/v1/53e415bd-arm-logo.png",
+      {{ image(url="https://assets.ubuntu.com/v1/6b56c615-arm.png",
         alt="Arm logo",
         width="852",
         height="312",
@@ -636,7 +637,7 @@
     is_shallow=true
     ) -%}
     {%- if slot == "signpost_image" -%}
-      {{ image(url="https://assets.ubuntu.com/v1/bbb69a95-ampere-logo.png",
+      {{ image(url="https://assets.ubuntu.com/v1/cde41f44-ampere.png",
         alt="Ampere logo",
         width="852",
         height="312",
@@ -663,7 +664,7 @@
   {% endcall -%}
 
   {{ vf_basic_section(
-    title={"text": "Long-term enterprise support and security coverage"},
+    title={"text": "Long-term enterprise support <br /> and security coverage" | safe},
     items=[
       {
         "type": "description",
@@ -777,41 +778,72 @@
     {%- endif -%}
   {% endcall -%}
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
-    {%- if slot == "title" -%}
-      <h2>Learn more about Anbox Cloud</h2>
-    {%- endif -%}
-
-    {%- if slot == "list_item_title_1" -%}
-      <h3 class="p-text--small-caps">Whitepapers</h3>
-    {%- endif -%}
-
-    {%- if slot == "list_item_description_1" -%}
-      <p><a href="https://ubuntu.com/engage/virtualized-android">From containerized Android&trade; to full system virtualization</a></p>
-      <p><a href="https://ubuntu.com/engage/android-apps-streaming">From emulator hell to cloud-native Android streaming</a></p>
-    {%- endif -%}
-
-    {%- if slot == "list_item_title_2" -%}
-      <h3 class="p-text--small-caps">Blogs</h3>
-    {%- endif -%}
-
-    {%- if slot == "list_item_description_2" -%}
-      <p><a href="https://ubuntu.com/blog/rethinking-byod-security-protecting-data-without-trusting-devices">Rethinking BYOD security: protecting data without trusting devices</a></p>
-      <p><a href="https://ubuntu.com/blog/how-to-build-an-awesome-cloud-gaming-platform-with-anbox-cloud">How to build an awesome cloud gaming platform with Anbox Cloud</a></p>
-      <p><a href="https://ubuntu.com/blog/localization-testing">How Anbox Cloud streamlines localization testing</a></p>
-    {%- endif -%}
-
-    {%- if slot == "list_item_title_3" -%}
-      <h3 class="p-text--small-caps">Webinar</h3>
-    {%- endif -%}
-
-    {%- if slot == "list_item_description_3" -%}
-      <p><a href="https://www.youtube.com/watch?v=rPJEZ_tr_1w&t=6s">Scaling Android development with Anbox Cloud</a></p>
-    {%- endif -%}
-  {%- endcall -%}
+  {{ vf_resources(
+    title={"text": "Learn more about Anbox Cloud"},
+    blocks=[
+      {
+        "type": "resources",
+        "render_images": false,
+        "categories": [
+          {
+            "title": "Whitepapers",
+            "items": [
+              {
+                "title": {
+                  "text": "From containerized Android™ to full system virtualization",
+                  "link_attrs": {"href": "https://ubuntu.com/engage/virtualized-android"}
+                }
+              },
+              {
+                "title": {
+                  "text": "From emulator hell to cloud-native Android streaming",
+                  "link_attrs": {"href": "https://ubuntu.com/engage/android-apps-streaming"}
+                }
+              }
+            ]
+          },
+          {
+            "title": "Blogs",
+            "items": [
+              {
+                "title": {
+                  "text": "Rethinking BYOD security: protecting data without trusting devices",
+                  "link_attrs": {"href": "https://ubuntu.com/blog/rethinking-byod-security-protecting-data-without-trusting-devices"}
+                }
+              },
+              {
+                "title": {
+                  "text": "How to build an awesome cloud gaming platform with Anbox Cloud",
+                  "link_attrs": {"href": "https://ubuntu.com/blog/how-to-build-an-awesome-cloud-gaming-platform-with-anbox-cloud"}
+                }
+              },
+              {
+                "title": {
+                  "text": "How Anbox Cloud streamlines localization testing",
+                  "link_attrs": {"href": "https://ubuntu.com/blog/localization-testing"}
+                }
+              }
+            ]
+          },
+          {
+            "title": "Webinar",
+            "items": [
+              {
+                "title": {
+                  "text": "Scaling Android development with Anbox Cloud",
+                  "link_attrs": {"href": "https://www.youtube.com/watch?v=rPJEZ_tr_1w&t=6s"}
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ) }}
 
   {{ vf_basic_section(
     title={"text": ""},
+    padding="deep",
     items=[
       {
         "type": "description",
