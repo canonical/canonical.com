@@ -4,11 +4,15 @@ on:
   pull_request_target:
     types: [labeled]
 
+# Restrictive default for the whole workflow; the job below elevates only what it needs.
+permissions:
+  contents: read
+
 jobs:
   ux-review:
     # Pinned to an immutable commit SHA (main @ a276dcf) for supply-chain safety;
     # this runs on pull_request_target.
-    uses: canonical/automated-ux-qa-checklist-and-quality-standards/.github/workflows/ux-demo-review.yml@a276dcf471ea7031e9452e026d37d350a56b94ae
+    uses: canonical/automated-ux-qa-checklist-and-quality-standards/.github/workflows/ux-demo-review.yml@d268a51240dbdac1cd94e53390daf9666c925dc5
     if: "github.event.label.name == 'Review: UX needed'"
     with:
       pr_number: ${{ github.event.pull_request.number }}
