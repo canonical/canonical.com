@@ -342,7 +342,7 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["-Control"] = "public, max-age=43200"
+    response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
 
@@ -1550,6 +1550,26 @@ def no_cache(response):
         response.cache_control.max_age = None
         response.cache_control.no_store = True
         response.cache_control.public = False
+
+    return response
+
+
+@app.after_request
+def default_cache_control(response):
+    """
+    Cache pages for 1 hour by default, instead of flask-base's 60s.
+    Views that set their own max-age or mark the response
+    no-store/no-cache/private are left untouched.
+    """
+    if (
+        response.status_code == 200
+        and not flask.request.path.startswith("/_status")
+        and not response.cache_control.no_store
+        and not response.cache_control.no_cache
+        and not response.cache_control.private
+        and type(response.cache_control.max_age) is not int
+    ):
+        response.cache_control.max_age = 3600
 
     return response
 
