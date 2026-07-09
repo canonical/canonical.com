@@ -674,6 +674,14 @@ def start_career():
     )
 
 
+@app.route("/careers/early-careers")
+def handle_early_careers():
+    return flask.render_template(
+        "/careers/early-careers.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
+
+
 @app.route("/careers/roles.json")
 def handle_roles():
     """

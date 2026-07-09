@@ -1,5 +1,42 @@
 @mixin canonical-p-card {
   @include selectable-card;
+  @include achievement-card;
+}
+
+@mixin achievement-card {
+  // Card used to highlight an individual's achievement on /careers/early-careers.
+  .p-card--achievement {
+    @extend %vf-card;
+
+    border: 1px solid $color-mid-light;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .p-card--achievement__icon {
+    align-self: flex-start;
+    display: block;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    margin-left: $spv--large;
+    width: auto;
+  }
+
+  .p-card--achievement__content {
+    flex: 1 1 auto;
+    padding-left: $spv--large;
+    padding-right: $spv--large;
+  }
+
+  .p-card--achievement__footer {
+    border-top: 1px solid $color-mid-light;
+    margin-top: 1rem;
+    padding: 1rem $spv--large 0;
+  }
 }
 
 @mixin selectable-card {
