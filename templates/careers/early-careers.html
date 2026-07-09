@@ -9,7 +9,7 @@
   https://docs.google.com/document/d/1oytb3L_93susYbg7AaQdeCECrP2ne4CG-6jS5QLqlDs/edit?tab=t.jijjhiya0no5#heading=h.qnunr4r4gygm
 {% endblock meta_copydoc %}
 
-{% block title %}Early careers at Canonical| Careers{% endblock %}
+{% block title %}Early careers at Canonical | Careers{% endblock %}
 
 {% block meta_description %}
   Looking to start your career in open source? Discover early careers at Canonical: built for smart, driven people ready to own their success.
@@ -26,15 +26,6 @@
     subtitle_text='One mission, global impact',
     layout='50/50',
     blocks=[
-    {
-    "type": "description",
-    "padding": "shallow",
-    "item": {
-    "type": "text",
-    "content": "Generally, the height of the right hand side of a 50/50 split should contain more content than the left
-    hand side."
-    }
-    },
     {
     "type": "cta-block",
     "padding": "shallow",
@@ -55,7 +46,7 @@
     "is_cover": true,
     "attrs": {
     "src": "https://assets.ubuntu.com/v1/f63d0a66-water_cooler_buddy_program.jpg",
-    "alt": "alt-text"
+    "alt": ""
     }
     }
     },
@@ -285,7 +276,7 @@
     <div class="u-fixed-width">
       <h2>We set you up for success</h2>
     </div>
-    <div class="grid-row--50-50">
+    <div class="grid-row--50-50-on-large">
       <div class="grid-col">
         {{ lite_video(video_id="FrkLlt2tK3Y", video_title="We set you up for success at Canonical") }}
       </div>
@@ -460,8 +451,7 @@
     "primary": {
     "content_html": "Discover our roles",
     "attrs": {
-    "href": "/careers",
-    "class": "optional-css-class"
+    "href": "/careers"
     }
     },
     }
@@ -575,8 +565,8 @@
       }
 
       var index = 0;
-      // Horizontal gap between cells, matches the track's `gap` (1rem).
-      var GAP = 16;
+             // Horizontal gap between cells, derived from the track's CSS `gap`.
+      var GAP = parseFloat(window.getComputedStyle(track).gap || window.getComputedStyle(track).columnGap) || 0;
 
       function fractions() {
         if (window.innerWidth < 620) {

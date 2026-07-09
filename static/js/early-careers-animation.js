@@ -43,7 +43,7 @@ function initCareerProgressionAnimation() {
     },
   });
 
-  // Only play the animation when the canva is in view
+  // Only play the animation when the canvas is in view
   if (!prefersReducedMotion) {
     const observer = new IntersectionObserver(
       (entries) => {
