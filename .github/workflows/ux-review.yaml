@@ -1,0 +1,17 @@
+name: UX demo review
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  ux-review:
+    # Pinned to an immutable commit SHA (main @ a276dcf) for supply-chain safety;
+    # this runs on pull_request_target.
+    uses: canonical/automated-ux-qa-checklist-and-quality-standards/.github/workflows/ux-demo-review.yml@a276dcf471ea7031e9452e026d37d350a56b94ae
+    if: "github.event.label.name == 'Review: UX needed'"
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
+    permissions:
+      contents: read
+      pull-requests: write
