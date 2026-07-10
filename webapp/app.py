@@ -60,6 +60,7 @@ from webapp.views import (
     get_knowledge_sections,
 )
 from webapp.application import application_bp
+from webapp.database import build_cache
 from webapp.canonical_cla.views import (
     canonical_cla_api_github_login,
     canonical_cla_api_github_logout,
@@ -149,6 +150,7 @@ charmhub_discourse_api = DiscourseAPI(
     api_key=CHARMHUB_DISCOURSE_API_KEY,
     api_username=CHARMHUB_DISCOURSE_API_USERNAME,
     get_topics_query_id=2,
+    cache=build_cache("canonical-com-charmhub"),
 )
 search_session = get_requests_session()
 discourse_session = get_requests_session()
@@ -1225,6 +1227,7 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=discourse_session,
+            cache=build_cache("canonical-com-dqlite"),
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1258,6 +1261,7 @@ maas_docs = Docs(
             base_url="https://discourse.maas.io/",
             session=discourse_session,
             get_topics_query_id=2,
+            cache=build_cache("canonical-com-maas-docs"),
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1342,6 +1346,7 @@ tutorials_discourse = Tutorials(
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
+            cache=build_cache("canonical-com-maas-tutorials"),
         ),
         index_topic_id=1289,
         url_prefix="/maas/tutorials",
@@ -1605,6 +1610,7 @@ engage_pages_discourse_api = DiscourseAPI(
     get_topics_query_id=14,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
+    cache=build_cache("canonical-com-engage"),
 )
 engage_pages = EngagePages(
     api=engage_pages_discourse_api,
@@ -1634,6 +1640,7 @@ discourse_api = DiscourseAPI(
     session=search_session,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
+    cache=build_cache("canonical-com-mir"),
 )
 
 
@@ -1669,6 +1676,7 @@ microk8s_discourse_api = Docs(
         api=DiscourseAPI(
             base_url="https://discuss.kubernetes.io/",
             session=get_requests_session(),
+            cache=build_cache("canonical-com-microk8s"),
         ),
         index_topic_id=11243,
         url_prefix=microk8s_url_prefix,
