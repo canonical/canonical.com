@@ -174,6 +174,40 @@ class TestRoutes(VCRTestCase):
         response = self.client.get("/robots.txt")
         self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
 
+    def test_ubuntu_pro_description(self):
+        """
+        When given the /legal/ubuntu-pro-description URL,
+        we should return a 200 status code
+        """
+        self.assertEqual(
+            self.client.get("/legal/ubuntu-pro-description").status_code, 200
+        )
+
+    def test_ubuntu_pro_description_print(self):
+        """
+        When given the /legal/ubuntu-pro-description/print URL,
+        we should return a 200 status code
+        """
+        self.assertEqual(
+            self.client.get(
+                "/legal/ubuntu-pro-description/print"
+            ).status_code,
+            200,
+        )
+
+    def test_ubuntu_pro_description_print_with_sections(self):
+        """
+        When given the /legal/ubuntu-pro-description/print URL with sections,
+        we should return a 200 status code
+        """
+        self.assertEqual(
+            self.client.get(
+                "/legal/ubuntu-pro-description/print"
+                "?sections=introduction,support"
+            ).status_code,
+            200,
+        )
+
 
 class TestJujuVersion(unittest.TestCase):
     def setUp(self):
@@ -262,3 +296,5 @@ class TestJujuVersion(unittest.TestCase):
             self.client.get("/juju/latest.json").json,
             {"dashboard": "v1.2.3", "juju": ["3.4.5"]},
         )
+
+

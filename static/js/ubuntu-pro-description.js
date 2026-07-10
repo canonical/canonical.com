@@ -30,7 +30,7 @@ document.addEventListener("click", function (e) {
       "/legal/ubuntu-pro-description/print?sections=" +
         checked.map(encodeURIComponent).join(","),
       "_blank",
-      "noopener,noreferrer",
+      "noopener,noreferrer"
     );
     return;
   }
