@@ -286,6 +286,7 @@ def secure_boot():
         "../static/files", "secure-boot-master-ca.crl"
     )
 
+
 @app.route("/juju/docs/search", methods=["GET"])
 def search_docs():
     """Main search function that fetches and ranks documentation results."""
@@ -370,6 +371,7 @@ def handle_careers_results():
         greenhouse = Greenhouse.from_session(session)
         return careers_results(greenhouse)
 
+
 def careers_results(greenhouse):
     vacancies = []
 
@@ -378,9 +380,9 @@ def careers_results(greenhouse):
 
     vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST.keys()}
     for v in vacancies:
-       for d in v.departments:
-           if d.slug in DEPARTMENT_LIST.keys():
-               vacancies_by_department[d.slug].append(v)
+        for d in v.departments:
+            if d.slug in DEPARTMENT_LIST.keys():
+                vacancies_by_department[d.slug].append(v)
 
     context = {
         "departments": DEPARTMENT_LIST.values(),
