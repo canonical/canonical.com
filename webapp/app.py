@@ -378,11 +378,11 @@ def careers_results(greenhouse):
     core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
 
-    vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST.keys()}
-    for v in vacancies:
-        for d in v.departments:
-            if d.slug in DEPARTMENT_LIST.keys():
-                vacancies_by_department[d.slug].append(v)
+    vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST}
+    for vacancy in vacancies:
+        for department in vacancy.departments:
+            if department.slug in vacancies_by_department:
+                vacancies_by_department[department.slug].append(vacancy)
 
     context = {
         "departments": DEPARTMENT_LIST.values(),
