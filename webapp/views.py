@@ -316,6 +316,11 @@ def append_utms_cookie_to_ubuntu_links(response):
     Append utms cookie parameter to all ubuntu.com links in HTML responses
     """
     if response.mimetype == "text/html" and response.is_sequence:
+        # The body of HTML responses varies by the "utms" cookie, so
+        # shared caches (e.g. content-cache) must not serve a variant
+        # built for one cookie value to other users
+        response.vary.add("Cookie")
+
         cookie_value = flask.request.cookies.get("utms")
 
         if cookie_value:
