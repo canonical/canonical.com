@@ -189,9 +189,7 @@ class TestRoutes(VCRTestCase):
         we should return a 200 status code
         """
         self.assertEqual(
-            self.client.get(
-                "/legal/ubuntu-pro-description/print"
-            ).status_code,
+            self.client.get("/legal/ubuntu-pro-description/print").status_code,
             200,
         )
 
