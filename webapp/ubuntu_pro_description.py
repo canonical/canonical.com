@@ -24,7 +24,10 @@ PAGE_NAVIGATION = [
             {"id": "other-security-fixes", "text": "3. Other security fixes"},
             {
                 "id": "certified-components",
-                "text": "4. Certified components for compliance, hardening and audit",
+                "text": (
+                    "4. Certified components for"
+                    " compliance, hardening and audit"
+                ),
             },
             {"id": "kernel-livepatch", "text": "5. Kernel Livepatch"},
             {
