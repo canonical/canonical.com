@@ -296,4 +296,3 @@ class TestJujuVersion(unittest.TestCase):
             self.client.get("/juju/latest.json").json,
             {"dashboard": "v1.2.3", "juju": ["3.4.5"]},
         )
-
