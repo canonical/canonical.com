@@ -86,3 +86,134 @@
     }
   }
 }
+
+@mixin collaboration-carousel {
+  // Custom carousel used on /careers/early-careers
+  .p-collaboration-carousel__inner {
+    overflow: hidden;
+    padding-top: 3rem;
+    position: relative;
+  }
+
+  .p-collaboration-carousel__controls {
+    position: absolute;
+    right: 0;
+    top: 6px;
+    white-space: nowrap;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+  }
+
+  .p-collaboration-carousel__previous,
+  .p-collaboration-carousel__next {
+    &.is-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  .p-collaboration-carousel__track {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.45s ease;
+    will-change: transform;
+  }
+
+  .p-collaboration-carousel__image {
+    filter: grayscale(100%);
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.45s ease;
+    width: 100%;
+  }
+
+  .p-collaboration-carousel__cell {
+    flex: 0 0 26%;
+    position: relative;
+    transition: flex-basis 0.45s ease;
+
+    &.is-selected {
+      flex-basis: 56%;
+
+      .p-collaboration-carousel__image {
+        filter: none;
+      }
+    }
+  }
+
+  .p-collaboration-carousel__media {
+    height: 24rem;
+    overflow: hidden;
+
+    @media (max-width: $breakpoint-small) {
+      height: 15rem;
+    }
+  }
+
+  .p-collaboration-carousel__titles {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .p-collaboration-carousel__title {
+    opacity: 0;
+    padding-right: 4rem;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.45s ease;
+
+    &.is-selected {
+      opacity: 1;
+    }
+  }
+
+  .p-collaboration-carousel__captions {
+    margin-top: 1.5rem;
+    min-height: 9rem;
+    overflow: hidden;
+    position: relative;
+
+    @media (max-width: $breakpoint-small) {
+      min-height: 15rem;
+    }
+  }
+
+  .p-collaboration-carousel__description {
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: transform 0.45s ease;
+    will-change: transform;
+  }
+}
+
+@mixin quote-slider {
+  @keyframes quote-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes quote-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .js-quote-slide--animating-in {
+    animation: quote-slide-in 0.3s ease forwards;
+  }
+
+  .js-quote-slide--animating-out {
+    animation: quote-fade-out 0.1s ease forwards;
+  }
+}
