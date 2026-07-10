@@ -297,4 +297,3 @@ class TestJujuVersion(unittest.TestCase):
             {"dashboard": "v1.2.3", "juju": ["3.4.5"]},
         )
 
-
