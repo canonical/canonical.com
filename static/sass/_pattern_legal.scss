@@ -12,4 +12,25 @@
       table-layout: auto;
     }
   }
+
+  // Named-page approach: scopes the @page rules to the PDF print view only
+  // so they do not affect printing of any other page on canonical.com.
+  // _print.html adds class="l-ubuntu-pro-print" to <body>.
+  body.l-ubuntu-pro-print {
+    // Content margins replace the @page margins which are set to 0 below.
+    margin: 0 20mm;
+    // Assign this body to the named page so @page rules below apply.
+    page: ubuntu-pro-print;
+  }
+
+  // Margins for the PDF print view:
+  //   top    14mm → space for the browser's header (date and page title)
+  //   sides  0    → suppresses the browser's URL footer on bottom/sides
+  // NOTE: you cannot show/hide individual browser header fields via CSS;
+  // to remove all headers and footers use the print dialog's own settings
+  // or a headless renderer such as Puppeteer or WeasyPrint.
+  @page ubuntu-pro-print {
+    margin: 14mm 0 0;
+    size: A4;
+  }
 }

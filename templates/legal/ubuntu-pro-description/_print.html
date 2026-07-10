@@ -29,16 +29,11 @@
     <link rel="stylesheet"
           type="text/css"
           href="{{ versioned_static('css/styles.css') }}" />
-    {# Print-page layout (page margins, @page rules). Separate file so these
-       rules do not affect printing of other pages on canonical.com. #}
-    <link rel="stylesheet"
-          type="text/css"
-          href="{{ versioned_static('css/ubuntu-pro-description-print.css') }}" />
     {# Triggers window.print() on load and closes the tab via afterprint. #}
     <script src="{{ versioned_static('js/ubuntu-pro-description-print.js') }}"
             nonce="{{ csp_nonce }}"></script>
   </head>
-  <body>
+  <body class="l-ubuntu-pro-print">
     <div class="row">
       <div class="col-12">
         <p class="p-muted-heading">{{ effective_date }}</p>
