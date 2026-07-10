@@ -204,6 +204,7 @@ CSP = {
         "'self'",
         "cdn.jsdelivr.net",
         "www.tfaforms.com",
+        "'unsafe-inline'",
     ],
     "media-src": [
         "'self'",
@@ -268,7 +269,7 @@ def _build_csp_report_only(csp):
 
 CSP_REPORT_ONLY = _build_csp_report_only(CSP)
 
-NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
+NONCED_DIRECTIVES = ("script-src", "script-src-elem")
 
 
 # ---------------------------------------------------------------------------
