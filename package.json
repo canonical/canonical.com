@@ -1,6 +1,9 @@
 {
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
+    "start-db": "docker compose up -d",
+    "stop-db": "docker compose stop",
+    "delete-db": "docker compose down -v",
     "watch": "concurrently --kill-others --raw 'yarn run watch-css' 'yarn run watch-js'",
     "watch-css": "sass --watch static/sass/styles.scss:static/css/styles.css --load-path=node_modules --style=compressed",
     "watch-js": "nodemon --watch 'static/js' --ext js,jsx,ts,tsx --ignore '**/*.test.*' --ignore 'static/js/dist/**' --exec 'node build.js'",
