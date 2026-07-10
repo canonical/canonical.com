@@ -286,16 +286,6 @@ def secure_boot():
         "../static/files", "secure-boot-master-ca.crl"
     )
 
-
-# Career departments
-@app.route("/careers/results")
-def handle_careers_results():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_results(greenhouse, harvest)
-
-
 @app.route("/juju/docs/search", methods=["GET"])
 def search_docs():
     """Main search function that fetches and ranks documentation results."""
@@ -373,17 +363,27 @@ def get_latest_versions():
         return {"error": str(e)}, 500
 
 
-def careers_results(greenhouse, harvest):
+# Career departments
+@app.route("/careers/results")
+def handle_careers_results():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        return careers_results(greenhouse)
+
+def careers_results(greenhouse):
     vacancies = []
 
     core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
-    vacancies_by_department = _group_by_department(harvest, vacancies)
+
+    vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST.keys()}
+    for v in vacancies:
+       for d in v.departments:
+           if d.slug in DEPARTMENT_LIST.keys():
+               vacancies_by_department[d.slug].append(v)
 
     context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
+        "departments": DEPARTMENT_LIST.values(),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
