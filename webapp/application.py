@@ -114,8 +114,7 @@ def _get_employee_directory_data(employee_id: str):
     )
     client = Client(transport=transport)
     filter_term = r"{id: $id}"
-    query = gql(
-        """
+    query = gql("""
             query getEmployee($id: ID!){
                 employees(filter:%s) {
                     id
@@ -123,9 +122,7 @@ def _get_employee_directory_data(employee_id: str):
                     bio
                 }
             }
-        """
-        % filter_term
-    )
+        """ % filter_term)
     result = client.execute(query, variable_values={"id": employee_id}).get(
         "employees"
     )

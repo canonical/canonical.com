@@ -84,6 +84,7 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+from webapp import ubuntu_pro_description as _upsd
 
 logger = logging.getLogger(__name__)
 
@@ -1068,7 +1069,6 @@ register_knowledge_category_routes()
 # PAGE_NAVIGATION from ubuntu_pro_description.py into the templates.
 # The TemplateFinder catch-all below cannot inject template context, so these
 # routes must be registered before it.
-from webapp import ubuntu_pro_description as _upsd
 
 
 @app.route("/legal/ubuntu-pro-description")

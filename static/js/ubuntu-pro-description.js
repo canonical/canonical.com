@@ -19,7 +19,7 @@ document.addEventListener("click", function (e) {
     var checked = Array.prototype.slice
       .call(
         document.querySelectorAll(
-          '#export-pdf-modal input[name="section"]:checked',
+          '#export-pdf-modal input[name="section"]:checked'
         ),
       )
       .map(function (cb) {
@@ -27,7 +27,8 @@ document.addEventListener("click", function (e) {
       });
     if (checked.length === 0) return;
     window.open(
-      "/legal/ubuntu-pro-description/print?sections=" + checked.join(","),
+      "/legal/ubuntu-pro-description/print?sections=" +
+        checked.map(encodeURIComponent).join(","),
       "_blank",
       "noopener,noreferrer",
     );

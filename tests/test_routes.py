@@ -6,7 +6,6 @@ import unittest
 from vcr_unittest import VCRTestCase
 from webapp.app import app, get_latest_versions
 
-
 logging.getLogger("talisker.context").disabled = True
 
 
