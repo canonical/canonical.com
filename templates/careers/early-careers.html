@@ -22,7 +22,7 @@
 {% block content %}
 
   {% call(slot) vf_hero(
-    title_text='Launch your career at the heart of open source',
+    title_text='Launch your career<br /> at the heart of open source',
     subtitle_text='One mission, global impact',
     layout='50/50',
     blocks=[
@@ -108,16 +108,18 @@
     <div class="grid-row--25-75" data-quote-slider>
       <div class="grid-col">
         <div class="p-quote-slider__controls">
-          <button type="button"
-                  class="p-button--base u-no-margin--bottom js-quote-prev"
-                  aria-label="Previous quote">
-            <i class="p-icon--chevron-left"></i>
-          </button>
-          <button type="button"
-                  class="p-button--base u-no-margin--bottom js-quote-next"
-                  aria-label="Next quote">
-            <i class="p-icon--chevron-right"></i>
-          </button>
+          <a href="#"
+             id="collaboration-previous"
+             class="js-quote-prev u-text-decoration-unset"
+             aria-label="Previous quote">
+            <i class="p-icon--chevron-left">Previous quote</i>
+          </a>
+          <a href="#"
+             id="collaboration-next"
+             class="js-quote-next u-text-decoration-unset"
+             aria-label="Next quote">
+            <i class="p-icon--chevron-right">Next quote</i>
+          </a>
         </div>
       </div>
       <div class="grid-col">
@@ -198,6 +200,7 @@
 
   {{ vf_basic_section(title={"text": "Impact from Day 1"},
     is_split_on_medium=true,
+    padding="shallow",
     items=[
     {
     "type": "description",
@@ -221,7 +224,7 @@
             </p>
           </div>
           <div class="p-card--achievement__footer">
-            <small>Guilherme, Associate Software Engineer in Ubuntu Engineering</small>
+            <p class="p-text--small">Guilherme, Associate Software Engineer in Ubuntu Engineering</p>
           </div>
         </div>
       </div>
@@ -236,7 +239,7 @@
             </p>
           </div>
           <div class="p-card--achievement__footer">
-            <small>Arwa, Talent Experience (HR) Generalist I</small>
+            <p class="p-text--small">Arwa, Talent Experience (HR) Generalist I</p>
           </div>
         </div>
       </div>
@@ -249,7 +252,7 @@
             <p>Florentiana Introduced Terraform testing modules that are quickly becoming a product standard.</p>
           </div>
           <div class="p-card--achievement__footer">
-            <small>Florentiana, Associate Software Engineer in Commercial Systems</small>
+            <p class="p-text--small">Florentiana, Associate Software Engineer in Commercial Systems</p>
           </div>
         </div>
       </div>
@@ -264,7 +267,7 @@
             </p>
           </div>
           <div class="p-card--achievement__footer">
-            <small>Desmond, Business Development Representative I</small>
+            <p class="p-text--small">Desmond, Business Development Representative I</p>
           </div>
         </div>
       </div>
@@ -354,6 +357,7 @@
   {{ vf_basic_section(title={
     "text": "Distributed teams"
     },
+    padding="shallow",
     items=[
     {
     "type": "description",
@@ -375,7 +379,7 @@
     },
     ]) }}
 
-  <div class="p-section p-collaboration-carousel js-collaboration-carousel">
+  <div class="p-collaboration-carousel js-collaboration-carousel">
     <div class="u-fixed-width">
       <div class="p-collaboration-carousel__inner">
         <div class="p-collaboration-carousel__controls">
@@ -526,11 +530,13 @@
         });
       }
 
-      previousButton.addEventListener("click", function() {
+      previousButton.addEventListener("click", function(event) {
+        event.preventDefault();
         showSlide(currentIndex - 1, true);
       });
 
-      nextButton.addEventListener("click", function() {
+      nextButton.addEventListener("click", function(event) {
+        event.preventDefault();
         showSlide(currentIndex + 1, true);
       });
 
@@ -569,10 +575,13 @@
       var GAP = parseFloat(window.getComputedStyle(track).gap || window.getComputedStyle(track).columnGap) || 0;
 
       function fractions() {
-        if (window.innerWidth < 620) {
+        // On mobile and tablet (below the large breakpoint) show a single,
+        // full-width slide so the carousel behaves like a basic carousel with
+        // no peeking neighbours.
+        if (window.innerWidth < 1036) {
           return {
-            active: 0.8,
-            inactive: 0.4
+            active: 1,
+            inactive: 1
           };
         }
         return {
