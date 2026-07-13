@@ -132,7 +132,7 @@ Meeting the CRA’s new and strict compliance standards is best achieved by foll
 {{ text_list_kh(
 type="number",
 items=[
-"<strong>Define your regulatory exposure.</strong> Convene legal, security, and engineering teams to audit your product portfolio against the final CRA text. Do not assume your software is exempt; it is safer to over-prepare documentation than to risk non-compliance on a \"safe bet.\" Identify which risk category your products inhabit (Default, Class I, Class II, of Critical) to determine if you require third-party certification or can rely on self-assessment.",
+"<strong>Define your regulatory exposure.</strong> Convene legal, security, and engineering teams to audit your product portfolio against the final CRA text. Do not assume your software is exempt; it is safer to over-prepare documentation than to risk non-compliance on a \"safe bet.\" Identify which risk category your products inhabit (Default, Class I, Class II, or Critical) to determine if you require third-party certification or can rely on self-assessment.",
 "<strong>Standardize technical documentation.</strong> The CRA mandates transparency via a formal technical file. You must be ready to provide EU authorities and customers with:
 <ul>
   <li>A machine-readable map of all components and known vulnerabilities.</li>
@@ -167,7 +167,7 @@ Canonical has committed to:
   "Providing long-term maintenance for devices under <a href=\"https://ubuntu.com/pro/devices\">Ubuntu Pro</a>."
 ]) }}
 
-This commitment will ensure device manufactures and users of Canonical products benefit from our commitments to the CRA.
+This commitment will ensure device manufacturers and users of Canonical products benefit from our commitments to the CRA.
 
 [Visit our page for CRA compliance ›](https://canonical.com/solutions/open-source-security/cyber-resilience-act)
 
