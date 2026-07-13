@@ -611,6 +611,12 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        # The Harvest job post only exposes a single location, while the
+        # Greenhouse board API returns all regions a role is open to (joined
+        # with ";"). Use the board value so multi-region roles show every
+        # location on the details page.
+        if context["job"].get("location") and job_post.location:
+            context["job"]["location"]["name"] = job_post.location
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
