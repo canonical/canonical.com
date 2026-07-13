@@ -36,7 +36,7 @@ Learn more about the specific regulatory and compliance requirements of the CRA,
 
 The CRA is a piece of European Union legislation that aims to make Products with Digital Elements (PDEs) safer by requiring developers, manufacturers, distributors, and retailers to follow mandatory cybersecurity, documentation, and vulnerability reporting requirements. The CRA applies for the entire product lifecycle, with steep, standardized penalties for failures to meet compliance requirements.
 
-[Read a CISO’s full breakdown of the CRA ›](https://ubuntu.com/blog/a-cisos-comprehensive-breakdown-of-the-cyber-resilience-act)
+[Read a CISO’s full breakdown of the CRA &rsaquo;](https://ubuntu.com/blog/a-cisos-comprehensive-breakdown-of-the-cyber-resilience-act)
 
 ### Who does the Cyber Resilience Act apply to?
 
@@ -149,7 +149,7 @@ items=[
 "<strong>Choose trusted suppliers for your software.</strong>  In many cases, many of your CRA requirements can be simplified by actively consuming software specifically from vendors who take on CRA manufacturer responsibility for the packages, software, or devices that they supply to you."
 ]) }}
 
-[Read our whitepaper to prepare for CRA compliance ›](https://ubuntu.com/engage/cra-regulations-for-ubuntu)
+[Read our whitepaper to prepare for CRA compliance &rsaquo;](https://ubuntu.com/engage/cra-regulations-for-ubuntu)
 
 ## How does Canonical help with EU CRA compliance?
 
@@ -169,7 +169,7 @@ Canonical has committed to:
 
 This commitment will ensure device manufacturers and users of Canonical products benefit from our commitments to the CRA.
 
-[Visit our page for CRA compliance ›](https://canonical.com/solutions/open-source-security/cyber-resilience-act)
+[Visit our page for CRA compliance &rsaquo;](https://canonical.com/solutions/open-source-security/cyber-resilience-act)
 
 ### A 20 year track record
 
@@ -177,7 +177,7 @@ For over 20 years, Canonical has maintained a rigorous track record of meeting a
 
 Canonical builds products that have been proven to adhere to critical compliance and certification requirements, including key industry and government standards such as FIPS 140-2/3, STIG compliance, and configurations based on CIS (Center for Internet Security) benchmarks. This focus on security and efficiency makes Canonical a trusted partner for deployments requiring the highest levels of assurance.
 
-[Learn about security standards on Ubuntu ›](https://ubuntu.com/security/security-standards)
+[Learn about security standards on Ubuntu &rsaquo;](https://ubuntu.com/security/security-standards)
 
 ### A trusted source for open source software
 
@@ -185,12 +185,12 @@ Canonical partners with ODMs and OEMs across industries worldwide to create devi
 
 Through these partnerships, with organizations like Dell, HP, NVIDIA, Advantech, and dozens more, we create an optimized Ubuntu experience on an exceptionally long list of devices that are tested for reliability and performance.
 
-[Learn about our partnerships ›](https://canonical.com/partners)
+[Learn about our partnerships &rsaquo;](https://canonical.com/partners)
 
 ### Robust long-term security maintenance for the entire PDE lifecycle
 
 Canonical’s approach to security maintenance ensures that your PDEs and regulated devices get long term support across the entire lifecycle. Through Ubuntu Pro, ESM (Expanded Security Maintenance), and the Legacy add-on, Ubuntu LTS releases get up to 15 years of stability and reliability, ensuring that the fixes made to the latest and cutting-edge technologies are also available to highly valuable established systems, devices, and solutions, wherever they are deployed.
 
-[Discover Ubuntu Pro for Devices ›](https://ubuntu.com/pro/devices)
+[Discover Ubuntu Pro for Devices &rsaquo;](https://ubuntu.com/pro/devices)
 
 {{ lite_video(video_id="tNECRG5r2sg", video_title="What is Ubuntu Pro?") | safe }}

@@ -126,7 +126,7 @@ You can easily apply the principles of security in depth on Ubuntu by making use
   "Protecting workloads even from a compromised host with confidential computing (e.g., AMD SEV-SNP, Intel TDX) using Ubuntu Confidential VMs"
 ]) }}
 
-[Learn more about Ubuntu platform security primitives ›](https://ubuntu.com/security/platform-security)
+[Learn more about Ubuntu platform security primitives &rsaquo;](https://ubuntu.com/security/platform-security)
 
 ### How do you defend against publicly known vulnerabilities?
 

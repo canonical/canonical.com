@@ -13,20 +13,19 @@ context:
     description: "Learn more about how to track and mitigate CVEs in your software and in the Ubuntu ecosystem. Explore our guides for vulnerability management."
     buttons:
       - text: "Explore our security"
-        url: "http://www.canonical.com/solutions/open-source-security"
+        url: "https://www.canonical.com/solutions/open-source-security"
         type: "button"
         variant: "positive"
       - text: "Discover Ubuntu Pro"
-        url: "http://www.ubuntu.com/pro/why-pro"
+        url: "https://www.ubuntu.com/pro/why-pro"
         type: "button"
-      - text: "Get a comprehensive guide to vulnerability management ›"
+      - text: "Get a comprehensive guide to vulnerability management &rsaquo;"
         url: "https://ubuntu.com/engage/vulnerability-management"
+        type: "link"
   blog:
     title: "Latest from our blog"
     id: 4195
 ---
-{% from "macros/_macros-text-list.jinja" import text_list_kh %}
-{% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 CVE stands for Common Vulnerabilities and Exposures.  The CVE system is used to identify, define, and catalog publicly disclosed cybersecurity vulnerabilities, giving them clear identity for wider awareness, tracking, and remediation.
 In this article, you’ll get an in-depth explanation of what CVEs are, how they are scored, and how to manage and remediate CVEs on Ubuntu.
@@ -49,7 +48,7 @@ In contrast, a CVE record is an official categorization for a specific, publicly
 
 In general, all CVEs are vulnerabilities, but not all vulnerabilities are CVEs.
 
-[Learn more about CVEs in detail  ›](https://ubuntu.com/security/cves/about%20)
+[Learn more about CVEs in detail  &rsaquo;](https://ubuntu.com/security/cves/about)
 
 ## How are CVEs created?
 
@@ -130,9 +129,9 @@ The matrix scores vulnerabilities across 5 levels of severity. These are:
 
 The assigned priority of a CVE impacts what actions Ubuntu Security Engineers will take. These actions will be communicated though Statuses, which are communicated in every package.
 
-[Learn more about how Ubuntu Security engineers prioritize CVEs  ›](https://ubuntu.com/blog/securing-open-source-through-cve-prioritisation)
+[Learn more about how Ubuntu Security engineers prioritize CVEs  &rsaquo;](https://ubuntu.com/blog/securing-open-source-through-cve-prioritisation)
 
-While not its primary design purpose, the Ubuntu Priority can be used by Ubuntu users to prioritize remediation, but not in isolation. The information in the [Ubuntu CVE Tracker](https://ubuntu.com/security/cves) can aid in this assessment. When the assigned Priority is LHigh or above in priority, the tracker will include an explanation for the priority, such as for [CVE-2026-42765](https://ubuntu.com/security/CVE-2026-42765).
+While not its primary design purpose, the Ubuntu Priority can be used by Ubuntu users to prioritize remediation, but not in isolation. The information in the [Ubuntu CVE Tracker](https://ubuntu.com/security/cves) can aid in this assessment. When the assigned Priority is High or above in priority, the tracker will include an explanation for the priority, such as for [CVE-2026-42765](https://ubuntu.com/security/CVE-2026-42765).
 
 ### What are Ubuntu CVE statuses?
 
@@ -140,7 +139,7 @@ When a new vulnerability is disclosed by Ubuntu security engineers, they provide
 
 For example, a vulnerability could be listed as “Needs Evaluation”, “Not affected”, “Vulnerable”, “Fixed”, and more.
 
-[Learn more about CVE reports in Ubuntu  ›](https://ubuntu.com/security/cves)
+[Learn more about CVE reports in Ubuntu  &rsaquo;](https://ubuntu.com/security/cves)
 
 ## How does Canonical help with managing CVEs?
 
@@ -156,27 +155,25 @@ The team assigns an Ubuntu-specific priority (Negligible to Critical) that accou
 
 Canonical delivers security intelligence via Ubuntu Security Notices (USNs) in both [human-friendly](https://ubuntu.com/security/notices) and machine-readable formats ([OVAL](https://ubuntu.com/security/oval), [OSV](https://ubuntu.com/security/osv), [VEX](https://ubuntu.com/security/vex)). The machine-readable formats are often consumed by third-party scanners, increasing their report accuracy and reducing false positives in your audits.
 
-### 
-
 ### Security maintenance and support
 
-Canonical provides standard support that provides security fixes and maintenance for all of its users. Canonical also backports security patches to older LTS releases, allowing you to close vulnerabilities without the operational risk or instability of a major version upgrade.
+Canonical provides security fixes and maintenance for five years with every Ubuntu LTS. Canonical also backports security patches to older LTS releases, allowing you to close vulnerabilities without the operational risk or instability of a major version upgrade.
 
 While standard support covers "Main" packages, Ubuntu Pro significantly expands your security coverage:
 
 * **Universe Coverage:** Security maintenance for thousands of open source packages, including popular stacks like PHP and Python.
 * **Extended Lifecycle:** Up to 15 years of security maintenance through ESM and the Legacy add-on, protecting aging infrastructure long after community support ends.
 
-[Learn more about Ubuntu Pro ›](http://www.ubuntu.com/pro)
+[Learn more about Ubuntu Pro &rsaquo;](https://www.ubuntu.com/pro)
 
 ### Zero-downtime patching for selected critical and high kernel CVEs
 
 Canonical Livepatch eliminates the trade-off between security and uptime by delivering kernel fixes while the system runs, allowing immediate remediation of high-risk kernel CVEs without a system reboot.
 
-[Read about livepatch \>](https://ubuntu.com/security/livepatch)
+[Read about livepatch &rsaquo;](https://ubuntu.com/security/livepatch)
 
 ### Compliance automation, hardening tools, and profiles
 
 Ubuntu Pro enables compliance with CIS and DISA-STIG benchmarks, through the Ubuntu Security Guide and Landscape. These tools enable fleet-wide auditing, remediation, and monitoring for configuration drift from a single interface.
 
-The ecosystem supports federal standards with FIPS 140-3 certified modules and continuous, and automated patching.
+The ecosystem supports federal standards with FIPS 140-3 certified modules and continuous and automated patching.
