@@ -1,5 +1,7 @@
 {% extends '/careers/base_job-details.html' %}
 
+{% from "macros/_macros-faq-schema.jinja" import faqpage_schema %}
+
 {% block meta_copydoc %}https://docs.google.com/document/d/12_O_QtPqfv9p7kaDFdiP8Xq-kY5xa1XB-C-CRbXjDew/edit{% endblock meta_copydoc %}
 
 {% block extra_metatags %}
@@ -12,310 +14,76 @@
   <div class="u-fixed-width">
     <h1 class="p-text--x-small-capitalised u-align-text--x-small-to-default">FAQ</h1>
   </div>
+  {% set faq_categories = [
+    ["Engagement", [
+      ["is-this-job-remote", "Is this job remote?", "<p>We are a remote-first organisation, so yes, for most of our roles you can work remotely. Some roles do require our people to be office-based but these are in the minority and this will be specified on the job description. Check if there is a regional requirement in the job post too.</p>"],
+      ["engagement-contracts", "What type of engagement contracts do you offer?", "<p>This will depend on your location and the role. This will be discussed with you during your Talent interview where we will confirm how we will engage with you.</p>"],
+      ["working-hours", "What are the working hours?", "<p>Our working hours are 9am–6pm (within your timezone) with 1 hour for lunch. If you require flexibility around this then please do discuss this with the hiring lead during the interview process. All our roles are full-time.</p>"],
+      ["travel-expectation", "What is the travel expectation?", "<p>In general we expect our people to be able to travel 2–4 times a year to attend our Sprints. Our Sprints are in-person events where our functions come together to plan roadmaps, share learnings, collaborate and work on initiatives….and simply have great fun!  The locations for these sprints vary and last between 1–2 weeks. For some client facing roles there will be a more regular requirement to travel. Please make sure that you ask about the specific requirements during your interview with the team. If you have any restrictions on travel please it is important to let us know as soon as possible.</p>"],
+      ["compensation", "Can you tell me the compensation for this role?", "<p>The compensation conversation will start during the Talent Interview stage. Ultimately, it will be the hiring lead who will decide if they can match your expectations.</p>"],
+      ["visa-relocation", "Do you support candidates with visa/relocation?", "<p>All Canonical employees and contractors must have a legal right to work in the country that they will be based in for the role. We are not able to sponsor visas in most cases. If you do not have the right to work in your location, please let us know as soon as possible.</p>"]
+    ]],
+    ["Written assessments", [
+      ["resend-written-assessment", "Can you resend me the written assessment?", "<p>Please try searching your inbox and spam folders for the original email. If you still cannot find the email then please email your hiring lead who will be able to re-send this to you.</p>"],
+      ["written-assessment-deadline", "How long do I have to complete the written assessment?", "<p>We ask that you complete and submit using the unique link in your instruction email within 14 days. If we have not received your document at the end of this period we will close your application. If you require additional time because you are sick or on holiday please contact your hiring lead.</p>"],
+      ["written-assessment-length", "How long does the written assessment need to be?", "<p>We leave this entirely up to you. There is no requirement on length and ask you to consider the amount of information you feel appropriate for each answer.</p>"],
+      ["written-assessment-format", "Is there a preferred format for the written assessment?", "<p>We find that the question-answer format is the easiest for us to review. If you prefer an essay-style submission, go for it but please make sure you address all our questions.</p>"],
+      ["written-assessment-unanswered-questions", "What should I do if I cannot answer some questions?", "<p>We ask broad questions to get a good overview of your background, skills and experience. This will help us match you to the most suitable open role in Canonical. Please give an honest account to help us understand where your strengths lie, and explain if you are unable to answer a specific question. </p>"],
+      ["written-assessment-quick-call", "Can we jump on a quick call before I start the assessment process?", "<p>Unfortunately we are not able to arrange calls with all of our candidates mainly due to time zones and our Global reach. We also want to make sure that we give everyone a fair chance to demonstrate their skills and experience without putting some at an unfair advantage. Our assessment stage has been carefully designed to allow all our candidates a fair and equal chance to be considered. If you have received a request to complete this then it's great news! Your resume has been reviewed and we are keen to learn more about your skills and experiences. We look forward to receiving your submission.</p>"],
+      ["written-assessment-anonymous", "Why is there a requirement for written assessments to be submitted anonymously?", "<p>One initiative that we have in place to reduce bias in our selection process is to protect the identity of your written submissions. This means that the reviewer of the submission will not be able to locate your candidate record or resume submission. We therefore ask for you to omit any information or links that make you personally identifiable i.e. GitHub, LinkedIn links, etc. We assume you have included this information in your application set questions or on your resume, so we will already hold this separately. Our written assessments are focused purely on the skills you possess and display in this document.</p>"],
+      ["written-assessment-submit", "How do I submit my written assessment?", "<p>Please make sure that you upload your PDF document using the link at the bottom of the instruction email. It's really important that the file is uploaded this way so that it is routed anonymously to the grader. Please do not send this by email.</p>\n                <p>Once you have submitted your document our graders will receive an automatic alert to review your work.</p>"],
+      ["written-assessment-hear-back", "I have submitted my written assessment. When can I expect to hear back from you?", "<p>Once you submit your assessment we will review your work. If successful, you will move forward in our process. Please bear with us whilst we complete this review. We will inform you of the outcome by email. </p>"],
+      ["written-assessment-high-school-grades", "Why are you asking about my high school grades and achievements for a senior role?", "<p>We seek to understand past achievements of all our candidates regardless of role or seniority. For some this may seem a little time ago, but it helps us understand your motivations, drivers and performance in your early years. The questions are not a reflection of the level of the role. Simply us seeking to learn a little more about this period in your life.</p>"]
+    ]],
+    ["Psychometric assessments", [
+      ["resend-psychometric-assessment", "Can you resend me the psychometric assessment?", "<p>Please try searching for the email in your email folder, including spam. This email would have been sent to you from our assessment partner, Thomas International. If you cannot locate this then please let your hiring lead know by email.</p>\n                <p>If you have experienced an issue whilst completing your assessment please email the hiring lead with the specific problem you encountered. For example, a timeout error message. For system errors and technical issues we will need to understand the specific issue before we arrange to resend the assessment. Please note that these assessments can only be re-sent where there was an issue with the platform itself. Assessments cannot be resent where you have encountered issues with your device or connection. Please ensure you read the instructions and make sure you are set up in an environment that will support your best performance.</p>"],
+      ["gia-iq-test", "Is the GIA psychometric assessment an IQ test?", "<p>No. The GIA assessment rates a candidate's overall trainability and speed of adaptation in dynamic environments. It is an ‘Aptitude’ assessment that assesses speed of trainability, mental processing speed, concentration, response to training and a prediction of potential to grasp a new role. The overall percentile is a weighted combination of Perceptual Speed, Number Speed & Accuracy, Reasoning, Word Meaning and Spatial Visualisation. The overall percentile is an estimate of the candidate's general intelligence, reflecting both fluid and crystallised intelligence, against a norm group. The norm group is refreshed every 5 years and is made up of circa 16,000 people in the age group 18-73. Its accent is on response to training, mental processing speed, concentration and potential. </p>"],
+      ["gia-next-step", "I have completed my GIA. What is the next step?", "<p>Once you complete your psychometric assessment your hiring lead will be automatically alerted through the system. Please bear with us whilst we review your whole application (resume and assessment/s). You will shortly receive an email outlining our decision. </p>"],
+      ["psychometric-results", "Can I get the results of my psychometric assessments?", "<p>Yes. Once you have completed the assessment you can request to download this directly from your candidate dashboard. Both the GIA and PPA reports are available via the button under the Assessment stage: Request assessment report. If you reach the Talent Interview stage then just navigate back to this button and request your report again to receive your second document.</p>"]
+    ]],
+    ["General process", [
+      ["many-roles-advertised", "Why do Canonical have so many roles advertised?", "<p>As a distributed, remote first organization we benefit from being able to make our opportunities available to people across the globe regardless of physical location. Therefore we ensure our roles are available to view in all relevant locations. We are also growing, so our job adverts often represent multiple seats available, or can be evergreen tracks for entry into our disciplines. Our job adverts seek to attract applications for live, open and available positions.</p>"],
+      ["ai-permitted", "Is use of AI permitted during the hiring process?", "<p>No. The use of any AI applications, tools or other support documents during our hiring process, is strictly forbidden. Our process  seeks to understand your personal achievements and thought processes. Using AI to craft real time responses cannot provide an honest account of these and goes against our values. Each response you give, both in written format or verbally, will require clarification during the process. Use of AI to misrepresent yourself during our process is strictly forbidden and prevents us from evaluating your skills.</p>"],
+      ["recording-interviews", "Can I record or capture parts of my assessment and interview process?", "<p>Recording and capturing any part of your assessment process to share with others is also strictly forbidden. Where such behaviour is identified you will be immediately disqualified from current and future processes.</p>"],
+      ["hiring-manager-vs-hiring-lead", "What is the difference between a hiring manager and hiring lead?", "<p>If successful you will report directly into the hiring manager. The hiring lead manages the hiring process and is ultimately the decision maker. Generally, these two individuals are separate people.</p>"],
+      ["reschedule-interview", "I need to reschedule my interview. How do I do this?", "<p>If your interview is booked via Calendly, please click on the ‘Reschedule’ link on the email invite. If your interview is scheduled by the hiring team (you’ve received an interview confirmation from the team), please contact your hiring lead.</p>"],
+      ["rejection-feedback", "How can I get feedback as to why I was rejected?", "<p>It is not possible for us to provide individual feedback for candidates due to the number of applications we receive. Our process prioritises getting you in front of the business team. We hope you understand this impacts our ability to handle specific feedback requests.</p>"],
+      ["reapply", "When can I apply again?", "<p>We try to hire with potential in mind and divert you to other roles that we feel might be a better fit for you during your process. If you have been rejected for a role you may not quite have the right skills required at that point in time. You can apply to a specific role once in a 180 day period or for up to 4 different roles at Canonical in a 180 day period.</p>"],
+      ["redirect-after-rejection", "Now that I’m rejected, can you redirect me to other roles like you said?", "<p>Our hiring leadership team works really hard to divert candidates to the best teams and roles. In the meantime if you see another role that you think you would be a great fit for, please do apply.</p>"],
+      ["multiple-applications", "Can I apply to multiple roles at the same time?", "<p>Yes you can apply for up to four roles in a 180 day period. Try to take a look at the job description and requirements and apply to the ones you specifically feel most suitable for. Our hiring leads work to find you the best fit role here too but it is always good to understand where your main interests lie.</p>"],
+      ["withdraw-application", "How do I withdraw my application?", "<p>If you would like to withdraw your application for a role please locate the button on your candidate dashboard to confirm you would like us to process your request. </p>"],
+      ["legitimate-job-offer", "How do I know that my job offer is legitimate?", "<p>\n                   There has been a notable rise in recruitment fraud over recent years. This fraud centers around the aim of stealing personal information or money from applicants in return for fake job offers or contractual agreements to carry out services for a company. The fraudsters use professional approaches, often disguised by sophisticated communication including the use of logos, very similar domain names for communication and real job titles.\n                </p>\n                <p>\n                  Whilst we take all reasonable efforts to maintain security, it is sadly impossible to keep ahead of internet fraud. Be vigilant when sharing your personal information and make sure that you only share your information through legitimate sources.\n                </p>\n                <p>\n                  Once you are selected to move forward into our hiring process you will be able to review your progress on your secure personalized candidate dashboard, which we will share with you as soon as you enter our hiring process. We recommend you bookmark this page so that you can review where you are in our process at any given time.\n                </p>\n                <p>\n                  Our communication to you may come from a variety of different sources, sometimes from external platform providers and suppliers that we use. However, please be aware that during our hiring process, Canonical will never ask for you for:\n                </p>\n                <ul class=\"p-list\">\n                  <li class=\"p-list__item has-bullet\">Monies associated with commencing or continuing the hiring process</li>\n                  <li class=\"p-list__item has-bullet\">A fee to produce an offer</li>\n                  <li class=\"p-list__item has-bullet\">A fee to accept an offer</li>\n                  <li class=\"p-list__item has-bullet\">A fee to commence your onboarding, including reference checking, payroll set up, deposits of any kind, training fees, IT set up fees</li>\n                  <li class=\"p-list__item has-bullet\">Sharing of any personal passwords</li>\n                </ul>\n                <p>\n                  We advertise our open job opportunities across a range of platforms. If you are in doubt about the legitimacy of an advert we recommend you locate the advert on our <a href=\"/careers\">Canonical Careers Page</a>.\n                </p>"]
+    ]]
+  ] %}
+  {% set faq_ns = namespace(entities=[]) %}
+
   <div class="u-fixed-width">
     <ol class="p-faq-stepped-list--detailed">
-      <li class="p-faq-stepped-list__item ">
-        <h2 class="p-faq-stepped-list__title">Engagement</h2>
-        <aside class="p-accordion p-faq-stepped-list__content">
-          <ul class="p-accordion__list">
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="is-this-job-remote" aria-controls="is-this-job-remote-section" aria-expanded="false"><span class="u-default-max-width">Is this job remote?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="is-this-job-remote-section" aria-hidden="true" aria-labelledby="is-this-job-remote">
-                <p>We are a remote-first organisation, so yes, for most of our roles you can work remotely. Some roles do require our people to be office-based but these are in the minority and this will be specified on the job description. Check if there is a regional requirement in the job post too.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="engagement-contracts" aria-controls="engagement-contracts-section" aria-expanded="false"><span class="u-default-max-width">What type of engagement contracts do you offer?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="engagement-contracts-section" aria-hidden="true" aria-labelledby="engagement-contracts">
-                <p>This will depend on your location and the role. This will be discussed with you during your Talent interview where we will confirm how we will engage with you.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="working-hours" aria-controls="working-hours-section" aria-expanded="false"><span class="u-default-max-width">What are the working hours?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="working-hours-section" aria-hidden="true" aria-labelledby="working-hours">
-                <p>Our working hours are 9am–6pm (within your timezone) with 1 hour for lunch. If you require flexibility around this then please do discuss this with the hiring lead during the interview process. All our roles are full-time.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="travel-expectation" aria-controls="travel-expectation-section" aria-expanded="false"><span class="u-default-max-width">What is the travel expectation?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="travel-expectation-section" aria-hidden="true" aria-labelledby="travel-expectation">
-                <p>In general we expect our people to be able to travel 2–4 times a year to attend our Sprints. Our Sprints are in-person events where our functions come together to plan roadmaps, share learnings, collaborate and work on initiatives….and simply have great fun!  The locations for these sprints vary and last between 1–2 weeks. For some client facing roles there will be a more regular requirement to travel. Please make sure that you ask about the specific requirements during your interview with the team. If you have any restrictions on travel please it is important to let us know as soon as possible.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="compensation" aria-controls="compensation-section" aria-expanded="false"><span class="u-default-max-width">Can you tell me the compensation for this role?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="compensation-section" aria-hidden="true" aria-labelledby="compensation">
-                <p>The compensation conversation will start during the Talent Interview stage. Ultimately, it will be the hiring lead who will decide if they can match your expectations.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="visa-relocation" aria-controls="visa-relocation-section" aria-expanded="false"><span class="u-default-max-width">Do you support candidates with visa/relocation?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="visa-relocation-section" aria-hidden="true" aria-labelledby="visa-relocation">
-                <p>All Canonical employees and contractors must have a legal right to work in the country that they will be based in for the role. We are not able to sponsor visas in most cases. If you do not have the right to work in your location, please let us know as soon as possible.</p>
-              </section>
-            </li>
-          </ul>
-        </aside>
-      </li>
-      <li class="p-faq-stepped-list__item ">
-        <h2 class="p-faq-stepped-list__title">Written assessments</h2>
-        <aside class="p-accordion p-faq-stepped-list__content">
-          <ul class="p-accordion__list">
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="resend-written-assessment" aria-controls="resend-written-assessment-section" aria-expanded="false"><span class="u-default-max-width">Can you resend me the written assessment?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="resend-written-assessment-section" aria-hidden="true" aria-labelledby="resend-written-assessment">
-                <p>Please try searching your inbox and spam folders for the original email. If you still cannot find the email then please email your hiring lead who will be able to re-send this to you.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-deadline" aria-controls="written-assessment-deadline-section" aria-expanded="false"><span class="u-default-max-width">How long do I have to complete the written assessment?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-deadline-section" aria-hidden="true" aria-labelledby="written-assessment-deadline">
-                <p>We ask that you complete and submit using the unique link in your instruction email within 14 days. If we have not received your document at the end of this period we will close your application. If you require additional time because you are sick or on holiday please contact your hiring lead.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-length" aria-controls="written-assessment-length-section" aria-expanded="false"><span class="u-default-max-width">How long does the written assessment need to be?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-length-section" aria-hidden="true" aria-labelledby="written-assessment-length">
-                <p>We leave this entirely up to you. There is no requirement on length and ask you to consider the amount of information you feel appropriate for each answer.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-format" aria-controls="written-assessment-format-section" aria-expanded="false"><span class="u-default-max-width">Is there a preferred format for the written assessment?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-format-section" aria-hidden="true" aria-labelledby="written-assessment-format">
-                <p>We find that the question-answer format is the easiest for us to review. If you prefer an essay-style submission, go for it but please make sure you address all our questions.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-unanswered-questions" aria-controls="written-assessment-unanswered-questions-section" aria-expanded="false"><span class="u-default-max-width">What should I do if I cannot answer some questions? </span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-unanswered-questions-section" aria-hidden="true" aria-labelledby="written-assessment-unanswered-questions">
-                <p>We ask broad questions to get a good overview of your background, skills and experience. This will help us match you to the most suitable open role in Canonical. Please give an honest account to help us understand where your strengths lie, and explain if you are unable to answer a specific question. </p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-quick-call" aria-controls="written-assessment-quick-call-section" aria-expanded="false"><span class="u-default-max-width">Can we jump on a quick call before I start the assessment process?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-quick-call-section" aria-hidden="true" aria-labelledby="written-assessment-quick-call">
-                <p>Unfortunately we are not able to arrange calls with all of our candidates mainly due to time zones and our Global reach. We also want to make sure that we give everyone a fair chance to demonstrate their skills and experience without putting some at an unfair advantage. Our assessment stage has been carefully designed to allow all our candidates a fair and equal chance to be considered. If you have received a request to complete this then it's great news! Your resume has been reviewed and we are keen to learn more about your skills and experiences. We look forward to receiving your submission.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-anonymous" aria-controls="written-assessment-anonymous-section" aria-expanded="false"><span class="u-default-max-width">Why is there a requirement for written assessments to be submitted anonymously?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-anonymous-section" aria-hidden="true" aria-labelledby="written-assessment-anonymous">
-                <p>One initiative that we have in place to reduce bias in our selection process is to protect the identity of your written submissions. This means that the reviewer of the submission will not be able to locate your candidate record or resume submission. We therefore ask for you to omit any information or links that make you personally identifiable i.e. GitHub, LinkedIn links, etc. We assume you have included this information in your application set questions or on your resume, so we will already hold this separately. Our written assessments are focused purely on the skills you possess and display in this document.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-submit" aria-controls="written-assessment-submit-section" aria-expanded="false"><span class="u-default-max-width">How do I submit my written assessment?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-submit-section" aria-hidden="true" aria-labelledby="written-assessment-submit">
-                <p>Please make sure that you upload your PDF document using the link at the bottom of the instruction email. It's really important that the file is uploaded this way so that it is routed anonymously to the grader. Please do not send this by email.</p>
-                <p>Once you have submitted your document our graders will receive an automatic alert to review your work.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-hear-back" aria-controls="written-assessment-hear-back-section" aria-expanded="false"><span class="u-default-max-width">I have submitted my written assessment. When can I expect to hear back from you?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-hear-back-section" aria-hidden="true" aria-labelledby="written-assessment-hear-back">
-                <p>Once you submit your assessment we will review your work. If successful, you will move forward in our process. Please bear with us whilst we complete this review. We will inform you of the outcome by email. </p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="written-assessment-high-school-grades" aria-controls="written-assessment-high-school-grades-section" aria-expanded="false"><span class="u-default-max-width">Why are you asking about my high school grades and achievements for a senior role?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="written-assessment-high-school-grades-section" aria-hidden="true" aria-labelledby="written-assessment-high-school-grades">
-                <p>We seek to understand past achievements of all our candidates regardless of role or seniority. For some this may seem a little time ago, but it helps us understand your motivations, drivers and performance in your early years. The questions are not a reflection of the level of the role. Simply us seeking to learn a little more about this period in your life.</p>
-              </section>
-            </li>
-          </ul>
-        </aside>
-      </li>
-      <li class="p-faq-stepped-list__item">
-        <h2 class="p-faq-stepped-list__title">Psychometric assessments</h2>
-        <aside class="p-accordion p-faq-stepped-list__content">
-          <ul class="p-accordion__list">
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="resend-psychometric-assessment" aria-controls="resend-psychometric-assessment-section" aria-expanded="false"><span class="u-default-max-width">Can you resend me the psychometric assessment?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="resend-psychometric-assessment-section" aria-hidden="true" aria-labelledby="resend-psychometric-assessment">
-                <p>Please try searching for the email in your email folder, including spam. This email would have been sent to you from our assessment partner, Thomas International. If you cannot locate this then please let your hiring lead know by email.</p>
-                <p>If you have experienced an issue whilst completing your assessment please email the hiring lead with the specific problem you encountered. For example, a timeout error message. For system errors and technical issues we will need to understand the specific issue before we arrange to resend the assessment. Please note that these assessments can only be re-sent where there was an issue with the platform itself. Assessments cannot be resent where you have encountered issues with your device or connection. Please ensure you read the instructions and make sure you are set up in an environment that will support your best performance.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="gia-iq-test" aria-controls="gia-iq-test-section" aria-expanded="false"><span class="u-default-max-width">Is the GIA psychometric assessment an IQ test?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="gia-iq-test-section" aria-hidden="true" aria-labelledby="gia-iq-test">
-                <p>No. The GIA assessment rates a candidate's overall trainability and speed of adaptation in dynamic environments. It is an ‘Aptitude’ assessment that assesses speed of trainability, mental processing speed, concentration, response to training and a prediction of potential to grasp a new role. The overall percentile is a weighted combination of Perceptual Speed, Number Speed & Accuracy, Reasoning, Word Meaning and Spatial Visualisation. The overall percentile is an estimate of the candidate's general intelligence, reflecting both fluid and crystallised intelligence, against a norm group. The norm group is refreshed every 5 years and is made up of circa 16,000 people in the age group 18-73. Its accent is on response to training, mental processing speed, concentration and potential. </p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="gia-next-step" aria-controls="gia-next-step-section" aria-expanded="false"><span class="u-default-max-width">I have completed my GIA. What is the next step?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="gia-next-step-section" aria-hidden="true" aria-labelledby="gia-next-step">
-                <p>Once you complete your psychometric assessment your hiring lead will be automatically alerted through the system. Please bear with us whilst we review your whole application (resume and assessment/s). You will shortly receive an email outlining our decision. </p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="psychometric-results" aria-controls="psychometric-results-section" aria-expanded="false"><span class="u-default-max-width">Can I get the results of my psychometric assessments?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="psychometric-results-section" aria-hidden="true" aria-labelledby="psychometric-results">
-                <p>Yes. Once you have completed the assessment you can request to download this directly from your candidate dashboard. Both the GIA and PPA reports are available via the button under the Assessment stage: Request assessment report. If you reach the Talent Interview stage then just navigate back to this button and request your report again to receive your second document.</p>
-              </section>
-            </li>
-          </ul>
-        </aside>
-      </li>
-      <li class="p-faq-stepped-list__item ">
-        <h2 class="p-faq-stepped-list__title">General process</h2>
-        <aside class="p-accordion p-faq-stepped-list__content">
-          <ul class="p-accordion__list">
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="many-roles-advertised" aria-controls="many-roles-advertised-section" aria-expanded="false"><span class="u-default-max-width">Why do Canonical have so many roles advertised?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="many-roles-advertised-section" aria-hidden="true" aria-labelledby="many-roles-advertised">
-                <p>As a distributed, remote first organization we benefit from being able to make our opportunities available to people across the globe regardless of physical location. Therefore we ensure our roles are available to view in all relevant locations. We are also growing, so our job adverts often represent multiple seats available, or can be evergreen tracks for entry into our disciplines. Our job adverts seek to attract applications for live, open and available positions.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="ai-permitted" aria-controls="ai-permitted-section" aria-expanded="false"><span class="u-default-max-width">Is use of AI permitted during the hiring process?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="ai-permitted-section" aria-hidden="true" aria-labelledby="ai-permitted">
-                <p>No. The use of any AI applications, tools or other support documents during our hiring process, is strictly forbidden. Our process  seeks to understand your personal achievements and thought processes. Using AI to craft real time responses cannot provide an honest account of these and goes against our values. Each response you give, both in written format or verbally, will require clarification during the process. Use of AI to misrepresent yourself during our process is strictly forbidden and prevents us from evaluating your skills.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="recording-interviews" aria-controls="recording-interviews-section" aria-expanded="false"><span class="u-default-max-width">Can I record or capture parts of my assessment and interview process?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="recording-interviews-section" aria-hidden="true" aria-labelledby="recording-interviews">
-                <p>Recording and capturing any part of your assessment process to share with others is also strictly forbidden. Where such behaviour is identified you will be immediately disqualified from current and future processes.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="hiring-manager-vs-hiring-lead" aria-controls="hiring-manager-vs-hiring-lead-section" aria-expanded="false"><span class="u-default-max-width">What is the difference between a hiring manager and hiring lead?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="hiring-manager-vs-hiring-lead-section" aria-hidden="true" aria-labelledby="hiring-manager-vs-hiring-lead">
-                <p>If successful you will report directly into the hiring manager. The hiring lead manages the hiring process and is ultimately the decision maker. Generally, these two individuals are separate people.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="reschedule-interview" aria-controls="reschedule-interview-section" aria-expanded="false"><span class="u-default-max-width">I need to reschedule my interview. How do I do this?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="reschedule-interview-section" aria-hidden="true" aria-labelledby="reschedule-interview">
-                <p>If your interview is booked via Calendly, please click on the ‘Reschedule’ link on the email invite. If your interview is scheduled by the hiring team (you’ve received an interview confirmation from the team), please contact your hiring lead.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="rejection-feedback" aria-controls="rejection-feedback-section" aria-expanded="false"><span class="u-default-max-width">How can I get feedback as to why I was rejected?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="rejection-feedback-section" aria-hidden="true" aria-labelledby="rejection-feedback">
-                <p>It is not possible for us to provide individual feedback for candidates due to the number of applications we receive. Our process prioritises getting you in front of the business team. We hope you understand this impacts our ability to handle specific feedback requests.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="reapply" aria-controls="reapply-section" aria-expanded="false"><span class="u-default-max-width">When can I apply again?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="reapply-section" aria-hidden="true" aria-labelledby="reapply">
-                <p>We try to hire with potential in mind and divert you to other roles that we feel might be a better fit for you during your process. If you have been rejected for a role you may not quite have the right skills required at that point in time. You can apply to a specific role once in a 180 day period or for up to 4 different roles at Canonical in a 180 day period.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="redirect-after-rejection" aria-controls="redirect-after-rejection-section" aria-expanded="false"><span class="u-default-max-width">Now that I’m rejected, can you redirect me to other roles like you said?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="redirect-after-rejection-section" aria-hidden="true" aria-labelledby="redirect-after-rejection">
-                <p>Our hiring leadership team works really hard to divert candidates to the best teams and roles. In the meantime if you see another role that you think you would be a great fit for, please do apply.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="multiple-applications" aria-controls="multiple-applications-section" aria-expanded="false"><span class="u-default-max-width">Can I apply to multiple roles at the same time?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="multiple-applications-section" aria-hidden="true" aria-labelledby="multiple-applications">
-                <p>Yes you can apply for up to four roles in a 180 day period. Try to take a look at the job description and requirements and apply to the ones you specifically feel most suitable for. Our hiring leads work to find you the best fit role here too but it is always good to understand where your main interests lie.</p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="withdraw-application" aria-controls="withdraw-application-section" aria-expanded="false"><span class="u-default-max-width">How do I withdraw my application?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="withdraw-application-section" aria-hidden="true" aria-labelledby="withdraw-application">
-                <p>If you would like to withdraw your application for a role please locate the button on your candidate dashboard to confirm you would like us to process your request. </p>
-              </section>
-            </li>
-            <li class="p-accordion__group">
-              <div role="heading" aria-level="3" class="p-accordion__heading">
-                <button type="button" class="p-accordion__tab" id="legitimate-job-offer" aria-controls="legitimate-job-offer-section" aria-expanded="false"><span class="u-default-max-width">How do I know that my job offer is legitimate?</span></button>
-              </div>
-              <section class="p-accordion__panel" id="legitimate-job-offer-section" aria-hidden="true" aria-labelledby="legitimate-job-offer">
-                <p>
-                   There has been a notable rise in recruitment fraud over recent years. This fraud centers around the aim of stealing personal information or money from applicants in return for fake job offers or contractual agreements to carry out services for a company. The fraudsters use professional approaches, often disguised by sophisticated communication including the use of logos, very similar domain names for communication and real job titles.
-                </p>
-                <p>
-                  Whilst we take all reasonable efforts to maintain security, it is sadly impossible to keep ahead of internet fraud. Be vigilant when sharing your personal information and make sure that you only share your information through legitimate sources.
-                </p>
-                <p>
-                  Once you are selected to move forward into our hiring process you will be able to review your progress on your secure personalized candidate dashboard, which we will share with you as soon as you enter our hiring process. We recommend you bookmark this page so that you can review where you are in our process at any given time.
-                </p>
-                <p>
-                  Our communication to you may come from a variety of different sources, sometimes from external platform providers and suppliers that we use. However, please be aware that during our hiring process, Canonical will never ask for you for:
-                </p>
-                <ul class="p-list">
-                  <li class="p-list__item has-bullet">Monies associated with commencing or continuing the hiring process</li>
-                  <li class="p-list__item has-bullet">A fee to produce an offer</li>
-                  <li class="p-list__item has-bullet">A fee to accept an offer</li>
-                  <li class="p-list__item has-bullet">A fee to commence your onboarding, including reference checking, payroll set up, deposits of any kind, training fees, IT set up fees</li>
-                  <li class="p-list__item has-bullet">Sharing of any personal passwords</li>
-                </ul>
-                <p>
-                  We advertise our open job opportunities across a range of platforms. If you are in doubt about the legitimacy of an advert we recommend you locate the advert on our <a href="/careers">Canonical Careers Page</a>.
-                </p>
-              </section>
-            </li>
-          </ul>
-        </aside>
-      </li>
+      {% for category_title, items in faq_categories %}
+        <li class="p-faq-stepped-list__item">
+          <h2 class="p-faq-stepped-list__title">{{ category_title }}</h2>
+          <aside class="p-accordion p-faq-stepped-list__content">
+            <ul class="p-accordion__list">
+              {% for item_id, question, answer in items %}
+                {% set faq_ns.entities = faq_ns.entities + [[question, answer]] %}
+                <li class="p-accordion__group">
+                  <div role="heading" aria-level="3" class="p-accordion__heading">
+                    <button type="button" class="p-accordion__tab" id="{{ item_id }}" aria-controls="{{ item_id }}-section" aria-expanded="false"><span class="u-default-max-width">{{ question }}</span></button>
+                  </div>
+                  <section class="p-accordion__panel" id="{{ item_id }}-section" aria-hidden="true" aria-labelledby="{{ item_id }}">
+                    {{ answer | safe }}
+                  </section>
+                </li>
+              {% endfor %}
+            </ul>
+          </aside>
+        </li>
+      {% endfor %}
     </ol>
   </div>
 </section>
+
+{{ faqpage_schema(faq_ns.entities) }}
 <script nonce="{{ csp_nonce }}">
       /**
   Toggles the necessary aria- attributes' values on the accordion panels

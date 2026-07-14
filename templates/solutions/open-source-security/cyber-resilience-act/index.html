@@ -1,6 +1,7 @@
 {% extends "base_index.html" %}
 
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "macros/_macros-faq-schema.jinja" import faqpage_schema %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/13VaiP6GGkGB4mE01bIqJ3cg8MfQXulNs9m3cmYb20HQ
@@ -505,81 +506,38 @@
     </section>
   </div>
 
+  {% set faq_items = [
+    ["What EU Certification do I need under the CRA?",
+    "EU Cybersecurity Certification Scheme on Common Criteria <a href=\"https://certification.enisa.europa.eu/certification-library/eucc-certification-scheme_en\">(EUCC)</a>: <a href=\"https://www.enisa.europa.eu/\">ENISA</a> aims to provide a EU-wide certification scheme for companies to certify and be able to claim compliance to different regulations based on the Assurance Level and/or Protection Profile they chose to be in-scope of the certification."],
+    ["When will the CRA come into force?",
+    "The European Parliament formally approved the CRA in March 2024, and it was adopted by the Council on October 10, 2024. The Cyber Resilience Act entered into force on December 10, 2024.  Manufacturers will need to follow CRA reporting obligations as of June 11, 2026."],
+    ["How long until manufacturers and other groups have to follow the CRA?",
+    "Manufacturers, importers and distributors of hardware and software products will have 36 months from the CRA’s official publication to adapt to the new requirements. However, there is only a 21-month grace period for manufacturers to adopt reporting obligations for incidents and vulnerabilities."],
+    ["What does the CRA require manufacturers to document?",
+    "Under the CRA, manufacturers must provide a record of all their technical documentation, a Software Bill of Materials, an EU Declaration of Conformity, and clear user information and instructions, for a period of 10 years or the support period (whichever is longer) after the product enters the market."],
+    ["What are manufacturer reporting requirements under the CRA?",
+    "Under the CRA, manufacturers must: <ul class=\"p-list--divided\"><li class=\"p-list__item is-ticked u-hide\"></li><li class=\"p-list__item is-ticked\">Inform CSIRT of product vulnerabilities within 24 hours. Details of the vulnerability and any corrective actions taken should be included.</li><li class=\"p-list__item is-ticked\">Notify CSIRT of incidents impacting product security within 24 hours. Information on severity, impact, and suspected unlawful acts should be included.</li><li class=\"p-list__item is-ticked\">Inform users about incidents and provide mitigation measures within a reasonable timeframe.</li><li class=\"p-list__item is-ticked\">Report vulnerabilities in integrated components to the respective maintainers within a reasonable timeframe.</li></ul>"],
+    ["What is an SBOM or Software Bill of Materials?",
+    "An SBOM is a detailed and accessible list of all the components that make up your PDE or software and  in-depth information about the source, publishers, and dependencies (and more) about those components. You can learn more about SBOMs, what they include, and how to create them by reading <a href=\"https://ubuntu.com/blog/what-is-sbom-software-bill-of-materials-explained\">our blog that explores SBOMs in depth</a>."]
+  ] %}
+
   {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
     {%- if slot == 'title' -%}
       <h2>Frequently asked questions</h2>
+    {%- elif slot.startswith('list_item_title_') -%}
+      {%- set idx = slot.split('_')[-1] | int -%}
+      {%- if idx <= faq_items|length -%}
+        <h3 class="p-heading--5">{{ faq_items[idx - 1][0] }}</h3>
+      {%- endif -%}
+    {%- elif slot.startswith('list_item_description_') -%}
+      {%- set idx = slot.split('_')[-1] | int -%}
+      {%- if idx <= faq_items|length -%}
+        <p>{{ faq_items[idx - 1][1] | safe }}</p>
+      {%- endif -%}
     {%- endif -%}
-
-    {%- if slot == 'list_item_title_1' -%}
-      <h3 class="p-heading--5">What EU Certification do I need under the CRA?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_1' -%}
-      <p>
-        EU Cybersecurity Certification Scheme on Common Criteria <a href="https://certification.enisa.europa.eu/certification-library/eucc-certification-scheme_en">(EUCC)</a>: <a href="https://www.enisa.europa.eu/">ENISA</a> aims to provide a EU-wide certification scheme for companies to certify and be able to claim compliance to different regulations based on the Assurance Level and/or Protection Profile they chose to be in-scope of the certification.
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_2' -%}
-      <h3 class="p-heading--5">When will the CRA come into force?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_2' -%}
-      <p>
-        The European Parliament formally approved the CRA in March 2024, and it was adopted by the Council on October 10, 2024. The Cyber Resilience Act entered into force on December 10, 2024.  Manufacturers will need to follow CRA reporting obligations as of June 11, 2026.
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_3' -%}
-      <h3 class="p-heading--5">How long until manufacturers and other groups have to follow the CRA?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_3' -%}
-      <p>
-        Manufacturers, importers and distributors of hardware and software products will have 36 months from the CRA’s official publication to adapt to the new requirements. However, there is only a 21-month grace period for manufacturers to adopt reporting obligations for incidents and vulnerabilities.
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_4' -%}
-      <h3 class="p-heading--5">What does the CRA require manufacturers to document?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_4' -%}
-      <p>
-        Under the CRA, manufacturers must provide a record of all their technical documentation, a Software Bill of Materials, an EU Declaration of Conformity, and clear user information and instructions, for a period of 10 years or the support period (whichever is longer) after the product enters the market.
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_5' -%}
-      <h3 class="p-heading--5">What are manufacturer reporting requirements under the CRA?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_5' -%}
-      <p>
-        Under the CRA, manufacturers must:
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked u-hide"></li>
-          <li class="p-list__item is-ticked">
-            Inform CSIRT of product vulnerabilities within 24 hours. Details of the vulnerability and any corrective actions taken should be included.
-          </li>
-          <li class="p-list__item is-ticked">
-            Notify CSIRT of incidents impacting product security within 24 hours. Information on severity, impact, and suspected unlawful acts should be included.
-          </li>
-          <li class="p-list__item is-ticked">
-            Inform users about incidents and provide mitigation measures within a reasonable timeframe.
-          </li>
-          <li class="p-list__item is-ticked">
-            Report vulnerabilities in integrated components to the respective maintainers within a reasonable timeframe.
-          </li>
-        </ul>
-      </p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_6' -%}
-      <h3 class="p-heading--5">What is an SBOM or Software Bill of Materials?</h3>
-    {%- endif -%}
-    {%- if slot == 'list_item_description_6' -%}
-      <p>
-        An SBOM is a detailed and accessible list of all the components that make up your PDE or software and  in-depth information about the source, publishers, and dependencies (and more) about those components. You can learn more about SBOMs, what they include, and how to create them by reading <a href="https://ubuntu.com/blog/what-is-sbom-software-bill-of-materials-explained">our blog that explores SBOMs in depth</a>.
-      </p>
-    {%- endif -%}
-
   {%- endcall -%}
+
+  {{ faqpage_schema(faq_items) }}
 
   <hr class="p-rule is-fixed-width" />
 
