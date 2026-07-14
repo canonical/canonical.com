@@ -798,23 +798,10 @@ def careers_progression(greenhouse, harvest):
 
 
 @app.route("/careers/company-culture/diversity")
-def handle_diversity():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return diversity(greenhouse, harvest)
-
-
-def diversity(greenhouse, harvest):
-    context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
-        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
-    }
-    context["department"] = None
+def diversity():
     return flask.render_template(
-        "careers/company-culture/diversity.html", **context
+        "careers/company-culture/diversity.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
