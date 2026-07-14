@@ -10,6 +10,20 @@
   flexible and trusted way to run your workloads.
 {% endblock %}
 
+{% block head_extra %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.lxd.name | tojson }},
+      "description": {{ products_yaml.lxd.description | tojson }},
+      "operatingSystem": {{ products_yaml.lxd.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.lxd.applicationCategory | tojson }},
+      "url": {{ products_yaml.lxd.url | tojson }}
+    }
+  </script>
+{% endblock %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}

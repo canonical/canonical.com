@@ -21,6 +21,20 @@
   MAAS (Metal as a Service) automates your data center, turning bare metal servers into an efficient, security maintained, and scalable private cloud.
 {% endblock %}
 
+{% block head_extra %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.maas.name | tojson }},
+      "description": {{ products_yaml.maas.description | tojson }},
+      "operatingSystem": {{ products_yaml.maas.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.maas.applicationCategory | tojson }},
+      "url": {{ products_yaml.maas.url | tojson }}
+    }
+  </script>
+{% endblock %}
+
 {% block body_class %}
   is-paper
 {% endblock body_class %}
