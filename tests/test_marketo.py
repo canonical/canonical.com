@@ -4,7 +4,11 @@ import re
 from html.parser import HTMLParser
 
 from webapp.app import app
-from tests.helpers import MarketoFormTestCase, ALLOWED_HIDDEN_FIELDS, get_marketo_template_files
+from tests.helpers import (
+    MarketoFormTestCase,
+    ALLOWED_HIDDEN_FIELDS,
+    get_marketo_template_files,
+)
 
 
 class TestFormGenerator(MarketoFormTestCase):
