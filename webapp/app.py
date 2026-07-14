@@ -69,7 +69,6 @@ from webapp.canonical_cla.views import (
 )
 from webapp.careers import (
     DEPARTMENT_LIST,
-    _group_by_department,
     _get_sorted_departments,
     _get_all_departments,
 )
