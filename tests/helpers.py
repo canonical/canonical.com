@@ -31,8 +31,15 @@ class MarketoFormTestCase(unittest.TestCase):
                 "utm_campaign",
                 "formid",
                 "returnurl",
+                "thankyoumessage",
+                "productcontext",
+                "preferredlanguage",
                 "consent_to_processing__c",
                 "canonicalupdatesoptin",
+                # JS-injected fields added at runtime by forms.js
+                "user_id",
+                "consent_info",
+                "utms",
             }
         )
 
@@ -90,3 +97,16 @@ class MarketoFormTestCase(unittest.TestCase):
             for f in Path("templates").rglob("form-data.json")
             if "templates/tests" not in str(f)
         ]
+
+    def _get_marketo_template_files(self):
+        """
+        Helper function to get template files that contain Marketo forms.
+        """
+        result = []
+        for ext in ("*.html", "*.jinja"):
+            for f in Path("templates").rglob(ext):
+                if "templates/tests" in str(f):
+                    continue
+                if "marketo/submit" in f.read_text():
+                    result.append(f)
+        return result
