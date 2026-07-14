@@ -92,7 +92,7 @@ test.describe("Form submission validation", () => {
   });
 });
 
-test.describe("Hidden field validation", () => {
+test.describe("Marketo submission payload validation", () => {
   const ALLOWED_FIELDS = new Set([
     // User-visible form fields
     "firstname", "lastname", "email", "company", "title",
@@ -107,6 +107,8 @@ test.describe("Hidden field validation", () => {
     "preferredlanguage", "consent_to_processing__c", "canonicalupdatesoptin",
     // JS-injected fields added at runtime by forms.js
     "user_id", "consent_info", "utms",
+    // Honeypot fields (submitted as empty strings in normal submissions)
+    "name", "website",
   ]);
 
   test("should not submit unexpected hidden fields", async ({ page }) => {
