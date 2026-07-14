@@ -6,42 +6,59 @@ from pathlib import Path
 from webapp.marketo import MarketoAPI
 from canonicalwebteam.flask_base.env import get_flask_env
 
+# Fields that are allowed in a Marketo form payload.
+# Add to this set when intentionally introducing a new hidden field.
+ALLOWED_HIDDEN_FIELDS = frozenset(
+    {
+        "firstname",
+        "lastname",
+        "email",
+        "company",
+        "title",
+        "country",
+        "state",
+        "phone",
+        "comments_from_lead__c",
+        "facebook_click_id__c",
+        "gclid__c",
+        "utm_content",
+        "utm_term",
+        "utm_medium",
+        "utm_source",
+        "utm_campaign",
+        "formid",
+        "returnurl",
+        "thankyoumessage",
+        "productcontext",
+        "preferredlanguage",
+        "consent_to_processing__c",
+        "canonicalupdatesoptin",
+        # JS-injected fields added at runtime by forms.js
+        "user_id",
+        "consent_info",
+        "utms",
+    }
+)
+
+
+def get_marketo_template_files():
+    """
+    Return template files that contain Marketo form submissions.
+    """
+    result = []
+    for ext in ("*.html", "*.jinja"):
+        for f in Path("templates").rglob(ext):
+            if "templates/tests" in str(f):
+                continue
+            if "marketo/submit" in f.read_text():
+                result.append(f)
+    return result
+
 
 class MarketoFormTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Fields that are allowed in payload
-        cls.SET_FIELDS = set(
-            {
-                "firstname",
-                "lastname",
-                "email",
-                "company",
-                "title",
-                "country",
-                "state",
-                "phone",
-                "comments_from_lead__c",
-                "facebook_click_id__c",
-                "gclid__c",
-                "utm_content",
-                "utm_term",
-                "utm_medium",
-                "utm_source",
-                "utm_campaign",
-                "formid",
-                "returnurl",
-                "thankyoumessage",
-                "productcontext",
-                "preferredlanguage",
-                "consent_to_processing__c",
-                "canonicalupdatesoptin",
-                # JS-injected fields added at runtime by forms.js
-                "user_id",
-                "consent_info",
-                "utms",
-            }
-        )
+        cls.SET_FIELDS = ALLOWED_HIDDEN_FIELDS
 
         marketo_session = Session()
         talisker.requests.configure(marketo_session)
@@ -97,16 +114,3 @@ class MarketoFormTestCase(unittest.TestCase):
             for f in Path("templates").rglob("form-data.json")
             if "templates/tests" not in str(f)
         ]
-
-    def _get_marketo_template_files(self):
-        """
-        Helper function to get template files that contain Marketo forms.
-        """
-        result = []
-        for ext in ("*.html", "*.jinja"):
-            for f in Path("templates").rglob(ext):
-                if "templates/tests" in str(f):
-                    continue
-                if "marketo/submit" in f.read_text():
-                    result.append(f)
-        return result

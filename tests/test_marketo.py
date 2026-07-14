@@ -4,7 +4,7 @@ import re
 from html.parser import HTMLParser
 
 from webapp.app import app
-from tests.helpers import MarketoFormTestCase
+from tests.helpers import MarketoFormTestCase, ALLOWED_HIDDEN_FIELDS, get_marketo_template_files
 
 
 class TestFormGenerator(MarketoFormTestCase):
@@ -122,10 +122,13 @@ class TestFormGenerator(MarketoFormTestCase):
                                 f" for form {form_path}",
                             )
 
+
+class TestMarketoTemplateHiddenFields(unittest.TestCase):
     def test_no_unexpected_hidden_fields(self):
         """
         Test that no unexpected hidden fields are present in Marketo form
-        templates. All hidden field names must be in SET_FIELDS.
+        templates. All hidden field names must be in ALLOWED_HIDDEN_FIELDS.
+        Does not require Marketo API credentials.
         """
 
         class HiddenFieldCollector(HTMLParser):
@@ -142,7 +145,7 @@ class TestFormGenerator(MarketoFormTestCase):
                         if name and not re.match(r"^\s*\{", name):
                             self.hidden_fields.append(name.lower())
 
-        template_files = self._get_marketo_template_files()
+        template_files = get_marketo_template_files()
         self.assertGreater(
             len(template_files),
             0,
@@ -154,9 +157,9 @@ class TestFormGenerator(MarketoFormTestCase):
             for field_name in collector.hidden_fields:
                 self.assertIn(
                     field_name,
-                    self.SET_FIELDS,
+                    ALLOWED_HIDDEN_FIELDS,
                     f"Unexpected hidden field '{field_name}' found in "
-                    f"{template_path}. Add it to SET_FIELDS in "
+                    f"{template_path}. Add it to ALLOWED_HIDDEN_FIELDS in "
                     f"tests/helpers.py if it is intentional.",
                 )
 
