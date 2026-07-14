@@ -88,7 +88,7 @@ yarn lint-scss        # stylelint
 yarn format-python    # black --line-length 79
 yarn format-prettier  # prettier
 
-PYTHONPATH=. djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/jinja - uses `.djlintrc` + custom rules in `.djlint_rules.yaml`
+djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/jinja - uses `.djlintrc`
 ```
 
 ## External Service Dependencies

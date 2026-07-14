@@ -342,7 +342,7 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["-Control"] = "public, max-age=43200"
+    response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
 
@@ -611,6 +611,12 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        # The Harvest job post only exposes a single location, while the
+        # Greenhouse board API returns all regions a role is open to (joined
+        # with ";"). Use the board value so multi-region roles show every
+        # location on the details page.
+        if context["job"].get("location") and job_post.location:
+            context["job"]["location"]["name"] = job_post.location
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
@@ -670,6 +676,14 @@ def job_details(session, greenhouse, harvest, job_id):
 def start_career():
     return flask.render_template(
         "/careers/career-explorer.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
+
+
+@app.route("/careers/early-careers")
+def handle_early_careers():
+    return flask.render_template(
+        "/careers/early-careers.html",
         recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
@@ -784,23 +798,10 @@ def careers_progression(greenhouse, harvest):
 
 
 @app.route("/careers/company-culture/diversity")
-def handle_diversity():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return diversity(greenhouse, harvest)
-
-
-def diversity(greenhouse, harvest):
-    context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
-        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
-    }
-    context["department"] = None
+def diversity():
     return flask.render_template(
-        "careers/company-culture/diversity.html", **context
+        "careers/company-culture/diversity.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -1550,6 +1551,26 @@ def no_cache(response):
         response.cache_control.max_age = None
         response.cache_control.no_store = True
         response.cache_control.public = False
+
+    return response
+
+
+@app.after_request
+def default_cache_control(response):
+    """
+    Cache pages for 1 hour by default, instead of flask-base's 60s.
+    Views that set their own max-age or mark the response
+    no-store/no-cache/private are left untouched.
+    """
+    if (
+        response.status_code == 200
+        and not flask.request.path.startswith("/_status")
+        and not response.cache_control.no_store
+        and not response.cache_control.no_cache
+        and not response.cache_control.private
+        and type(response.cache_control.max_age) is not int
+    ):
+        response.cache_control.max_age = 3600
 
     return response
 
