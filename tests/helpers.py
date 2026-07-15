@@ -50,7 +50,7 @@ def get_marketo_template_files():
         for f in Path("templates").rglob(ext):
             if "templates/tests" in str(f):
                 continue
-            if "marketo/submit" in f.read_text():
+            if "/marketo/submit" in f.read_text():
                 result.append(f)
     return result
 
