@@ -1,0 +1,318 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/shared/vf_tabs.jinja" import vf_tabs %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1h9Ti6t8-XaOxWloQnmzy1TcGNYFnb6LJnbyhD2Kuk5g
+{% endblock meta_copydoc %}
+
+{% block title %}Enterprise-grade services for all your data and AI needs.{% endblock %}
+
+{% block canonical_url %}{{ request.host_url }}data/services{% endblock %}
+
+{% block meta_description %}
+  Get enterprise-grade services from Canonical. Enjoy security maintenance, automation, and SLA-backed expertise for your data and AI solutions across private and public clouds.
+{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Enterprise services made easy for your data and AI solutions',
+    layout='50/50',
+    blocks=[
+    {
+    "type": "description",
+    "padding": "shallow",
+    "item": {
+    "type": "html",
+    "content": "
+    <p>
+      We deliver the service level you need for reliable data and AI solutions. Maintain full control with our hardened artifacts, up to 15 years of security maintenance, and 24/7 SLA-backed support with optional hands-on screen sharing.
+    </p>
+    <p>
+      Need more help? We’ll act as a seamless extension of your team to help you scale your deployments and operations until you are ready to manage them independently.
+    </p>"
+    }
+    },
+    {
+    "type": "cta-block",
+    "padding": "shallow",
+    "item": {
+    "primary": {
+    "content_html": "Contact us",
+    "attrs": {
+    "href": "/data#get-in-touch",
+    }
+    },
+    "link": {
+    "content_html": "Discover our portfolio ›",
+    "attrs": {
+    "href": "/data"
+    }
+    }
+    }
+    },
+    ]
+    ) -%}
+  {% endcall -%}
+  <!-- djlint:off H008-->
+  {% call(slot) vf_equal_heights(
+    title_text="Why use our services for data and AI?",
+    attrs={ "id": "4-columns-responsive" },
+    highlight_images=True,
+    items=[
+    {
+    "title_text": "Full stack experts",
+    "image_html": "<img src='https://assets.ubuntu.com/v1/1b07709f-full_stack_experts.png'
+     class='p-image-container__image is-highlighted'
+     width='284'
+     height='426'
+     alt='' />",
+    "description_html": "
+    <p>Maximize your ROI and optimize your entire stack with deep open source expertise from the kernel to your specific database engine or AI plugin. We partner with your teams to seamlessly resolve incidents, prevent recurrences, and eliminate the friction of fragmented support.</p>"
+    },
+    {
+    "title_text": "Automated infrastructure",
+    "image_html": "<img src='https://assets.ubuntu.com/v1/bcd16741-automated_infrastructure.png'
+     class='p-image-container__image is-highlighted'
+     width='284'
+     height='426'
+     alt='' />",
+    "description_html": "
+    <p>Accelerate time-to-market and reduce operational overhead with our software operator-driven workflows. Get high availability, automated failovers and seamless scaling of your data and AI stacks across private and public clouds for a flawless customer experience.</p>"
+    },
+    {
+    "title_text": "Security maintenance",
+    "image_html": "<img src='https://assets.ubuntu.com/v1/eb4cff24-security_maintenance.png'
+     class='p-image-container__image is-highlighted'
+     width='284'
+     height='426'
+     alt='' />",
+    "description_html": "
+    <p>Protect your critical data and stay compliant with hardening automation and up to 15 years of security maintenance for thousands of packages. Need more? Our Container Build Service covers your custom additions so that your teams can focus on your critical projects.</p>"
+    },
+    {
+    "title_text": "Transparent pricing",
+    "image_html": "<img src='https://assets.ubuntu.com/v1/aa4501a8-transparent_pricing.png'
+     class='p-image-container__image is-highlighted'
+     width='284'
+     height='426'
+     alt='' />",
+    "description_html": "
+    <p>Enjoy predictable per-node pricing for your database and AI deployments across virtualized and bare metal environments. No hidden fees and no complex schemes, just clear value. We simplify your budgeting process so you can focus entirely on building great products.</p>"
+    }
+    ]
+    ) %}
+  {% endcall %}
+  <!-- djlint:on -->
+
+  {%- set security_maintenance_content_html %}
+    {% include "data/services/security-maintenance.html" %}
+  {%- endset -%}
+
+  {%- set support_content_html %}
+    {% include "data/services/support.html" %}
+  {%- endset -%}
+
+  {%- set consulting_and_trainings_content_html %}
+    {% include "data/services/consulting-and-trainings.html" %}
+  {%- endset -%}
+
+  <style nonce="{{ csp_nonce }}">
+    .data-services-tabs .p-tabs {
+      overflow: visible;
+    }
+  </style>
+
+  <section class="p-section">
+    <div class="p-section--shallow">
+      <div class="grid-row">
+        <hr class="p-rule is-fixed-width" />
+        <div class="grid-col">
+          <h2>Our data and AI services</h2>
+        </div>
+
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-8 grid-col-start-large-1 data-services-tabs">
+        {{ vf_tabs(list={
+                "tabs": [
+                {"name": "security-maintenance", "tab_html": "Security maintenance", "content_html": security_maintenance_content_html},
+                {"name": "support", "tab_html": "Support", "content_html": support_content_html},
+                {"name": "consulting-and-trainings", "tab_html": "Consulting and trainings", "content_html": consulting_and_trainings_content_html}
+                ]
+                }) }}
+      </div>
+    </div>
+  </section>
+
+  <hr class="p-rule is-fixed-width" />
+  <section class="p-strip is-deep">
+    <div class="u-fixed-width">
+      <h2>
+        <a href="/data#get-in-touch">Contact us</a>
+        or
+        <a href="/data">discover our portfolio</a>
+      </h2>
+    </div>
+  </section>
+
+  {% call(slot) vf_logo_section(
+    mode="default",
+    title={
+    "text": "These companies trust Canonical"
+    },
+    blocks=[
+    {
+    "type": "logo-block",
+    "item": {
+    "logos": [
+    {
+    "src": "https://assets.ubuntu.com/v1/788e434d-bt_logo.png",
+    "alt": "BT"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/4a6a5fa8-deutsche_telekom.png",
+    "alt": "Deutsche Telekom"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/7e02dc6b-ibm_logo_1.png",
+    "alt": "IBM"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/50e4bdac-intel_new_logo.png",
+    "alt": "Intel"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/f53b5c3a-microsoft_azure_logo.png",
+    "alt": "Microsoft Azure"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/51dfa33e-cisco_logo.png",
+    "alt": "Cisco"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/55357fcc-nvidia_logo.png",
+    "alt": "Nvidia"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/02bfe494-nec_logo.png",
+    "alt": "NEC"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/8ab0bbe7-hp_logo.png",
+    "alt": "Hewlett Packard"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/3273252a-swissquote_logo.png",
+    "alt": "Swissquote"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/3ed20843-yahoo_jp_logo.png",
+    "alt": "Yahoo Japan"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/93179bf1-verizon_logo.png",
+    "alt": "Verizon"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/dfcf1be9-bell_logo.png",
+    "alt": "Bell"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/3ae576e9-amd_logo.png",
+    "alt": "AMD"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/a2ca7cd8-china_telecom_logo.png",
+    "alt": "China Telecom"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/978097e3-dell_logo.png",
+    "alt": "Dell"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/8bc70046-scania_logo.png",
+    "alt": "Scania"
+    },
+    {
+    "src": "https://assets.ubuntu.com/v1/dad383c3-rabobank_logo.png",
+    "alt": "Rabobank"
+    }
+    ]
+    }
+    }
+    ]
+    ) -%}
+  {%- endcall -%}
+
+  <section class="p-section">
+    <div class="row p-section--shallow">
+      <hr class="p-rule--muted" />
+      <h2>Community and support</h2>
+    </div>
+    <div class="row--25-75">
+      <div class="col">
+        <div class="row--50-50 p-section--shallow">
+          <div class="col">
+            <h3 class="p-text--small-caps">Connect with the community</h3>
+          </div>
+          <div class="col">
+            <p>
+              <a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a>
+            </p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row--50-50 p-section--shallow">
+          <div class="col">
+            <h3 class="p-text--small-caps">Read more</h3>
+          </div>
+          <div class="col">
+            <p>
+              <a href="https://ubuntu.com/engage/data-backups">Data backups</a>
+            </p>
+            <p>
+              <a href="https://ubuntu.com/engage/choose-a-database">How to choose a DBMS</a>
+            </p>
+            <p>
+              <a href="https://ubuntu.com/engage/database-cloud-migration">Database cloud migration</a>
+            </p>
+          </div>
+        </div>
+        <hr class="p-rule--muted" />
+        <div class="row--50-50 p-section">
+          <div class="col">
+            <h3 class="p-text--small-caps">Other resources</h3>
+          </div>
+          <div class="col">
+            <p>
+              <a href="https://charmhub.io/?categories=ai-ml%2Cbig-data%2Cdatabases">Charmhub, the operator collection</a>
+            </p>
+            <p>
+              <a href="https://snapcraft.io/store">Snapstore, the app store for Linux</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module"
+          src="/static/js/modules/vanilla-framework/js/tabs.js"
+          nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/in-page-navigation.js') }}"
+          nonce="{{ csp_nonce }}"></script>
+
+  {{ load_form("/data/services") | safe }}
+
+{% endblock content %}
