@@ -157,6 +157,17 @@ function addCookieFieldsToForm(form) {
   });
 }
 
+/**
+ * Removes the name attribute from inputs whose names start with an underscore
+ * prefix (e.g. _radio_, _checkbox_). These fields are used internally to build
+ * the comments_from_lead__c payload and must not be submitted directly.
+ */
+function stripPrefixedFieldNames(form) {
+  form.querySelectorAll("input[name^='_']").forEach((input) => {
+    input.removeAttribute("name");
+  });
+}
+
 const forms = document.querySelectorAll("form");
 forms.forEach((form) => {
   // Add event listeners to toggle checkbox visibility
@@ -189,6 +200,7 @@ forms.forEach((form) => {
       attachLoadingSpinner(submitButton);
       setDataLayerConsentInfo();
       addCookieFieldsToForm(form);
+      stripPrefixedFieldNames(form);
     });
   }
 
