@@ -1,21 +1,23 @@
 {% extends 'base_index.html' %}
 
-{% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
-{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
-{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
-{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
-{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1bfo97XdFdKlzrMcMoRxiTdzt_bPVndx6j55IPsapuAE/edit
+  https://docs.google.com/document/d/1J6MY-Bqn2znASPdvmSx_8bE_qmN8TZgAwBu1nMQ4gRM/edit
 {% endblock meta_copydoc %}
 
 {% block title %}Apache Kafka{% endblock %}
 
 {% block meta_description %}
-  Charmed Kafka delivers up to 15 years of support and security maintenance for Apache Kafka. Get enterprise-grade Kafka as an integrated, turnkey solution with advanced management features.
+  Get enterprise-grade Apache Kafka support from Canonical. Enjoy security,
+  automation, and SLA-backed expertise for your Kafka clusters across private
+  and public clouds.
 {% endblock %}
 
 {% block body_class %}
@@ -25,155 +27,203 @@
 {% block content %}
 
   {% call(slot) vf_hero(
-    title_text='Kafka for the enterprise',
-    layout='25/75'
-    ) -%}
-    {%- if slot == 'signpost_image' -%}
-      {{ image(url="https://assets.ubuntu.com/v1/b272e341-kafka%20logo%20hero.png",
-            alt="",
-            width="149",
-            height="93",
-            hi_def=True,
-            loading="auto") | safe
-      }}
-    {%- endif -%}
-    {%- if slot == 'description' -%}
-      <p>
-        Secure and automate the deployment, maintenance and upgrades of your Kafka environments across private and public clouds.
-      </p>
-    {%- endif -%}
-    {%- if slot == 'cta' -%}
-      <a class="p-button--positive js-invoke-modal"
-         aria-controls="data-kafka-modal"
-         href="/contact-us">Get in touch</a>
-      <a href="https://documentation.ubuntu.com/charmed-kafka/3" class="p-button">Get started</a>
-    {%- endif -%}
-  {%- endcall -%}
-
-  {% call(slot) vf_text_spotlight(
-    title_text='Why choose Charmed Apache Kafka',
-    list_items=[
-    'Up to 15 years security maintenance',
-    'Open source',
-    'Simple per node subscription',
+    title_text='Enterprise support for Apache Kafka',
+    layout='25/75',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": '<p><span class="p-chip--branded"><i class="p-icon--circle-of-friends"></i><span class="p-chip__value">Supported with Ubuntu Pro</span></span></p><p>Unlock a robust, open source foundation for your mission-critical streaming workloads. Canonical&rsquo;s Apache Kafka automation and artifacts provide you with up to 15 years of security maintenance, 24/7 SLA-backed support, and expert consulting services to meet your specific requirements.</p>'
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "p-button--positive js-invoke-modal",
+              "aria-controls": "data-kafka-modal"
+            }
+          }
+        }
+      },
+      {
+        "type": "signpost_image",
+        "item": {
+          "is_highlighted": false,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/72dd0e93-kafka_signpost_1.png",
+            "alt": ""
+          }
+        }
+      }
     ]
-    ) -%}
+  ) -%}
   {% endcall -%}
 
   {% call(slot) vf_logo_section(
     title={
-      "text": "Run Kafka on any public, private, or hybrid cloud",
+      "text": "Run Apache Kafka across public and private clouds"
     },
     blocks=[
       {
         "type": "logo-block",
         "item": {
           "logos": [
-          image(url="https://assets.ubuntu.com/v1/631da2c8-microsoft-azure-2021.png",
-            alt="Microsoft Azure",
-            width="116",
-            height="385",
-            hi_def=True,
-            loading="lazy",
-            output_mode="attrs",
-            attrs={"class": "p-logo-section__logo"}),
-          image(url="https://assets.ubuntu.com/v1/ceab7301-aws-logo.png",
-            alt="AWS",
-            width="187",
-            height="385",
-            hi_def=True,
-            loading="lazy",
-            output_mode="attrs",
-            attrs={"class": "p-logo-section__logo"}),
-          image(url="https://assets.ubuntu.com/v1/8d5a29d2-google-cloud-logo.png",
-            alt="GCP",
-            width="596",
-            height="385",
-            hi_def=True,
-            loading="lazy",
-            output_mode="attrs",
-            attrs={"class": "p-logo-section__logo"}),
-          image(url="https://assets.ubuntu.com/v1/3644cc6d-openstack-logo.png",
-            alt="OpenStack",
-            width="508",
-            height="385",
-            hi_def=True,
-            loading="lazy",
-            output_mode="attrs",
-            attrs={"class": "p-logo-section__logo"}),
-          image(url="https://assets.ubuntu.com/v1/3cf6d713-kubernetes-logomark-logo.png",
-            alt="Kubernetes",
-            width="606",
-            height="385",
-            hi_def=True,
-            loading="lazy",
-            output_mode="attrs",
-            attrs={"class": "p-logo-section__logo"})
-
+            {
+              "src": "https://assets.ubuntu.com/v1/f8fbd78c-openstack_logo_1.png",
+              "alt": "OpenStack"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/cfe1bb8a-microcloud_logo_1.png",
+              "alt": "MicroCloud"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/cf4bde95-vmware_logo_1.png",
+              "alt": "VMware"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/18fad36a-aws_logo_1.png",
+              "alt": "AWS"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/eebb672a-google_cloud_logo_1.png",
+              "alt": "Google Cloud"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/655ecd38-microsoft_azure_logo_1.png",
+              "alt": "Microsoft Azure"
+            }
           ]
         }
       }
     ]
   ) -%}
     {%- if slot == 'description' -%}
-    <p>
-      When you use Charmed Apache Kafka, you get the benefit of running on top of an operating system image that's optimized for every cloud. Run Kafka on Azure, AWS, on Kubernetes or your private data center, with OpenStack or VMWare.
-    </p>
+      <p>When you use our Apache Kafka artifacts, you benefit from optimized configurations for every cloud. You can run Apache Kafka on public clouds, or in your private data center on top of MAAS and MicroCloud, OpenStack, or VMWare.</p>
     {%- endif -%}
   {% endcall -%}
 
-  {{ vf_basic_section(
-    title={"text": "Easy to deploy and manage"},
-    is_split_on_medium=true,
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "100+<br class=\"u-hide--small\"> clusters",
+        "headline": "Relying on our services",
+        "description": "Our stack is tried and tested in production in numerous sectors ranging from banking to aerospace engineering.",
+        "link": {
+          "url": "/data/kafka#get-in-touch",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "10+<br class=\"u-hide--small\"> automations",
+        "headline": "To scale your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical.com/data/kafka/docs/4/how-to/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~&nbsp;30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "https://canonical.com/data/kafka/docs/4/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Apache Kafka deployment options</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Container</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Get our Apache Kafka container to benefit from a minimalist and self-contained solution for deploying Apache Kafka clusters in all of your environments.</p>
+      <a href="https://hub.docker.com/r/ubuntu/kafka" class="p-button">Try the container</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Software operator</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Our software operator helps you automate the operations of your Apache Kafka clusters including deployment, scaling, encryption, and upgrades.</p>
+      <a href="https://charmhub.io/kafka" class="p-button">Check our software operator</a>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Popular Apache Kafka use cases",
+    attrs={ "id": "4-columns-responsive" },
+    highlight_images=True,
+    subtitle_text="",
     items=[
       {
-        "type": "image",
+        "title_text": "Backbone of microservices-based architectures",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/28364838-backbone.png" class="p-image-container__image" width="284" height="426" alt="Kafka backbone of microservices-based architectures" />',
+        "description_html": "<p>Apache Kafka is often used as a performant asynchronous communication middleware to allow distinct microservices to exchange data in real time. It also reduces tight coupling and cascading failures, improving the overall resiliency of the solution.</p>"
+      },
+      {
+        "title_text": "Real-time analytics and business intelligence",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/f3701d30-real_time_analytics.png" class="p-image-container__image" width="284" height="426" alt="Kafka real-time analytics and business intelligence" />',
+        "description_html": "<p>Apache Kafka enables enterprises to transition from delayed batch processing to real-time operational insights. It is often used to capture, transform, and process live data streams to power real-time dashboards, automated fraud detection, and dynamic pricing models.</p>"
+      },
+      {
+        "title_text": "Enterprise data hub",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/2146b23e-enterprise.png" class="p-image-container__image" width="284" height="426" alt="Kafka enterprise data hub" />',
+        "description_html": "<p>Apache Kafka is a powerful solution to break down data silos by establishing a centralized, high-throughput event as a universal data hub, continuously ingesting and synchronizing information across distributed systems.</p>"
+      },
+      {
+        "title_text": "Logs aggregation and observability",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/b222e12e-logs.png" class="p-image-container__image" width="284" height="426" alt="Kafka logs aggregation and observability" />',
+        "description_html": "<p>Apache Kafka is uniquely suited to handle the massive scale and high frequency of data generated by edge devices or by large-scale distributed systems. It acts as a high-capacity buffer for routing layer to reliably aggregate telemetry and logs across your enterprise infrastructure before feeding them into specialized monitoring, SIEM, and observability platforms.</p>"
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {{ vf_basic_section(
+    title={"text": "Apache Kafka support services"},
+    padding="shallow",
+    items=[
+      {
+        "type": "description",
         "item": {
-          "aspect_ratio": "16-9",
-          "attrs": image(url="https://assets.ubuntu.com/v1/5dc854e4-Artboard%20154@4x.png",
-                    alt="",
-                    width="422",
-                    height="308",
-                    hi_def=True,
-                    loading="lazy",
-                    output_mode="attrs")
+          "type": "html",
+          "content": '<p>Whether you are exploring Apache Kafka or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>'
         }
       },
       {
         "type": "description",
         "item": {
           "type": "text",
-          "content": "
-            Charmed Kafka is simply the best way to run Kafka, on the cloud or in your data center. Charmed Kafka runs directly on cloud infrastructure or on Kubernetes.
-          "
-        }
-      },
-      {
-        "type": "list",
-        "item": {
-          "list_items": [
-            {
-              "list_item_type": "tick",
-              "content": "Automated security and configuration best practices built in"
-            },
-            {
-              "list_item_type": "tick",
-              "content": "Integrated observability for monitoring, alerting, and auditing"
-            },
-            {
-              "list_item_type": "tick",
-              "content": "Multi-cloud support"
-            }
-          ]
+          "content": "Our on-demand services help you address specific challenges by designing the right solutions, providing targeted knowledge transfer, or delivering timely expert consulting tailored to your needs."
         }
       },
       {
         "type": "cta-block",
         "item": {
           "link": {
-            "content_html": "Get started with Charmed Kafka&nbsp;&rsaquo;",
+            "content_html": "More details on our services",
             "attrs": {
-              "href": "https://documentation.ubuntu.com/charmed-kafka/3"
+              "href": "https://canonical.com/data/services",
+              "class": "p-button"
             }
           }
         }
@@ -181,284 +231,127 @@
     ]
   ) }}
 
-  {{ vf_basic_section(
-    title={"text": "Kafka security"},
-    is_split_on_medium=true,
-    items=[
-      {
-        "type": "image",
-        "item": {
-          "aspect_ratio": "16-9",
-          "attrs": image(url="https://assets.ubuntu.com/v1/a9763c18-iso-security.png",
-                    alt="",
-                    width="385",
-                    height="358",
-                    hi_def=True,
-                    loading="lazy",
-                    output_mode="attrs")
-        }
-      },
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "Charmed Kafka simplifies security configuration with support for TLS and mTLS out of the box."
-        }
-      },
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "Get up to 15 years of security maintenance and more for Charmed Kafka with Ubuntu Pro."
-        }
-      },
-      {
-        "type": "cta-block",
-        "item": {
-          "secondaries": [{
-            "content_html": "Learn more about Ubuntu Pro",
-            "attrs": {
-              "href": "http://www.ubuntu.com/pro"
-            }
-          }]
-        }
-      }
-    ]
-  ) }}
-
-  {{ vf_basic_section(
-    title={"text": "Kafka support"},
-    is_split_on_medium=true,
-    items=[
-      {
-        "type": "image",
-        "item": {
-          "aspect_ratio": "16-9",
-          "attrs": image(url="https://assets.ubuntu.com/v1/763e2fa2-installtion-settings-illustration.png",
-                    alt="",
-                    width="1200",
-                    height="676",
-                    hi_def=True,
-                    loading="lazy",
-                    output_mode="attrs")
-        }
-      },
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "Get comprehensive, 24/7 or weekday support for Charmed Kafka, covering the entire solution for up to 15 years."
-        }
-      },
-      {
-        "type": "cta-block",
-        "item": {
-          "secondaries": [{
-            "content_html": "Learn more about Kafka support",
-            "attrs": {
-              "href": "/data/kafka/support"
-            }
-          }]
-        }
-      }
-    ]
-  ) }}
-
-  {{ vf_basic_section(
-    title={"text": "
-          Predictable pricing for
-          <br />
-          enterprise-grade Kafka
-          "},
-    is_split_on_medium=true,
-    items=[
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "Charmed Kafka support is priced per node, per year with no per-socket or per-core limitations, and no software licence fees."
-        }
-      },
-      {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "Run solutions like Kafka with more control over your TCO. Budgeting and financial planning are straightforward and predictable."
-        }
-      },
-    ]
-  ) }}
-
   <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Charmed Kafka services</h2>
-      </div>
-      <div class="col">
-        <p>
-          Charmed Apache Kafka is available self-managed or as a fully managed solution remotely delivered in your on-premise environment or cloud tenancy.
-        </p>
-      </div>
-    </div>
     <div class="row">
       <div class="col-6">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-padding-1-5rem">
-          <div class="row p-section--shallow">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3>Managed</h3>
-            </div>
-            <div class="col-3 col-medium-3 col-small-2">
-              <p class="p-heading--3 u-align-text--right u-no-margin--bottom">From $3099</p>
-              <p class="u-text--muted u-align-text--right">per node, per year</p>
-            </div>
-          </div>
-          <hr class="p-rule--muted u-no-margin--bottom" />
-          <p>Get there faster. Let us deploy and operate your Kafka cluster, in your cloud tenancy or in your data center.</p>
-          <hr class="p-rule--muted u-no-margin--bottom" />
-          <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">Backed by an SLA</li>
-            <li class="p-list__item is-ticked">MSP and SOC2 certified service</li>
-            <li class="p-list__item is-ticked">Low cost of ownership</li>
-          </ul>
-          <div class="p-cta-block u-sv3">
-            <a href="https://assets.ubuntu.com/v1/7c70b24d-Canonical.Managed.Kafka.datasheet_29.11.21.pdf">Read the Managed Kafka datasheet&nbsp;&rsaquo;</a>
-          </div>
+        <div class="p-section--shallow">
+          <p class="p-heading--4">Subscription-based</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
         </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Security maintenance</li>
+          <li class="p-list__item is-ticked">24/7 phone and ticket support</li>
+          <li class="p-list__item is-ticked">SLA-backed firefighting support</li>
+          <li class="p-list__item is-ticked">Managed deployments</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
       </div>
       <div class="col-6">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-padding-1-5rem">
-          <div class="row p-section--shallow">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3>Self-managed</h3>
-            </div>
-            <div class="col-3 col-medium-3 col-small-2">
-              <p class="p-heading--3 u-align-text--right u-no-margin--bottom">From $500</p>
-              <p class="u-text--muted u-align-text--right">per node, per year</p>
-            </div>
-          </div>
-          <hr class="p-rule--muted u-no-margin--bottom" />
-          <p>24/7, weekday or advanced fire-fighting support for Kafka from Canonical for up to 15 years per release track.</p>
-          <hr class="p-rule--muted u-no-margin--bottom" />
-          <div class="p-section">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">Expert troubleshooting on hand</li>
-              <li class="p-list__item is-ticked">Security and bug fixes</li>
-              <li class="p-list__item is-ticked">Full stack coverage</li>
-            </ul>
-          </div>
+        <div class="p-section--shallow">
+          <p class="p-heading--4">On-demand</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
         </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Workshops</li>
+          <li class="p-list__item is-ticked">Deployment packages</li>
+          <li class="p-list__item is-ticked">Consulting packages</li>
+          <li class="p-list__item is-ticked">Trainings</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
-    {%- if slot == 'title' -%}
-    <h2>Kafka use cases</h2>
-    {%- endif -%}
-
-    {%- if slot == 'description' -%}
-    <p>Apache Kafka is the world's most popular open source streaming data platform.</p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_1' -%}
-    <h3 class="p-heading--5">Microservices architectures</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_1' -%}
-    <p>Kafka makes for a high-performance, low latency middleware &ndash; ideal for intra-microservice communication in a modern microservices architecture, operating at scale.</p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_2' -%}
-    <h3 class="p-heading--5">Continuous business intelligence</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_2' -%}
-    <p>Connect, combine, and transform streaming data sources to build an up-to-the-minute view of your enterprise.</p>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_title_3' -%}
-    <h3 class="p-heading--5">Data hub integration</h3>
-    {%- endif -%}
-
-    {%- if slot == 'list_item_description_3' -%}
-    <p>Integrate event and machine data into a data hub for deeper processing.</p>
-    {%- endif -%}
-  {%- endcall -%}
-
-  {{ vf_divided_section(
-    title={
-      "text": "Go further with Charmed Kafka",
-    },
-    padding="shallow",
+  {{ vf_resources(
+    title={"text": "Community and support"},
     blocks=[
-    {
-      "type": "divided-block",
-      "bullet_type": "none",
-      "items": [
-            {
-              "contents": [
-                {
-                  "type": "description",
-                  "padding": "shallow",
-                  "item": {
-                    "type": "html",
-                    "content": '
-                    <h3 class="p-heading--5 u-no-margin--bottom">
-                      <a href="https://documentation.ubuntu.com/charmed-kafka/3/h-deploy-anywhere">Read the documentation</a>
-                    </h3>
-                    <p>Read the Installation guide to learn how to get started with Charmed Kafka, on cloud VMs or on Kubernetes.</p>
-                    '
+      {
+        "type": "resources",
+        "render_images": false,
+        "render_categories": true,
+        "categories": [
+          {
+            "title": "Connect with the community",
+            "items": [
+              {
+                "title": {
+                  "text": "Matrix chat",
+                  "link_attrs": {
+                    "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
                   }
                 }
-              ]
-            },
-            {
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '
-                    <h3 class="p-heading--5 u-no-margin--bottom">
-                      <a href="https://ubuntu.com/engage/migrate-kafka-workloads-from-rhel-to-ubuntu">Migrating enterprise Kafka workloads from RHEL to Ubuntu</a>
-                    </h3>
-                    <p>Gain practical insights around planning and migrating enterprise Kafka workloads from Red Hat to Ubuntu.</p>
-          '
+              }
+            ]
+          },
+          {
+            "title": "Contact us",
+            "items": [
+              {
+                "title": {
+                  "text": "Tell us more about your needs",
+                  "aria-controls": "data-kafka-modal",
+                  "link_attrs": {
+                    "href": "/contact-us",
+                    "class": "js-invoke-modal",
+                    "aria-controls": "data-kafka-modal"
                   }
                 }
-              ]
-            },
-            {
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '
-                     <h3 class="p-heading--5 u-no-margin--bottom">
-                      <a class="js-invoke-modal"
-                        aria-controls="data-kafka-modal"
-                        href="/contact-us">Discuss your needs with our team</a>
-                    </h3>
-                    <p>Contact an expert to find out how you can benefit from Canonical\'s solution for Apache Kafka.</p>
-                    '
+              }
+            ]
+          },
+          {
+            "title": "Read more",
+            "items": [
+              {
+                "title": {
+                  "text": "Data backups",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/engage/data-backups"
                   }
                 }
-              ]
-            },
-      ]
-    },
-  ],
-  )
-  }}
+              },
+              {
+                "title": {
+                  "text": "How to choose a DBMS",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/engage/choose-a-database"
+                  }
+                }
+              },
+              {
+                "title": {
+                  "text": "Database cloud migration",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/engage/database-cloud-migration"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "title": "Contribute",
+            "items": [
+              {
+                "title": {
+                  "text": "Software operator for Apache Kafka",
+                  "link_attrs": {
+                    "href": "https://github.com/canonical/kafka-operator"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ) }}
 
   <section class="p-section--deep">
-    <div class="grid-row">
+    <div class="row">
       <hr class="p-rule" />
-      <div class="grid-col-4 grid-col-start-large-5">
+      <div class="col-start-large-7 col-6">
         <p class="u-text--muted">
           Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
         </p>
