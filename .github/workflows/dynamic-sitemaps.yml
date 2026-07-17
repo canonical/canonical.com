@@ -43,3 +43,9 @@ jobs:
                     --retry 3 \
                     --retry-delay 10 \
                     --retry-all-errors
+
+            - name: Send message on failure
+              if: failure()
+              env:
+                  BOT_URL: ${{ secrets.BOT_URL }}
+              run: curl -X POST -F "workflow=${GITHUB_WORKFLOW}" -F "repo_name=${GITHUB_REPOSITORY}" -F "action_id=${GITHUB_RUN_ID}" $BOT_URL?room=web-alerts
