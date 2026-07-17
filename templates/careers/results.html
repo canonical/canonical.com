@@ -22,58 +22,39 @@
     <div class="row">
       <h2 class="p-muted-heading">Top roles for you</h2>
     </div>
-  {% endif %}
-  <div class="row u-sv3">
-    {% for vacancy in vacancies %}
-      {% if loop.index < 5 %}
-        {% if loop.index == 3 %}<div class="row">{% endif %}
-          <div class="p-card--highlighted col-4"
-               data-office="{{ vacancy.office }}"
-               data-employment="{{ vacancy.employment }}"
-               data-date="{{ vacancy.date }}"
-               data-location="{{ vacancy.location }}"
-               data-management="{{ vacancy.management }}"
-               data-sector="{{ vacancy.departments | map(attribute='name') | join(', ') }}">
+    <div class="row">
+      {% for vacancy in vacancies[:4] %}
+        <div class="p-card--highlighted col-4"
+              data-office="{{ vacancy.office }}"
+              data-employment="{{ vacancy.employment }}"
+              data-date="{{ vacancy.date }}"
+              data-location="{{ vacancy.location }}"
+              data-management="{{ vacancy.management }}"
+              data-sector="{{ vacancy.departments | map(attribute='name') | join(', ') }}"
+          >
             <h3 class="p-card__title u-no-padding--top">
-              <a class="p-link--soft"
-                 href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">{{ vacancy.title }}&nbsp;&rsaquo;</a>
+                <a class="p-link--soft"
+                    href="/careers/{{ vacancy.id }}/{{ vacancy.slug }}">{{ vacancy.title }}&nbsp;&rsaquo;
+                </a>
             </h3>
-            {% if vacancy.description %}<p clss="p-cart__content">{{ vacancy.description }}</p>{% endif %}
+            {% if vacancy.description %}<p class="p-card__content">{{ vacancy.description }}</p>{% endif %}
             <p class="u-no-margin--bottom">
-              <small {% if checkbox %}class="u-padding-left-2rem"{% endif %}>{{ vacancy.location }}</small>
+                <small {% if checkbox %}class="u-padding-left-2rem"{% endif %}>{{ vacancy.location }}</small>
             </p>
-          </div>
-          {% if loop.index == 2 %}</div>{% endif %}
-      {% endif %}
-    {% endfor %}
-    <div class="col-8">
-      <div class="row">
+        </div>
+      {% endfor %}
+    </div>
+    <div class="row">
         <div class="col-8">
-          {% if not vacancies %}
-            <caption>
-              <div class="p-strip">
-                <div class="row">
-                  <div class="u-align--right col-2 col-medium-1 col-small-1">
-                    <img src="https://assets.ubuntu.com/v1/263e7c5d-iot_orange.svg" alt="" />
-                  </div>
-                  <div class="u-align--left col-6 col-medium-3 col-small-3">
-                    <p class="p-heading--4 u-no-margin--bottom">We couldn't find matching results</p>
-                    <p>There are no roles matching your selection.</p>
-                    <a class="p-button--positive" href="/careers/career-explorer">Retake choices again?</a>
-                  </div>
-                </div>
-              </div>
-            </caption>
-          {% else %}
             <div class="js-filter-jobs-container">
               <h2>More matches for you to consider</h2>
-              {% for department in vacancies_by_department.values() %}
+              {% for department in departments %}
                 <div class="u-sv3">
                   <h3>
                     <a class="p-link--soft" href="/careers/{{ department.slug }}">{{ department.name }}</a>
                   </h3>
                   <ul class="p-list is-split u-no-margin--bottom">
-                    {% for vacancy in department.vacancies %}
+                    {% for vacancy in vacancies_by_department[department.slug] %}
                       {% if loop.index < 10 %}
                         <li class="p-list u-sv1"
                             data-office="{{ vacancy.office }}"
@@ -88,15 +69,30 @@
                     {% endfor %}
                   </ul>
                   <p>
-                    <a href="/careers/{{ department.slug }}">See all roles in {{ department.name }}&nbsp;&rsaquo;</a>
+                    <a href="/careers/{{ department.slug }}">
+                        See all roles in {{ department.name }}&nbsp;&rsaquo;
+                    </a>
                   </p>
                   <hr class="p-rule--muted" />
                 </div>
               {% endfor %}
             </div>
-          {% endif %}
         </div>
       </div>
+  {% else %}
+    <div class="row">
+        <div class="p-strip">
+            <div class="row">
+                <div class="u-align--right col-2 col-medium-1 col-small-1">
+                <img src="https://assets.ubuntu.com/v1/263e7c5d-iot_orange.svg" alt="" />
+                </div>
+                <div class="u-align--left col-6 col-medium-3 col-small-3">
+                <p class="p-heading--4 u-no-margin--bottom">We couldn't find matching results</p>
+                <p>There are no roles matching your selection.</p>
+                <a class="p-button--positive" href="/careers/career-explorer">Retake choices again?</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+  {% endif %}
 {% endblock %}
