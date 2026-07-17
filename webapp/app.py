@@ -94,16 +94,8 @@ logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
 # Can be seen on /sitemap.xml
-DYNAMIC_SITEMAPS = [
-    "careers",
-    "partners",
-    "blog",
-    "knowledge",
-    "microk8s/docs",
-    "dqlite/docs",
-    "maas/docs",
-    "tests",
-]
+with open("dynamic-sitemaps.yaml") as sitemaps_file:
+    DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
 
 
 # Web tribe websites custom search ID
@@ -397,14 +389,13 @@ def careers_results(greenhouse):
 def handle_careers_sitemap():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_sitemap(greenhouse, harvest)
+        return careers_sitemap(greenhouse)
 
 
-def careers_sitemap(greenhouse, harvest):
+def careers_sitemap(greenhouse):
     context = {
         "vacancies": greenhouse.get_vacancies(),
-        "departments": harvest.get_departments(),
+        "departments": DEPARTMENT_LIST,
     }
 
     xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
