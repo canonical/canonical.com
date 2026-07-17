@@ -59,7 +59,7 @@ Mapping the supply chain provides organizations and engineers with visibility in
 
 This holistic view is essential for robust security. If the software supply chain is not secure, it could lead to severe cyber incidents, loss of customers or revenue, reputational damage, and regulatory fines and penalties.
 
-[Explore the greatest challenges in software supply chains ›](https://ubuntu.com/blog/open-source-enterprise-application-security-remains-a-challenge-despite-greater-patching-efforts-idc-research-reveals)
+[Explore the greatest challenges in software supply chains &rsaquo;](https://ubuntu.com/blog/open-source-enterprise-application-security-remains-a-challenge-despite-greater-patching-efforts-idc-research-reveals)
 
 ## What does software supply chain security entail?
 
@@ -105,7 +105,7 @@ Examples of human error include:
   "Poorly configured, maintained, or monitored automations which introduce vulnerabilities."
 ])}}
 
-[Understand vulnerabilities and how to manage them ›](https://ubuntu.com/engage/vulnerability-management)
+[Understand vulnerabilities and how to manage them &rsaquo;](https://ubuntu.com/engage/vulnerability-management)
 
 ## Software supply chain security solutions
 
@@ -135,7 +135,7 @@ SBOMs are ideally provided by the software vendor. They can also be generated af
 
 SBOM tools are vital for modern security because they enable rapid vulnerability mapping and ensure regulatory compliance by providing total transparency into the software supply chain.
 
-[Learn more about SBOMs ›](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
+[Learn more about SBOMs &rsaquo;](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
 
 ### Security scanners
 
@@ -160,13 +160,13 @@ Canonical also publishes various vulnerability data feeds: VEX, OSV, and OVAL.
 
 VEX data is a structured, human and machine readable format describing known vulnerabilities and available security patches for all supported Ubuntu releases. Ubuntu’s VEX data currently follows the OpenVEX specification, a minimal, compliant, interoperable, embeddable and open source implementation of VEX.
 
-[Learn more about VEX ›](https://ubuntu.com/security/vex)
+[Learn more about VEX &rsaquo;](https://ubuntu.com/security/vex)
 
 #### Open Source Vulnerabilities (OSV)
 
 OSV is a JSON schema that provides a human and machine readable data format to describe vulnerabilities in a way that precisely maps to open source package versions. This schema is developed and maintained by the Open Source Security Foundation (OSSF). OSV also consists of a reference infrastructure and tooling (OSV-Scanner).
 
-[Learn more about OSV ›](https://ubuntu.com/security/osv)
+[Learn more about OSV &rsaquo;](https://ubuntu.com/security/osv)
 
 #### OVAL
 
@@ -174,7 +174,7 @@ Ubuntu OVAL uses the OVAL vulnerability and patch definitions to enable auditing
 
 Ubuntu OVAL also allows for any third-party Security Content Automation Protocol (SCAP) compliant tools to accurately scan an Ubuntu system or an official Ubuntu cloud image for vulnerabilities.
 
-[Learn more about OVAL ›](https://ubuntu.com/security/oval)
+[Learn more about OVAL &rsaquo;](https://ubuntu.com/security/oval)
 
 #### Open source catalogs
 
@@ -186,7 +186,7 @@ With Ubuntu, Canonical offers a vast collection of software components, organize
 
 Through Ubuntu Pro, all of the packages in Ubuntu Universe get security maintenance from Canonical as well as packages in Ubuntu Main, giving users a centralized, tiered, and cryptographically-verifiable ecosystem of software to use with confidence.
 
-[Learn more about Ubuntu Pro ›](http://www.ubuntu.com/pro)
+[Learn more about Ubuntu Pro &rsaquo;](http://www.ubuntu.com/pro)
 
 ## Third-party risk management
 
@@ -218,7 +218,7 @@ Canonical enables you to simplify your open source software supply chain, provid
 
 Canonical’s comprehensive security maintenance subscription, Ubuntu Pro, provides access to large repositories of security maintained open source packages, giving your team a trusted open source catalog.
 
-[Learn more about vulnerability management in Ubuntu ›](https://ubuntu.com/security/vulnerability-management)
+[Learn more about vulnerability management in Ubuntu &rsaquo;](https://ubuntu.com/security/vulnerability-management)
 
 ### A certified and compliant OSS vendor
 
@@ -226,7 +226,7 @@ Canonical provides a Trust Center to support transparency and security for its u
 
 Canonical continually demonstrates its security- and audit-ready status, either through achieving certification or through helping organizations meet security standards and compliance requirements.
 
-[Visit Canonical’s trust center ›](https://trust.canonical.com/)
+[Visit Canonical’s trust center &rsaquo;](https://trust.canonical.com/)
 
 ### Helping you comply with security standards and regulations
 
@@ -249,4 +249,4 @@ Canonical also offers tooling that helps you to apply the configurations needed 
   "OpenSSF Principles for Package Repository Security"
 ]) }}
 
-[Learn more about security standards ›](https://ubuntu.com/security/security-standards)
+[Learn more about security standards &rsaquo;](https://ubuntu.com/security/security-standards)
