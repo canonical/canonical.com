@@ -49,9 +49,10 @@ As a customer, you are entitled to the following coverage, depending on the appr
 
 Each subscription can cover one or more:
 
-1. **Physical server:** The subscription is attached to a physical host. Where all physical hosts in an [Environment](#def-environment) are subscribed, the subscription also applies to [Ubuntu Guests](#def-ubuntu-guest) in the Environment that are operated by the subscriber for the subscriber's internal business purposes. **Virtual machine:** The subscription is attached to an Ubuntu virtual machine or automatically attached at launch under a public cloud (Google Cloud, AWS, Azure, etc.). This subscription covers Ubuntu images running on virtual machines or in containers.
-2. **Desktop:** The subscription is limited to a machine with [Desktop use cases](#def-desktop-use-case). It can also cover Ubuntu on [Windows Subsystem for Linux](https://ubuntu.com/wsl) (WSL) and developer tools such as [MicroK8s](https://canonical.com/microk8s), [Data Science Stack](https://ubuntu.com/ai/data-science) and [Multipass](https://canonical.com/multipass).
-3. **Device:** The subscription is attached to a physical device for [Device use cases](#def-device-use-case) including customer's hardware that has been certified or enabled by Canonical.
+1. **Physical server:** The subscription is attached to a physical host. Where all physical hosts in an [Environment](#def-environment) are subscribed, the subscription also applies to [Ubuntu Guests](#def-ubuntu-guest) in the Environment that are operated by the subscriber for the subscriber's internal business purposes.
+2. **Virtual machine:** The subscription is attached to an Ubuntu virtual machine or automatically attached at launch under a public cloud (Google Cloud, AWS, Azure, etc.). This subscription covers Ubuntu images running on virtual machines or in containers.
+3. **Desktop:** The subscription is limited to a machine with [Desktop use cases](#def-desktop-use-case). It can also cover Ubuntu on [Windows Subsystem for Linux](https://ubuntu.com/wsl) (WSL) and developer tools such as [MicroK8s](https://canonical.com/microk8s), [Data Science Stack](https://ubuntu.com/ai/data-science) and [Multipass](https://canonical.com/multipass).
+4. **Device:** The subscription is attached to a physical device for [Device use cases](#def-device-use-case) including customer's hardware that has been certified or enabled by Canonical.
 
 Each subscription can be purchased at one of three support levels:
 
