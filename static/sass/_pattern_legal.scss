@@ -1,4 +1,49 @@
 @mixin canonical-p-legal {
+  // Hierarchical numbering for nested ordered lists in legal document content.
+  //
+  // Two-part strategy:
+  //   1. A `section-num` counter increments on every h3 heading (sections 1-25).
+  //      It is NOT shown on the heading itself (the heading already has the number
+  //      as hardcoded text), but IS used as a prefix on list items.
+  //   2. `counters(legal-item, ".")` traverses the full <ol> nesting chain.
+  //
+  // Result:
+  //   - Under "### 8. Scope of Support": items show 8.1., 8.1.1., 8.1.3. etc.
+  //   - Introduction has no h3, so "h3 ~ ol li" doesn't match it; its flat
+  //     lists fall through to the default rule and show 1., 2., 3., 4.
+  .p-legal-content {
+    counter-reset: section-num;
+  }
+
+  .p-legal-content h3 {
+    counter-increment: section-num;
+  }
+
+  .p-legal-content ol {
+    counter-reset: legal-item;
+    list-style: none;
+    padding-left: 1.5rem;
+  }
+
+  .p-legal-content ol > li {
+    counter-increment: legal-item;
+  }
+
+  // Default: flat numbering for lists NOT preceded by an h3 (e.g. Introduction).
+  .p-legal-content ol > li::before {
+    content: counters(legal-item, ".") ". ";
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Section-prefixed numbering: lists that are siblings of (come after) an h3.
+  // Higher specificity (3 element selectors) than the default (2), so it wins.
+  // Descendant `li` rather than child `> li` ensures nested items also
+  // receive the section prefix (e.g. 8.1.3.1. not just 8.1.).
+  .p-legal-content h3 ~ ol li::before {
+    content: counter(section-num) "." counters(legal-item, ".") ". ";
+    font-variant-numeric: tabular-nums;
+  }
+
   // Severity-levels table in the Support Services Process section has 8
   // columns. The grid-col-4 content container is too narrow for it to render
   // without clipping. This wrapper enables horizontal scrolling and overrides
