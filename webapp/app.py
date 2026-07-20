@@ -84,7 +84,6 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
-from webapp import ubuntu_pro_description as _upsd
 
 logger = logging.getLogger(__name__)
 
@@ -1073,19 +1072,14 @@ register_knowledge_category_routes()
 
 
 # ── Ubuntu Pro Description ──────────────────────────────────────────────────
-# Explicit routes are needed here so we can pass EFFECTIVE_DATE and
-# PAGE_NAVIGATION from ubuntu_pro_description.py into the templates.
-# The TemplateFinder catch-all below cannot inject template context, so these
-# routes must be registered before it.
-
+UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE = "26 JUNE 2026"
 
 @app.route("/legal/ubuntu-pro-description")
 @app.route("/legal/ubuntu-pro-description/")
 def ubuntu_pro_description():
     return flask.render_template(
         "legal/ubuntu-pro-description/index.html",
-        effective_date=_upsd.EFFECTIVE_DATE,
-        page_navigation=_upsd.PAGE_NAVIGATION,
+        effective_date=UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE
     )
 
 
@@ -1102,7 +1096,7 @@ def ubuntu_pro_description_print():
     return flask.render_template(
         "legal/ubuntu-pro-description/_print.html",
         selected_sections=selected_sections,
-        effective_date=_upsd.EFFECTIVE_DATE,
+        effective_date=UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE
     )
 
 
