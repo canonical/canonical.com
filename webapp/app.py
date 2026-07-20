@@ -261,6 +261,7 @@ with open("navigation.yaml") as nav_file:
 
 with open("products.yaml") as products_file:
     products = yaml.load(products_file.read(), Loader=yaml.FullLoader)
+
 app.add_url_rule(
     "/search",
     "search",
