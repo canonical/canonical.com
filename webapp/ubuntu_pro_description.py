@@ -103,7 +103,7 @@ def load_sections():
         # optionally followed by a sub-list. Multi-paragraph items are left
         # unchanged.
         html = re.sub(
-            r"<li>\s*<p>(.*?)</p>(\s*<(?:ol|ul|/li))",
+            r"<li>\s*<p>((?:(?!</li>).)*?)</p>(\s*<(?:ol|ul|table|/li))",
             r"<li>\1\2",
             html,
             flags=re.DOTALL,

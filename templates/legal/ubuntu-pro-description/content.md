@@ -529,9 +529,9 @@ You can add different levels of technical support on top of your Infra-only or f
 
     1. The Managed Service includes the following uptime service levels:
 
-|            | DATA PLANE FOR CUSTOMER WORKLOADS THAT ARE DISTRIBUTED ACROSS TWO REGIONS | DATA PLANE FOR CUSTOMER WORKLOADS THAT ARE IN A SINGLE REGION | CONTROL PLANE (OPENSTACK/KUBERNETES API, WEB UI AND CLI) |
-| :--------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------- |
-| **Uptime** | 99.9%                                                                     | 99.5%                                                         | 99%                                                      |
+        |            | DATA PLANE FOR CUSTOMER WORKLOADS THAT ARE DISTRIBUTED ACROSS TWO REGIONS | DATA PLANE FOR CUSTOMER WORKLOADS THAT ARE IN A SINGLE REGION | CONTROL PLANE (OPENSTACK/KUBERNETES API, WEB UI AND CLI) |
+        | :--------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------- |
+        | **Uptime** | 99.9%                                                                     | 99.5%                                                         | 99%                                                      |
 
     2. Data plane includes:
 
