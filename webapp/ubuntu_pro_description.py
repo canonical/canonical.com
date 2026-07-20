@@ -15,6 +15,7 @@ The key items to keep in sync when the document changes:
                       These are used to inject HTML id attributes on definition
                       terms so that #def-* anchor links resolve correctly.
 """
+
 import os
 import re
 
@@ -47,7 +48,7 @@ _DEF_TERMS = [
     ("Environment", "def-environment"),
     ("End of Life", "def-end-of-life"),
     ("End of Standard Support", "def-end-of-standard-support"),
-    ("Expanded Security Maintenance (ESM)", "def-expanded-security-maintenance"),
+    ("Expanded Security Maintenance (ESM)", "def-esm"),
     ("Infra support", "def-infra-support"),
     ("Knowledge Base", "def-knowledge-base"),
     ("Kubernetes", "def-kubernetes"),
@@ -72,9 +73,7 @@ _CONTENT_MD = os.path.join(
     "content.md",
 )
 
-_DELIMITER = re.compile(
-    r"^<!-- section:\s*(\S+?)\s*-->[ \t]*$", re.MULTILINE
-)
+_DELIMITER = re.compile(r"^<!-- section:\s*(\S+?)\s*-->[ \t]*$", re.MULTILINE)
 
 
 def load_sections():

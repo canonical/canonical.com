@@ -1,12 +1,10 @@
 @mixin canonical-p-legal {
   // Hierarchical numbering for nested ordered lists in legal document content.
-  //
   // Two-part strategy:
   //   1. A `section-num` counter increments on every h3 heading (sections 1-25).
   //      It is NOT shown on the heading itself (the heading already has the number
   //      as hardcoded text), but IS used as a prefix on list items.
   //   2. `counters(legal-item, ".")` traverses the full <ol> nesting chain.
-  //
   // Result:
   //   - Under "### 8. Scope of Support": items show 8.1., 8.1.1., 8.1.3. etc.
   //   - Introduction has no h3, so "h3 ~ ol li" doesn't match it; its flat
@@ -68,7 +66,7 @@
 
     // The severity-levels table has 8 columns which overflow A4 portrait width.
     // overflow-x: auto (from .p-sev-table-wrap) has no effect in print, so we
-    // override overflow and reset font-size so cells render at body size.
+    // override cell overflow so content wraps rather than being clipped.
     .p-sev-table-wrap {
       overflow-x: visible;
 

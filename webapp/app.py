@@ -1074,6 +1074,7 @@ register_knowledge_category_routes()
 
 # ── Ubuntu Pro Description ──────────────────────────────────────────────────
 
+
 @app.route("/legal/ubuntu-pro-description")
 @app.route("/legal/ubuntu-pro-description/")
 def ubuntu_pro_description():
@@ -1081,7 +1082,7 @@ def ubuntu_pro_description():
     return flask.render_template(
         "legal/ubuntu-pro-description/index.html",
         sections=sections,
-        effective_date=_upsd.EFFECTIVE_DATE
+        effective_date=_upsd.EFFECTIVE_DATE,
     )
 
 
