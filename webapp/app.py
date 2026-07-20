@@ -84,6 +84,7 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+from webapp import ubuntu_pro_description as _upsd
 
 logger = logging.getLogger(__name__)
 
@@ -1072,14 +1073,15 @@ register_knowledge_category_routes()
 
 
 # ── Ubuntu Pro Description ──────────────────────────────────────────────────
-UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE = "26 JUNE 2026"
 
 @app.route("/legal/ubuntu-pro-description")
 @app.route("/legal/ubuntu-pro-description/")
 def ubuntu_pro_description():
+    sections = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/index.html",
-        effective_date=UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE
+        sections=sections,
+        effective_date=_upsd.EFFECTIVE_DATE
     )
 
 
@@ -1093,10 +1095,12 @@ def ubuntu_pro_description_print():
     selected_sections = [
         s.strip() for s in sections_param.split(",") if s.strip()
     ]
+    sections = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/_print.html",
         selected_sections=selected_sections,
-        effective_date=UBUNTU_PRO_DESCRIPTION_EFFECTIVE_DATE
+        sections=sections,
+        effective_date=_upsd.EFFECTIVE_DATE,
     )
 
 
