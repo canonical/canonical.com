@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "macros/_macros-faq-schema.jinja" import faqpage_schema %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1N399Pym7aTEuTf_OAJiFrYcbtsy3iUHV-f82afSplcI/edit
 {% endblock meta_copydoc %}
@@ -162,6 +164,21 @@ spark-client.spark-shell</pre>
     </div>
   </section>
 
+  {% set faq_items = [
+    ["Is this a drop-in replacement for Apache Spark?",
+    "Charmed Spark can be used as a direct replacement for upstream Apache Spark with no or minimal application changes."],
+    ["Can I run Charmed Spark on any Kubernetes?",
+    "You can run Charmed Spark on CNCF conformant Kubernetes."],
+    ["Can I run Charmed Spark on Hadoop?",
+    "Charmed Spark is designed ground up for Kubernetes and does not support deployment to Hadoop."],
+    ["Do you offer support?",
+    "We offer technical support with a choice of 24/7 or weekday SLAs."],
+    ["Can I use Charmed Spark for free?",
+    "Charmed Spark is free to use. Pay only for support."],
+    ["Can you deliver a complete solution?",
+    "We also offer a complete solution for big data based on Canonical Kubernetes and Charmed Ceph."]
+  ] %}
+
   <section class="p-section">
     <div class="u-fixed-width">
       <hr class="p-rule u-no-margin--bottom" />
@@ -169,93 +186,33 @@ spark-client.spark-shell</pre>
         <h2>Frequently asked questions</h2>
       </div>
     </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-section--shallow">
-          <hr class="p-rule" />
-          <div class="row">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Is this a drop-in replacement for Apache Spark?</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Charmed Spark can be used as a direct replacement for upstream Apache Spark with no or minimal application changes.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-section--shallow">
-          <hr class="p-rule" />
-          <div class="row">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Can I run Charmed Spark on any Kubernetes?</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>You can run Charmed Spark on CNCF conformant Kubernetes.</p>
+    {% for question, answer in faq_items[:-1] %}
+      <div class="row">
+        <div class="col-9 col-start-large-4">
+          <div class="p-section--shallow">
+            <hr class="p-rule" />
+            <div class="row">
+              <div class="col-3 col-medium-3 col-small-2">
+                <h3 class="p-heading--5">{{ question }}</h3>
+              </div>
+              <div class="col-6 col-medium-3">
+                <p>{{ answer | safe }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    {% endfor %}
     <div class="row">
       <div class="col-9 col-start-large-4">
         <div class="p-section--shallow">
           <hr class="p-rule" />
           <div class="row">
             <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Can I run Charmed Spark on Hadoop?</h3>
+              <h3 class="p-heading--5">{{ faq_items[-1][0] }}</h3>
             </div>
             <div class="col-6 col-medium-3">
-              <p>Charmed Spark is designed ground up for Kubernetes and does not support deployment to Hadoop.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-section--shallow">
-          <hr class="p-rule" />
-          <div class="row">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Do you offer support?</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>We offer technical support with a choice of 24/7 or weekday SLAs.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-section--shallow">
-          <hr class="p-rule" />
-          <div class="row">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Can I use Charmed Spark for free?</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>Charmed Spark is free to use. Pay only for support.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4">
-        <div class="p-section--shallow">
-          <hr class="p-rule" />
-          <div class="row">
-            <div class="col-3 col-medium-3 col-small-2">
-              <h3 class="p-heading--5">Can you deliver a complete solution?</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>We also offer a complete solution for big data based on Canonical Kubernetes and Charmed Ceph.</p>
+              <p>{{ faq_items[-1][1] | safe }}</p>
               <hr class="p-rule" />
               <a class="p-button--positive js-invoke-modal"
                  aria-controls="data-spark-modal"
@@ -266,6 +223,8 @@ spark-client.spark-shell</pre>
       </div>
     </div>
   </section>
+
+  {{ faqpage_schema(faq_items) }}
 
   <section class="p-section">
     <div class="row">
