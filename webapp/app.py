@@ -67,6 +67,11 @@ from webapp.canonical_cla.views import (
     canonical_cla_api_launchpad_logout,
     canonical_cla_api_proxy,
 )
+from webapp.careers import (
+    DEPARTMENT_LIST,
+    _get_sorted_departments,
+    _get_all_departments,
+)
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
 from webapp.navigation import (
@@ -90,16 +95,8 @@ logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
 # Can be seen on /sitemap.xml
-DYNAMIC_SITEMAPS = [
-    "careers",
-    "partners",
-    "blog",
-    "knowledge",
-    "microk8s/docs",
-    "dqlite/docs",
-    "maas/docs",
-    "tests",
-]
+with open("dynamic-sitemaps.yaml") as sitemaps_file:
+    DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
 
 
 # Web tribe websites custom search ID
@@ -161,128 +158,6 @@ app.register_blueprint(application_bp, url_prefix="/careers/application")
 form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
-
-
-def _group_by_department(harvest, vacancies):
-    """
-    Return a dictionary of departments by slug,
-    where each department will have a new
-    "vacancies" property of all the vacancies in
-    that department
-    """
-
-    all_departments = harvest.get_departments()
-    vacancies_by_department = {}
-
-    departments_by_slug = {}
-
-    for department in all_departments:
-        departments_by_slug[department.slug] = department
-
-    for vacancy in vacancies:
-        for department in vacancy.departments:
-            slug = department.slug
-
-            if slug not in vacancies_by_department:
-                vacancies_by_department[slug] = departments_by_slug[slug]
-                vacancies_by_department[slug].vacancies = [vacancy]
-            else:
-                vacancies_by_department[slug].vacancies.append(vacancy)
-
-    # Add departments with no vacancies
-    for dept in departments_by_slug:
-        slug = departments_by_slug[dept].slug
-        if slug not in vacancies_by_department:
-            vacancies_by_department[slug] = departments_by_slug[slug]
-            vacancies_by_department[slug].vacancies = {}
-
-    return vacancies_by_department
-
-
-def _get_sorted_departments(greenhouse, harvest):
-    departments = _group_by_department(harvest, greenhouse.get_vacancies())
-
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-        "alliances-and-channels",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
-
-    return sorted_departments
-
-
-def _get_all_departments(greenhouse, harvest) -> tuple:
-    """
-    Refactor for careers search section
-    """
-    all_departments = (
-        _group_by_department(harvest, greenhouse.get_vacancies()),
-    )
-
-    dept_list = [
-        {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
-        {
-            "slug": "support-engineering",
-            "icon": "df08c7f2-Support Engineering.svg",
-        },
-        {"slug": "marketing", "icon": "27b93be4-Marketing.svg"},
-        {"slug": "web-and-design", "icon": "b200e162-design.svg"},
-        {
-            "slug": "project-management",
-            "icon": "0f64ee5c-Project Management.svg",
-        },
-        {"slug": "commercial-operations", "icon": "1f84f8c7-Operations.svg"},
-        {"slug": "product", "icon": "d5341dfa-Product.svg"},
-        {"slug": "sales", "icon": "2dc1ceb1-Sales.svg"},
-        {"slug": "finance", "icon": "8b2110ea-finance.svg"},
-        {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
-        {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
-        {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
-        {
-            "slug": "alliances-and-channels",
-            "icon": "46a968ed-no%20bg%20hand%20&%20fingers-new.svg",
-        },
-    ]
-
-    departments_overview = []
-
-    for vacancy in all_departments:
-        for dept in dept_list:
-            if vacancy[dept["slug"]]:
-                if vacancy[dept["slug"]].vacancies:
-                    count = len(vacancy[dept["slug"]].vacancies)
-                else:
-                    count = 0
-                name = vacancy[dept["slug"]].name
-                slug = vacancy[dept["slug"]].slug
-                icon = dept["icon"]
-
-                departments_overview.append(
-                    {
-                        "name": name,
-                        "count": count,
-                        "slug": slug,
-                        "icon": icon,
-                    }
-                )
-
-    return all_departments, departments_overview
-
 
 # Sentry setup
 sentry_dsn = get_flask_env("SENTRY_DSN")
@@ -384,6 +259,10 @@ app.add_url_rule("/openstack/resources", view_func=render_openstack_blogs)
 
 with open("navigation.yaml") as nav_file:
     navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
+
+with open("products.yaml") as products_file:
+    products = yaml.load(products_file.read(), Loader=yaml.FullLoader)
+
 app.add_url_rule(
     "/search",
     "search",
@@ -402,15 +281,6 @@ def secure_boot():
     return flask.send_from_directory(
         "../static/files", "secure-boot-master-ca.crl"
     )
-
-
-# Career departments
-@app.route("/careers/results")
-def handle_careers_results():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_results(greenhouse, harvest)
 
 
 @app.route("/juju/docs/search", methods=["GET"])
@@ -490,17 +360,28 @@ def get_latest_versions():
         return {"error": str(e)}, 500
 
 
-def careers_results(greenhouse, harvest):
+# Career departments
+@app.route("/careers/results")
+def handle_careers_results():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        return careers_results(greenhouse)
+
+
+def careers_results(greenhouse):
     vacancies = []
 
     core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
-    vacancies_by_department = _group_by_department(harvest, vacancies)
+
+    vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST}
+    for vacancy in vacancies:
+        for department in vacancy.departments:
+            if department.slug in vacancies_by_department:
+                vacancies_by_department[department.slug].append(vacancy)
 
     context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
+        "departments": DEPARTMENT_LIST.values(),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
@@ -513,14 +394,13 @@ def careers_results(greenhouse, harvest):
 def handle_careers_sitemap():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_sitemap(greenhouse, harvest)
+        return careers_sitemap(greenhouse)
 
 
-def careers_sitemap(greenhouse, harvest):
+def careers_sitemap(greenhouse):
     context = {
         "vacancies": greenhouse.get_vacancies(),
-        "departments": harvest.get_departments(),
+        "departments": DEPARTMENT_LIST,
     }
 
     xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
@@ -612,6 +492,12 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        # The Harvest job post only exposes a single location, while the
+        # Greenhouse board API returns all regions a role is open to (joined
+        # with ";"). Use the board value so multi-region roles show every
+        # location on the details page.
+        if context["job"].get("location") and job_post.location:
+            context["job"]["location"]["name"] = job_post.location
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
@@ -793,23 +679,10 @@ def careers_progression(greenhouse, harvest):
 
 
 @app.route("/careers/company-culture/diversity")
-def handle_diversity():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return diversity(greenhouse, harvest)
-
-
-def diversity(greenhouse, harvest):
-    context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
-        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
-    }
-    context["department"] = None
+def diversity():
     return flask.render_template(
-        "careers/company-culture/diversity.html", **context
+        "careers/company-culture/diversity.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -1185,6 +1058,7 @@ def context():
         "split_list": split_list,
         "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
         "get_navigation": get_navigation,
+        "products_yaml": products,
     }
 
 
