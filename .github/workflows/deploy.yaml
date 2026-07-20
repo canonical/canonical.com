@@ -36,13 +36,27 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
 
+      # The charm is a generic 12-factor flask-framework charm whose output
+      # depends only on the charm/ directory. Almost every deploy changes app
+      # code (webapp/, templates/, static/) and leaves charm/ untouched, so we
+      # cache the packed charm and only rebuild when charm/ actually changes.
+      - name: Restore cached charm
+        id: charm-cache
+        uses: actions/cache@v4
+        with:
+          path: ./charm/*.charm
+          key: charm-${{ hashFiles('charm/**') }}
+
       - name: Setup LXD
+        if: steps.charm-cache.outputs.cache-hit != 'true'
         uses: canonical/setup-lxd@main
 
       - name: Setup Charmcraft
+        if: steps.charm-cache.outputs.cache-hit != 'true'
         run: sudo snap install charmcraft --classic --channel=latest/edge
 
       - name: Pack charm
+        if: steps.charm-cache.outputs.cache-hit != 'true'
         run: |
           cd charm
           charmcraft pack -v --project-dir ./
@@ -63,10 +77,13 @@ jobs:
 
       - name: Use Node.js
         uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
 
       - name: Build Assets
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn run build
 
       - name: Setup LXD
