@@ -51,7 +51,6 @@
   // container width.
   .p-sev-table-wrap {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
 
     .p-table {
       table-layout: auto;
@@ -63,9 +62,24 @@
   // _print.html adds class="l-ubuntu-pro-print" to <body>.
   body.l-ubuntu-pro-print {
     // Content margins replace the @page margins which are set to 0 below.
-    margin: 0 20mm;
+    margin: 0 14mm;
     // Assign this body to the named page so @page rules below apply.
     page: ubuntu-pro-print;
+
+    // The severity-levels table has 8 columns which overflow A4 portrait width.
+    // overflow-x: auto (from .p-sev-table-wrap) has no effect in print, so we
+    // override overflow and reset font-size so cells render at body size.
+    .p-sev-table-wrap {
+      overflow-x: visible;
+
+      .p-table {
+        td,
+        th {
+          overflow: visible;
+          white-space: normal;
+        }
+      }
+    }
   }
 
   // Margins for the PDF print view:

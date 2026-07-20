@@ -36,33 +36,25 @@
   </head>
   <body class="l-ubuntu-pro-print">
     <div class="p-legal-content">
-      <div class="row">
-        <div class="col-12">
-          <p class="p-muted-heading">{{ effective_date }}</p>
-          <h1>Ubuntu Pro Description</h1>
-        </div>
+      <div>
+        <p class="p-muted-heading">{{ effective_date }}</p>
+        <h1>Ubuntu Pro Description</h1>
       </div>
 
       {# Introduction and Security & compliance are always included;
          their checkboxes are `disabled` in the modal so the user cannot
          deselect them. #}
-      <div class="row" id="introduction-print">
-        <div class="col-12">{{ sections.get('introduction', '') | safe }}</div>
-      </div>
+      <div id="introduction-print">{{ sections.get('introduction', '') | safe }}</div>
 
-      <div class="row" id="security-compliance-print">
-        <div class="col-12">{{ sections.get('security-compliance', '') | safe }}</div>
-      </div>
+      <div id="security-compliance-print">{{ sections.get('security-compliance', '') | safe }}</div>
 
       {# Support Services Process is always bundled with Support because it
          is a direct continuation of the Support section in the document
          and has no separate checkbox in the export modal. #}
       {% if 'support' in selected_sections %}
-        <div class="row" id="support-print">
-          <div class="col-12">
-            {{ sections.get('support', '') | safe }}
-            {{ sections.get('support-services-process', '') | safe }}
-          </div>
+        <div id="support-print">
+          {{ sections.get('support', '') | safe }}
+          {{ sections.get('support-services-process', '') | safe }}
         </div>
       {% endif %}
 
@@ -70,31 +62,26 @@
          We only render it when at least one add-on section is selected so that
          the heading does not appear as an orphan with no content beneath it. #}
       {% set has_addons = (
-            'managed-services' in selected_sections or
-            'firefighting-support' in selected_sections or
-            'ops-consultancy' in selected_sections or
-            'professional-support-services' in selected_sections or
-            'embedded-services' in selected_sections
-          ) %}
+              'managed-services' in selected_sections or
+              'firefighting-support' in selected_sections or
+              'ops-consultancy' in selected_sections or
+              'professional-support-services' in selected_sections or
+              'embedded-services' in selected_sections
+            ) %}
       {% if has_addons %}
-        <div class="row">
-          <div class="col-12">{{ sections.get('add-ons', '') | safe }}</div>
-        </div>
+        <div>{{ sections.get('add-ons', '') | safe }}</div>
       {% endif %}
 
       {% for sid in ['managed-services', 'firefighting-support', 'ops-consultancy', 'professional-support-services', 'embedded-services'] %}
         {% if sid in selected_sections %}
-          <div class="row" id="{{ sid }}-print">
-            <div class="col-12">{{ sections.get(sid, '') | safe }}</div>
-          </div>
+          <div id="{{ sid }}-print">{{ sections.get(sid, '') | safe }}</div>
         {% endif %}
       {% endfor %}
 
       {# Definitions are always included; their checkbox is `disabled` in
          the modal so the user cannot deselect them. #}
-      <div class="row" id="definitions-print">
-        <div class="col-12">{{ sections.get('definitions', '') | safe }}</div>
-      </div>
-    </div>{# /p-legal-content #}
+      <div id="definitions-print">{{ sections.get('definitions', '') | safe }}</div>
+    </div>
+    {# /p-legal-content #}
   </body>
 </html>
