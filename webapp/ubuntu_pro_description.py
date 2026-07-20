@@ -96,6 +96,17 @@ def load_sections():
             extensions=["tables", "attr_list", "sane_lists"],
         )
         html = html.replace("<table>", '<table class="p-table">')
+        # Python Markdown wraps <li> content in <p> for "loose" lists (lists
+        # with blank lines between items). This causes the counter ::before to
+        # appear on a separate line from the text. Strip the <p> wrapper from
+        # items that have exactly one paragraph, optionally followed by a
+        # sub-list. Multi-paragraph items are left unchanged.
+        html = re.sub(
+            r"<li>\s*<p>(.*?)</p>(\s*<(?:ol|ul|/li))",
+            r"<li>\1\2",
+            html,
+            flags=re.DOTALL,
+        )
         if sec_id == "support-services-process":
             html = html.replace(
                 '<table class="p-table">',
