@@ -97,6 +97,12 @@ def load_sections():
             extensions=["tables", "attr_list", "sane_lists"],
         )
         html = html.replace("<table>", '<table class="p-table">')
+        if sec_id == "support-services-process":
+            html = html.replace(
+                '<table class="p-table">',
+                '<div class="p-sev-table-wrap"><table class="p-table">',
+            )
+            html = html.replace("</table>", "</table></div>")
         if sec_id == "definitions":
             for term, def_id in _DEF_TERMS:
                 html = html.replace(
