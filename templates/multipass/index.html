@@ -6,6 +6,20 @@
   Multipass is a CLI to launch and manage VMs on Windows, Mac and Linux that simulates a cloud environment with support for cloud-init. Get Ubuntu on-demand with clean integration to your IDE and version control on your native platform.
 {% endblock %}
 
+{% block extra_metatags %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.multipass.name | tojson }},
+      "description": {{ products_yaml.multipass.description | tojson }},
+      "operatingSystem": {{ products_yaml.multipass.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.multipass.applicationCategory | tojson }},
+      "url": {{ products_yaml.multipass.url | tojson }}
+    }
+  </script>
+{% endblock %}
+
 {% block meta_keywords %}microcloud, scalable cloude, cloud infrastructure{% endblock %}
 
 {% block meta_copydoc %}

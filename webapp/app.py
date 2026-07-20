@@ -258,6 +258,10 @@ app.add_url_rule("/openstack/resources", view_func=render_openstack_blogs)
 
 with open("navigation.yaml") as nav_file:
     navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
+
+with open("products.yaml") as products_file:
+    products = yaml.load(products_file.read(), Loader=yaml.FullLoader)
+
 app.add_url_rule(
     "/search",
     "search",
@@ -1017,6 +1021,7 @@ def context():
         "split_list": split_list,
         "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
         "get_navigation": get_navigation,
+        "products_yaml": products,
     }
 
 
