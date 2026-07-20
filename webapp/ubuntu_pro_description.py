@@ -108,14 +108,6 @@ def load_sections():
             html,
             flags=re.DOTALL,
         )
-        if sec_id == "managed-services":
-            # Anchor section 21.6 so [Minimum Size Requirement]
-            # (#def-minimum-size-requirement) links resolve.
-            html = html.replace(
-                "<li>Minimum size requirement.",
-                '<li id="def-minimum-size-requirement">'
-                "Minimum size requirement.",
-            )
         if sec_id == "support-services-process":
             html = html.replace(
                 '<table class="p-table">',
