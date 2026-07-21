@@ -37,7 +37,9 @@ _CONTENT_MD = os.path.join(
 
 _DELIMITER = re.compile(r"^<!-- section:\s*(\S+?)\s*-->[ \t]*$", re.MULTILINE)
 
-# Matches both **Term:** (colon inside bold) and **Term**: (colon outside bold)
+# Matches both
+# **Term:** (colon inside bold) and
+# **Term**: (colon outside bold)
 # at the start of a line, as used for definition entries.
 _DEF_TERM_RE = re.compile(r"^\*\*(.*?)(?::\*\*|\*\*:)", re.MULTILINE)
 
@@ -68,7 +70,7 @@ def load_sections(strip_h3_numbers=False):
     fm_match = _FRONTMATTER.match(raw)
     if fm_match:
         metadata = yaml.safe_load(fm_match.group(1)) or {}
-        raw = raw[fm_match.end():]
+        raw = raw[fm_match.end() :]
 
     parts = _DELIMITER.split(raw)
     # parts: [preamble, section_id, content, section_id, content, ...]
@@ -80,7 +82,7 @@ def load_sections(strip_h3_numbers=False):
         html = markdown.markdown(
             sec_md.strip(),
             extensions=["tables", "attr_list", "sane_lists"],
-            tab_length=3
+            tab_length=3,
         )
         html = html.replace("<table>", '<table class="p-table">')
         if strip_h3_numbers:
