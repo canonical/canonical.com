@@ -74,6 +74,7 @@ from webapp.careers import (
 )
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
+from webapp import llms
 from webapp.navigation import (
     build_navigation,
     get_current_page_bubble,
@@ -96,6 +97,11 @@ logger = logging.getLogger(__name__)
 # Can be seen on /sitemap.xml
 with open("dynamic-sitemaps.yaml") as sitemaps_file:
     DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
+
+# LLM-friendly site index (https://llmstxt.org/): templates/llms.txt (hand
+# written) plus curated extra links from llms.yaml. Built once at startup,
+# like the config above, rather than on every request.
+LLMS_TXT = llms.build_llms_txt("templates/llms.txt", "llms.yaml")
 
 
 # Web tribe websites custom search ID
@@ -1659,6 +1665,49 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/llms.txt")
+def llms_txt():
+    """
+    Serve the LLM-friendly site index (https://llmstxt.org/): the manually
+    maintained templates/llms.txt plus curated extra links from llms.yaml.
+    """
+    response = flask.make_response(LLMS_TXT)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=21600"
+    return response
+
+
+@app.route("/llms-full.txt")
+def llms_full_txt():
+    """
+    Serve the full Markdown content of every renderable page linked from
+    /llms.txt (https://llmstxt.org/). Pre-generated at build time
+    (scripts/generate_llms.py) and shipped in the image, so a normal
+    request is a fast disk read; generated on demand if missing (e.g.
+    local dev, where the build-time step has not run).
+    """
+    file_path = os.path.join(os.getcwd(), "templates", "llms-full.txt")
+
+    if not os.path.exists(file_path):
+        try:
+            content = llms.build_llms_full_txt(app, LLMS_TXT)
+            with open(file_path, "w") as f:
+                f.write(content)
+        except Exception:
+            logger.exception("Failed to generate llms-full.txt")
+
+    if not os.path.exists(file_path):
+        return {"error": "llms-full.txt not available"}, 503
+
+    with open(file_path) as f:
+        content = f.read()
+
+    response = flask.make_response(content)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
 
 
 def navigation_nojs():
