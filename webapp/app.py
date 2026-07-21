@@ -966,7 +966,7 @@ def ubuntu_pro_description_print():
     selected_sections = [
         s.strip() for s in sections_param.split(",") if s.strip()
     ]
-    sections, metadata = _upsd.load_sections()
+    sections, metadata = _upsd.load_sections(strip_h3_numbers=True)
     return flask.render_template(
         "legal/ubuntu-pro-description/_print.html",
         selected_sections=selected_sections,

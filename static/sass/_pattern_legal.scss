@@ -1,12 +1,13 @@
 @mixin canonical-p-legal {
   // Hierarchical numbering for nested ordered lists in legal document content.
   // Two-part strategy:
-  //   1. A `section-num` counter increments on every h3 heading (sections 1-25).
-  //      It is NOT shown on the heading itself (the heading already has the number
-  //      as hardcoded text), but IS used as a prefix on list items.
+  //   1. A `section-num` counter increments on every h3 heading and is
+  //      displayed via h3::before, so clause numbers are dynamic — when only
+  //      a subset of sections is rendered (PDF export), headings renumber
+  //      automatically to match the subsection prefixes (8.1, 8.2, …).
   //   2. `counters(legal-item, ".")` traverses the full <ol> nesting chain.
   // Result:
-  //   - Under "### 8. Scope of Support": items show 8.1., 8.1.1., 8.1.3. etc.
+  //   - Under "Scope of Support" (the 8th h3 rendered): items show 8.1., 8.1.1., etc.
   //   - Introduction has no h3, so "h3 ~ ol li" doesn't match it; its flat
   //     lists fall through to the default rule and show 1., 2., 3., 4.
   .p-legal-content {
@@ -59,6 +60,13 @@
   // so they do not affect printing of any other page on canonical.com.
   // _print.html adds class="l-ubuntu-pro-print" to <body>.
   body.l-ubuntu-pro-print {
+    // In the print/PDF export view only a subset of sections may be rendered,
+    // so h3 clause numbers are re-applied dynamically via the section-num
+    // counter rather than relying on the hardcoded numbers in the markdown.
+    .p-legal-content h3::before {
+      content: counter(section-num) ". ";
+    }
+
     // Content margins replace the @page margins which are set to 0 below.
     margin: 0 14mm;
     // Assign this body to the named page so @page rules below apply.

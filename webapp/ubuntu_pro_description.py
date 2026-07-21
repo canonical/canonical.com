@@ -49,12 +49,17 @@ def _slugify_term(text):
     return "def-" + re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
-def load_sections():
+def load_sections(strip_h3_numbers=False):
     """
     Read content.md, parse optional YAML frontmatter, split on
     <!-- section: id --> markers, render each chunk to HTML, and
     return a ({section_id: html}, metadata) tuple where metadata is
     the parsed frontmatter dict (empty dict if none is present).
+
+    Pass strip_h3_numbers=True for the print/PDF export view so that
+    hardcoded clause numbers are removed from h3 headings and the CSS
+    section-num counter can renumber them based on which sections are
+    actually rendered.
     """
     with open(_CONTENT_MD, encoding="utf-8") as f:
         raw = f.read()
@@ -78,6 +83,12 @@ def load_sections():
             tab_length=3
         )
         html = html.replace("<table>", '<table class="p-table">')
+        if strip_h3_numbers:
+            # Strip hardcoded clause numbers (e.g. "8. ") from h3 headings.
+            # The CSS section-num counter re-applies them dynamically so that
+            # the numbering stays correct when only a subset of sections is
+            # rendered in the print/PDF export view.
+            html = re.sub(r"(<h3>)\d+\.\s*", r"\1", html)
         # Python Markdown wraps <li> content in <p> for "loose"
         # lists (lists with blank lines between items). This causes
         # the counter ::before to appear on a separate line from the text.
