@@ -94,6 +94,7 @@ def load_sections():
         html = markdown.markdown(
             sec_md.strip(),
             extensions=["tables", "attr_list", "sane_lists"],
+            tab_length=3
         )
         html = html.replace("<table>", '<table class="p-table">')
         # Python Markdown wraps <li> content in <p> for "loose"
