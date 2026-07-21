@@ -945,17 +945,14 @@ def register_knowledge_category_routes():
 register_knowledge_category_routes()
 
 
-# ── Ubuntu Pro Description ──────────────────────────────────────────────────
-
-
+# Ubuntu Pro Description
 @app.route("/legal/ubuntu-pro-description")
-@app.route("/legal/ubuntu-pro-description/")
 def ubuntu_pro_description():
-    sections = _upsd.load_sections()
+    sections, metadata = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/index.html",
         sections=sections,
-        effective_date=_upsd.EFFECTIVE_DATE,
+        effective_date=metadata.get("effective_date", ""),
     )
 
 
@@ -969,16 +966,13 @@ def ubuntu_pro_description_print():
     selected_sections = [
         s.strip() for s in sections_param.split(",") if s.strip()
     ]
-    sections = _upsd.load_sections()
+    sections, metadata = _upsd.load_sections()
     return flask.render_template(
         "legal/ubuntu-pro-description/_print.html",
         selected_sections=selected_sections,
         sections=sections,
-        effective_date=_upsd.EFFECTIVE_DATE,
+        effective_date=metadata.get("effective_date", ""),
     )
-
-
-# ── End Ubuntu Pro Description ──────────────────────────────────────────────
 
 
 # Template finder

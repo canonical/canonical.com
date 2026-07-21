@@ -1,3 +1,7 @@
+---
+effective_date: "26 JUNE 2026"
+---
+
 <!--
   HOW TO MAINTAIN THIS DOCUMENT
   ==============================
@@ -74,12 +78,12 @@ Ubuntu Pro subscriptions are governed by the terms at [https://ubuntu.com/legal/
 
 As an Ubuntu Pro or Ubuntu Pro (Infra-only) customer, with or without support, you are entitled to the following:
 
-### 1. Expanded Security Maintenance ([ESM](#def-expanded-security-maintenance))
+### 1. Expanded Security Maintenance ([ESM](#def-esm))
 
 1. Available fixes for [CVEs (High and Critical)](#def-cves-high-and-critical) and selected medium CVE fixes for a number of packages, as specified below
 2. Ubuntu Pro and Ubuntu Pro (Infra-only) subscriptions cover packages in the [Ubuntu Main](#def-ubuntu-main) repository between [end of Standard Support and end of Ubuntu Pro Support](https://ubuntu.com/about/release-cycle) (esm-infra)
 3. Only Ubuntu Pro subscriptions cover packages in the [Ubuntu Universe](#def-ubuntu-universe) until the end of [Ubuntu Pro Support](https://ubuntu.com/about/release-cycle) (esm-apps). This coverage is not included in Ubuntu Pro (Infra-only) subscriptions
-4. [ESM](#def-expanded-security-maintenance) does not guarantee:
+4. [ESM](#def-esm) does not guarantee:
    1. Fixes for architectures other than the [Covered Architectures](#def-covered-architectures)
    2. [Bug-fixes](#def-bug-fix-support), unless a bug was created by an ESM security fix
    3. A guarantee to fix all High or Critical [CVEs](#def-cves-high-and-critical)

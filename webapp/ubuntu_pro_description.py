@@ -10,7 +10,8 @@ See the comment block at the top of content.md for editing conventions
 
 The key items to keep in sync when the document changes:
 
-  - EFFECTIVE_DATE  : update when the document is re-issued.
+  - effective_date  : YAML frontmatter field in content.md; update it there
+                      when the document is re-issued.
   - _DEF_TERMS      : must list every bold "Term:" in the Definitions section.
                       These are used to inject HTML id attributes on definition
                       terms so that #def-* anchor links resolve correctly.
@@ -20,9 +21,7 @@ import os
 import re
 
 import markdown
-
-# Update this string whenever the document is officially re-issued.
-EFFECTIVE_DATE = "26 JUNE 2026"
+import yaml
 
 # Python Markdown renders "**Term:**" as "<strong>Term:</strong>" with no id
 # attribute. We need ids so that #def-* anchor links in the body text can
@@ -76,13 +75,24 @@ _CONTENT_MD = os.path.join(
 _DELIMITER = re.compile(r"^<!-- section:\s*(\S+?)\s*-->[ \t]*$", re.MULTILINE)
 
 
+_FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
+
+
 def load_sections():
     """
-    Read content.md, split on <!-- section: id --> markers, render each chunk
-    to HTML, and return a {section_id: html} dict.
+    Read content.md, parse optional YAML frontmatter, split on
+    <!-- section: id --> markers, render each chunk to HTML, and
+    return a ({section_id: html}, metadata) tuple where metadata is
+    the parsed frontmatter dict (empty dict if none is present).
     """
     with open(_CONTENT_MD, encoding="utf-8") as f:
         raw = f.read()
+
+    metadata = {}
+    fm_match = _FRONTMATTER.match(raw)
+    if fm_match:
+        metadata = yaml.safe_load(fm_match.group(1)) or {}
+        raw = raw[fm_match.end():]
 
     parts = _DELIMITER.split(raw)
     # parts: [preamble, section_id, content, section_id, content, ...]
@@ -123,4 +133,4 @@ def load_sections():
                 )
         sections[sec_id] = html
 
-    return sections
+    return sections, metadata
