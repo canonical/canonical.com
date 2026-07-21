@@ -25,7 +25,8 @@ effective_date: "26 JUNE 2026"
      <!-- section: embedded-services --\>
      <!-- section: definitions --\>
 
-  Do not rename these ids — they must match the keys in _DEF_TERMS inside webapp/ubuntu_pro_description.py.
+  Do not rename these ids — they must match the auto-generated slugs
+  (see ANCHOR LINKS below for the derivation rule).
 
   ANCHOR LINKS
   ------------
@@ -35,13 +36,17 @@ effective_date: "26 JUNE 2026"
   Links to definition terms: use #def-<slug>, e.g.
      [Environment](#def-environment)
      [CVEs (High and Critical)](#def-cves-high-and-critical)
-  The full list of valid #def-* slugs is in _DEF_TERMS in
-  webapp/ubuntu_pro_description.py.
+  Slugs are auto-generated: lowercase the term, replace non-alphanumeric
+  characters with hyphens. E.g. "Expanded Security Maintenance (ESM)" →
+  #def-expanded-security-maintenance-esm.
+  No separate list needs to be maintained — adding a **New Term:** or
+  **New Term**: entry in the Definitions section is sufficient.
 
   EFFECTIVE DATE
   --------------
-  The date shown at the top of the page is set in EFFECTIVE_DATE inside
-  webapp/ubuntu_pro_description.py — not here.
+  The date shown at the top of the page is read from the effective_date
+  field in the YAML frontmatter at the top of this file. Update it here
+  when the document is re-issued.
 -->
 <!-- section: introduction -->
 
@@ -78,12 +83,12 @@ Ubuntu Pro subscriptions are governed by the terms at [https://ubuntu.com/legal/
 
 As an Ubuntu Pro or Ubuntu Pro (Infra-only) customer, with or without support, you are entitled to the following:
 
-### 1. Expanded Security Maintenance ([ESM](#def-esm))
+### 1. Expanded Security Maintenance ([ESM](#def-expanded-security-maintenance-esm))
 
 1. Available fixes for [CVEs (High and Critical)](#def-cves-high-and-critical) and selected medium CVE fixes for a number of packages, as specified below
 2. Ubuntu Pro and Ubuntu Pro (Infra-only) subscriptions cover packages in the [Ubuntu Main](#def-ubuntu-main) repository between [end of Standard Support and end of Ubuntu Pro Support](https://ubuntu.com/about/release-cycle) (esm-infra)
 3. Only Ubuntu Pro subscriptions cover packages in the [Ubuntu Universe](#def-ubuntu-universe) until the end of [Ubuntu Pro Support](https://ubuntu.com/about/release-cycle) (esm-apps). This coverage is not included in Ubuntu Pro (Infra-only) subscriptions
-4. [ESM](#def-esm) does not guarantee:
+4. [ESM](#def-expanded-security-maintenance-esm) does not guarantee:
    1. Fixes for architectures other than the [Covered Architectures](#def-covered-architectures)
    2. [Bug-fixes](#def-bug-fix-support), unless a bug was created by an ESM security fix
    3. A guarantee to fix all High or Critical [CVEs](#def-cves-high-and-critical)
