@@ -62,6 +62,8 @@ def load_sections(strip_h3_numbers=False):
     hardcoded clause numbers are removed from h3 headings and the CSS
     section-num counter can renumber them based on which sections are
     actually rendered.
+    This is not done on the index page to allow the full-page scope
+    in-page navigation to display h3 heading numbering
     """
     with open(_CONTENT_MD, encoding="utf-8") as f:
         raw = f.read()
