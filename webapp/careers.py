@@ -59,7 +59,7 @@ DEPARTMENT_LIST = {
 }
 
 
-def _group_by_department(vacancies):
+def group_by_department(vacancies):
     """
     Return a dictionary of departments by slug,
     where each department will have a new
@@ -67,8 +67,8 @@ def _group_by_department(vacancies):
     that department
     """
     departments_by_slug = {
-        key: {**department, "vacancies": []}
-        for key, department in DEPARTMENT_LIST.items()
+        department["slug"]: {**department, "vacancies": []}
+        for department in DEPARTMENT_LIST.values()
     }
 
     for vacancy in vacancies:
@@ -80,38 +80,11 @@ def _group_by_department(vacancies):
     return departments_by_slug
 
 
-def get_sorted_departments(greenhouse):
-    departments = _group_by_department(greenhouse.get_vacancies())
-
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-        "alliances-and-channels",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
-
-    return sorted_departments
-
-
 def get_all_departments(greenhouse) -> tuple:
     """
     Refactor for careers search section
     """
-    all_departments = _group_by_department(greenhouse.get_vacancies())
+    all_departments = group_by_department(greenhouse.get_vacancies())
 
     departments_overview = []
     for department in all_departments.values():
