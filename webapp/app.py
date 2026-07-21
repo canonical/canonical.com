@@ -70,7 +70,7 @@ from webapp.canonical_cla.views import (
 )
 from webapp.careers import (
     DEPARTMENT_LIST,
-    get_sorted_departments,
+    group_by_department,
     get_all_departments,
 )
 from webapp.greenhouse import Greenhouse, Harvest
@@ -594,9 +594,7 @@ def handle_careers_index():
 
 
 def careers_index(greenhouse):
-    all_departments, departments_overview = get_all_departments(
-        greenhouse
-    )
+    all_departments, departments_overview = get_all_departments(greenhouse)
 
     return flask.render_template(
         "/careers/index.html",
@@ -617,7 +615,7 @@ def handle_all_careers():
 
 
 def all_careers(greenhouse):
-    sorted_departments = get_sorted_departments(greenhouse)
+    sorted_departments = group_by_department(greenhouse.get_vacancies())
 
     return flask.render_template(
         "/careers/all.html",
@@ -654,9 +652,7 @@ def handle_careers_progression():
 
 
 def careers_progression(greenhouse):
-    all_departments, departments_overview = get_all_departments(
-        greenhouse
-    )
+    all_departments, departments_overview = get_all_departments(greenhouse)
 
     return flask.render_template(
         "/careers/company-culture/progression.html",
@@ -719,7 +715,7 @@ def handle_department_group(department_slug):
 
 
 def department_group(greenhouse, department_slug):
-    departments = get_sorted_departments(greenhouse)
+    departments = group_by_department(greenhouse.get_vacancies())
 
     if department_slug not in departments:
         flask.abort(404)
@@ -735,7 +731,9 @@ def department_group(greenhouse, department_slug):
         formatted_slug = department_name.replace(" ", "+")
 
     featured_jobs = [job for job in department["vacancies"] if job.featured]
-    fast_track_jobs = [job for job in department["vacancies"] if job.fast_track]
+    fast_track_jobs = [
+        job for job in department["vacancies"] if job.fast_track
+    ]
 
     templates = []
 
