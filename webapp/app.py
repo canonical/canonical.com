@@ -70,8 +70,8 @@ from webapp.canonical_cla.views import (
 )
 from webapp.careers import (
     DEPARTMENT_LIST,
-    _get_sorted_departments,
-    _get_all_departments,
+    get_sorted_departments,
+    get_all_departments,
 )
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
@@ -572,13 +572,12 @@ def handle_roles():
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return roles(greenhouse, harvest)
+        return roles(greenhouse)
 
 
-def roles(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+def roles(greenhouse):
+    _, departments_overview = get_all_departments(
+        greenhouse,
     )
     return flask.jsonify(departments_overview)
 
@@ -591,13 +590,12 @@ def handle_careers_index():
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_index(greenhouse, harvest)
+        return careers_index(greenhouse)
 
 
-def careers_index(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+def careers_index(greenhouse):
+    all_departments, departments_overview = get_all_departments(
+        greenhouse
     )
 
     return flask.render_template(
@@ -615,12 +613,11 @@ def careers_index(greenhouse, harvest):
 def handle_all_careers():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return all_careers(greenhouse, harvest)
+        return all_careers(greenhouse)
 
 
-def all_careers(greenhouse, harvest):
-    sorted_departments = _get_sorted_departments(greenhouse, harvest)
+def all_careers(greenhouse):
+    sorted_departments = get_sorted_departments(greenhouse)
 
     return flask.render_template(
         "/careers/all.html",
@@ -653,13 +650,12 @@ def culture():
 def handle_careers_progression():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_progression(greenhouse, harvest)
+        return careers_progression(greenhouse)
 
 
-def careers_progression(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+def careers_progression(greenhouse):
+    all_departments, departments_overview = get_all_departments(
+        greenhouse
     )
 
     return flask.render_template(
@@ -719,12 +715,11 @@ def working_here_pages(greenhouse):
 def handle_department_group(department_slug):
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return department_group(greenhouse, harvest, department_slug)
+        return department_group(greenhouse, department_slug)
 
 
-def department_group(greenhouse, harvest, department_slug):
-    departments = _get_sorted_departments(greenhouse, harvest)
+def department_group(greenhouse, department_slug):
+    departments = get_sorted_departments(greenhouse)
 
     if department_slug not in departments:
         flask.abort(404)
@@ -733,13 +728,14 @@ def department_group(greenhouse, harvest, department_slug):
 
     # format edge case slugs
     formatted_slug = ""
-    if " & " in department.name:
-        formatted_slug = department.name.replace(" & ", "+%26+")
-    elif " " in department.name:
-        formatted_slug = department.name.replace(" ", "+")
+    department_name = department["name"]
+    if " & " in department_name:
+        formatted_slug = department_name.replace(" & ", "+%26+")
+    elif " " in department_name:
+        formatted_slug = department_name.replace(" ", "+")
 
-    featured_jobs = [job for job in department.vacancies if job.featured]
-    fast_track_jobs = [job for job in department.vacancies if job.fast_track]
+    featured_jobs = [job for job in department["vacancies"] if job.featured]
+    fast_track_jobs = [job for job in department["vacancies"] if job.fast_track]
 
     templates = []
 
