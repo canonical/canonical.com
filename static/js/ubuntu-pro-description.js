@@ -79,3 +79,46 @@ document.addEventListener("click", function (e) {
     updateSelectAllLabel();
   }
 });
+
+// Definition back-link: show a "Back to main content" button directly after
+// the definition paragraph that the user navigated to via a #def-* anchor.
+// Clicking it calls history.back() to return to the link that was clicked.
+(function () {
+  var btn = null;
+
+  function removeButton() {
+    if (btn && btn.parentNode) {
+      btn.parentNode.removeChild(btn);
+    }
+  }
+
+  function placeButton() {
+    removeButton();
+
+    var hash = window.location.hash;
+    if (!hash || !hash.startsWith("#def-")) return;
+
+    var target = document.getElementById(hash.slice(1));
+    if (!target) return;
+
+    // Each definition term lives inside a <p>; insert the button after it.
+    var para = target.closest("p");
+    if (!para || !para.parentNode) return;
+
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.className = "p-button js-def-back-btn";
+      btn.textContent = "Back to main content";
+      btn.addEventListener("click", function () {
+        history.back();
+      });
+    }
+
+    // Insert before the paragraph so the float sits to its right while
+    // the definition text flows alongside it on the left.
+    para.parentNode.insertBefore(btn, para);
+  }
+
+  window.addEventListener("hashchange", placeButton);
+  placeButton();
+})();

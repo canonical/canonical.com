@@ -10,6 +10,22 @@
   //   - Under "Scope of Support" (the 8th h3 rendered): items show 8.1., 8.1.1., etc.
   //   - Introduction has no h3, so "h3 ~ ol li" doesn't match it; its flat
   //     lists fall through to the default rule and show 1., 2., 3., 4.
+  // The secondary navigation bar on this page is also sticky, so the
+  // in-page navigation must start below both the meganav (4rem) and the
+  // secondary nav (~3.5rem). max-height is reduced by the same amount so
+  // the list does not overflow the viewport bottom.
+  .l-ubuntu-pro-description .p-in-page-navigation {
+    max-height: calc(100vh - $spv--large * 4);
+  }
+
+  // Back-to-content button: floated right before the definition paragraph so
+  // the definition text flows beside it without adding extra vertical space.
+  .p-legal-content .js-def-back-btn {
+    float: right;
+    clear: right;
+    margin-left: 1rem;
+  }
+
   .p-legal-content {
     counter-reset: section-num;
   }
