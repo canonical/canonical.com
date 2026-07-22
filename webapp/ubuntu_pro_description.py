@@ -73,7 +73,7 @@ def load_sections(strip_h3_numbers=False):
     fm_match = _FRONTMATTER.match(raw)
     if fm_match:
         metadata = yaml.safe_load(fm_match.group(1)) or {}
-        raw = raw[fm_match.end():]
+        raw = raw.removeprefix(fm_match.group(0))
 
     parts = _DELIMITER.split(raw)
     # parts: [preamble, section_id, content, section_id, content, ...]
