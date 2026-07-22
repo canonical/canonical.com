@@ -73,11 +73,22 @@ jobs:
       # Bake llms-full.txt into the image so every pod serves it from disk
       # instead of rendering every page at request time. templates/ is
       # primed by the rock, so the file ships.
+      #
+      # Installed into an isolated venv rather than system-wide: on this
+      # runner's system Python, an apt-installed pyOpenSSL/twisted (pulled
+      # in eagerly by raven, a talisker dependency) conflicts with the
+      # pinned `cryptography` version and crashes on import. A venv keeps
+      # those system packages out of the picture entirely, so `twisted`
+      # just isn't found and raven's registry skips that transport.
+      # setuptools<81 keeps pkg_resources available (talisker still uses
+      # it; newer setuptools dropped it by default).
       - name: Pre-generate llms-full.txt
         run: |
-          sudo apt-get update && sudo apt-get install --yes python3-setuptools
-          sudo pip3 install -r requirements.txt
-          python3 webapp/llms.py generate
+          python3 -m venv .venv-llms
+          .venv-llms/bin/pip install --upgrade pip "setuptools<81"
+          .venv-llms/bin/pip install -r requirements.txt
+          .venv-llms/bin/python webapp/llms.py generate
+          rm -rf .venv-llms
 
       - name: Setup LXD
         uses: canonical/setup-lxd@main
