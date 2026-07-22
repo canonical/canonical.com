@@ -76,6 +76,18 @@ class TestBuildLlmsTxt(unittest.TestCase):
         result = build_llms_txt(self.llms_txt_path, self.llms_yaml_path)
         assert result == BASE_WITH_MAIN_PAGES
 
+    def test_missing_base_file_does_not_raise(self):
+        """
+        A missing templates/llms.txt degrades to a minimal header instead
+        of raising - this runs at app import time, so an unhandled error
+        here would crash the whole app
+        """
+
+        missing_path = os.path.join(self.tmpdir.name, "does-not-exist.txt")
+
+        result = build_llms_txt(missing_path, self.llms_yaml_path)
+        assert result == "# Canonical\n"
+
     def test_malformed_config_file(self):
         """
         Malformed llms.yaml is ignored rather than breaking the base file
