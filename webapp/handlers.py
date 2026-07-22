@@ -143,6 +143,11 @@ CSP = {
         "'self'",
         "blob:",
         "'unsafe-eval'",
+        # Narrower than 'unsafe-eval': lets dotlottie-web compile its WASM
+        # engine without needing to fall back to full string-eval. Kept
+        # alongside 'unsafe-eval' (still required by GTM) so report-only
+        # tracking below isolates real eval() usage from WASM compilation.
+        "'wasm-unsafe-eval'",
     ],
     "connect-src": [
         "'self'",
@@ -153,6 +158,8 @@ CSP = {
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
+        "ad.doubleclick.net",
+        "*.clarity.ms",
         "www.googleadservices.com",
         "js.zi-scripts.com",
         "*.google-analytics.com",
@@ -190,6 +197,7 @@ CSP = {
     "frame-src": [
         "'self'",
         "*.doubleclick.net",
+        "*.crazyegg.com",
         "www.youtube.com/",
         "asciinema.org",
         "player.vimeo.com",
@@ -229,31 +237,21 @@ CSP = {
     ],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
-    "worker-src": ["'self'"],
+    # blob: is needed for the dotlottie-player WASM engine, which runs its
+    # renderer in a worker created from a blob URL (see
+    # static/js/homepage/animations.js).
+    "worker-src": ["'self'", "blob:"],
     "report-uri": [CSP_REPORT_PATH],
 }
 
-# These sources seem stale but since marketing tags can be
-# injected at runtime via GTM, outside this repo, we can't
-# be fully sure they're unused from static analysis alone.
-# Put them in a report-only CSP so we can watch Sentry for violations before
-# removing them from the enforced CSP above.
+# 'unsafe-eval' is a genuine security-hardening target (GTM and the
+# dotlottie-web WASM engine still rely on it), unlike the vendor hosts that
+# used to live here - those turned out to still be in active use (confirmed
+# via live traffic sampling) and were promoted into the enforced CSP above.
+# Put it in a report-only CSP so we can watch Sentry for violations before
+# removing it from the enforced CSP above.
 
 _CSP_REPORT_ONLY_REMOVALS = {
-    "script-src-elem": [
-        "script.crazyegg.com",
-        "js.zi-scripts.com",
-        "snap.licdn.com",
-        "buttons.github.io",
-    ],
-    "connect-src": [
-        "*.crazyegg.com",
-        "js.zi-scripts.com",
-        "px.ads.linkedin.com",
-        "ws.zoominfo.com",
-        "www.tfaforms.com",
-    ],
-    "style-src": ["www.tfaforms.com"],
     "script-src": ["'unsafe-eval'"],
 }
 
