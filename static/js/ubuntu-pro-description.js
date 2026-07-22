@@ -50,10 +50,12 @@ document.addEventListener("click", function (e) {
   // re-renders the selected sections from source, making the export
   // tamper-proof regardless of DOM changes on the main page.
   if (target.classList.contains("js-export-pdf")) {
-    var checked = getSectionCheckboxes()
-      .filter(function (cb) {
-        return cb.checked;
-      })
+    var checked = Array.prototype.slice
+      .call(
+        document.querySelectorAll(
+          '#export-pdf-modal input[name="section"]:checked',
+        ),
+      )
       .map(function (cb) {
         return cb.value;
       });
