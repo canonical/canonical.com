@@ -247,7 +247,11 @@ def _generate():
     primes).
     """
     # Imported lazily: webapp.app imports this module at startup, so
-    # importing it back here at module load time would be circular.
+    # importing it back here at module load time would be circular. A
+    # direct `python3 webapp/llms.py generate` invocation only puts
+    # webapp/ itself on sys.path, not the repo root, so `webapp` isn't
+    # importable as a package without this.
+    sys.path.insert(0, REPO_ROOT)
     from webapp.app import LLMS_TXT, app
 
     content = build_llms_full_txt(app, LLMS_TXT)
