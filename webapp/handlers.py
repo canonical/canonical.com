@@ -154,6 +154,8 @@ CSP = {
         "*.g.doubleclick.net",
         "ad.doubleclick.net",
         "*.clarity.ms",
+        "bat.bing.com",
+        "bat.bing.net",
         "www.googleadservices.com",
         "js.zi-scripts.com",
         "*.google-analytics.com",
