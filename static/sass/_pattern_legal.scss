@@ -67,6 +67,14 @@
       content: counter(section-num) ". ";
     }
 
+    // Prevent headings from being stranded at the bottom of a page with their
+    // content flowing onto the next page.
+    .p-legal-content h2,
+    .p-legal-content h3 {
+      break-after: avoid;
+      page-break-after: avoid; // legacy fallback
+    }
+
     // Content margins replace the @page margins which are set to 0 below.
     margin: 0 14mm;
     // Assign this body to the named page so @page rules below apply.
