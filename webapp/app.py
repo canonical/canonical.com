@@ -1684,9 +1684,9 @@ def llms_full_txt():
     """
     Serve the full Markdown content of every renderable page linked from
     /llms.txt (https://llmstxt.org/). Pre-generated at build time
-    (scripts/generate_llms.py) and shipped in the image, so a normal
-    request is a fast disk read; generated on demand if missing (e.g.
-    local dev, where the build-time step has not run).
+    (`python3 webapp/llms.py generate`) and shipped in the image, so a
+    normal request is a fast disk read; generated on demand if missing
+    (e.g. local dev, where the build-time step has not run).
     """
     file_path = os.path.join(os.getcwd(), "templates", "llms-full.txt")
 
