@@ -120,8 +120,6 @@ CSP = {
         "maps.googleapis.com",
         "www.redditstatic.com",
         "munchkin.marketo.net",
-        "w.usabilla.com",
-        "api.usabilla.com",
         "*.googlesyndication.com",
         "cdn.jsdelivr.net",
         "https://esm.sh",
@@ -143,10 +141,6 @@ CSP = {
         "'self'",
         "blob:",
         "'unsafe-eval'",
-        # Narrower than 'unsafe-eval': lets dotlottie-web compile its WASM
-        # engine without needing to fall back to full string-eval. Kept
-        # alongside 'unsafe-eval' (still required by GTM) so report-only
-        # tracking below isolates real eval() usage from WASM compilation.
         "'wasm-unsafe-eval'",
     ],
     "connect-src": [
@@ -237,19 +231,9 @@ CSP = {
     ],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
-    # blob: is needed for the dotlottie-player WASM engine, which runs its
-    # renderer in a worker created from a blob URL (see
-    # static/js/homepage/animations.js).
     "worker-src": ["'self'", "blob:"],
     "report-uri": [CSP_REPORT_PATH],
 }
-
-# 'unsafe-eval' is a genuine security-hardening target (GTM and the
-# dotlottie-web WASM engine still rely on it), unlike the vendor hosts that
-# used to live here - those turned out to still be in active use (confirmed
-# via live traffic sampling) and were promoted into the enforced CSP above.
-# Put it in a report-only CSP so we can watch Sentry for violations before
-# removing it from the enforced CSP above.
 
 _CSP_REPORT_ONLY_REMOVALS = {
     "script-src": ["'unsafe-eval'"],
@@ -284,8 +268,6 @@ NONCED_DIRECTIVES = ("script-src", "script-src-elem")
 # Hosts already triaged as noise; their reports are dropped outright.
 CSP_REPORT_IGNORED_HOSTS = frozenset(
     {
-        "w.usabilla.com",
-        "api.usabilla.com",
         "script.crazyegg.com",
     }
 )
