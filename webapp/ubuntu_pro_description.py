@@ -25,7 +25,7 @@ import re
 
 import markdown
 import yaml
-from slugify import slugify as _slugify
+from slugify import slugify
 
 _CONTENT_MD = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -49,7 +49,7 @@ _FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
 
 def _slugify_term(text):
     """Convert a definition term to a def-* HTML id slug."""
-    return "def-" + _slugify(text)
+    return "def-" + slugify(text)
 
 
 def load_sections(strip_h3_numbers=False):
