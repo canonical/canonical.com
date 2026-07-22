@@ -83,6 +83,15 @@ jobs:
       # setuptools<81 keeps pkg_resources available (talisker still uses
       # it; newer setuptools dropped it by default).
       - name: Pre-generate llms-full.txt
+        # webapp.app needs a SECRET_KEY to construct the Flask app at
+        # import time; these are the same non-secret test values pr.yaml
+        # and the run-image job already use to do the same thing.
+        env:
+          SECRET_KEY: insecure_test_key
+          APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
+          HARVEST_API_KEY: local_development_fake_key
+          SERVICE_ACCOUNT_EMAIL: test_email@email.com
+          SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
         run: |
           python3 -m venv .venv-llms
           .venv-llms/bin/pip install --upgrade pip "setuptools<81"
