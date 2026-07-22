@@ -9,6 +9,40 @@
 // Initialise the export-pdf modal (from static/js/src/modal.js).
 initModals("#export-pdf-modal", "[aria-controls=export-pdf-modal]", false);
 
+// Return the non-disabled section checkboxes in the modal.
+function getSectionCheckboxes() {
+  return Array.prototype.slice.call(
+    document.querySelectorAll(
+      '#export-pdf-modal input[name="section"]:not([disabled])',
+    ),
+  );
+}
+
+// Return true when every non-disabled section checkbox is checked.
+function allSectionsSelected() {
+  return getSectionCheckboxes().every(function (cb) {
+    return cb.checked;
+  });
+}
+
+// Keep the Select-all / Clear-all link label in sync with checkbox state.
+function updateSelectAllLabel() {
+  var link = document.querySelector(".js-select-all");
+  if (link) {
+    link.textContent = allSectionsSelected() ? "Clear all" : "Select all";
+  }
+}
+
+// Update label whenever a section checkbox changes.
+document
+  .querySelectorAll('#export-pdf-modal input[name="section"]')
+  .forEach(function (cb) {
+    cb.addEventListener("change", updateSelectAllLabel);
+  });
+
+// Set initial label state.
+updateSelectAllLabel();
+
 document.addEventListener("click", function (e) {
   var target = e.target;
 
@@ -16,12 +50,10 @@ document.addEventListener("click", function (e) {
   // re-renders the selected sections from source, making the export
   // tamper-proof regardless of DOM changes on the main page.
   if (target.classList.contains("js-export-pdf")) {
-    var checked = Array.prototype.slice
-      .call(
-        document.querySelectorAll(
-          '#export-pdf-modal input[name="section"]:checked'
-        ),
-      )
+    var checked = getSectionCheckboxes()
+      .filter(function (cb) {
+        return cb.checked;
+      })
       .map(function (cb) {
         return cb.value;
       });
@@ -30,18 +62,18 @@ document.addEventListener("click", function (e) {
       "/legal/ubuntu-pro-description/print?sections=" +
         checked.map(encodeURIComponent).join(","),
       "_blank",
-      "noopener,noreferrer"
+      "noopener,noreferrer",
     );
     return;
   }
 
-  // Select-all link: check every section checkbox.
+  // Select-all / Clear-all link: toggle all non-disabled checkboxes.
   if (target.classList.contains("js-select-all")) {
     e.preventDefault();
-    document
-      .querySelectorAll('#export-pdf-modal input[name="section"]')
-      .forEach(function (cb) {
-        cb.checked = true;
-      });
+    var selectAll = !allSectionsSelected();
+    getSectionCheckboxes().forEach(function (cb) {
+      cb.checked = selectAll;
+    });
+    updateSelectAllLabel();
   }
 });

@@ -13,46 +13,48 @@
 {% block outer_content %}
 
   {% block content %}
+    <section class="p-section--deep">
 
-    <div class="p-strip u-no-padding--bottom">
-      <div class="grid-row--50-50">
-        <div class="grid-col">
-          <h4 class="p-muted-heading">{{ effective_date }}</h4>
+      <div class="p-strip u-no-padding--bottom">
+        <div class="grid-row--50-50">
+          <div class="grid-col">
+            <h4 class="p-muted-heading">{{ effective_date }}</h4>
+          </div>
+          <div class="grid-col u-align--right">
+            <button class="p-button"
+                    aria-controls="export-pdf-modal"
+                    aria-expanded="false">Export to PDF</button>
+          </div>
         </div>
-        <div class="grid-col u-align--right">
-          <button class="p-button"
-                  aria-controls="export-pdf-modal"
-                  aria-expanded="false">Export to PDF</button>
-        </div>
-      </div>
-      <hr class="p-rule is-fixed-width"/>
-    </div>
-
-    <div class="grid-row">
-      <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
-        {{ vf_in_page_navigation(scope="full-page",
-                primary_heading="h2",
-                secondary_heading="h3",
-                excludes=[".p-navigation__dropdown-item", ".p-navigation--list-heading", ".p-tooltip__message", ".p-modal__title"]) }}
+        <hr class="p-rule is-fixed-width" />
       </div>
 
-      <div class="grid-col-6 grid-col-medium-4 grid-col-small-4">
-        <h1>Ubuntu Pro Description</h1>
-        <div class="p-legal-content">
-          <div>{{ sections.get('introduction', '') | safe }}</div>
-          <div>{{ sections.get('security-compliance', '') | safe }}</div>
-          <div>{{ sections.get('support', '') | safe }}</div>
-          <div>{{ sections.get('support-services-process', '') | safe }}</div>
-          <div>{{ sections.get('add-ons', '') | safe }}</div>
-          <div>{{ sections.get('managed-services', '') | safe }}</div>
-          <div>{{ sections.get('firefighting-support', '') | safe }}</div>
-          <div>{{ sections.get('ops-consultancy', '') | safe }}</div>
-          <div>{{ sections.get('professional-support-services', '') | safe }}</div>
-          <div>{{ sections.get('embedded-services', '') | safe }}</div>
-          <div>{{ sections.get('definitions', '') | safe }}</div>
+      <div class="grid-row">
+        <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
+          {{ vf_in_page_navigation(scope="full-page",
+                    primary_heading="h2",
+                    secondary_heading="h3",
+                    excludes=[".p-navigation__dropdown-item", ".p-navigation--list-heading", ".p-tooltip__message", ".p-modal__title"]) }}
+        </div>
+
+        <div class="grid-col-6 grid-col-medium-4 grid-col-small-4">
+          <h1>Ubuntu Pro Description</h1>
+          <div class="p-legal-content">
+            <div>{{ sections.get('introduction', '') | safe }}</div>
+            <div>{{ sections.get('security-compliance', '') | safe }}</div>
+            <div>{{ sections.get('support', '') | safe }}</div>
+            <div>{{ sections.get('support-services-process', '') | safe }}</div>
+            <div>{{ sections.get('add-ons', '') | safe }}</div>
+            <div>{{ sections.get('managed-services', '') | safe }}</div>
+            <div>{{ sections.get('firefighting-support', '') | safe }}</div>
+            <div>{{ sections.get('ops-consultancy', '') | safe }}</div>
+            <div>{{ sections.get('professional-support-services', '') | safe }}</div>
+            <div>{{ sections.get('embedded-services', '') | safe }}</div>
+            <div>{{ sections.get('definitions', '') | safe }}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     {# ── Export PDF modal ─────────────────────────────────────────────────
        Opened by the "Export to PDF" button via aria-controls.

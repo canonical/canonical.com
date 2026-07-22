@@ -340,9 +340,9 @@ You can add different levels of technical support on top of your Infra-only or f
 | **Severity 3** Issues with a medium to low impact on a production environment                                                                                                                                                                                       | N/A                                                     | 12 business hours<sup>2</sup>                                                                                                                 | Weekly                           | 6 hours                                                                                                                                       | Weekly                           | 6 hours                                                                                                                                                                                                     | Weekly                                                                                                                                                                                                                    |
 | **Severity 4** Non-urgent requests with low to no impact on production environments                                                                                                                                                                                 | N/A                                                     | 24 business hours<sup>2</sup>                                                                                                                 | N/A                              | 12 hours                                                                                                                                      | NA                               | 12 hours                                                                                                                                                                                                    | N/A                                                                                                                                                                                                                       |
 
-<sup>1</sup>Included with all [Ubuntu Pro](https://ubuntu.com/pro) subscriptions  
-<sup>2</sup>Business hours: 8:00 AM to 5:00 PM at the Customer’s location as set in the Canonical Support portal. Weekends are not included.  
-<sup>3</sup>Canonical Support will provide follow-up updates within defined time frames after responding to a customer inquiry. These ongoing response time frames are defined based on the severity level of the issue, and counted from the time of the latest severity update.
+<sup>1</sup> Included with all [Ubuntu Pro](https://ubuntu.com/pro) subscriptions  
+<sup>2</sup> Business hours: 8:00 AM to 5:00 PM at the Customer’s location as set in the Canonical Support portal. Weekends are not included.  
+<sup>3</sup> Canonical Support will provide follow-up updates within defined time frames after responding to a customer inquiry. These ongoing response time frames are defined based on the severity level of the issue, and counted from the time of the latest severity update.
 
 ### 14. Customer assistance
 
@@ -370,9 +370,9 @@ You can add different levels of technical support on top of your Infra-only or f
 
 1.  The customer may escalate support issues following the escalation process:
 
-1.  Non-urgent needs: Request a management escalation within the case itself. A manager will be contacted to review the case and post a response within 1 business day
+   1.  Non-urgent needs: Request a management escalation within the case itself. A manager will be contacted to review the case and post a response within 1 business day
 
-1.  Urgent needs can be escalated to Canonical’s Support Engineering Management by emailing [support-manager@canonical.com](mailto:support-manager@canonical.com). If you require further escalation, email Canonical’s Support Director at [operations-director@canonical.com](mailto:operations-director@canonical.com)
+   2.  Urgent needs can be escalated to Canonical’s Support Engineering Management by emailing [support-manager@canonical.com](mailto:support-manager@canonical.com). If you require further escalation, email Canonical’s Support Director at [operations-director@canonical.com](mailto:operations-director@canonical.com)
 
 ### 20. Levels of Support
 

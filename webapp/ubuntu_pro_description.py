@@ -25,6 +25,7 @@ import re
 
 import markdown
 import yaml
+from slugify import slugify as _slugify
 
 _CONTENT_MD = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -48,7 +49,7 @@ _FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
 
 def _slugify_term(text):
     """Convert a definition term to a def-* HTML id slug."""
-    return "def-" + re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+    return "def-" + _slugify(text)
 
 
 def load_sections(strip_h3_numbers=False):
@@ -72,7 +73,7 @@ def load_sections(strip_h3_numbers=False):
     fm_match = _FRONTMATTER.match(raw)
     if fm_match:
         metadata = yaml.safe_load(fm_match.group(1)) or {}
-        raw = raw[fm_match.end() :]
+        raw = raw[fm_match.end():]
 
     parts = _DELIMITER.split(raw)
     # parts: [preamble, section_id, content, section_id, content, ...]
