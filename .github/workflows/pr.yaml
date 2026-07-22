@@ -74,9 +74,13 @@ jobs:
 
   lint-llms:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install node dependencies
         run: yarn install --immutable
