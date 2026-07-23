@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - csp-errors-fix
   workflow_dispatch:
     inputs:
       environment:
@@ -38,7 +39,6 @@ jobs:
 
       - name: Setup LXD
         uses: canonical/setup-lxd@main
-
       - name: Setup Charmcraft
         run: sudo snap install charmcraft --classic --channel=latest/edge
 
@@ -161,55 +161,55 @@ jobs:
           juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
 
-  deploy-production:
-    runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
-    if: |
-      always() &&
-      needs.pack-charm.result == 'success' &&
-      needs.publish-image.result == 'success' &&
-      (needs.deploy-staging.result == 'success' || needs.deploy-staging.result == 'skipped') &&
-      (
-        github.event_name == 'push' ||
-        (
-          github.event_name == 'workflow_dispatch' &&
-          github.event.inputs.environment == 'production' &&
-          github.event.inputs.branch == 'main'
-        )
-      )
-    needs: [pack-charm, publish-image, deploy-staging]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
- 
-      - name: Install Dependencies
-        run: |
-          sudo snap install juju --channel=3.6/stable --classic
-          sudo snap install vault --classic
- 
-      - name: Download Charm Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: canonical-com-charm
- 
-      - name: Configure Vault and Juju
-        run: |
-          export VAULT_ADDR=https://vault.admin.canonical.com:8200
-          export TF_VAR_login_approle_role_id=${{ secrets.PROD_VAULT_APPROLE_ROLE_ID }}
-          export TF_VAR_login_approle_secret_id=${{ secrets.PROD_VAULT_APPROLE_SECRET_ID }}
-          export VAULT_SECRET_PATH_ROLE=secret/prodstack6/roles/prod-canonical-com
-          export VAULT_SECRET_PATH_COMMON=secret/prodstack6/juju/common
-          VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id=${TF_VAR_login_approle_role_id} secret_id=${TF_VAR_login_approle_secret_id}) 
-          export VAULT_TOKEN
-          mkdir -p ~/.local/share/juju
-          vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-36-production-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
-          USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
-          PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
-          printf "controllers:\n  juju-controller-36-production-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
- 
-      - name: Deploy Application to production
-        run: |
-          export JUJU_MODEL=admin/prod-canonical-com
-          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
+#   deploy-production:
+#     runs-on: [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
+#     if: |
+#       always() &&
+#       needs.pack-charm.result == 'success' &&
+#       needs.publish-image.result == 'success' &&
+#       (needs.deploy-staging.result == 'success' || needs.deploy-staging.result == 'skipped') &&
+#       (
+#         github.event_name == 'push' ||
+#         (
+#           github.event_name == 'workflow_dispatch' &&
+#           github.event.inputs.environment == 'production' &&
+#           github.event.inputs.branch == 'main'
+#         )
+#       )
+#     needs: [pack-charm, publish-image, deploy-staging]
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v3
+#  
+#       - name: Install Dependencies
+#         run: |
+#           sudo snap install juju --channel=3.6/stable --classic
+#           sudo snap install vault --classic
+#  
+#       - name: Download Charm Artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: canonical-com-charm
+#  
+#       - name: Configure Vault and Juju
+#         run: |
+#           export VAULT_ADDR=https://vault.admin.canonical.com:8200
+#           export TF_VAR_login_approle_role_id=${{ secrets.PROD_VAULT_APPROLE_ROLE_ID }}
+#           export TF_VAR_login_approle_secret_id=${{ secrets.PROD_VAULT_APPROLE_SECRET_ID }}
+#           export VAULT_SECRET_PATH_ROLE=secret/prodstack6/roles/prod-canonical-com
+#           export VAULT_SECRET_PATH_COMMON=secret/prodstack6/juju/common
+#           VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id=${TF_VAR_login_approle_role_id} secret_id=${TF_VAR_login_approle_secret_id}) 
+#           export VAULT_TOKEN
+#           mkdir -p ~/.local/share/juju
+#           vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-36-production-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
+#           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
+#           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
+#           printf "controllers:\n  juju-controller-36-production-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
+#  
+#       - name: Deploy Application to production
+#         run: |
+#           export JUJU_MODEL=admin/prod-canonical-com
+#           juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+#           juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+#           juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+#           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
