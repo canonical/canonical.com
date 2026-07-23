@@ -69,14 +69,19 @@ jobs:
           yarn install
           yarn run build
 
-      # Bake llms-full.txt into the image so every pod serves it from disk
-      # instead of rendering every page at request time. templates/ is
-      # primed by the rock, so the file ships.
       - name: Pre-generate llms-full.txt
+        env:
+          SECRET_KEY: insecure_test_key
+          APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
+          HARVEST_API_KEY: local_development_fake_key
+          SERVICE_ACCOUNT_EMAIL: test_email@email.com
+          SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
         run: |
-          sudo apt-get update && sudo apt-get install --yes python3-setuptools
-          sudo pip3 install -r requirements.txt
-          python3 webapp/llms.py generate
+          python3 -m venv .venv-llms
+          .venv-llms/bin/pip install --upgrade pip "setuptools<81"
+          .venv-llms/bin/pip install -r requirements.txt
+          .venv-llms/bin/python webapp/llms.py generate
+          rm -rf .venv-llms
 
       - name: Setup LXD
         uses: canonical/setup-lxd@main
