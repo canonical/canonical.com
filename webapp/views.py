@@ -12,7 +12,6 @@ from geopy.distance import geodesic
 from cachetools import TTLCache, cached
 import re
 
-
 logger = logging.getLogger(__name__)
 
 
