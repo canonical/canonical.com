@@ -120,8 +120,6 @@ CSP = {
         "maps.googleapis.com",
         "www.redditstatic.com",
         "munchkin.marketo.net",
-        "w.usabilla.com",
-        "api.usabilla.com",
         "*.googlesyndication.com",
         "cdn.jsdelivr.net",
         "https://esm.sh",
@@ -143,6 +141,7 @@ CSP = {
         "'self'",
         "blob:",
         "'unsafe-eval'",
+        "'wasm-unsafe-eval'",
     ],
     "connect-src": [
         "'self'",
@@ -153,6 +152,10 @@ CSP = {
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
+        "ad.doubleclick.net",
+        "*.clarity.ms",
+        "bat.bing.com",
+        "bat.bing.net",
         "www.googleadservices.com",
         "js.zi-scripts.com",
         "*.google-analytics.com",
@@ -190,6 +193,7 @@ CSP = {
     "frame-src": [
         "'self'",
         "*.doubleclick.net",
+        "*.crazyegg.com",
         "www.youtube.com/",
         "asciinema.org",
         "player.vimeo.com",
@@ -229,31 +233,11 @@ CSP = {
     ],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
-    "worker-src": ["'self'"],
+    "worker-src": ["'self'", "blob:"],
     "report-uri": [CSP_REPORT_PATH],
 }
 
-# These sources seem stale but since marketing tags can be
-# injected at runtime via GTM, outside this repo, we can't
-# be fully sure they're unused from static analysis alone.
-# Put them in a report-only CSP so we can watch Sentry for violations before
-# removing them from the enforced CSP above.
-
 _CSP_REPORT_ONLY_REMOVALS = {
-    "script-src-elem": [
-        "script.crazyegg.com",
-        "js.zi-scripts.com",
-        "snap.licdn.com",
-        "buttons.github.io",
-    ],
-    "connect-src": [
-        "*.crazyegg.com",
-        "js.zi-scripts.com",
-        "px.ads.linkedin.com",
-        "ws.zoominfo.com",
-        "www.tfaforms.com",
-    ],
-    "style-src": ["www.tfaforms.com"],
     "script-src": ["'unsafe-eval'"],
 }
 
@@ -286,8 +270,6 @@ NONCED_DIRECTIVES = ("script-src", "script-src-elem")
 # Hosts already triaged as noise; their reports are dropped outright.
 CSP_REPORT_IGNORED_HOSTS = frozenset(
     {
-        "w.usabilla.com",
-        "api.usabilla.com",
         "script.crazyegg.com",
     }
 )
