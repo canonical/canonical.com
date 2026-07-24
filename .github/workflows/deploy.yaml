@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
 
@@ -48,7 +48,7 @@ jobs:
           charmcraft pack -v --project-dir ./
 
       - name: Upload charm
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: canonical-com-charm
           path: ./charm/*.charm
@@ -57,12 +57,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
 
       - name: Build Assets
         run: |
@@ -93,7 +93,7 @@ jobs:
         run: rockcraft pack
 
       - name: Upload Rock
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: canonical-com-rock
           path: ./*.rock
@@ -108,7 +108,7 @@ jobs:
       image_url: ${{ steps.set_image_url.outputs.image_url }}
     steps:
       - name: Get Rock
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-rock
 
@@ -126,7 +126,7 @@ jobs:
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Install Dependencies
         run: |
@@ -134,7 +134,7 @@ jobs:
           sudo snap install vault --classic
 
       - name: Download Charm Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-charm
 
@@ -179,7 +179,7 @@ jobs:
     needs: [pack-charm, publish-image, deploy-staging]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Install Dependencies
         run: |
@@ -187,7 +187,7 @@ jobs:
           sudo snap install vault --classic
   
       - name: Download Charm Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-charm
  

@@ -9,10 +9,10 @@ env:
 
 jobs:
   run-image:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Build image
         run: DOCKER_BUILDKIT=1 docker build --tag canonical-com .
@@ -24,10 +24,10 @@ jobs:
           curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost
 
   run-dotrun:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install dotrun
         run: sudo pip3 install dotrun requests==2.31.0
@@ -44,10 +44,10 @@ jobs:
         run: dotrun & curl --head --fail --retry-delay 1 --retry 30 --retry-connrefused http://localhost:8002
 
   lint-scss:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -56,10 +56,10 @@ jobs:
         run: yarn lint-scss
 
   lint-python:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install node dependencies
         run: yarn install --immutable
@@ -73,12 +73,12 @@ jobs:
         run: yarn lint-python
 
   lint-llms:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -94,10 +94,10 @@ jobs:
         run: yarn lint-llms
 
   lint-jinja:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -123,10 +123,10 @@ jobs:
           djlint $CHANGED_FILES --lint --profile="jinja"
 
   test-python:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -151,17 +151,17 @@ jobs:
           coverage xml -o coverage.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: python
           commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
 
   test-javascript:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -170,11 +170,11 @@ jobs:
         run: yarn test-js
 
   inclusive-naming-check:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: woke
         uses: canonical-web-and-design/inclusive-naming@main
