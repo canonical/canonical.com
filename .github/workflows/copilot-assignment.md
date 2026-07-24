@@ -17,7 +17,6 @@ permissions:
   contents: read
   pull-requests: read
   copilot-requests: write
-  actions: read
 
 safe-outputs:
   assign-to-agent:
