@@ -72,6 +72,11 @@ jobs:
 
   pack-rock:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_url: ${{ steps.set_image_url.outputs.image_url }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -98,26 +103,8 @@ jobs:
       - name: Pack Rock
         run: rockcraft pack
 
-      - name: Upload Rock
-        uses: actions/upload-artifact@v4
-        with:
-          name: canonical-com-rock
-          path: ./*.rock
-
-  publish-image:
-    runs-on: ubuntu-latest
-    needs: pack-rock
-    permissions:
-      contents: read
-      packages: write
-    outputs:
-      image_url: ${{ steps.set_image_url.outputs.image_url }}
-    steps:
-      - name: Get Rock
-        uses: actions/download-artifact@v4
-        with:
-          name: canonical-com-rock
-
+      # Pushing straight from this job avoids a rock artifact upload/download
+      # and a separate runner spin-up for a job that only ran skopeo.
       - name: Set image URL
         id: set_image_url
         run: echo "image_url=ghcr.io/canonical/canonical.com:$(date +%s)-${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
@@ -129,7 +116,7 @@ jobs:
     runs-on:
       [self-hosted, self-hosted-linux-amd64-noble-private-endpoint-medium]
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
-    needs: [pack-charm, publish-image]
+    needs: [pack-charm, pack-rock]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -162,9 +149,9 @@ jobs:
       - name: Deploy Application to staging
         run: |
           export JUJU_MODEL=admin/stg-staging-canonical-com
-          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
 
   deploy-production:
@@ -172,7 +159,7 @@ jobs:
     if: |
       always() &&
       needs.pack-charm.result == 'success' &&
-      needs.publish-image.result == 'success' &&
+      needs.pack-rock.result == 'success' &&
       (needs.deploy-staging.result == 'success' || needs.deploy-staging.result == 'skipped') &&
       (
         github.event_name == 'push' ||
@@ -182,7 +169,7 @@ jobs:
           github.event.inputs.branch == 'main'
         )
       )
-    needs: [pack-charm, publish-image, deploy-staging]
+    needs: [pack-charm, pack-rock, deploy-staging]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -215,7 +202,7 @@ jobs:
       - name: Deploy Application to production
         run: |
           export JUJU_MODEL=admin/prod-canonical-com
-          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.pack-rock.outputs.image_url }}
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
