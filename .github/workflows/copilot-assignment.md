@@ -1,5 +1,5 @@
 ---
-# GH agentic workflow frontmatter docs: 
+# GH agentic workflow frontmatter docs:
 # https://github.github.com/gh-aw/reference/frontmatter-full/#complete-frontmatter-reference
 # Triggered when the "copilot" label is added to an issue.
 # Only runs for users with write access (admin, maintainer, write roles).
@@ -10,9 +10,7 @@ on:
 
 if: github.event.label.name == 'copilot'
 
-engine:
-  id: copilot
-  model: gpt-5.5
+engine: copilot
 
 permissions:
   issues: read
@@ -24,7 +22,6 @@ safe-outputs:
   assign-to-agent:
     name: copilot
     target: triggering
-    model: gpt-5.5
 ---
 
 Assign the GitHub Copilot coding agent to this issue. The agent will read the issue, implement a solution, and open a pull request for review.

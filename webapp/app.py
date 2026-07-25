@@ -74,6 +74,7 @@ from webapp.careers import (
 )
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
+from webapp import llms
 from webapp.navigation import (
     build_navigation,
     get_current_page_bubble,
@@ -89,6 +90,7 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+from webapp import ubuntu_pro_description as _upsd
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +98,11 @@ logger = logging.getLogger(__name__)
 # Can be seen on /sitemap.xml
 with open("dynamic-sitemaps.yaml") as sitemaps_file:
     DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
+
+# LLM-friendly site index (https://llmstxt.org/): templates/llms.txt (hand
+# written) plus curated extra links from llms.yaml. Built once at startup,
+# like the config above, rather than on every request.
+LLMS_TXT = llms.build_llms_txt("templates/llms.txt", "llms.yaml")
 
 
 # Web tribe websites custom search ID
@@ -944,6 +951,36 @@ def register_knowledge_category_routes():
 register_knowledge_category_routes()
 
 
+# Ubuntu Pro Description
+@app.route("/legal/ubuntu-pro-description")
+def ubuntu_pro_description():
+    sections, metadata = _upsd.load_sections()
+    return flask.render_template(
+        "legal/ubuntu-pro-description/index.html",
+        sections=sections,
+        effective_date=metadata.get("effective_date", ""),
+    )
+
+
+@app.route("/legal/ubuntu-pro-description/print")
+def ubuntu_pro_description_print():
+    # Powers the "Export to PDF" feature. The browser opens this URL in a new
+    # tab, auto-triggers window.print(), then closes via the afterprint event.
+    # selected_sections controls which sections are rendered, making the export
+    # tamper-proof: the user cannot alter the main page DOM to change the PDF.
+    sections_param = flask.request.args.get("sections", "")
+    selected_sections = [
+        s.strip() for s in sections_param.split(",") if s.strip()
+    ]
+    sections, metadata = _upsd.load_sections(strip_h3_numbers=True)
+    return flask.render_template(
+        "legal/ubuntu-pro-description/_print.html",
+        selected_sections=selected_sections,
+        sections=sections,
+        effective_date=metadata.get("effective_date", ""),
+    )
+
+
 # Template finder
 template_finder_view = TemplateFinder.as_view("template_finder")
 app.add_url_rule("/<path:subpath>", view_func=template_finder_view)
@@ -1659,6 +1696,49 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/llms.txt")
+def llms_txt():
+    """
+    Serve the LLM-friendly site index (https://llmstxt.org/): the manually
+    maintained templates/llms.txt plus curated extra links from llms.yaml.
+    """
+    response = flask.make_response(LLMS_TXT)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=21600"
+    return response
+
+
+@app.route("/llms-full.txt")
+def llms_full_txt():
+    """
+    Serve the full Markdown content of every renderable page linked from
+    /llms.txt (https://llmstxt.org/). Pre-generated at build time
+    (`python3 webapp/llms.py generate`) and shipped in the image, so a
+    normal request is a fast disk read; generated on demand if missing
+    (e.g. local dev, where the build-time step has not run).
+    """
+    file_path = os.path.join(os.getcwd(), "templates", "llms-full.txt")
+
+    if not os.path.exists(file_path):
+        try:
+            content = llms.build_llms_full_txt(app, LLMS_TXT)
+            with open(file_path, "w") as f:
+                f.write(content)
+        except Exception:
+            logger.exception("Failed to generate llms-full.txt")
+
+    if not os.path.exists(file_path):
+        return {"error": "llms-full.txt not available"}, 503
+
+    with open(file_path) as f:
+        content = f.read()
+
+    response = flask.make_response(content)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
 
 
 def navigation_nojs():
