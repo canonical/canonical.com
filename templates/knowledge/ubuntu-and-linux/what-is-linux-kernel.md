@@ -2,6 +2,8 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Ubuntu and Linux"
+  publish_date: 2026-04-17
+  description: "Understand the Linux kernel, its history and functionality. Learn about its Unix roots, creation by Linus Torvalds, open-source nature (GPLv2), and its core role in managing hardware, processes, and components."
   tag: "Linux kernel"
   title: "What is the Linux Kernel? | Ubuntu and Linux | Linux kernel"
   breadcrumb: "What is the Linux Kernel?"
@@ -24,7 +26,7 @@ context:
 {% from "macros/_macros-image.jinja" import image_kh %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
 
-The Linux kernel is widely used and its codebase ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux feel less intimidating. Linux for human beings, you might say.
+The Linux kernel is the main component behind Linux operating systems, and acts as the intermediary between a computer’s hardware and software layers. The Linux kernel is widely used and its codebase is ever-increasing, so it can feel daunting for a newcomer to wrap their head around it. This article aims to make the fascinating world of Linux, and the kernel itself, feel less intimidating. Linux for human beings, you might say.
 
 ## What is the history of Linux?
 
@@ -44,12 +46,13 @@ Modern Unix systems are highly capable. They introduced [preemptive multitasking
   alt="",
   width="1200",
   height="500",
-  hi_def=True,
   loading="lazy"
   ) | safe
 }}
 
 ### Who is Linus Torvalds?
+
+*“Hello everybody out there using minix -*
 
 *I'm doing a (free) operating system (just a hobby, won't be big and professional like gnu) for 386(486) AT clones.  [...] It is NOT portable (uses 386 task switching etc), and it probably never will support anything other than AT-harddisks, as that's all I have :-(.”*
 
@@ -61,7 +64,6 @@ In 1991, Linus Torvalds, then a student at the University of Helsinki, created L
   alt="",
   width="1200",
   height="500",
-  hi_def=True,
   loading="lazy",
   caption="Intel 80386 processor, supported by the Linux kernel <a href='https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21'>until</a> 2012"
   ) | safe
@@ -90,7 +92,7 @@ The kernel forms the foundation of the system. It provides the essential service
 
 A key concept within the Linux kernel world is “where” processes run. A processor, often called a CPU, is the hardware unit in a computer that carries out instructions, fetching them from memory, performing calculations, and moving data around.
 
-Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. . For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
+Modern microprocessors support code execution at a minimum of two privilege levels, hardware-enforced execution tiers that restrict what operations code is allowed to perform. For instance, Intel and AMD processor families support four ring levels, arm32 microprocessors support seven execution modes, and so on. The kernel's Virtual Address Space (VAS), the range of virtual memory addresses visible to and managed by the system, is then "split" into at least clearly distinguished (virtual) address spaces. A processor is always engaged in one of three areas:
 
 {{ text_list_kh(
   type="number",
@@ -104,7 +106,6 @@ Modern microprocessors support code execution at a minimum of two privilege leve
   alt="",
   width="1200",
   height="800",
-  hi_def=True,
   loading="lazy",
   caption="Sketch based on drawing in <a href='https://rlove.org/'>Robert Love’s Linux kernel development</a>"
   ) | safe
@@ -130,7 +131,6 @@ Now that we have a sense of what the kernel is and why it matters, it’s worth 
   alt="",
   width="1200",
   height="800",
-  hi_def=True,
   loading="lazy",
   caption="Major subsystems of the Linux kernel based on Kaiwan Billimoria's <a href='https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435'>Linux Kernel Programming</a>"
   ) | safe
@@ -184,7 +184,7 @@ User space and kernel space occupy separate virtual address spaces and operate a
 User-space applications, however, do not interact with the kernel solely through direct system calls. Often,  they rely on library APIs, which are standardised, well-written, and well-tested interfaces such as the C standard library glibc, POSIX libraries, or domain-specific libraries. A library is essentially a collection or archive of APIs which abstract away the underlying system calls and provide higher-level, portable functions. For example, printf(), fopen(), or pthread_create() are library APIs that translate into system calls like write(), open(), or clone(), but with additional logic, error handling, and convenience.
 
 
-## How can kernel code execute?
+## How can the kernel code execute?
 
 To understand how Linux operates, it helps to see *when* the kernel actually executes. Although the kernel is large, all of its code runs in just two situations, known as “contexts”. Whether responding to a system call or reacting to hardware, all kernel execution falls into one of these two contexts. Linux switches into kernel mode to do its work and then returns control when it’s safe to do so.
 
@@ -197,8 +197,6 @@ To understand how Linux operates, it helps to see *when* the kernel actually exe
 ### Interrupt context
 
 The other way kernel code runs is when hardware interrupts demand immediate attention. A device like a network card, a disk controller, or a timer triggers an interrupt, causing the CPU to pause its current work, save the process’s state, and jump into an interrupt handler. This code does *not* run for any specific process and cannot block or sleep. It is asynchronous and often time-critical, essentially forming the kernel’s reaction layer to external events.
-
-{{ lite_video(video_id="1eqEpf9hPKk", video_title="Starting Your Career at Canonical - Journey to Prof I") | safe }}
 
 ## Ubuntu and the Linux kernel
 

@@ -64,7 +64,7 @@
     <div class="l-docs__sticky-container">
       {% if versions | length > 1 %}
         <label for="version-select" class="u-hide">Version</label>
-        <select name="version-select" id="version-select" onChange="window.location.href=this.value">
+        <select name="version-select" id="version-select" data-js-navigate-on-change>
         {% for version in versions %}
           {% set active = docs_version == version['path'] %}
           <option value="{{ version_paths[version['path']] }}"{% if active %} selected{% endif %}>{{ version['version'] }}</option>
@@ -72,7 +72,7 @@
         </select>
       {% endif %}
 
-      <nav data-js="navigation" class="p-side-navigation" id="{{ navigation['path'] or 'default' }}" style="margin-top: 0.5rem">
+      <nav data-js="navigation" class="p-side-navigation u-margin-top-0-5rem" id="{{ navigation['path'] or 'default' }}">
         <div class="u-fixed-width">
           <a href="#{{ navigation['path'] or 'default' }}" class="p-side-navigation__toggle js-drawer-toggle" aria-controls="{{ navigation['path'] or 'default' }}">
             Toggle side navigation
@@ -154,8 +154,8 @@
 </div>
 
 {% block js_extra %}
-  <script src="/static/js/highlight.pack.js"></script>
-  <script>
+  <script src="/static/js/highlight.pack.js" nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
   hljs.initHighlightingOnLoad();
   window.addEventListener("DOMContentLoaded", function() {
   // Based on Vanilla side navigation example
@@ -319,8 +319,8 @@
   });
   });
   </script>
-  <script src="/static/js/modules/discourse-rad-parser/discourse-rad-parser.js"></script>
-  <script>
+  <script src="/static/js/modules/discourse-rad-parser/discourse-rad-parser.js" nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
     drpNs.DiscourseRADParser();
   </script>
 {% endblock js_extra %}

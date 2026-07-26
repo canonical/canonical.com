@@ -1,0 +1,35 @@
+name: Delete generated output branch after merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup-output-branch:
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete Bauer parse-output branch after merge
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Detect the Bauer parse-output branch referenced in the PR body,
+          # e.g. "bauer/doc-suggestions-<id>".
+          BAUER_BRANCH=$(printf '%s' "$PR_BODY" \
+            | grep -oE 'bauer/doc-suggestions-[A-Za-z0-9._-]+' \
+            | head -n 1)
+
+          if [ -z "$BAUER_BRANCH" ]; then
+            echo "No Bauer parse-output branch found in PR body, nothing to do."
+            exit 0
+          fi
+
+          echo "Deleting branch: $BAUER_BRANCH"
+          gh api \
+            -X DELETE \
+            "repos/${{ github.repository }}/git/refs/heads/$BAUER_BRANCH"

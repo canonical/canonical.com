@@ -6,8 +6,8 @@
 
 {% block content %}
 
-  <section class="p-strip--image is-shallow"
-           style="background-image: url('https://assets.ubuntu.com/v1/e54487e2-maas-docs-suru.png')">
+  <section class="p-strip--image is-shallow u-maas-tutorial-background"
+          >
     <div class="u-fixed-width">
       <h1 class="p-heading--2 u-no-margin--bottom">{{ document["title"] }}</h1>
     </div>
@@ -102,15 +102,15 @@
                     </div>
                     <div class="p-tutorial__pagination">
                       {% if loop.first %}
-                        <button class="p-tutorial__pagination-item--prev p-button has-icon u-no-margin--bottom"
+                        <button class="p-tutorial__pagination-item--prev p-button has-icon u-no-margin--bottom u-margin-right-1rem"
                                 disabled
-                                style="margin-right: 1rem">
+                               >
                           <i class="p-icon--chevron-down">Previous step</i>
                         </button>
                       {% else %}
                         <a href="#{{ loop.index - 1 }}-{{ loop.previtem['slug'] }}"
-                           class="p-tutorial__pagination-item--prev p-button has-icon u-no-margin--bottom"
-                           style="margin-right: 1rem">
+                           class="p-tutorial__pagination-item--prev p-button has-icon u-no-margin--bottom u-margin-right-1rem"
+                          >
                           <i class="p-icon--chevron-down">Previous step</i>
                         </a>
                       {% endif %}
@@ -138,7 +138,7 @@
   </div>
 
   <!-- end of tutorial feedback -->
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var tutorialFeedbackOptions = document.querySelector('.p-tutorial__feedback-options');
       var tutorialFeedbackIcons = document.querySelectorAll('.p-tutorial__feedback-icon');
@@ -162,7 +162,7 @@
     })();
   </script>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       function setActiveLink(navigationItems) {
         [].forEach.call(navigationItems, function(item) {
@@ -210,7 +210,7 @@
     })();
   </script>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var polls = document.querySelectorAll('.poll');
 
@@ -237,7 +237,7 @@
     })();
   </script>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       var toggle = document.querySelector('.p-sidenav__toggle');
       var sidebarContent = document.querySelector('.p-sidenav__body');

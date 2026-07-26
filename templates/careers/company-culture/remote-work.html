@@ -6,7 +6,7 @@
   https://docs.google.com/document/d/1391OL7xQec1SY9HFkv80DFwACbdndCIk-N_sFzAXkPU
 {% endblock meta_copydoc %}
 
-{% block title %}Careers | Remote work and company culture{% endblock %}
+{% block title %}Remote work | Company culture | Careers{% endblock %}
 
 {% block meta_description %}
   Canonical is a remote-first company. Our policy means we can work with the best talent in the world. We meet in-person at least twice a year at company wide sprints, which take place in exciting locations around the world. Learn about remote work at Canonical. 
@@ -147,7 +147,7 @@
           </noscript>
         </div>
         <div class="row">
-          <figcaption class="col-6 col-medium-3 col-start-medium-4 col-start-large-7 u-text--muted" style="font-style: normal;">A sample of sprint locations from the past 5 years</figcaption>
+          <figcaption class="col-6 col-medium-3 col-start-medium-4 col-start-large-7 u-text--muted u-font-style-normal">A sample of sprint locations from the past 5 years</figcaption>
         </div>
       </figure>
     </div>
@@ -190,7 +190,7 @@
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen></iframe>
           </div>
-          <figcaption class="u-text--muted" style="font-style: normal;">Discover our sprints in action in our video from Cape Town</figcaption>
+          <figcaption class="u-text--muted u-font-style-normal">Discover our sprints in action in our video from Cape Town</figcaption>
         </figure>
         <p>
           Company sprints enable our globally distributed teams to nurture relationships and get to know their colleagues in person, whilst exploring inspirational locations.
@@ -213,15 +213,15 @@
       <div class="u-align--right u-sv1">
         <a href="#"
           id="carousel-previous"
-          class="p-carousel__previous"
-          style="text-decoration: unset">
+          class="p-carousel__previous u-text-decoration-unset"
+         >
           <i class="p-icon--chevron-left">Previous image</i>
         </a>
         &nbsp;
         <a href="#"
           id="carousel-next"
-          class="p-carousel__next"
-          style="text-decoration: unset">
+          class="p-carousel__next u-text-decoration-unset"
+         >
           <i class="p-icon--chevron-right">Next image</i>
         </a>
       </div>
@@ -418,11 +418,11 @@
     </div>
   </section>
 
-  <script src="{{ versioned_static('js/modules/leaflet/leaflet.js') }}"></script>
+  <script src="{{ versioned_static('js/modules/leaflet/leaflet.js') }}" nonce="{{ csp_nonce }}"></script>
 
-  <script src="{{ versioned_static('js/modules/flickity/flickity.pkgd.min.js') }}"></script>
+  <script src="{{ versioned_static('js/modules/flickity/flickity.pkgd.min.js') }}" nonce="{{ csp_nonce }}"></script>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     initCarousel('#carousel_target', '#carousel-next', '#carousel-previous');
     initMap("locations-map");
 

@@ -32,6 +32,8 @@ PERCY_BROWSER_EXECUTABLE=/Applications/Chromium.app/Contents/MacOS/Chromium
 PERCY_POSTINSTALL_BROWSER=false
 ```
 
+In CI, Percy snapshots only run when a PR (or push to `main`) touches files that can affect rendered output (SCSS, JS, templates, nav YAMLs, snapshot config, `package.json`/`yarn.lock`). See [.github/PERCY.md](.github/PERCY.md) for the full behaviour, watched-paths list, and how to force a run via the `run-percy` label.
+
 ## Environment variables
 
 Environment variables are read from the available shell. For the charm, these are prepended with the prefix `FLASK_`, which we strip before re-inserting them into the environment.

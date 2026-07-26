@@ -1,7 +1,7 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
-{% from "macros/_vf_card.jinja" import vf_card %}
+{% from "_macros/vf_card.jinja" import vf_card %}
 
 {% block body_class %}
   is-paper
@@ -46,7 +46,11 @@
           {% endfor %}
         </div>
       {% else %}
-        <p>No articles available in this category.</p>
+        <div class="grid-row">
+          <div class="grid-col-start-large-3 grid-col-6">
+            <p>No articles available in this category.</p>
+          </div>
+        </div>
       {% endif %}
     </section>
 
@@ -76,7 +80,7 @@
                       aria-labelledby="canonicalUpdatesOptIn"
                       name="canonicalUpdatesOptIn"
                       type="checkbox" />
-              <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical"s products and services.</span>
+              <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
             </label>
             <p>
               By submitting this form, I confirm that I have read and agree to <a href="#">Canonical's Privacy Policy</a>.

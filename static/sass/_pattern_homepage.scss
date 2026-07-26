@@ -134,23 +134,43 @@
   }
 
   .p-homepage-card {
-    background-color: #202020; /* dark background */
+    background-color: #202020;
     padding: 0;
-    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    border: 1px solid rgb(255 255 255 / 10%);
     justify-content: space-between;
     align-items: center;
   }
 
-  a {
-    text-decoration-color: #fff;
-  }
-
   .p-homepage-blog-card {
-    background-color: #202020; /* dark background */
-    border: 1px solid rgb(255 255 255 / 10%); /* subtle border */
+    background-color: #202020;
+    border: 1px solid rgb(255 255 255 / 10%);
     padding: 0;
+
     @media screen and (width < $breakpoint-large) {
       padding-bottom: 0;
+    }
+
+    // On small screens Vanilla collapses the image, title and excerpt into a
+    // single subgrid column, which overlaps (excerpt over title) on some
+    // iOS/Safari builds. Lay the card out with flexbox there instead — medium
+    // and large keep Vanilla's equal-height grid (image left / text right)
+    // untouched. Qualifying with `&.p-equal-height-row__col` raises specificity
+    // above Vanilla's `.p-equal-height-row .p-equal-height-row__col`, so these
+    // win without `!important`.
+    @media screen and (width < $breakpoint-small) {
+      &.p-equal-height-row__col {
+        display: flex;
+        flex-direction: column;
+        // Opt out of the 4-row subgrid span, and stop the card stretching to
+        // fill its grid track — otherwise a taller card grows down into the
+        // next one and swallows the gap between them.
+        grid-row: auto;
+        align-self: start;
+      }
+
+      & + & {
+        margin-top: 1.5rem;
+      }
     }
 
     a {

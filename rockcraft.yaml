@@ -12,6 +12,13 @@ platforms:
 extensions:
   - flask-framework
 parts:
+  git:
+    plugin: nil
+    build-packages:
+      - git
+    stage-packages:
+      - git
+  
   flask-framework/install-app:
     prime:
       #       # note: prefix each entry with "flask/app/" followed by the local path.
@@ -24,3 +31,6 @@ parts:
       - flask/app/redirects.yaml
       - flask/app/navigation.yaml
       - flask/app/secondary-navigation.yaml
+      - flask/app/dynamic-sitemaps.yaml
+      - flask/app/llms.yaml
+      - flask/app/products.yaml

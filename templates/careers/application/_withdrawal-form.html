@@ -13,13 +13,13 @@
           <label for="email">Email address</label>
           <input required type="email" id="email" name="email" placeholder="example@canonical.com" autocomplete="email"/>
           <label for="textarea">Reason you wish to withdraw your application</label>
-          <select name="withdrawal-reason" id="withdrawal-reason" onchange="showInput()" required>
+          <select name="withdrawal-reason" id="withdrawal-reason" required>
               <option value="" disabled="disabled" selected="">Select</option>
             {% for reason_id, reason_message in withdrawal_reasons.items() %}
               <option value="{{ reason_id }}">{{ reason_message }}</option>
             {% endfor %}
           </select>
-          <div class="other-input" style="display:none;">
+          <div class="other-input u-display-none">
             <input type="text" id="withdrawal-reason-other" name="withdrawal-reason-other" placeholder="Please write your reason here"/>
           </div>
           <footer class="p-withdrawal-modal__footer">

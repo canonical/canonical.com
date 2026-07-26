@@ -3,7 +3,7 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 
-{% block title %}Private cloud pricing{% endblock %}
+{% block title %}Private cloud pricing | Infrastructure{% endblock %}
 
 {% block meta_description %}
   Use this private cloud pricing page and calculator to estimate the cost of running your workloads in a private cloud.
@@ -286,7 +286,7 @@
   {{ load_form("/solutions/infrastructure/private-cloud-pricing", 6062) | safe }}
 
   {# djlint: off #}
-  <script>
+  <script nonce="{{ csp_nonce }}">
     let pricingMetrics = {};
 
     /**

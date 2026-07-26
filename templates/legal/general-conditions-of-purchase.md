@@ -48,7 +48,7 @@ intellectual property ("IP") which constitute "work made for hire".
 
 ## Operative Provisions
 
-<h3 id="1-fees-and-payment" style="scroll-margin-top:3.5rem;">1. Fees and payment.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="1-fees-and-payment">1. Fees and payment.</h3>
 
 1.1. <u>Invoice timing.</u> The Supplier shall invoice the fees
 monthly in arrears (for provision of Services) or upon Canonical's
@@ -72,7 +72,7 @@ any bank details set out in Supplier invoices, will not be considered.
 1.3. <u>Specification of fees.</u> The fees under the PO are the
 only amounts payable by Canonical.
 
-<h3 id="2-taxes" style="scroll-margin-top:3.5rem;">2. Taxes.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="2-taxes">2. Taxes.</h3>
 
 The fees are exclusive of VAT and any other applicable
 sales tax required by law. Canonical may withhold or deduct any
@@ -81,7 +81,7 @@ Supplier will indemnify and hold Canonical harmless from any claims,
 costs (including reasonable attorneys' fees) and liabilities related to
 Supplier's taxes.
 
-<h3 id="3-acceptance" style="scroll-margin-top:3.5rem;">3. Acceptance.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="3-acceptance">3. Acceptance.</h3>
 
 The Goods and Services shall comply with all
 specifications set out by Canonical. Canonical may terminate the
@@ -105,7 +105,7 @@ subject to final inspection and acceptance by Canonical at a location
 designated by Canonical within a reasonable time after delivery or
 performance.
 
-<h3 id="4-delivery-delays" style="scroll-margin-top:3.5rem;">4. Delivery delays.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="4-delivery-delays">4. Delivery delays.</h3>
 
 Except in case of force majeure and without
 prejudice to its other rights and remedies, in the event that Supplier
@@ -114,7 +114,7 @@ the agreed delivery date, Canonical reserves the right to apply a
 penalty of 2% of the amount of the purchase order for each complete
 week of delay of the agreed delivery date, up to a maximum of 10%.
 
-<h3 id="5-ownership-and-intellectual-property-rights" style="scroll-margin-top:3.5rem;">5. Ownership and Intellectual Property rights.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="5-ownership-and-intellectual-property-rights">5. Ownership and Intellectual Property rights.</h3>
 
 5.1. <u>Ownership of pre-existing IP.</u> Each party will retain
 ownership of its pre-existing IP and any IP developed outside of
@@ -158,7 +158,7 @@ Component is licensed under this clause 5.3.
 licensed software) will pass from Supplier to Canonical on final
 acceptance.
 
-<h3 id="6-representations-and-warranties" style="scroll-margin-top:3.5rem;">6. Representations and warranties.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="6-representations-and-warranties">6. Representations and warranties.</h3>
 
 6.1. <u>Authority.</u> Each party warrants that it has the legal
 power and authority to enter into the Agreement and that
@@ -192,7 +192,7 @@ contain viruses, vulnerabilities or malicious code that may affect the Goods, Se
 &nbsp;&nbsp;&nbsp;&nbsp;6.2.8. Supplier shall comply with all applicable anti-bribery, anti-corruption, and anti-money laundering laws and regulations. Supplier will ensure adequate anti-bribery, corruption, internal controls and money-laundering training for all personnel.<br />
 &nbsp;&nbsp;&nbsp;&nbsp;6.2.9. Supplier is: (i) not the target of sanctions; (ii) complies and will continue to comply with applicable export control, sanctions, and trade laws and regulations, and shall certify such compliance at the time of the contract execution and periodically thereafter, as well as reasonably requested by Canonical; (iii) will not engage in or facilitate any business activity that would lead Canonical to violate export control, sanctions, and trade laws and regulations; and (iv) has systems, processes, and policies in place to ensure compliance with export control, sanctions, and trade laws and regulations.
 
-<h3 id="7-termination" style="scroll-margin-top:3.5rem;">7. Termination.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="7-termination">7. Termination.</h3>
 
 Canonical may terminate the Agreement or an
 applicable PO with or without cause, effective upon 30 days written
@@ -201,7 +201,7 @@ to pay for: (i) Deliverables or Goods accepted before the termination
 effective date; and (ii) Services performed where Canonical will retain
 the benefit after the termination effective date.
 
-<h3 id="8-confidentiality-and-data-protection" style="scroll-margin-top:3.5rem;">8. Confidentiality and data protection.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="8-confidentiality-and-data-protection">8. Confidentiality and data protection.</h3>
 
 8.1. <u>Disclosure and use.</u> During and after the term of the
 Agreement or any applicable PO, subject to the exceptions in
@@ -265,7 +265,7 @@ personnel or subcontractors. If requested by Canonical, Supplier
 and Canonical will enter into a separate data processing
 agreement.
 
-<h3 id="9-code-of-conduct-and-anti-facilitation-of-tax-evasion" style="scroll-margin-top:3.5rem;">9. Code of conduct and anti-facilitation of tax evasion.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="9-code-of-conduct-and-anti-facilitation-of-tax-evasion">9. Code of conduct and anti-facilitation of tax evasion.</h3>
 
 9.1. <u>Code of Conduct.</u> Supplier will comply with the
 most current version of the <a href="https://assets.ubuntu.com/v1/b5f3fd1b-2026_canonical_business_code_of_conduct.pdf?_gl=1*dfa662*_gcl_au*NjQ4NjYzMjk5LjE3Njk1MTQ0MDg." target="_blank" rel="noopener noreferrer">Canonical Code of Conduct</a> (“**Relevant Policy**”).
@@ -291,7 +291,7 @@ awarded against, Canonical as a result of any breach of this
 clause 9 by Supplier or any breach of provisions equivalent to
 this clause 9 in any subcontract by any subcontractor.
 
-<h3 id="10-indemnification" style="scroll-margin-top:3.5rem;">10. Indemnification.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="10-indemnification">10. Indemnification.</h3>
 
 10.1. <u>Third party claims.</u> Subject to the terms of this clause
 10, Supplier will defend, at its expense: (i) any legal action brought
@@ -317,7 +317,7 @@ actions for failure to comply with applicable laws, rules or
 regulations by Supplier or Supplier's agents, employees, or
 subcontractors - including the Criminal Finances Act 2017.
 
-<h3 id="11-limitation-of-liability" style="scroll-margin-top:3.5rem;">11. Limitation of liability.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="11-limitation-of-liability">11. Limitation of liability.</h3>
 
 11.1. <u>LIABILITY CAP.</u> SUBJECT TO CLAUSE 11.3, EACH PARTY'S AGGREGATE
 LIABILITY UNDER THE AGREEMENT, WHETHER BASED ON CONTRACT, TORT (INCLUDING
@@ -341,19 +341,19 @@ provisions of the Agreement; (iv) in relation to any indemnity
 herein; and (v) anything else that cannot be excluded or limited by
 applicable law.
 
-<h3 id="12-no-waiver-of-rights" style="scroll-margin-top:3.5rem;">12. No waiver of rights.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="12-no-waiver-of-rights">12. No waiver of rights.</h3>
 
 Canonical's delay or failure to exercise
 any right or remedy will not result in a waiver of that or any other
 right or remedy.
 
-<h3 id="13-subcontractors" style="scroll-margin-top:3.5rem;">13. Subcontractors.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="13-subcontractors">13. Subcontractors.</h3>
 
 Supplier will obtain Canonical's written
 approval before subcontracting any third party for the provision
 of any Goods, Services or Deliverables.
 
-<h3 id="14-tupe" style="scroll-margin-top:3.5rem;">14. TUPE.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="14-tupe">14. TUPE.</h3>
 
 14.1. In the event that the Agreement or an applicable PO
 terminates (in whole or part) for whatever reason, the Supplier
@@ -375,7 +375,7 @@ Supplier or any sub-contractor; and<br />
 agent or sub-contractor of Supplier in respect of any relevant
 personnel for the purposes of TUPE.
 
-<h3 id="15-no-employment-relationship" style="scroll-margin-top:3.5rem;">15. No employment relationship</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="15-no-employment-relationship">15. No employment relationship</h3>
 
 15.1. Supplier shall not be considered Canonical's employee,
 nor shall Supplier personnel be deemed employees of Canonical.
@@ -395,7 +395,7 @@ liabilities whatsoever suffered or incurred by Canonical (or any
 successor service provider) which relate to or arise from the
 formation of an employer-employee relationship.
 
-<h3 id="16-escalation" style="scroll-margin-top:3.5rem;">16. Escalation.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="16-escalation">16. Escalation.</h3>
 
 If there is a disagreement in relation to the
 Agreement, the parties will use their reasonable endeavours to
@@ -409,7 +409,7 @@ until the dispute resolution procedures of this clause have been
 followed, but nothing in this clause will prevent either party applying
 to the courts of any country for injunctive or other interim relief.
 
-<h3 id="17-insurance" style="scroll-margin-top:3.5rem;">17. Insurance.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="17-insurance">17. Insurance.</h3>
 
 17.1. <u>Supplier insurance.</u> During the term of the
 Agreement or an applicable PO and for a period of six months
@@ -434,7 +434,7 @@ these shall remain the sole responsibility of Supplier.
 Canonical on request a certificate of insurance from each of its
 insurers evidencing the insurance required by the Agreement.
 
-<h3 id="18-audit" style="scroll-margin-top:3.5rem;">18. Audit.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="18-audit">18. Audit.</h3>
 
 Supplier shall allow Canonical or Canonical's auditor or
 authorised representative at any time to audit Supplier's
@@ -442,21 +442,21 @@ performance under the Agreement, including inspecting its
 hardware and software. Such inspection shall take place during local
 business hours.
 
-<h3 id="19-publicity" style="scroll-margin-top:3.5rem;">19. Publicity.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="19-publicity">19. Publicity.</h3>
 
 Supplier will not issue any press releases or any
 other publicity related to Supplier's relationship with Canonical or
 the Agreement, nor will Supplier use any Canonical trademarks
 without prior written approval from Canonical.
 
-<h3 id="20-assignment" style="scroll-margin-top:3.5rem;">20. Assignment.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="20-assignment">20. Assignment.</h3>
 
 Neither party may assign, transfer, charge, create
 a trust over or otherwise deal in its rights and/or obligations under
 the Agreement (or purport to do so) without the other party's prior
 written consent.
 
-<h3 id="21-force-majeure" style="scroll-margin-top:3.5rem;">21. Force Majeure.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="21-force-majeure">21. Force Majeure.</h3>
 
 Neither party shall be liable for any breach of
 the Agreement directly or indirectly caused by circumstances beyond
@@ -477,7 +477,7 @@ within 3 months of giving notice of the Force Majeure Event, either
 party may terminate the Agreement or an applicable PO by giving 30
 days written notice to the other party.
 
-<h3 id="22-no-third-party-beneficiaries" style="scroll-margin-top:3.5rem;">22. No third party beneficiaries.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="22-no-third-party-beneficiaries">22. No third party beneficiaries.</h3>
 
 Unless the right of enforcement is
 expressly granted, it is not intended that any provision of the
@@ -486,13 +486,13 @@ Third Parties) Act 1999 by any person who is not a party to the
 Agreement. Any member of the Canonical Group may enforce the
 Agreement against Supplier.
 
-<h3 id="23-amendments" style="scroll-margin-top:3.5rem;">23. Amendments.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="23-amendments">23. Amendments.</h3>
 
 No amendment or modification of the
 Agreement will be binding upon the parties unless made in writing
 and signed by the authorised representatives of both parties.
 
-<h3 id="24-non-solicitation-of-personnel" style="scroll-margin-top:3.5rem;">24. Non-solicitation of personnel.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="24-non-solicitation-of-personnel">24. Non-solicitation of personnel.</h3>
 
 During the term of the
 Agreement or an applicable PO and for 6 months thereafter, neither
@@ -507,7 +507,7 @@ hiring or contracting with any person who applies for such job or
 contract as an unsolicited response to a generally advertised
 invitation by the relevant party.
 
-<h3 id="25-severability" style="scroll-margin-top:3.5rem;">25. Severability.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="25-severability">25. Severability.</h3>
 
 Each of the provisions of the Agreement shall be
 construed as independent of every other such provision, so that if any
@@ -516,7 +516,7 @@ competent authority to be illegal, invalid and/or unenforceable this
 shall not affect any other provision of the Agreement, which shall
 remain in full force and effect.
 
-<h3 id="26-no-partnership" style="scroll-margin-top:3.5rem;">26. No partnership.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="26-no-partnership">26. No partnership.</h3>
 
 Nothing in the Agreement and no action taken
 by the parties pursuant to the Agreement shall be construed as
@@ -525,7 +525,7 @@ parties or as constituting either party as the agent of the other party.
 No party shall have the authority to bind the other party or to
 contract in the name of or create a liability against the other party.
 
-<h3 id="27-notices" style="scroll-margin-top:3.5rem;">27. Notices.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="27-notices">27. Notices.</h3>
 
 Any notice required to be given or sent under the
 Agreement will be in writing and delivered to the recipient at the
@@ -536,7 +536,7 @@ floor Canonical, London SE1 2AQ. A party may update its address by
 providing notice to the other party. Valid delivery methods are (i) in-person delivery, (ii) first class registered post (or equivalent), or (iii)
 internationally recognised overnight courier service.
 
-<h3 id="28-governing-law" style="scroll-margin-top:3.5rem;">28. Governing law.</h3>
+<h3 class="u-scroll-margin-top-3-5rem" id="28-governing-law">28. Governing law.</h3>
 
 The Agreement shall be governed by and
 construed in accordance with the laws of England and the Parties

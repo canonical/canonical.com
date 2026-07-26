@@ -2,176 +2,145 @@
 
 {% extends "case-study/base_case-study.html" %}
 
-{% block title %}Case Studies{% endblock %}
+{% block title %}Case studies{% endblock %}
 
 {% block meta_description %}Ubuntu Case Studies{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+{% from "_macros/vf_card.jinja" import vf_card %}
 
 <!-- Set resource_types and tags somewhere -->
 
 {% block inner_content %}
-  <section class="p-strip--suru-blog-header is-dark">
-    <div class="row">
-      <div class="col-6">
-        <h1>Case Studies</h1>
-      </div>
-    </div>
-  </section>
 
-  <section class="p-strip is-shallow">
-    <form action="/" class="js-case-study-form">
-      <div class="row">
-        <div class="col-3">
+  <section class="p-section--hero">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <h1>Case Studies</h1>
+        <h2>
+          Explore how we help organizations adopt <br class="u-hide--small u-hide--medium" /> open source at scale.
+      </h2>
+    </div>
+  </div>
+</section>
+<section>
+  <form action="/" class="js-case-study-form">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6 p-case-study__filters">
+        <div>
+          <h3 class="p-heading--5 p-case-study__filter-heading">Filter by</h3>
+        </div>
+        <!-- Language Selector -->
+        <div class="p-form__group">
+          <select name="language-selector"
+                  class="js-language-selector p-case-study__filter-select u-no-margin--bottom">
+            <option value="">Language</option>
+            <option value="zh-TW">Chinese (Traditional)</option>
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="es">Espa&ntilde;ol</option>
+            <option value="fr">Fran&ccedil;ais</option>
+            <option value="it">Italiano</option>
+            <option value="kr">Korean</option>
+            <option value="pt">Portugu&ecirc;s</option>
+            <option value="ru">Русс&#1082;&#1080;&#1081;</option>
+            <option value="tr">T&uuml;rk&ccedil;e</option>
+          </select>
+        </div>
+        <!-- Tag Selector -->
+        {% if tags %}
           <div class="p-form__group">
-            <label for="language-selector">Select language:</label>
-            <select name="language-selector"
-                    class="js-language-selector u-no-margin--bottom">
-              <option value="all">All languages</option>
-              <option value="zh-TW">Chinese (Traditional)</option>
-              <option value="de">Deutsch</option>
-              <option value="en">English</option>
-              <option value="es">Espa&ntilde;ol</option>
-              <option value="fr">Fran&ccedil;ais</option>
-              <option value="it">Italiano</option>
-              <option value="kr">Korean</option>
-              <option value="pt">Portugu&ecirc;s</option>
-              <option value="ru">Русс&#1082;&#1080;&#1081;</option>
-              <option value="tr">T&uuml;rk&ccedil;e</option>
+            <select name="tag-selector"
+                    class="js-tag-selector p-case-study__filter-select u-no-margin--bottom">
+              <option value="">Tag</option>
+              {% for tag in tags %}
+                {% if tag %}<option value="{{ tag }}">{{ tag }}</option>{% endif %}
+              {% endfor %}
             </select>
           </div>
-        </div>
-        {% if tags %}
-          <div class="col-3">
-            <div class="p-form__group">
-              <label for="tag-selector">Select tag:</label>
-              <select name="tag-selector" class="js-tag-selector u-no-margin--bottom">
-                <option value="all">All tags</option>
-                {% for tag in tags %}
-                  <option {% if tag == "" %}disabled{% endif %} value="{{ tag }}">
-                    {% if tag == "" %}
-                      -
-                    {% else %}
-                      {{ tag }}
-                    {% endif %}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
         {% endif %}
-        <div class="col-3 col-start-large-10"
-             style="display: flex;
-                    align-items: flex-end;
-                    justify-content: flex-end">
-          <div class="u-hide--large">
-            <br />
-            <br />
-          </div>
-          <button class="js-apply-filters p-button--positive u-no-margin--bottom">Apply filters</button>
-          <button class="js-clear-filters u-no-margin--bottom"
-                  onclick="clearFilters()"
-                  type="reset"
-                  disabled>Clear filters</button>
-        </div>
       </div>
-    </form>
-  </section>
-
-  <section class="p-strip is-shallow" id="posts-list">
-    <div class="row u-equal-height" id="posts-content">
-      {% if metadata %}
-        {% for case_study in metadata %}
-          {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags %}
-            {% include "case-study/_case-study-card.html" %}
-          {% endwith %}
-        {% endfor %}
-      {% else %}
-        <p>No case studies found for the selected filter.</p>
-      {% endif %}
     </div>
+  </form>
+</section>
+
+<section class="p-section--shallow" id="posts-list">
+  <div id="posts-content" class="p-case-study__cards">
+    {% if metadata %}
+      {% for case_study in metadata %}
+        {% with title=case_study.topic_name, title_link=case_study.path, description=case_study.subtitle, tags=case_study.tags, image=case_study.meta_image %}
+          {% include "case-study/_case-study-card.html" %}
+        {% endwith %}
+      {% endfor %}
+    {% else %}
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6">
+        <p>No case studies found for the selected filter.</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if total_pages > 1 %}
+  <section class="p-section--deep">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set current_page = current_page %}
+      {% set row_class = "grid-row" %}
+      {% set col_class = "grid-col-start-large-3 grid-col-6" %}
+      {% set is_case_study = True %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
   </section>
+{% endif %}
 
-  {% if total_pages > 1 %}
-    <section class="p-strip is-shallow">
-      {% with %}
-        {% set total_pages = total_pages %}
-        {% set current_page = current_page %}
-        {% include "shared/_pagination.html" %}
-      {% endwith %}
-    </section>
-  {% endif %}
+<script nonce="{{ csp_nonce }}">
+  function clearFilters() {
+    window.location.assign("/case-study");
+  }
 
-  <script>
-    function clearFilters(e) {
-      addLoadingSpinner(e.currentTarget);
-      window.location.assign("/case-study");
+  (function() {
+    const languageSelector = document.querySelector(".js-language-selector");
+    const tagSelector = document.querySelector(".js-tag-selector");
+    const urlObj = new URL(window.location);
+
+    function setFiltersDropdown(key, selector) {
+      if (!selector) return;
+      if (urlObj.searchParams.has(key)) {
+        selector.value = urlObj.searchParams.get(key);
+      }
     }
 
-    function addLoadingSpinner(button) {
-      const spinnerIcon = document.createElement("i");
-      const buttonIsDark = button.classList.contains("p-button--positive");
-      spinnerIcon.className = "p-icon--spinner u-animation--spin" + (buttonIsDark ? " is-light" : "");
+    setFiltersDropdown("language", languageSelector);
+    setFiltersDropdown("tag", tagSelector);
 
-      // retain button dimensions
-      const {
-        width,
-        height
-      } = button.getBoundingClientRect();
-      Object.assign(button.style, {
-        width: `${width}px`,
-        height: `${height}px`
-      });
-
-      button.disabled = true;
-      button.innerText = "";
-      button.appendChild(spinnerIcon);
+    function setFilters(key, selector) {
+      if (!selector) return;
+      const value = selector.value;
+      if (value) {
+        urlObj.searchParams.set(key, value);
+      } else {
+        urlObj.searchParams.delete(key);
+      }
     }
 
-    (function() {
-      const caseStudyForm = document.querySelector(".js-case-study-form");
-      const languageSelector = document.querySelector(".js-language-selector");
-      const tagSelector = document.querySelector(".js-tag-selector");
+    function applyFilters() {
+      setFilters("language", languageSelector);
+      setFilters("tag", tagSelector);
+      urlObj.searchParams.delete("page");
+      window.location = urlObj.href;
+    }
 
-      const applyFiltersButton = document.querySelector(".js-apply-filters");
-      const clearFiltersButton = document.querySelector(".js-clear-filters");
-      const urlObj = new URL(window.location);
+    if (languageSelector) {
+      languageSelector.addEventListener("change", applyFilters);
+    }
+    if (tagSelector) {
+      tagSelector.addEventListener("change", applyFilters);
+    }
+  })();
 
-      if (urlObj.search !== "") {
-        clearFiltersButton.removeAttribute("disabled");
-      }
-
-      function setFiltersDropdown(key, selector) {
-        if (!selector) {
-          return;
-        }
-        if (urlObj.searchParams.has(key)) {
-          selector.value = urlObj.searchParams.get(key);
-        }
-      }
-
-      setFiltersDropdown("language", languageSelector);
-      setFiltersDropdown("tag", tagSelector);
-
-      function setFilters(key, selector) {
-        if (selector.value != "all") {
-          urlObj.searchParams.set(key, selector.value);
-        } else {
-          urlObj.searchParams.delete(key);
-        }
-      }
-
-      function applyFilters() {
-        event.preventDefault();
-
-        addLoadingSpinner(applyFiltersButton);
-
-        setFilters("language", languageSelector);
-        setFilters("tag", tagSelector);
-
-        urlObj.searchParams.delete("page");
-        window.location = urlObj.href;
-      }
-      clearFiltersButton.addEventListener("click", clearFilters);
-      caseStudyForm.addEventListener("submit", applyFilters);
-    })()
-  </script>
+</script>
 {% endblock %}

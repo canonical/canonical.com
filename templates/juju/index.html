@@ -5,9 +5,7 @@
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_rich-vertical-list.jinja" import vf_rich_vertical_list %}
 
-{% block title %}
-  Automate software operations with Juju and charms
-{% endblock title %}
+{% block title %}Juju{% endblock title %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1IFnKQ3GQth7HSo1VlDy4nRyoFYPL9fjJN8jNuY8Nr2Q/edit?tab=t.0
@@ -15,6 +13,20 @@
 
 {% block meta_description %}
   Software operations are easier with Juju &ndash; the open source orchestration engine for software operators. Deploy, integrate, scale and manage your applications' lifecycle at any scale, on any infrastructure with Juju and charms.
+{% endblock %}
+
+{% block extra_metatags %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.juju.name | tojson }},
+      "description": {{ products_yaml.juju.description | tojson }},
+      "operatingSystem": {{ products_yaml.juju.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.juju.applicationCategory | tojson }},
+      "url": {{ products_yaml.juju.url | tojson }}
+    }
+  </script>
 {% endblock %}
 
 {% block body_class %}
@@ -1220,6 +1232,9 @@
 
   {{ load_form("/juju") | safe }}
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" defer nonce="{{ csp_nonce }}"></script>
+  <script async defer
+          src="https://cdn.jsdelivr.net/npm/github-buttons@2.32.0/dist/buttons.min.js"
+          integrity="sha384-ZhcuGDV+Yp73dqAwwf9TcmQydIjkGkv+3oJxfQFaadDitRkt+COogTczHw8CTFgH"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

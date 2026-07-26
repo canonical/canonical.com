@@ -77,7 +77,7 @@ This Privacy Notice will be reviewed from time to time. If we decide to change t
 
 We hope that we can resolve any query or concern you raise about our use of your information. You can contact us at any time. Any questions, comments and requests regarding this Privacy notice or any other related matter are welcomed and should be addressed to [dataprotection@canonical.com](mailto:dataprotection@canonical.com) or to the address below:
 
-<div style="margin:2rem;">
+<div class="u-margin-2rem">
   Legal, Canonical<br />
   4th floor, 201 Borough High St.<br />
   London SE1 1JA<br />
@@ -88,7 +88,7 @@ Alternatively, you can use the relevant contact us form.
 
 If you have a complaint about our use of your information, you can contact the Information Commissioner's Office via their website at [ico.org.uk/make-a-complaint](https://ico.org.uk/make-a-complaint/) or write to them at:
 
-<div style="margin:2rem;">
+<div class="u-margin-2rem">
 Information Commissioner's Office<br />
 Wycliffe House<br />
 Water Lane<br />

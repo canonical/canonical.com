@@ -3,34 +3,30 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 
 {% from "macros/_macros-text-list.jinja" import text_list %}
-{% from "macros/_macros-highlights.jinja" import highlights %}
 {% from "macros/_macros-text.jinja" import text %}
 {% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-case-study-video.jinja" import case_study_video %}
 {% from "macros/_macros-cta.jinja" import cta %}
 
 {%- macro de_quote(quote_text, name, title, organisation) -%}
   <div class="p-section--shallow">
-    <div class="row">
-      <div class="col-9 col-start-large-4 col-medium-4 col-start-medium-3">
+    <div class="grid-row">
+      <div class="grid-col-start-large-3 grid-col-6 grid-col-medium-3 grid-col-start-medium-2">
         <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-6">
+        <div class="grid-row">
+          <div class="grid-col-4">
             <div class="p-section--shallow">
               <p class="p-heading--4">
                 <i>&#8222;{{ quote_text|safe }}&#8220;</i>
               </p>
             </div>
           </div>
-          <div class="col-3">
+          <div class="grid-col-2">
             <hr class="p-rule--muted u-hide--large" />
             <p>
               <strong>{{ name }}</strong>
               <br />
-              <span class="u-text--muted">
-                {{ title }}
-                <br />
-                {{ organisation }}
-              </span>
+              <span class="u-text--muted">{{ title }}, {{ organisation }}</span>
             </p>
           </div>
         </div>
@@ -50,6 +46,13 @@
 {% block meta_copydoc %}
 https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/edit?tab=t.0
 {% endblock %}
+
+{% block extra_metatags %}
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
+{% endblock extra_metatags %}
 
 {% block inner_content %}
   {%- call(slot) vf_hero(
@@ -82,28 +85,51 @@ https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/
     {%- endif -%}
   {%- endcall -%}
 
-  {%- call(slot) highlights(num_items=3) -%}
-    {%- if slot == 'highlights_item_content_1' -%}
-      Durch die Einführung von Ubuntu Pro verkürzte OEDIV kritische Wartungsfenster von 3 Stunden auf 45 Minuten und reduzierte manuelle Engineering-Aufgaben um 70 %.
-    {%- endif -%}
-    {%- if slot == 'highlights_item_content_2' -%}
-      Diese Infrastrukturverbesserungen sorgten für eine stabile Umgebung, die über sechs Jahren zu null Bereitschaftseinsätzen führte.
-    {%- endif -%}
-    {%- if slot == 'highlights_item_content_3' -%}
-      Die umfassende Absicherung von Open-Source-Paketen durch Ubuntu Pro ermöglicht es OEDIV, neue Geschäftsmöglichkeiten zu erschließen.
-    {%- endif -%}
-  {%- endcall %}
+  <section class="p-section">
+    <div class="grid-row">
+      <h2 class="p-text--small-caps">Highlights</h2>
+      <hr class="p-rule--muted" />
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-2 grid-col-start-large-3 u-text-max-width">
+        <ul class="p-list u-no-margin--bottom">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              Durch die Einführung von Ubuntu Pro verkürzte OEDIV kritische Wartungsfenster von 3 Stunden auf 45 Minuten und reduzierte manuelle Engineering-Aufgaben um 70 %.
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="grid-col-2 u-text-max-width">
+        <ul class="p-list u-no-margin--bottom">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              Diese Infrastrukturverbesserungen sorgten für eine stabile Umgebung, die über sechs Jahren zu null Bereitschaftseinsätzen führte.
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="grid-col-2 u-text-max-width">
+        <ul class="p-list u-no-margin--bottom">
+          <li class="p-list__item is-ticked">
+            <p class="u-text-max-width u-no-padding--top">
+              Die umfassende Absicherung von Open-Source-Paketen durch Ubuntu Pro ermöglicht es OEDIV, neue Geschäftsmöglichkeiten zu erschließen.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  {%- call(slot) image_wrapper() -%}
-    {%- if slot == 'image_content' %}
-      {{ image(url="https://assets.ubuntu.com/v1/a0c7ca9b-image1.jpg",
-            alt="",
-            width="2464",
-            height="1027",
-            hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-image-container__image"}) | safe
-      }}
+  {%- call(slot) case_study_video(
+      video_id="vG4TL1sofCA",
+      video_title="OEDIV Ubuntu Pro Case Study",
+      title="Schauen Sie sich die vollständige Video Case Study an"
+    ) -%}
+    {%- if slot == 'content' -%}
+      <p>
+        In diesem Video erläutert das OEDIV-Team die Herausforderungen bei der Verwaltung von Linux-Systemen im großen Stil, welche Anforderungen sie an eine Plattform hatten und warum sie sich für Ubuntu Pro entschieden haben.
+      </p>
     {%- endif -%}
   {%- endcall -%}
 
@@ -148,6 +174,13 @@ https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/
     {%- endif -%}
   {%- endcall -%}
 
+  {{ de_quote(
+    quote_text="Der Versionsrückstand bei anderen Linux-Distributionen war ein wunder Punkt. In der Vergangenheit mussten wir Disaster Recovery für VMs konfigurieren. Wir hatten v22 und benötigten v25 – was in unserer damaligen Distribution aufgrund des dreijährigen Rückstands nicht verfügbar war. Damit ließ sich einfach nicht arbeiten. Mit Ubuntu stand uns die neueste Version sofort zum Deployment zur Verfügung.",
+    name="Martin",
+    title="Team Lead for Managed Platforms",
+    organisation="OEDIV"
+  ) }}
+
   {%- call(slot) image_wrapper() -%}
     {%- if slot == 'image_content' %}
       {{ image(url="https://assets.ubuntu.com/v1/9d979f19-image2.jpg",
@@ -161,13 +194,6 @@ https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/
     {%- endif -%}
   {%- endcall -%}
 
-  {{ de_quote(
-    quote_text="Der Versionsrückstand bei anderen Linux-Distributionen war ein wunder Punkt. In der Vergangenheit mussten wir Disaster Recovery für VMs konfigurieren. Wir hatten v22 und benötigten v25 – was in unserer damaligen Distribution aufgrund des dreijährigen Rückstands nicht verfügbar war. Damit ließ sich einfach nicht arbeiten. Mit Ubuntu stand uns die neueste Version sofort zum Deployment zur Verfügung.",
-    name="Martin",
-    title="Team Lead for Managed Platforms",
-    organisation="OEDIV"
-  ) }}
-
   {%- call(slot) text(title="Lösung") -%}
     {%- if slot == 'content' -%}
       <p>
@@ -177,10 +203,17 @@ https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/
         Dank Ubuntu Pro kann OEDIV seinen Kunden eine bessere und einfachere Systemhärtung sowie effizientere Sicherheitsupdates bieten. Dies erleichtert es den Kunden erheblich, ihre eigenen Security- und Compliance-Vorgaben zu erfüllen. Ein zentraler Bestandteil dieser Lösung ist die Fähigkeit, Schwachstellen umgehend zu beheben – eine unverzichtbare Anforderung für Kunden aus dem Bereich der kritischen Infrastrukturen sowie für Großkunden mit internen SOC (Security Operations Center) Vorgaben.
       </p>
       <p>
-        Ermöglicht wurde dies durch Funktionen wie sofortige Compliance-Prüfungen über den Befehl <code style="white-space: nowrap;">pro status</code> sowie den Ubuntu Security Guide (USG). Letzterer erwies sich als besonders hilfreich für eine schnelle CIS-Härtung und die Einhaltung der BSI-Vorgaben. Für Kunden, die nicht von älteren Ubuntu-Versionen migrieren können, garantiert die Expanded Security Maintenance (ESM) von Ubuntu, dass auch ältere LTS-Releases für bis zu 15 Jahre gepatcht und gewartet werden.
+        Ermöglicht wurde dies durch Funktionen wie sofortige Compliance-Prüfungen über den Befehl <code class="u-white-space-nowrap">pro status</code> sowie den Ubuntu Security Guide (USG). Letzterer erwies sich als besonders hilfreich für eine schnelle CIS-Härtung und die Einhaltung der BSI-Vorgaben. Für Kunden, die nicht von älteren Ubuntu-Versionen migrieren können, garantiert die Expanded Security Maintenance (ESM) von Ubuntu, dass auch ältere LTS-Releases für bis zu 15 Jahre gepatcht und gewartet werden.
       </p>
     {%- endif -%}
   {%- endcall -%}
+
+  {{ de_quote(
+    quote_text="Die In-Place-Upgrades sind perfekt. Es ist so einfach zu migrieren und zu automatisieren. Mit Ubuntu erhält man die neuesten Releases automatisch, und das Upgrade ist so simpel wie die Eingabe von ‚apt upgrade'. Wir haben die Migrationszeit von 3 Stunden auf nur 45 Minuten verkürzt.&#8220;<br><br>&#8222;Aus Management-Perspektive macht Ubuntu Pro schlichtweg alles einfacher. Früher hatten wir zehn verschiedene Verträge und zehn verschiedene Support-Anbietern. Aber mit Canonical und Ubuntu Pro haben wir nun einen zentralen Support-Partner für all diese verschiedenen Technologien – Apache, Postgres, MySQL, einfach alles. Das ist ein massiver Vorteil. Ich würde mich immer wieder dafür entscheiden.",
+    name="Martin",
+    title="Team Lead for Managed Platforms",
+    organisation="OEDIV"
+  ) }}
 
   {%- call(slot) image_wrapper() -%}
     {%- if slot == 'image_content' %}
@@ -194,13 +227,6 @@ https://docs.google.com/document/d/19pGKlOA4qr3Qb8OZHNLwBNXaqSMiha5I6e6NLBfikZg/
       }}
     {%- endif -%}
   {%- endcall -%}
-
-  {{ de_quote(
-    quote_text="Die In-Place-Upgrades sind perfekt. Es ist so einfach zu migrieren und zu automatisieren. Mit Ubuntu erhält man die neuesten Releases automatisch, und das Upgrade ist so simpel wie die Eingabe von ‚apt upgrade'. Wir haben die Migrationszeit von 3 Stunden auf nur 45 Minuten verkürzt.&#8220;<br><br>&#8222;Aus Management-Perspektive macht Ubuntu Pro schlichtweg alles einfacher. Früher hatten wir zehn verschiedene Verträge und zehn verschiedene Support-Anbietern. Aber mit Canonical und Ubuntu Pro haben wir nun einen zentralen Support-Partner für all diese verschiedenen Technologien – Apache, Postgres, MySQL, einfach alles. Das ist ein massiver Vorteil. Ich würde mich immer wieder dafür entscheiden.",
-    name="Martin",
-    title="Team Lead for Managed Platforms",
-    organisation="OEDIV"
-  ) }}
 
   {%- call(slot) text(title="Ergebnisse") -%}
     {%- if slot == 'content' -%}

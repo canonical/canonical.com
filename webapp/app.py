@@ -57,6 +57,7 @@ from webapp.views import (
     append_utms_cookie_to_ubuntu_links,
     build_knowledge_index,
     build_knowledge_category_index,
+    get_knowledge_sections,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -66,8 +67,14 @@ from webapp.canonical_cla.views import (
     canonical_cla_api_launchpad_logout,
     canonical_cla_api_proxy,
 )
+from webapp.careers import (
+    DEPARTMENT_LIST,
+    _get_sorted_departments,
+    _get_all_departments,
+)
 from webapp.greenhouse import Greenhouse, Harvest
 from webapp.handlers import init_handlers
+from webapp import llms
 from webapp.navigation import (
     build_navigation,
     get_current_page_bubble,
@@ -83,16 +90,20 @@ from webapp.utils.juju_doc_search import (
     process_and_sort_results,
     search_all_docs,
 )
+from webapp import ubuntu_pro_description as _upsd
 
 logger = logging.getLogger(__name__)
 
 # Sitemaps that are already generated and don't need to be updated.
-# Can be seen on sitemap_index.xml
-DYNAMIC_SITEMAPS = [
-    "careers",
-    "partners",
-    "blog",
-]
+# Can be seen on /sitemap.xml
+with open("dynamic-sitemaps.yaml") as sitemaps_file:
+    DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
+
+# LLM-friendly site index (https://llmstxt.org/): templates/llms.txt (hand
+# written) plus curated extra links from llms.yaml. Built once at startup,
+# like the config above, rather than on every request.
+LLMS_TXT = llms.build_llms_txt("templates/llms.txt", "llms.yaml")
+
 
 # Web tribe websites custom search ID
 search_engine_id = "adb2397a224a1fe55"
@@ -154,128 +165,6 @@ form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
-
-def _group_by_department(harvest, vacancies):
-    """
-    Return a dictionary of departments by slug,
-    where each department will have a new
-    "vacancies" property of all the vacancies in
-    that department
-    """
-
-    all_departments = harvest.get_departments()
-    vacancies_by_department = {}
-
-    departments_by_slug = {}
-
-    for department in all_departments:
-        departments_by_slug[department.slug] = department
-
-    for vacancy in vacancies:
-        for department in vacancy.departments:
-            slug = department.slug
-
-            if slug not in vacancies_by_department:
-                vacancies_by_department[slug] = departments_by_slug[slug]
-                vacancies_by_department[slug].vacancies = [vacancy]
-            else:
-                vacancies_by_department[slug].vacancies.append(vacancy)
-
-    # Add departments with no vacancies
-    for dept in departments_by_slug:
-        slug = departments_by_slug[dept].slug
-        if slug not in vacancies_by_department:
-            vacancies_by_department[slug] = departments_by_slug[slug]
-            vacancies_by_department[slug].vacancies = {}
-
-    return vacancies_by_department
-
-
-def _get_sorted_departments(greenhouse, harvest):
-    departments = _group_by_department(harvest, greenhouse.get_vacancies())
-
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-        "alliances-and-channels",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
-
-    return sorted_departments
-
-
-def _get_all_departments(greenhouse, harvest) -> tuple:
-    """
-    Refactor for careers search section
-    """
-    all_departments = (
-        _group_by_department(harvest, greenhouse.get_vacancies()),
-    )
-
-    dept_list = [
-        {"slug": "engineering", "icon": "84886ac6-Engineering.svg"},
-        {
-            "slug": "support-engineering",
-            "icon": "df08c7f2-Support Engineering.svg",
-        },
-        {"slug": "marketing", "icon": "27b93be4-Marketing.svg"},
-        {"slug": "web-and-design", "icon": "b200e162-design.svg"},
-        {
-            "slug": "project-management",
-            "icon": "0f64ee5c-Project Management.svg",
-        },
-        {"slug": "commercial-operations", "icon": "1f84f8c7-Operations.svg"},
-        {"slug": "product", "icon": "d5341dfa-Product.svg"},
-        {"slug": "sales", "icon": "2dc1ceb1-Sales.svg"},
-        {"slug": "finance", "icon": "8b2110ea-finance.svg"},
-        {"slug": "people", "icon": "01ff5233-Human Resources.svg"},
-        {"slug": "administration", "icon": "a42f5ab5-Admin.svg"},
-        {"slug": "legal", "icon": "4e54c36b-Legal.svg"},
-        {
-            "slug": "alliances-and-channels",
-            "icon": "46a968ed-no%20bg%20hand%20&%20fingers-new.svg",
-        },
-    ]
-
-    departments_overview = []
-
-    for vacancy in all_departments:
-        for dept in dept_list:
-            if vacancy[dept["slug"]]:
-                if vacancy[dept["slug"]].vacancies:
-                    count = len(vacancy[dept["slug"]].vacancies)
-                else:
-                    count = 0
-                name = vacancy[dept["slug"]].name
-                slug = vacancy[dept["slug"]].slug
-                icon = dept["icon"]
-
-                departments_overview.append(
-                    {
-                        "name": name,
-                        "count": count,
-                        "slug": slug,
-                        "icon": icon,
-                    }
-                )
-
-    return all_departments, departments_overview
-
-
 # Sentry setup
 sentry_dsn = get_flask_env("SENTRY_DSN")
 environment = get_flask_env("FLASK_ENV", "production")
@@ -335,7 +224,7 @@ def index_sitemap():
     xml_sitemap = flask.render_template("sitemap-index.xml")
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-    response.headers["-Control"] = "public, max-age=43200"
+    response.headers["Cache-Control"] = "public, max-age=43200"
 
     return response
 
@@ -376,6 +265,10 @@ app.add_url_rule("/openstack/resources", view_func=render_openstack_blogs)
 
 with open("navigation.yaml") as nav_file:
     navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
+
+with open("products.yaml") as products_file:
+    products = yaml.load(products_file.read(), Loader=yaml.FullLoader)
+
 app.add_url_rule(
     "/search",
     "search",
@@ -394,15 +287,6 @@ def secure_boot():
     return flask.send_from_directory(
         "../static/files", "secure-boot-master-ca.crl"
     )
-
-
-# Career departments
-@app.route("/careers/results")
-def handle_careers_results():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_results(greenhouse, harvest)
 
 
 @app.route("/juju/docs/search", methods=["GET"])
@@ -482,17 +366,28 @@ def get_latest_versions():
         return {"error": str(e)}, 500
 
 
-def careers_results(greenhouse, harvest):
+# Career departments
+@app.route("/careers/results")
+def handle_careers_results():
+    with get_requests_session() as session:
+        greenhouse = Greenhouse.from_session(session)
+        return careers_results(greenhouse)
+
+
+def careers_results(greenhouse):
     vacancies = []
 
     core_skills = flask.request.args.get("core-skills", "").split(",")
     vacancies = greenhouse.get_vacancies_by_skills(core_skills)
-    vacancies_by_department = _group_by_department(harvest, vacancies)
+
+    vacancies_by_department = {slug: [] for slug in DEPARTMENT_LIST}
+    for vacancy in vacancies:
+        for department in vacancy.departments:
+            if department.slug in vacancies_by_department:
+                vacancies_by_department[department.slug].append(vacancy)
 
     context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
+        "departments": DEPARTMENT_LIST.values(),
         "vacancies": vacancies,
         "vacancies_by_department": vacancies_by_department,
         "recaptcha_site_key": RECAPTCHA_SITE_KEY,
@@ -505,14 +400,13 @@ def careers_results(greenhouse, harvest):
 def handle_careers_sitemap():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_sitemap(greenhouse, harvest)
+        return careers_sitemap(greenhouse)
 
 
-def careers_sitemap(greenhouse, harvest):
+def careers_sitemap(greenhouse):
     context = {
         "vacancies": greenhouse.get_vacancies(),
-        "departments": harvest.get_departments(),
+        "departments": DEPARTMENT_LIST,
     }
 
     xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
@@ -604,6 +498,12 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
+        # The Harvest job post only exposes a single location, while the
+        # Greenhouse board API returns all regions a role is open to (joined
+        # with ";"). Use the board value so multi-region roles show every
+        # location on the details page.
+        if context["job"].get("location") and job_post.location:
+            context["job"]["location"]["name"] = job_post.location
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
@@ -663,6 +563,14 @@ def job_details(session, greenhouse, harvest, job_id):
 def start_career():
     return flask.render_template(
         "/careers/career-explorer.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
+    )
+
+
+@app.route("/careers/early-careers")
+def handle_early_careers():
+    return flask.render_template(
+        "/careers/early-careers.html",
         recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
@@ -777,23 +685,10 @@ def careers_progression(greenhouse, harvest):
 
 
 @app.route("/careers/company-culture/diversity")
-def handle_diversity():
-    with get_requests_session() as session:
-        greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return diversity(greenhouse, harvest)
-
-
-def diversity(greenhouse, harvest):
-    context = {
-        "all_departments": _group_by_department(
-            harvest, greenhouse.get_vacancies()
-        ),
-        "recaptcha_site_key": RECAPTCHA_SITE_KEY,
-    }
-    context["department"] = None
+def diversity():
     return flask.render_template(
-        "careers/company-culture/diversity.html", **context
+        "careers/company-culture/diversity.html",
+        recaptcha_site_key=RECAPTCHA_SITE_KEY,
     )
 
 
@@ -1022,6 +917,22 @@ app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
 
 
+@app.route("/knowledge/sitemap.xml")
+def knowledge_sitemap():
+    sections = get_knowledge_sections()
+
+    context = {
+        "sections": sections,
+    }
+
+    xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)
+    response = flask.make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, max-age=43200"
+
+    return response
+
+
 def register_knowledge_category_routes():
     base_path = Path(app.root_path).parent / "templates" / "knowledge"
 
@@ -1038,6 +949,36 @@ def register_knowledge_category_routes():
 
 # Register all knowledge hub category routes dynamically
 register_knowledge_category_routes()
+
+
+# Ubuntu Pro Description
+@app.route("/legal/ubuntu-pro-description")
+def ubuntu_pro_description():
+    sections, metadata = _upsd.load_sections()
+    return flask.render_template(
+        "legal/ubuntu-pro-description/index.html",
+        sections=sections,
+        effective_date=metadata.get("effective_date", ""),
+    )
+
+
+@app.route("/legal/ubuntu-pro-description/print")
+def ubuntu_pro_description_print():
+    # Powers the "Export to PDF" feature. The browser opens this URL in a new
+    # tab, auto-triggers window.print(), then closes via the afterprint event.
+    # selected_sections controls which sections are rendered, making the export
+    # tamper-proof: the user cannot alter the main page DOM to change the PDF.
+    sections_param = flask.request.args.get("sections", "")
+    selected_sections = [
+        s.strip() for s in sections_param.split(",") if s.strip()
+    ]
+    sections, metadata = _upsd.load_sections(strip_h3_numbers=True)
+    return flask.render_template(
+        "legal/ubuntu-pro-description/_print.html",
+        selected_sections=selected_sections,
+        sections=sections,
+        effective_date=metadata.get("effective_date", ""),
+    )
 
 
 # Template finder
@@ -1117,6 +1058,7 @@ def context():
         "split_list": split_list,
         "canonical_cla_api_url": os.getenv("CANONICAL_CLA_API_URL"),
         "get_navigation": get_navigation,
+        "products_yaml": products,
     }
 
 
@@ -1531,6 +1473,26 @@ def no_cache(response):
     return response
 
 
+@app.after_request
+def default_cache_control(response):
+    """
+    Cache pages for 1 hour by default, instead of flask-base's 60s.
+    Views that set their own max-age or mark the response
+    no-store/no-cache/private are left untouched.
+    """
+    if (
+        response.status_code == 200
+        and not flask.request.path.startswith("/_status")
+        and not response.cache_control.no_store
+        and not response.cache_control.no_cache
+        and not response.cache_control.private
+        and type(response.cache_control.max_age) is not int
+    ):
+        response.cache_control.max_age = 3600
+
+    return response
+
+
 # Canonical Academy
 def cred_exam_content(**_):
     exam_name = flask.request.args.get("exam")
@@ -1719,8 +1681,9 @@ def build_sitemap_tree(exclude_paths=None):
 # Endpoint for retrieving parsed directory tree
 def get_sitemaps_tree():
     try:
+        templates_path = os.getcwd() + "/templates"
         tree = directory_parser.scan_directory(
-            os.getcwd() + "/templates", exclude_paths=DYNAMIC_SITEMAPS
+            templates_path, exclude_paths=DYNAMIC_SITEMAPS
         )
     except Exception as e:
         return {"Error:": str(e)}, 500
@@ -1733,6 +1696,49 @@ app.add_url_rule(
     view_func=build_sitemap_tree(DYNAMIC_SITEMAPS),
     methods=["GET", "POST"],
 )
+
+
+@app.route("/llms.txt")
+def llms_txt():
+    """
+    Serve the LLM-friendly site index (https://llmstxt.org/): the manually
+    maintained templates/llms.txt plus curated extra links from llms.yaml.
+    """
+    response = flask.make_response(LLMS_TXT)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=21600"
+    return response
+
+
+@app.route("/llms-full.txt")
+def llms_full_txt():
+    """
+    Serve the full Markdown content of every renderable page linked from
+    /llms.txt (https://llmstxt.org/). Pre-generated at build time
+    (`python3 webapp/llms.py generate`) and shipped in the image, so a
+    normal request is a fast disk read; generated on demand if missing
+    (e.g. local dev, where the build-time step has not run).
+    """
+    file_path = os.path.join(os.getcwd(), "templates", "llms-full.txt")
+
+    if not os.path.exists(file_path):
+        try:
+            content = llms.build_llms_full_txt(app, LLMS_TXT)
+            with open(file_path, "w") as f:
+                f.write(content)
+        except Exception:
+            logger.exception("Failed to generate llms-full.txt")
+
+    if not os.path.exists(file_path):
+        return {"error": "llms-full.txt not available"}, 503
+
+    with open(file_path) as f:
+        content = f.read()
+
+    response = flask.make_response(content)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
 
 
 def navigation_nojs():

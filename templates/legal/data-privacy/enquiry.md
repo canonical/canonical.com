@@ -6,8 +6,8 @@ context:
 ---
 
 <!-- javascript -->
-<script src="https://assets.ubuntu.com/v1/5d7e5bbf-jquery-2.2.0.min.js"></script>
-<script src="https://assets.ubuntu.com/v1/d55f58bb-jquery.validate.js"></script>
+<script src="https://assets.ubuntu.com/v1/5d7e5bbf-jquery-2.2.0.min.js" nonce="{{ csp_nonce }}"></script>
+<script src="https://assets.ubuntu.com/v1/d55f58bb-jquery.validate.js" nonce="{{ csp_nonce }}"></script>
 
 # Data protection enquiries
 

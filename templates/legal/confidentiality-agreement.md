@@ -6,16 +6,16 @@ context:
 ---
 
   <script type="text/javascript"
-          src="https://www.tfaforms.com/wForms/3.7/js/wforms.js"></script>
+          src="https://www.tfaforms.com/wForms/3.7/js/wforms.js" nonce="{{ csp_nonce }}"></script>
   <script type="text/javascript"
-          src="https://www.tfaforms.com/wForms/3.7/js/localization-en_GB.js"></script>
+          src="https://www.tfaforms.com/wForms/3.7/js/localization-en_GB.js" nonce="{{ csp_nonce }}"></script>
   <link href="https://www.tfaforms.com/css/form.css"
         rel="stylesheet"
         type="text/css" />
-  <script>
+  <script nonce="{{ csp_nonce }}">
     wFORMS.behaviors.prefill.skip = false;
   </script>
-  <style type="text/css" media="screen">
+  <style type="text/css" media="screen" nonce="{{ csp_nonce }}">
     .supportInfo {
       display: none;
     }
@@ -57,7 +57,7 @@ context:
     }
 
   </style>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     /* make jslint happy */
     /*global base2, document, wFORMS, $, $$ */
 
@@ -112,7 +112,7 @@ context:
     };
 
   </script>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     // hides US State selection field unless country is US
     document.addEventListener("DOMContentLoaded", function() {
       var countryInput = document.querySelector("#tfa_Country");
@@ -138,7 +138,7 @@ context:
         You can enter into a <a href="https://assets.ubuntu.com/v1/c98a991d-Canonical%20NDA_Online%20Form%20%20-%2025th%20July%202024.docx.pdf">confidentiality agreement</a> with Canonical here, you must complete all the fields in this form.
       </p>
       <div id="faform_form_container">
-        <div class="wFormContainer" style="width: default;">
+        <div class="wFormContainer u-width-default">
           <div>
             <div class="wForm" id="tfa_0-WRPR" dir="ltr">
               <div class="codesection" id="code-tfa_0"></div>
@@ -146,7 +146,7 @@ context:
                     action="https://www.tfaforms.com/responses/processor"
                     class="hintsTooltip labelsAbove"
                     id="tfa_0">
-                <div style="display:none;">
+                <div class="u-display-none">
                   <input type="hidden"
                           name="csrfmiddlewaretoken"
                           value="d7952e7df2133d5703f3001be27d982e" />
@@ -595,7 +595,7 @@ context:
                       <div class="actions" id="tfa_0-A">
                         <input type="submit" class="p-button--positive" value="I agree" />
                       </div>
-                      <div style="clear:both"></div>
+                      <div class="u-clear-both"></div>
                       <input type="hidden" value="353675" name="tfa_dbFormId" id="tfa_dbFormId" />
                       <input type="hidden" value="" name="tfa_dbResponseId" id="tfa_dbResponseId" />
                       <input type="hidden"

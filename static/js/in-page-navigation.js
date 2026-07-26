@@ -197,7 +197,11 @@ function initNavigationInteraction(navRoot) {
 
       // Handle smooth scroll
       const targetId = link.getAttribute('href');
-      const targetHeading = document.querySelector(targetId);
+      // Use getElementById rather than querySelector because querySelector
+      // treats targetId as a CSS selector — IDs that start with a digit
+      // (e.g. "#8-scope-of-support") are invalid CSS selectors and cause
+      // querySelector to throw, returning null and preventing scrolling.
+      const targetHeading = document.getElementById(targetId.slice(1));
       if (targetHeading) {
         targetHeading.setAttribute('tabindex', '-1');
         targetHeading.focus({preventScroll: true});
@@ -311,21 +315,11 @@ function generateSelectors(navRoot) {
  * @returns {string} The heading ID
  */
 function generateHeadingId(heading) {
-  if (heading.id && !document.getElementById(heading.id)) {
+  if (heading.id) {
     return heading.id;
   }
 
-  let baseId = slugify(heading.textContent);
-  let id = baseId;
-
-  // Handle duplicate IDs
-  let counter = 1;
-  while (document.getElementById(id)) {
-    appendix = counter == 1 ? '' : `-${counter}`;
-    id = baseId + appendix;
-    counter++;
-  }
-
+  const id = slugify(heading.textContent);
   heading.id = id;
   return id;
 }

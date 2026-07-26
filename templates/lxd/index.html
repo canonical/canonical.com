@@ -2,12 +2,26 @@
 
 {% block meta_copydoc %}https://docs.google.com/document/d/1LJ6ajHYAmKdxSNDaD5kbriDod1t7RcmIwVJtevAeKFQ{% endblock %}
 
-{% block title %}Canonical LXD{% endblock %}
+{% block title %}LXD{% endblock %}
 
 {% block meta_description %}
   Low-touch virtual infrastructure with LXD at any scale. Built on top of Linux containers,
   LXD offers a unified user experience in managing system containers, virtual machines and clusters. Easily configurable,
   flexible and trusted way to run your workloads.
+{% endblock %}
+
+{% block extra_metatags %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.lxd.name | tojson }},
+      "description": {{ products_yaml.lxd.description | tojson }},
+      "operatingSystem": {{ products_yaml.lxd.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.lxd.applicationCategory | tojson }},
+      "url": {{ products_yaml.lxd.url | tojson }}
+    }
+  </script>
 {% endblock %}
 
 {% block body_class %}
@@ -271,7 +285,7 @@
           </div>
           <div class="col-4 col-small-2">
             <p>
-              <a href="https://documentation.ubuntu.com/lxd/en/latest/">Read the documentation&nbsp;&rsaquo;</a>
+              <a href="/lxd/docs">Read the documentation&nbsp;&rsaquo;</a>
             </p>
           </div>
         </div>
@@ -414,6 +428,6 @@
     </div>
   </section>
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

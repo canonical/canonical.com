@@ -23,7 +23,8 @@ let config = {
         "node_modules/flickity/dist/flickity.pkgd.min.js",
         "node_modules/leaflet/dist/leaflet.js",
         "node_modules/venobox/dist/venobox.min.js",
-        "node_modules/vanilla-framework/templates/_macros/*.jinja"
+        "node_modules/vanilla-framework/templates/_macros/*.jinja",
+        "node_modules/intl-tel-input/build/js/utils.js"
       ],
       defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
       safelist: {

@@ -11,9 +11,11 @@
     "format-prettier": "prettier -w 'static/js/*.{js,jsx,ts,tsx}' 'static/sass/*.scss'",
     "lint-python": "flake8 --extend-ignore=E203 webapp tests && black --check --line-length 79 webapp tests",
     "lint-scss": "stylelint static/**/*.scss",
+    "lint-html": "djlint templates/ --lint",
+    "lint-llms": "python3 webapp/llms.py lint",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "start": "yarn run build && concurrently --raw 'yarn run watch' 'yarn run serve'",
-    "test": "yarn run lint-scss && yarn run lint-python && yarn run test-python",
+    "test": "yarn run lint-scss && yarn run lint-python && yarn run lint-html && yarn run lint-llms && yarn run test-python",
     "test-python": "python3 -m unittest discover tests",
     "test-js": "jest --env=jsdom",
     "test-marketo": "python3 -m unittest tests.test_marketo",
@@ -29,6 +31,7 @@
     "@canonical/react-components": "^0.60.0",
     "@fullhuman/postcss-purgecss": "6.0.0",
     "@lottiefiles/dotlottie-web": "^0.44.0",
+    "@rive-app/canvas": "^2.38.5",
     "@tanstack/react-query": "^5.83.0",
     "@testing-library/cypress": "9.0.0",
     "autoprefixer": "10.4.21",
@@ -39,18 +42,19 @@
     "flickity": "^3.0.0",
     "formik": "^2.4.6",
     "fuse.js": "^6.6.2",
-    "intl-tel-input": "17.0.21",
+    "intl-tel-input": "24.3.5",
     "leaflet": "1.9.4",
     "lottie-web": "^5.13.0",
-    "postcss": "8.5.6",
+    "postcss": "8.5.10",
     "postcss-cli": "10.1.0",
+    "prismjs": "1.30.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.24.1",
     "sass": "1.89.2",
     "use-query-params": "^2.2.1",
     "uuid": "^11.1.0",
-    "vanilla-framework": "4.48.0",
+    "vanilla-framework": "4.50.0",
     "venobox": "2.1.8",
     "yup": "^1.6.1"
   },
@@ -84,6 +88,10 @@
     "transform": {
       "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
     },
-    "coverageReporters": ["cobertura", "text", "html"]
+    "coverageReporters": [
+      "cobertura",
+      "text",
+      "html"
+    ]
   }
 }

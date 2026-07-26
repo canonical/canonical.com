@@ -7,7 +7,7 @@
 {% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
-{% block title %}Full-stack AI infrastructure{% endblock %}
+{% block title %}Infrastructure | AI{% endblock %}
 
 {% block meta_description %}
   Fast-track your AI projects with a proven and supported open source
@@ -520,6 +520,6 @@
 
   {{ load_form("/solutions/ai/infrastructure") | safe }}
 
-  <script defer src="{{ versioned_static('js/tabbed-content.js') }}"></script>
-  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js"></script>
+  <script defer src="{{ versioned_static('js/tabbed-content.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

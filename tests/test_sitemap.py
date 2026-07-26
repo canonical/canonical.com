@@ -4,12 +4,12 @@ import logging
 import re
 import os
 import xml.etree.ElementTree as ET
-from webapp.app import app, build_sitemap_tree
+from webapp.app import app, build_sitemap_tree, knowledge_sitemap
 
 logging.getLogger("talisker.context").disabled = True
 
 
-class TestSitemap(unittest.TestCase):
+class TestSitemapTree(unittest.TestCase):
     def setUp(self):
         """
         Set up Flask app for testing
@@ -190,6 +190,146 @@ class TestSitemap(unittest.TestCase):
         result = create_sitemap("/invalid/path/sitemap_tree.xml")
         self.assertIn("Generate_sitemap error", result[0])
         self.assertEqual(result[1], 500)
+
+
+class TestKnowledgeSitemap(unittest.TestCase):
+    def setUp(self):
+        """Set up test client and app context"""
+        app.testing = True
+        self.client = app.test_client()
+
+    @patch("webapp.app.get_knowledge_sections")
+    def test_knowledge_sitemap_returns_xml(self, mock_get_sections):
+        """Test that knowledge_sitemap returns valid XML response"""
+        # Mock the sections data
+        mock_get_sections.return_value = [
+            {
+                "slug": "ubuntu-and-linux",
+                "title": "Ubuntu and Linux",
+                "description": "Learn about Ubuntu and Linux",
+                "articles": [
+                    {
+                        "hero_title": "Getting Started",
+                        "description": "A beginner's guide",
+                        "url": "/knowledge/ubuntu-and-linux/getting-started",
+                        "tag": "beginner",
+                    }
+                ],
+            }
+        ]
+
+        # Call the function
+        with app.app_context():
+            response = knowledge_sitemap()
+
+        # Verify response is a Flask response object
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "application/xml")
+        self.assertEqual(
+            response.headers["Cache-Control"], "public, max-age=43200"
+        )
+
+    @patch("webapp.app.get_knowledge_sections")
+    def test_knowledge_sitemap_contains_urls(self, mock_get_sections):
+        """Test that knowledge_sitemap contains expected URLs"""
+        mock_get_sections.return_value = [
+            {
+                "slug": "ubuntu-and-linux",
+                "title": "Ubuntu and Linux",
+                "description": "Learn about Ubuntu and Linux",
+                "articles": [
+                    {
+                        "hero_title": "Getting Started",
+                        "description": "A beginner's guide",
+                        "url": "/knowledge/ubuntu-and-linux/getting-started",
+                        "tag": "beginner",
+                    }
+                ],
+            }
+        ]
+
+        with app.app_context():
+            response = knowledge_sitemap()
+
+        # Get the XML content
+        xml_content = response.get_data(as_text=True)
+
+        # Verify XML structure
+        self.assertIn("<?xml version", xml_content)
+        self.assertIn("<urlset", xml_content)
+        self.assertIn("</urlset>", xml_content)
+
+        # Verify expected URLs are present
+        self.assertIn(
+            "https://canonical.com/knowledge/ubuntu-and-linux", xml_content
+        )
+        self.assertIn(
+            "https://canonical.com/knowledge/ubuntu-and-linux/getting-started",
+            xml_content,
+        )
+
+    @patch("webapp.app.get_knowledge_sections")
+    def test_knowledge_sitemap_empty_sections(self, mock_get_sections):
+        """Test that knowledge_sitemap handles empty sections gracefully"""
+        mock_get_sections.return_value = []
+
+        with app.app_context():
+            response = knowledge_sitemap()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "application/xml")
+
+        xml_content = response.get_data(as_text=True)
+        self.assertIn("<?xml version", xml_content)
+        self.assertIn("<urlset", xml_content)
+
+    @patch("webapp.app.get_knowledge_sections")
+    def test_knowledge_sitemap_multiple_sections(self, mock_get_sections):
+        """Test that knowledge_sitemap handles multiple sections"""
+        mock_get_sections.return_value = [
+            {
+                "slug": "cloud",
+                "title": "Cloud",
+                "description": "Cloud computing",
+                "articles": [
+                    {
+                        "hero_title": "Cloud Basics",
+                        "description": "Cloud basics",
+                        "url": "/knowledge/cloud/basics",
+                        "tag": "cloud",
+                    }
+                ],
+            },
+            {
+                "slug": "security",
+                "title": "Security",
+                "description": "Security topics",
+                "articles": [
+                    {
+                        "hero_title": "Security Best Practices",
+                        "description": "Security practices",
+                        "url": "/knowledge/security/best-practices",
+                        "tag": "security",
+                    }
+                ],
+            },
+        ]
+
+        with app.app_context():
+            response = knowledge_sitemap()
+
+        xml_content = response.get_data(as_text=True)
+
+        # Verify both sections are present
+        self.assertIn("https://canonical.com/knowledge/cloud", xml_content)
+        self.assertIn("https://canonical.com/knowledge/security", xml_content)
+        self.assertIn(
+            "https://canonical.com/knowledge/cloud/basics", xml_content
+        )
+        self.assertIn(
+            "https://canonical.com/knowledge/security/best-practices",
+            xml_content,
+        )
 
 
 if __name__ == "__main__":
