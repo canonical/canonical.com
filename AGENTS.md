@@ -98,7 +98,7 @@ djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/ji
 
 | Service       | Purpose                          | Key Env Vars |
 | ------------- | -------------------------------- | ------------ |
-| Discourse API | Blog, takeovers, docs, tutorials | `DISCOURSE_API_KEY`, `DISCOURSE_API_USERNAME`, `CHARMHUB_DISCOURSE_API_KEY`, `CHARMHUB_DISCOURSE_API_USERNAME`, `MAAS_DISCOURSE_API_KEY`, `MAAS_DISCOURSE_API_USERNAME` |
+| Discourse API | Blog, takeovers, docs, tutorials | `DISCOURSE_API_KEY`, `DISCOURSE_API_USERNAME`, `MAAS_DISCOURSE_API_KEY`, `MAAS_DISCOURSE_API_USERNAME` |
 | Careers       | Careers related                  | `HARVEST_API_KEY`, `APPLICATION_CRYPTO_SECRET_KEY` |
 | Greenhouse    | Candidate applications           | `GREENHOUSE_API_KEY` |
 | Google Calendar | Google Calendar service-account auth             | `SERVICE_ACCOUNT_EMAIL`, `SERVICE_ACCOUNT_PRIVATE_KEY` |
