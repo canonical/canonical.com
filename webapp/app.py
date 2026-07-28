@@ -122,10 +122,6 @@ app = FlaskBase(
 # Serves any page as Markdown via ?format=md query parameter
 MarkdownResponse(app)
 
-# Load env variables after the app is initialized
-CHARMHUB_DISCOURSE_API_KEY = os.getenv("CHARMHUB_DISCOURSE_API_KEY")
-CHARMHUB_DISCOURSE_API_USERNAME = os.getenv("CHARMHUB_DISCOURSE_API_USERNAME")
-
 RECAPTCHA_CONFIG = load_recaptcha_config()
 RECAPTCHA_SITE_KEY = RECAPTCHA_CONFIG.get("site_key")
 if not RECAPTCHA_SITE_KEY:
@@ -147,15 +143,6 @@ loader = ChoiceLoader(
 
 # Loader supplied to jinja_loader overwrites default jinja_loader
 app.jinja_loader = loader
-
-charmhub_discourse_api = DiscourseAPI(
-    base_url="https://discourse.charmhub.io/",
-    session=get_requests_session(),
-    api_key=CHARMHUB_DISCOURSE_API_KEY,
-    api_username=CHARMHUB_DISCOURSE_API_USERNAME,
-    get_topics_query_id=2,
-    cache=ResponseCache(ttl=600),
-)
 search_session = get_requests_session()
 discourse_session = get_requests_session()
 
