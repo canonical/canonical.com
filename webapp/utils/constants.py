@@ -5,3 +5,6 @@ ONE_WEEK_IN_MINUTES = 10080
 # and this is undesired. We are tracking the req ID here so that
 # it can be hidden on the Candidate Dash.
 SECOND_LOOK_REQ_ID = 3013911
+
+# Default time-to-live for ResponseCache instances, in seconds (24 hours)
+CACHE_TTL = 60 * 60
