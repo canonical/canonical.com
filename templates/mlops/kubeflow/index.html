@@ -2,6 +2,7 @@
 
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
 
 {% block title %}Kubeflow | MLOps{% endblock %}
 
@@ -21,33 +22,42 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="grid-row">
-      <div class="grid-col-4 grid-col-medium-2">
-        <div class="p-section--shallow">
-          <h1>
-            Kubeflow AI and MLOps
-            <br class="u-hide--small" />
-            at any scale
-          </h1>
-        </div>
-      </div>
-      <div class="grid-col-4 grid-col-medium-2">
-        <div class="p-section--shallow">
-          <p>
-            <strong>Enterprise-ready Charmed Kubeflow, the fully supported MLOps platform for any cloud.</strong>
-            Charmed Kubeflow is Canonical's enterprise-ready MLOps platform. Deploy, scale, and manage AI workflows across clouds, VMs, or bare metal. A complete solution for sophisticated data science labs. Upgrades and security updates – all supported in the free, open source distribution.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a href="/contact-us"
-             class="p-button--positive js-invoke-modal"
-             aria-controls="mlops-modal">Get in touch</a>
-          <a href="https://ubuntu.com/engage/mlops-guide">Read our guide to MLOps&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Kubeflow AI and MLOps <br class="u-hide--small" /> at any scale',
+    chip_text='Supported with Ubuntu Pro',
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": "<p><strong>Enterprise-ready Charmed Kubeflow, the fully supported MLOps platform for any cloud.</strong> Charmed Kubeflow is Canonical's enterprise-ready MLOps platform. Deploy, scale, and manage AI workflows across clouds, VMs, or bare metal. A complete solution for sophisticated data science labs. Upgrades and security updates – all supported in the free, open source distribution.</p>"
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Get in touch",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "mlops-modal"
+            }
+          },
+          "link": {
+            "content_html": "Read our guide to MLOps&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://ubuntu.com/engage/mlops-guide"
+            }
+          }
+        }
+      }
+    ]
+  ) -%}
+  {%- endcall -%}
 
   {% call(slot) vf_equal_heights(
     title_text="Why choose Charmed Kubeflow?",
