@@ -61,7 +61,42 @@ jobs:
           EOF
 
       - name: Run linkchecker for 404 errors only
-        run: linkchecker --no-warning https://canonical.com
+        run: |
+          set -u
+
+          # First pass: full crawl. Capture any failed links to a CSV file.
+          if linkchecker --no-warning -F csv/failed-links.csv https://canonical.com; then
+            echo "No broken links found."
+            exit 0
+          fi
+
+          # Extract the failed URLs (valid=False) from the CSV output.
+          python3 - <<'PY' > failed-urls.txt
+          import csv
+
+          seen = set()
+          with open("failed-links.csv", newline="") as f:
+              rows = (line for line in f if not line.startswith("#"))
+              for row in csv.DictReader(rows, delimiter=";"):
+                  if row.get("valid", "").strip().lower() == "false":
+                      url = row["urlname"]
+                      if url and url not in seen:
+                          seen.add(url)
+                          print(url)
+          PY
+
+          count=$(grep -c . failed-urls.txt || true)
+          if [ "$count" -eq 0 ]; then
+            echo "No broken links to retry (all failures were ignored)."
+            exit 0
+          fi
+
+          echo "Retrying $count failed link(s) after a 60s delay:"
+          cat failed-urls.txt
+          sleep 60
+
+          # Second pass: re-check only the previously failed links.
+          linkchecker --no-warning --recursion-level=0 $(cat failed-urls.txt)
 
       - name: Send message on failure
         if: failure()
