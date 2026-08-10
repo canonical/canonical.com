@@ -22,6 +22,21 @@
 {% endblock %}
 
 {% block extra_metatags %}
+  {% set maas_support_pricing = products_yaml.maas.pricing.standaloneSupport %}
+  {% set maas_support_offers = namespace(items=[]) %}
+  {% for tier in maas_support_pricing.tiers %}
+    {% set price = 0 if tier.price == 'Free' else tier.price | replace('$', '') | float %}
+    {% set maas_support_offers.items = maas_support_offers.items + [
+      {
+        '@type': 'Offer',
+        'name': tier.name,
+        'description': tier.summary,
+        'url': tier.cta.url,
+        'price': price,
+        'priceCurrency': 'USD'
+      }
+    ] %}
+  {% endfor %}
   <script type="application/ld+json" nonce="{{ csp_nonce }}">
     {
       "@context": "https://schema.org",
@@ -30,7 +45,15 @@
       "description": {{ products_yaml.maas.description | tojson }},
       "operatingSystem": {{ products_yaml.maas.operatingSystem | tojson }},
       "applicationCategory": {{ products_yaml.maas.applicationCategory | tojson }},
-      "url": {{ products_yaml.maas.url | tojson }}
+      "url": {{ products_yaml.maas.url | tojson }},
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": 0,
+        "highPrice": 100,
+        "offerCount": {{ maas_support_offers.items | length }},
+        "offers": {{ maas_support_offers.items | tojson }}
+      }
     }
   </script>
 {% endblock %}
@@ -592,7 +615,7 @@
     },
     ]
     },
-    ],) 
+    ],)
   }}
 
 {{ vf_basic_section(
@@ -653,129 +676,40 @@
   ]
 ) }}
 
+  {% set maas_support_pricing = products_yaml.maas.pricing.standaloneSupport %}
+  {% set maas_support_tiers = namespace(tiers=[]) %}
+  {% for tier in maas_support_pricing.tiers %}
+    {% set tier_offerings = namespace(items=[]) %}
+    {% for feature in tier.features %}
+      {% set list_item_content_html = feature.name %}
+      {% if feature.value is defined %}
+        {% set list_item_content_html = feature.name ~ ': ' ~ feature.value %}
+      {% endif %}
+      {% set tier_offerings.items = tier_offerings.items + [
+        {
+          'list_item_style': 'ticked' if feature.included else 'crossed',
+          'list_item_content_html': list_item_content_html
+        }
+      ] %}
+    {% endfor %}
+    {% set tier_price_explanation = 'for all machines' if loop.first else maas_support_pricing.billing.cadence ~ ', ' ~ maas_support_pricing.billing.unit %}
+    {% set tier_cta_html = ('<a href="' ~ tier.cta.url ~ '">' ~ tier.cta.text ~ '&nbsp;&rsaquo;</a>') if loop.first else ('<a href="' ~ tier.cta.url ~ '" class="js-invoke-modal" aria-controls="maas-contact-form">' ~ tier.cta.text ~ '&nbsp;&rsaquo;</a>') %}
+    {% set maas_support_tiers.tiers = maas_support_tiers.tiers + [
+      {
+        'tier_name_text': tier.name,
+        'tier_price_text': tier.price,
+        'tier_price_explanation': tier_price_explanation,
+        'tier_label_text': 'What’s included',
+        'tier_offerings': tier_offerings.items,
+        'cta_html': tier_cta_html | safe
+      }
+    ] %}
+  {% endfor %}
+
   {% call(slot) vf_pricing_block(
-    title_text='MAAS standalone support pricing',
+    title_text=maas_support_pricing.title,
     top_rule_variant="highlighted",
-    tiers=[
-    {
-    'tier_name_text': 'Self-support',
-    'tier_price_text': 'Free',
-    'tier_price_explanation': 'for all machines',
-    'tier_label_text': 'What’s included',
-    'tier_offerings': [
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'High availability (HA) support'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Role based access control (RBAC)'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Knowledge Base'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Response time - SLA Sev 1'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Phone and ticket support'
-    }
-    ],
-    'cta_html': '<a href="/maas/docs/how-to-get-maas-up-and-running">Install MAAS&nbsp;&rsaquo;</a>'
-    },
-
-    {
-    'tier_name_text': 'Essential',
-    'tier_price_text': '$30',
-    'tier_price_explanation': 'per year, per managed machine',
-    'tier_label_text': 'What’s included',
-    'tier_offerings': [
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'High availability (HA) support'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Role based access control (RBAC)'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Knowledge Base'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Response time - SLA Sev 1'
-    },
-    {
-    'list_item_style': 'crossed',
-    'list_item_content_html': 'Phone and ticket support'
-    }
-    ],
-    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
-    },
-
-    {
-    'tier_name_text': 'Standard',
-    'tier_price_text': '$50',
-    'tier_price_explanation': 'per year, per managed machine',
-    'tier_label_text': 'What’s included',
-    'tier_offerings': [
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'High availability (HA) support'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Role based access control (RBAC)'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Knowledge Base'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Response time - SLA Sev 1: 4 hours'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Phone and ticket support: Office hours'
-    }
-    ],
-    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
-    },
-    {
-    'tier_name_text': 'Advanced',
-    'tier_price_text': '$100',
-    'tier_price_explanation': 'per year, per managed machine',
-    'tier_label_text': 'What’s included',
-    'tier_offerings': [
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'High availability (HA) support'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Role based access control (RBAC)'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Knowledge Base'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Response time - SLA Sev 1: 1 hour'
-    },
-    {
-    'list_item_style': 'ticked',
-    'list_item_content_html': 'Phone and ticket support:<br /> 24 hours a day, everyday'
-    }
-    ],
-    'cta_html': '<a href="/maas/contact-us" class="js-invoke-modal" aria-controls="maas-contact-form">Contact us&nbsp;&rsaquo;</a>'
-    }
-    ]
+    tiers=maas_support_tiers.tiers
     ) -%}
     {%- if slot == 'section_description' -%}
       <p>Choose from a wide range of support options to best suit your needs and deployments.</p>
