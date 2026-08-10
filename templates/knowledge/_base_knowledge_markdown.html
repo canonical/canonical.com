@@ -86,7 +86,7 @@
           <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
         </label>
         <p>
-          By submitting this form, I confirm that I have read and agree to <a href="#">Canonical's Privacy Policy</a>.
+          By submitting this form, I confirm that I have read and agree to <a href="/legal/data-privacy">Canonical's Privacy Policy</a>.
         </p>
         <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
       </form>
@@ -130,6 +130,7 @@
     {% endcall -%}
   {% endif %}
   
+  <div data-md-strip>
   {{ vf_blog(
     title={"text": blog.get('title', 'Latest from our blog')},
     padding="deep",
@@ -140,6 +141,7 @@
       "template_id": "template"
     })
   }}
+  </div>
   
   <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
