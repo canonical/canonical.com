@@ -692,7 +692,7 @@
         }
       ] %}
     {% endfor %}
-    {% set tier_price_explanation = 'for all machines' if loop.first else maas_support_pricing.billing.cadence ~ ', ' ~ maas_support_pricing.billing.unit %}
+    {% set tier_price_explanation = 'for all machines' if loop.first else tier.summary %}
     {% set tier_cta_html = ('<a href="' ~ tier.cta.url ~ '">' ~ tier.cta.text ~ '&nbsp;&rsaquo;</a>') if loop.first else ('<a href="' ~ tier.cta.url ~ '" class="js-invoke-modal" aria-controls="maas-contact-form">' ~ tier.cta.text ~ '&nbsp;&rsaquo;</a>') %}
     {% set maas_support_tiers.tiers = maas_support_tiers.tiers + [
       {
