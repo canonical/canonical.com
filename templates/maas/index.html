@@ -49,8 +49,8 @@
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "USD",
-        "lowPrice": 0,
-        "highPrice": 100,
+        "lowPrice": {{ (maas_support_offers.items | sort(attribute='price') | first).price }},
+        "highPrice": {{ (maas_support_offers.items | sort(attribute='price') | last).price }},
         "offerCount": {{ maas_support_offers.items | length }},
         "offers": {{ maas_support_offers.items | tojson }}
       }
