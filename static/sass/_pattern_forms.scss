@@ -65,6 +65,13 @@
   }
 
   overflow-x: hidden;
+
+  // Remove the Vanilla `%vf-pseudo-border--bottom` ::after border that
+  // `.p-modal__header` extends; the `u-border-bottom-0` utility only clears
+  // `border-bottom`, not this pseudo-element.
+  .p-modal__header::after {
+    display: none;
+  }
 }
 
 .p-fieldset-section {
