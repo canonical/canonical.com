@@ -1,27 +1,74 @@
 /** @jest-environment jsdom */
 import { setUpDynamicSideNav } from "../../static/js/active-nav-scroll.js";
 
+/**
+ * Lays out a fake page so scroll position can be simulated in jsdom, which has
+ * no layout engine. Each heading is given a fixed position in the document and
+ * getBoundingClientRect() is derived from the current scroll offset.
+ */
+function buildPage({ viewportHeight, scrollHeight, headings, links }) {
+  document.body.innerHTML = `
+    <div class="p-side-navigation">
+      ${links
+        .map(
+          (href) =>
+            `<a class="p-side-navigation__link" href="${href}">${href}</a>`
+        )
+        .join("")}
+    </div>
+  `;
+
+  headings.forEach(function (heading) {
+    const element = document.createElement("h2");
+    element.className = "section-heading";
+    if (heading.id) {
+      element.id = heading.id;
+    }
+    element.getBoundingClientRect = function () {
+      const top = heading.docTop - window.scrollY;
+      return { top: top, bottom: top + heading.height, height: heading.height };
+    };
+    document.body.appendChild(element);
+  });
+
+  Object.defineProperty(window, "innerHeight", {
+    value: viewportHeight,
+    configurable: true,
+  });
+  Object.defineProperty(document.documentElement, "scrollHeight", {
+    value: scrollHeight,
+    configurable: true,
+  });
+  setScroll(0);
+}
+
+function setScroll(y) {
+  Object.defineProperty(window, "scrollY", { value: y, configurable: true });
+}
+
+function scrollTo(y) {
+  setScroll(y);
+  window.dispatchEvent(new Event("scroll"));
+}
+
+function activeLinks() {
+  return Array.prototype.slice
+    .call(document.querySelectorAll(".p-side-navigation__link"))
+    .filter((link) => link.classList.contains("is-active"))
+    .map((link) => link.getAttribute("href"));
+}
+
 describe("active-nav-scroll", () => {
-  let mockIntersectionObserver;
-  let observerCallbacks = {};
-
   beforeEach(() => {
-    // Clear the document
     document.body.innerHTML = "";
-
-    // Reset callbacks
-    observerCallbacks = {};
-
-    // Mock IntersectionObserver
-    mockIntersectionObserver = jest.fn((callback, options) => {
-      return {
-        observe: jest.fn(),
-        unobserve: jest.fn(),
-        disconnect: jest.fn(),
-      };
-    });
-
-    global.IntersectionObserver = mockIntersectionObserver;
+    // Run animation frame callbacks synchronously so assertions can follow a
+    // dispatched scroll event immediately.
+    jest
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation((callback) => {
+        callback(0);
+        return 0;
+      });
   });
 
   afterEach(() => {
@@ -29,148 +76,140 @@ describe("active-nav-scroll", () => {
   });
 
   describe("setUpDynamicSideNav function", () => {
-    it("should create IntersectionObserver for each section heading", () => {
-      // Setup DOM
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="section-heading" id="section-2">Section 2</div>
-        <div class="p-side-navigation__link" href="#section-1">Link 1</div>
-        <div class="p-side-navigation__link" href="#section-2">Link 2</div>
-      `;
+    it("activates the section whose heading has passed the activation line", () => {
+      buildPage({
+        viewportHeight: 1000,
+        scrollHeight: 5000,
+        headings: [
+          { id: "intro", docTop: 500, height: 100 },
+          { id: "features", docTop: 1500, height: 100 },
+          { id: "pricing", docTop: 2500, height: 100 },
+        ],
+        links: ["#intro", "#features", "#pricing"],
+      });
 
       setUpDynamicSideNav();
 
-      // Should create 2 observers (one for each section)
-      expect(mockIntersectionObserver).toHaveBeenCalledTimes(2);
+      // "features" sits at docTop 1500, so it crosses the activation line
+      // (13% of a 1000px viewport = 130px) once scrolled past 1370px.
+      scrollTo(1400);
+      expect(activeLinks()).toEqual(["#features"]);
+
+      scrollTo(2400);
+      expect(activeLinks()).toEqual(["#pricing"]);
     });
 
-    it("should set correct IntersectionObserver options", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="p-side-navigation__link" href="#section-1">Link 1</div>
-      `;
+    it("activates the last link at the bottom of the page even when its heading never reaches the activation line", () => {
+      // Regression test: the final section sits less than a viewport height
+      // above the end of the document, so its heading can never be scrolled up
+      // to the activation line. It must still become active.
+      buildPage({
+        viewportHeight: 1200,
+        scrollHeight: 3000,
+        headings: [
+          { id: "intro", docTop: 600, height: 100 },
+          { id: "middle", docTop: 1400, height: 100 },
+          { id: "last", docTop: 2200, height: 100 },
+        ],
+        links: ["#intro", "#middle", "#last"],
+      });
 
       setUpDynamicSideNav();
 
-      // Check that observer was created with correct options
-      expect(mockIntersectionObserver).toHaveBeenCalledWith(
-        expect.any(Function),
-        {
-          rootMargin: "-5% 0px -87% 0px",
-          threshold: 0,
-        }
-      );
+      // Maximum scroll is 3000 - 1200 = 1800, leaving "last" at 400px from the
+      // top of the viewport, far below the 156px activation line.
+      scrollTo(1800);
+      expect(activeLinks()).toEqual(["#last"]);
     });
 
-    it("should add is-active class to matching link when section intersects", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="p-side-navigation__link" href="#section-1">Link 1</div>
-        <div class="p-side-navigation__link" href="#section-2">Link 2</div>
-      `;
+    it("ignores section headings that have no id so the nav is never blanked", () => {
+      buildPage({
+        viewportHeight: 1000,
+        scrollHeight: 4000,
+        headings: [
+          { id: "intro", docTop: 500, height: 100 },
+          { id: null, docTop: 2000, height: 100 },
+        ],
+        links: ["#intro"],
+      });
 
       setUpDynamicSideNav();
 
-      // Get the first observer callback (should be for section-1)
-      const firstCallback = mockIntersectionObserver.mock.calls[0][0];
+      scrollTo(600);
+      expect(activeLinks()).toEqual(["#intro"]);
 
-      // Simulate intersection
-      const mockSection = document.querySelector(".section-heading");
-      firstCallback([{ isIntersecting: true, target: mockSection }]);
+      // Scrolling past the id-less heading must not clear the active link.
+      scrollTo(2500);
+      expect(activeLinks()).toEqual(["#intro"]);
 
-      // Check that the correct link has is-active class
-      const link1 = document.querySelector('[href="#section-1"]');
-      const link2 = document.querySelector('[href="#section-2"]');
-
-      expect(link1.classList.contains("is-active")).toBe(true);
-      expect(link2.classList.contains("is-active")).toBe(false);
+      scrollTo(3000);
+      expect(activeLinks()).toEqual(["#intro"]);
     });
 
-    it("should remove is-active class from other links when section intersects", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="section-heading" id="section-2">Section 2</div>
-        <div class="p-side-navigation__link is-active" href="#section-1">Link 1</div>
-        <div class="p-side-navigation__link" href="#section-2">Link 2</div>
-      `;
+    it("leaves the active state untouched above the first heading", () => {
+      buildPage({
+        viewportHeight: 1000,
+        scrollHeight: 5000,
+        headings: [{ id: "intro", docTop: 900, height: 100 }],
+        links: ["#intro"],
+      });
 
       setUpDynamicSideNav();
 
-      // Get the second observer callback (should be for section-2)
-      const secondCallback = mockIntersectionObserver.mock.calls[1][0];
-
-      // Simulate intersection for section-2
-      const mockSection = document.querySelector(".section-heading#section-2");
-      secondCallback([{ isIntersecting: true, target: mockSection }]);
-
-      // Check that link2 is active and link1 is not
-      const link1 = document.querySelector('[href="#section-1"]');
-      const link2 = document.querySelector('[href="#section-2"]');
-
-      expect(link1.classList.contains("is-active")).toBe(false);
-      expect(link2.classList.contains("is-active")).toBe(true);
+      scrollTo(100);
+      expect(activeLinks()).toEqual([]);
     });
 
-    it("should handle multiple sections correctly", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="intro">Introduction</div>
-        <div class="section-heading" id="features">Features</div>
-        <div class="section-heading" id="pricing">Pricing</div>
-        <div class="p-side-navigation__link" href="#intro">Intro</div>
-        <div class="p-side-navigation__link" href="#features">Features</div>
-        <div class="p-side-navigation__link" href="#pricing">Pricing</div>
-      `;
+    it("recalculates when the viewport is resized", () => {
+      buildPage({
+        viewportHeight: 1000,
+        scrollHeight: 5000,
+        headings: [
+          { id: "intro", docTop: 500, height: 100 },
+          { id: "features", docTop: 1500, height: 100 },
+        ],
+        links: ["#intro", "#features"],
+      });
 
       setUpDynamicSideNav();
 
-      // Should create 3 observers
-      expect(mockIntersectionObserver).toHaveBeenCalledTimes(3);
+      scrollTo(1300);
+      expect(activeLinks()).toEqual(["#intro"]);
 
-      // Test the features section becomes active
-      const featuresSection = document.querySelector(".section-heading#features");
-      const featureCallback = mockIntersectionObserver.mock.calls[1][0];
-      featureCallback([{ isIntersecting: true, target: featuresSection }]);
-
-      const links = document.querySelectorAll(".p-side-navigation__link");
-      expect(links[0].classList.contains("is-active")).toBe(false); // intro
-      expect(links[1].classList.contains("is-active")).toBe(true); // features
-      expect(links[2].classList.contains("is-active")).toBe(false); // pricing
+      // A taller viewport pushes the activation line down to 260px, which
+      // "features" (at 200px) has now crossed.
+      Object.defineProperty(window, "innerHeight", {
+        value: 2000,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+      expect(activeLinks()).toEqual(["#features"]);
     });
 
-    it("should not add is-active class when section is not intersecting", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="p-side-navigation__link" href="#section-1">Link 1</div>
-      `;
-
-      setUpDynamicSideNav();
-
-      const callback = mockIntersectionObserver.mock.calls[0][0];
-      const mockSection = document.querySelector(".section-heading");
-
-      // Simulate non-intersecting entry
-      callback([{ isIntersecting: false, target: mockSection }]);
-
-      const link = document.querySelector('[href="#section-1"]');
-      expect(link.classList.contains("is-active")).toBe(false);
+    it("does not throw when there are no section headings or links", () => {
+      document.body.innerHTML = "";
+      expect(() => setUpDynamicSideNav()).not.toThrow();
     });
 
-    it("should handle sections with no corresponding navigation links", () => {
-      document.body.innerHTML = `
-        <div class="section-heading" id="section-1">Section 1</div>
-        <div class="section-heading" id="section-2">Section 2</div>
-        <div class="p-side-navigation__link" href="#section-1">Link 1</div>
-      `;
+    it("handles sections with no corresponding navigation link", () => {
+      buildPage({
+        viewportHeight: 1000,
+        scrollHeight: 5000,
+        headings: [
+          { id: "intro", docTop: 500, height: 100 },
+          { id: "orphan", docTop: 1500, height: 100 },
+        ],
+        links: ["#intro"],
+      });
 
       expect(() => setUpDynamicSideNav()).not.toThrow();
 
-      // Verify the function still works with section-1
-      const section1 = document.querySelector(".section-heading#section-1");
-      const callback = mockIntersectionObserver.mock.calls[0][0];
-      callback([{ isIntersecting: true, target: section1 }]);
+      scrollTo(600);
+      expect(activeLinks()).toEqual(["#intro"]);
 
-      const link = document.querySelector('[href="#section-1"]');
-      expect(link.classList.contains("is-active")).toBe(true);
+      // The orphan section has no link, so nothing should be highlighted.
+      scrollTo(1400);
+      expect(activeLinks()).toEqual([]);
     });
   });
 });
