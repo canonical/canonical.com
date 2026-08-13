@@ -134,21 +134,26 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 // $breakpoint-large, outranking the single-class `u-top-*` utilities used to
 // clear the sticky header — so side navigations slid under it. Re-apply the
 // offset at a winning specificity, shortening the scroll area to match.
+// `vh` first: Vanilla's own `max-height` is `dvh`-only, so without a fallback
+// both declarations drop and the nav grows unbounded where `dvh` is missing.
 @media (min-width: $breakpoint-large) {
   .p-side-navigation.is-sticky.u-top-3-5rem,
   [class*="p-side-navigation--"].is-sticky.u-top-3-5rem {
+    max-height: calc(100vh - 3.5rem);
     max-height: calc(100dvh - 3.5rem);
     top: 3.5rem;
   }
 
   .p-side-navigation.is-sticky.u-top-4rem,
   [class*="p-side-navigation--"].is-sticky.u-top-4rem {
+    max-height: calc(100vh - 4rem);
     max-height: calc(100dvh - 4rem);
     top: 4rem;
   }
 
   .p-side-navigation.is-sticky.u-top-5rem,
   [class*="p-side-navigation--"].is-sticky.u-top-5rem {
+    max-height: calc(100vh - 5rem);
     max-height: calc(100dvh - 5rem);
     top: 5rem;
   }
