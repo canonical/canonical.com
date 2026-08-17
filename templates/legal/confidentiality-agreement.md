@@ -440,7 +440,7 @@ context:
                             <option value="tfa_Sudan" id="tfa_Sudan">Sudan</option>
                             <option value="tfa_Suriname" id="tfa_Suriname">Suriname</option>
                             <option value="tfa_SvalbardandJanMa" id="tfa_SvalbardandJanMa">Svalbard and Jan Mayen</option>
-                            <option value="tfa_Swaziland" id="tfa_Swaziland">Swaziland</option>
+                            <option value="tfa_Swaziland" id="tfa_Swaziland">Eswatini</option>
                             <option value="tfa_Sweden" id="tfa_Sweden">Sweden</option>
                             <option value="tfa_Switzerland" id="tfa_Switzerland">Switzerland</option>
                             <option value="tfa_Syria" id="tfa_Syria">Syria</option>

@@ -597,7 +597,7 @@ defer nonce="{{ csp_nonce }}"></script>
                     <option value="tfa_Sudan" id="tfa_Sudan" class="">Sudan</option>
                     <option value="tfa_Suriname" id="tfa_Suriname" class="">Suriname</option>
                     <option value="tfa_SvalbardandJanMa" id="tfa_SvalbardandJanMa" class="">Svalbard and Jan Mayen</option>
-                    <option value="tfa_Swaziland" id="tfa_Swaziland" class="">Swaziland</option>
+                    <option value="tfa_Swaziland" id="tfa_Swaziland" class="">Eswatini</option>
                     <option value="tfa_Sweden" id="tfa_Sweden" class="">Sweden</option>
                     <option value="tfa_Switzerland" id="tfa_Switzerland" class="">Switzerland</option>
                     <option value="tfa_Syria" id="tfa_Syria" class="">Syria</option>
