@@ -300,9 +300,6 @@ def search_docs():
     )
 
 
-CACHE_TTL = 60 * 60  # 1 hour cache
-
-
 @app.route("/juju/latest.json")
 @cross_origin()
 @cached(cache=TTLCache(maxsize=128, ttl=CACHE_TTL))
