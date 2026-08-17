@@ -1,4 +1,8 @@
 ---
+# GH agentic workflow frontmatter docs:
+# https://github.github.com/gh-aw/reference/frontmatter-full/#complete-frontmatter-reference
+# Triggered when the "copilot" label is added to an issue.
+# Only runs for users with write access (admin, maintainer, write roles).
 description: Assigns the GitHub Copilot coding agent to issues labelled "copilot"
 emoji: 🤖
 on:
@@ -18,7 +22,6 @@ tools:
   github:
     mode: gh-proxy
     toolsets: [default]
-  cli-proxy: true
 
 safe-outputs:
   assign-to-agent:
