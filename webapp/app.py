@@ -59,6 +59,7 @@ from webapp.views import (
     build_knowledge_index,
     build_knowledge_category_index,
     get_knowledge_sections,
+    google_ads_verification,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -229,6 +230,7 @@ def home_sitemap():
 
 
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
+app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 
 
 # OpenStack resources blog section
