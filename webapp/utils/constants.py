@@ -6,5 +6,5 @@ ONE_WEEK_IN_MINUTES = 10080
 # it can be hidden on the Candidate Dash.
 SECOND_LOOK_REQ_ID = 3013911
 
-# Default time-to-live for ResponseCache instances, in seconds (24 hours)
+# Default time-to-live for ResponseCache instances, in seconds (1 hour)
 CACHE_TTL = 60 * 60

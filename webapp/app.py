@@ -1134,7 +1134,7 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=discourse_session,
-            cache=ubuntu_discourse_cache,
+            cache=None,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
