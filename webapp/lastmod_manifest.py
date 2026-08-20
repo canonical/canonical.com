@@ -10,7 +10,7 @@ is how those dates survive into the running app. See
 webapp/views.py:get_file_last_modified, which reads it.
 
 CLI usage:
-    python3 webapp/lastmod_manifest.py generate
+    python3 webapp/lastmod_manifest.py generate-lastmod
 
 Invoked from the pack-rock job of .github/workflows/deploy.yaml, whose
 checkout step uses fetch-depth: 0 so full history is available here.
@@ -84,9 +84,9 @@ def _generate():
 
 
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] != "generate":
+    if len(sys.argv) != 2 or sys.argv[1] != "generate-lastmod":
         print(
-            "usage: python3 webapp/lastmod_manifest.py generate",
+            "usage: python3 webapp/lastmod_manifest.py generate-lastmod",
             file=sys.stderr,
         )
         return 1
