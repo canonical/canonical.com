@@ -77,6 +77,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
+          # Full history, not the default shallow clone: the lastmod
+          # manifest step below needs to walk git log for every template
+          # file, and the rock image itself ships no .git at all.
+          fetch-depth: 0
+
+      - name: Pre-generate sitemap lastmod manifest
+        run: python3 webapp/lastmod_manifest.py generate
 
       - name: Use Node.js
         uses: actions/setup-node@v4

@@ -4,8 +4,9 @@ import requests
 import math
 import datetime
 import yaml
+import json
 import logging
-import subprocess
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
@@ -367,48 +368,51 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
-# Cache last-modified lookups for 1 hour, since they only change on deploy
-last_modified_cache = TTLCache(maxsize=512, ttl=3600)
+@lru_cache(maxsize=1)
+def _load_lastmod_manifest():
+    """
+    Load templates/lastmod-manifest.json: a map of template file path
+    (relative to templates/) to the date it was last changed in git.
+
+    The production image doesn't ship .git (or the git history needed to
+    read it), so this manifest -- generated from git log by
+    scripts/generate-lastmod-manifest.py before the app is packaged -- is
+    how sitemap lastmod dates survive into the running app. Cached for
+    the life of the process: it's a static build artefact.
+    """
+    manifest_path = (
+        Path(flask.current_app.root_path).parent
+        / "templates"
+        / "lastmod-manifest.json"
+    )
+    try:
+        with open(manifest_path) as manifest_file:
+            return json.load(manifest_file)
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
-@cached(cache=last_modified_cache)
 def get_file_last_modified(file_path):
     """
-    Get the date a file's content was last changed, from its most recent
-    git commit. Falls back to the filesystem mtime if git history isn't
-    available (e.g. an untracked file).
+    Get the date a template file's content was last changed.
+
+    Looks up file_path (relative to templates/) in the build-time
+    lastmod manifest. Falls back to the filesystem mtime for a file the
+    manifest doesn't know about yet -- e.g. one added locally since the
+    manifest was last generated.
 
     Args:
-        file_path: Path object for the file
+        file_path: Path object for the file, somewhere under templates/
 
     Returns:
         An ISO 8601 date string (YYYY-MM-DD)
     """
-    try:
-        result = subprocess.run(
-            [
-                "git",
-                # The repo may be owned by a different user than the one
-                # running the app (e.g. copied into a container image),
-                # which git otherwise refuses to read from.
-                "-c",
-                "safe.directory=*",
-                "log",
-                "-1",
-                "--format=%cs",
-                "--",
-                file_path.name,
-            ],
-            cwd=file_path.parent,
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        commit_date = result.stdout.strip()
-        if result.returncode == 0 and commit_date:
-            return commit_date
-    except (OSError, subprocess.SubprocessError):
-        pass
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    rel_path = file_path.relative_to(templates_dir).as_posix()
+
+    manifest = _load_lastmod_manifest()
+    if rel_path in manifest:
+        return manifest[rel_path]
 
     return datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime(
         "%Y-%m-%d"
