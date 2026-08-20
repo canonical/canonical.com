@@ -5,6 +5,7 @@ import math
 import datetime
 import yaml
 import logging
+import subprocess
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
@@ -366,6 +367,54 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
+# Cache last-modified lookups for 1 hour, since they only change on deploy
+last_modified_cache = TTLCache(maxsize=512, ttl=3600)
+
+
+@cached(cache=last_modified_cache)
+def get_file_last_modified(file_path):
+    """
+    Get the date a file's content was last changed, from its most recent
+    git commit. Falls back to the filesystem mtime if git history isn't
+    available (e.g. an untracked file).
+
+    Args:
+        file_path: Path object for the file
+
+    Returns:
+        An ISO 8601 date string (YYYY-MM-DD)
+    """
+    try:
+        result = subprocess.run(
+            [
+                "git",
+                # The repo may be owned by a different user than the one
+                # running the app (e.g. copied into a container image),
+                # which git otherwise refuses to read from.
+                "-c",
+                "safe.directory=*",
+                "log",
+                "-1",
+                "--format=%cs",
+                "--",
+                file_path.name,
+            ],
+            cwd=file_path.parent,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        commit_date = result.stdout.strip()
+        if result.returncode == 0 and commit_date:
+            return commit_date
+    except (OSError, subprocess.SubprocessError):
+        pass
+
+    return datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime(
+        "%Y-%m-%d"
+    )
+
+
 def get_articles_from_category(category_dir, category_slug):
     """
     Get articles from markdown files in a category directory.
@@ -424,6 +473,7 @@ def get_articles_from_category(category_dir, category_slug):
                             ),
                             "tag": context.get("tag", ""),
                             "publish_date": publish_date,
+                            "last_modified": get_file_last_modified(md_file),
                         }
                         articles.append(article)
                     except yaml.YAMLError:
@@ -497,12 +547,22 @@ def get_knowledge_sections():
                             category_dir, category_dir.name
                         )
 
+                    # A section page changes when its own template changes,
+                    # or when any of the articles it lists change.
+                    last_modified = get_file_last_modified(index_file)
+                    if articles:
+                        last_modified = max(
+                            last_modified,
+                            *(a["last_modified"] for a in articles),
+                        )
+
                     sections.append(
                         {
                             "slug": category_dir.name,
                             "title": title,
                             "description": description,
                             "articles": articles,
+                            "last_modified": last_modified,
                         }
                     )
 
@@ -513,6 +573,30 @@ def get_knowledge_sections():
                     )
 
     return sections
+
+
+def get_knowledge_last_modified(sections):
+    """
+    Get the last-modified date for the /knowledge index page: the most
+    recent of its own template and every section it links to.
+
+    Args:
+        sections: list of section dicts, as returned by
+            get_knowledge_sections()
+
+    Returns:
+        An ISO 8601 date string (YYYY-MM-DD)
+    """
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    index_file = templates_dir / "knowledge" / "index.html"
+
+    last_modified = get_file_last_modified(index_file)
+    if sections:
+        last_modified = max(
+            last_modified, *(s["last_modified"] for s in sections)
+        )
+
+    return last_modified
 
 
 def build_knowledge_index():
