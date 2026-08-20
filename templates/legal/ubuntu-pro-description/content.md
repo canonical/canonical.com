@@ -175,7 +175,7 @@ You can add different levels of technical support on top of your Infra-only or f
    6. MicroCloud, as defined in 9.5
    7. Enterprise Store, as defined in 9.7
    8. All packages in [Ubuntu Main](#def-ubuntu-main)
-   9. LTS Ubuntu base images at [https://hub.docker.com/\/ubuntu/,](https://hub.docker.com//ubuntu/) [https://gallery.ecr.aws/lts/ubuntu](https://gallery.ecr.aws/lts/ubuntu)
+   9. LTS Ubuntu base images at [https://hub.docker.com/u/ubuntu/,](https://hub.docker.com/u/ubuntu/) [https://gallery.ecr.aws/lts/ubuntu](https://gallery.ecr.aws/lts/ubuntu)
 3. Ubuntu Pro + Support includes the following in addition to infra-only support:
 
    1. All packages in [Ubuntu](#def-ubuntu-main) [Universe](#def-ubuntu-universe), starting with 18.04 LTS and onwards
