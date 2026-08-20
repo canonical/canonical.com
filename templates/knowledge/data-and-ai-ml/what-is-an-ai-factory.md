@@ -216,7 +216,7 @@ Canonical helps organizations build AI factories by delivering an integrated, en
 ### Operating system
 [Ubuntu](https://ubuntu.com/) is the operating system of choice for AI, and building your AI factory on Ubuntu gives you access to the broadest ecosystem of optimized machine learning tools and libraries. Starting with Ubuntu 26.04 LTS, popular AI libraries like NVIDIA CUDA or AMD ROCm can each be installed with just one apt install command. The new distribution model can save teams hours or even days on GPGPU framework setup, so organizations can start gaining value from GPUs faster. Canonical also ensures that users have smooth upgrade paths, so they can be confident when updating, and get the benefits of the latest features of these platforms.
 
-The host OS is also the foundation that directly manages the underlying hardware of the AI factory, and Ubuntu is engineered to run across all major silicon architectures with optimized kernels that maximize performance. That’s why Canonical [partners with leading silicon vendors](https://canonical.com/partners/silicon), including AMD, Ampere, Arm, Intel, MediaTek, NVIDIA, Qualcomm, and RISC-V. This means that enterprises can always pick the optimal hardware for their AI factories without being locked into a single software ecosystem. 
+The host OS is also the foundation that directly manages the underlying hardware of the AI factory, and Ubuntu is engineered to run across all major silicon architectures with optimized kernels that maximize performance. That’s why Canonical [partners with leading silicon vendors](https://canonical.com/partners/silicon), including AMD, Ampere, Arm, Intel, MediaTek, NVIDIA, Qualcomm, and RISC-V. This means that enterprises can always pick the optimal hardware for their AI factories without being locked into a single software ecosystem.
 
 
 ### Certified hardware
@@ -233,10 +233,10 @@ Some degree of hardware failures and low-level software issues are inevitable, g
 
 ### Orchestration software
 
-Managing an AI factory requires sophisticated orchestration to allocate resources across virtual machines and containers at scale. [Canonical OpenStack](https://canonical.com/openstack), provides an easy-to-consume and enterprise-grade cloud foundation for AI factories. [Canonical Kubernetes](https://ubuntu.com/kubernetes) is a performant, securely designed, opinionated, and CNCF conformant distribution of Kubernetes that enables organizations to seamlessly orchestrate cloud-native AI workloads.
+Managing an AI factory requires sophisticated orchestration to allocate resources across virtual machines and containers at scale. [Canonical OpenStack](https://canonical.com/openstack) provides an easy-to-consume and enterprise-grade cloud foundation for AI factories. [Canonical Kubernetes](https://ubuntu.com/kubernetes) is a performant, securely designed, opinionated, and CNCF conformant distribution of Kubernetes that enables organizations to seamlessly orchestrate cloud-native AI workloads.
 
 ### Data and MLOps
-Canonical’s data and AI portfolio includes a full suite of open source software to help with data management, model training, model serving, and governance. These include popular databases like PostgreSQL and MySQL, search and vector database tools like OpenSearch, and end-to-end MLOps with Kubeflow for training and fine-tuning, MLFlow for governance and KServe for model serving.
+Canonical’s data and AI portfolio includes a full suite of open source software to help with data management, model training, model serving, and governance. These include popular databases like PostgreSQL and MySQL, search and vector database tools like OpenSearch, and end-to-end MLOps with Kubeflow for training and fine-tuning, MLflow for governance and KServe for model serving.
 
 ### Long-term security and stability
 
