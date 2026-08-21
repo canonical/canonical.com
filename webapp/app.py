@@ -6,6 +6,7 @@ import hashlib
 import json
 import logging
 import os
+import pdb
 import re
 from http.client import responses
 from pathlib import Path
@@ -74,7 +75,7 @@ from webapp.careers import (
     group_by_department,
     get_all_departments,
 )
-from webapp.greenhouse import Greenhouse, Harvest
+from webapp.greenhouse import Greenhouse, HarvestV3
 from webapp.handlers import init_handlers
 from webapp import llms
 from webapp.navigation import (
@@ -429,14 +430,8 @@ def is_remote(job_post):
     if location is None:
         logger.error(f"location is None for job_post_id={job_post.get('id')}")
         return True
-    location_name = location.get("name")
-    if location_name is None:
-        logger.error(
-            f"location_name is None for job_post_id={job_post.get('id')}"
-        )
-        return True
-    location_name = location_name.lower()
-    if "home based" in location_name:
+    location = location.lower()
+    if "home based" in location:
         return True
 
     return False
@@ -457,7 +452,7 @@ def handle_job_details(job_id, job_title):
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return job_details(session, greenhouse, harvest, job_id)
 
 
@@ -492,8 +487,8 @@ def job_details(session, greenhouse, harvest, job_id):
         # Greenhouse board API returns all regions a role is open to (joined
         # with ";"). Use the board value so multi-region roles show every
         # location on the details page.
-        if context["job"].get("location") and job_post.location:
-            context["job"]["location"]["name"] = job_post.location
+        context["job"]["location"] = job_post.location
+        print(context["job"]["location"])
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:

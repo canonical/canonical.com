@@ -26,13 +26,13 @@
     "employmentType" : "FULL_TIME",
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
-    "applicantLocationRequirements": {{ job.location.name | job_location_countries | tojson }},
+    "applicantLocationRequirements": {{ job.location | job_location_countries | tojson }},
     {% else %}
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": {{ job.location.name | tojson }}
+        "addressLocality": {{ job.location | tojson }}
       }
     },
     {% endif %}
@@ -86,16 +86,16 @@
         {% if job.questions %}
           {% for question in job.questions %}
           <label for="{{ question.name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
-            {% if question.type == "short_text" %}
+            {% if question.answer_type == "short_text" %}
             <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255"/>
             {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "attachment" %}
+            {% elif question.answer_type == "attachment" %}
             <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf"/>
             {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "long_text" %}
+            {% elif question.answer_type == "long_text" %}
             <textarea id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
             {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "single_select" or question.type == "boolean" %}
+            {% elif question.answer_type == "single_select" or question.answer_type == "boolean" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled" selected="">Select an option</option>
               {% for answer_option in question.get("values",[]) %}
@@ -103,7 +103,7 @@
               {% endfor %}
             </select>
             {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{% if 'a href' in question.description %}{{ question.description | safe }}{% else %}{{ question.description | striptags }}{% endif %}</p>{% endif %}
-            {% elif question.type == "multi_value_multi_select" or question.type == "multi_select" %}
+            {% elif question.answer_type == "multi_value_multi_select" or question.answer_type == "multi_select" %}
             <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
               <option value="" disabled="disabled">Select...</option>
               {% for answer_option in question.get("values",[]) %}

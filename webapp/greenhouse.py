@@ -1,8 +1,11 @@
 # Standard library
 import json
-from base64 import b64encode
 import os
 import logging
+
+from base64 import b64encode
+from datetime import datetime, timedelta
+from dateutil import parser
 from urllib.parse import urlparse
 
 # Packages
@@ -608,3 +611,103 @@ class Harvest:
         )
 
         return response
+
+
+class HarvestV3Auth:
+    def __init__(self, session, api_key, api_secret):
+        self.session = session
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.token = None
+        self.expires_at = None
+
+    def _request_token(self):
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+        }
+
+        response = requests.post(
+            url="https://auth.greenhouse.io/token?grant_type=client_credentials",
+            auth=(self.api_key, self.api_secret),
+            headers=headers,
+            timeout=3,
+        )
+
+        response.raise_for_status()
+
+        payload = response.json()
+
+        self.token = payload.get("access_token")
+        self.expires_at = parser.isoparse(payload["expires_at"])
+
+    def _is_token_expired(self):
+        if not self.token or not self.expires_at:
+            return True
+
+        now = datetime.now(tz=self.expires_at.tzinfo)
+        return self.expires_at + timedelta(seconds=60) < now
+
+    def get_token(self):
+        if self._is_token_expired():
+            self._request_token()
+        return self.token
+
+class HarvestV3:
+    def __init__(
+        self,
+        session,
+        api_key,
+        api_secret,
+        base_url="https://harvest.greenhouse.io/v3/",
+    ):
+        self.session = session
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.base_url = base_url
+        self._auth = HarvestV3Auth(
+            session=self.session,
+            api_key=self.api_key,
+            api_secret=self.api_secret,
+        )
+
+    @staticmethod
+    def from_session(session):
+        harvest = HarvestV3(
+            session=session,
+            api_key=os.environ.get("HARVEST_V3_API_KEY"),
+            api_secret=os.environ.get("HARVEST_V3_API_SECRET"),
+        )
+        return harvest
+
+    def _request(
+        self,
+        method,
+        url,
+        params=None,
+        headers=None,
+        timeout=15,
+    ):
+
+        headers = headers or {}
+        headers["Authorization"] = f"Bearer {self._auth.get_token()}"
+
+        response = self.session.request(
+            method,
+            url,
+            params=params,
+            json=None,
+            headers=headers,
+            timeout=timeout,
+        )
+    
+        response.raise_for_status()
+        return response
+
+    def get_job_post(self, job_post_id):
+        job_posts = self._request(
+            "GET", f"{self.base_url}job_posts",
+            params={"ids": job_post_id}
+        ).json()
+
+        return job_posts[0]
