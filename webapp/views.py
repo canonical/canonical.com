@@ -4,7 +4,9 @@ import requests
 import math
 import datetime
 import yaml
+import json
 import logging
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
@@ -366,6 +368,57 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
+@lru_cache(maxsize=1)
+def _load_lastmod_manifest():
+    """
+    Load templates/lastmod-manifest.json: a map of template file path
+    (relative to templates/) to the date it was last changed in git.
+
+    The production image doesn't ship .git (or the git history needed to
+    read it), so this manifest -- generated from git log by
+    scripts/generate-lastmod-manifest.py before the app is packaged -- is
+    how sitemap lastmod dates survive into the running app. Cached for
+    the life of the process: it's a static build artefact.
+    """
+    manifest_path = (
+        Path(flask.current_app.root_path).parent
+        / "templates"
+        / "lastmod-manifest.json"
+    )
+    try:
+        with open(manifest_path) as manifest_file:
+            return json.load(manifest_file)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def get_file_last_modified(file_path):
+    """
+    Get the date a template file's content was last changed.
+
+    Looks up file_path (relative to templates/) in the build-time
+    lastmod manifest. Falls back to the filesystem mtime for a file the
+    manifest doesn't know about yet -- e.g. one added locally since the
+    manifest was last generated.
+
+    Args:
+        file_path: Path object for the file, somewhere under templates/
+
+    Returns:
+        An ISO 8601 date string (YYYY-MM-DD)
+    """
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    rel_path = file_path.relative_to(templates_dir).as_posix()
+
+    manifest = _load_lastmod_manifest()
+    if rel_path in manifest:
+        return manifest[rel_path]
+
+    return datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime(
+        "%Y-%m-%d"
+    )
+
+
 def get_articles_from_category(category_dir, category_slug):
     """
     Get articles from markdown files in a category directory.
@@ -424,6 +477,7 @@ def get_articles_from_category(category_dir, category_slug):
                             ),
                             "tag": context.get("tag", ""),
                             "publish_date": publish_date,
+                            "last_modified": get_file_last_modified(md_file),
                         }
                         articles.append(article)
                     except yaml.YAMLError:
@@ -497,12 +551,22 @@ def get_knowledge_sections():
                             category_dir, category_dir.name
                         )
 
+                    # A section page changes when its own template changes,
+                    # or when any of the articles it lists change.
+                    last_modified = get_file_last_modified(index_file)
+                    if articles:
+                        last_modified = max(
+                            last_modified,
+                            *(a["last_modified"] for a in articles),
+                        )
+
                     sections.append(
                         {
                             "slug": category_dir.name,
                             "title": title,
                             "description": description,
                             "articles": articles,
+                            "last_modified": last_modified,
                         }
                     )
 
@@ -513,6 +577,30 @@ def get_knowledge_sections():
                     )
 
     return sections
+
+
+def get_knowledge_last_modified(sections):
+    """
+    Get the last-modified date for the /knowledge index page: the most
+    recent of its own template and every section it links to.
+
+    Args:
+        sections: list of section dicts, as returned by
+            get_knowledge_sections()
+
+    Returns:
+        An ISO 8601 date string (YYYY-MM-DD)
+    """
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    index_file = templates_dir / "knowledge" / "index.html"
+
+    last_modified = get_file_last_modified(index_file)
+    if sections:
+        last_modified = max(
+            last_modified, *(s["last_modified"] for s in sections)
+        )
+
+    return last_modified
 
 
 def build_knowledge_index():

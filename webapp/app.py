@@ -59,6 +59,8 @@ from webapp.views import (
     build_knowledge_index,
     build_knowledge_category_index,
     get_knowledge_sections,
+    get_knowledge_last_modified,
+    get_file_last_modified,
     google_ads_verification,
 )
 from webapp.application import application_bp
@@ -119,6 +121,10 @@ app = FlaskBase(
     template_404="404.html",
     template_500="500.html",
 )
+
+# Base directory for resolving a sitemap page's source template file, to
+# derive its <lastmod> from git history (see get_file_last_modified).
+TEMPLATES_DIR = Path(app.root_path).parent / "templates"
 
 # Markdown endpoint for LLM/crawler optimization
 # Serves any page as Markdown via ?format=md query parameter
@@ -221,9 +227,37 @@ def index_sitemap():
     return response
 
 
+HOME_SITEMAP_PAGES = [
+    ("https://canonical.com/", "index.html"),
+    ("https://canonical.com/contact-us", "contact-us.html"),
+    ("https://canonical.com/projects", "projects/index.html"),
+    ("https://canonical.com/documentation", "documentation/index.html"),
+    ("https://canonical.com/press-center", "press-center/index.html"),
+    ("https://canonical.com/data", "data/index.html"),
+    (
+        "https://canonical.com/solutions/telco/5g-edge",
+        "solutions/telco/5g-edge.html",
+    ),
+    (
+        "https://canonical.com/solutions/telco/5g-core",
+        "solutions/telco/5g-core.html",
+    ),
+    ("https://canonical.com/company", "company/index.html"),
+    ("https://canonical.com/knowledge", "knowledge/index.html"),
+]
+
+
 @app.route("/sitemap-links.xml")
 def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
+    pages = [
+        {
+            "url": url,
+            "last_modified": get_file_last_modified(TEMPLATES_DIR / path),
+        }
+        for url, path in HOME_SITEMAP_PAGES
+    ]
+
+    xml_sitemap = flask.render_template("sitemap-links.xml", pages=pages)
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
     response.headers["Cache-Control"] = "public, max-age=43200"
@@ -393,10 +427,65 @@ def handle_careers_sitemap():
         return careers_sitemap(greenhouse)
 
 
+CAREERS_STATIC_SITEMAP_PAGES = [
+    ("https://canonical.com/careers", "careers/index.html", "monthly"),
+    (
+        "https://canonical.com/careers/career-explorer",
+        "careers/career-explorer.html",
+        "monthly",
+    ),
+    ("https://canonical.com/careers/all", "careers/all.html", "weekly"),
+    (
+        "https://canonical.com/careers/hiring-process",
+        "careers/hiring-process/index.html",
+        "weekly",
+    ),
+    (
+        "https://canonical.com/careers/company-culture/remote-work",
+        "careers/company-culture/remote-work.html",
+        "monthly",
+    ),
+    (
+        "https://canonical.com/careers/company-culture/progression",
+        "careers/company-culture/progression.html",
+        "monthly",
+    ),
+    (
+        "https://canonical.com/careers/company-culture/diversity",
+        "careers/company-culture/diversity.html",
+        "monthly",
+    ),
+    (
+        "https://canonical.com/careers/company-culture/sustainability",
+        "careers/company-culture/sustainability.html",
+        "monthly",
+    ),
+]
+
+
 def careers_sitemap(greenhouse):
+    pages = [
+        {
+            "url": url,
+            "last_modified": get_file_last_modified(TEMPLATES_DIR / path),
+            "changefreq": changefreq,
+        }
+        for url, path, changefreq in CAREERS_STATIC_SITEMAP_PAGES
+    ]
+    departments = [
+        {
+            "slug": slug,
+            "last_modified": get_file_last_modified(
+                TEMPLATES_DIR / "careers" / f"{slug}.html"
+            ),
+        }
+        for slug in DEPARTMENT_LIST
+    ]
+
     context = {
+        "pages": pages,
         "vacancies": greenhouse.get_vacancies(),
-        "departments": DEPARTMENT_LIST,
+        "departments": departments,
     }
 
     xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
@@ -806,9 +895,57 @@ def partner_details(partners_api):
     return flask.render_template(template_path, partners=partners)
 
 
+PARTNERS_SITEMAP_PAGES = [
+    ("https://canonical.com/partners", "partners/index.html"),
+    (
+        "https://canonical.com/partners/find-a-partner",
+        "partners/find-a-partner.html",
+    ),
+    (
+        "https://canonical.com/partners/become-a-partner",
+        "partners/become-a-partner.html",
+    ),
+    (
+        "https://canonical.com/partners/channel-and-reseller",
+        "partners/channel-and-reseller.html",
+    ),
+    ("https://canonical.com/partners/desktop", "partners/desktop.html"),
+    ("https://canonical.com/partners/gsi", "partners/gsi.html"),
+    (
+        "https://canonical.com/partners/ihv-and-oem",
+        "partners/ihv-and-oem.html",
+    ),
+    (
+        "https://canonical.com/partners/public-cloud",
+        "partners/public-cloud.html",
+    ),
+    (
+        "https://canonical.com/partners/iot-device",
+        "partners/iot-device.html",
+    ),
+    ("https://canonical.com/partners/silicon", "partners/silicon/index.html"),
+    (
+        "https://canonical.com/partners/silicon/intel",
+        "partners/silicon/intel/index.html",
+    ),
+    (
+        "https://canonical.com/partners/executive-summit",
+        "partners/executive-summit.html",
+    ),
+]
+
+
 @app.route("/partners/sitemap.xml")
 def partners_sitemap():
-    xml_sitemap = flask.render_template("partners/sitemap.xml")
+    pages = [
+        {
+            "url": url,
+            "last_modified": get_file_last_modified(TEMPLATES_DIR / path),
+        }
+        for url, path in PARTNERS_SITEMAP_PAGES
+    ]
+
+    xml_sitemap = flask.render_template("partners/sitemap.xml", pages=pages)
     response = flask.make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
     response.headers["Cache-Control"] = "public, max-age=43200"
@@ -907,6 +1044,7 @@ def knowledge_sitemap():
 
     context = {
         "sections": sections,
+        "last_modified": get_knowledge_last_modified(sections),
     }
 
     xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)

@@ -760,7 +760,13 @@ context:
             self.assertEqual(len(sections[0]["articles"]), 2)
 
             # Verify structure of returned dict
-            expected_keys = {"slug", "title", "description", "articles"}
+            expected_keys = {
+                "slug",
+                "title",
+                "description",
+                "articles",
+                "last_modified",
+            }
             self.assertEqual(set(sections[0].keys()), expected_keys)
 
     def test_multiple_sections(self):
