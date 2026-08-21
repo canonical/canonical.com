@@ -3,7 +3,7 @@ wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu Pro service terms - Japanese"
   description: "Ubuntu and Canonical Legal - Ubuntu Pro service terms (Japanese translation)"
-  update_date: "20 August 2026"
+  update_date: "1 June 2026"
   copydoc: "https://docs.google.com/document/d/13BtCQVc1_DciuKRWbU8JdxX3AscO7ijr/edit"
 ---
 
