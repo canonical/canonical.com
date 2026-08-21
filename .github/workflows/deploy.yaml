@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
 
@@ -45,7 +45,7 @@ jobs:
       # cache the packed charm and only rebuild when charm/ actually changes.
       - name: Restore cached charm
         id: charm-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ./charm/*.charm
           key: charm-${{ runner.os }}-${{ runner.arch }}-cc${{ env.CHARMCRAFT_REVISION }}-${{ hashFiles('charm/**') }}
@@ -65,7 +65,7 @@ jobs:
           charmcraft pack -v --project-dir ./
 
       - name: Upload charm
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: canonical-com-charm
           path: ./charm/*.charm
@@ -74,14 +74,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
           cache: 'yarn'
 
       - name: Build Assets
@@ -113,7 +113,7 @@ jobs:
         run: rockcraft pack
 
       - name: Upload Rock
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: canonical-com-rock
           path: ./*.rock
@@ -128,7 +128,7 @@ jobs:
       image_url: ${{ steps.set_image_url.outputs.image_url }}
     steps:
       - name: Get Rock
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-rock
 
@@ -146,7 +146,7 @@ jobs:
     needs: [pack-charm, publish-image]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Install Dependencies
         run: |
@@ -154,7 +154,7 @@ jobs:
           sudo snap install vault --classic
 
       - name: Download Charm Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-charm
 
@@ -199,7 +199,7 @@ jobs:
     needs: [pack-charm, publish-image, deploy-staging]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Install Dependencies
         run: |
@@ -207,7 +207,7 @@ jobs:
           sudo snap install vault --classic
   
       - name: Download Charm Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-com-charm
  
