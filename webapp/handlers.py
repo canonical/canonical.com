@@ -193,6 +193,7 @@ CSP = {
     ],
     "frame-src": [
         "'self'",
+        "assets.ubuntu.com",
         "*.doubleclick.net",
         "*.crazyegg.com",
         "www.youtube.com/",

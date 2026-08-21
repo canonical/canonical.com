@@ -8,6 +8,7 @@ jobs:
   check-links:
     if: github.repository == 'canonical/canonical.com'
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Install linkchecker
@@ -20,7 +21,7 @@ jobs:
           [checking]
           maxrequestspersecond=5
           recursionlevel=2
-          timeout=1000
+          timeout=60
           sslverify=0
 
           [filtering]
@@ -60,8 +61,73 @@ jobs:
             ^http?s://.* Read timed out
           EOF
 
-      - name: Run linkchecker for 404 errors only
-        run: linkchecker --no-warning https://canonical.com
+      - name: Run linkchecker with retry for transient failures
+        run: |
+          set -u
+
+          runtime_error() {
+            echo "LinkChecker failed unexpectedly. See the output above for details." >&2
+            exit 2
+          }
+
+          # Print the unique failed URLs (valid=False) from a linkchecker CSV.
+          extract_failed() {
+            python3 - "$1" <<'PY'
+          import csv
+          import sys
+
+          seen = set()
+          with open(sys.argv[1], newline="") as f:
+              rows = (line for line in f if not line.startswith("#"))
+              for row in csv.DictReader(rows, delimiter=";"):
+                  if row.get("valid", "").strip().lower() == "false":
+                      url = row.get("urlname")
+                      if url and url not in seen:
+                          seen.add(url)
+                          print(url)
+          PY
+          }
+
+          if linkchecker --no-warning -F csv/failed-links.csv https://canonical.com; then
+            echo "No broken links found."
+            exit 0
+          else
+            checker_status=$?
+          fi
+
+          [ "$checker_status" -eq 1 ] || runtime_error
+          extract_failed failed-links.csv > current-urls.txt || runtime_error
+          [ -s current-urls.txt ] || runtime_error
+
+          attempt=1
+          max_attempts=3
+          delay=60
+
+          # Re-check only the previously failed links
+          while [ "$attempt" -le "$max_attempts" ] && [ -s current-urls.txt ]; do
+            echo "Attempt $attempt/$max_attempts: rechecking $(wc -l < current-urls.txt) link(s) after ${delay}s"
+            sleep "$delay"
+
+            mapfile -t urls < current-urls.txt
+            retry_csv="retry-${attempt}.csv"
+            if linkchecker --no-warning --recursion-level=0 --timeout=30 -F "csv/${retry_csv}" "${urls[@]}"; then
+              echo "All remaining links resolved on attempt $attempt."
+              exit 0
+            else
+              checker_status=$?
+            fi
+
+            [ "$checker_status" -eq 1 ] || runtime_error
+            extract_failed "$retry_csv" > next-urls.txt || runtime_error
+            [ -s next-urls.txt ] || runtime_error
+            mv next-urls.txt current-urls.txt
+            attempt=$((attempt + 1))
+            delay=$((delay * 2))
+          done
+
+          echo "Links still broken after $max_attempts attempts:"
+          cat current-urls.txt
+          exit 1
 
       - name: Send message on failure
         if: failure()
