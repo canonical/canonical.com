@@ -1,5 +1,7 @@
 {% extends "base_index.html" %}
 
+{% set is_canonical_announcement = article.group and article.group.slug == "canonical-announcements" %}
+
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 
 {% block meta_description %}{{ article.meta_description }}{% endblock %}
@@ -11,12 +13,8 @@
 {% block meta_image %}{{ article.image.source_url }}{% endblock %}
 
 {%- block canonical_url -%}
-  {%- if article.author and article.author.id == 217 -%}
+  {%- if is_canonical_announcement -%}
     https://canonical.com/blog/{{ article.slug }}
-  {%- elif 2996 in article.tags -%}
-    https://snapcraft.io/blog/{{ article.slug }}
-  {%- elif 1304 in article.tags or 3681 in article.tags -%}
-    https://maas.io/blog/{{ article.slug }}
   {%- else -%}
     https://ubuntu.com/blog/{{ article.slug }}
   {%- endif -%}
@@ -27,22 +25,28 @@
   <script type="application/ld+json" nonce="{{ csp_nonce }}">
     {
       "@context": "http://schema.org",
-      "@id": "https://canonical.com/#article",
+      "@id": "{{ request.url }}",
       "@type": "Article",
-      "name": "{{ article.title.renderered|safe }}",
+      "name": "{{ article.title.rendered | safe }}",
       "headline": "{{ article.excerpt.raw }}",
       "author": {
-        "@type": "Person",
+        "@type": "{% if article.author.slug == 'canonical' %}Organization{% else %}Person{% endif %}",
         "name": "{{ article.author.name }}"
       },
       "datePublished": "{{ article.date_gmt }}",
+      "dateModified": "{{ article.modified_gmt }}",
       {% if article.image and article.image.source_url %}
       "image": "{{ article.image.source_url }}",
       {% endif %}
-      "url": "{{ request.url }}",
+      "url": "{{ self.canonical_url() }}",
       "publisher": {
         "@type": "Organization",
-        "name": "Ubuntu"
+        "@id": "{% if is_canonical_announcement %}https://canonical.com{% else %}https://ubuntu.com{% endif %}",
+        "name": "{% if is_canonical_announcement %}Canonical{% else %}Ubuntu{% endif %}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://assets.ubuntu.com/v1/c55060fd-COF%20android-chrome-512x512.png"
+        }
       }
     }
 </script>
