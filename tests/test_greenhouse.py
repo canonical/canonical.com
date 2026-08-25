@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import requests
 import json
+from werkzeug.datastructures import MultiDict
 
 import webapp.greenhouse as greenhouse
 from webapp.greenhouse import (
@@ -195,6 +196,28 @@ class TestGreenhouseAPI(unittest.TestCase):
         self.assertIn("cover_letter_content", payload)
         self.assertEqual(payload["resume_content_filename"], "resume.pdf")
         self.assertEqual(payload["cover_letter_content_filename"], "cover.txt")
+
+    def test_submit_application_preserves_multi_select_values(self):
+        session = MagicMock()
+        gh = greenhouse.Greenhouse(session=session, api_key="key", debug=False)
+        form_data = MultiDict(
+            [
+                ("first_name", "Alice"),
+                ("question_123[]", "10"),
+                ("question_123[]", "20"),
+            ]
+        )
+
+        gh.submit_application(
+            form_data=form_data,
+            form_files={},
+            job_id="999",
+        )
+
+        payload = json.loads(session.post.call_args.kwargs["data"])
+        self.assertEqual(payload["first_name"], "Alice")
+        self.assertEqual(payload["question_123"], [10, 20])
+        self.assertNotIn("question_123[]", payload)
 
     def test_submit_application_debug_short_circuits(self):
         """

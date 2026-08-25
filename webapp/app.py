@@ -6,7 +6,6 @@ import hashlib
 import json
 import logging
 import os
-import pdb
 import re
 from http.client import responses
 from pathlib import Path
@@ -437,6 +436,67 @@ def is_remote(job_post):
     return False
 
 
+V3_CONTROL_TYPES = {
+    "short_text": "text",
+    "attachment": "file",
+    "long_text": "textarea",
+    "boolean": "select",
+    "single_select": "select",
+    "multi_select": "select",
+}
+
+
+def build_job_application_questions(questions):
+    """Build the application form model from Harvest V3 questions."""
+    application_questions = []
+
+    for question in questions:
+        answer_type = question.get("answer_type")
+        if answer_type == "hidden":
+            continue
+
+        if answer_type not in V3_CONTROL_TYPES:
+            raise ValueError(
+                f"unsupported Harvest V3 question type: {answer_type}"
+            )
+
+        submission_name = question["name"]
+        label = question["label"]
+        if submission_name == "phone_number":
+            submission_name = "phone"
+            label = "Phone"
+
+        multiple = answer_type == "multi_select"
+        if multiple and not submission_name.endswith("[]"):
+            submission_name = f"{submission_name}[]"
+
+        if answer_type == "boolean":
+            options = [
+                {"value": 0, "label": "No"},
+                {"value": 1, "label": "Yes"},
+            ]
+        else:
+            options = [
+                {"value": option["id"], "label": option["label"]}
+                for option in question.get("options", [])
+            ]
+
+        application_questions.append(
+            {
+                "control_type": V3_CONTROL_TYPES[answer_type],
+                "description": question.get("description"),
+                "label": label,
+                "multiple": multiple,
+                "options": options,
+                "private": question.get("private", False),
+                "required": question.get("required", False),
+                "submission_name": submission_name,
+            }
+        )
+
+    return application_questions
+
+
 @app.route(
     "/careers/<regex('[0-9]+'):job_id>",
     methods=["GET", "POST"],
@@ -463,6 +523,8 @@ def job_details(session, greenhouse, harvest, job_id):
 
     try:
         context["job"] = harvest.get_job_post(job_id)
+        if not context["job"]:
+            flask.abort(404)
 
         # Handle job posting that are no longer open
         if not context["job"].get("active") or not context["job"].get("live"):
@@ -483,12 +545,13 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
-        # The Harvest job post only exposes a single location, while the
-        # Greenhouse board API returns all regions a role is open to (joined
-        # with ";"). Use the board value so multi-region roles show every
-        # location on the details page.
+        context["job"]["application_questions"] = (
+            build_job_application_questions(
+                context["job"].get("questions", [])
+            )
+        )
+        # the Board API owns location because Harvest V3 does not expose it
         context["job"]["location"] = job_post.location
-        print(context["job"]["location"])
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:

@@ -383,6 +383,13 @@ class Greenhouse:
         # Create payload for api submission
         payload = form_data.to_dict()
 
+        for field_name in form_data.keys():
+            if field_name.endswith("[]"):
+                payload.pop(field_name, None)
+                payload[field_name[:-2]] = [
+                    int(value) for value in form_data.getlist(field_name)
+                ]
+
         payload.pop("recaptcha_token", None)
         initial_referrer = payload.pop("initial_referrer", None)
         initial_url = payload.pop("initial_url", None)
