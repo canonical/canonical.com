@@ -166,8 +166,8 @@
   // Handle Pagination
   let contactIndex = 1;
   const contactModal = document.querySelector(".p-modal");
-  const modalPaginationButtons = contactModal.querySelectorAll(".pagination a");
-  const paginationContent = contactModal.querySelectorAll(".js-pagination");
+  const modalPaginationButtons = contactModal?.querySelectorAll(".pagination a");
+  const paginationContent = contactModal?.querySelectorAll(".js-pagination");
 
   function setState(index) {
     contactIndex = index;
@@ -175,7 +175,7 @@
   }
 
   function render() {
-    if (paginationContent.length) {
+    if (paginationContent?.length) {
       const currentContent = contactModal.querySelector(
         ".js-pagination--" + contactIndex
       );
@@ -186,7 +186,7 @@
     }
   }
 
-  modalPaginationButtons.forEach(function (modalPaginationButton) {
+  modalPaginationButtons?.forEach(function (modalPaginationButton) {
     modalPaginationButton.addEventListener("click", function (e) {
       e.preventDefault();
       /** @type {HTMLElement} */

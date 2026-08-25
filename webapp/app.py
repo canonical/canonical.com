@@ -59,6 +59,7 @@ from webapp.views import (
     build_knowledge_index,
     build_knowledge_category_index,
     get_knowledge_sections,
+    google_ads_verification,
 )
 from webapp.application import application_bp
 from webapp.canonical_cla.views import (
@@ -92,6 +93,7 @@ from webapp.utils.juju_doc_search import (
     search_all_docs,
 )
 from webapp import ubuntu_pro_description as _upsd
+from webapp.utils.constants import CACHE_TTL
 
 logger = logging.getLogger(__name__)
 
@@ -145,6 +147,7 @@ loader = ChoiceLoader(
 app.jinja_loader = loader
 search_session = get_requests_session()
 discourse_session = get_requests_session()
+ubuntu_discourse_cache = ResponseCache(ttl=CACHE_TTL)
 
 app.register_blueprint(application_bp, url_prefix="/careers/application")
 
@@ -229,6 +232,7 @@ def home_sitemap():
 
 
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
+app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 
 
 # OpenStack resources blog section
@@ -294,9 +298,6 @@ def search_docs():
         sorted_results=sorted_results,
         domain_info=DOMAIN_INFO,
     )
-
-
-CACHE_TTL = 60 * 60  # 1 hour cache
 
 
 @app.route("/juju/latest.json")
@@ -1133,7 +1134,7 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=discourse_session,
-            cache=ResponseCache(ttl=600),
+            cache=None,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1167,7 +1168,7 @@ maas_docs = Docs(
             base_url="https://discourse.maas.io/",
             session=discourse_session,
             get_topics_query_id=2,
-            cache=ResponseCache(ttl=600),
+            cache=ubuntu_discourse_cache,
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1252,7 +1253,7 @@ tutorials_discourse = Tutorials(
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
-            cache=ResponseCache(ttl=600),
+            cache=ubuntu_discourse_cache,
         ),
         index_topic_id=1289,
         url_prefix="/maas/tutorials",
@@ -1516,7 +1517,7 @@ engage_pages_discourse_api = DiscourseAPI(
     get_topics_query_id=14,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
-    cache=ResponseCache(ttl=600),
+    cache=ubuntu_discourse_cache,
 )
 engage_pages = EngagePages(
     api=engage_pages_discourse_api,
@@ -1546,7 +1547,7 @@ discourse_api = DiscourseAPI(
     session=search_session,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
-    cache=ResponseCache(ttl=600),
+    cache=ubuntu_discourse_cache,
 )
 
 
@@ -1582,7 +1583,7 @@ microk8s_discourse_api = Docs(
         api=DiscourseAPI(
             base_url="https://discuss.kubernetes.io/",
             session=get_requests_session(),
-            cache=ResponseCache(ttl=600),
+            cache=None,
         ),
         index_topic_id=11243,
         url_prefix=microk8s_url_prefix,
