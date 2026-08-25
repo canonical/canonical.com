@@ -1,6 +1,7 @@
 {% extends 'base_index.html' %}
 
 {% from 'macros/_macros-lite-video.jinja' import lite_video %}
+{% from '_macros/vf_tab-section.jinja' import vf_tab_section %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1NqSg2dt5wbmSY6IwWKo9gbxzOuyKL_gUZnFlAux1RU8
@@ -258,10 +259,96 @@
 
     <section class="p-strip--careers-progression is-dark u-hide--small">
       <div class="row" data-animation="u-animation--slide-from-bottom">
-        <h2 class="u-sv3">Leveling framework</h2>
         {{ image(url="https://assets.ubuntu.com/v1/8c7d2b68-diagram.jpg", alt="A diagram illustrating career paths starting from graduate level. It branches into three leadership tracks: depth for technical specialists, drive for staff and principals, and plan for management roles like director and VP", width="3696", height="1540", hi_def=True, loading="lazy" ) | safe }}
       </div>
     </section>
+
+    {{ vf_tab_section(
+      title={"text": "Leveling framework"},
+      layout="50-50",
+      attrs={"class": "is-dark p-strip--careers-progression u-hide--small"},
+      tabs=[
+        {
+          "tab_html": "Overview",
+          "type": "basic-section",
+          "item": {
+            "items": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p>
+                      Depending on the direction, goals, and maturity of your career, Canonical’s leveling framework offers a variety of directions and opportunities, designed to help you flourish in the long term.
+                    </p>
+                    <p>
+                      Early careers team members may join us at Graduate or Associate level before achieving Prof I and beyond. Following Prof II, team members have the option to focus on one of three tracks: Depth, Drive, and Plan.
+                    </p>
+                    '
+                }
+              }
+            ]
+          }
+        },
+        {
+          "tab_html": "Depth",
+          "type": "basic-section",
+          "item": {
+            "items": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p>
+                      Our “Depth” track, progressing from Specialist to Fellow, is ideal for technical experts who want to gain a deep understanding of complex challenges and deliver meaningful value. From forging greater security for Ubuntu Desktop to advancing our commercial systems, Depth track members focus on mastery and innovation in their discipline.
+                    </p>
+                    '
+                }
+              }
+            ]
+          }
+        },
+        {
+          "tab_html": "Drive",
+          "type": "basic-section",
+          "item": {
+            "items": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p>
+                      For those who excel at balancing cross-team coordination with strategic insight, our “Drive” track offers the opportunity to shape Canonical’s landscape and get things done cross-functionally. This track contains the levels of Senior to Principal, all of which help to realize the processes, teams, and products that define Canonical.
+                    </p>
+                    '
+                }
+              }
+            ]
+          }
+        },
+        {
+          "tab_html": "Plan",
+          "type": "basic-section",
+          "item": {
+            "items": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p>
+                      Our “Plan” track encompasses career levels from Manager to VP, and combines a passion for excellence with a passion for people. Their primary focus is on strategizing the future of Canonical: defining and orchestrating data-driven collaboration, and enhancing their teams’ high quality output.
+                    </p>
+                    '
+                }
+              }
+            ]
+          }
+        },
+      ]
+    ) }}
 
     <section class="p-strip">
       <div class="u-fixed-width u-sv3">
@@ -312,4 +399,5 @@
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
           crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
