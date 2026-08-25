@@ -4,9 +4,10 @@ import os
 import logging
 
 from base64 import b64encode
-from datetime import datetime, timedelta
-from dateutil import parser
-from urllib.parse import urlparse
+from datetime import datetime, timedelta, timezone
+from dateutil.parser import isoparse
+from threading import Lock
+from urllib.parse import parse_qs, urlparse
 
 # Packages
 from html import unescape
@@ -438,276 +439,270 @@ class Greenhouse:
         )
 
 
-class Harvest:
+class _HarvestV3TokenCache:
+    def __init__(self):
+        self._lock = Lock()
+        self.token = None
+        self.expires_at = None
+
+    def get_token(self, request_token):
+        with self._lock:
+            refresh_at = (
+                self.expires_at - timedelta(seconds=60)
+                if self.expires_at
+                else None
+            )
+            if not self.token or datetime.now(timezone.utc) >= refresh_at:
+                self.token, self.expires_at = request_token()
+            return self.token
+
+    def invalidate(self):
+        with self._lock:
+            self.token = None
+            self.expires_at = None
+
+
+_harvest_v3_token_caches = {}
+_harvest_v3_token_caches_lock = Lock()
+
+
+def _get_harvest_v3_token_cache(client_id):
+    with _harvest_v3_token_caches_lock:
+        token_cache = _harvest_v3_token_caches.get(client_id)
+        if token_cache is None:
+            token_cache = _HarvestV3TokenCache()
+            _harvest_v3_token_caches[client_id] = token_cache
+        return token_cache
+
+
+class HarvestV3Auth:
+    def __init__(self, session, client_id, client_secret, token_cache=None):
+        self.session = session
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self._token_cache = token_cache or _get_harvest_v3_token_cache(
+            client_id
+        )
+
+    def _request_token(self):
+        response = self.session.post(
+            "https://auth.greenhouse.io/token",
+            auth=(self.client_id, self.client_secret),
+            params={"grant_type": "client_credentials"},
+            json={},
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            timeout=15,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        return (
+            payload["access_token"],
+            isoparse(payload["expires_at"]),
+        )
+
+    def invalidate(self):
+        self._token_cache.invalidate()
+
+    def get_token(self):
+        return self._token_cache.get_token(self._request_token)
+
+
+class HarvestV3:
     def __init__(
         self,
         session,
-        api_key,
-        base_url="https://harvest.greenhouse.io/v1/",
+        client_id,
+        client_secret,
+        base_url="https://harvest.greenhouse.io/v3/",
         debug=False,
     ):
         self.session = session
-        self.base64_key = b64encode(f"{api_key}:".encode()).decode()
         self.base_url = base_url
         self.debug = debug
+        self._auth = HarvestV3Auth(
+            session=self.session,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
 
     @staticmethod
     def from_session(session):
-        harvest = Harvest(
+        return HarvestV3(
             session=session,
-            api_key=os.environ.get("HARVEST_API_KEY"),
+            client_id=os.environ.get("HARVEST_V3_CLIENT_ID"),
+            client_secret=os.environ.get("HARVEST_V3_CLIENT_SECRET"),
             debug=GREENHOUSE_DEBUG,
         )
-        return harvest
 
-    def get_departments(self):
-        response = self.session.get(
-            f"{self.base_url}custom_field/155450",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
+    def _request(
+        self,
+        method,
+        path,
+        params=None,
+        json_body=None,
+        headers=None,
+        timeout=15,
+    ):
+        request_headers = dict(headers or {})
+
+        def send_request():
+            return self.session.request(
+                method,
+                f"{self.base_url}{path}",
+                params=params,
+                json=json_body,
+                headers={
+                    **request_headers,
+                    "Authorization": f"Bearer {self._auth.get_token()}",
+                },
+                timeout=timeout,
+            )
+
+        response = send_request()
+        if response.status_code == 401:
+            self._auth.invalidate()
+            response = send_request()
+
         response.raise_for_status()
-        departments = json.loads(response.text)["custom_field_options"]
+        return response
 
-        # Temporary fix until we move to new department list
-        if not any(
-            item["name"].lower() == "alliances" for item in departments
-        ):
-            departments.append({"id": 82559, "name": "Alliances"})
+    @staticmethod
+    def _serialize_ids(ids):
+        if isinstance(ids, (str, int)):
+            return str(ids)
+        return ",".join(str(item) for item in ids)
 
-        return sorted(
-            [Department(department["name"]) for department in departments],
-            key=lambda dept: dept.name,
-        )
+    def _list(self, resource, **params):
+        params = {
+            key: (
+                self._serialize_ids(value)
+                if key == "ids" or key.endswith("_ids")
+                else value
+            )
+            for key, value in params.items()
+            if value is not None
+        }
+        params.setdefault("per_page", 500)
+        records = []
+        seen_cursors = set()
+        while True:
+            response = self._request("GET", resource, params=params)
+            records.extend(response.json())
+            next_url = response.links.get("next", {}).get("url")
+            if not next_url:
+                return records
+            cursor = parse_qs(urlparse(next_url).query).get("cursor", [None])[
+                0
+            ]
+            if not cursor or cursor in seen_cursors:
+                raise RuntimeError("invalid Harvest V3 pagination cursor")
+            seen_cursors.add(cursor)
+            params = {"cursor": cursor}
 
-    def get_interviews_scheduled(self, application_id):
-        response = self.session.get(
-            (
-                f"{self.base_url}applications"
-                f"/{application_id}/scheduled_interviews"
-            ),
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
+    def _get_one(
+        self, resource, record_id, parameter="ids", record_id_field="id"
+    ):
+        records = self._list(resource, **{parameter: record_id})
+        if not records:
+            return None
+        record = records[0]
+        if str(record.get(record_id_field)) != str(record_id):
+            raise ValueError(
+                f"Harvest V3 returned the wrong {resource} record"
+            )
+        return record
 
-        return response.json()
-
-    def get_application(self, application_id):
-        response = self.session.get(
-            f"{self.base_url}applications/{application_id}",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
-        response_json = response.json()
-        response_id = response_json["id"]
-        assert str(response_id) == str(
-            application_id
-        ), f"assert {application_id=} {response_id=}"
-        return response_json
+    def _list_for_ids(self, resource, parameter, record_ids, **params):
+        record_ids = sorted(record_ids)
+        records = []
+        for start in range(0, len(record_ids), 50):
+            chunk = record_ids[start : start + 50]
+            records.extend(
+                self._list(resource, **{parameter: chunk}, **params)
+            )
+        return records
 
     def get_job_post(self, job_post_id):
-        response = self.session.get(
-            f"{self.base_url}job_posts/{job_post_id}",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
-        response_json = response.json()
-        response_id = response_json["id"]
-        assert str(response_id) == str(
-            job_post_id
-        ), f"assert {job_post_id=} {response_id=}"
-        return response_json
+        return self._get_one("job_posts", job_post_id)
+
+    def get_application(self, application_id):
+        return self._get_one("applications", application_id)
+
+    def get_applications(self, candidate_id):
+        return self._list("applications", candidate_ids=candidate_id)
 
     def get_candidate(self, candidate_id):
-        response = self.session.get(
-            f"{self.base_url}candidates/{candidate_id}",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
-        response_json = response.json()
-        response_id = response_json["id"]
-        assert str(response_id) == str(
-            candidate_id
-        ), f"assert {candidate_id=} {response_id=}"
-        return response_json
+        return self._get_one("candidates", candidate_id)
 
-    def get_job(self, job_id):
-        response = self.session.get(
-            f"{self.base_url}jobs/{job_id}",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
-        response_json = response.json()
-        response_id = response_json["id"]
-        assert str(response_id) == str(
-            job_id
-        ), f"assert {job_id=} {response_id=}"
-        return response_json
+    def get_jobs(self, job_ids):
+        return self._list_for_ids("jobs", "ids", job_ids)
 
-    def get_stages(self, job_id):
-        response = self.session.get(
-            f"{self.base_url}jobs/{job_id}/stages",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
-        )
-        response.raise_for_status()
-        return response.json()
+    def get_job_owners(self, job_id, owner_type=None):
+        return self._list("job_owners", job_ids=job_id, type=owner_type)
 
     def get_user(self, user_id):
-        response = self.session.get(
-            f"{self.base_url}users/{user_id}",
-            headers={"Authorization": f"Basic {self.base64_key}"},
-            timeout=15,
+        return self._get_one("users", user_id)
+
+    def get_users(self, user_ids):
+        return self._list_for_ids("users", "ids", user_ids)
+
+    def get_job_interview_stages(self, job_id):
+        return self._list("job_interview_stages", job_ids=job_id)
+
+    def get_application_stages(self, application_id):
+        return self._list("application_stages", application_ids=application_id)
+
+    def get_job_interviews(self, job_id):
+        return self._list("job_interviews", job_ids=job_id)
+
+    def get_interviews(self, application_id):
+        return self._list("interviews", application_ids=application_id)
+
+    def get_interviewers(self, interview_ids):
+        return self._list_for_ids(
+            "interviewers", "interview_ids", interview_ids
         )
-        response.raise_for_status()
-        response_json = response.json()
-        response_id = response_json["id"]
-        assert str(response_id) == str(
-            user_id
-        ), f"assert {user_id=} {response_id=}"
-        return response_json
 
-    def reject_application(
-        self, application_id, user_id, rejection_reason_id, notes
-    ):
-        """Reject an application through Harvest API.
-        https://developers.greenhouse.io/harvest.html#post-reject-application
-        :param application_id: the id of the application to be rejected
-        :param user_id: the greenhouse id of the user performing the rejection
-        :param body: optional parameters (e.g. rejection reason)
-        :returns: the id of the application rejected,
-        if the request is successful, otherwise it raises an error
-        """
+    def get_attachments(self, application_id):
+        return self._list("attachments", application_ids=application_id)
 
+    def get_rejection_details(self, application_id):
+        return self._get_one(
+            "rejection_details",
+            application_id,
+            parameter="application_ids",
+            record_id_field="application_id",
+        )
+
+    def get_rejection_reason(self, reason_id):
+        return self._get_one("rejection_reasons", reason_id)
+
+    def reject_application(self, application_id, rejection_reason_id, notes):
+        """Reject an application through Harvest V3."""
+        if rejection_reason_id is None:
+            raise ValueError("rejection_reason_id is required")
         payload = {
-            "rejection_reason_id": rejection_reason_id,
-            "notes": notes,
+            "rejection_reason_id": int(rejection_reason_id),
+            "notes": notes or "",
             "rejection_email": {"email_template_id": 348528},
         }
 
         if self.debug:
             logger.info(
                 "SKIP reject_application "
-                f"{application_id} {user_id} {rejection_reason_id}"
+                f"{application_id} {rejection_reason_id}"
             )
             response = requests.Response()
-            response.status_code = 200
+            response.status_code = 204
             return response
 
-        response = self.session.post(
-            f"{self.base_url}applications/{application_id}/reject",
-            json=payload,
-            headers={
-                "Content-Type": "application/json",
-                "On-Behalf-Of": f"{user_id}",
-                "Authorization": f"Basic {self.base64_key}",
-            },
+        return self._request(
+            "POST",
+            f"applications/{application_id}/reject",
+            json_body=payload,
+            headers={"Content-Type": "application/json"},
             timeout=30,
         )
-
-        return response
-
-
-class HarvestV3Auth:
-    def __init__(self, session, api_key, api_secret):
-        self.session = session
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.token = None
-        self.expires_at = None
-
-    def _request_token(self):
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-        }
-
-        response = requests.post(
-            url="https://auth.greenhouse.io/token?grant_type=client_credentials",
-            auth=(self.api_key, self.api_secret),
-            headers=headers,
-            timeout=3,
-        )
-
-        response.raise_for_status()
-
-        payload = response.json()
-
-        self.token = payload.get("access_token")
-        self.expires_at = parser.isoparse(payload["expires_at"])
-
-    def _is_token_expired(self):
-        if not self.token or not self.expires_at:
-            return True
-
-        now = datetime.now(tz=self.expires_at.tzinfo)
-        return self.expires_at + timedelta(seconds=60) < now
-
-    def get_token(self):
-        if self._is_token_expired():
-            self._request_token()
-        return self.token
-
-class HarvestV3:
-    def __init__(
-        self,
-        session,
-        api_key,
-        api_secret,
-        base_url="https://harvest.greenhouse.io/v3/",
-    ):
-        self.session = session
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.base_url = base_url
-        self._auth = HarvestV3Auth(
-            session=self.session,
-            api_key=self.api_key,
-            api_secret=self.api_secret,
-        )
-
-    @staticmethod
-    def from_session(session):
-        harvest = HarvestV3(
-            session=session,
-            api_key=os.environ.get("HARVEST_V3_API_KEY"),
-            api_secret=os.environ.get("HARVEST_V3_API_SECRET"),
-        )
-        return harvest
-
-    def _request(
-        self,
-        method,
-        url,
-        params=None,
-        headers=None,
-        timeout=15,
-    ):
-
-        headers = headers or {}
-        headers["Authorization"] = f"Bearer {self._auth.get_token()}"
-
-        response = self.session.request(
-            method,
-            url,
-            params=params,
-            json=None,
-            headers=headers,
-            timeout=timeout,
-        )
-    
-        response.raise_for_status()
-        return response
-
-    def get_job_post(self, job_post_id):
-        job_posts = self._request(
-            "GET", f"{self.base_url}job_posts",
-            params={"ids": job_post_id}
-        ).json()
-
-        return job_posts[0]
