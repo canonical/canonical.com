@@ -5,8 +5,30 @@
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 {% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
+{% set category_slug = category | lower | replace('/', '-') | replace(' ', '-') %}
+
 {% block title %}{{ title }} | Knowledge{% endblock title %}
 {% block head_extra %}{{ head_extra }}{% endblock head_extra %}
+
+{% block extra_metatags %}
+  {# djlint: off #}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "name": {{ title | tojson }},
+      "headline": {{ title | tojson }},
+      "description": {{ description | tojson }},
+      "url": {{ request.base_url | tojson }},
+      "publisher": {
+        "@type": "Organization",
+        "name": "Canonical",
+        "url": "https://canonical.com"
+      }
+    }
+  </script>
+  {# djlint: on #}
+{% endblock extra_metatags %}
 
 {% block meta_description %}{{ description }}{% endblock meta_description %}
 {% block meta_copydoc %}{{ copydoc }}{% endblock meta_copydoc %}
@@ -15,7 +37,6 @@
 
   {% block content %}
 
-  {% set category_slug = category | lower | replace('/', '-') | replace(' ', '-') %}
   {% set breadcrumbs = [
     {"name": category, "href": "/knowledge/" + category_slug},
     {"name": breadcrumb }
@@ -65,7 +86,7 @@
           <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
         </label>
         <p>
-          By submitting this form, I confirm that I have read and agree to <a href="#">Canonical's Privacy Policy</a>.
+          By submitting this form, I confirm that I have read and agree to <a href="/legal/data-privacy">Canonical's Privacy Policy</a>.
         </p>
         <button type="submit" class="u-no-margin--bottom js-submit-button">Sign up</button>
       </form>
@@ -109,6 +130,7 @@
     {% endcall -%}
   {% endif %}
   
+  <div data-md-strip>
   {{ vf_blog(
     title={"text": blog.get('title', 'Latest from our blog')},
     padding="deep",
@@ -119,6 +141,7 @@
       "template_id": "template"
     })
   }}
+  </div>
   
   <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>

@@ -6,6 +6,20 @@
   High availability Kubernetes with autonomous clusters. MicroK8s is the simplest production-grade conformant K8s for edge and IoT, on Linux, Windows, and macOS.
 {% endblock %}
 
+{% block extra_metatags %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.microk8s.name | tojson }},
+      "description": {{ products_yaml.microk8s.description | tojson }},
+      "operatingSystem": {{ products_yaml.microk8s.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.microk8s.applicationCategory | tojson }},
+      "url": {{ products_yaml.microk8s.url | tojson }}
+    }
+  </script>
+{% endblock %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1ObWmhRc4GCIhrBi8gT7yIIs0J_dn_8ravfLtcwhr3uQ/edit
 {% endblock meta_copydoc %}

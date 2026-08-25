@@ -46,7 +46,7 @@ Support focuses on resolving unexpected technical issues that arise in productio
 
 Security maintenance and enterprise support serve complementary roles. Security maintenance is proactive, focusing on vulnerability management and timely patching to reduce the risk of breaches. Enterprise support is reactive, addressing real-world incidents such as outages, bugs, and unexpected production issues that still occur despite preventive measures. Production systems – especially environments operating under compliance requirements – need both: proactive protection to stay secure and compliant, and reactive resilience to quickly resolve incidents and maintain business continuity. Together, security maintenance and enterprise support ensure organizations are protected from threats and prepared to handle unforeseen problems.
 
-[Read more about the differences between maintenance and support ›](https://ubuntu.com/blog/security-maintenance-vs-support-whats-the-difference)
+[Read more about the differences between maintenance and support &rsaquo;](https://ubuntu.com/blog/security-maintenance-vs-support-whats-the-difference)
 
 ### When does a security patch become a support issue?
 
@@ -79,7 +79,7 @@ In open source software support, break/fix support addresses incidents where sys
 
 While the software may be free, a commercial contract provides predictability and transparency with accountable experts, enterprise-grade support SLAs, guidance on complex environments and help during critical outages, which community forums are not obligated to deliver.
 
-[Learn why you need Linux support, with real-world case studies ›](https://ubuntu.com/blog/what-is-linux-support)
+[Learn why you need Linux support, with real-world case studies &rsaquo;](https://ubuntu.com/blog/what-is-linux-support)
 
 ### How is enterprise support different from community forums or Stack Overflow?
 
@@ -161,7 +161,7 @@ Canonical can also cover actual software your team uses to build products and an
   "Specialized software, such as Data and AI applications used for machine learning and big data processing."
 ])}}
 
-[Explore Canonical's support datasheet ›](https://assets.ubuntu.com/v1/4745b2a6-ubuntu_pro_support.pdf)
+[Explore Canonical's support datasheet &rsaquo;](https://assets.ubuntu.com/v1/4745b2a6-ubuntu_pro_support.pdf)
 
 ### What's the difference between Ubuntu, Ubuntu Pro, and Ubuntu Pro + Support?
 
@@ -183,4 +183,4 @@ Legacy support is an add-on to Ubuntu Pro for LTS releases of Canonical products
 
 ESM extends Ubuntu LTS security patching from 5 years of standard maintenance to a full 10 years. Legacy support builds on ESM as a seamless add-on, pushing total coverage to 15 years for long-lived production systems.
 
-[Learn how Canonical's support engineers help you when things go wrong ›](https://ubuntu.com/blog/dedicated-linux-support)
+[Learn how Canonical's support engineers help you when things go wrong &rsaquo;](https://ubuntu.com/blog/dedicated-linux-support)

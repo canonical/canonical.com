@@ -1,6 +1,7 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "macros/_macros-faq-schema.jinja" import faqpage_schema %}
 
 {% block title %}IP rights policy FAQs | Partners{% endblock %}
 
@@ -20,6 +21,19 @@
   is-paper
 {% endblock body_class %}
 
+{% set faq_items = [
+  ["Can I publish a cloud VM image based on Ubuntu?",
+  "Yes, on AWS, Azure, Google, IBM, Oracle, and the others where we have a contract."],
+  ["Can I install Ubuntu in my company for internal company use only for free?",
+  "Yes, you get free security updates on the \"main\" OS and packages for 5 years, you might want to consider an Ubuntu Pro subscription for wider and longer duration security coverage, or Support subscription for phone and email support."],
+  ["Can I redistribute Ubuntu?",
+  "Yes, you can mirror our installation images and archives as long as those are mirrored exactly and without modifications."],
+  ["Can I preinstall Ubuntu on hardware that I sell?",
+  "You can include unmodified Ubuntu installation media \"in the box\" [see redistribution above] but you cannot preinstall Ubuntu and ship the resulting hardware without an agreement with Canonical; we have agreements for both certified and uncertified hardware preinstallation."],
+  ["What is a modification?",
+  "There are many examples of what might be a modification to Ubuntu, including modifying or replacing the kernel, removing or adding packages, theme changes and pre-installation. Ubuntu is available to download in the form of an ISO installation image with DEB files. If a customer was to distribute the unmodified ISO installation image in the same format on a CD or server, this would be unmodified Ubuntu."]
+] %}
+
 {% block content %}
   <section class="p-section--deep">
     {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
@@ -38,57 +52,21 @@
             Our policy exists to ensure that when you receive something that claims to be Ubuntu, you can trust that it will work to the same standard, regardless of where you got it from. And people everywhere tell us they appreciate that - when they get Ubuntu on a cloud or as a VM, it works, and they can trust it.
           </p>
         </div>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_title_1' -%}
-        <h3 class="p-heading--5 faq-question">Can I publish a cloud VM image based on Ubuntu?</h3>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_description_1' -%}
-        <p class="faq-answer">Yes, on AWS, Azure, Google, IBM, Oracle, and the others where we have a contract.</p>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_title_2' -%}
-        <h3 class="p-heading--5 faq-question">Can I install Ubuntu in my company for internal company use only for free?</h3>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_description_2' -%}
-        <p class="faq-answer">
-          Yes, you get free security updates on the "main" OS and packages for 5 years, you might want to consider an Ubuntu Pro subscription for wider and longer duration security coverage, or Support subscription for phone and email support.
-        </p>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_title_3' -%}
-        <h3 class="p-heading--5 faq-question">Can I redistribute Ubuntu?</h3>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_description_3' -%}
-        <p class="faq-answer">
-          Yes, you can mirror our installation images and archives as long as those are mirrored exactly and without modifications.
-        </p>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_title_4' -%}
-        <h3 class="p-heading--5 faq-question">Can I preinstall Ubuntu on hardware that I sell?</h3>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_description_4' -%}
-        <p class="faq-answer">
-          You can include unmodified Ubuntu installation media "in the box" [see redistribution above] but you cannot preinstall Ubuntu and ship the resulting hardware without an agreement with Canonical; we have agreements for both certified and uncertified hardware preinstallation.
-        </p>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_title_5' -%}
-        <h3 class="p-heading--5 faq-question">What is a modification?</h3>
-      {%- endif -%}
-
-      {%- if slot == 'list_item_description_5' -%}
-        <p class="faq-answer">
-          There are many examples of what might be a modification to Ubuntu, including modifying or replacing the kernel, removing or adding packages, theme changes and pre-installation. Ubuntu is available to download in the form of an ISO installation image with DEB files. If a customer was to distribute the unmodified ISO installation image in the same format on a CD or server, this would be unmodified Ubuntu.
-        </p>
+      {%- elif slot.startswith('list_item_title_') -%}
+        {%- set idx = slot.split('_')[-1] | int -%}
+        {%- if idx <= faq_items|length -%}
+          <h3 class="p-heading--5 faq-question">{{ faq_items[idx - 1][0] }}</h3>
+        {%- endif -%}
+      {%- elif slot.startswith('list_item_description_') -%}
+        {%- set idx = slot.split('_')[-1] | int -%}
+        {%- if idx <= faq_items|length -%}
+          <p class="faq-answer">{{ faq_items[idx - 1][1] | safe }}</p>
+        {%- endif -%}
       {%- endif -%}
     {%- endcall -%}
   </section>
+
+  {{ faqpage_schema(faq_items) }}
 
   <style nonce="{{ csp_nonce }}">
     .faq-question,

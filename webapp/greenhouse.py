@@ -9,7 +9,6 @@ from urllib.parse import urlparse
 from html import unescape
 import requests
 
-
 logger = logging.getLogger(__name__)
 
 

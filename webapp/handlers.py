@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 
 import flask
 from canonicalwebteam.flask_base.env import get_flask_env
+from canonicalwebteam.discourse import RateLimitedError
 
 logger = logging.getLogger(__name__)
 
@@ -120,8 +121,6 @@ CSP = {
         "maps.googleapis.com",
         "www.redditstatic.com",
         "munchkin.marketo.net",
-        "w.usabilla.com",
-        "api.usabilla.com",
         "*.googlesyndication.com",
         "cdn.jsdelivr.net",
         "https://esm.sh",
@@ -143,6 +142,7 @@ CSP = {
         "'self'",
         "blob:",
         "'unsafe-eval'",
+        "'wasm-unsafe-eval'",
     ],
     "connect-src": [
         "'self'",
@@ -153,6 +153,10 @@ CSP = {
         "www.google-analytics.com",
         "*.crazyegg.com",
         "*.g.doubleclick.net",
+        "ad.doubleclick.net",
+        "*.clarity.ms",
+        "bat.bing.com",
+        "bat.bing.net",
         "www.googleadservices.com",
         "js.zi-scripts.com",
         "*.google-analytics.com",
@@ -190,6 +194,7 @@ CSP = {
     "frame-src": [
         "'self'",
         "*.doubleclick.net",
+        "*.crazyegg.com",
         "www.youtube.com/",
         "asciinema.org",
         "player.vimeo.com",
@@ -204,6 +209,7 @@ CSP = {
         "'self'",
         "cdn.jsdelivr.net",
         "www.tfaforms.com",
+        "'unsafe-inline'",
     ],
     "media-src": [
         "'self'",
@@ -228,31 +234,11 @@ CSP = {
     ],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
-    "worker-src": ["'self'"],
+    "worker-src": ["'self'", "blob:"],
     "report-uri": [CSP_REPORT_PATH],
 }
 
-# These sources seem stale but since marketing tags can be
-# injected at runtime via GTM, outside this repo, we can't
-# be fully sure they're unused from static analysis alone.
-# Put them in a report-only CSP so we can watch Sentry for violations before
-# removing them from the enforced CSP above.
-
 _CSP_REPORT_ONLY_REMOVALS = {
-    "script-src-elem": [
-        "script.crazyegg.com",
-        "js.zi-scripts.com",
-        "snap.licdn.com",
-        "buttons.github.io",
-    ],
-    "connect-src": [
-        "*.crazyegg.com",
-        "js.zi-scripts.com",
-        "px.ads.linkedin.com",
-        "ws.zoominfo.com",
-        "www.tfaforms.com",
-    ],
-    "style-src": ["www.tfaforms.com"],
     "script-src": ["'unsafe-eval'"],
 }
 
@@ -268,7 +254,7 @@ def _build_csp_report_only(csp):
 
 CSP_REPORT_ONLY = _build_csp_report_only(CSP)
 
-NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
+NONCED_DIRECTIVES = ("script-src", "script-src-elem")
 
 
 # ---------------------------------------------------------------------------
@@ -285,8 +271,6 @@ NONCED_DIRECTIVES = ("script-src", "script-src-elem", "style-src")
 # Hosts already triaged as noise; their reports are dropped outright.
 CSP_REPORT_IGNORED_HOSTS = frozenset(
     {
-        "w.usabilla.com",
-        "api.usabilla.com",
         "script.crazyegg.com",
     }
 )
@@ -493,3 +477,43 @@ def init_handlers(app):
         if get_flask_env("FLASK_ENV", "production") != "production":
             response.headers["X-Robots-Tag"] = "none"
         return response
+
+    @app.errorhandler(503)
+    def service_unavailable(error):
+        """
+        Rendered when an upstream API (e.g. Discourse) is rate-limiting
+        us and there is no cached response to fall back on. Reuses the
+        styled 500 template (the directory_parser sitemap excludes it,
+        and it is the app's standard "couldn't load this page" error)
+        rather than leaking the internal reason to users.
+
+        JSON endpoints get a JSON body so their fetch() consumers don't
+        choke on HTML, and Retry-After tells well-behaved clients and
+        crawlers when to come back.
+        """
+        accepts = flask.request.accept_mimetypes
+        wants_json = flask.request.path.endswith(".json") or (
+            accepts.accept_json and not accepts.accept_html
+        )
+        if wants_json:
+            response = flask.make_response(
+                flask.jsonify(error="Service temporarily unavailable"),
+                503,
+            )
+        else:
+            response = flask.make_response(
+                flask.render_template("500.html"), 503
+            )
+
+        retry_after = getattr(error, "retry_after", None)
+        response.headers["Retry-After"] = str(retry_after or 60)
+        return response
+
+    @app.errorhandler(RateLimitedError)
+    def discourse_rate_limited(error):
+        """
+        The discourse package raises RateLimitedError when Discourse
+        returns 429 and no cached response is available; serve the same
+        503 as any other upstream outage.
+        """
+        return service_unavailable(error)
