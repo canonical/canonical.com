@@ -27,8 +27,11 @@
     {{ product_card("/solutions/open-source-security/cyber-resilience-act", "Prepared for the Cyber Resilience Act?", "The EU’s Cyber Resilience Act will place more stringent security and compliance requirements on devices and products with digital elements. Learn about the regulation and how Canonical and Ubuntu Pro for Devices can help.") }}
     {{ product_card("/projects", "Learn about the projects we support", "We believe in the power of open source software. Besides driving projects like Ubuntu, we contribute staff, code, and funding to many more.") }}
   {% elif article.tags and 1665 in article.tags %}
-    {# Community (IoT/embedded articles) #}
+    {# IoT / embedded: community, IoT services and Ubuntu for IoT #}
     {{ product_card("/projects", "Learn about the projects we support", "We believe in the power of open source software. Besides driving projects like Ubuntu, we contribute staff, code, and funding to many more.") }}
+    {{ product_card("https://ubuntu.com/core/services", "Learn about IoT as a service", "Bring an IoT device to market fast. Focus on your apps, we handle the rest. Canonical offers hardware enablement, app integration, knowledge transfer, and engineering support to get your first device to market. App store and security updates guaranteed.") }}
+    {{ product_card("https://ubuntu.com/internet-of-things/appstore", "Build your IoT app ecosystem", "Build a platform ecosystem for connected devices to unlock new avenues for revenue generation. Get a secure, hosted, and managed multi-tenant app store for your IoT devices.") }}
+    {{ product_card("https://ubuntu.com/internet-of-things", "Learn more about Ubuntu for the Internet of Things", "From smart homes to smart drones, robots, and industrial systems, Ubuntu is the standard for embedded Linux. Get the world’s best security maintenance, a custom app store, a huge developer community, and reliable updates.") }}
   {% elif article.tags and 4353 in article.tags %}
     {# OpenSearch #}
     {{ product_card("/data/opensearch/managed", "OpenSearch support and managed services", "Get automation, enterprise-grade security, scalability, availability, monitoring, and support for OpenSearch. Our deep expertise in open source software underpins your SLA.") }}
@@ -70,10 +73,6 @@
   {% elif article.tags and 1377 in article.tags %}
     {# Telco #}
     {{ product_card("/solutions/telco/5g-core", "Learn more about scalable telco clouds", "Designed with economics in mind, Canonical's infrastructure solutions for telecommunications ensure ROI and reliability. Save costs by operating your infrastructure and applications the smart way, ensuring full automation from day 0 to day N. See why industry leaders like BT Group prefer Canonical.") }}
-  {% elif article.tags and 1665 in article.tags %}
-    {# IoT #}
-    {{ product_card("https://ubuntu.com/core/services", "Learn about IoT as a service", "Bring an IoT device to market fast. Focus on your apps, we handle the rest. Canonical offers hardware enablement, app integration, knowledge transfer, and engineering support to get your first device to market. App store and security updates guaranteed.") }}
-    {{ product_card("https://ubuntu.com/internet-of-things/appstore", "Build your IoT app ecosystem", "Build a platform ecosystem for connected devices to unlock new avenues for revenue generation. Get a secure, hosted, and managed multi-tenant app store for your IoT devices.") }}
   {% elif article.tags and 3955 in article.tags %}
     {# Finance #}
     {{ product_card("/solutions/financial-services", "Adopt open source with confidence in financial services", "Modernize your infrastructure and applications without breaking the bank. Start with Ubuntu, get trusted and compliant open source at both infrastructure and application layers.") }}
@@ -93,9 +92,6 @@
     {{ product_card("https://ubuntu.com/engage/cloud-adjacent-storage", "Access the whitepaper on how to optimize your cloud storage costs", "Cloud storage is amazing, it's on demand, easy to implement, but is it the most cost effective approach for large, predictable data sets? Understand the true costs of storing data in a public cloud, and how open source Ceph can provide a cost effective alternative.") }}
     {{ product_card("https://ubuntu.com/engage/software-defined-storage-for-enterprises", "A guide to software-defined storage for enterprises", "Ceph is a software-defined storage (SDS) solution designed to address the object, block, and file storage needs of both small and large data centres. Explore how Ceph can replace proprietary storage systems in the enterprise.") }}
     {{ product_card("https://ubuntu.com/ceph", "Find out how Ceph scales effortlessly and cost-effectively", "Canonical Ceph simplifies the entire management lifecycle of deployment, configuration, and operation of a Ceph cluster, no matter its size or complexity. Install, monitor, and scale cloud storage with extensive interoperability.") }}
-  {% elif article.tags and 1665 in article.tags %}
-    {# Bosch #}
-    {{ product_card("https://ubuntu.com/internet-of-things", "Learn more about Ubuntu for the Internet of Things", "From smart homes to smart drones, robots, and industrial systems, Ubuntu is the standard for embedded Linux. Get the world’s best security maintenance, a custom app store, a huge developer community, and reliable updates.") }}
   {% elif article.tags and (3178 in article.tags or 3335 in article.tags) %}
     {# End of support #}
     {{ product_card("https://ubuntu.com/18-04", "Ubuntu 18.04 LTS has reached the end of standard support", "Bionic Beaver reached the end of the standard, five-year maintenance window for Long-Term Support (LTS) releases on 31 May 2023. Migrate to the latest LTS or get extended coverage until 2028 with Ubuntu Pro.") }}
@@ -112,7 +108,7 @@
 <script nonce="{{ csp_nonce }}">
   // Get all loaded cards
   var cards = document.getElementsByClassName('js-product-card');
-  if (cards) {
+  if (cards.length > 0) {
     // Roll a dice
     var selectedIndex = Math.floor(Math.random() * cards.length);
     // Display card
