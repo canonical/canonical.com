@@ -896,6 +896,20 @@ def blog_latest_news():
     return flask.render_template("blog/latest-news.html", **context)
 
 
+# The page above takes over "/blog/latest-news", so the JSON the latest-news
+# JS module consumes is re-exposed here. Mirrors the library's blueprint
+# endpoint (canonicalwebteam/blog/blueprint.py) and stays on blog_views so it
+# keeps serving the site blog, not announcements.
+@app.route("/blog/latest-news.json")
+def blog_latest_news_json():
+    context = blog_views.get_latest_news(
+        tag_ids=flask.request.args.getlist("tag-id"),
+        group_ids=flask.request.args.getlist("group-id"),
+        limit=flask.request.args.get("limit", "3"),
+    )
+    return flask.jsonify(context)
+
+
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 # Knowledge hub
