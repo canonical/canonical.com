@@ -15,10 +15,18 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-
 GREENHOUSE_DEBUG = (
     os.environ.get("GREENHOUSE_DEBUG", "false").lower() != "false"
 )
+
+
+def _synthetic_response(status_code):
+    """Build a response for a successful local outcome."""
+    response = requests.Response()
+    response.status_code = status_code
+    return response
+
+
 if GREENHOUSE_DEBUG:
     logger.warning(f"{GREENHOUSE_DEBUG=}")
 
@@ -700,7 +708,6 @@ class HarvestV3:
         payload = {
             "rejection_reason_id": int(rejection_reason_id),
             "notes": notes or "",
-            "rejection_email": {"email_template_id": 348528},
         }
 
         if self.debug:
@@ -708,14 +715,29 @@ class HarvestV3:
                 "SKIP reject_application "
                 f"{application_id} {rejection_reason_id}"
             )
-            response = requests.Response()
-            response.status_code = 204
-            return response
+            return _synthetic_response(204)
 
-        return self._request(
-            "POST",
-            f"applications/{application_id}/reject",
-            json_body=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=30,
-        )
+        try:
+            return self._request(
+                "POST",
+                f"applications/{application_id}/reject",
+                json_body=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=30,
+            )
+        except requests.exceptions.HTTPError as error:
+            if error.response is None or error.response.status_code != 422:
+                raise
+
+            # Harvest rejects an already-rejected application with a 422, so
+            # confirm the post-condition before treating it as a real failure
+            application = self.get_application(application_id)
+            if not application or application.get("status") != "rejected":
+                raise
+
+            logger.warning(
+                "Harvest V3 returned 422 after rejecting application_id=%s; "
+                "treating the confirmed rejection as successful",
+                application_id,
+            )
+            return _synthetic_response(204)

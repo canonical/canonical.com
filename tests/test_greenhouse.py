@@ -538,7 +538,6 @@ class TestHarvestV3(unittest.TestCase):
             json={
                 "rejection_reason_id": 3,
                 "notes": "note",
-                "rejection_email": {"email_template_id": 348528},
             },
             headers={
                 "Content-Type": "application/json",
@@ -546,6 +545,40 @@ class TestHarvestV3(unittest.TestCase):
             },
             timeout=30,
         )
+
+    def test_reject_application_recovers_when_application_is_rejected(self):
+        rejected_response = self._mock_response(None, status_code=422)
+        error = requests.exceptions.HTTPError(response=rejected_response)
+        rejected_response.raise_for_status.side_effect = error
+        application_response = self._mock_response(
+            [{"id": 1, "status": "rejected"}]
+        )
+        self.session.request.side_effect = [
+            rejected_response,
+            application_response,
+        ]
+
+        response = self.harvest.reject_application("1", "3", "note")
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(self.session.request.call_count, 2)
+
+    def test_reject_application_reraises_when_application_is_active(self):
+        rejected_response = self._mock_response(None, status_code=422)
+        error = requests.exceptions.HTTPError(response=rejected_response)
+        rejected_response.raise_for_status.side_effect = error
+        application_response = self._mock_response(
+            [{"id": 1, "status": "in_process"}]
+        )
+        self.session.request.side_effect = [
+            rejected_response,
+            application_response,
+        ]
+
+        with self.assertRaises(requests.exceptions.HTTPError) as context:
+            self.harvest.reject_application("1", "3", "note")
+
+        self.assertIs(context.exception, error)
 
     def test_reject_application_requires_reason(self):
         with self.assertRaisesRegex(

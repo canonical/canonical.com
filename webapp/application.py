@@ -568,10 +568,17 @@ def _confirmation_token(
     return cipher.encrypt(token)
 
 
+def _candidate_email(application):
+    """Return the candidate's primary email address."""
+    primary_address = application["candidate"]["email_addresses"][0]["value"]
+    return parseaddr(primary_address)[1]
+
+
 def _send_mail(
     to_email,
     subject,
     message,
+    from_email=None,
 ):
     # Get SMTP server configuration
     smtp_server = os.environ["SMTP_SERVER"]
@@ -585,7 +592,7 @@ def _send_mail(
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = smtp_sender_address
+    msg["From"] = from_email or smtp_sender_address
     msg["To"] = ", ".join(to_email)
     msg.set_content(message, subtype="html")
 
@@ -824,15 +831,24 @@ def application_withdrawal(harvest, token):
         payload.get("withdrawal_message"),
     )
 
+    if application["status"] == "rejected":
+        return flask.render_template("careers/application/withdrawal.html")
+
     candidate_id = application["candidate"]["id"]
 
     hiring_lead = application.get("hiring_lead")
-    hiring_lead_name = hiring_lead["name"] if hiring_lead else "Talent team"
+    hiring_lead_name = (
+        hiring_lead["name"] if hiring_lead else "the Canonical Talent team"
+    )
     hiring_lead_email = (
         hiring_lead["emails"]
         if hiring_lead and hiring_lead["emails"]
         else ["talent-mailbox@canonical.com"]
     )
+    candidate_email = _candidate_email(application)
+    candidate_email_from = (
+        hiring_lead.get("primary_email") if hiring_lead else None
+    ) or os.environ.get("SMTP_SENDER_ADDRESS")
 
     applicant_name = (
         f"{application['candidate']['first_name']} "
@@ -851,6 +867,32 @@ def application_withdrawal(harvest, token):
     )
     response.raise_for_status()
 
+    candidate_email_message = flask.render_template(
+        "careers/application/_candidate-withdrawal-email.html",
+        candidate_name=applicant_name,
+        hiring_lead_name=hiring_lead_name,
+    )
+    candidate_email_subject = (
+        f"Withdrawal of application for {application['role_name']}, Canonical"
+    )
+    debug_skip_sending = flask.current_app.debug
+    candidate_email_failed = False
+    if not debug_skip_sending:
+        try:
+            _send_mail(
+                [candidate_email],
+                candidate_email_subject,
+                candidate_email_message,
+                from_email=candidate_email_from,
+            )
+        except Exception:
+            candidate_email_failed = True
+            logger.exception(
+                "failed to send withdrawal confirmation to candidate for "
+                "application_id=%s",
+                application["id"],
+            )
+
     all_sent_emails = try_reject_interviews(application, applicant_name)
 
     email_message = flask.render_template(
@@ -860,15 +902,22 @@ def application_withdrawal(harvest, token):
         position=application["role_name"],
         application_url=application_url,
         current_stage=application["current_stage"] or {"name": "unknown"},
+        candidate_email_failed=candidate_email_failed,
     )
 
-    debug_skip_sending = flask.current_app.debug
     if not debug_skip_sending:
-        _send_mail(
-            hiring_lead_email,
-            "Candidate Withdrawal for " + application["role_name"],
-            email_message,
-        )
+        try:
+            _send_mail(
+                hiring_lead_email,
+                "Candidate Withdrawal for " + application["role_name"],
+                email_message,
+            )
+        except Exception:
+            logger.exception(
+                "failed to send withdrawal notification to hiring lead for "
+                "application_id=%s",
+                application["id"],
+            )
 
     return flask.render_template(
         "careers/application/withdrawal.html",
@@ -876,6 +925,9 @@ def application_withdrawal(harvest, token):
         email_message=email_message,
         hiring_lead_email=hiring_lead_email,
         all_sent_emails=all_sent_emails,
+        candidate_email=candidate_email,
+        candidate_email_from=candidate_email_from,
+        candidate_email_message=candidate_email_message,
     )
 
 
@@ -894,9 +946,7 @@ def request_withdrawal(harvest, token):
 
     # Sanitize and parse user input
     email = parseaddr(flask.request.form["email"])[1]
-    candidate_email = parseaddr(
-        application["candidate"]["email_addresses"][0]["value"]
-    )[1]
+    candidate_email = _candidate_email(application)
 
     raw_withdrawal_reason = flask.request.form["withdrawal-reason"]
     custom_message = (

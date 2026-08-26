@@ -319,16 +319,21 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # fake constants
         self.fake_application = {
             "id": "123",
+            "status": "active",
             "role_name": "Fake Job",
             "candidate": {
                 "id": "444",
                 "first_name": "John",
                 "last_name": "Doe",
+                "email_addresses": [
+                    {"value": "candidate@example.com", "type": "personal"}
+                ],
             },
             "hiring_lead": {
                 "id": "777",
                 "name": "Hiring Lead",
                 "emails": ["hiring_lead@example.com"],
+                "primary_email": "hiring_lead@example.com",
             },
             "current_stage": {"name": "Fake Stage"},
             "jobs": [{"id": 456, "name": "Fake Job"}],
@@ -424,6 +429,18 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # set debug to true so we can test and ensure _send_mail is not called
         flask.current_app.debug = True
 
+    def rendered_call(self, template_suffix):
+        """Return the single render_template call for a given template."""
+        calls = [
+            call
+            for call in self.mock_render_template.call_args_list
+            if call.args[0].endswith(template_suffix)
+        ]
+        self.assertEqual(
+            len(calls), 1, f"expected one render of {template_suffix}"
+        )
+        return calls[0]
+
     def test_candidate_withdrawal_process(self):
         call_order = []
         mock_harvest = MagicMock(spec=HarvestV3)
@@ -475,14 +492,11 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
 
         # ensure datetime conversion worked
         expected_datetime = "February 29, 2024 at 03:00PM"
-        _, kwargs = self.mock_render_template.call_args_list[0]
+        kwargs = self.rendered_call("interview-canceled-email.html").kwargs
         self.assertIn("interview_date", kwargs)
         self.assertEqual(kwargs["interview_date"], expected_datetime)
-        self.assertEqual(self.mock_render_template.call_count, 4)
-        feedback_template = self.mock_render_template.call_args_list[1].args[0]
-        self.assertTrue(
-            feedback_template.endswith("feedback-not-needed-email.html")
-        )
+        self.assertEqual(self.mock_render_template.call_count, 5)
+        self.rendered_call("feedback-not-needed-email.html")
 
         # ensure that harvest rejection fn is called with correct arguments
         mock_harvest.reject_application.assert_called_once_with(
@@ -527,6 +541,106 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
             application_withdrawal(mock_harvest, "fake_token")
 
         mock_harvest.reject_application.assert_not_called()
+
+    def test_candidate_email_uses_hiring_lead_as_sender(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_render_template.side_effect = lambda template, **kwargs: (
+            template
+        )
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        candidate_email_call = self.mock_send_mail.call_args_list[0]
+        self.assertEqual(
+            candidate_email_call.args[0], ["candidate@example.com"]
+        )
+        self.assertEqual(
+            candidate_email_call.args[1],
+            "Withdrawal of application for Fake Job, Canonical",
+        )
+        self.assertEqual(
+            candidate_email_call.kwargs["from_email"],
+            "hiring_lead@example.com",
+        )
+
+    def test_candidate_email_failure_is_reported_to_hiring_lead(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_send_mail.side_effect = [RuntimeError("SMTP failed"), None]
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        notification_call = self.rendered_call(
+            "_withdrawal_notification-email.html"
+        )
+        self.assertTrue(notification_call.kwargs["candidate_email_failed"])
+        self.assertEqual(self.mock_send_mail.call_count, 2)
+
+    def test_candidate_email_precedes_interview_cleanup(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        call_order = []
+
+        def record_email(_to_email, subject, *args, **kwargs):
+            if subject.startswith("Withdrawal of application"):
+                call_order.append("candidate")
+            else:
+                call_order.append("hiring_lead")
+
+        def record_interview_cleanup(*args):
+            call_order.append("interviews")
+            return []
+
+        self.mock_send_mail.side_effect = record_email
+        with patch(
+            "webapp.application.try_reject_interviews",
+            side_effect=record_interview_cleanup,
+        ):
+            application_withdrawal(mock_harvest, "fake_token")
+
+        self.assertEqual(
+            call_order,
+            ["candidate", "interviews", "hiring_lead"],
+        )
+
+    @patch("webapp.application.logger")
+    def test_hiring_lead_email_failure_does_not_mask_withdrawal(
+        self, mock_logger
+    ):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_send_mail.side_effect = [None, RuntimeError("SMTP failed")]
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        mock_logger.exception.assert_called_once_with(
+            "failed to send withdrawal notification to hiring lead for "
+            "application_id=%s",
+            self.fake_application["id"],
+        )
+
+    def test_already_rejected_application_has_no_side_effects(self):
+        self.fake_application["status"] = "rejected"
+        mock_harvest = MagicMock(spec=HarvestV3)
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        mock_harvest.reject_application.assert_not_called()
+        self.mock_send_mail.assert_not_called()
+        self.mock_cal.return_value.delete_interview_event.assert_not_called()
 
     def tearDown(self):
         # stop all of the patches from setUp
@@ -827,6 +941,29 @@ class TestSendMail(unittest.TestCase):
         smtp_instance.login.assert_not_called()
         smtp_instance.send_message.assert_called_once()
         smtp_instance.quit.assert_called_once()
+
+    @patch("webapp.application.SMTP")
+    def test_send_mail_supports_custom_sender(self, mock_smtp):
+        smtp_instance = mock_smtp.return_value
+        with patch.dict(
+            os.environ,
+            {
+                "SMTP_SERVER": "smtp.example.com",
+                "SMTP_USER": "",
+                "SMTP_PASS": "",
+                "SMTP_SENDER_ADDRESS": "fallback@example.com",
+            },
+            clear=True,
+        ):
+            _send_mail(
+                to_email=["recipient@example.com"],
+                subject="Subject",
+                message="<p>HTML body</p>",
+                from_email="lead@example.com",
+            )
+
+        message = smtp_instance.send_message.call_args.args[0]
+        self.assertEqual(message["From"], "lead@example.com")
 
 
 class TestConfirmationToken(unittest.TestCase):
