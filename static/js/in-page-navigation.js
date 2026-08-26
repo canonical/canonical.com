@@ -208,8 +208,12 @@ function initNavigationInteraction(navRoot) {
       link.classList.add("is-active");
 
       // Handle smooth scroll
-      const targetId = link.getAttribute("href");
-      const targetHeading = document.querySelector(targetId);
+      const targetId = link.getAttribute('href');
+      // Use getElementById rather than querySelector because querySelector
+      // treats targetId as a CSS selector — IDs that start with a digit
+      // (e.g. "#8-scope-of-support") are invalid CSS selectors and cause
+      // querySelector to throw, returning null and preventing scrolling.
+      const targetHeading = document.getElementById(targetId.slice(1));
       if (targetHeading) {
         targetHeading.setAttribute("tabindex", "-1");
         targetHeading.focus({ preventScroll: true });

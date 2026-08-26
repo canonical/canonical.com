@@ -49,6 +49,7 @@
     }
 </script>
   {# djlint: on #}
+  <script src="{{ versioned_static('js/dist/prism.js') }}" nonce="{{ csp_nonce }}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -64,14 +65,12 @@
             {% if article.author and article.author.id == 217 %}
               <img src="https://assets.ubuntu.com/v1/f16c40d0-Favicon+-+CoF.svg"
                    class="p-media-object__image u-align-self-center"
-                   alt=""
-                   />
+                   alt="" />
             {% else %}
               {# '96' selects the 96x96px avatar variant returned by the WP API #}
               <img src="{{ article.author.avatar_urls['96'] }}"
                    class="p-media-object__image is-round u-align-self-center"
-                   alt=""
-                   />
+                   alt="" />
             {% endif %}
           {% endif %}
 

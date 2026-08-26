@@ -24,6 +24,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @import "pattern_cards";
 @import "pattern_carousel";
 @import "pattern_careers-modal";
+@import "pattern_legal";
 @import "pattern_footer";
 @import "pattern_forms";
 @import "pattern_icons";
@@ -57,6 +58,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-buttons;
 @include vf-themed-icons;
 @include canonical-p-careers-modal;
+@include canonical-p-legal;
 @include canonical-p-lists;
 @include canonical-p-feedback;
 @include canonical-p-footer;
@@ -73,6 +75,8 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 @include canonical-p-navigation-dropdown-content;
 @include canonical-p-navigation-mobile;
 @include sprint-carousel;
+@include collaboration-carousel;
+@include quote-slider;
 @include homepage-styles;
 @include pattern-venobox;
 @include maas-styles;
@@ -130,6 +134,25 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
 .is-sticky {
   position: sticky;
   top: 0;
+}
+
+// Vanilla pins `.p-side-navigation.is-sticky` to `top: 0`, outranking the
+// `u-top-*` utilities that clear the sticky header, and exposes no variable to
+// set it — hence the specificity bump.
+@media (min-width: $breakpoint-large) {
+  .p-side-navigation.is-sticky.u-top-4rem,
+  [class*="p-side-navigation--"].is-sticky.u-top-4rem {
+    max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
+    top: 4rem;
+  }
+
+  .p-side-navigation.is-sticky.u-top-5rem,
+  [class*="p-side-navigation--"].is-sticky.u-top-5rem {
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+    top: 5rem;
+  }
 }
 
 // Overide the path to flags for dial codes
@@ -549,6 +572,22 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+.p-rive-animation {
+  position: relative;
+  width: 100%;
+
+  &__canvas {
+    aspect-ratio: 1200 / 480;
+    display: block;
+    width: 100%;
+  }
+}
+
+.p-quote-slider__controls {
+  display: flex;
+  gap: 8px;
 }
 
 .p-testimonial {

@@ -46,7 +46,6 @@ Modern Unix systems are highly capable. They introduced [preemptive multitasking
   alt="",
   width="1200",
   height="500",
-  hi_def=True,
   loading="lazy"
   ) | safe
 }}
@@ -65,7 +64,6 @@ In 1991, Linus Torvalds, then a student at the University of Helsinki, created L
   alt="",
   width="1200",
   height="500",
-  hi_def=True,
   loading="lazy",
   caption="Intel 80386 processor, supported by the Linux kernel <a href='https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=743aa456c1834f76982af44e8b71d1a0b2a82e21'>until</a> 2012"
   ) | safe
@@ -108,7 +106,6 @@ Modern microprocessors support code execution at a minimum of two privilege leve
   alt="",
   width="1200",
   height="800",
-  hi_def=True,
   loading="lazy",
   caption="Sketch based on drawing in <a href='https://rlove.org/'>Robert Love’s Linux kernel development</a>"
   ) | safe
@@ -134,7 +131,6 @@ Now that we have a sense of what the kernel is and why it matters, it’s worth 
   alt="",
   width="1200",
   height="800",
-  hi_def=True,
   loading="lazy",
   caption="Major subsystems of the Linux kernel based on Kaiwan Billimoria's <a href='https://www.packtpub.com/en-us/product/linux-kernel-programming-9781789953435'>Linux Kernel Programming</a>"
   ) | safe
