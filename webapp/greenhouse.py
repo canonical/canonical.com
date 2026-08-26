@@ -505,9 +505,15 @@ class HarvestV3Auth:
         )
         response.raise_for_status()
         payload = response.json()
+        if "expires_in" in payload:
+            expires_at = datetime.now(timezone.utc) + timedelta(
+                seconds=payload["expires_in"]
+            )
+        else:
+            expires_at = isoparse(payload["expires_at"])
         return (
             payload["access_token"],
-            isoparse(payload["expires_at"]),
+            expires_at,
         )
 
     def invalidate(self):

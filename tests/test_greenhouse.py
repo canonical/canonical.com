@@ -349,12 +349,17 @@ class TestHarvestV3Auth(unittest.TestCase):
         response = MagicMock()
         response.json.return_value = {
             "access_token": "token",
-            "expires_at": "2099-01-01T00:00:00Z",
+            "expires_in": 3600,
+            "expires_at": "2000-01-01T00:00:00Z",
         }
         self.session.post.return_value = response
 
         self.assertEqual(self.auth.get_token(), "token")
         self.assertEqual(self.auth.get_token(), "token")
+        self.assertGreater(
+            self.token_cache.expires_at,
+            datetime.now(timezone.utc) + timedelta(minutes=59),
+        )
 
         self.session.post.assert_called_once_with(
             "https://auth.greenhouse.io/token",
@@ -377,17 +382,31 @@ class TestHarvestV3Auth(unittest.TestCase):
         response = MagicMock()
         response.json.return_value = {
             "access_token": "new-token",
-            "expires_at": "2099-01-01T00:00:00Z",
+            "expires_in": 3600,
         }
         self.session.post.return_value = response
 
         self.assertEqual(self.auth.get_token(), "new-token")
 
+    def test_accepts_legacy_absolute_expiry(self):
+        response = MagicMock()
+        response.json.return_value = {
+            "access_token": "token",
+            "expires_at": "2099-01-01T00:00:00Z",
+        }
+        self.session.post.return_value = response
+
+        self.assertEqual(self.auth.get_token(), "token")
+        self.assertEqual(
+            self.token_cache.expires_at,
+            datetime(2099, 1, 1, tzinfo=timezone.utc),
+        )
+
     def test_shares_cached_token_between_request_sessions(self):
         response = MagicMock()
         response.json.return_value = {
             "access_token": "shared-token",
-            "expires_at": "2099-01-01T00:00:00Z",
+            "expires_in": 3600,
         }
         self.session.post.return_value = response
         first_auth = greenhouse.HarvestV3Auth(
