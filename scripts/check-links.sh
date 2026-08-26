@@ -33,7 +33,7 @@ with open(sys.argv[1], newline="") as f:
     rows = (line for line in f if not line.startswith("#"))
     for row in csv.DictReader(rows, delimiter=";"):
         if row.get("valid", "").strip().lower() == "false":
-            url = row.get("urlname")
+            url = (row.get("url") or "").strip()
             if url and url not in seen:
                 seen.add(url)
                 print(url)
