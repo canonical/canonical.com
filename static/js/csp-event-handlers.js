@@ -45,12 +45,12 @@
         pushGAEvent(
           el.getAttribute("data-ga-category"),
           el.getAttribute("data-ga-action"),
-          el.getAttribute("data-ga-label")
+          el.getAttribute("data-ga-label"),
         );
         pushGAEvent(
           el.getAttribute("data-ga-extra-category"),
           el.getAttribute("data-ga-extra-action"),
-          el.getAttribute("data-ga-extra-label")
+          el.getAttribute("data-ga-extra-label"),
         );
       });
     });
@@ -62,7 +62,7 @@
           pushGAEvent(
             form.getAttribute("data-ga-submit-category"),
             form.getAttribute("data-ga-submit-action"),
-            form.getAttribute("data-ga-submit-label")
+            form.getAttribute("data-ga-submit-label"),
           );
         });
       });

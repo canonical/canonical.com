@@ -110,7 +110,9 @@ function standardCarousel() {
         /** @type {HTMLElement} */
         const child = slidesContainer[i].children[j];
         child.style.transitionDuration = `${ms}s`;
-        child.style.transform = `translateX(-${child.offsetWidth * index}px)`;
+        child.style.transform = `translateX(-${
+          child.offsetWidth * index
+        }px)`;
       }
     }
 
