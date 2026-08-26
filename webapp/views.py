@@ -370,16 +370,9 @@ def append_utms_cookie_to_ubuntu_links(response):
 
 @lru_cache(maxsize=1)
 def _load_lastmod_manifest():
-    """
-    Load templates/lastmod-manifest.json: a map of template file path
-    (relative to templates/) to the date it was last changed in git.
-
-    The production image doesn't ship .git (or the git history needed to
-    read it), so this manifest -- generated from git log by
-    scripts/generate-lastmod-manifest.py before the app is packaged -- is
-    how sitemap lastmod dates survive into the running app. Cached for
-    the life of the process: it's a static build artefact.
-    """
+    """Load templates/lastmod-manifest.json (built by
+    scripts/generate-lastmod-manifest.py), since production ships no .git
+    to read history from directly."""
     manifest_path = (
         Path(flask.current_app.root_path).parent
         / "templates"
@@ -393,20 +386,9 @@ def _load_lastmod_manifest():
 
 
 def get_file_last_modified(file_path):
-    """
-    Get the date a template file's content was last changed.
-
-    Looks up file_path (relative to templates/) in the build-time
-    lastmod manifest. Falls back to the filesystem mtime for a file the
-    manifest doesn't know about yet -- e.g. one added locally since the
-    manifest was last generated.
-
-    Args:
-        file_path: Path object for the file, somewhere under templates/
-
-    Returns:
-        An ISO 8601 date string (YYYY-MM-DD)
-    """
+    """Date (YYYY-MM-DD) file_path (under templates/) was last changed,
+    from the lastmod manifest, falling back to filesystem mtime for a
+    file the manifest doesn't know about yet."""
     templates_dir = Path(flask.current_app.root_path).parent / "templates"
     rel_path = file_path.relative_to(templates_dir).as_posix()
 
@@ -579,26 +561,13 @@ def get_knowledge_sections():
     return sections
 
 
-def get_knowledge_last_modified(sections):
-    """
-    Get the last-modified date for the /knowledge index page: the most
-    recent of its own template and every section it links to.
-
-    Args:
-        sections: list of section dicts, as returned by
-            get_knowledge_sections()
-
-    Returns:
-        An ISO 8601 date string (YYYY-MM-DD)
-    """
-    templates_dir = Path(flask.current_app.root_path).parent / "templates"
-    index_file = templates_dir / "knowledge" / "index.html"
-
+def get_parent_last_modified(index_file, child_dates=()):
+    """Last-modified date for a parent/index page: the most recent of its
+    own template and child_dates (e.g. last-modified dates of the pages
+    it links to)."""
     last_modified = get_file_last_modified(index_file)
-    if sections:
-        last_modified = max(
-            last_modified, *(s["last_modified"] for s in sections)
-        )
+    if child_dates:
+        last_modified = max(last_modified, *child_dates)
 
     return last_modified
 

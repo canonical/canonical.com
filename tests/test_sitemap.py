@@ -4,12 +4,8 @@ import logging
 import re
 import os
 import xml.etree.ElementTree as ET
-from webapp.app import (
-    app,
-    build_sitemap_tree,
-    knowledge_sitemap,
-    careers_sitemap,
-)
+from webapp.app import app, build_sitemap_tree
+from webapp.sitemaps import knowledge_sitemap, careers_sitemap
 
 logging.getLogger("talisker.context").disabled = True
 
@@ -203,7 +199,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
         app.testing = True
         self.client = app.test_client()
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_returns_xml(self, mock_get_sections):
         """Test that knowledge_sitemap returns valid XML response"""
         # Mock the sections data
@@ -236,7 +232,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
             response.headers["Cache-Control"], "public, max-age=43200"
         )
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_contains_urls(self, mock_get_sections):
         """Test that knowledge_sitemap contains expected URLs"""
         mock_get_sections.return_value = [
@@ -284,7 +280,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
         self.assertIn("<lastmod>2026-01-15</lastmod>", xml_content)
         self.assertIn("<lastmod>2026-01-20</lastmod>", xml_content)
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_empty_sections(self, mock_get_sections):
         """Test that knowledge_sitemap handles empty sections gracefully"""
         mock_get_sections.return_value = []
@@ -299,7 +295,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
         self.assertIn("<?xml version", xml_content)
         self.assertIn("<urlset", xml_content)
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_multiple_sections(self, mock_get_sections):
         """Test that knowledge_sitemap handles multiple sections"""
         mock_get_sections.return_value = [
