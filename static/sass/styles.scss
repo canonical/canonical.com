@@ -130,6 +130,25 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   top: 0;
 }
 
+// Vanilla pins `.p-side-navigation.is-sticky` to `top: 0`, outranking the
+// `u-top-*` utilities that clear the sticky header, and exposes no variable to
+// set it — hence the specificity bump.
+@media (min-width: $breakpoint-large) {
+  .p-side-navigation.is-sticky.u-top-4rem,
+  [class*="p-side-navigation--"].is-sticky.u-top-4rem {
+    max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
+    top: 4rem;
+  }
+
+  .p-side-navigation.is-sticky.u-top-5rem,
+  [class*="p-side-navigation--"].is-sticky.u-top-5rem {
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+    top: 5rem;
+  }
+}
+
 // Overide the path to flags for dial codes
 .iti__flag {
   background-image: url("#{$assets-path}685bc1a3-flags.png");
