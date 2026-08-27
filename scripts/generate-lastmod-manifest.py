@@ -1,19 +1,11 @@
-"""Build templates/lastmod-manifest.json: template file path (relative to
-templates/) -> the date it was last changed in git.
+"""Build templates/lastmod-manifest.json: script to generate lastmod
+   for sitemaps. Runs at build time and uses .git
 
-Sitemaps need a real per-page "last modified" date. Pages backed by an
-external API already carry one (careers vacancies via Greenhouse, e.g.),
-but static/markdown pages have no such field, so we fall back to git
-history. The production image doesn't ship .git though, so this manifest
--- generated from git log at build time, before the app is packaged --
-is how those dates survive into the running app. See
-webapp/views.py:get_file_last_modified, which reads it.
+Updates incrementally from the manifest's own last commit when one is
+committed to the repo, otherwise walks full history.
 
 CLI usage:
     python3 scripts/generate-lastmod-manifest.py generate-lastmod
-
-Invoked from the pack-rock job of .github/workflows/deploy.yaml, whose
-checkout step uses fetch-depth: 0 so full history is available here.
 """
 
 import json
@@ -23,25 +15,38 @@ import sys
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_PATHSPEC = "templates"
-MANIFEST_PATH = os.path.join(
-    REPO_ROOT, TEMPLATES_PATHSPEC, "lastmod-manifest.json"
-)
+MANIFEST_BASENAME = "lastmod-manifest.json"
+MANIFEST_REL_PATH = os.path.join(TEMPLATES_PATHSPEC, MANIFEST_BASENAME)
+MANIFEST_PATH = os.path.join(REPO_ROOT, MANIFEST_REL_PATH)
 
 # A control character that can't appear in a commit date, so it safely
 # marks the start of each git-log record when parsing the output below.
 RECORD_MARKER = "\x02"
 
 
-def build_manifest():
-    """
-    Walk git history once and record, for every file ever committed
-    under templates/, the commit date of the most recent commit that
-    touched it.
-    """
+def _last_commit_touching(rel_path):
+    """SHA of the most recent commit that touched rel_path, or None if
+    it has no history (not yet committed, e.g.)."""
+    result = subprocess.run(
+        ["git", "log", "-1", "--format=%H", "--", rel_path],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip() or None
+
+
+def _changes_since(since_commit):
+    """Yield (rel_path, date) for every templates/ path touched by a
+    commit after since_commit (or, if None, by any commit ever),
+    newest-first."""
+    revision_range = f"{since_commit}..HEAD" if since_commit else "HEAD"
     result = subprocess.run(
         [
             "git",
             "log",
+            revision_range,
             f"--format={RECORD_MARKER}%cs",
             "--name-only",
             "--",
@@ -53,7 +58,6 @@ def build_manifest():
         check=True,
     )
 
-    manifest = {}
     date = None
     for line in result.stdout.splitlines():
         if line.startswith(RECORD_MARKER):
@@ -67,19 +71,55 @@ def build_manifest():
             continue
 
         rel_path = path[len(TEMPLATES_PATHSPEC) + 1 :]
-        # git log is newest-first, so the first commit we see touching
-        # a path is its most recent change.
-        manifest.setdefault(rel_path, date)
+        if rel_path == MANIFEST_BASENAME:
+            # The manifest lives under templates/ too, so committing it
+            # would otherwise list it as an entry of itself.
+            continue
+
+        yield rel_path, date
+
+
+def build_manifest(base_manifest=None, since_commit=None):
+    """
+    Record, for every templates/ path touched since since_commit (or
+    all of git history, if None), the commit date of the most recent
+    commit that touched it -- merged on top of base_manifest, so
+    untouched paths keep their prior date.
+    """
+    manifest = dict(base_manifest or {})
+    seen = set()
+    for rel_path, date in _changes_since(since_commit):
+        if rel_path in seen:
+            # git log is newest-first, so the first commit we see
+            # touching a path is its most recent change.
+            continue
+        seen.add(rel_path)
+        manifest[rel_path] = date
 
     return manifest
 
 
 def _generate():
-    manifest = build_manifest()
+    # The manifest, once committed, is its own watermark: the commit
+    # that last touched it is the point to resume from. No prior
+    # commit (first run, or an untracked/gitignored manifest) means a
+    # full rebuild.
+    since_commit = _last_commit_touching(MANIFEST_REL_PATH)
+    base_manifest = {}
+    if since_commit:
+        try:
+            with open(MANIFEST_PATH) as manifest_file:
+                base_manifest = json.load(manifest_file)
+        except (OSError, json.JSONDecodeError):
+            since_commit = None
+
+    manifest = build_manifest(base_manifest, since_commit)
     with open(MANIFEST_PATH, "w") as manifest_file:
         json.dump(manifest, manifest_file, indent=2, sort_keys=True)
         manifest_file.write("\n")
-    print(f"generated {MANIFEST_PATH} ({len(manifest)} entries)")
+
+    mode = "incremental" if since_commit else "full"
+    print(f"generated {MANIFEST_PATH} ({len(manifest)} entries, {mode})")
     return 0
 
 
