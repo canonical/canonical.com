@@ -25,7 +25,7 @@ Canonical Academy is a certification program that grants you the opportunity to 
 
 ### 2. Account and Registration
 
-2.1 **Account Mandate:** To access the platform, view your dashboard, or access exams, an authenticated Single Sign-On (SSO) account and Ubuntu One account are required. SSO is an identity provider service that creates, maintains and manages user identity information, providing authentication services for Canonical and other third party applications. Ubuntu One is the single account you use to log in to all services and sites related to [www.ubuntu.com](www.ubuntu.com).
+2.1 **Account Mandate:** To access the platform, view your dashboard, or access exams, an authenticated Single Sign-On (SSO) account and Ubuntu One account are required. SSO is an identity provider service that creates, maintains and manages user identity information, providing authentication services for Canonical and other third party applications. Ubuntu One is the single account you use to log in to all services and sites related to [www.ubuntu.com](https://www.ubuntu.com).
 
 2.2 **Account Compliance:** We reserve the right to reject your request for an SSO and/or Ubuntu One account or to immediately cancel or suspend your SSO and/or Ubuntu One account and your use of the Service at any time if you do not comply with the requirements herein. You must not attempt to create an SSO and/or Ubuntu One account or use the Service if doing so would violate these Terms of Use. You must:
 
