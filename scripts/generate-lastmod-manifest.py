@@ -1,19 +1,8 @@
-"""Build templates/lastmod-manifest.json: template file path (relative to
-templates/) -> the date it was last changed in git.
-
-Sitemaps need a real per-page "last modified" date. Pages backed by an
-external API already carry one (careers vacancies via Greenhouse, e.g.),
-but static/markdown pages have no such field, so we fall back to git
-history. The production image doesn't ship .git though, so this manifest
--- generated from git log at build time, before the app is packaged --
-is how those dates survive into the running app. See
-webapp/views.py:get_file_last_modified, which reads it.
+"""Build templates/lastmod-manifest.json: script to generate lastmod
+   for sitemaps. Runs at build time and uses .git
 
 CLI usage:
     python3 scripts/generate-lastmod-manifest.py generate-lastmod
-
-Invoked from the pack-rock job of .github/workflows/deploy.yaml, whose
-checkout step uses fetch-depth: 0 so full history is available here.
 """
 
 import json
