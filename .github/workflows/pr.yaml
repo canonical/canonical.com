@@ -183,3 +183,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
           fail-on-error: true
+
+  test-shell:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run shell tests
+        run: yarn test-shell
