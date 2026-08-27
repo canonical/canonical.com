@@ -77,6 +77,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.branch || github.ref }}
+          fetch-depth: 0
+
+      - name: Pre-generate sitemap lastmod manifest
+        run: python3 scripts/generate-lastmod-manifest.py generate-lastmod
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -201,7 +205,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
+  
       - name: Install Dependencies
         run: |
           sudo snap install juju --channel=3.6/stable --classic
@@ -211,7 +215,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: canonical-com-charm
- 
+  
       - name: Configure Vault and Juju
         run: |
           export VAULT_ADDR=https://vault.admin.canonical.com:8200
@@ -226,7 +230,7 @@ jobs:
           USERNAME=$(vault read -field=username "${VAULT_SECRET_PATH_ROLE}/juju")
           PASSWORD=$(vault read -field=password "${VAULT_SECRET_PATH_ROLE}/juju")
           printf "controllers:\n  juju-controller-36-production-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
-
+  
       - name: Deploy Application to production
         run: |
           export JUJU_MODEL=admin/prod-canonical-com

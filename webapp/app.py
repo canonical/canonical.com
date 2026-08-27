@@ -58,7 +58,6 @@ from webapp.views import (
     append_utms_cookie_to_ubuntu_links,
     build_knowledge_index,
     build_knowledge_category_index,
-    get_knowledge_sections,
     google_ads_verification,
 )
 from webapp.application import application_bp
@@ -87,6 +86,13 @@ from webapp.openapi_parser import parse_openapi, read_yaml_from_url
 from webapp.partners import Partners
 from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
+from webapp.sitemaps import (
+    index_sitemap,
+    home_sitemap,
+    careers_sitemap,
+    partners_sitemap,
+    knowledge_sitemap,
+)
 from webapp.utils.juju_doc_search import (
     DOMAIN_INFO,
     process_and_sort_results,
@@ -211,26 +217,8 @@ def index():
     return flask.render_template("index.html")
 
 
-@app.route("/sitemap.xml")
-def index_sitemap():
-    xml_sitemap = flask.render_template("sitemap-index.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/sitemap-links.xml")
-def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
+app.add_url_rule("/sitemap.xml", view_func=index_sitemap)
+app.add_url_rule("/sitemap-links.xml", view_func=home_sitemap)
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 
@@ -393,20 +381,6 @@ def handle_careers_sitemap():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
         return careers_sitemap(greenhouse)
-
-
-def careers_sitemap(greenhouse):
-    context = {
-        "vacancies": greenhouse.get_vacancies(),
-        "departments": DEPARTMENT_LIST,
-    }
-
-    xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
 
 
 @app.route("/careers/feed")
@@ -866,14 +840,7 @@ def partner_details(partners_api):
     return flask.render_template(template_path, partners=partners)
 
 
-@app.route("/partners/sitemap.xml")
-def partners_sitemap():
-    xml_sitemap = flask.render_template("partners/sitemap.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/partners/sitemap.xml", view_func=partners_sitemap)
 
 
 # Blog
@@ -972,22 +939,7 @@ app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
-
-
-@app.route("/knowledge/sitemap.xml")
-def knowledge_sitemap():
-    sections = get_knowledge_sections()
-
-    context = {
-        "sections": sections,
-    }
-
-    xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/knowledge/sitemap.xml", view_func=knowledge_sitemap)
 
 
 def register_knowledge_category_routes():
