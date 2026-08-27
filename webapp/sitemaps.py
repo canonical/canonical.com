@@ -1,12 +1,17 @@
 """XML sitemap responses: the page lists and view functions behind
-/sitemap.xml, /sitemap-links.xml, /careers/sitemap.xml,
-/partners/sitemap.xml, and /knowledge/sitemap.xml. Routed from
-webapp/app.py.
+/sitemap.xml, /sitemap-links.xml, /careers/sitemap.xml, and
+/knowledge/sitemap.xml. Routed from webapp/app.py.
+
+/partners and the static pages under /careers have no dedicated route
+here -- they're discovered by the generic directory_parser-based
+/sitemap_tree.xml (see webapp/app.py:build_sitemap_tree) instead, now
+that its lastmod dates work (patched below).
 """
 
 from pathlib import Path
 
 import flask
+from canonicalwebteam.directory_parser import app as directory_parser_app
 
 from webapp.careers import DEPARTMENT_LIST
 from webapp.views import (
@@ -16,6 +21,21 @@ from webapp.views import (
 )
 
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
+
+
+def _directory_parser_last_modified(path):
+    """Patches directory_parser's default lastmod lookup, which shells
+    out to `git log` per file at request time and silently fails since
+    production ships no .git. Reads our build-time manifest instead."""
+    try:
+        return get_file_last_modified(Path(path))
+    except ValueError:
+        return None
+
+
+directory_parser_app.get_git_last_modified_time = (
+    _directory_parser_last_modified
+)
 
 HOME_SITEMAP_PAGES = [
     ("https://canonical.com/", "index.html"),
@@ -34,80 +54,6 @@ HOME_SITEMAP_PAGES = [
     ),
     ("https://canonical.com/company", "company/index.html"),
     ("https://canonical.com/knowledge", "knowledge/index.html"),
-]
-
-CAREERS_STATIC_SITEMAP_PAGES = [
-    ("https://canonical.com/careers", "careers/index.html", "monthly"),
-    (
-        "https://canonical.com/careers/career-explorer",
-        "careers/career-explorer.html",
-        "monthly",
-    ),
-    ("https://canonical.com/careers/all", "careers/all.html", "weekly"),
-    (
-        "https://canonical.com/careers/hiring-process",
-        "careers/hiring-process/index.html",
-        "weekly",
-    ),
-    (
-        "https://canonical.com/careers/company-culture/remote-work",
-        "careers/company-culture/remote-work.html",
-        "monthly",
-    ),
-    (
-        "https://canonical.com/careers/company-culture/progression",
-        "careers/company-culture/progression.html",
-        "monthly",
-    ),
-    (
-        "https://canonical.com/careers/company-culture/diversity",
-        "careers/company-culture/diversity.html",
-        "monthly",
-    ),
-    (
-        "https://canonical.com/careers/company-culture/sustainability",
-        "careers/company-culture/sustainability.html",
-        "monthly",
-    ),
-]
-
-PARTNERS_SITEMAP_PAGES = [
-    ("https://canonical.com/partners", "partners/index.html"),
-    (
-        "https://canonical.com/partners/find-a-partner",
-        "partners/find-a-partner.html",
-    ),
-    (
-        "https://canonical.com/partners/become-a-partner",
-        "partners/become-a-partner.html",
-    ),
-    (
-        "https://canonical.com/partners/channel-and-reseller",
-        "partners/channel-and-reseller.html",
-    ),
-    ("https://canonical.com/partners/desktop", "partners/desktop.html"),
-    ("https://canonical.com/partners/gsi", "partners/gsi.html"),
-    (
-        "https://canonical.com/partners/ihv-and-oem",
-        "partners/ihv-and-oem.html",
-    ),
-    (
-        "https://canonical.com/partners/public-cloud",
-        "partners/public-cloud.html",
-    ),
-    (
-        "https://canonical.com/partners/iot-device",
-        "partners/iot-device.html",
-    ),
-    ("https://canonical.com/partners/silicon", "partners/silicon/index.html"),
-    (
-        "https://canonical.com/partners/silicon/intel",
-        "partners/silicon/intel/index.html",
-    ),
-    (
-        "https://canonical.com/partners/executive-summit",
-        "partners/executive-summit.html",
-    ),
 ]
 
 
@@ -137,14 +83,6 @@ def home_sitemap():
 
 
 def careers_sitemap(greenhouse):
-    pages = [
-        {
-            "url": url,
-            "last_modified": get_file_last_modified(TEMPLATES_DIR / path),
-            "changefreq": changefreq,
-        }
-        for url, path, changefreq in CAREERS_STATIC_SITEMAP_PAGES
-    ]
     departments = [
         {
             "slug": slug,
@@ -157,22 +95,9 @@ def careers_sitemap(greenhouse):
 
     return _xml_response(
         "careers/sitemap.xml",
-        pages=pages,
         vacancies=greenhouse.get_vacancies(),
         departments=departments,
     )
-
-
-def partners_sitemap():
-    pages = [
-        {
-            "url": url,
-            "last_modified": get_file_last_modified(TEMPLATES_DIR / path),
-        }
-        for url, path in PARTNERS_SITEMAP_PAGES
-    ]
-
-    return _xml_response("partners/sitemap.xml", pages=pages)
 
 
 def knowledge_sitemap():

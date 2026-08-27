@@ -360,16 +360,6 @@ class TestStaticSitemapsLastmod(unittest.TestCase):
         # A lastmod tag should never be left empty/unresolved
         self.assertNotIn("<lastmod></lastmod>", xml_content)
 
-    def test_partners_sitemap_has_lastmod(self):
-        response = self.client.get("/partners/sitemap.xml")
-
-        self.assertEqual(response.status_code, 200)
-        xml_content = response.get_data(as_text=True)
-        self.assertIn(
-            "https://canonical.com/partners/find-a-partner", xml_content
-        )
-        self.assert_every_url_has_lastmod(xml_content)
-
     def test_home_sitemap_has_lastmod(self):
         response = self.client.get("/sitemap-links.xml")
 
@@ -378,7 +368,11 @@ class TestStaticSitemapsLastmod(unittest.TestCase):
         self.assertIn("https://canonical.com/knowledge", xml_content)
         self.assert_every_url_has_lastmod(xml_content)
 
-    def test_careers_sitemap_static_pages_have_lastmod(self):
+    def test_careers_sitemap_departments_have_lastmod(self):
+        # Static pages under /careers (index, career-explorer, etc.) are
+        # no longer listed here -- they're picked up by the generic
+        # /sitemap_tree.xml scan instead. This sitemap only covers what
+        # directory_parser can't discover: departments and vacancies.
         greenhouse = MagicMock()
         greenhouse.get_vacancies.return_value = []
 
@@ -387,7 +381,16 @@ class TestStaticSitemapsLastmod(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         xml_content = response.get_data(as_text=True)
-        self.assertIn("https://canonical.com/careers/all", xml_content)
+        self.assertIn("https://canonical.com/careers/engineering", xml_content)
+        self.assert_every_url_has_lastmod(xml_content)
+
+    def test_sitemap_tree_includes_careers_and_partners_with_lastmod(self):
+        response = self.client.get("/sitemap_tree.xml")
+
+        self.assertEqual(response.status_code, 200)
+        xml_content = response.get_data(as_text=True)
+        self.assertIn("https://canonical.com/careers", xml_content)
+        self.assertIn("https://canonical.com/partners", xml_content)
         self.assert_every_url_has_lastmod(xml_content)
 
 
