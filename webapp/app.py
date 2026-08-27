@@ -90,6 +90,7 @@ from webapp.sitemaps import (
     index_sitemap,
     home_sitemap,
     careers_sitemap,
+    partners_sitemap,
     knowledge_sitemap,
 )
 from webapp.utils.juju_doc_search import (
@@ -835,6 +836,9 @@ def partner_details(partners_api):
         template_path = f"{flask.request.path}.html"
 
     return flask.render_template(template_path, partners=partners)
+
+
+app.add_url_rule("/partners/sitemap.xml", view_func=partners_sitemap)
 
 
 # Blog
