@@ -1,36 +1,39 @@
 {% extends "base_index.html" %}
 
-{% block title %}{{ tag.name }} | Blog{% endblock %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
 
-{% block body_class %}is-paper{% endblock body_class %}
+{% block title %}Blog posts tagged "{{ tag.name }}"{% endblock %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
 
 {% block content %}
-  <div class="p-strip">
-    <div class="row">
-      <div class="col-9 col-start-large-4 col-medium-4 col-start-medium-3">
-        <div class="row p-section">
-          <div class="col-6 col-medium-4">
-            <h1>Blog posts tagged <br><em>"{{ tag.name }}"</em></h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <section class="p-section" id="posts-list">
-    <div class="row u-equal-height u-clearfix">
+
+  {% call(slot) vf_hero(
+    title_text='Blog posts tagged "' ~ tag.name ~ '"',
+    layout='25/75',
+    display_blank_signpost_image_space=True,
+    ) -%}
+  {%- endcall -%}
+
+  <section class="p-section--shallow">
+    <div class="grid-row">
       {% for article in articles %}
-        {% if (loop.index - 1) % 3 == 0 and loop.index > 1 %}
-          </div>
-          <div class="row u-equal-height u-clearfix">
-        {% endif %}
         {% include 'blog/blog-card.html' %}
       {% endfor %}
-      </div>
+    </div>
   </section>
 
-  {% with %}
-    {% set total_pages = total_pages %}
-    {% set current_page = current_page %}
-    {% include "shared/_pagination.html" %}
-  {% endwith %}
+  <section class="p-section">
+    {% with %}
+      {% set total_pages = total_pages %}
+      {% set is_blog = True %}
+      {% set current_page = current_page %}
+      {% set row_class = "grid-row" %}
+      {% set col_class = "grid-col-start-large-3 grid-col-4 u-align--center" %}
+      {% include "shared/_pagination.html" %}
+    {% endwith %}
+  </section>
+
 {% endblock %}
