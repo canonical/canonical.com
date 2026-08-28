@@ -2,6 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Privacy policy | Terms and policies"
+  description: "Canonical's data privacy policy, version dated 8 February 2016."
   update_date: "8 February 2016"
   latest_version: "/legal/data-privacy"
   copydoc: "https://docs.google.com/document/d/1JaZomTAVAADxr1PT_1_4u2YBWxipGxqlbXjt3MCDrsY/edit"
