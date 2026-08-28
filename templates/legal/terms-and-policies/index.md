@@ -2,7 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Terms and policies"
-  description: "Legal terms and policies"
+  description: "Canonical's terms, policies, and legal agreements for Ubuntu, Snap Store, and enterprise services."
   copydoc: "https://docs.google.com/document/d/1p3ZWroZ3nkw8XJJdPvPxSlWGYcLZLT8UbUVuppBcyHk/edit"
 ---
 
