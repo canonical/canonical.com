@@ -2,7 +2,8 @@ name: PR checks
 on: pull_request
 env:
   SECRET_KEY: insecure_test_key
-  HARVEST_API_KEY: local_development_fake_key
+  HARVEST_V3_CLIENT_ID: local_development_fake_client_id
+  HARVEST_V3_CLIENT_SECRET: local_development_fake_client_secret
   APPLICATION_CRYPTO_SECRET_KEY: insecure_test_key
   SERVICE_ACCOUNT_EMAIL: test_email@email.com
   SERVICE_ACCOUNT_PRIVATE_KEY: test_private_key
@@ -107,7 +108,7 @@ jobs:
       - name: Install python dependencies
         run: |
           python3 -m pip install --upgrade pip
-          sudo pip3 install "$(grep -m1 -E '^djlint==' requirements.txt)"
+          sudo pip3 install "$(grep -m1 -E '^djlint==' requirements.txt)" "click>=8.1"
 
       - name: Get changed HTML files in the templates folder
         id: changed-files
@@ -182,3 +183,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
           fail-on-error: true
+
+  test-shell:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run shell tests
+        run: yarn test-shell

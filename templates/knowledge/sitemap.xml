@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://canonical.com/knowledge</loc>
+    <lastmod>{{ last_modified }}</lastmod>
     <changefreq>monthly</changefreq>
   </url>
 
@@ -9,12 +10,14 @@
     {% if section.articles|length > 0 %}
       <url>
         <loc>https://canonical.com/knowledge/{{ section.slug }}</loc>
+        <lastmod>{{ section.last_modified }}</lastmod>
         <changefreq>monthly</changefreq>
       </url>
-  
+
       {% for article in section.articles %}
       <url>
         <loc>https://canonical.com{{ article.url }}</loc>
+        <lastmod>{{ article.last_modified }}</lastmod>
         <changefreq>monthly</changefreq>
       </url>
       {% endfor %}

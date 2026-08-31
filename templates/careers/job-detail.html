@@ -22,17 +22,19 @@
       "name": "Canonical",
       "value": {{ job.id | string | tojson }}
     },
+    {% if job.first_published_at %}
     "datePosted" : {{ job.first_published_at | tojson }},
+    {% endif %}
     "employmentType" : "FULL_TIME",
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
-    "applicantLocationRequirements": {{ job.location.name | job_location_countries | tojson }},
+    "applicantLocationRequirements": {{ job.location | job_location_countries | tojson }},
     {% else %}
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": {{ job.location.name | tojson }}
+        "addressLocality": {{ job.location | tojson }}
       }
     },
     {% endif %}
@@ -79,38 +81,39 @@
   <div class="col-6">
     <hr class="p-rule"/>
     <h3 class="p-heading--5">Apply for this role</h3>
+{% macro question_help(question, allow_links=False) %}
+  {%- if question.description %}
+  <p class="p-form-help-text" id="{{ question.submission_name }}_help">{% if allow_links and 'a href' in question.description %}{{ question.description | safe }}{% else %}{{ question.description | striptags }}{% endif %}</p>
+  {%- endif %}
+{% endmacro %}
     <form id="job-apply-form" action="/careers/{{ job.id }}" method="POST" enctype="multipart/form-data" class="js-roles-list--form" data-ga-submit-category="Form" data-ga-submit-action="job application: {{ job.id }}" data-ga-submit-label="Submit Application" >
       <fieldset class="u-border-none u-margin-bottom-0 u-padding-0">
         <p class="required-legend u-align-text--right ">Required</p>
         <input type="hidden" name="id" value="{{ job.id }}" />
-        {% if job.questions %}
-          {% for question in job.questions %}
-          <label for="{{ question.name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
-            {% if question.type == "short_text" %}
-            <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255"/>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "attachment" %}
-            <input id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf"/>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "long_text" %}
-            <textarea id="{{ question.name }}" name="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} type="textarea" {% if question.required %}required{% endif %}></textarea>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | striptags }}</p>{% endif %}
-            {% elif question.type == "single_select" or question.type == "boolean" %}
-            <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} {% if question.required %}required{% endif %}>
-              <option value="" disabled="disabled" selected="">Select an option</option>
-              {% for answer_option in question.get("values",[]) %}
-              <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
-              {% endfor %}
-            </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{% if 'a href' in question.description %}{{ question.description | safe }}{% else %}{{ question.description | striptags }}{% endif %}</p>{% endif %}
-            {% elif question.type == "multi_value_multi_select" or question.type == "multi_select" %}
-            <select name="{{ question.name }}" id="{{ question.name }}" {% if question.description %}aria-describedby="{{ question.name }}_help"{% endif %} multiple="" {% if question.required %}required{% endif %}>
+        {% if job.application_questions %}
+          {% for question in job.application_questions %}
+          <label for="{{ question.submission_name }}" class="{% if question.required %}is-required{% endif %}">{{ question.label }}</label>
+            {% if question.control_type == "text" %}
+            <input id="{{ question.submission_name }}" name="{{ question.submission_name }}" {% if question.description %}aria-describedby="{{ question.submission_name }}_help"{% endif %} type="text" {% if question.required %}required{% endif %} maxlength="255"/>
+            {{ question_help(question) }}
+            {% elif question.control_type == "file" %}
+            <input id="{{ question.submission_name }}" name="{{ question.submission_name }}" {% if question.description %}aria-describedby="{{ question.submission_name }}_help"{% endif %} type="file" {% if question.required %}required{% endif %} accept=".pdf, .doc, .docx, .txt, .rtf"/>
+            {{ question_help(question) }}
+            {% elif question.control_type == "textarea" %}
+            <textarea id="{{ question.submission_name }}" name="{{ question.submission_name }}" {% if question.description %}aria-describedby="{{ question.submission_name }}_help"{% endif %} {% if question.required %}required{% endif %}></textarea>
+            {{ question_help(question) }}
+            {% elif question.control_type == "select" %}
+            <select name="{{ question.submission_name }}" id="{{ question.submission_name }}" {% if question.description %}aria-describedby="{{ question.submission_name }}_help"{% endif %} {% if question.multiple %}multiple=""{% endif %} {% if question.required %}required{% endif %}>
+              {% if question.multiple %}
               <option value="" disabled="disabled">Select...</option>
-              {% for answer_option in question.get("values",[]) %}
+              {% else %}
+              <option value="" disabled="disabled" selected="">Select an option</option>
+              {% endif %}
+              {% for answer_option in question.options %}
               <option value="{{ answer_option.value }}">{{ answer_option.label }}</option>
               {% endfor %}
             </select>
-            {% if question.description %}<p class="p-form-help-text" id="{{ question.name }}_help">{{ question.description | safe }}</p>{% endif %}
+            {{ question_help(question, allow_links=True) }}
             {% endif %}
           {% endfor %}
         {% endif %}
