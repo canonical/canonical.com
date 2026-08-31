@@ -2,6 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu font licence"
+  description: "Ubuntu Font Licence: terms for using, modifying, and distributing the Ubuntu font family."
   copydoc: "https://docs.google.com/document/d/1X88aRJvR2dW8Cr0vy13gydyUPv-p-L13PHbFgTgyGdE/edit"
 ---
 
