@@ -177,7 +177,8 @@ GOOGLE_DOMAINS = [
     "www.google.no",
     "www.google.nr",
     "www.google.nu",
-    "www.google.pl",
+    # will be uncommented after testing
+    # "www.google.pl",
     "www.google.pn",
     "www.google.ps",
     "www.google.pt",
