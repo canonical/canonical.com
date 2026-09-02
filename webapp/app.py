@@ -58,7 +58,6 @@ from webapp.views import (
     append_utms_cookie_to_ubuntu_links,
     build_knowledge_index,
     build_knowledge_category_index,
-    get_knowledge_sections,
     google_ads_verification,
 )
 from webapp.application import application_bp
@@ -87,6 +86,13 @@ from webapp.openapi_parser import parse_openapi, read_yaml_from_url
 from webapp.partners import Partners
 from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
+from webapp.sitemaps import (
+    index_sitemap,
+    home_sitemap,
+    careers_sitemap,
+    partners_sitemap,
+    knowledge_sitemap,
+)
 from webapp.utils.juju_doc_search import (
     DOMAIN_INFO,
     process_and_sort_results,
@@ -211,26 +217,8 @@ def index():
     return flask.render_template("index.html")
 
 
-@app.route("/sitemap.xml")
-def index_sitemap():
-    xml_sitemap = flask.render_template("sitemap-index.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/sitemap-links.xml")
-def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
+app.add_url_rule("/sitemap.xml", view_func=index_sitemap)
+app.add_url_rule("/sitemap-links.xml", view_func=home_sitemap)
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 
@@ -241,7 +229,9 @@ app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 def render_openstack_blogs():
     blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
-        excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
+        category_ids=[4878],
+        # kubeflow-news, not-ubuntu, langkr
+        excluded_tags=[3408, 3960, 4491],
         tag_ids=[1327],
         per_page=4,
         blog_title="OpenStack blogs",
@@ -391,20 +381,6 @@ def handle_careers_sitemap():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
         return careers_sitemap(greenhouse)
-
-
-def careers_sitemap(greenhouse):
-    context = {
-        "vacancies": greenhouse.get_vacancies(),
-        "departments": DEPARTMENT_LIST,
-    }
-
-    xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
 
 
 @app.route("/careers/feed")
@@ -864,33 +840,13 @@ def partner_details(partners_api):
     return flask.render_template(template_path, partners=partners)
 
 
-@app.route("/partners/sitemap.xml")
-def partners_sitemap():
-    xml_sitemap = flask.render_template("partners/sitemap.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/partners/sitemap.xml", view_func=partners_sitemap)
 
 
 # Blog
 class BlogView(flask.views.View):
     def __init__(self, blog_views):
         self.blog_views = blog_views
-
-
-class PressCenter(BlogView):
-    def dispatch_request(self):
-        page_param = flask.request.args.get("page", default=1, type=int)
-        category_param = flask.request.args.get(
-            "category", default="", type=str
-        )
-        context = self.blog_views.get_group(
-            "canonical-announcements", page_param, category_param
-        )
-
-        return flask.render_template("press-center/index.html", **context)
 
 
 class BlogSitemapIndex(BlogView):
@@ -936,8 +892,8 @@ class BlogSitemapPage(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
-    excluded_tags=[3184, 3265, 3599],
-    per_page=11,
+    category_ids=[4878],
+    per_page=16,
 )
 
 app.add_url_rule(
@@ -948,31 +904,44 @@ app.add_url_rule(
     "/blog/sitemap/<regex('.+'):slug>.xml",
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
-app.add_url_rule(
-    "/press-center",
-    view_func=PressCenter.as_view("press_center", blog_views=blog_views),
-)
-app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
+latest_news_blog_views = BlogViews(
+    api=BlogAPI(session=get_requests_session()),
+    category_ids=[4881],  # announcements
+    per_page=16,
+)
+
+
+# Registered before the blog blueprint so this rule takes precedence over the
+# library's built-in JSON "/blog/latest-news" endpoint.
+@app.route("/blog/latest-news")
+def blog_latest_news():
+    page = flask.request.args.get("page", default=1, type=int)
+    context = latest_news_blog_views.get_index(page=page)
+    return flask.render_template("blog/latest-news.html", **context)
+
+
+# The page above takes over "/blog/latest-news", so the JSON the latest-news
+# JS module consumes is re-exposed here. Mirrors the library's blueprint
+# endpoint (canonicalwebteam/blog/blueprint.py) and stays on blog_views so it
+# keeps serving the site blog, not announcements.
+@app.route("/blog/latest-news.json")
+def blog_latest_news_json():
+    context = blog_views.get_latest_news(
+        tag_ids=flask.request.args.getlist("tag-id"),
+        group_ids=flask.request.args.getlist("group-id"),
+        limit=flask.request.args.get("limit", "3"),
+        all_articles=flask.request.args.get("all-articles", "").lower()
+        == "true",
+    )
+    return flask.jsonify(context)
+
+
+app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
-
-
-@app.route("/knowledge/sitemap.xml")
-def knowledge_sitemap():
-    sections = get_knowledge_sections()
-
-    context = {
-        "sections": sections,
-    }
-
-    xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/knowledge/sitemap.xml", view_func=knowledge_sitemap)
 
 
 def register_knowledge_category_routes():
@@ -1369,7 +1338,7 @@ maas_blog = build_blueprint(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
-        excluded_tags=[3184, 3265, 3408],
+        category_ids=[4878],
     ),
 )
 
