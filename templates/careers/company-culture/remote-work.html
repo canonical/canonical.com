@@ -134,11 +134,13 @@
             </div>
           </noscript>
         </div>
-        <div class="row">
-          <figcaption class="col-6 col-medium-3 col-start-medium-4 col-start-large-7 u-text--muted u-font-style-normal">
-            A sample of sprint locations from the past 5 years
-          </figcaption>
-        </div>
+        <figcaption class="u-text--muted u-font-style-normal">
+          <div class="row">
+            <div class="col-6 col-medium-3 col-start-medium-4 col-start-large-7">
+              A sample of sprint locations from the past 5 years
+            </div>
+          </div>
+        </figcaption>
       </figure>
     </div>
 
@@ -394,9 +396,7 @@
   </section>
 
   <script src="{{ versioned_static('js/modules/leaflet/leaflet.js') }}"
-          nonce="{{ csp_nonce }}"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossorigin=""></script>
+          nonce="{{ csp_nonce }}"></script>
 
   <script src="{{ versioned_static('js/modules/flickity/flickity.pkgd.min.js') }}"
           nonce="{{ csp_nonce }}"></script>
@@ -515,7 +515,7 @@
         "city": "Prague",
         "lat": 50.0874654,
         "lon": 14.4212535
-      }, ];
+      }];
 
       markersData.forEach(function(marker) {
         leaflet.marker([marker.lat, marker.lon], {
