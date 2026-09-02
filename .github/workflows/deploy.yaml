@@ -82,6 +82,38 @@ jobs:
       - name: Pre-generate sitemap lastmod manifest
         run: python3 scripts/generate-lastmod-manifest.py generate-lastmod
 
+      - name: Refresh Google CSP domains
+        run: |
+          python3 - <<'PY'
+          import re
+          import urllib.request
+
+          body = urllib.request.urlopen(
+              "https://www.google.com/supported_domains", timeout=10
+          ).read().decode()
+          domains = sorted(
+              {
+                  "www" + line.strip()
+                  for line in body.splitlines()
+                  if line.strip().startswith(".google.")
+              }
+          )
+          assert domains, "empty response from supported_domains"
+
+          block = "GOOGLE_DOMAINS = [\n"
+          block += "".join(f'    "{d}",\n' for d in domains)
+          block += "]"
+
+          path = "webapp/handlers.py"
+          src = open(path).read()
+          new_src, count = re.subn(
+              r"GOOGLE_DOMAINS = \[.*?\]", block, src, count=1, flags=re.S
+          )
+          assert count == 1, "GOOGLE_DOMAINS block not found"
+          open(path, "w").write(new_src)
+          print(f"handlers.py: refreshed with {len(domains)} domains")
+          PY
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
