@@ -60,8 +60,7 @@ GOOGLE_DOMAINS = [
     "www.google.co.th",
     "www.google.co.tz",
     "www.google.co.ug",
-    # will be uncommented
-    # "www.google.co.uk",
+    "www.google.co.uk",
     "www.google.co.uz",
     "www.google.co.ve",
     "www.google.co.vi",
