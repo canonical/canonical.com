@@ -440,7 +440,11 @@
       mapElement.style.height = "400px";
       mapElement.style.zIndex = "1";
 
-      const map = leaflet.map(mapSelector, { minZoom: 2 }).setView([31.505, -0.09], 2);
+      const map = leaflet.map(mapSelector, {
+        minZoom: 2,
+        maxBounds: [[-90, -180], [90, 180]],
+        maxBoundsViscosity: 1.0
+      }).setView([31.505, -0.09], 2);
 
       const tileLayer = leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
