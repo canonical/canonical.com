@@ -92,7 +92,7 @@
             <br />
             Application for {{ application["role_name"] }}
           </h1>
-          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source']['id'] == 2 and application['job_post_id'] %}
+          {% if "stage_progress" in application and application["stage_progress"]["assessment"] and application['source_id'] == 2 and application['job_post_id'] %}
             <p class="u-no-margin--bottom">
               <a href="/careers/{{ application['job_post_id'] }}"
                  class="p-link--inverted">Read more about this role&nbsp;&rsaquo;</a>
@@ -102,15 +102,15 @@
       </div>
     </section>
 
-    {% if application["candidate"]["application_ids"]|length >= 2 %}
+    {% if application["candidate"]["applications"]|length >= 2 %}
       <section class="p-strip--light is-shallow">
         <div class="u-fixed-width">
           <h2 class="p-text--x-small-capitalised u-no-margin--bottom">The status of your other applications:</h2>
           <ul class="p-inline-list--middot u-no-margin--bottom">
             {% for app in application["candidate"]["applications"] %}
-              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 and app["jobs"][0]["id"] != second_look_req_id %}
+              {% if app["status"] != 'rejected' and app["id"] != application["id"] and app["jobs"]|length > 0 and app["jobs"][0]["id"] != second_look_req_id and app["custom_fields"]["canonical_com_application_page"] %}
                 <li class="p-inline-list__item">
-                  <a href='{{ app["custom_fields"]["canonical_com_application_dashboard"] }}'>{{ app["jobs"][0]["name"] }}</a>
+                  <a href='{{ app["custom_fields"]["canonical_com_application_page"] }}'>{{ app["jobs"][0]["name"] }}</a>
                 </li>
               {% endif %}
             {% endfor %}
@@ -120,7 +120,7 @@
     {% endif %}
     <!-- End thank you for applying section. -->
 
-    {% if "stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"] %}
+    {% if application["hiring_lead"] and ("stage_progress" in application and application["stage_progress"]["assessment"] or application["stage_progress"]["early_stage"] or application["stage_progress"]["late_stage"] or application["stage_progress"]["offer"]) %}
       <!-- Hiring lead section. -->
       <section class="p-strip">
         <div class="row">
@@ -335,7 +335,7 @@
       withdrawalReason.addEventListener('change', function () {
         const withdrawalReasonOther = document.getElementById('withdrawal-reason-other');
         const otherInput = document.querySelector('.other-input');
-        if (withdrawalReason.value === "33") {
+        if (withdrawalReason.value === withdrawalReason.dataset.otherReasonValue) {
           otherInput.style.display = "block";
           withdrawalReasonOther.setAttribute("required", "true");
         } else {
