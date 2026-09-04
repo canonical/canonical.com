@@ -125,9 +125,6 @@
               <p>
                 We support our team members’ self-driven growth and learning with our Training and Tuition program. It offers all team members an annual training budget of USD 2,000 to enhance their skill sets and develop professionally. We champion independent thinkers who chart their own course to excellence.
               </p>
-              <p>
-                We also partner with high-quality content providers, to make sure our people get access to the best possible training materials, and the time to benefit from them.
-              </p>
             </div>
             <div class="p-strip--careers-progression is-shallow u-no-padding--bottom">
               {{ image(url="https://assets.ubuntu.com/v1/faac9575-find_your_passion.jpg",
@@ -313,49 +310,6 @@
         </div>
       </div>
     </section>
-
-    <section class="p-strip">
-      <div class="u-fixed-width u-sv3">
-        <h2>Be a part of open source</h2>
-        <div class="row">
-          <div class="col-6">
-            {% if vacancies %}
-              {% include "careers/_search.html" %}
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {% if departments_overview %}
-      <section class="p-strip u-extra-space">
-        <div class="u-fixed-width">
-          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Departments</h2>
-          <hr class="p-rule" />
-        </div>
-        <div class="row">
-          {% for dept in departments_overview %}
-            <div class="col-3 col-medium-2 col-small-2">
-              <div class="p-heading-icon--small">
-                <div class="p-heading-icon__header">
-                  <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
-                       class="p-heading-icon__img u-width-32px u-height-32px u-position-relative u-top-7px"
-                      
-                       alt="" />
-                  <p class="p-heading-icon__title">
-                    <a href="/careers/{{ dept.slug }}"><strong>{{ dept.name }}</strong></a>
-                    <br />
-                    <span>{{ dept.count }} roles</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {% if loop.index % 4 == 0 and not loop.last %}<hr class="p-rule--muted u-hide u-show--large" />{% endif %}
-          {% endfor %}
-        </div>
-      </section>
-    </div>
-  {% endif %}
 
   <script type="text/javascript"
           src="{{ versioned_static('js/careers-progression.js') }}" nonce="{{ csp_nonce }}"></script>
