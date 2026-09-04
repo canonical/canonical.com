@@ -12,6 +12,9 @@ on:
 
 if: github.event.label.name == 'copilot'
 
+engine: copilot
+model: sonnet
+
 permissions:
   issues: read
   contents: read

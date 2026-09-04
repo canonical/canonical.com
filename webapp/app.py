@@ -58,7 +58,6 @@ from webapp.views import (
     append_utms_cookie_to_ubuntu_links,
     build_knowledge_index,
     build_knowledge_category_index,
-    get_knowledge_sections,
     google_ads_verification,
 )
 from webapp.application import application_bp
@@ -71,10 +70,10 @@ from webapp.canonical_cla.views import (
 )
 from webapp.careers import (
     DEPARTMENT_LIST,
-    _get_sorted_departments,
-    _get_all_departments,
+    group_by_department,
+    get_all_departments,
 )
-from webapp.greenhouse import Greenhouse, Harvest
+from webapp.greenhouse import Greenhouse, HarvestV3
 from webapp.handlers import init_handlers
 from webapp import llms
 from webapp.navigation import (
@@ -87,12 +86,20 @@ from webapp.openapi_parser import parse_openapi, read_yaml_from_url
 from webapp.partners import Partners
 from webapp.recaptcha import load_recaptcha_config, verify_recaptcha
 from webapp.requests_session import get_requests_session
+from webapp.sitemaps import (
+    index_sitemap,
+    home_sitemap,
+    careers_sitemap,
+    partners_sitemap,
+    knowledge_sitemap,
+)
 from webapp.utils.juju_doc_search import (
     DOMAIN_INFO,
     process_and_sort_results,
     search_all_docs,
 )
 from webapp import ubuntu_pro_description as _upsd
+from webapp.utils.constants import CACHE_TTL
 
 logger = logging.getLogger(__name__)
 
@@ -146,6 +153,7 @@ loader = ChoiceLoader(
 app.jinja_loader = loader
 search_session = get_requests_session()
 discourse_session = get_requests_session()
+ubuntu_discourse_cache = ResponseCache(ttl=CACHE_TTL)
 
 app.register_blueprint(application_bp, url_prefix="/careers/application")
 
@@ -209,26 +217,8 @@ def index():
     return flask.render_template("index.html")
 
 
-@app.route("/sitemap.xml")
-def index_sitemap():
-    xml_sitemap = flask.render_template("sitemap-index.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
-@app.route("/sitemap-links.xml")
-def home_sitemap():
-    xml_sitemap = flask.render_template("sitemap-links.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
+app.add_url_rule("/sitemap.xml", view_func=index_sitemap)
+app.add_url_rule("/sitemap-links.xml", view_func=home_sitemap)
 app.add_url_rule("/asset/<file_name>", view_func=json_asset_query)
 app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 
@@ -239,7 +229,9 @@ app.add_url_rule("/Google-Ads.txt", view_func=google_ads_verification)
 def render_openstack_blogs():
     blogs = BlogViews(
         api=BlogAPI(session=get_requests_session()),
-        excluded_tags=[3184, 3265, 3408, 3960, 4491, 3599],
+        category_ids=[4878],
+        # kubeflow-news, not-ubuntu, langkr
+        excluded_tags=[3408, 3960, 4491],
         tag_ids=[1327],
         per_page=4,
         blog_title="OpenStack blogs",
@@ -296,9 +288,6 @@ def search_docs():
         sorted_results=sorted_results,
         domain_info=DOMAIN_INFO,
     )
-
-
-CACHE_TTL = 60 * 60  # 1 hour cache
 
 
 @app.route("/juju/latest.json")
@@ -394,20 +383,6 @@ def handle_careers_sitemap():
         return careers_sitemap(greenhouse)
 
 
-def careers_sitemap(greenhouse):
-    context = {
-        "vacancies": greenhouse.get_vacancies(),
-        "departments": DEPARTMENT_LIST,
-    }
-
-    xml_sitemap = flask.render_template("careers/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
-
-
 @app.route("/careers/feed")
 def handle_careers_rss():
     with get_requests_session() as session:
@@ -430,17 +405,72 @@ def is_remote(job_post):
     if location is None:
         logger.error(f"location is None for job_post_id={job_post.get('id')}")
         return True
-    location_name = location.get("name")
-    if location_name is None:
-        logger.error(
-            f"location_name is None for job_post_id={job_post.get('id')}"
-        )
-        return True
-    location_name = location_name.lower()
-    if "home based" in location_name:
+    location = location.lower()
+    if "home based" in location:
         return True
 
     return False
+
+
+V3_CONTROL_TYPES = {
+    "short_text": "text",
+    "attachment": "file",
+    "long_text": "textarea",
+    "boolean": "select",
+    "single_select": "select",
+    "multi_select": "select",
+}
+
+
+def build_job_application_questions(questions):
+    """Build the application form model from Harvest V3 questions."""
+    application_questions = []
+
+    for question in questions:
+        answer_type = question.get("answer_type")
+        if answer_type == "hidden":
+            continue
+
+        if answer_type not in V3_CONTROL_TYPES:
+            raise ValueError(
+                f"unsupported Harvest V3 question type: {answer_type}"
+            )
+
+        submission_name = question["name"]
+        label = question["label"]
+        if submission_name == "phone_number":
+            submission_name = "phone"
+            label = "Phone"
+
+        multiple = answer_type == "multi_select"
+        if multiple and not submission_name.endswith("[]"):
+            submission_name = f"{submission_name}[]"
+
+        if answer_type == "boolean":
+            options = [
+                {"value": 0, "label": "No"},
+                {"value": 1, "label": "Yes"},
+            ]
+        else:
+            options = [
+                {"value": option["id"], "label": option["label"]}
+                for option in question.get("options", [])
+            ]
+
+        application_questions.append(
+            {
+                "control_type": V3_CONTROL_TYPES[answer_type],
+                "description": question.get("description"),
+                "label": label,
+                "multiple": multiple,
+                "options": options,
+                "private": question.get("private", False),
+                "required": question.get("required", False),
+                "submission_name": submission_name,
+            }
+        )
+
+    return application_questions
 
 
 @app.route(
@@ -458,7 +488,7 @@ def handle_job_details(job_id, job_title):
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return job_details(session, greenhouse, harvest, job_id)
 
 
@@ -469,6 +499,8 @@ def job_details(session, greenhouse, harvest, job_id):
 
     try:
         context["job"] = harvest.get_job_post(job_id)
+        if not context["job"]:
+            flask.abort(404)
 
         # Handle job posting that are no longer open
         if not context["job"].get("active") or not context["job"].get("live"):
@@ -489,12 +521,13 @@ def job_details(session, greenhouse, harvest, job_id):
 
         job_post = greenhouse.get_vacancy(job_id)
         context["job"]["content"] = job_post.content
-        # The Harvest job post only exposes a single location, while the
-        # Greenhouse board API returns all regions a role is open to (joined
-        # with ";"). Use the board value so multi-region roles show every
-        # location on the details page.
-        if context["job"].get("location") and job_post.location:
-            context["job"]["location"]["name"] = job_post.location
+        context["job"]["application_questions"] = (
+            build_job_application_questions(
+                context["job"].get("questions", [])
+            )
+        )
+        # the Board API owns location because Harvest V3 does not expose it
+        context["job"]["location"] = job_post.location
         context["job"]["is_remote"] = is_remote(context["job"])
 
     except HTTPError as error:
@@ -574,13 +607,12 @@ def handle_roles():
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return roles(greenhouse, harvest)
+        return roles(greenhouse)
 
 
-def roles(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
+def roles(greenhouse):
+    _, departments_overview = get_all_departments(
+        greenhouse,
     )
     return flask.jsonify(departments_overview)
 
@@ -593,14 +625,11 @@ def handle_careers_index():
     """
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_index(greenhouse, harvest)
+        return careers_index(greenhouse)
 
 
-def careers_index(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
-    )
+def careers_index(greenhouse):
+    all_departments, departments_overview = get_all_departments(greenhouse)
 
     return flask.render_template(
         "/careers/index.html",
@@ -617,12 +646,11 @@ def careers_index(greenhouse, harvest):
 def handle_all_careers():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return all_careers(greenhouse, harvest)
+        return all_careers(greenhouse)
 
 
-def all_careers(greenhouse, harvest):
-    sorted_departments = _get_sorted_departments(greenhouse, harvest)
+def all_careers(greenhouse):
+    sorted_departments = group_by_department(greenhouse.get_vacancies())
 
     return flask.render_template(
         "/careers/all.html",
@@ -655,14 +683,11 @@ def culture():
 def handle_careers_progression():
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return careers_progression(greenhouse, harvest)
+        return careers_progression(greenhouse)
 
 
-def careers_progression(greenhouse, harvest):
-    all_departments, departments_overview = _get_all_departments(
-        greenhouse, harvest
-    )
+def careers_progression(greenhouse):
+    all_departments, departments_overview = get_all_departments(greenhouse)
 
     return flask.render_template(
         "/careers/company-culture/progression.html",
@@ -721,12 +746,11 @@ def working_here_pages(greenhouse):
 def handle_department_group(department_slug):
     with get_requests_session() as session:
         greenhouse = Greenhouse.from_session(session)
-        harvest = Harvest.from_session(session)
-        return department_group(greenhouse, harvest, department_slug)
+        return department_group(greenhouse, department_slug)
 
 
-def department_group(greenhouse, harvest, department_slug):
-    departments = _get_sorted_departments(greenhouse, harvest)
+def department_group(greenhouse, department_slug):
+    departments = group_by_department(greenhouse.get_vacancies())
 
     if department_slug not in departments:
         flask.abort(404)
@@ -735,13 +759,16 @@ def department_group(greenhouse, harvest, department_slug):
 
     # format edge case slugs
     formatted_slug = ""
-    if " & " in department.name:
-        formatted_slug = department.name.replace(" & ", "+%26+")
-    elif " " in department.name:
-        formatted_slug = department.name.replace(" ", "+")
+    department_name = department["name"]
+    if " & " in department_name:
+        formatted_slug = department_name.replace(" & ", "+%26+")
+    elif " " in department_name:
+        formatted_slug = department_name.replace(" ", "+")
 
-    featured_jobs = [job for job in department.vacancies if job.featured]
-    fast_track_jobs = [job for job in department.vacancies if job.fast_track]
+    featured_jobs = [job for job in department["vacancies"] if job.featured]
+    fast_track_jobs = [
+        job for job in department["vacancies"] if job.fast_track
+    ]
 
     templates = []
 
@@ -813,33 +840,13 @@ def partner_details(partners_api):
     return flask.render_template(template_path, partners=partners)
 
 
-@app.route("/partners/sitemap.xml")
-def partners_sitemap():
-    xml_sitemap = flask.render_template("partners/sitemap.xml")
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/partners/sitemap.xml", view_func=partners_sitemap)
 
 
 # Blog
 class BlogView(flask.views.View):
     def __init__(self, blog_views):
         self.blog_views = blog_views
-
-
-class PressCenter(BlogView):
-    def dispatch_request(self):
-        page_param = flask.request.args.get("page", default=1, type=int)
-        category_param = flask.request.args.get(
-            "category", default="", type=str
-        )
-        context = self.blog_views.get_group(
-            "canonical-announcements", page_param, category_param
-        )
-
-        return flask.render_template("press-center/index.html", **context)
 
 
 class BlogSitemapIndex(BlogView):
@@ -885,8 +892,8 @@ class BlogSitemapPage(BlogView):
 
 blog_views = BlogViews(
     api=BlogAPI(session=get_requests_session()),
-    excluded_tags=[3184, 3265, 3599],
-    per_page=11,
+    category_ids=[4878],
+    per_page=16,
 )
 
 app.add_url_rule(
@@ -897,31 +904,44 @@ app.add_url_rule(
     "/blog/sitemap/<regex('.+'):slug>.xml",
     view_func=BlogSitemapPage.as_view("sitemap_page", blog_views=blog_views),
 )
-app.add_url_rule(
-    "/press-center",
-    view_func=PressCenter.as_view("press_center", blog_views=blog_views),
-)
-app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
+latest_news_blog_views = BlogViews(
+    api=BlogAPI(session=get_requests_session()),
+    category_ids=[4881],  # announcements
+    per_page=16,
+)
+
+
+# Registered before the blog blueprint so this rule takes precedence over the
+# library's built-in JSON "/blog/latest-news" endpoint.
+@app.route("/blog/latest-news")
+def blog_latest_news():
+    page = flask.request.args.get("page", default=1, type=int)
+    context = latest_news_blog_views.get_index(page=page)
+    return flask.render_template("blog/latest-news.html", **context)
+
+
+# The page above takes over "/blog/latest-news", so the JSON the latest-news
+# JS module consumes is re-exposed here. Mirrors the library's blueprint
+# endpoint (canonicalwebteam/blog/blueprint.py) and stays on blog_views so it
+# keeps serving the site blog, not announcements.
+@app.route("/blog/latest-news.json")
+def blog_latest_news_json():
+    context = blog_views.get_latest_news(
+        tag_ids=flask.request.args.getlist("tag-id"),
+        group_ids=flask.request.args.getlist("group-id"),
+        limit=flask.request.args.get("limit", "3"),
+        all_articles=flask.request.args.get("all-articles", "").lower()
+        == "true",
+    )
+    return flask.jsonify(context)
+
+
+app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())
-
-
-@app.route("/knowledge/sitemap.xml")
-def knowledge_sitemap():
-    sections = get_knowledge_sections()
-
-    context = {
-        "sections": sections,
-    }
-
-    xml_sitemap = flask.render_template("knowledge/sitemap.xml", **context)
-    response = flask.make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
-    response.headers["Cache-Control"] = "public, max-age=43200"
-
-    return response
+app.add_url_rule("/knowledge/sitemap.xml", view_func=knowledge_sitemap)
 
 
 def register_knowledge_category_routes():
@@ -1135,7 +1155,7 @@ dqlite_docs = Docs(
         api=DiscourseAPI(
             base_url="https://discourse.dqlite.io/",
             session=discourse_session,
-            cache=ResponseCache(ttl=600),
+            cache=None,
         ),
         index_topic_id=34,
         url_prefix="/dqlite/docs",
@@ -1169,7 +1189,7 @@ maas_docs = Docs(
             base_url="https://discourse.maas.io/",
             session=discourse_session,
             get_topics_query_id=2,
-            cache=ResponseCache(ttl=600),
+            cache=ubuntu_discourse_cache,
         ),
         index_topic_id=6662,
         url_prefix=maas_url_prefix,
@@ -1254,7 +1274,7 @@ tutorials_discourse = Tutorials(
             api_key=MAAS_DISCOURSE_API_KEY,
             api_username=MAAS_DISCOURSE_API_USERNAME,
             get_topics_query_id=2,
-            cache=ResponseCache(ttl=600),
+            cache=ubuntu_discourse_cache,
         ),
         index_topic_id=1289,
         url_prefix="/maas/tutorials",
@@ -1318,7 +1338,7 @@ maas_blog = build_blueprint(
         api=maas_blog_api,
         blog_title="MAAS Blog",
         tag_ids=[1304],
-        excluded_tags=[3184, 3265, 3408],
+        category_ids=[4878],
     ),
 )
 
@@ -1518,7 +1538,7 @@ engage_pages_discourse_api = DiscourseAPI(
     get_topics_query_id=14,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
-    cache=ResponseCache(ttl=600),
+    cache=ubuntu_discourse_cache,
 )
 engage_pages = EngagePages(
     api=engage_pages_discourse_api,
@@ -1548,7 +1568,7 @@ discourse_api = DiscourseAPI(
     session=search_session,
     api_key=DISCOURSE_API_KEY,
     api_username=DISCOURSE_API_USERNAME,
-    cache=ResponseCache(ttl=600),
+    cache=ubuntu_discourse_cache,
 )
 
 
@@ -1584,7 +1604,7 @@ microk8s_discourse_api = Docs(
         api=DiscourseAPI(
             base_url="https://discuss.kubernetes.io/",
             session=get_requests_session(),
-            cache=ResponseCache(ttl=600),
+            cache=None,
         ),
         index_topic_id=11243,
         url_prefix=microk8s_url_prefix,

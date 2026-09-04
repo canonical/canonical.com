@@ -2,10 +2,12 @@ import unittest
 
 import importlib
 import os
+from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock, patch
 
 import requests
 import json
+from werkzeug.datastructures import MultiDict
 
 import webapp.greenhouse as greenhouse
 from webapp.greenhouse import (
@@ -195,6 +197,28 @@ class TestGreenhouseAPI(unittest.TestCase):
         self.assertEqual(payload["resume_content_filename"], "resume.pdf")
         self.assertEqual(payload["cover_letter_content_filename"], "cover.txt")
 
+    def test_submit_application_preserves_multi_select_values(self):
+        session = MagicMock()
+        gh = greenhouse.Greenhouse(session=session, api_key="key", debug=False)
+        form_data = MultiDict(
+            [
+                ("first_name", "Alice"),
+                ("question_123[]", "10"),
+                ("question_123[]", "20"),
+            ]
+        )
+
+        gh.submit_application(
+            form_data=form_data,
+            form_files={},
+            job_id="999",
+        )
+
+        payload = json.loads(session.post.call_args.kwargs["data"])
+        self.assertEqual(payload["first_name"], "Alice")
+        self.assertEqual(payload["question_123"], [10, 20])
+        self.assertNotIn("question_123[]", payload)
+
     def test_submit_application_debug_short_circuits(self):
         """
         Test that application submission short-circuits when debug is enabled
@@ -310,154 +334,282 @@ class TestGreenhouseAPI(unittest.TestCase):
         )
 
 
-class TestGreenhouseHarvest(unittest.TestCase):
+class TestHarvestV3Auth(unittest.TestCase):
     def setUp(self):
         self.session = MagicMock()
-        self.harvest = greenhouse.Harvest(session=self.session, api_key="api")
-
-    def _mock_response(self, *, json_payload=None, text_payload=None):
-        resp = MagicMock()
-        resp.raise_for_status.return_value = None
-        if json_payload is not None:
-            resp.json.return_value = json_payload
-        if text_payload is not None:
-            resp.text = text_payload
-        return resp
-
-    def test_get_interviews_scheduled(self):
-        """
-        Test fetching scheduled interviews for an application
-        """
-        payload = [{"id": 1}]
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
+        self.token_cache = greenhouse._HarvestV3TokenCache()
+        self.auth = greenhouse.HarvestV3Auth(
+            session=self.session,
+            client_id="client-id",
+            client_secret="client-secret",
+            token_cache=self.token_cache,
         )
 
-        result = self.harvest.get_interviews_scheduled("42")
+    def test_requests_and_caches_access_token(self):
+        response = MagicMock()
+        response.json.return_value = {
+            "access_token": "token",
+            "expires_in": 3600,
+            "expires_at": "2000-01-01T00:00:00Z",
+        }
+        self.session.post.return_value = response
 
-        self.session.get.assert_called_once_with(
-            f"{self.harvest.base_url}applications/42/scheduled_interviews",
-            headers={"Authorization": f"Basic {self.harvest.base64_key}"},
+        self.assertEqual(self.auth.get_token(), "token")
+        self.assertEqual(self.auth.get_token(), "token")
+        self.assertGreater(
+            self.token_cache.expires_at,
+            datetime.now(timezone.utc) + timedelta(minutes=59),
+        )
+
+        self.session.post.assert_called_once_with(
+            "https://auth.greenhouse.io/token",
+            auth=("client-id", "client-secret"),
+            params={"grant_type": "client_credentials"},
+            json={},
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
             timeout=15,
         )
-        self.assertEqual(result, payload)
+        response.raise_for_status.assert_called_once()
 
-    def test_get_application(self):
-        """
-        Test fetching an application by ID
-        """
-        payload = {"id": "123"}
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
+    def test_refreshes_token_before_expiry(self):
+        self.token_cache.token = "old-token"
+        self.token_cache.expires_at = datetime.now(timezone.utc) + timedelta(
+            seconds=30
         )
+        response = MagicMock()
+        response.json.return_value = {
+            "access_token": "new-token",
+            "expires_in": 3600,
+        }
+        self.session.post.return_value = response
+
+        self.assertEqual(self.auth.get_token(), "new-token")
+
+    def test_accepts_legacy_absolute_expiry(self):
+        response = MagicMock()
+        response.json.return_value = {
+            "access_token": "token",
+            "expires_at": "2099-01-01T00:00:00Z",
+        }
+        self.session.post.return_value = response
+
+        self.assertEqual(self.auth.get_token(), "token")
+        self.assertEqual(
+            self.token_cache.expires_at,
+            datetime(2099, 1, 1, tzinfo=timezone.utc),
+        )
+
+    def test_shares_cached_token_between_request_sessions(self):
+        response = MagicMock()
+        response.json.return_value = {
+            "access_token": "shared-token",
+            "expires_in": 3600,
+        }
+        self.session.post.return_value = response
+        first_auth = greenhouse.HarvestV3Auth(
+            session=self.session,
+            client_id="shared-client-id",
+            client_secret="client-secret",
+        )
+        other_session = MagicMock()
+        other_auth = greenhouse.HarvestV3Auth(
+            session=other_session,
+            client_id="shared-client-id",
+            client_secret="client-secret",
+        )
+
+        self.assertEqual(first_auth.get_token(), "shared-token")
+        self.assertEqual(other_auth.get_token(), "shared-token")
+        other_session.post.assert_not_called()
+
+
+class TestHarvestV3(unittest.TestCase):
+    def setUp(self):
+        self.session = MagicMock()
+        self.harvest = greenhouse.HarvestV3(
+            session=self.session,
+            client_id="client-id",
+            client_secret="client-secret",
+        )
+        self.harvest._auth.get_token = MagicMock(return_value="token")
+
+    def _mock_response(self, json_payload, status_code=200):
+        response = MagicMock(status_code=status_code)
+        response.json.return_value = json_payload
+        response.links = {}
+        return response
+
+    def test_follows_cursor_pagination(self):
+        first = self._mock_response([{"id": 1}])
+        first.links = {
+            "next": {
+                "url": "https://harvest.greenhouse.io/v3/applications"
+                "?cursor=next-cursor"
+            }
+        }
+        second = self._mock_response([{"id": 2}])
+        self.session.request.side_effect = [first, second]
+
+        result = self.harvest._list("applications", job_ids=42, per_page=1)
+
+        self.assertEqual(result, [{"id": 1}, {"id": 2}])
+        self.assertEqual(
+            self.session.request.call_args_list[1].kwargs["params"],
+            {"cursor": "next-cursor"},
+        )
+
+    def test_get_application_uses_v3_list_filter(self):
+        response = self._mock_response([{"id": 123}])
+        self.session.request.return_value = response
 
         result = self.harvest.get_application("123")
 
-        self.assertEqual(result, payload)
-        self.session.get.assert_called_once()
-        self.session.get.return_value.raise_for_status.assert_called_once()
-
-    def test_get_candidate(self):
-        """
-        Test fetching a candidate by ID
-        """
-        payload = {"id": "55"}
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
-        )
-
-        result = self.harvest.get_candidate("55")
-
-        self.assertEqual(result, payload)
-        self.session.get.assert_called_once_with(
-            f"{self.harvest.base_url}candidates/55",
-            headers={"Authorization": f"Basic {self.harvest.base64_key}"},
+        self.assertEqual(result, {"id": 123})
+        self.session.request.assert_called_once_with(
+            "GET",
+            f"{self.harvest.base_url}applications",
+            params={"ids": "123", "per_page": 500},
+            json=None,
+            headers={"Authorization": "Bearer token"},
             timeout=15,
         )
+        response.raise_for_status.assert_called_once()
 
-    def test_get_job(self):
-        """
-        Test fetching a job by ID
-        """
-        payload = {"id": "78"}
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
-        )
+    def test_get_application_returns_none_when_missing(self):
+        self.session.request.return_value = self._mock_response([])
 
-        result = self.harvest.get_job("78")
+        self.assertIsNone(self.harvest.get_application("123"))
 
-        self.assertEqual(result, payload)
+    def test_get_application_rejects_mismatched_result(self):
+        self.session.request.return_value = self._mock_response([{"id": 456}])
 
-    def test_get_stages(self):
-        """
-        Test fetching stages for a job
-        """
-        payload = [{"id": 1}]
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
-        )
+        with self.assertRaisesRegex(
+            ValueError, "returned the wrong applications record"
+        ):
+            self.harvest.get_application("123")
 
-        result = self.harvest.get_stages("11")
+    def test_get_rejection_details_verifies_application_id(self):
+        details = {"id": 999, "application_id": 123}
+        self.session.request.return_value = self._mock_response([details])
 
-        self.assertEqual(result, payload)
-        self.session.get.assert_called_once_with(
-            f"{self.harvest.base_url}jobs/11/stages",
-            headers={"Authorization": f"Basic {self.harvest.base64_key}"},
-            timeout=15,
-        )
+        self.assertEqual(self.harvest.get_rejection_details("123"), details)
 
-    def test_get_user(self):
-        """
-        Test fetching a user by ID
-        """
-        payload = {"id": "200"}
-        self.session.get.return_value = self._mock_response(
-            json_payload=payload
-        )
+    def test_serializes_parent_ids(self):
+        response = self._mock_response([{"id": 1}])
+        self.session.request.return_value = response
 
-        result = self.harvest.get_user("200")
+        result = self.harvest.get_interviewers({3, 2})
 
-        self.assertEqual(result, payload)
+        self.assertEqual(result, [{"id": 1}])
+        params = self.session.request.call_args.kwargs["params"]
+        self.assertEqual(set(params["interview_ids"].split(",")), {"2", "3"})
 
-    @patch("webapp.greenhouse.logger")
-    def test_reject_application(self, mock_logger):
-        """
-        Test rejecting an application
-        """
-        post_resp = MagicMock()
-        self.session.post.return_value = post_resp
+    def test_retries_once_with_new_token_after_unauthorized(self):
+        unauthorized = self._mock_response([], status_code=401)
+        success = self._mock_response([{"id": 123}])
+        self.session.request.side_effect = [unauthorized, success]
+        self.harvest._auth.get_token.side_effect = ["old-token", "new-token"]
+        self.harvest._auth.invalidate = MagicMock()
 
-        response = self.harvest.reject_application("1", "2", "3", "note")
+        result = self.harvest.get_application("123")
 
-        self.assertIs(response, post_resp)
-        self.session.post.assert_called_once_with(
+        self.assertEqual(result, {"id": 123})
+        self.assertEqual(self.session.request.call_count, 2)
+        self.harvest._auth.invalidate.assert_called_once()
+        second_headers = self.session.request.call_args_list[1].kwargs[
+            "headers"
+        ]
+        self.assertEqual(second_headers["Authorization"], "Bearer new-token")
+
+    def test_reject_application(self):
+        response = self._mock_response(None, status_code=204)
+        self.session.request.return_value = response
+
+        result = self.harvest.reject_application("1", "3", "note")
+
+        self.assertIs(result, response)
+        self.session.request.assert_called_once_with(
+            "POST",
             f"{self.harvest.base_url}applications/1/reject",
+            params=None,
             json={
-                "rejection_reason_id": "3",
+                "rejection_reason_id": 3,
                 "notes": "note",
-                "rejection_email": {"email_template_id": 348528},
             },
             headers={
                 "Content-Type": "application/json",
-                "On-Behalf-Of": "2",
-                "Authorization": f"Basic {self.harvest.base64_key}",
+                "Authorization": "Bearer token",
             },
             timeout=30,
         )
 
+    def test_reject_application_recovers_when_application_is_rejected(self):
+        rejected_response = self._mock_response(None, status_code=422)
+        error = requests.exceptions.HTTPError(response=rejected_response)
+        rejected_response.raise_for_status.side_effect = error
+        application_response = self._mock_response(
+            [{"id": 1, "status": "rejected"}]
+        )
+        self.session.request.side_effect = [
+            rejected_response,
+            application_response,
+        ]
+
+        response = self.harvest.reject_application("1", "3", "note")
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(self.session.request.call_count, 2)
+
+    def test_reject_application_reraises_when_application_is_active(self):
+        rejected_response = self._mock_response(None, status_code=422)
+        error = requests.exceptions.HTTPError(response=rejected_response)
+        rejected_response.raise_for_status.side_effect = error
+        application_response = self._mock_response(
+            [{"id": 1, "status": "in_process"}]
+        )
+        self.session.request.side_effect = [
+            rejected_response,
+            application_response,
+        ]
+
+        with self.assertRaises(requests.exceptions.HTTPError) as context:
+            self.harvest.reject_application("1", "3", "note")
+
+        self.assertIs(context.exception, error)
+
+    def test_reject_application_requires_reason(self):
+        with self.assertRaisesRegex(
+            ValueError, "rejection_reason_id is required"
+        ):
+            self.harvest.reject_application("1", None, "note")
+
+        self.session.request.assert_not_called()
+
+    def test_reject_application_normalizes_missing_notes(self):
+        response = self._mock_response(None, status_code=204)
+        self.session.request.return_value = response
+
+        self.harvest.reject_application("1", "35818", None)
+
+        payload = self.session.request.call_args.kwargs["json"]
+        self.assertEqual(payload["notes"], "")
+
     @patch("webapp.greenhouse.logger")
     def test_reject_application_in_debug_mode(self, mock_logger):
-        """
-        Test rejecting an application in debug mode
-        """
-        harvest = greenhouse.Harvest(
-            session=self.session, api_key="api", debug=True
+        harvest = greenhouse.HarvestV3(
+            session=self.session,
+            client_id="client-id",
+            client_secret="client-secret",
+            debug=True,
         )
 
-        response = harvest.reject_application("1", "2", "3", "note")
+        response = harvest.reject_application("1", "3", "note")
 
-        self.assertEqual(response.status_code, 200)
-        self.session.post.assert_not_called()
+        self.assertEqual(response.status_code, 204)
+        self.session.request.assert_not_called()
         mock_logger.info.assert_called_once()
 
 
