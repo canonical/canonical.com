@@ -2,6 +2,9 @@
 
 {% set is_canonical_announcement = article.group and article.group.slug == "canonical-announcements" %}
 
+{# Articles published after 31 August 2026 all live on canonical.com; earlier ones only if they are Canonical announcements #}
+{% set is_published_after_migration = article.date_gmt and article.date_gmt[:10] > "2026-08-31" %}
+
 {% block title %}{{ article.title.rendered|safe }}{% endblock %}
 
 {% block meta_description %}{{ article.meta_description }}{% endblock %}
@@ -13,7 +16,7 @@
 {% block meta_image %}{{ article.image.source_url }}{% endblock %}
 
 {%- block canonical_url -%}
-  {%- if is_canonical_announcement -%}
+  {%- if is_published_after_migration or is_canonical_announcement -%}
     https://canonical.com/blog/{{ article.slug }}
   {%- else -%}
     https://ubuntu.com/blog/{{ article.slug }}
