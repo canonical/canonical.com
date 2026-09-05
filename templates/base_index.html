@@ -11,6 +11,12 @@
         {% block meta_copydoc %}https://drive.google.com/drive/folders/0B8feV0jqaac3TmExU3NDcHhFTGc{% endblock %}" />
         <meta name="author" content="Canonical Ltd" />
         <link rel="canonical" href="{% block canonical_url %}{{ request.url }}{% endblock %}" />
+        {# llms.txt v2 discoverability (https://llmstxt.org/): lets agents find this
+           page's Markdown alternate and the llms.txt that covers it without having
+           to guess a path-suffix .md URL - this site serves Markdown via ?format=md
+           instead. #}
+        <link rel="alternate" type="text/markdown" href="{{ request.base_url }}?format=md" />
+        <link rel="describedby" href="/llms.txt" />
         
         <meta name="discourse-url" content="
         {% block meta_discourse_url %}https://discourse.ubuntu.com{% endblock %}" />
@@ -149,7 +155,7 @@
         <body class=" 
           {% block body_class %}{% endblock %} l-site">
           <!-- Google Tag Manager (noscript) -->
-          <noscript><iframe class="u-display-none u-visibility-hidden" src="https://www.googletagmanager.com/ns.html?id=GTM-M5BPGQ6"
+          <noscript><iframe class="u-display-none u-visibility-hidden" src="https://www.googletagmanager.com/ns.html?id=GTM-N384JMX2"
         height="0"
         width="0"
        ></iframe></noscript>
@@ -221,10 +227,7 @@
               }
               window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
 
-              var containersToLoad = ['GTM-M5BPGQ6'];
-              {% if gtm_container_id %}
-              containersToLoad.push('{{ gtm_container_id }}');
-              {% endif %}
+              var containersToLoad = ['GTM-N384JMX2'];
 
               containersToLoad.forEach(function(containerId) {
                 (function(w, d, s, l, i) {
@@ -237,6 +240,9 @@
                   j = d.createElement(s),
                   dl = l != 'dataLayer' ? '&l=' + l : '';
                   j.async = true;
+                  // nonce lets gtm.js propagate it to tags the container injects
+                  j.setAttribute('nonce', '{{ csp_nonce }}');
+                  j.nonce = '{{ csp_nonce }}';
                   j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
                   f.parentNode.insertBefore(j, f);
                 })(window, document, 'script', 'dataLayer', containerId);

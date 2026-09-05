@@ -2,6 +2,7 @@
 
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
 {% from 'macros/_macros-lite-video.jinja' import lite_video %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1sM8pgyM-N8VK8fyHgMsW21PdXUiqYrdRkPkipIljNd0/edit
@@ -21,38 +22,49 @@
 
 {% block content %}
 
-  <section class="p-strip is-shallow u-no-padding--bottom">
-    <div class="p-section">
-      <div class="grid-row--50-50">
-        <div class="grid-col">
-          <div class="p-section--shallow">
-            <h1 class="u-no-margin--bottom">
-              Apache Spark<sup>&reg;</sup> operations, simplified
-            </h1>
-          </div>
-          <div class="p-section--shallow">
-            <p>
-              Secure and automate the deployment, maintenance and upgrades of Spark on Kubernetes. Run your big data clusters across private and public clouds.
-            </p>
-          </div>
-          <a class="p-button--positive js-invoke-modal"
-             aria-controls="data-spark-modal"
-             href="/contact-us">Contact us</a>
-        </div>
-        <div class="grid-col">
-          <div class="u-vertically-center u-aspect-ratio--16-9 p-image-wrapper u-container--background u-align--center p-strip">
-            {{ image(url="https://assets.ubuntu.com/v1/8baab06a-apache-spark-logo.png",
-                        alt="Apache Spark",
-                        width="143",
-                        height="186",
-                        hi_def=True,
-                        loading="auto") | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Apache Spark<sup>&reg;</sup> operations, simplified',
+    chip_text='Supported with Ubuntu Pro',
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Secure and automate the deployment, maintenance and upgrades of Spark on Kubernetes. Run your big data clusters across private and public clouds."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "data-spark-modal"
+            }
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "16-9",
+          "is_highlighted": true,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/8baab06a-apache-spark-logo.png",
+            "alt": "Apache Spark",
+            "width": "143",
+            "height": "186"
+          }
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
 
   <section class="p-section">
     <div class="grid-row--50-50">
@@ -93,7 +105,7 @@
           <li class="p-list__item is-ticked">Integrated monitoring</li>
           <li class="p-list__item is-ticked">Includes a fully supported distribution of Apache Spark</li>
         </ul>
-        <a class="p-button--positive" href="https://canonical-charmed-spark.readthedocs-hosted.com/main/">Get started with Charmed Spark</a>
+        <a class="p-button--positive" href="https://canonical.com/data/spark/docs/latest">Get started with Charmed Spark</a>
         <a class="p-button" href="/data/spark/support">Get support</a>
       </div>
     </div>
@@ -343,7 +355,7 @@
   <section class="p-strip is-deep">
     <div class="u-fixed-width">
       <h2>
-        <a href="https://canonical-charmed-spark.readthedocs-hosted.com/main">Get started with Charmed Spark&nbsp;&rsaquo;</a>
+        <a href="https://canonical.com/data/spark/docs/latest">Get started with Charmed Spark&nbsp;&rsaquo;</a>
       </h2>
     </div>
   </section>

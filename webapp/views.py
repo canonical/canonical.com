@@ -4,7 +4,9 @@ import requests
 import math
 import datetime
 import yaml
+import json
 import logging
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
@@ -366,6 +368,39 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
+@lru_cache(maxsize=1)
+def _load_lastmod_manifest():
+    """Load templates/lastmod-manifest.json (built by
+    scripts/generate-lastmod-manifest.py), since production ships no .git
+    to read history from directly."""
+    manifest_path = (
+        Path(flask.current_app.root_path).parent
+        / "templates"
+        / "lastmod-manifest.json"
+    )
+    try:
+        with open(manifest_path) as manifest_file:
+            return json.load(manifest_file)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def get_file_last_modified(file_path):
+    """Date (YYYY-MM-DD) file_path (under templates/) was last changed,
+    from the lastmod manifest, falling back to filesystem mtime for a
+    file the manifest doesn't know about yet."""
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    rel_path = file_path.relative_to(templates_dir).as_posix()
+
+    manifest = _load_lastmod_manifest()
+    if rel_path in manifest:
+        return manifest[rel_path]
+
+    return datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime(
+        "%Y-%m-%d"
+    )
+
+
 def get_articles_from_category(category_dir, category_slug):
     """
     Get articles from markdown files in a category directory.
@@ -424,6 +459,7 @@ def get_articles_from_category(category_dir, category_slug):
                             ),
                             "tag": context.get("tag", ""),
                             "publish_date": publish_date,
+                            "last_modified": get_file_last_modified(md_file),
                         }
                         articles.append(article)
                     except yaml.YAMLError:
@@ -497,12 +533,22 @@ def get_knowledge_sections():
                             category_dir, category_dir.name
                         )
 
+                    # A section page changes when its own template changes,
+                    # or when any of the articles it lists change.
+                    last_modified = get_file_last_modified(index_file)
+                    if articles:
+                        last_modified = max(
+                            last_modified,
+                            *(a["last_modified"] for a in articles),
+                        )
+
                     sections.append(
                         {
                             "slug": category_dir.name,
                             "title": title,
                             "description": description,
                             "articles": articles,
+                            "last_modified": last_modified,
                         }
                     )
 
@@ -513,6 +559,17 @@ def get_knowledge_sections():
                     )
 
     return sections
+
+
+def get_parent_last_modified(index_file, child_dates=()):
+    """Last-modified date for a parent/index page: the most recent of its
+    own template and child_dates (e.g. last-modified dates of the pages
+    it links to)."""
+    last_modified = get_file_last_modified(index_file)
+    if child_dates:
+        last_modified = max(last_modified, *child_dates)
+
+    return last_modified
 
 
 def build_knowledge_index():
@@ -558,3 +615,14 @@ def build_knowledge_category_index(category_slug):
         )
 
     return knowledge_category_index
+
+
+def google_ads_verification():
+    """
+    Serve the Google Ads account-access verification token from the domain
+    root. Google fetches /Google-Ads.txt directly and does not reliably
+    follow redirects, so this is served in place via a dedicated route.
+    """
+    return flask.send_from_directory(
+        flask.current_app.static_folder, "files/Google-Ads.txt"
+    )
