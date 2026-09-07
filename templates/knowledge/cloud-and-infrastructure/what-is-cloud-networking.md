@@ -64,7 +64,7 @@ For example, an operator may create a virtual network, attach workloads to it, d
 Most cloud networking systems include three broad layers:
 
 {{ text_list_kh(
-  type="number"
+  type="number",
   items=[
   "The physical underlay network (provides basic IP connectivity between physical hosts)",
   "The virtual or software-defined overlay network (provides logical networks for workloads)",
