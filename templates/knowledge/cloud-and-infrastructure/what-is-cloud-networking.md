@@ -27,7 +27,6 @@ context:
     id: 1848
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
-{% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 Cloud networking is the architecture and software layer in a stack, which uses software-defined resources to connect apps, workloads, users, and services across cloud environments. It provides virtual networks, routing, security, and load balancing, enabling teams to manage connectivity through APIs, automation, and policy instead of manual device configuration.
 
@@ -313,9 +312,9 @@ Canonical’s approach to cloud networking starts from a simple principle: netwo
 Each solution from Canonical comes with cloud networking components suited to how it is deployed and operated:
 
 {{ text_list_kh (items=[
-  "<a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> is Canonical's CNCF-conformant Kubernetes distro with long-term support. It  standardizes on Cilium with Gateway API support. ",
-  "<a href="https://canonical.com/openstack">Canonical OpenStack</a> is Canonical's enterprise cloud platform built on distilled upstream OpenStack. It provides private cloud infrastructure and uses OVN as its software-defined networking backend. ",
-  "<a href="https://canonical.com/microcloud">MicroCloud</a> is Canonical’s lightweight private cloud stack and uses MicroOVN to bring the same OVN-based model into smaller private cloud and edge deployments."
+  "<a href=\"https://ubuntu.com/kubernetes\">Canonical Kubernetes</a> is Canonical's CNCF-conformant Kubernetes distro with long-term support. It  standardizes on Cilium with Gateway API support.",
+  "<a href=\"https://canonical.com/openstack\">Canonical OpenStack</a> is Canonical's enterprise cloud platform built on distilled upstream OpenStack. It provides private cloud infrastructure and uses OVN as its software-defined networking backend.",
+  "<a href=\"https://canonical.com/microcloud\">MicroCloud</a> is Canonical’s lightweight private cloud stack and uses MicroOVN to bring the same OVN-based model into smaller private cloud and edge deployments."
 ])}}
 
 The unifying thread is open source infrastructure, upstream alignment, and operational consistency across the cloud footprint. Operators should be able to understand, automate, observe, and maintain the networking layer over time, whether they run Kubernetes, OpenStack, MicroCloud, or a combination of them.
