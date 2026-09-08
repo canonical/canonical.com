@@ -38,7 +38,7 @@ HOME_SITEMAP_PAGES = [
     ("https://canonical.com/contact-us", "contact-us.html"),
     ("https://canonical.com/projects", "projects/index.html"),
     ("https://canonical.com/documentation", "documentation/index.html"),
-    ("https://canonical.com/press-center", "press-center/index.html"),
+    ("https://canonical.com/blog/latest-news", "blog/latest-news.html"),
     ("https://canonical.com/data", "data/index.html"),
     (
         "https://canonical.com/solutions/telco/5g-edge",

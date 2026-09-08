@@ -2,6 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Data privacy"
+  description: "Canonical's data privacy policy: how we collect and use personal data across our products and services."
   copydoc: "https://docs.google.com/document/d/1AlOE2_-BqZNP4hiiuf8kZney8g1zvqAlDYl2u3X6m6I/edit"
 ---
 
