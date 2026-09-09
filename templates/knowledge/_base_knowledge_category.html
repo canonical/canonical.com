@@ -7,6 +7,12 @@
   is-paper
 {% endblock body_class %}
 
+{% block extra_metatags %}
+  {% if not articles %}
+    <meta name="robots" content="noindex" />
+  {% endif %}
+{% endblock extra_metatags %}
+
 {% block title %}{{ title }} | Knowledge{% endblock title %}
 
 {% block outer_content %}

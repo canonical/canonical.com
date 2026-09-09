@@ -1,5 +1,5 @@
 import unittest
-from webapp.app import app, is_remote
+from webapp.app import app, build_job_application_questions, is_remote
 from unittest.mock import MagicMock, patch
 from webapp.app import job_details
 
@@ -7,9 +7,132 @@ from webapp.app import job_details
 class TestIsRemote(unittest.TestCase):
     def test_is_remote(self):
         self.assertTrue(is_remote({"location": None}))
-        self.assertTrue(is_remote({"location": {"name": None}}))
-        self.assertTrue(is_remote({"location": {"name": "Home Based - EMEA"}}))
-        self.assertFalse(is_remote({"location": {"name": "Paris, France"}}))
+        self.assertTrue(is_remote({"location": "Home Based - EMEA"}))
+        self.assertFalse(is_remote({"location": "Paris, France"}))
+
+
+class TestJobApplicationQuestions(unittest.TestCase):
+    def test_builds_form_model_from_v3_questions(self):
+        questions = [
+            {
+                "answer_type": "short_text",
+                "description": None,
+                "label": "First name",
+                "name": "first_name",
+                "private": False,
+                "required": True,
+            },
+            {
+                "answer_type": "short_text",
+                "description": "Include the country code",
+                "label": "Phone Number",
+                "name": "phone_number",
+                "private": True,
+                "required": False,
+            },
+            {
+                "answer_type": "boolean",
+                "description": None,
+                "label": "Can you travel?",
+                "name": "question_1",
+                "options": [],
+                "private": False,
+                "required": True,
+            },
+            {
+                "answer_type": "multi_select",
+                "description": None,
+                "label": "Regions",
+                "name": "question_2",
+                "options": [
+                    {"id": 10, "label": "Americas"},
+                    {"id": 20, "label": "EMEA"},
+                ],
+                "private": False,
+                "required": False,
+            },
+            {
+                "answer_type": "hidden",
+                "label": "Internal value",
+                "name": "internal_value",
+            },
+        ]
+
+        result = build_job_application_questions(questions)
+
+        self.assertEqual(
+            [question["submission_name"] for question in result],
+            ["first_name", "phone", "question_1", "question_2[]"],
+        )
+        self.assertEqual(result[1]["label"], "Phone")
+        self.assertTrue(result[1]["private"])
+        self.assertEqual(
+            result[2]["options"],
+            [
+                {"value": 0, "label": "No"},
+                {"value": 1, "label": "Yes"},
+            ],
+        )
+        self.assertTrue(result[3]["multiple"])
+        self.assertEqual(
+            result[3]["options"],
+            [
+                {"value": 10, "label": "Americas"},
+                {"value": 20, "label": "EMEA"},
+            ],
+        )
+
+    def test_rejects_unknown_v3_question_type(self):
+        with self.assertRaisesRegex(ValueError, "unsupported Harvest V3"):
+            build_job_application_questions(
+                [
+                    {
+                        "answer_type": "future_type",
+                        "label": "Future question",
+                        "name": "question_3",
+                    }
+                ]
+            )
+
+    def test_job_template_renders_form_model_and_omits_missing_date(self):
+        job = {
+            "active": True,
+            "first_published_at": None,
+            "id": 1234,
+            "live": True,
+            "questions": [
+                {
+                    "answer_type": "multi_select",
+                    "description": None,
+                    "label": "Regions",
+                    "name": "question_2",
+                    "options": [
+                        {"id": 10, "label": "Americas"},
+                        {"id": 20, "label": "EMEA"},
+                    ],
+                    "private": True,
+                    "required": True,
+                }
+            ],
+            "skills": [],
+            "title": "Test role",
+        }
+        harvest = MagicMock()
+        harvest.get_job_post.return_value = job
+        greenhouse = MagicMock()
+        greenhouse.get_vacancy.return_value = MagicMock(
+            content="<p>Job content</p>",
+            location="Home based - Worldwide",
+        )
+
+        with app.test_request_context("/careers/1234/test-role"):
+            response = job_details(MagicMock(), greenhouse, harvest, "1234")
+            rendered = response.get_data(as_text=True)
+
+        self.assertIn('name="question_2[]"', rendered)
+        self.assertIn('<option value="10">Americas</option>', rendered)
+        self.assertIn('<option value="20">EMEA</option>', rendered)
+        self.assertNotIn('"datePosted"', rendered)
 
 
 class TestCacheControlHeaders(unittest.TestCase):
@@ -99,7 +222,7 @@ class TestJobDetailsLocationOverride(unittest.TestCase):
         harvest_job = {
             "active": True,
             "live": True,
-            "location": {"name": "Home based - EMEA"},
+            "location": "Home based - EMEA",
         }
         captured = self._run_job_details(
             harvest_job,
@@ -107,7 +230,7 @@ class TestJobDetailsLocationOverride(unittest.TestCase):
         )
 
         self.assertEqual(
-            captured["job"]["location"]["name"],
+            captured["job"]["location"],
             "Home Based - Americas; Home based - EMEA",
         )
 
@@ -115,27 +238,21 @@ class TestJobDetailsLocationOverride(unittest.TestCase):
         harvest_job = {
             "active": True,
             "live": True,
-            "location": {"name": "Home based - EMEA"},
+            "location": "Home based - EMEA",
         }
         captured = self._run_job_details(harvest_job, "Home Based - Americas")
 
-        self.assertEqual(
-            captured["job"]["location"]["name"],
-            "Home Based - Americas",
-        )
+        self.assertEqual(captured["job"]["location"], "Home Based - Americas")
 
-    def test_missing_board_location_keeps_harvest_location(self):
+    def test_missing_board_location_is_preserved_as_unknown(self):
         harvest_job = {
             "active": True,
             "live": True,
-            "location": {"name": "Home based - EMEA"},
         }
         captured = self._run_job_details(harvest_job, None)
 
-        self.assertEqual(
-            captured["job"]["location"]["name"],
-            "Home based - EMEA",
-        )
+        self.assertIsNone(captured["job"]["location"])
+        self.assertTrue(captured["job"]["is_remote"])
 
     def test_missing_harvest_location_does_not_error(self):
         harvest_job = {
@@ -148,4 +265,7 @@ class TestJobDetailsLocationOverride(unittest.TestCase):
             "Home Based - Americas; Home based - EMEA",
         )
 
-        self.assertIsNone(captured["job"]["location"])
+        self.assertEqual(
+            captured["job"]["location"],
+            "Home Based - Americas; Home based - EMEA",
+        )

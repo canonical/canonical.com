@@ -2,6 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Contributor licence agreement"
+  description: "Canonical contributor licence agreement: terms for contributing to open source projects maintained by Canonical."
   copydoc: "https://docs.google.com/document/d/1O7n0CijJxO60eY8NLisra3BQw03SusqMUgop0PRPx6M/edit"
 ---
 

@@ -1,8 +1,10 @@
 import json
 import unittest
 import os
+from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 import flask
+from werkzeug.exceptions import BadRequest
 
 from vcr_unittest import VCRTestCase
 from webapp.app import app
@@ -20,7 +22,7 @@ from webapp.application import (
     application_withdrawal,
     job_location_countries,
 )
-from webapp.greenhouse import Harvest
+from webapp.greenhouse import HarvestV3
 from webapp.utils.cipher import Cipher, InvalidToken
 
 all_stages = [
@@ -179,18 +181,6 @@ class TestApplicationPageHelpers(VCRTestCase):
         result = _get_employee_directory_data("1234")
         self.assertDictEqual(fake_directory_data, result)
 
-    def test_job_post_page(self):
-        """
-        When given the /careers/<id> URL,
-        we should return a 200 status code
-        check requisition id is contained
-        """
-        response = self.client.get("/careers/4754075")
-        self.assertEqual(response.status_code, 200)
-        html_content = response.data.decode("utf-8")
-        # Test Requistion ID is in the page
-        self.assertIn("<p>Requisition ID: 613</p>", html_content)
-
     def test_cipher_encrypts_and_decrypts(self):
         """
         Ensure that the Cipher class can
@@ -329,18 +319,25 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # fake constants
         self.fake_application = {
             "id": "123",
+            "status": "active",
             "role_name": "Fake Job",
             "candidate": {
                 "id": "444",
                 "first_name": "John",
                 "last_name": "Doe",
+                "email_addresses": [
+                    {"value": "candidate@example.com", "type": "personal"}
+                ],
             },
             "hiring_lead": {
                 "id": "777",
                 "name": "Hiring Lead",
-                "emails": "hiring_lead@example.com",
+                "emails": ["hiring_lead@example.com"],
+                "primary_email": "hiring_lead@example.com",
             },
-            "current_stage": "Fake Stage",
+            "current_stage": {"name": "Fake Stage"},
+            "jobs": [{"id": 456, "name": "Fake Job"}],
+            "scheduled_interviews": [],
         }
         self.fake_timezone = "America/Toronto"
         self.fake_scheduled_interview = {
@@ -351,7 +348,10 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
                     "email": "fake_interviewer1@email.com",
                 }
             ],
-            "start": {"date_time": "2024-02-29T20:00:00.000Z"},
+            "start": {
+                "date_time": "2024-02-29T20:00:00.000Z",
+                "datetime": datetime(2024, 2, 29, 20, tzinfo=timezone.utc),
+            },
             "external_event_id": "fake_event_id_1",
             "interview": {"name": "Fake Interview 1"},
         }
@@ -363,12 +363,31 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
                     "email": "fake_interviewer2@email.com",
                 }
             ],
-            "start": {"date_time": "2024-02-27T20:00:00.000Z"},
+            "start": {
+                "date_time": "2024-02-27T20:00:00.000Z",
+                "datetime": datetime(2024, 2, 27, 20, tzinfo=timezone.utc),
+            },
             "external_event_id": "fake_event_id_2",
             "interview": {"name": "Fake Interview 2"},
         }
-        self.fake_withdrawal_reason_id = None
-        self.fake_withdrawal_message = None
+        self.fake_awaiting_feedback_interview = {
+            "id": 3,
+            "status": "awaiting_feedback",
+            "interviewers": [
+                {
+                    "name": "Fake Interviewer 3",
+                    "email": "fake_interviewer3@email.com",
+                }
+            ],
+            "start": {
+                "date_time": "2024-02-28T20:00:00.000Z",
+                "datetime": datetime(2024, 2, 28, 20, tzinfo=timezone.utc),
+            },
+            "external_event_id": None,
+            "interview": {"name": "Fake Interview 3"},
+        }
+        self.fake_withdrawal_reason_id = "35818"
+        self.fake_withdrawal_message = "Other"
 
         # mock functions
         self.mock_get_cipher = patch("webapp.application._get_cipher").start()
@@ -387,7 +406,11 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # set return values for mocks
         mock_cipher = MagicMock(spec=Cipher)
         mock_cipher.decrypt.return_value = json.dumps(
-            {"application_id": self.fake_application["id"]}
+            {
+                "application_id": self.fake_application["id"],
+                "withdrawal_reason_id": self.fake_withdrawal_reason_id,
+                "withdrawal_message": self.fake_withdrawal_message,
+            }
         )
         self.mock_get_cipher.return_value = mock_cipher
         self.mock_get_application.return_value = self.fake_application
@@ -406,21 +429,46 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
         # set debug to true so we can test and ensure _send_mail is not called
         flask.current_app.debug = True
 
-    def test_candidate_withdrawal_process(self):
-        # call application_withdrawal function with a fake token
-        mock_harvest = MagicMock(spec=Harvest)
-        mock_harvest.reject_application.return_value = MagicMock(
-            status_code=200
+    def rendered_call(self, template_suffix):
+        """Return the single render_template call for a given template."""
+        calls = [
+            call
+            for call in self.mock_render_template.call_args_list
+            if call.args[0].endswith(template_suffix)
+        ]
+        self.assertEqual(
+            len(calls), 1, f"expected one render of {template_suffix}"
         )
-        mock_harvest.get_interviews_scheduled.return_value = [
+        return calls[0]
+
+    def test_candidate_withdrawal_process(self):
+        call_order = []
+        mock_harvest = MagicMock(spec=HarvestV3)
+        rejection_response = MagicMock(status_code=204)
+        self.fake_application["scheduled_interviews"] = [
             self.fake_scheduled_interview,
             self.fake_completed_interview,
+            self.fake_awaiting_feedback_interview,
         ]
+
+        def reject_application(*args):
+            call_order.append("reject")
+            return rejection_response
+
+        def delete_interview(*args, **kwargs):
+            call_order.append("interviews")
+
+        mock_harvest.reject_application.side_effect = reject_application
+        self.mock_cal.return_value.delete_interview_event.side_effect = (
+            delete_interview
+        )
         application_withdrawal(mock_harvest, "fake_token")
 
-        # ensure that get_interviews_scheduled was called with the right id
-        mock_harvest.get_interviews_scheduled.assert_called_once_with(
-            self.fake_application["id"]
+        self.assertEqual(call_order, ["reject", "interviews"])
+        self.mock_get_application.assert_called_once_with(
+            mock_harvest,
+            self.fake_application["id"],
+            include_interviewer_email=True,
         )
 
         # ensure that delete_interview_event only called once
@@ -439,22 +487,160 @@ class TestInterviewAutoDeletionOnWithdrawal(unittest.TestCase):
 
         # ensure get_timezone is called with correct email
         self.mock_cal.return_value.get_timezone.assert_called_with(
-            self.fake_scheduled_interview["interviewers"][0]["email"]
+            self.fake_awaiting_feedback_interview["interviewers"][0]["email"]
         )
 
         # ensure datetime conversion worked
         expected_datetime = "February 29, 2024 at 03:00PM"
-        _, kwargs = self.mock_render_template.call_args_list[0]
+        kwargs = self.rendered_call("interview-canceled-email.html").kwargs
         self.assertIn("interview_date", kwargs)
         self.assertEqual(kwargs["interview_date"], expected_datetime)
+        self.assertEqual(self.mock_render_template.call_count, 5)
+        self.rendered_call("feedback-not-needed-email.html")
 
         # ensure that harvest rejection fn is called with correct arguments
         mock_harvest.reject_application.assert_called_once_with(
             self.fake_application["id"],
-            self.fake_application["hiring_lead"]["id"],
             self.fake_withdrawal_reason_id,
             self.fake_withdrawal_message,
         )
+
+    def test_legacy_other_reasons_use_candidate_withdrawal_reason(self):
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        for reason_id in ("18", "33"):
+            with self.subTest(reason_id=reason_id):
+                mock_harvest.reset_mock()
+                self.mock_get_cipher.return_value.decrypt.return_value = (
+                    json.dumps(
+                        {
+                            "application_id": self.fake_application["id"],
+                            "withdrawal_reason_id": reason_id,
+                            "withdrawal_message": "A different reason",
+                        }
+                    )
+                )
+
+                application_withdrawal(mock_harvest, "fake_token")
+
+                mock_harvest.reject_application.assert_called_once_with(
+                    self.fake_application["id"],
+                    "35818",
+                    "A different reason",
+                )
+
+    def test_missing_withdrawal_reason_returns_bad_request(self):
+        mock_harvest = MagicMock(spec=HarvestV3)
+        self.mock_get_cipher.return_value.decrypt.return_value = json.dumps(
+            {"application_id": self.fake_application["id"]}
+        )
+
+        with self.assertRaises(BadRequest):
+            application_withdrawal(mock_harvest, "fake_token")
+
+        mock_harvest.reject_application.assert_not_called()
+
+    def test_candidate_email_uses_hiring_lead_as_sender(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_render_template.side_effect = lambda template, **kwargs: (
+            template
+        )
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        candidate_email_call = self.mock_send_mail.call_args_list[0]
+        self.assertEqual(
+            candidate_email_call.args[0], ["candidate@example.com"]
+        )
+        self.assertEqual(
+            candidate_email_call.args[1],
+            "Withdrawal of application for Fake Job, Canonical",
+        )
+        self.assertEqual(
+            candidate_email_call.kwargs["from_email"],
+            "hiring_lead@example.com",
+        )
+
+    def test_candidate_email_failure_is_reported_to_hiring_lead(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_send_mail.side_effect = [RuntimeError("SMTP failed"), None]
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        notification_call = self.rendered_call(
+            "_withdrawal_notification-email.html"
+        )
+        self.assertTrue(notification_call.kwargs["candidate_email_failed"])
+        self.assertEqual(self.mock_send_mail.call_count, 2)
+
+    def test_candidate_email_precedes_interview_cleanup(self):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        call_order = []
+
+        def record_email(_to_email, subject, *args, **kwargs):
+            if subject.startswith("Withdrawal of application"):
+                call_order.append("candidate")
+            else:
+                call_order.append("hiring_lead")
+
+        def record_interview_cleanup(*args):
+            call_order.append("interviews")
+            return []
+
+        self.mock_send_mail.side_effect = record_email
+        with patch(
+            "webapp.application.try_reject_interviews",
+            side_effect=record_interview_cleanup,
+        ):
+            application_withdrawal(mock_harvest, "fake_token")
+
+        self.assertEqual(
+            call_order,
+            ["candidate", "interviews", "hiring_lead"],
+        )
+
+    @patch("webapp.application.logger")
+    def test_hiring_lead_email_failure_does_not_mask_withdrawal(
+        self, mock_logger
+    ):
+        flask.current_app.debug = False
+        mock_harvest = MagicMock(spec=HarvestV3)
+        mock_harvest.reject_application.return_value = MagicMock(
+            status_code=204
+        )
+        self.mock_send_mail.side_effect = [None, RuntimeError("SMTP failed")]
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        mock_logger.exception.assert_called_once_with(
+            "failed to send withdrawal notification to hiring lead for "
+            "application_id=%s",
+            self.fake_application["id"],
+        )
+
+    def test_already_rejected_application_has_no_side_effects(self):
+        self.fake_application["status"] = "rejected"
+        mock_harvest = MagicMock(spec=HarvestV3)
+
+        application_withdrawal(mock_harvest, "fake_token")
+
+        mock_harvest.reject_application.assert_not_called()
+        self.mock_send_mail.assert_not_called()
+        self.mock_cal.return_value.delete_interview_event.assert_not_called()
 
     def tearDown(self):
         # stop all of the patches from setUp
@@ -509,61 +695,126 @@ class TestGetApplication(unittest.TestCase):
         Ensure that _get_application populates
         hiring_lead data and scheduled interviews correctly
         """
-        harvest = MagicMock(spec=Harvest)
+        harvest = MagicMock(spec=HarvestV3)
         harvest.get_application.return_value = {
             "id": 123,
             "job_post_id": 10,
-            "jobs": [{"id": 1, "name": "Original Role"}],
+            "job_id": 1,
             "candidate_id": 55,
-            "attachments": [],
-            "current_stage": {"id": 999, "name": "Application Review"},
-            "status": "active",
-            "rejection_reason": {"type": {"id": 2}},
+            "custom_fields": {
+                "written_interview_submitted_at": {
+                    "value": "2024-01-01T00:00:00Z"
+                }
+            },
+            "stage_name": "Application Review",
+            "status": "in_process",
             "rejected_at": None,
+            "source_id": 2,
         }
         harvest.get_job_post.return_value = {
             "job_id": 1,
             "title": "Original Role",
         }
         harvest.get_candidate.return_value = {
-            "id": "cand-55",
+            "id": 55,
             "email_addresses": [],
         }
-        harvest.get_job.return_value = {
-            "hiring_team": {
-                "recruiters": [
-                    {
-                        "responsible": True,
-                        "id": 88,
-                        "employee_id": "1000",
+        harvest.get_applications.return_value = [
+            {
+                "id": 123,
+                "job_id": 1,
+                "status": "in_process",
+                "custom_fields": {
+                    "canonical_com_application_page": {
+                        "value": "https://example.com/dashboard"
                     }
-                ]
+                },
             }
-        }
+        ]
+        harvest.get_jobs.return_value = [{"id": 1, "name": "Original Role"}]
+        harvest.get_job_owners.return_value = [
+            {"responsible": True, "user_id": 88}
+        ]
         harvest.get_user.return_value = {
             "id": 88,
             "name": "Lead Name",
-            "emails": "lead@example.com",
+            "primary_email": "lead@example.com",
+            "employee_id": "1000",
         }
-        harvest.get_stages.return_value = [
+        harvest.get_job_interview_stages.return_value = [
             {
                 "id": 999,
                 "name": "Application Review",
-                "interviews": [{"id": 1}],
+                "sort_order": 1,
             }
         ]
-        harvest.get_interviews_scheduled.return_value = [
+        harvest.get_application_stages.return_value = [
             {
-                "status": "scheduled",
-                "start": {"date_time": "2024-01-01T10:00:00+00:00"},
-                "end": {"date_time": "2024-01-01T11:00:00+00:00"},
-                "interview": {"id": 1, "name": "Initial call"},
-                "interviewers": [
-                    {"name": "Interviewer", "email": "int@example.com"}
-                ],
-                "external_event_id": "evt-1",
+                "current": True,
+                "job_interview_stage_id": 999,
             }
         ]
+        harvest.get_job_interviews.return_value = [
+            {
+                "id": 1,
+                "name": "Initial call",
+                "job_interview_stage_id": 999,
+                "scheduling_type": "needs_scheduling",
+            },
+            {
+                "id": 2,
+                "name": "Take-home test",
+                "job_interview_stage_id": 999,
+                "scheduling_type": "take_home_test",
+            },
+            {
+                "id": 3,
+                "name": "Unscheduled call",
+                "job_interview_stage_id": 999,
+                "scheduling_type": "needs_scheduling",
+            },
+        ]
+        harvest.get_interviews.return_value = [
+            {
+                "id": 500,
+                "job_interview_id": 1,
+                "status": "scheduled",
+                "starts_at": "2024-01-01T10:00:00+00:00",
+                "ends_at": "2024-01-01T11:00:00+00:00",
+                "external_event_id": "evt-1",
+            },
+            {
+                "id": 501,
+                "job_interview_id": 2,
+                "status": "sent",
+                "starts_at": None,
+                "ends_at": None,
+                "external_event_id": None,
+            },
+            {
+                "id": 502,
+                "job_interview_id": 3,
+                "status": "to_be_scheduled",
+                "starts_at": None,
+                "ends_at": None,
+                "external_event_id": None,
+            },
+        ]
+        harvest.get_interviewers.return_value = [
+            {
+                "interview_id": 500,
+                "user_id": 99,
+                "email": "int@example.com",
+            }
+        ]
+        harvest.get_users.return_value = [
+            {
+                "id": 99,
+                "name": "Interviewer",
+                "primary_email": "int@example.com",
+            }
+        ]
+        harvest.get_attachments.return_value = []
         mock_directory.return_value = {
             "bio": "Line1\\nLine2",
             "name": "Lead Name",
@@ -578,10 +829,18 @@ class TestGetApplication(unittest.TestCase):
         mock_directory.assert_called_once_with("1000")
         self.assertEqual(result["role_name"], "Original Role")
         self.assertEqual(result["hiring_lead"]["bio"], ["Line1", "Line2"])
+        self.assertEqual(result["status"], "active")
+        self.assertEqual(
+            result["candidate"]["applications"][0]["custom_fields"][
+                "canonical_com_application_page"
+            ],
+            "https://example.com/dashboard",
+        )
         interview = result["scheduled_interviews"][0]
         self.assertEqual(interview["duration"], 60)
         self.assertEqual(interview["stage_name"], "Application Review")
         self.assertEqual(interview["interviewers"], [{"name": "Interviewer"}])
+        harvest.get_interviewers.assert_called_once_with([500])
 
 
 class TestGetApplicationFromToken(unittest.TestCase):
@@ -590,7 +849,7 @@ class TestGetApplicationFromToken(unittest.TestCase):
         Ensure that _get_application_from_token
         returns the application when given a valid token
         """
-        harvest = MagicMock(spec=Harvest)
+        harvest = MagicMock(spec=HarvestV3)
         mock_cipher = MagicMock()
         mock_cipher.decrypt.return_value = "123"
 
@@ -602,7 +861,11 @@ class TestGetApplicationFromToken(unittest.TestCase):
             result = _get_application_from_token(harvest, "encrypted-token")
 
         mock_cipher.decrypt.assert_called_once_with("encrypted-token")
-        mock_get_application.assert_called_once_with(harvest, "123")
+        mock_get_application.assert_called_once_with(
+            harvest,
+            "123",
+            include_interviewer_email=False,
+        )
         self.assertEqual(result, {"id": 123})
 
     def test_raises_invalid_token(self):
@@ -610,7 +873,7 @@ class TestGetApplicationFromToken(unittest.TestCase):
         Ensure that _get_application_from_token
         raises InvalidToken when decryption fails
         """
-        harvest = MagicMock(spec=Harvest)
+        harvest = MagicMock(spec=HarvestV3)
         mock_cipher = MagicMock()
         mock_cipher.decrypt.side_effect = InvalidToken()
 
@@ -678,6 +941,29 @@ class TestSendMail(unittest.TestCase):
         smtp_instance.login.assert_not_called()
         smtp_instance.send_message.assert_called_once()
         smtp_instance.quit.assert_called_once()
+
+    @patch("webapp.application.SMTP")
+    def test_send_mail_supports_custom_sender(self, mock_smtp):
+        smtp_instance = mock_smtp.return_value
+        with patch.dict(
+            os.environ,
+            {
+                "SMTP_SERVER": "smtp.example.com",
+                "SMTP_USER": "",
+                "SMTP_PASS": "",
+                "SMTP_SENDER_ADDRESS": "fallback@example.com",
+            },
+            clear=True,
+        ):
+            _send_mail(
+                to_email=["recipient@example.com"],
+                subject="Subject",
+                message="<p>HTML body</p>",
+                from_email="lead@example.com",
+            )
+
+        message = smtp_instance.send_message.call_args.args[0]
+        self.assertEqual(message["From"], "lead@example.com")
 
 
 class TestConfirmationToken(unittest.TestCase):

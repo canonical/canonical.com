@@ -3,9 +3,7 @@
 {% block title %}Resources | MAAS{% endblock %}
 
 {% block meta_description %}
-  A collection of useful and educational links to articles and information about
-  MAAS (Metal as a Service). Learn more about bare metal clouds from some of the
-  industry’s best.
+  MAAS resources: articles, guides, and reference material for bare metal provisioning and data center automation.
 {% endblock %}
 
 {% block meta_copydoc %}
@@ -329,6 +327,7 @@
     <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
     <script nonce="{{ csp_nonce }}">
       canonicalLatestNews.fetchLatestNews({
+        url: "/blog/latest-news.json",
         articlesContainerSelector: "#latest-articles",
         articleTemplateSelector: "#articles-template",
         limit: "3",

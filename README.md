@@ -40,7 +40,7 @@ Environment variables are read from the available shell. For the charm, these ar
 
 ## Greenhouse API
 
-To work locally on the `/careers` section of the site, you will need to add a `HARVEST_API_KEY` environment variable to `.env` file. You can find this via the [Greenhouse admin panel](https://canonical.greenhouse.io/configure/dev_center/credentials).
+To work locally on the `/careers` section of the site, add `HARVEST_V3_CLIENT_ID` and `HARVEST_V3_CLIENT_SECRET` environment variables to your `.env.local` file.
 
 # Deploy
 

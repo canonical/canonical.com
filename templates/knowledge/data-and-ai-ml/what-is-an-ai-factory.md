@@ -32,7 +32,7 @@ Whereas a traditional data center is built to store, manage, and process data fo
 
 ### Compute architecture
 
-While traditional data centers rely on Central Processing Units (CPUs) for compute, AI factories use specialized silicon chips known as AI accelerators. These AI accelerators include:
+While traditional data centers rely on Central Processing Units (CPUs) for compute, AI factories augment CPUs with specialized silicon chips known as AI accelerators. These AI accelerators include:
 
 {{ text_list_kh(
   items=[
@@ -46,13 +46,13 @@ These AI accelerators are designed for massive parallel processing, enabling the
 
 ### Networking
 
-AI factories require much lower latency between server nodes than traditional data centers. Large foundation models do not usually fit in a single server’s memory; instead, tasks run across tens of nodes as a single unit. This distributed setup makes minimizing latency critical to prevent “tail latency” from stalling the entire compute cluster.
+AI factories require much lower latency between server nodes than traditional data centers. Large foundation models do not always fit in a single server’s memory; instead, tasks may run across nodes as a single unit. This distributed setup makes minimizing latency critical to prevent “tail latency” from stalling the entire compute cluster.
 
-Network traffic in a traditional data center typically moves in a “north-south” pattern between the user and the server, using standard Ethernet. In AI factories, traffic predominantly moves between GPUs in an “east-west” pattern, and the infrastructure relies on high-bandwidth fabrics such as Infiniband or specially optimized Ethernet that can rapidly move large data volumes without congestion.
+Network traffic in a traditional data center typically moves in a “north-south” pattern between the user and the server, using standard Ethernet. In AI factories, traffic predominantly moves between GPUs in an “east-west” pattern, and the infrastructure relies on high-bandwidth fabrics such as NVIDIA NVLink, Infiniband or specially optimized Ethernet that can rapidly move large data volumes without congestion.
 
 ### Energy requirements
 
-AI factories have higher power densities and cooling requirements than traditional data centers due to the compute-intensive nature of the AI accelerators. To address this challenge, AI factories are typically designed with specially optimized cooling systems to improve operational costs.
+AI factories have higher power densities and cooling requirements than traditional data centers due to the compute-intensive nature of the AI accelerators. To address this challenge, AI factories are often designed with specially optimized cooling systems to improve operational costs.
 
 [Learn how to build an AI factory with our guide to AI infrastructure ›](https://ubuntu.com/engage/open-source-ai-infrastructure)
 
@@ -103,7 +103,7 @@ Before any model can learn, the AI factory ingests raw data. This data can be bo
 
 ### Training infrastructure
 
-Once the data has been refined, it can be used in AI models. The AI factory provides the tools and compute power to train and fine-tune these models in an efficient, reproducible way. Orchestration systems (such as Kubernetes or Slurm) schedule jobs, manage failures, and coordinate gradient updates across nodes, ensuring the training run doesn't collapse when a single silicon chip fails.
+Once the data has been refined, it can be used in AI models. The AI factory provides the tools and compute power to train and fine-tune these models in an efficient, reproducible way. Orchestration systems (such as Kubernetes or Slurm) schedule jobs, manage failures, and coordinate gradient updates across nodes, ensuring the training run doesn't collapse when a single component fails.
 
 ### MLOps tooling
 
@@ -111,7 +111,9 @@ Once the data has been refined, it can be used in AI models. The AI factory prov
 
 ### Inference engines
 
-When trained models are deployed into production environments, they can perform inference on new data and generate new tokens. This is the “output” of the AI factory. Inference engines like vLLM or TensorRT-LLM optimize how models are loaded and executed, batching requests efficiently so the same hardware serves as many users as possible.
+When trained models are deployed into production environments, they can perform inference on new data and generate new tokens. This is the “output” of the AI factory. Inference engines like vLLM or SGLang optimize how models are loaded and executed, batching requests efficiently so the same hardware serves as many users as possible.
+
+[Get the comprehensive guide to inference engines and generative AI ›](https://ubuntu.com/engage/inference-engines)
 
 ## What are the benefits of an AI factory?
 
@@ -145,6 +147,17 @@ AI factories can be deployed on either public cloud or private infrastructure, b
 
 AI factories can be utilized in any industry for any use case where organizations need to continuously generate actionable intelligence and agentic experiences at scale. Examples include:
 
+### LLM as a service
+
+{{ text_list_kh(items=[
+  "Productivity workflows",
+  "Large-scale private data analysis",
+  "Enterprise apps",
+  "Agentic contact agent",
+  "Agentic coding",
+  "Threat analysis",
+  "Penetration testing"
+]) }}
 
 ### Manufacturing
 
@@ -183,14 +196,7 @@ AI factories can be utilized in any industry for any use case where organization
 {{ text_list_kh(items=[
   "Network orchestration",
   "Threat detection",
-  "Customer support LLM as a service"
-]) }}
-
-### Productivity workflows
-
-{{ text_list_kh(items=[
-  "Large-scale private data analysis",
-  "Enterprise apps"
+  "Customer support"
 ]) }}
 
 
@@ -207,9 +213,15 @@ Canonical helps organizations build AI factories by delivering an integrated, en
   ) | safe
 }}
 
+### Operating system
+[Ubuntu](https://ubuntu.com/) is the operating system of choice for AI, and building your AI factory on Ubuntu gives you access to the broadest ecosystem of optimized machine learning tools and libraries. Starting with Ubuntu 26.04 LTS, popular AI libraries like NVIDIA CUDA or AMD ROCm can each be installed with just one apt install command. The new distribution model can save teams hours or even days on GPGPU framework setup, so organizations can start gaining value from GPUs faster. Canonical also ensures that users have smooth upgrade paths, so they can be confident when updating, and get the benefits of the latest features of these platforms.
+
+The host OS is also the foundation that directly manages the underlying hardware of the AI factory, and Ubuntu is engineered to run across all major silicon architectures with optimized kernels that maximize performance. That’s why Canonical [partners with leading silicon vendors](https://canonical.com/partners/silicon), including AMD, Ampere, Arm, Intel, MediaTek, NVIDIA, Qualcomm, and RISC-V. This means that enterprises can always pick the optimal hardware for their AI factories without being locked into a single software ecosystem.
+
+
 ### Certified hardware
 
-To build the most efficient, performant AI factory, it is important to mix and match different AI accelerators (GPUs, NPUs, and ASICs) from different vendors depending on the best option for different AI workloads. That’s why Canonical [partners with leading silicon vendors](https://canonical.com/partners/silicon) to ensure that Ubuntu runs optimally across all major architectures, including AMD, Ampere, Arm, Intel, MediaTek, NVIDIA, Qualcomm, and RISC-V. This means that enterprises can always pick the optimal hardware for their AI factories without being locked into a single software ecosystem.
+To build the most efficient, performant AI factory, it is important to mix and match different AI accelerators (GPUs, NPUs, and ASICs) from different vendors depending on the best option for different AI workloads.
 
 [Ubuntu Certified Hardware](https://ubuntu.com/certified) accelerates time-to-market for organizations building and scaling AI factories, since they don’t need to spend months validating whether a given piece of hardware will work in their fleet. With Canonical providing standardized, pre-integrated secure boot enablement and firmware delivery, there is no need for enterprises to perform custom OS engineering for each new hardware deployment.
 
@@ -219,13 +231,12 @@ Some degree of hardware failures and low-level software issues are inevitable, g
 
 [Read a blog about bare metal automation in AI factories ›](https://ubuntu.com/blog/the-bare-metal-problem-in-ai-factories)
 
-### Operating system
-
-[Ubuntu](https://ubuntu.com/) is the operating system of choice for AI, and building your AI factory on Ubuntu gives you access to the broadest ecosystem of optimized machine learning tools and libraries. The host OS is also the foundation that directly manages the underlying hardware of the AI factory, and Ubuntu is engineered to run optimally across all major silicon architectures.
-
 ### Orchestration software
 
-Managing an AI factory requires sophisticated orchestration to allocate resources across virtual machines and containers at scale. [Canonical OpenStack](https://canonical.com/openstack), backed by Sunbeam, provides an easy-to-consume and enterprise-grade cloud foundation for AI factories. [Canonical Kubernetes](https://ubuntu.com/kubernetes) is a performant, securely designed, opinionated, and CNCF conformant distribution of Kubernetes that enables organizations to seamlessly orchestrate cloud-native AI workloads.
+Managing an AI factory requires sophisticated orchestration to allocate resources across virtual machines and containers at scale. [Canonical OpenStack](https://canonical.com/openstack) provides an easy-to-consume and enterprise-grade cloud foundation for AI factories. [Canonical Kubernetes](https://ubuntu.com/kubernetes) is a performant, securely designed, opinionated, and CNCF conformant distribution of Kubernetes that enables organizations to seamlessly orchestrate cloud-native AI workloads.
+
+### Data and MLOps
+Canonical’s data and AI portfolio includes a full suite of open source software to help with data management, model training, model serving, and governance. These include popular databases like PostgreSQL and MySQL, search and vector database tools like OpenSearch, and end-to-end MLOps with Kubeflow for training and fine-tuning, MLflow for governance and KServe for model serving.
 
 ### Long-term security and stability
 
