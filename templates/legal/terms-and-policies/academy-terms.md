@@ -3,7 +3,7 @@ wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Canonical Academy Terms of Service"
   description: "Ubuntu and Canonical Legal - Canonical Academy Terms of Service"
-  update_date: "August 2026"
+  update_date: "September 2026"
   copydoc: "https://docs.google.com/document/d/1xZnRTFFDgV7wYg96n3g5O-cyPo_o7vAJPcqdeBPAl3Y/edit"
 ---
 
