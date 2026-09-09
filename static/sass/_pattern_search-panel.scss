@@ -11,6 +11,21 @@
       @media screen and (min-width: $breakpoint-large) {
         flex-direction: row;
       }
+
+      // Keep the submit button its natural size instead of stretching to
+      // fill the row when the form stacks vertically on small/medium
+      // screens, and stop it visibly re-colouring on tap on touch devices.
+      @media screen and (max-width: $breakpoint-large - 1) {
+        > .p-button--positive {
+          align-self: flex-start;
+
+          &:hover,
+          &:active {
+            background-color: $colors--theme--button-positive-default;
+            border-color: $colors--theme--button-positive-default;
+          }
+        }
+      }
     }
 
     &__group {
