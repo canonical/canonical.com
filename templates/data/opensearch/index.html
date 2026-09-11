@@ -1,15 +1,23 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1nVdoKoPrXw8lsvHEtMichlPNfxYU9Uj1zmKowcUXQ_w/edit
+  https://docs.google.com/document/d/1ZLVmYvuDs_-C20l7dh3QikmBmq-4Q7wWdLa3xC9mRcs/edit
 {% endblock meta_copydoc %}
 
-{% block title %}OpenSearch{% endblock %}
+{% block title %}Enterprise-grade OpenSearch support{% endblock %}
 
 {% block canonical_url %}{{ request.host_url }}data/opensearch{% endblock %}
 
 {% block meta_description %}
-  Enterprise OpenSearch from Canonical: search, analytics, and log aggregation with automated operations and long-term support.
+  Get enterprise-grade OpenSearch support from Canonical. Enjoy security, automated deployment, maintenance, and upgrades across private and public clouds.
 {% endblock %}
 
 {% block body_class %}
@@ -17,524 +25,341 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-section--hero">
-    <div class="row">
-      <div class="col-3 col-medium-2">
-        <div class="u-hide--small u-vertically-center u-aspect-ratio--16-9 u-margin-top-negative-55px"
-            >
-          {{ image(url="https://assets.ubuntu.com/v1/6deb3921-opensearch-logo.png",
-                    alt="OpenSearch logo",
-                    width="198",
-                    height="186",
-                    hi_def=True,
-                    loading="lazy") | safe
-          }}
-        </div>
+
+  {% call(slot) vf_hero(
+    title_text='Enterprise support for OpenSearch',
+    chip_text='Supported with Ubuntu Pro',
+    layout='25/75',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": '<p>Unlock a scalable and open source foundation for all your search and analytics use cases, ranging from observability to RAG and threat intelligence. Canonical&rsquo;s OpenSearch automation and artifacts provide you with up to 15 years of security maintenance, 24/7 SLA-backed support, and expert consultancy services to meet your specific requirements.</p>'
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "p-button--positive js-invoke-modal",
+              "aria-controls": "data-opensearch-modal"
+            }
+          }
+        }
+      },
+      {
+        "type": "signpost_image",
+        "item": {
+          "is_highlighted": false,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/7ae43536-opensearch_signpost_logo.png",
+            "alt": "",
+            "width": "852",
+            "height": "171"
+          }
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "Run OpenSearch across public and private clouds"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            {
+              "src": "https://assets.ubuntu.com/v1/a4ed48da-openstack_logo.png",
+              "alt": "OpenStack",
+              "width": "384",
+              "height": "312"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/e82b5afe-microcloud_logo.png",
+              "alt": "MicroCloud",
+              "width": "393",
+              "height": "312"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/cf4bde95-vmware_logo_1.png",
+              "alt": "VMware",
+              "width": "322",
+              "height": "312"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/7b9f6877-aws_logo.png",
+              "alt": "AWS",
+              "width": "151",
+              "height": "312"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/eebb672a-google_cloud_logo_1.png",
+              "alt": "Google Cloud",
+              "width": "369",
+              "height": "312"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/655ecd38-microsoft_azure_logo_1.png",
+              "alt": "Microsoft Azure",
+              "width": "272",
+              "height": "312"
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>When you use our OpenSearch artifacts, you benefit from optimized configurations for every cloud. You can run OpenSearch on public clouds, or in your private data center on top of MAAS and MicroCloud, OpenStack or VMware.</p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "1000s<br class=\"u-hide--small\"> of users",
+        "headline": "Rely on our services",
+        "description": "Our own customer support portal is powered by our inhouse managed OpenSearch cluster, serving thousands of users.",
+        "link": {
+          "url": "/data/opensearch#get-in-touch",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "10+<br class=\"u-hide--small\"> automations",
+        "headline": "For your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical.com/data/opensearch/docs/2/how-to/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~&nbsp;30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "https://canonical.com/data/opensearch/docs/2/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>OpenSearch deployment options</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Snap</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Get our OpenSearch snap for added confinement and atomic updates.</p>
+      <a href="https://snapcraft.io/opensearch" class="p-button">Try the snap</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Container</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Use our OpenSearch container to benefit from a minimalist and self-contained solution for deploying OpenSearch clusters in all of your environments.</p>
+      <a href="https://github.com/canonical/charmed-opensearch-rock/pkgs/container/charmed-opensearch" class="p-button">Try the container</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Software operator</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>Our software operator helps you automate the operations of your OpenSearch clusters, including deployment, scaling, encryption, and upgrades.</p>
+      <a href="https://charmhub.io/opensearch" class="p-button">Check our software operator</a>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Popular OpenSearch use cases",
+    attrs={ "id": "4-columns-responsive" },
+    highlight_images=True,
+    subtitle_text="",
+    items=[
+      {
+        "title_text": "Knowledge and product discovery",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/3f2a59ad-knowledge_product_discovery.png" class="p-image-container__image" width="568" height="852" alt="" />',
+        "description_html": "<p>OpenSearch empowers companies to deliver precise search results despite imperfect user inputs or incomplete product knowledge. In e-commerce, for example, the ability to gracefully navigate search ambiguity is essential for maximizing conversions.</p>"
+      },
+      {
+        "title_text": "Retrieval-augmented generation",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/0425ef58-retrieval_augmented_generation.png" class="p-image-container__image" width="568" height="852" alt="" />',
+        "description_html": "<p>OpenSearch enables organizations to customize AI-generated responses by feeding large language models with in-house data and by using silicon-accelerated vector and hybrid search capabilities. In customer support, grounding automated workflows in specific company documentation makes it possible to deliver highly relevant, context-aware answers.</p>"
+      },
+      {
+        "title_text": "Observability analytics",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/a0364287-observability_analytics.png" class="p-image-container__image" width="568" height="852" alt="" />',
+        "description_html": "<p>OpenSearch provides engineering teams with a highly scalable engine for log centralization and high-speed search. In IT operations, the ability to rapidly correlate and query massive volumes of system logs is critical for diagnosing root causes and honoring SLAs related to availability.</p>"
+      },
+      {
+        "title_text": "Security analytics",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/a8a1ecbd-security_analytics.png" class="p-image-container__image" width="568" height="852" alt="" />',
+        "description_html": "<p>OpenSearch equips security, risk, and compliance professionals with a unified platform to proactively detect, investigate, and thwart malicious activity. OpenSearch enables users to automatically correlate centralized event data against out-of-the-box detection rules, accelerating responses against fraud and cybersecurity threats.</p>"
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {% call(slot) vf_pricing_block(
+    title_text="OpenSearch support services",
+    tiers=[
+      {
+        "tier_price_text": "Subscription-based",
+        "tier_price_explanation": "",
+        "tier_offerings": [
+          { "list_item_style": "ticked", "list_item_content_html": "Security maintenance" },
+          { "list_item_style": "ticked", "list_item_content_html": "24/7 phone and ticket support" },
+          { "list_item_style": "ticked", "list_item_content_html": "SLA-backed firefighting support" },
+          { "list_item_style": "ticked", "list_item_content_html": "Managed deployments" },
+          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
+        ]
+      },
+      {
+        "tier_price_text": "On-demand",
+        "tier_price_explanation": "",
+        "tier_offerings": [
+          { "list_item_style": "ticked", "list_item_content_html": "Workshops" },
+          { "list_item_style": "ticked", "list_item_content_html": "Deployment packages" },
+          { "list_item_style": "ticked", "list_item_content_html": "Consulting packages" },
+          { "list_item_style": "ticked", "list_item_content_html": "Trainings" },
+          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
+        ]
+      }
+    ]
+  ) -%}
+    {%- if slot == 'section_description' -%}
+      <p>Whether you are exploring OpenSearch or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>
+      <p>Our on-demand services help you address specific challenges by designing the right solutions, providing targeted knowledge transfer, or delivering timely expert consulting tailored to your needs.</p>
+      <div class="p-cta-block">
+        <a href="https://canonical.com/data/services" class="p-button">More details on our services</a>
       </div>
-      <div class="col-9 col-medium-4">
-        <div class="p-section--shallow">
-          <h1 id="opensearch-hero">OpenSearch for the enterprise</h1>
-          <p>
-            Secure and automate the deployment, maintenance and upgrades of your search and analytics suite across private
-            and public clouds.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive js-invoke-modal"
-           href="/contact-us"
-           aria-controls="data-opensearch-modal">Contact us<span class="u-off-screen">about OpenSearch for the enterprise</span></a>
-        <a class="p-button"
-           href="https://pages.ubuntu.com/rs/066-EOV-335/images/Charmed%20OpenSearch%20-%20Datasheet.pdf?version=0"><span class="u-off-screen">Download the Charmed OpenSearch</span>Datasheet</a>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall %}
+
+  {{ vf_resources(
+    title={"text": "Community and support"},
+    padding="deep",
+    blocks=[
+      {
+        "type": "resources",
+        "render_images": false,
+        "render_categories": true,
+        "categories": [
+          {
+            "title": "Connect with the community",
+            "items": [
+              {
+                "title": {
+                  "text": "Matrix chat",
+                  "link_attrs": {
+                    "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "title": "Contact us",
+            "items": [
+              {
+                "title": {
+                  "text": "Tell us more about your needs",
+                  "link_attrs": {
+                    "href": "/contact-us",
+                    "class": "js-invoke-modal",
+                    "aria-controls": "data-opensearch-modal"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "title": "Read more",
+            "items": [
+              {
+                "title": {
+                  "text": "Vector search performance of Charmed OpenSearch: the benefits of Intel® AVX-512",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/engage/opensearch-intel-performance"
+                  }
+                }
+              },
+              {
+                "title": {
+                  "text": "Large Language Models (LLMs) Retrieval Augmented Generation (RAG) using Charmed OpenSearch",
+                  "link_attrs": {
+                    "href": "/blog/vector-database-large-language-models-opensearch"
+                  }
+                }
+              },
+              {
+                "title": {
+                  "text": "Vector databases for generative AI applications",
+                  "link_attrs": {
+                    "href": "https://ubuntu.com/engage/vector-databases-generative-ai"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "title": "Contribute",
+            "items": [
+              {
+                "title": {
+                  "text": "Software operator for OpenSearch",
+                  "link_attrs": {
+                    "href": "https://github.com/canonical/opensearch-operator"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ) }}
 
   <section class="p-section">
     <div class="row">
       <hr class="p-rule" />
-      <div class="col-3 col-medium-2">
-        <h2 class="p-text--small-caps">Why choose Canonical's enterprise-grade OpenSearch?</h2>
-      </div>
-      <div class="col-9 col-medium-4">
-        <ul class="p-list--divided">
-          <li class="p-list__item">
-            <p class="p-heading--2 u-no-padding">15 years of security maintenance and support</p>
-          </li>
-          <li class="p-list__item">
-            <p class="p-heading--2 u-no-padding">Open source</p>
-          </li>
-          <li class="p-list__item">
-            <p class="p-heading--2 u-no-padding">Simple per node subscription</p>
-          </li>
-          <li class="p-list__item">
-            <p class="p-heading--2 u-no-padding">Hybrid, multi-cloud ready</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Run OpenSearch on any public, private or hybrid cloud</h2>
-      </div>
-      <div class="col">
-        <p>
-          Run your OpenSearch on Azure, GCP, AWS, on Kubernetes or your private data centre,
-          with OpenStack, Microcloud and VMWare.
-        </p>
-      </div>
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/36a0cd3b-microsoft-azure-2021.png",
-                        alt="Microsoft Azure logo",
-                        width="78",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/9faa9b91-aws-logo.png",
-                        alt="AWS logo",
-                        width="125",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/497cabc1-google-cloud-logo.png",
-                        alt="Google Cloud logo",
-                        width="397",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/f7a0c5ff-kubernetes-logomark-logo.png",
-                        alt="Kubernetes logo",
-                        width="105",
-                        height="384",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/165fa040-openstack-logo.png",
-                        alt="OpenStack logo",
-                        width="426",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/a89f2843-microcloud.png",
-                        alt="Microcloud logo",
-                        width="394",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Easy to deploy and manage OpenSearch</h2>
-      </div>
-      <div class="col">
-        <div class="p-image-wrapper">
-          <div class="p-image-container is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/348fac82-Image.png",
-                        alt="",
-                        width="1800",
-                        height="1015",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Operating and supporting a production-grade OpenSearch solution can be complex and challenging. Canonical's
-          Charmed OpenSearch automates operational tasks so you can spend more time on value-driving activities.
-        </p>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">Automated security and configuration best practices built in</li>
-            <li class="p-list__item is-ticked">Made for physical and virtual machines (VMs)</li>
-            <li class="p-list__item is-ticked">Integrated observability for monitoring, alerting and auditing</li>
-            <li class="p-list__item is-ticked">Multi-cloud support</li>
-            <li class="p-list__item is-ticked">Self-healing</li>
-          </ul>
-          <hr class="p-rule--muted" />
-          <p>
-            <a href="/data/opensearch/managed">Explore Managed OpenSearch Solutions&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="row--50-50">
-      <div class="col">
-        <h2>OpenSearch security</h2>
-      </div>
-      <div class="col">
-        <div class="p-image-wrapper u-hide--small">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/6f9200b9-1.png",
-                        alt="",
-                        width="1800",
-                        height="1015",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          We provide 15 years of support and security patching for your OpenSearch artefacts in the format of your choice
-          through our Ubuntu Pro subscription.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a class="p-button--positive js-invoke-modal"
-             href="/contact-us"
-             aria-controls="data-opensearch-modal">Contact Us</a>
+      <div class="col-start-large-7 col-6">
+        <p class="u-text--muted">
+          OpenSearch is a registered trademark of LF Projects, LLC. Other trademarks are property of their respective owners. Our offerings and services for OpenSearch are not sponsored, endorsed, or affiliated with the trademark owners.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>OpenSearch support</h2>
-      </div>
-      <div class="col">
-        <div class="p-image-wrapper u-hide--small">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/3065553d-2.png",
-                        alt="",
-                        width="1800",
-                        height="1015",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Get comprehensive, 24/7 or weekday support for Charmed OpenSearch, covering the entire solution for up to 15
-          years.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="/data/opensearch/support">Explore Opensearch Support&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Predictable pricing
-          <br />
-          for enterprise-grade OpenSearch
-        </h2>
-      </div>
-      <div class="col">
-        <div class="p-image-wrapper u-hide--small">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/e907127d-3.png",
-                        alt="",
-                        width="1800",
-                        height="1014",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Charmed OpenSearch support is priced per node, per year with no per-socket or per-core limitations, and no
-          software licence fees.
-        </p>
-        <p>
-          Run database solutions like OpenSearch with more control over your TCO. Budgeting and financial planning are
-          straightforward and predictable.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="row--50-50">
-      <div class="col">
-        <h2>Data solutions advisory</h2>
-      </div>
-      <div class="col">
-        <p>
-          Unlock the potential of your data. Canonical's advisory services help you design, deploy and manage your data
-          solutions.
-        </p>
-        <hr class="p-rule--muted" />
-        <ul class="p-list--divided">
-          <li class="p-list__item has-bullet">Platform architecture and design</li>
-          <li class="p-list__item has-bullet">Proof of Concept (PoC)</li>
-          <li class="p-list__item has-bullet">Solution deployment</li>
-          <li class="p-list__item has-bullet">Charmed OpenSearch training</li>
-        </ul>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="https://assets.ubuntu.com/v1/4220f815-Data%20Solutions%20Advisory%20version%20_updated%20-%20v3-2.pdf">Learn
-          more about our advisory services&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="row p-section--shallow">
-      <div class="col-6 col-medium-3">
-        <h2>Charmed OpenSearch services</h2>
-      </div>
-      <div class="col-6 col-medium-3">
-        <p>
-          Charmed OpenSearch is available self-managed or as a fully managed solution remotely delivered in your
-          on-premise environment or cloud tenancy.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6 col-medium-3">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top">
-          <div class="row">
-            <div class="col-3 col-medium-1 col-small-2">
-              <h3 class="u-align-text--left u-no-margin--bottom">Managed</h3>
-            </div>
-            <div class="col-3 col-medium-2 col-small-2">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $3099</h3>
-            </div>
-          </div>
-          <p class="u-align-text--right">Per node, per year</p>
-          <p>
-            Get there faster. Let us deploy and operate your OpenSearch cluster, in your cloud tenancy or in your data
-            centre.
-          </p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow  u-no-margin--bottom">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">Backed by an SLA</li>
-              <li class="p-list__item is-ticked">MSP and SOC2 certified service</li>
-              <li class="p-list__item is-ticked">Low cost of ownership</li>
-            </ul>
-            <p>
-              <a class="js-invoke-modal"
-                 href="/data/opensearch/managed"
-                 aria-controls="data-opensearch-modal">Explore Managed OpenSearch
-              Solutions&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 col-medium-3">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay p-section u-no-padding--top">
-          <div class="row">
-            <div class="col-3 col-medium-2 col-small-2">
-              <h3 class="u-align-text--left u-no-margin--bottom">Self-managed</h3>
-            </div>
-            <div class="col-3 col-medium-1 col-small-2">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $500</h3>
-            </div>
-          </div>
-          <p class="u-align-text--right">Per node, per year</p>
-          <p>
-            24/7, weekday or advanced fire-fighting support for OpenSearch from Canonical for up to 15 years per release
-            track.
-          </p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow  u-no-margin--bottom">
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">Expert troubleshooting on hand</li>
-              <li class="p-list__item is-ticked">Security and bug fixes</li>
-              <li class="p-list__item is-ticked">Full stack coverage</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col-6">
-        <h2>OpenSearch use cases</h2>
-      </div>
-      <div class="col-6">
-        <p>
-          OpenSearch is an open-source search and analytics suite. Developers build solutions for search, data
-          observability, data ingestion and more.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="/data/opensearch/what-is-opensearch">Learn more about OpenSearch&nbsp;&rsaquo;</a>
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-9 col-start-large-4 col-medium-6">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Search</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              OpenSearch enhances your website or e-commerce search capabilities with full-text querying, autocomplete,
-              scroll search, and customisable scoring and ranking.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Analytics and machine learning</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              You can use OpenSearch in multiple analytics solutions such as events analytics, trace analytics, and
-              machine learning, which uses algorithms such as anomaly detection and data clustering.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Observability and reporting</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              OpenSearch can be used to create observability applications through the OpenSearch Dashboard. It can also be
-              used to schedule, export and share reports.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Vector databases</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Use OpenSearch to store and index vectors and metadata, unlocking the ability to use low-latency queries to
-              discover assets by degree of similarity.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="p-rule is-fixed-width" />
-
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <p class="p-heading--2">
-        <a href="/blog/author/mtabirao">Updates from the product manager&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </section>
-
-  <section class="p-section--shallow">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Learn more about Opensearch</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <h3 class="p-heading--5 u-no-margin--bottom">
-            <a href="https://ubuntu.com/engage/opensearch-intel-performance">Vector search performance of Charmed OpenSearch: the benefits of Intel® AVX-512</a>
-          </h3>
-          <p>
-            Explore this benchmark to learn how hardware acceleration impacts the performance of vector operations within Charmed OpenSearch running on Intel® Xeon® processors with AVX-512 vector acceleration support.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--5 u-no-margin--bottom">
-            <a href="/blog/vector-database-large-language-models-opensearch">Large Language Models (LLMs) Retrieval
-            Augmented Generation (RAG) using Charmed OpenSearch</a>
-          </h3>
-          <p>
-            Retrieval-augmented generation (RAG) is a method that enables users to converse with data repositories. It can
-            improve data retrieval, enhance knowledge sharing, and enrich the results of your LLMs to give more
-            contextually relevant, insightful responses.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--5 u-no-margin--bottom">
-            <a href="https://ubuntu.com/engage/vector-databases-generative-ai">Vector databases for generative AI
-            applications</a>
-          </h3>
-          <p>Improving the relevance of your LLM application by leveraging Charmed Opensearch’s vector database</p>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <h3 class="p-heading--5 u-no-margin--bottom">
-            <a href="/contact-us"
-               class="js-invoke-modal"
-               aria-controls="data-opensearch-modal">Discuss your needs with our team</a>
-          </h3>
-          <p>Contact an expert to find out how you can benefit from Canonical’s solution for OpenSearch.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row">
-      <hr class="p-rule" />
-      <div class="col-6 col-start-large-7">
-        <p>
-          OpenSearch is a registered trademark of Amazon Web Services. Other trademarks are property of their respective
-          owners. Charmed OpenSearch is not sponsored, endorsed, or affiliated with Amazon Web Services.
-        </p>
-      </div>
-    </div>
-  </section>
+  <style nonce="{{ csp_nonce }}">
+    @media screen and (max-width: 1035px) {
+      .p-section--hero .p-image-container__image {
+        max-width: 18.75rem;
+      }
+    }
+  </style>
 
   {{ load_form("/data/opensearch") | safe }}
 

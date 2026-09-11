@@ -84,6 +84,7 @@ etcd:
 kafka:
   title: Data
   path: /data
+  match: /data/kafka
 
   children:
     - title: Services
@@ -223,22 +224,13 @@ multipass:
       path: https://documentation.ubuntu.com/multipass
 
 opensearch:
-  title: OpenSearch
-  path: /data/opensearch
-
-  parent:
-    - title: All data solutions
-    - path: /data
+  title: Data
+  path: /data
+  match: /data/opensearch
 
   children:
-    - title: Overview
-      path: /data/opensearch
-    - title: What is OpenSearch
-      path: /data/opensearch/what-is-opensearch
-    - title: Managed
-      path: /data/opensearch/managed
-    - title: Support
-      path: /data/opensearch/support
+    - title: Services
+      path: /data/services
     - title: Docs
       path: /data/opensearch/docs
 
