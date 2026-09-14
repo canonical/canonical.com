@@ -12,8 +12,8 @@ This Product Data Collection and Usage Notice provides you with an overview of t
 
 This Notice covers information collected by the following products
 
-- Ubuntu
-- Multipass
+- [Ubuntu](https://ubuntu.com)
+- [Multipass](https://canonical.com/multipass)
 
 ## Who are we?
 
