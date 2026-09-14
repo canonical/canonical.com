@@ -24,7 +24,7 @@ context:
         url: "https://documentation.ubuntu.com/rockcraft/"
         type: "button"
       - text: "Get in touch ›"
-        url: "https://canonical.com/solutions/networking/contact-us"
+        url: "https://canonical.com/networking-contact-us"
   blog:
     title: "Latest from our blog"
     id: 1848

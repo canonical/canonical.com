@@ -1,17 +1,18 @@
 {% extends 'base_index.html' %}
 
 {% from 'macros/_macros-lite-video.jinja' import lite_video %}
+{% from '_macros/shared/vf_tabs.jinja' import vf_tabs %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1NqSg2dt5wbmSY6IwWKo9gbxzOuyKL_gUZnFlAux1RU8
 {% endblock meta_copydoc %}
 
-{% block meta_image %}https://assets.ubuntu.com/v1/abb4038f-DSC_2776.jpg{% endblock %}
+{% block meta_image %}https://assets.ubuntu.com/v1/de3875be-rav_2459.jpg{% endblock %}
 
 {% block title %}Progression | Company culture | Careers{% endblock %}
 
 {% block meta_description %}
-  Career progression at Canonical can take shape in many ways &ndash; and we celebrate growth and development in many forms. We value people who love to learn and have an early careers program, ideal for new professionals.
+  Find out how Canonical can help you learn, grow, and progress while working in open source.
 {% endblock %}
 
 {% block content %}
@@ -33,25 +34,26 @@
         <hr class="p-careers-progression-separator u-animation--slide-right-separator" />
         <p class="u-animation--slide-from-bottom u-animated-heading"
           >
-          At Canonical, you can build a career that's uniquely your own &ndash; and we'll support you every step of the way.
+          At Canonical, you can build a career in open source that's uniquely your own &ndash; and we'll support you every step of the way.
         </p>
+        <div class="p-cta-block">
+          <a class="p-button" href="/careers/career-explorer">Explore careers</a>
+        </div>
       </div>
 
       <div class="u-fixed-width u-hug-right__container">
-        <video id="introductory-video"
-               class="u-hug-right__element"
-               aria-hidden="true"
-               autoplay
-               muted
-               loop
-               controls>
-          <source src="https://assets.ubuntu.com/v1/fe470e29-Generic%20Video.mp4"
-                  type="video/mp4" />
-        </video>
+        {{ image(url="https://assets.ubuntu.com/v1/ab463a72-hero_img.jpg",
+                      alt="",
+                      width="2546",
+                      height="1456",
+                      hi_def=True,
+                      loading="lazy",
+                      attrs={"class": "u-hug-right__element"}) | safe
+        }}
       </div>
     </section>
 
-    <section class="p-strip">
+    <section class="p-strip p-section--deep">
       <div class="row">
         <div class="col-4">
           <h2>
@@ -60,28 +62,23 @@
             who love to learn
           </h2>
           <p>
-            Not just how to be better engineers, but how to be better speakers, better designers, better organizers, better partners, and better vendors.
+            At Canonical, we don’t just empower our team members to be better engineers, but better speakers, better designers, better organizers, and better leaders.
           </p>
         </div>
         <div class="col-8 p-collage__container">
           <img class="p-collage--1"
                data-animation="u-animation--slide-from-bottom"
-               src="https://assets.ubuntu.com/v1/5b3cb508-Image_1.png"
+               src="https://assets.ubuntu.com/v1/e1199f50-speaker.jpg"
                alt="Talks" />
           <img class="p-collage--2 u-animation-delay-0-25s"
                data-animation="u-animation--slide-from-bottom"
-               src="https://assets.ubuntu.com/v1/ae1b866a-Image_2.jpg"
+               src="https://assets.ubuntu.com/v1/a1b0899f-ldn_office.jpg"
                alt="Employees working together on same laptop"
                />
           <img class="p-collage--3 u-animation-delay-0-50s"
                data-animation="u-animation--slide-from-bottom"
-               src="https://assets.ubuntu.com/v1/90651b21-Image_3.png"
+               src="https://assets.ubuntu.com/v1/82f68422-desktop.jpg"
                alt="Employees working together on different laptops"
-               />
-          <img class="p-collage--4 u-animation-delay-0-75s"
-               data-animation="u-animation--slide-from-bottom"
-               src="https://assets.ubuntu.com/v1/c707c1cb-Image 4.png"
-               alt="Employee looking at her coworker while smiling"
                />
         </div>
       </div>
@@ -100,11 +97,11 @@
                 roles
               </h2>
               <p>
-                We encourage team members to experience diverse roles at Canonical over the course of their career to build deep awareness of company culture, establish best practices in leadership, and grow their technical expertise.
+                We encourage team members to experience diverse roles over the course of their career at Canonical to build a depth of skills and depth of their application, serving to underpin long term growth.
               </p>
             </div>
-            <div class="p-strip--careers-progression u-no-padding--bottom">
-              {{ image(url="https://assets.ubuntu.com/v1/d4e47692-looking-at-laptop-3.jpg",
+            <div class="p-strip--careers-progression is-shallow u-no-padding--bottom">
+              {{ image(url="https://assets.ubuntu.com/v1/5deedf52-explore_diverse_roles.jpg",
                             alt="",
                             width="650",
                             height="974",
@@ -124,16 +121,13 @@
                 <br class="u-hide--small" />
                 passion
               </h2>
-              <p>We also encourage team members to find and invest in their passions. We all benefit from effective team players.</p>
+              <p>Finding and investing in your passion is core to flourishing at Canonical. We all benefit from effective team players.</p>
               <p>
-                We support our team members' self-driven growth and learning by providing a generous annual allowance and time for self-development.
-              </p>
-              <p>
-                We also partner with high-quality content providers, to make sure our people get access to the best possible training materials, and the time to benefit from them.
+                We support our team members’ self-driven growth and learning with our Training and Tuition program. It offers all team members an annual training budget of USD 2,000 to enhance their skill sets and develop professionally. We champion independent thinkers who chart their own course to excellence.
               </p>
             </div>
-            <div class="p-strip--careers-progression u-no-padding--bottom">
-              {{ image(url="https://assets.ubuntu.com/v1/81387edb-typing.jpg",
+            <div class="p-strip--careers-progression is-shallow u-no-padding--bottom">
+              {{ image(url="https://assets.ubuntu.com/v1/faac9575-find_your_passion.jpg",
                             alt="",
                             width="650",
                             height="974",
@@ -151,14 +145,14 @@
               <h2>
                 Path to
                 <br class="u-hide--small" />
-                management
+                leadership
               </h2>
               <p>
-                Management is important to us, and we like to develop those skills in people who enjoy it. Being a manager at Canonical offers the chance to lead some of the brightest people in tech; to design, build, sell, and support a growing range of technology products at every level of the stack.
+                Being a leader at Canonical offers the chance to impact some of the brightest people in tech; to design, build, sell, and support a growing range of technology products at every level of the stack. You play a critical role in designing, building, innovating, and piloting a growing range of technology products.
               </p>
             </div>
-            <div class="p-strip--careers-progression u-no-padding--bottom">
-              {{ image(url="https://assets.ubuntu.com/v1/9653a826-typing-2.jpg",
+            <div class="p-strip--careers-progression is-shallow u-no-padding--bottom">
+              {{ image(url="https://assets.ubuntu.com/v1/6ff192ea-path_to_leadership.jpg",
                             alt="",
                             width="650",
                             height="974",
@@ -196,7 +190,7 @@
               <div class="p-careers-progression-carousel__slide--text"
                    role="group"
                    aria-label="slide 4 of 4">
-                <h2>...Then decide to take on a role in tech leadership and management.</h2>
+                <h2>...then decide to take on a role in tech leadership and management.</h2>
               </div>
             </div>
           </div>
@@ -256,55 +250,67 @@
       </div>
     </section>
 
-    <section class="p-strip--careers-progression is-dark u-hide--small">
-      <div class="row" data-animation="u-animation--slide-from-bottom">
-        <h2 class="u-sv3">Leveling framework</h2>
-        {{ image(url="https://assets.ubuntu.com/v1/8c7d2b68-diagram.jpg", alt="A diagram illustrating career paths starting from graduate level. It branches into three leadership tracks: depth for technical specialists, drive for staff and principals, and plan for management roles like director and VP", width="3696", height="1540", hi_def=True, loading="lazy" ) | safe }}
-      </div>
-    </section>
-
-    <section class="p-strip">
-      <div class="u-fixed-width u-sv3">
-        <h2>Be a part of open source</h2>
-        <div class="row">
-          <div class="col-6">
-            {% if vacancies %}
-              {% include "careers/_search.html" %}
-            {% endif %}
+    <section class="p-section is-dark p-strip--careers-progression">
+      <div class="p-section--shallow">
+        <div class="grid-row">
+          <div class="grid-col">
+            <h2>Leveling framework</h2>
           </div>
         </div>
       </div>
-    </section>
-
-    {% if departments_overview %}
-      <section class="p-strip u-extra-space">
-        <div class="u-fixed-width">
-          <h2 class="p-text--x-small-capitalised u-align-text--x-small-to-default">Departments</h2>
-          <hr class="p-rule" />
-        </div>
-        <div class="row">
-          {% for dept in departments_overview %}
-            <div class="col-3 col-medium-2 col-small-2">
-              <div class="p-heading-icon--small">
-                <div class="p-heading-icon__header">
-                  <img src="https://assets.ubuntu.com/v1/{{ dept.icon }}"
-                       class="p-heading-icon__img u-width-32px u-height-32px u-position-relative u-top-7px"
-                      
-                       alt="" />
-                  <p class="p-heading-icon__title">
-                    <a href="/careers/{{ dept.slug }}"><strong>{{ dept.name }}</strong></a>
-                    <br />
-                    <span>{{ dept.count }} roles</span>
+      {% set overview_diagram = image(url="https://assets.ubuntu.com/v1/bf595fd1-diagram_1.jpg", alt="A diagram illustrating career paths starting from graduate level, branching into the depth, drive, and plan leadership tracks", width="3696", height="1540", hi_def=True, loading="lazy", attrs={"class": "u-hide--small"}) %}
+      {% set depth_diagram = image(url="https://assets.ubuntu.com/v1/cdd1acd3-diagram_2.jpg", alt="A diagram highlighting the depth track, for technical specialists, within Canonical's career paths", width="3696", height="1540", hi_def=True, loading="lazy", attrs={"class": "u-hide--small"}) %}
+      {% set drive_diagram = image(url="https://assets.ubuntu.com/v1/5cbbf37f-diagram_3.jpg", alt="A diagram highlighting the drive track, for staff and principals, within Canonical's career paths", width="3696", height="1540", hi_def=True, loading="lazy", attrs={"class": "u-hide--small"}) %}
+      {% set plan_diagram = image(url="https://assets.ubuntu.com/v1/c672f014-diagram_4.jpg", alt="A diagram highlighting the plan track, for management roles like director and VP, within Canonical's career paths", width="3696", height="1540", hi_def=True, loading="lazy", attrs={"class": "u-hide--small"}) %}
+      <div class="grid-row">
+        <div class="grid-col-8 grid-col-start-large-1">
+          {{ vf_tabs(list={
+            "tabs": [
+              {
+                "name": "overview",
+                "tab_html": "Overview",
+                "content_html": '
+                  <p>
+                    Depending on the direction, goals, and maturity of your career, Canonical’s leveling framework offers a variety of directions and opportunities, designed to help you flourish in the long term.
                   </p>
-                </div>
-              </div>
-            </div>
-            {% if loop.index % 4 == 0 and not loop.last %}<hr class="p-rule--muted u-hide u-show--large" />{% endif %}
-          {% endfor %}
+                  <p>
+                    Early careers team members may join us at Graduate or Associate level before achieving Prof I and beyond. Following Prof II, team members have the option to focus on one of three tracks: Depth, Drive, and Plan.
+                  </p>
+                  ' ~ overview_diagram
+              },
+              {
+                "name": "depth",
+                "tab_html": "Depth",
+                "content_html": '
+                  <p>
+                    Our “Depth” track, progressing from Specialist to Fellow, is ideal for technical experts who want to gain a deep understanding of complex challenges and deliver meaningful value. From forging greater security for Ubuntu Desktop to advancing our commercial systems, Depth track members focus on mastery and innovation in their discipline.
+                  </p>
+                  ' ~ depth_diagram
+              },
+              {
+                "name": "drive",
+                "tab_html": "Drive",
+                "content_html": '
+                  <p>
+                    For those who excel at balancing cross-team coordination with strategic insight, our “Drive” track offers the opportunity to shape Canonical’s landscape and get things done cross-functionally. This track contains the levels of Senior to Principal, all of which help to realize the processes, teams, and products that define Canonical.
+                  </p>
+                  ' ~ drive_diagram
+              },
+              {
+                "name": "plan",
+                "tab_html": "Plan",
+                "content_html": '
+                  <p>
+                    Our “Plan” track encompasses career levels from Manager to VP, and combines a passion for excellence with a passion for people. Their primary focus is on strategizing the future of Canonical: defining and orchestrating data-driven collaboration, and enhancing their teams’ high quality output.
+                  </p>
+                  ' ~ plan_diagram
+              },
+            ]
+          }) }}
         </div>
-      </section>
-    </div>
-  {% endif %}
+      </div>
+    </section>
+  </div>
 
   <script type="text/javascript"
           src="{{ versioned_static('js/careers-progression.js') }}" nonce="{{ csp_nonce }}"></script>
@@ -312,4 +318,5 @@
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
           crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
 {% endblock %}
