@@ -1,10 +1,10 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
-{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
 {% block meta_copydoc %}
@@ -218,41 +218,71 @@
   ) %}
   {% endcall %}
 
-  {% call(slot) vf_pricing_block(
-    title_text="PostgreSQL support services",
-    tiers=[
+  {{ vf_basic_section(
+    title={"text": "PostgreSQL support services"},
+    padding="shallow",
+    items=[
       {
-        "tier_price_text": "Subscription-based",
-        "tier_price_explanation": "",
-        "tier_offerings": [
-          { "list_item_style": "ticked", "list_item_content_html": "Security maintenance" },
-          { "list_item_style": "ticked", "list_item_content_html": "24/7 phone and ticket support" },
-          { "list_item_style": "ticked", "list_item_content_html": "SLA-backed firefighting support" },
-          { "list_item_style": "ticked", "list_item_content_html": "Managed deployments" },
-          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
-        ]
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<p>Whether you are exploring PostgreSQL or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>'
+        }
       },
       {
-        "tier_price_text": "On-demand",
-        "tier_price_explanation": "",
-        "tier_offerings": [
-          { "list_item_style": "ticked", "list_item_content_html": "Workshops" },
-          { "list_item_style": "ticked", "list_item_content_html": "Deployment packages" },
-          { "list_item_style": "ticked", "list_item_content_html": "Consulting packages" },
-          { "list_item_style": "ticked", "list_item_content_html": "Trainings" },
-          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
-        ]
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Our on-demand services help you unlock the potential of your data platform by addressing your specific challenges with tailored workshops, targeted knowledge transfer and timely delivery of expert consulting."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "More details on our services",
+            "attrs": {
+              "href": "https://canonical.com/data/services",
+              "class": "p-button"
+            }
+          }
+        }
       }
     ]
-  ) -%}
-    {%- if slot == 'section_description' -%}
-      <p>Whether you are exploring PostgreSQL or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>
-      <p>Our on-demand services help you unlock the potential of your data platform by addressing your specific challenges with tailored workshops, targeted knowledge transfer and timely delivery of expert consulting.</p>
-      <div class="p-cta-block">
-        <a href="https://canonical.com/data/services" class="p-button">More details on our services</a>
+  ) }}
+
+  <section class="p-section">
+    <div class="row">
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">Subscription-based</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Security maintenance</li>
+          <li class="p-list__item is-ticked">24/7 phone and ticket support</li>
+          <li class="p-list__item is-ticked">SLA-backed firefighting support</li>
+          <li class="p-list__item is-ticked">Managed deployments</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
       </div>
-    {%- endif -%}
-  {% endcall %}
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">On-demand</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Workshops</li>
+          <li class="p-list__item is-ticked">Deployment packages</li>
+          <li class="p-list__item is-ticked">Consulting packages</li>
+          <li class="p-list__item is-ticked">Trainings</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <section class="p-section--deep">
     <div class="grid-row--50-50 p-section--shallow">
