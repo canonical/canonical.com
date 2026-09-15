@@ -50,6 +50,80 @@ class TestGetCurrentPageBubble(unittest.TestCase):
             result = navigation.get_current_page_bubble("/unknown")
         self.assertEqual(result, {"page_bubble": {}})
 
+    def test_match_scopes_bubble_to_its_own_prefixes(self):
+        # "kafka" and "opensearch" both link to /data but are scoped with
+        # "match" so each only applies to its own pages
+        mock_data = {
+            "data": {
+                "path": "/data",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                ],
+            },
+            "kafka": {
+                "path": "/data",
+                "match": "/data/kafka",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                    {"path": "/data/kafka/docs", "title": "Docs"},
+                ],
+            },
+            "opensearch": {
+                "path": "/data",
+                "match": "/data/opensearch",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                    {"path": "/data/opensearch/docs", "title": "Docs"},
+                ],
+            },
+        }
+
+        with patch.object(navigation, "secondary_navigation_data", mock_data):
+            kafka = navigation.get_current_page_bubble("/data/kafka")
+            kafka_child = navigation.get_current_page_bubble(
+                "/data/kafka/managed"
+            )
+            opensearch = navigation.get_current_page_bubble("/data/opensearch")
+            opensearch_docs = navigation.get_current_page_bubble(
+                "/data/opensearch/docs"
+            )
+            services = navigation.get_current_page_bubble("/data/services")
+
+        def docs_path(result):
+            return result["page_bubble"]["children"][1]["path"]
+
+        self.assertEqual(docs_path(kafka), "/data/kafka/docs")
+        self.assertEqual(docs_path(kafka_child), "/data/kafka/docs")
+        self.assertEqual(docs_path(opensearch), "/data/opensearch/docs")
+        self.assertEqual(docs_path(opensearch_docs), "/data/opensearch/docs")
+        self.assertTrue(
+            opensearch_docs["page_bubble"]["children"][1]["active"]
+        )
+        # Scoped bubbles are skipped for exact child matches outside their
+        # scope, so a shared child like /data/services falls back to the
+        # unscoped bubble
+        self.assertNotIn("match", services["page_bubble"])
+        self.assertEqual(len(services["page_bubble"]["children"]), 1)
+        self.assertTrue(services["page_bubble"]["children"][0]["active"])
+
+    def test_match_accepts_a_list_of_prefixes(self):
+        mock_data = {
+            "scoped": {
+                "path": "/data",
+                "match": ["/data/one", "/data/two"],
+                "children": [],
+            },
+        }
+
+        with patch.object(navigation, "secondary_navigation_data", mock_data):
+            one = navigation.get_current_page_bubble("/data/one/page")
+            two = navigation.get_current_page_bubble("/data/two")
+            other = navigation.get_current_page_bubble("/data/three")
+
+        self.assertEqual(one["page_bubble"]["path"], "/data")
+        self.assertEqual(two["page_bubble"]["path"], "/data")
+        self.assertEqual(other, {"page_bubble": {}})
+
 
 class TestBuildNavigation(unittest.TestCase):
     def test_renders_meganav_section(self):
