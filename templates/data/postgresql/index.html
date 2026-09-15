@@ -5,7 +5,6 @@
 {% from "_macros/vf_hero.jinja" import vf_hero %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
-{% from "_macros/vf_resources.jinja" import vf_resources %}
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
 {% block meta_copydoc %}
@@ -255,99 +254,117 @@
     {%- endif -%}
   {% endcall %}
 
-  {{ vf_resources(
-    title={"text": "Community and support"},
-    padding="deep",
-    blocks=[
-      {
-        "type": "resources",
-        "render_images": false,
-        "render_categories": true,
-        "categories": [
-          {
-            "title": "Connect with the community",
-            "items": [
-              {
-                "title": {
-                  "text": "Matrix chat",
-                  "link_attrs": {
-                    "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "title": "Contact us",
-            "items": [
-              {
-                "title": {
-                  "text": "Tell us more about your needs",
-                  "link_attrs": {
-                    "href": "/contact-us",
-                    "class": "js-invoke-modal",
-                    "aria-controls": "data-relational-dbs-modal"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "title": "Read more",
-            "items": [
-              {
-                "title": {
-                  "text": "Data backups",
-                  "link_attrs": {
-                    "href": "https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf"
-                  }
-                }
-              },
-              {
-                "title": {
-                  "text": "How to choose a DBMS",
-                  "link_attrs": {
-                    "href": "https://ubuntu.com/engage/choose-a-database"
-                  }
-                }
-              },
-              {
-                "title": {
-                  "text": "Database cloud migration",
-                  "link_attrs": {
-                    "href": "https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf"
-                  }
-                }
-              },
-              {
-                "title": {
-                  "text": "PostgreSQL security best practices",
-                  "link_attrs": {
-                    "href": "https://ubuntu.com/engage/postgresql-security-best-practices"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "title": "Contribute",
-            "items": [
-              {
-                "title": {
-                  "text": "Software operator for PostgreSQL",
-                  "link_attrs": {
-                    "href": "https://github.com/canonical/postgresql-operator"
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  ) }}
+  <section class="p-section--deep">
+    <div class="grid-row--50-50 p-section--shallow">
+      <hr class="p-rule" />
+      <div class="grid-col">
+        <h2>Community and support</h2>
+      </div>
+      <div class="grid-col"></div>
+    </div>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Connect with the community</h3>
+            </div>
+          </div>
+          <div class="grid-col p-resources-block__col p-section--shallow">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">
+                  <h4 class="p-article-block__title article-title p-heading--3">Matrix chat</h4>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <hr class="p-rule--muted" />
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Contact us</h3>
+            </div>
+          </div>
+          <div class="grid-col p-resources-block__col p-section--shallow">
+            <a class="p-button js-invoke-modal"
+               href="/contact-us"
+               aria-controls="data-relational-dbs-modal">Tell us more about your needs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <hr class="p-rule--muted" />
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Read more</h3>
+            </div>
+          </div>
+          <div class="grid-col p-resources-block__col p-section--shallow">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf">
+                  <h4 class="p-article-block__title article-title p-heading--3">Data backups</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://ubuntu.com/engage/choose-a-database">
+                  <h4 class="p-article-block__title article-title p-heading--3">How to choose a DBMS</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf">
+                  <h4 class="p-article-block__title article-title p-heading--3">Database cloud migration</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://ubuntu.com/engage/postgresql-security-best-practices">
+                  <h4 class="p-article-block__title article-title p-heading--3">PostgreSQL security best practices</h4>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <hr class="p-rule--muted" />
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Contribute</h3>
+            </div>
+          </div>
+          <div class="grid-col p-resources-block__col">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://github.com/canonical/postgresql-operator">
+                  <h4 class="p-article-block__title article-title p-heading--3">Software operator for PostgreSQL</h4>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section class="p-section">
+  <section class="p-section--deep">
     <div class="row">
       <hr class="p-rule" />
       <div class="col-start-large-7 col-6">
