@@ -76,6 +76,7 @@ from webapp.careers import (
 from webapp.greenhouse import Greenhouse, HarvestV3
 from webapp.handlers import init_handlers
 from webapp import llms
+from webapp import wordpress
 from webapp.navigation import (
     build_navigation,
     get_current_page_bubble,
@@ -215,6 +216,64 @@ init_handlers(app)
 @app.route("/")
 def index():
     return flask.render_template("index.html")
+
+
+# WordPress-driven hero demo: proves the "edit in WordPress -> REST API ->
+# vf_hero render" pipeline. A hero is authored in wp-admin as core Gutenberg
+# blocks on a *draft* page; Flask fetches the raw block markup with
+# ?context=edit (which returns unpublished drafts to an authenticated request),
+# maps it to the vf_hero schema and renders it. Access to this preview route is
+# intended to be restricted at the ingress (VPN IP allowlist), not in the app -
+# see the commented nginx location block in konf/site.yaml.
+#
+# The WordPress instance URL and demo page id are not secrets, so they are
+# defined in code. Only the credentials come from the environment; the env var
+# names and the wordpress-api secret are shared with ubuntu.com.
+WP_API_URL = "https://admin.insights.ubuntu.com"
+WP_HERO_DEMO_PAGE_ID = "131995"
+WORDPRESS_USERNAME = os.getenv("WORDPRESS_USERNAME")
+WORDPRESS_APPLICATION_PASSWORD = os.getenv("WORDPRESS_APPLICATION_PASSWORD")
+
+
+@app.route("/wp-hero-demo")
+def wp_hero_demo():
+    required = {
+        "WORDPRESS_USERNAME": WORDPRESS_USERNAME,
+        "WORDPRESS_APPLICATION_PASSWORD": WORDPRESS_APPLICATION_PASSWORD,
+    }
+    missing = [name for name, value in required.items() if not value]
+    if missing:
+        logger.warning(
+            "wp-hero-demo not configured; missing env vars: %s",
+            ", ".join(missing),
+        )
+        flask.abort(
+            503,
+            "WordPress hero demo is not configured. Missing/empty env "
+            "vars: " + ", ".join(missing) + ". Set them in .env.local and "
+            "restart dotrun (env is read at startup).",
+        )
+
+    try:
+        with get_requests_session() as session:
+            hero = wordpress.get_hero_from_page(
+                session,
+                WP_API_URL,
+                WORDPRESS_USERNAME,
+                WORDPRESS_APPLICATION_PASSWORD,
+                WP_HERO_DEMO_PAGE_ID,
+            )
+    except (
+        wordpress.WordPressError,
+        requests.exceptions.RequestException,
+    ) as error:
+        logger.exception("WordPress hero demo fetch failed")
+        flask.abort(502, f"Could not fetch the hero from WordPress: {error}")
+
+    if not hero:
+        flask.abort(404, "No hero block found on the configured page.")
+
+    return flask.render_template("wp-hero-demo.html", hero=hero)
 
 
 app.add_url_rule("/sitemap.xml", view_func=index_sitemap)
