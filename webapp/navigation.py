@@ -47,9 +47,9 @@ def get_current_page_bubble(path):
             break
 
         # A bubble can be scoped to one or more URL prefixes with "match".
-        # This lets a bubble share its path with another one
-        # (e.g. the "Data" bubbles of /data/kafka and /data/opensearch both link to /data)
-        # without matching the other bubble's pages.
+        # This lets a bubble share its path with another one (e.g. the
+        # "Data" bubbles of /data/kafka and /data/opensearch both link to
+        # /data) without matching the other bubble's pages.
         match_prefixes = page_bubble.get("match")
         if match_prefixes:
             if isinstance(match_prefixes, str):
