@@ -100,11 +100,72 @@ class TestGetCurrentPageBubble(unittest.TestCase):
             opensearch_docs["page_bubble"]["children"][1]["active"]
         )
         # Scoped bubbles are skipped for exact child matches outside their
-        # scope, so a shared child like /data/services falls back to the
-        # unscoped bubble
+        # scope, so a shared child like /data/services falls through to an
+        # unscoped bubble (the last one that declares it wins)
         self.assertNotIn("match", services["page_bubble"])
         self.assertEqual(len(services["page_bubble"]["children"]), 1)
         self.assertTrue(services["page_bubble"]["children"][0]["active"])
+
+    def test_shared_child_resolves_to_last_unscoped_bubble(self):
+        # Mirrors secondary-navigation.yaml: several "Data" bubbles share
+        # /data/services as a child. The product bubbles are scoped with
+        # "match", so the shared page resolves to the last unscoped bubble
+        # that declares it, which is the one built for that page
+        mock_data = {
+            "data": {
+                "path": "/data",
+                "children": [
+                    {"path": "/data", "title": "Portfolio"},
+                    {"path": "/data/services", "title": "Services"},
+                ],
+            },
+            "services": {
+                "path": "/data",
+                "children": [
+                    {"path": "/data/services", "title": "Overview"},
+                    {"path": "/data", "title": "Portfolio"},
+                    {"path": "/data/services", "title": "Services"},
+                ],
+            },
+            "cassandra": {
+                "path": "/data",
+                "match": "/data/cassandra",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                    {"path": "/data/cassandra", "title": "Overview"},
+                ],
+            },
+            "etcd": {
+                "path": "/data",
+                "match": "/data/etcd",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                    {"path": "/data/etcd", "title": "Overview"},
+                ],
+            },
+            "kafka": {
+                "path": "/data",
+                "match": "/data/kafka",
+                "children": [
+                    {"path": "/data/services", "title": "Services"},
+                    {"path": "/data/kafka/docs", "title": "Docs"},
+                ],
+            },
+        }
+
+        with patch.object(navigation, "secondary_navigation_data", mock_data):
+            services = navigation.get_current_page_bubble("/data/services")
+            cassandra = navigation.get_current_page_bubble("/data/cassandra")
+            etcd = navigation.get_current_page_bubble("/data/etcd")
+
+        def titles(result):
+            return [c["title"] for c in result["page_bubble"]["children"]]
+
+        self.assertEqual(
+            titles(services), ["Overview", "Portfolio", "Services"]
+        )
+        self.assertEqual(titles(cassandra), ["Services", "Overview"])
+        self.assertEqual(titles(etcd), ["Services", "Overview"])
 
     def test_match_accepts_a_list_of_prefixes(self):
         mock_data = {
