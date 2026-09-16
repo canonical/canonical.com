@@ -56,6 +56,23 @@
     {%- endif -%}
   {% endcall -%}
 
+  {{ vf_basic_section (
+    title={"text": "Meet our education team at EDUCAUSE 2026"},
+    subtitle={"text": "Find our team at booth #1863 in the cybersecurity section and don’t miss our joint talk with the University of Idaho!<br/><a href=\"https://events.educause.edu/annual-conference/2026/agenda/redesign-not-replace-sustainably-refreshing-a-technology-lab-without-starting-over\">The session will take place in Meeting Room 207, Street Level.</a>"},
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "",
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/6403b334-educause_session.png",
+            "alt": ""
+          }
+        }
+      },
+    ]
+  ) }}
+
   {{ vf_tab_section(
     title={"text": "Why choose our open source infrastructure for education?"},
     layout="50-50",
@@ -183,6 +200,28 @@
     title={"text": "Our solutions in action"},
     layout="50-50",
     tabs=[
+      {
+        "tab_html": "TNTECH",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <img class="u-height-104px" src="https://assets.ubuntu.com/v1/tntechlogo.png" alt="TNTECH logo">
+                  <h3 class="p-heading--5">TNTECH escapes infrastructure price hike with rapid 4-week MicroCloud migration</h3>
+                  <p>
+                    Learn how MicroCloud’s reliability and stability powers CEROC’s Cyber Range and allows students to pursue their cutting-edge cybersecurity research, and safely study live malware in logically air-gapped environments.
+                  </p>
+                  <a class="p-button" href="https://canonical.com/case-study/tntech-microcloud-cyber-range">Get the case study</a>
+                  '
+              }
+            },
+          ]
+        }
+      },
       {
         "tab_html": "NMSU",
         "type": "basic-section",
@@ -549,6 +588,10 @@
 
   <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
   <script nonce="{{ csp_nonce }}">
     canonicalLatestNews.fetchLatestNews({
       url: "/blog/latest-news.json",
