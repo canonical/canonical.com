@@ -1,0 +1,337 @@
+{% extends 'base_index.html' %}
+
+{% from "macros/_vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+
+{% block meta_copydoc %}
+https://docs.google.com/document/d/1cZxw5c_jmAXnWb0yLKFQIy-C7eRKFo6YjvoryN5_Vvo/edit?tab=t.jijjhiya0no5
+{% endblock %}
+
+{% block title %}Cyber Resilience Act Connect Tour{% endblock %}
+
+{% block meta_description %}
+Meet Canonical across Europe and North America on the CRA Connect Tour. Talk Cyber Resilience Act compliance, CRA-ready
+devices, and fleet security.
+{% endblock %}
+
+{% block body_class %}is-paper{% endblock %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='The Canonical <br /> CRA Connect Tour',
+    subtitle_text="How device makers are preparing for the Cyber Resilience Act",
+    layout='50/50',
+    is_split_on_medium=true
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Get clarity on Cyber Resilience Act compliance from Canonical’s experts at the CRA Connect Tour. This series of
+        in-person events is designed for device makers who want to understand the new regulations and build for compliance. 
+        You’ll walk away with actionable insights on SBOMs, vulnerability reporting, and long-term security maintenance. Join
+        us on the tour, with upcoming stops in Amsterdam, Munich, Toronto, and more.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+      <a class="p-button--positive js-invoke-modal" href="/cra-connect-modal" aria-controls="cra-connect-modal">Register now</a>
+    {%- endif -%}
+    
+    {%- if slot == 'image' -%}
+      <div class="p-image-container u-background-grey-dark">
+        {{ image(url="https://assets.ubuntu.com/v1/e832fafc-image_wrapper.png",
+        alt="",
+        width="600",
+        height="400",
+        attrs={"class": "p-image-container__image", "fetchpriority":"high"},
+        hi_def=True,
+        loading="auto") | safe
+        }}
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  <section class="p-section u-no-padding--bottom">
+    {%- call(slot)
+    vf_tiered_list(is_description_full_width_on_desktop=false,is_list_full_width_on_tablet=true,is_first_hr_visible=false)
+    -%}
+    {%- if slot == 'title' -%}
+    <h2>Join us on the tour</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+    <p class="u-padding-bottom-1-5rem">
+      Ready for the CRA? Let’s get compliant together. Spend time with the experts, demystify the latest regulations,
+      and walk away with a clear, actionable roadmap for preparing your devices for the Cyber Resilience Act.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5">See our demos and map your path to compliance</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+    <p>
+      Resell the full range of Canonical’s portfolio of private and public cloud products: OpenStack, Kubernetes, IoT,
+      support, security and compliance for Ubuntu.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5">Meet security and compliance experts and ask your questions</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+    <p>
+      Get direct access to security and compliance experts. Bring your toughest questions to the CRA Connect Tour and
+      engage with our experts through insightful talks, hands-on workshops, and interactive Q&A sessions designed to help
+      you master CRA compliance.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5">Ship and maintain compliant devices in production</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+    <p>
+      Learn what your options are and what the market offers for keeping devices compliant in production. Talk to our team
+      about support and managed services, and how to run your devices in the EU market without worrying about upgrades,
+      patching, or vulnerability reporting.
+    </p>
+    {%- endif -%}
+    {%- endcall -%}
+  </section>
+
+  <section class="p-section u-no-padding--bottom">
+    {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true,
+    is_first_hr_visible=true) -%}
+    {%- if slot == 'title' -%}
+    <h2>Where to find us</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+    <div class="u-padding-bottom-1-5rem">
+      <p>
+        The EU Cyber Resilience Act reaches its first milestone on 11 September 2026, when manufacturers must begin
+        reporting exploited vulnerabilities within 24 hours, including for legacy products already on the market.
+        Canonical helps device makers build compliance in with secure-by-design development, long-term maintenance, SBOMs,
+        and vulnerability management. Come find us across Europe and North America this autumn to talk through what the
+        CRA means for your fleet.
+      </p>
+      <p>
+        <a href="/solutions/open-source-security/cra-connect#get-in-touch">Book a meeting with us &rsaquo;</a>
+      </p>
+    </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5">Europe</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+    <p class="u-padding-bottom-0-75rem p-heading--5">
+      <a href="https://www.thethingsconference.com/program/agenda-overview/recskwpa7eovlmrc0">The Things Conference</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      <strong>22-23 September 2026, Amsterdam, Netherlands<br />Keynote: </strong>
+      Open source, open liability? How the Cyber Resilience Act changes the rules for IoT device makers with <a
+        href="https://www.linkedin.com/in/jcverdie/">Jean-Charles Verdié</a> and <a
+        href="https://www.linkedin.com/in/ondrej-kubik-b072141/">Ondrej Kubik</a>, Canonical on Wednesday, 23rd September at 9.30 AM CET.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://ubuntu.com/engage/canonical-day-manchester-2026">Canonical Day</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      <strong>5 November, Manchester, England<br />Talk: </strong>
+      Bridge the IT/OT Divide with <a href="https://www.linkedin.com/in/ondrej-kubik-b072141/">Ondrej Kubik</a>, Canonical.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://sps.mesago.com/nuernberg/en.html">SPS 2026</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      <strong>24-26 November 2026, Nuremberg, Germany</strong><br />
+      Find us inside Advantech’s booth, Hall 7, #380.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://www.embedded-world.de/en">Embedded World</a>
+    </p>
+    <p>
+      <strong>16-18 March 2027, Nuremberg, Germany</strong>
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5">North America</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://ubuntu.com/engage/roscon-global-2026">ROSCon Global</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      <strong>22-24 September 2026, Toronto, Canada</strong><br />
+      Find us inside on booth 46-47.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://embedded-world-na.com/">Embedded World NA</a>
+    </p>
+    <p>
+      <strong>22-24 September 2026, Anaheim, CA<br />Talk:</strong>
+      Surviving the CRA: Architecting Zephyr for 15-year lifecycles and long-term compliance with <a
+        href="https://www.linkedin.com/in/jonathanberi/">Jonathan Beri</a>, Canonical.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+    For future CRA events, contact <a href="mailto:pr@canonical.com">pr@canonical.com</a>.
+    {%- endif -%}
+    {%- endcall -%}
+  </section>
+
+  <section class="p-section u-no-padding--bottom">
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false,is_first_hr_visible=false) -%}
+    {%- if slot == 'title' -%}
+    <h2>Get CRA-compliant with Canonical</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5"><a href="https://ubuntu.com/pro/devices">Ubuntu Pro for Devices</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+    <p>
+      A device subscription with security maintenance and compliance tooling to help you meet the CRA.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5"><a href="https://ubuntu.com/core">Ubuntu Core</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+    <p>
+      An immutable operating system for embedded devices, built on snaps with security features out of the box.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+    <h3 class="p-heading--5"><a href="https://ubuntu.com/landscape">Landscape</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+    <p>
+      Distribute updates, patch at scale, and enforce compliance policies across your fleet from one place.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+    <h3 class="p-heading--5"><a href="https://ubuntu.com/security">Security maintenance</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+    <p>
+      Long-term security updates for the operating system and the open source packages your devices depend on.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_5' -%}
+    <h3 class="p-heading--5"><a href="https://ubuntu.com/certified">Certification</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_5' -%}
+    <p>
+      Get to market on certified hardware, backed by Canonical's commitment to certify its products for the CRA.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_6' -%}
+    <h3 class="p-heading--5"><a href="https://canonical.com/solutions/open-source-security/cyber-resilience-act">CRA-compliance consultancy</a></h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_6' -%}
+    <p>
+      Work with our experts to plan your compliance roadmap and bring your devices to market.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'cta' -%}
+    <a href="https://canonical.com/solutions/open-source-security/cyber-resilience-act#get-in-touch">Book your session with our CRA expert now &rsaquo;</a>
+    {%- endif -%}
+    {%- endcall -%}
+  </section>
+
+  <section class="p-section">
+    {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false, is_first_hr_visible=false) -%}
+    {%- if slot == 'title' -%}
+    <h2>CRA Resources</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+    <h3 class="p-heading--5 p-text--x-small-capitalised">Blog and whitepapers</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+    <p class="u-padding-bottom-0-75rem p-heading--5">
+      <a href="https://ubuntu.com/blog/cra-compliance-iot-manufacturer-best-practices">CRA compliance: Things IoT manufacturers can no longer do under the CRA
+        (and what to do instead)</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      Get a thorough overview of common IoT manufacturer and PDE developer practices that need immediate attention in
+      order to meet full CRA compliance.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://ubuntu.com/engage/cra-checklist">The EU Cyber Resilience Act checklist</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      Download your practical, step-by-step guide to meeting the CRA’s requirements.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://ubuntu.com/engage/cra-yocto-core">Cyber Resilience Act: Yocto or Ubuntu Core for embedded devices?</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      Explore the critical considerations for device manufacturers, developers, and relevant stakeholders when choosing
+      between custom-built Linux distributions using the Yocto Project and commercially supported solutions like Ubuntu
+      Core.
+    </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+    <h3 class="p-heading--5 p-text--x-small-capitalised">Webinars</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://www.youtube.com/watch?v=ltBtIDvav6c">Introduction to the EU Cyber Resilience Act</a>
+    </p>
+    <p class="u-padding-bottom-1-5rem">
+      Watch our experts break down what the Cyber Resilience Act means for device manufacturers, from vulnerability
+      reporting to lifecycle security, and see how Ubuntu Pro for Devices helps you harden your attack surface and
+      simplify compliance.
+    </p>
+
+    <p class="u-padding-bottom-75rem p-heading--5">
+      <a href="https://www.youtube.com/watch?v=lPaUMpAampI">Ubuntu and the EU Cyber Resilience Act: Building compliant, secure
+        devices</a>
+    </p>
+    <p>
+      As the Cyber Resilience Act introduces new security requirements for OEMs and ODMs, how do device makers stay
+      compliant? Watch how Ubuntu helps you build secure devices, manage vulnerabilities, and maintain compliance across
+      the full product lifecycle.
+    </p>
+    {%- endif -%}
+    {%- endcall -%}
+  </section>
+
+  {{ load_form("/solutions/open-source-security/cra-connect") | safe }}
+
+{% endblock %}
