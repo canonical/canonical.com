@@ -83,7 +83,7 @@ Distributed systems require a reliable way to manage state and store cluster con
   note="Only the distributions supported by Canonical are considered in the table above."
 ) }}
 
-### Supported data types
+## Supported data types
 
 {{ table_kh(
   label="Supported data types by open source database",
@@ -134,23 +134,23 @@ Canonical’s data solutions portfolio includes:
     "<a href='https://canonical.com/data/cassandra'>Apache Cassandra</a>"
 ]) }}
 
-Canonical provides each of these databases in various packaging formats for seamless integration with users' existing stacks. All of the databases are available as Ubuntu-based, OCI-compliant container images. Where applicable, they are also available as snaps and deb packages. Canonical's software operators, known as charms, enable automated deployment, integration, and lifecycle management of databases on any infrastructure.
+Canonical provides each of these databases in various packaging formats for seamless integration with users' existing stacks. All of the databases are available as Ubuntu-based, OCI-compliant container images. Where applicable, they are also available as snaps and deb packages. Canonical's software operators, known as [charms](https://canonical.com/juju/charms-architecture), enable automated deployment, integration, and lifecycle management of databases on any infrastructure.
 
 [Explore Canonical’s full data solutions portfolio ›](https://canonical.com/data)
 
-## Canonical’s database services
+### Canonical’s database services
 
 Beyond support for the software solutions themselves, Canonical provides a comprehensive suite of enterprise-grade services across the data stack, delivered with predictable, per-node pricing.
 
-### Security maintenance
+#### Security maintenance
 
 With [Ubuntu Pro](https://ubuntu.com/pro), users get up to 15 years of security maintenance for their entire open source stack, including databases. Organizations benefit from rapid remediation of vulnerabilities for maintained packages, and can take advantage of tools for auditing, patching automation, and management to maximize database uptime. Canonical can also maintain custom database dependencies and versions not covered by Ubuntu Pro through the Container Build Service.
 
-### Support
+#### Support
 
 Canonical’s experts provide [direct support](https://ubuntu.com/support) to keep database deployments running smoothly. Phone and ticket support offers SLA-backed response times to seamlessly resolve incidents. With Firefighting support, Canonical engineers are on call to rapidly address critical issues. Alternatively, organizations can opt for a 24/7 fully managed service, letting Canonical handle end-to-end management and monitoring of the data stack.
 
-### Consulting and training
+#### Consulting and training
 
 Consulting and training services enable organizations to tackle complex technical challenges. Canonical delivers instructor-led [courses](https://ubuntu.com/training), hands-on labs, and official [certification exams](https://canonical.com/academy) to empower database teams. Deployment services help organizations design and implement a tailored, production-grade database stack. And on-demand consulting with expert database engineers is available to address specific needs.
 
