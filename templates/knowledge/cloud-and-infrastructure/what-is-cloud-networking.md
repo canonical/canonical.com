@@ -50,7 +50,7 @@ Cloud networking directly governs the core traffic and infrastructure operations
   "Performance and compliance: it impacts performance, latency, and IP management while playing a critical role in disaster recovery, compliance, and day-2 operations."
 ])}}
 
-In telco and enterprise environments, cloud networking also has to respect brownfield constraints. (pre-existing IT processes.) Existing routing, firewalling, address plans, monitoring systems, and operational processes rarely disappear when a cloud platform arrives. A good cloud networking design integrates with those realities instead of ignoring them.
+In telco and enterprise environments, cloud networking also has to respect brownfield constraints (pre-existing IT processes). Existing routing, firewalling, address plans, monitoring systems, and operational processes rarely disappear when a cloud platform arrives. A good cloud networking design integrates with those realities instead of ignoring them.
 
 ## How does cloud networking work?
 
@@ -164,7 +164,7 @@ In public clouds, this pattern is often exposed as a virtual private cloud (VPC)
 
 Subnets are subdivisions of a virtual network. They define IP address ranges within a network. Cloud platforms usually include IP address management so workloads can receive addresses automatically.
 
-While cloud networking uses automations makes provisioning easier, it does not remove the need for routing design, address allocation, or overlap prevention.
+While cloud networking uses automation to make provisioning easier, it does not remove the need for routing design, address allocation, or overlap prevention.
 
 ### Routing
 
@@ -226,7 +226,7 @@ Private cloud networking is often rolled out using platforms such as OpenStack, 
 
 ### Hybrid cloud networking
 
-Hybrid cloud networking is any architecture that connects private environments with public cloud environments. It often involves routing, private connectivity, VPNs, identity boundaries, DNS integration, and policy alignment, to create a unified cloud platform across a mix of private and public infrastructure..
+Hybrid cloud networking is any architecture that connects private environments with public cloud environments. It often involves routing, private connectivity, VPNs, identity boundaries, DNS integration, and policy alignment to create a unified cloud platform across a mix of private and public infrastructure.
 
 As such, hybrid cloud networking is usually focused on ensuring operational consistency across different environments.
 
@@ -275,9 +275,9 @@ Cloud networking can help organizations improve:
 
 ## What are the challenges of cloud networking?
 
-To implement cloud networking effectively, organizations must address six critical areas: multi-layer visibility,  ownership, lifecycle management, performance tuning, legacy integration, and operational complexity.
+To implement cloud networking effectively, organizations must address six critical areas: multi-layer visibility, ownership, lifecycle management, performance tuning, legacy integration, and operational complexity.
 
-Let’s look into these challenges in more detail::
+Let’s look into these challenges in more detail:
 
 {{ text_list_kh (items=[
   "Multi-layer visibility: operators need to understand both the physical underlay and the virtual overlay. A packet may cross a virtual switch, tunnel, host firewall, routing namespace, load balancer, and physical fabric.",
