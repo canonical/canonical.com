@@ -1765,6 +1765,13 @@ def navigation_nojs():
 app.add_url_rule("/navigation", view_func=navigation_nojs)
 
 
+def networking_contact_us():
+    return flask.render_template("shared/_networking-contact-us.html")
+
+
+app.add_url_rule("/networking-contact-us", view_func=networking_contact_us)
+
+
 @app.route("/solutions/infrastructure/private-cloud-pricing.json")
 def get_pricing_data():
     """Serve pricing data with content-hash cache busting"""
