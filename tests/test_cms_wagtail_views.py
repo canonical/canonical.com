@@ -37,6 +37,50 @@ PAGE = {
 }
 
 
+BODY_EXTRA = [
+    {"type": "linked_logo_section", "id": "10", "value": {
+        "title": "Databases", "layout": "25/75", "top_rule_variant": "default",
+        "links": [{"href": "/data/mysql", "text": "MySQL", "label": "MySQL page",
+                   "image_url": "https://assets.ubuntu.com/v1/m.png", "image_alt": "",
+                   "image_width": 100, "image_height": 50}],
+    }},
+    {"type": "logo_section", "id": "11", "value": {
+        "title": "Trusted by", "description": "<p>Because reasons.</p>",
+        "logos": [{"image_url": "https://assets.ubuntu.com/v1/a.png", "alt": "A", "width": None, "height": None}],
+    }},
+    {"type": "tab_section", "id": "12", "value": {
+        "title": "Why", "description": "<p>Because</p>",
+        "tabs": [{"label": "One & only", "heading": "First <1>", "body": "<p>Body</p>",
+                  "image_url": "", "image_alt": "", "link_text": "", "link_url": ""}],
+    }},
+    {"type": "equal_heights", "id": "13", "value": {
+        "title": "Cards", "description": "", "cta": None,
+        "items": [{"title": "Kept simple", "description": "<p>Straightforward pricing.</p>",
+                   "image_url": "", "image_alt": ""}],
+    }},
+    {"type": "link_list_section", "id": "14", "value": {
+        "title": "Resources",
+        "groups": [{"heading": "Docs", "links": [{"href": "/docs/data", "text": "Data docs"}]}],
+    }},
+    {"type": "latest_blog", "id": "15", "value": {
+        "heading": "Latest from our blog", "tag_ids": "", "layout": "4-blocks",
+        "padding": "deep", "limit": 4, "excerpt_length": 200,
+    }},
+    {"type": "announcement", "id": "16", "value": {
+        "criticality": "warning", "heading": "Heads up", "body": "<p>Soon</p>",
+    }},
+]
+PAGE_EXTRA = {
+    "id": 4,
+    "meta": {"type": "website.MarketingPage", "seo_title": "", "search_description": ""},
+    "title": "Extra blocks",
+    "meta_description": "",
+    "meta_copydoc": "",
+    "body_class": "",
+    "body": BODY_EXTRA,
+}
+
+
 def mock_page(page=PAGE, page_id=3):
     responses.add(
         responses.GET, f"{API}/api/v2/pages/find/", status=302,
@@ -92,6 +136,19 @@ class CmsWagtailViewsTest(unittest.TestCase):
     def test_an_unknown_page_is_a_404(self):
         responses.add(responses.GET, f"{API}/api/v2/pages/find/", status=404)
         self.assertEqual(self.client.get("/cms-wagtail/nope").status_code, 404)
+
+    @responses.activate
+    def test_the_remaining_seven_block_types_render_their_content(self):
+        mock_page(page=PAGE_EXTRA, page_id=4)
+        html = self.client.get("/cms-wagtail/extra").get_data(as_text=True)
+        self.assertIn("MySQL", html)  # linked_logo_section
+        self.assertIn("Because reasons.", html)  # logo_section
+        self.assertIn("First &lt;1&gt;", html)  # tab_section
+        self.assertIn("Kept simple", html)  # equal_heights
+        self.assertIn("Data docs", html)  # link_list_section
+        self.assertIn('href="/docs/data"', html)  # link_list_section
+        self.assertIn("Latest from our blog", html)  # latest_blog
+        self.assertIn("Heads up", html)  # announcement
 
     @responses.activate
     def test_an_unreachable_cms_is_a_502(self):
