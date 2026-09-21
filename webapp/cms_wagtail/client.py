@@ -17,9 +17,11 @@ class WagtailContent:
         self.timeout = timeout
 
     def page_by_path(self, path):
+        normalized = path.strip("/")
+        html_path = f"/{normalized}/" if normalized else "/"
         response = self.session.get(
             f"{self.api_url}/api/v2/pages/find/",
-            params={"html_path": f"/{path.strip('/')}/"},
+            params={"html_path": html_path},
             headers=self.headers,
             timeout=self.timeout,
             # The Location is built from the Host header, which may not
@@ -58,7 +60,8 @@ def _document(data):
     return {
         "id": data.get("id"),
         "type": meta.get("type", ""),
-        # Plain text: the templates autoescape both.
+        # Plain str, never Markup: whoever passes these into a non-autoescaping
+        # .jinja macro is responsible for escaping them there.
         "title": meta.get("seo_title") or data.get("title", ""),
         "heading": data.get("title", ""),
         "meta": {

@@ -42,6 +42,28 @@ class WagtailContentTest(unittest.TestCase):
         self.assertTrue(detail.request.url.startswith(API))
 
     @responses.activate
+    def test_root_path_normalises_to_a_single_slash(self):
+        responses.add(
+            responses.GET, f"{API}/api/v2/pages/find/", status=302,
+            headers={"Location": f"{API}/api/v2/pages/3/"},
+        )
+        responses.add(responses.GET, f"{API}/api/v2/pages/3/", json=PAGE)
+        responses.add(
+            responses.GET, f"{API}/api/v2/pages/find/", status=302,
+            headers={"Location": f"{API}/api/v2/pages/3/"},
+        )
+        responses.add(responses.GET, f"{API}/api/v2/pages/3/", json=PAGE)
+
+        self.content.page_by_path("")
+        self.content.page_by_path("/")
+
+        find_urls = [call.request.url for call in responses.calls if "/find/" in call.request.url]
+        self.assertEqual(len(find_urls), 2)
+        for url in find_urls:
+            self.assertIn("html_path=%2F", url)
+            self.assertNotIn("html_path=%2F%2F", url)
+
+    @responses.activate
     def test_an_unknown_path_is_none(self):
         responses.add(responses.GET, f"{API}/api/v2/pages/find/", status=404)
         self.assertIsNone(self.content.page_by_path("nope"))
