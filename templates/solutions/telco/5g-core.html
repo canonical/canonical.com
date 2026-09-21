@@ -16,247 +16,165 @@
 
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--50-50-on-large">
-      <div class="col">
-        <div class="p-section--shallow">
-          <h1>Transform your 5G infrastructure with Canonical</h1>
-        </div>
-        <div class="p-section--shallow">
-          <p>
-            Build the foundation for an open, sovereign, AI-ready carrier-grade telco cloud platform with Canonical. Meet your future 5G Core demands with a trusted suite of tools that is scalable, flexible, security maintained, and delivered with predictable costs.
-          </p>
-        </div>
+  {% call(slot) vf_hero(
+    title_text="Transform your 5G infrastructure with Canonical",
+    layout="50/50",
+    is_split_on_medium=false,
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Build the foundation for an open, sovereign, AI-ready carrier-grade telco cloud platform with Canonical. Meet your future 5G Core demands with a trusted suite of tools that is scalable, flexible, security maintained, and delivered with predictable costs."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "solutions-telco-modal"
+            }
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": true,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/5ae5e8d8-Canonical%20Telco%20Illustrations%2001.svg",
+            "alt": ""
+          }
+        }
+      }
+    ]
+    ) -%}
+  {% endcall -%}
 
-        <div class="p-section--shallow">
-          <div class="p-cta-block u-no-padding--bottom">
-            <a href="/contact-us"
-               class="p-button--positive js-invoke-modal"
-               aria-controls="solutions-telco-modal">Contact us</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div>
-          <div class="p-image-container--3-2 is-highlighted">
-            <img class="p-image-container__image is-cover"
-                 src="https://assets.ubuntu.com/v1/5ae5e8d8-Canonical%20Telco%20Illustrations%2001.svg"
-                 alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="grid-row--25-75-on-large">
-      <div class="grid-col">
-        <h2 class="p-text--small-caps">An open foundation for high-performance 5G Core networks</h2>
-      </div>
-      <div class="grid-col">
-        <p class="p-heading--4">Comprehensive 24/7 support to sustain continuous network availability</p>
-        <hr class="p-rule--muted" />
-        <p class="p-heading--4">Up to 15 years of security maintenance</p>
-        <hr class="p-rule--muted" />
-        <p class="p-heading--4">
-          Built-in support for advanced networking and data-path optimization to reduce network latency
-        </p>
-        <hr class="p-rule--muted" />
-        <p class="p-heading--4">Scalability to meet demand</p>
-      </div>
-    </div>
-  </section>
+  {{ vf_text_spotlight(
+    title_text="An open foundation for high-performance 5G Core networks",
+    item_heading_level=4,
+    list_items=[
+      "Comprehensive 24/7 support to sustain continuous network availability",
+      "Up to 15 years of security maintenance",
+      "Built-in support for advanced networking and data-path optimization to reduce network latency",
+      "Scalability to meet demand"
+      ]
+    ) }}
 
-  <div class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="p-section--shallow">
-      <div class="grid-row">
-        <h2 class="p-muted-heading">Trusted by leading telco providers</h2>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-2 grid-col-medium-1">
-        <div class="p-section--shallow">
-          <img src="https://assets.ubuntu.com/v1/90bab9ba-logo%20bt.png"
-               width="44"
-               alt="BT" />
-        </div>
-      </div>
-      <div class="grid-col-6 grid-col-start-large-3 grid-col-medium-3 grid-col-start-medium-2">
-        <div class="grid-row">
-          <div class="grid-col-4">
-            <p class="p-heading--6">
-              <i>
-                “In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical.”
-              </i>
-            </p>
-          </div>
-          <div class="grid-col-2">
-            <p>
-              <strong>Gary Roberts</strong>
-              <br />
-              <span class="u-text--muted">
-                Director, Network Cloud
-                <br />
-                BT Group
-              </span>
-            </p>
+  {% call(slot) vf_quote_wrapper(
+      title_text=('<span class="u-white-space-nowrap">Trusted by leading telco providers</span>' | safe),
+      quote_size="small",
+      quote_text="In the last year, we’ve moved the entire mobile base for EE onto this infrastructure. So if you’re on EE, you’re on Canonical.",
+      citation_source_name_text="Gary Roberts",
+      citation_source_title_text="Director, Network Cloud",
+      citation_source_organisation_text="BT Group",
+      is_shallow=true
+      ) -%}
+      {%- if slot == 'signpost_image' -%}
+        <img src="https://assets.ubuntu.com/v1/90bab9ba-logo%20bt.png"
+             width="44"
+             alt="BT" />
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="/blog/bt-group-and-canonical-deliver-5g-to-uk-stadiums">Read the case study&nbsp;&rsaquo;</a>
+      {%- endif -%}
+  {% endcall -%}
 
-          </div>
-        </div>
-        <div class="p-cta-block">
-          <a href="/blog/bt-group-and-canonical-deliver-5g-to-uk-stadiums">Read the case study&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
+  {% call(slot) vf_quote_wrapper(
+      quote_size="small",
+      quote_text="We wanted to ensure that we wouldn’t be bogged down with licence fees long-term. Most of the open source vendors we looked at charged steep per core or per server licence fees, which would have meant escalating costs as we scaled up. Canonical was the exception.",
+      citation_source_name_text="Jahanzeb Arshad",
+      citation_source_title_text="VP Operations",
+      citation_source_organisation_text="Nayatel",
+      is_shallow=true
+      ) -%}
+      {%- if slot == 'signpost_image' -%}
+        <img src="https://assets.ubuntu.com/v1/5bd91cef-logo nayatel.png"
+             width="126"
+             alt="Nayatel" />
+      {%- endif -%}
+      {%- if slot == 'cta' -%}
+        <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Nayatel+Case+study.pdf">Read the case study&nbsp;&rsaquo;</a>
+      {%- endif -%}
+  {% endcall -%}
 
-    <div class="grid-row">
-      <hr class="p-rule is-fixed-width grid-col-start-large-3 grid-col-medium-3 grid-col-start-medium-2" />
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-2 grid-col-medium-1">
-        <div class="p-section--shallow">
-          <img src="https://assets.ubuntu.com/v1/5bd91cef-logo nayatel.png"
-               width="126"
-               alt="Nayatel" />
-        </div>
-      </div>
-      <div class="grid-col-6 grid-col-start-large-3 grid-col-medium-3 grid-col-start-medium-2">
-        <div class="grid-row">
-          <div class="grid-col-4">
-            <p class="p-heading--6">
-              <i>
-                “We wanted to ensure that we wouldn’t be bogged down with licence fees long-term. Most of the open source vendors we looked at charged steep per core or per server licence fees, which would have meant escalating costs as we scaled up. Canonical was the exception.”
-              </i>
-            </p>
-          </div>
-          <div class="grid-col-2">
-            <p>
-              <strong>Jahanzeb Arshad</strong>
-              <br />
-              <span class="u-text--muted">
-                VP Operations
-                <br />
-                Nayatel
-              </span>
-            </p>
+  {% call(slot) vf_tiered_list(
+    is_description_full_width_on_desktop=false,
+    is_list_full_width_on_tablet=false
+    ) -%}
+    {%- if slot == 'title' -%}
+      <h2>Excellence in 5G operations</h2>
+    {%- endif -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Meet stringent 5G Core requirements with ease. Canonical offers a suite of tools and support that enables you to maintain the highest standard of service.
+      </p>
+    {%- endif -%}
 
-          </div>
-        </div>
-        <div class="p-cta-block">
-          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Nayatel+Case+study.pdf">Read the case study&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Reliable performance</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Ensure continuous network uptime and minimal service disruptions</p>
+    {%- endif -%}
 
-  <div class="p-section u-fixed-width">
-    <hr class="p-rule" />
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">High throughput</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Achieve high-throughput packet processing for demanding Core workloads through advanced hardware acceleration capabilities
+      </p>
+    {%- endif -%}
 
-    <div class="p-section--shallow">
-      <div class="grid-row--50-50-on-large">
-        <div class="grid-col">
-          <h2>Excellence in 5G operations</h2>
-        </div>
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">High scalability</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_3' -%}
+      <p>Handle exponential growth in connected devices and data traffic</p>
+    {%- endif -%}
 
-        <div class="grid-col">
-          <p>
-            Meet stringent 5G Core requirements with ease. Canonical offers a suite of tools and support that enables you to maintain the highest standard of service.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">Reliable performance</h3>
-      </div>
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">A trusted open source foundation</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Protect the network from cyber threats with a secure-by-design platform that is backed by up to 15 years of security maintenance
+      </p>
+    {%- endif -%}
 
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>Ensure continuous network uptime and minimal service disruptions</p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">High throughput</h3>
-      </div>
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">Efficient automation</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Streamline network operations and simplify Day-2 lifecycle management across your infrastructure with model-driven orchestration tools
+      </p>
+    {%- endif -%}
 
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>
-          Achieve high-throughput packet processing for demanding Core workloads through advanced hardware acceleration capabilities
-        </p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">High scalability</h3>
-      </div>
-
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>Handle exponential growth in connected devices and data traffic</p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">A trusted open source foundation</h3>
-      </div>
-
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>
-          Protect the network from cyber threats with a secure-by-design platform that is backed by up to 15 years of security maintenance
-        </p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">Efficient automation</h3>
-      </div>
-
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>
-          Streamline network operations and simplify Day-2 lifecycle management across your infrastructure with model-driven orchestration tools
-        </p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6 grid-col-start-large-3">
-        <hr class="p-rule--muted" />
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-medium-2 grid-col-2 grid-col-start-large-3">
-        <h3 class="p-heading--5">AI readiness</h3>
-      </div>
-
-      <div class="grid-col-medium-2 grid-col-4">
-        <p>
-          Establish a consistent infrastructure substrate that allows models, agents, and network functions to run side-by-side with production-grade reliability
-        </p>
-      </div>
-    </div>
-  </div>
+    {%- if slot == 'list_item_title_6' -%}
+      <h3 class="p-heading--5">AI readiness</h3>
+    {%- endif -%}
+    {%- if slot == 'list_item_description_6' -%}
+      <p>
+        Establish a consistent infrastructure substrate that allows models, agents, and network functions to run side-by-side with production-grade reliability
+      </p>
+    {%- endif -%}
+  {% endcall -%}
 
   {% call(slot) vf_logo_section(
     title={
