@@ -115,6 +115,17 @@ class PrepareSectionsTest(unittest.TestCase):
             "src": "https://assets.ubuntu.com/v1/m.png", "alt": "", "width": "100", "height": "50", "class": "",
         })
 
+    def test_linked_logo_image_dimensions_are_escaped(self):
+        macro = one("linked_logo_section", {
+            "title": "Databases", "layout": "25/75", "top_rule_variant": "default",
+            "links": [{"href": "/data/mysql", "text": "MySQL", "label": "MySQL page",
+                       "image_url": "https://assets.ubuntu.com/v1/m.png", "image_alt": "",
+                       "image_width": '100"><script>', "image_height": 50}],
+        })["macro"]
+        self.assertEqual(
+            macro["links"][0]["image_attrs"]["width"], "100&#34;&gt;&lt;script&gt;"
+        )
+
     def test_latest_blog_ids_come_from_the_heading(self):
         macro = one("latest_blog", {"heading": "Latest from our blog", "tag_ids": "", "layout": "4-blocks",
                                      "padding": "deep", "limit": 4, "excerpt_length": 200})["macro"]
@@ -124,6 +135,24 @@ class PrepareSectionsTest(unittest.TestCase):
     def test_announcement_maps_to_a_vanilla_notification(self):
         macro = one("announcement", {"criticality": "warning", "heading": "Heads up", "body": "<p>Soon</p>"})["macro"]
         self.assertEqual(macro["modifier"], "caution")
+
+    def test_tiered_list_escapes_titles_and_sanitises_description(self):
+        macro = one("tiered_list", {
+            "description": "<p>From assessment to <b>day-2</b> ops</p>", "cta": None,
+            "items": [
+                {"title": "Consulting & advice", "description": "<p>Plan <b>it</b><script>x()</script></p>"},
+            ],
+        })["macro"]
+        self.assertEqual(macro["items"][0]["title"], "Consulting &amp; advice")
+        self.assertEqual(macro["items"][0]["description"], "<p>Plan <b>it</b>x()</p>")
+        self.assertEqual(macro["description"], "<p>From assessment to <b>day-2</b> ops</p>")
+
+    def test_text_section_heading_and_body(self):
+        macro = one("text_section", {
+            "heading": "Pricing<script>", "body": "<p>Ubuntu Pro starts at $25. <b>Volume discounts</b></p>",
+        })["macro"]
+        self.assertEqual(macro["heading"], "Pricing")
+        self.assertEqual(macro["body"], "<p>Ubuntu Pro starts at $25. <b>Volume discounts</b></p>")
 
     def test_value_only_blocks_pass_through(self):
         section = one("data_list_section", {"title": "Releases", "source": "supported_releases",

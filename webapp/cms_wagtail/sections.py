@@ -106,8 +106,8 @@ def _linked_logo_section(value):
             "image_attrs": {
                 "src": escape(link.get("image_url") or ""),
                 "alt": escape(link.get("image_alt") or ""),
-                "width": str(link.get("image_width") or ""),
-                "height": str(link.get("image_height") or ""),
+                "width": escape(str(link.get("image_width") or "")),
+                "height": escape(str(link.get("image_height") or "")),
                 "class": "",
             },
         }
