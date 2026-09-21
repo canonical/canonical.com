@@ -41,7 +41,7 @@ def build_cms_wagtail_blueprint(session):
         # cannot carry that token even for this same preview request.
         path = flask.request.path
         if path.startswith(BLUEPRINT_PREFIX):
-            path = path[len(BLUEPRINT_PREFIX):] or "/"
+            path = path[len(BLUEPRINT_PREFIX) :] or "/"
         flask.current_app.logger.warning(
             "Wagtail CMS unavailable: %s for %s",
             type(error).__name__,
