@@ -1,3 +1,11 @@
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
 {% extends 'base_index.html' %}
 
 {% block title %}Open RAN | Telco{% endblock %}
@@ -15,537 +23,715 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-section--hero">
-    <div class="u-fixed-width p-section--shallow">
-      <h1>Telco infrastructure for virtual RAN with Open RAN architecture</h1>
-    </div>
-    <div class="row--50-50">
-      <div class="col">
-        <div class="p-section--shallow">
-          <p>
-            Modernize your telecom infrastructure with Open RAN, and deliver next-generation connectivity by choosing security-maintained, trusted open source software from Canonical.
-          </p>
-          <p>
-            Boost the performance of your virtual RAN telco workloads by choosing a composable, cloud-native software stack with enhanced platform features.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a href="/contact-us"
-             class="p-button--positive js-invoke-modal"
-             aria-controls="solutions-telco-modal">Contact us</a>
-          <a href="/solutions/infrastructure"
-             class="p-button">Discover Canonical’s infrastructure portfolio</a>
-        </div>
-      </div>
-      <div class="col p-section--shallow">
-        <div class="p-image-container is-highlighted ">
-          {{ image(url="https://assets.ubuntu.com/v1/95248a92-Canonical%20Telco%20Illustrations%2006.png",
-                    alt="",
-                    width="2500",
-                    height="1667",
-                    hi_def=True,
-                    loading="auto",
-                    attrs={"class": "p-image-container__image"},) | safe
-          }}
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Telco infrastructure for disaggregated, virtual, and open RAN architectures',
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Build a resilient RAN infrastructure with Canonical’s secure, cloud-native stack. Purpose-built for Open RAN, it
+          features a native real-time kernel for ultra-low latency, maximum hardware efficiency, and fail-safe updates across your
+          entire cell-site footprint."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "contact-sales-modal"
+            }
+          }
+        },
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": false,
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/95248a92-Canonical%20Telco%20Illustrations%2006.png",
+            "alt": "",
+            "style": "padding: 1rem;"
+          }
+        }
+      },
+    ]
+  ) -%}
+  {% endcall -%}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Disaggregated, distributed and interoperable networks with Open RAN technology</h2>
-      </div>
-      <div class="col">
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true, padding='shallow') -%}
+  {%- if slot == 'title' -%}
+  <h2>Disaggregated, distributed and interoperable Open RAN infrastructure</h2>
+  {%- endif -%}
+
+  {%- if slot == 'description' -%}
+  <p>Open radio access networks (Open RAN) represent an evolution towards open, intelligent, virtualized and fully
+  interoperable RANs.</p>
+  <p>Canonical provides the foundational elements for a cost-efficient, interoperable Open RAN infrastructure built on
+  security-maintained open source software.</p>
+  <p>From the OS-level to orchestration and networking, Canonical provides the software you need to build reliable Open RAN
+  infrastructure with the best of open source.</p>
+  <p>This versatile substrate adapts to your specific architectural needs:</p>
+  {%- endif -%}
+
+  {%- if slot == 'cta' -%}
+  <a href="/contact-us" class="p-button js-invoke-modal" aria-controls="contact-sales-modal">Let’s talk</a>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">A trusted foundation</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>From Ubuntu at the OS level to orchestration and networking, Canonical provides 5 years of long-term security
+  maintenance across all of our telco solutions, as well as automated CVE patching, and read-only immutable system
+  protections.</p>
+  <div class="p-cta-block">
+    <a href="https://ubuntu.com/about/release-cycle">Learn about our release cycle &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Enterprise-grade support</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Lengthen this to up to 15 years with <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, Canonical’s comprehensive subscription for open source security and
+  support.</p>
+  <div class="p-cta-block">
+    <a href="https://ubuntu.com/pro">Discover Ubuntu Pro &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Real-time operations</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Ensure real-time responsiveness as needed by Open RAN distributed units (DU) and mission-critical edge applications
+  alike with a <a href="https://ubuntu.com/real-time">real-time kernel</a> that can be used on bare metal.</p>
+  <div class="p-cta-block">
+    <a href="https://ubuntu.com/real-time">Learn about real-time Ubuntu &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_4' -%}
+  <h3 class="p-heading--5">Multi-site operations</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_4' -%}
+  <p>Simplify operations across multiple radio cloud sites. Centralize fleet management with <a href="https://ubuntu.com/landscape">Landscape</a> and streamline
+  zero-touch provisioning and management with <a href="/juju">Juju</a>.</p>
+  <div class="p-cta-block">
+    <a href="/juju">Explore Juju &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_5' -%}
+  <h3 class="p-heading--5">Performance</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_5' -%}
+  <p>Make use of built-in support for enhanced platform awareness (EPA) features offered by all major hardware vendors,
+  whether you are hosting virtualized workloads on <a href="/openstack">OpenStack</a>, running cloud-native network functions at the edge, or in
+  the cloud with <a href="https://ubuntu.com/kubernetes">Kubernetes</a>.</p>
+  <div class="p-cta-block">
+    <a href="https://documentation.ubuntu.com/canonical-kubernetes/latest/snap/explanation/epa/">See the EPA documentation &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_6' -%}
+  <h3 class="p-heading--5">Scalability</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_6' -%}
+  <p>Deploy your radio software on edge clouds that scale as needed, and flexibly adapt to dynamic traffic loads.</p>
+  <div class="p-cta-block">
+    <a href="/solutions/infrastructure/edge-computing">More on edge computing at Canonical &rsaquo;</a>
+  </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+  <div class="p-section">
+    <div class="grid-row">
+      <div class="grid-col-6 grid-col-start-large-3">
         <div class="p-image-container is-highlighted">
           {{ image(url="https://assets.ubuntu.com/v1/0ab657ca-chart-1.png",
-                    alt="The diagram shows an Open RAN architecture with a Radio Unit, Distributed Unit, and Central Unit, connected via fronthaul and midhaul. The architecture connects to the Core network via backhaul.",
-                    width="1800",
-                    height="648",
-                    hi_def=True,
-                    loading="auto",
-                    attrs={"class": "p-image-container__image"},) | safe
-          }}
-        </div>
-        <p>
-          Open radio access networks (Open RAN) represent a paradigm shift in the world of radio access networks. The traditional, monolithic RAN components are being supplanted by disaggregated, distributed components that can be sourced from multiple vendors.
-        </p>
-        <p>
-          Canonical is your trusted partner for bringing together the key elements of a cost-efficient and interoperable Open RAN infrastructure, based on security-maintained and performant open source software.
-        </p>
-        <p>
-          Become cloud-native and implement virtual RAN functions on <a href="/openstack">Canonical Openstack</a> and build flexibility, scalability and composability into the fabric of your infrastructure.
-        </p>
-        <div class="p-cta-block">
-          <a href="/contact-us"
-             class="p-button js-invoke-modal"
-             aria-controls="solutions-telco-modal">Let's talk</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Why choose Canonical for telecom infrastructure?</h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item is-ticked">Trusted publisher of open source</li>
-          <li class="p-list__item is-ticked">Streamlined updates and upgrades</li>
-          <li class="p-list__item is-ticked">Cost-effective deployments and operations</li>
-          <li class="p-list__item is-ticked">Silicon-optimized operating system</li>
-          <li class="p-list__item is-ticked">Support for enhanced platform features</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Canonical's telco
-          <br />
-          infrastructure portfolio
-        </h2>
-      </div>
-      <div class="col">
-        <div class="p-image-container--16-9 is-highlighted">
-          {{ image(url="https://assets.ubuntu.com/v1/edf1053a-chart-2.png",
-                    alt="Canonical's telecom infrastructure stack for Open RAN and 5G edge clouds, offered to customers as products that are modular building blocks. It covers container orchestration, infrastructure management, virtualization, system management, operating system and bare metal automation.",
-                    width="1800",
-                    height="1015",
-                    hi_def=True,
-                    loading="lazy",
-                    attrs={"class": "p-image-container__image"},) | safe
-          }}
-        </div>
-        <p>
-          Canonical’s open source infrastructure products address the needs of operators and enterprises across each level of a telecom infrastructure stack. We optimize our products for the latest hardware, to ensure your telecom workloads can run on an efficient and highly performance software infrastructure.
-</p>
-<p>
-Our cloud infrastructure portfolio is modular, allowing telecom customers to choose exactly what they want to run across their clouds and devices.
-        </p>
-        <div class="p-cta-block">
-          <a href="/solutions/infrastructure">Learn more about Canonical's open source infrastructure solutions&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <hr class="p-rule" />
-      <div class="p-section--shallow">
-        <h2>Canonical's telecom infrastructure for Open RAN</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-7 col-6">
-        <p>Canonical's open source infrastructure products bring several benefits to virtual RAN functions for Open RAN:</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Real-time operations</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Ensure real-time responsiveness as needed by Open RAN distributed units (DU) and mission-critical edge applications alike
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Security</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>Protect your entire RAN deployments, from operating system to Open RAN software and applications</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Multi-site operations</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>Deploy and manage your infrastructure and radio software centrally across multiple radio cloud sites at scale</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Performance</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>Leverage enhanced platform features offered by all major hardware vendors</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Scalability</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>Deploy your radio software on edge clouds that scale as needed</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="u-fixed-width">
-      <hr class="p-rule" />
-      <div class="p-section--shallow">
-        <h2>Ubuntu for Open RAN</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-7 col-6">
-        <p>
-          To achieve carrier-grade Open RAN deployments, virtual RAN software requires an operating system that is robust, immutable and extensively tested in real-world projects in the telecommunications industry. 
-        </p>
-        <p>
-          Choose <a href="https://ubuntu.com/">Ubuntu</a> as your OS and benefit from the low latency, security and enhanced platform features that telcos need to deliver next-generation connectivity.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Guaranteed bounded low-latency</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              <a href="https://ubuntu.com/real-time">Real-time Ubuntu</a> ensures latency in data processing is bounded and low. Ubuntu's Real-time kernel prioritizes Open RAN networking software workloads and provides streamlined packet processing. This brings support for even the most stringent use cases, categorized as ultra-reliable low latency communication (URLLC) applications.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Immutable</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Telco far-edge clouds require tamper-proof deployments that are self-healing, with minimal footprint. <a href="https://ubuntu.com/core">Ubuntu Core</a>, the embedded Linux operating system for devices, is securely designed, and is immutable thanks to its containerized architecture. Implement your Open RAN system and run your virtual RAN software with the confidence that only your system admins can modify your remote systems. If you are a radio unit vendor, check out our <a href="https://ubuntu.com/embedded">embedded Linux page</a> for more resoures.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Optimized</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Thanks to our partnership with an extensive range of hardware vendors, Ubuntu is optimized to run on all popular hardware systems, including bare metal servers, the latest cutting-edge silicon, and enhanced platform components like DPUs and IPUs. This means that Ubuntu delivers the best possible performance on all mainstream hardware, ready for your Open RAN deployments.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/certified">Learn more about certified hardware &rsaquo;</a>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Security-maintained and compliant</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Telecom networks form part of critical national infrastructure. Open RAN deployments must be both safeguarded and compliant with all telecom security standards. 
-            </p>
-            <p>
-              With <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, operators get the most comprehensive security subscription service for open source software. Open RAN fleet of servers get live CVE patches and streamlined updates and upgrades without downtime, and up to 15 years of vulnerability fixes for the OS, infrastructure, applications, and open source components.<a href="https://ubuntu.com/security/compliance-automation"> Ubuntu Pro ensures compliance</a> with all telecom security standards, and hardening for the minimum attack surface.
-            </p>
-            <div class="p-cta-block">
-                <a href="https://www.ubuntu.com/pro">Learn more about Ubuntu Pro &rsaquo;</a>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Transparent</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              We make sure that you have the right tools to manage your fleet of RAN systems at scale. With Canonical <a href="https://ubuntu.com/landscape">Landscape</a>, you get visibility on all your Ubuntu fleet, and can perform security patches, auditing, and access management at scale across your multiple RAN sites. Landscape is available through Ubuntu Pro.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/landscape/features">Learn about Landscape's features &rsaquo;</a>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Enhanced platform features</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              Whichever workload you run at your edge clouds, be it virtual RAN functions for Open RAN or edge computing software, Ubuntu detects and supports the most advanced hardware. Our vendor partnership program makes it possible to support a variety of hardware, such as function accelerators, GPUs and network cards.
-            </p>
-            <div>
-              <a href="/solutions/infrastructure/edge-computing">Learn more about Canonical’s edge computing solutions &rsaquo;</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Vendor neutral products</h2>
-      </div>
-      <div class="col">
-        <p>
-          We work with all major hardware vendors to optimize our infrastructure products, ensuring that they are ready to run Open RAN CU, DU and RU at the highest performance and reliability levels.
-        </p>
-        <div class="p-cta-block">
-          <a href="https://ubuntu.com/certified">Learn more about our hardware partners&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-    <div class="u-fixed-width">
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image (
-            url="https://assets.ubuntu.com/v1/835e0598-amd-logo%20.png",
-            alt="AMD",
-            width="226",
-            height="312",
+            alt="Open RAN architecture diagram with a Radio Unit, Distributed Unit, and Central Unit, connected via fronthaul and
+            midhaul.",
+            width="1800",
+            height="648",
             hi_def=True,
-            loading="lazy",
-            attrs={"class": "p-logo-section__logo"},
-            ) | safe
-            }}
+            loading="auto",
+            attrs={"class": "p-image-container__image", "style": "padding: 2rem"},) | safe
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% call(slot) vf_text_spotlight(
+        item_heading_level='4',
+        title_text='An open foundation for disaggregated, virtual, and open RANs',
+        list_items=[
+        'Comprehensive 24/7 support to ensure continuous network availability',
+        'Up to 15 years of security maintenance',
+        'Real-time kernel for deterministic, low-latency processing',
+        'Cost-effective deployments and operations',
+        'Silicon-optimized operating system',
+        'Support for enhanced platform features'
+        ]
+        ) -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": 'Canonical’s telco <br class="u-hide--small u-hide--medium" />infrastructure portfolio'},
+    items=[
+      {
+        "type": "image",
+        "item": {
+          "attrs": {
+            "src": "https://assets.ubuntu.com/v1/edf1053a-chart-2.png",
+            "alt": "Canonical provides a full-stack automation architecture that spans from physical bare metal provisioning up to container orchestration and application lifecycle management.",
+            "width": "1800",
+            "height": "1015",
+            "style": "padding: 2rem 0"
+          }
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "
+            <p>
+              Canonical’s open source infrastructure products address the needs of Open RAN and 5G edge clouds. Our infrastructure
+              portfolio is modular and optimized for the latest hardware, enabling you to design your infrastructure stack according
+              to your specific needs. Our goal is enabling your telecom workloads to run on an efficient and highly performant
+              software infrastructure.
+            </p>
+          "
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about Canonical’s open source infrastructure solutions &rsaquo;",
+            "attrs": {
+              "href": "/solutions/infrastructure",
+              "class": "u-sv2"
+            }
+          }
+        }
+      }
+    ],
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>Ubuntu for Open RAN</h2>
+  {%- endif -%}
+
+  {%- if slot == 'description' -%}
+  <p>To achieve carrier-grade Open RAN deployments, virtual RAN software requires an operating system that is robust,
+  immutable, and proven in real-world telecommunications environments.</p>
+  <p><a href="https://ubuntu.com/">Ubuntu</a> delivers the low latency, security features, and hardware-level optimizations necessary to support
+  next-generation cellular connectivity.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Real-time compute</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p><a href="https://ubuntu.com/real-time">Real-time Ubuntu</a> ensures latency in data processing is bounded and low, supporting even the most stringent use cases,
+  such as ultra-reliable low latency communication (URLLC) applications.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">An immutable embedded OS</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p><a href="https://ubuntu.com/core">Ubuntu Core</a>, the embedded Linux operating system for devices, delivers an immutable foundation for remote cell sites.
+  This design protects your virtual RAN software against unauthorized modifications and ensures only designated system
+  administrators can alter the environment.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Device management</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Canonical provides the right tools to manage your fleet of RAN systems at scale. With Canonical <a href="https://ubuntu.com/landscape">Landscape</a>, you get a
+  single pane of glass to manage your entire Ubuntu fleet, simplifying automated security patches, auditing, and access
+  management at scale across your multiple RAN sites.</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_4' -%}
+  <h3 class="p-heading--5">Native hardware support</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_4' -%}
+  <p>Whether hosting virtualized RAN functions or edge-native applications, Ubuntu automatically detects underlying hardware
+  features. Built-in support for GPUs, smartNICs, and specialized network accelerators maximizes data-path efficiency at
+  the edge.</p>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Cloud-native execution environments for Open RAN"},
+    padding="shallow",
+    attrs={
+    "class": "u-sv2"
+    },
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <p>
+              <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> delivers a production-grade, cloud-native execution environment suited for virtual RAN functions
+              for Open RAN and MEC workloads. Built from fully upstream components running in a confined execution environment, it
+              offers a reliable and trusted software platform, supporting:
+            </p>
+          '
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Multiple platform awareness features, such as SR-IOV, CPU pinning, DPDK, Hugepages, and GPU acceleration"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Various storage solutions, like Ceph, OpenEBS, and hostpath storage"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Popular CNIs, like Cilium, Calico, Flannel, and Multus"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Support for Cluster API for declarative cluster deployment and management operations"
+            }
+          ]
+        }
+      },
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>Open source data and AI/ML platforms for Open RAN</h2>
+  {%- endif -%}
+
+  {%- if slot == 'description' -%}
+  <p>RAN Intelligent Controllers (RIC) introduce closed-loop AI/ML automation to Open RAN. To optimize performance, the RIC
+  uses <strong>xApps</strong> for near-real-time control, and <strong>rApps</strong> for non-real-time policy decisions.</p>
+  <p>To run these intelligent applications, the RIC requires data pipelines and MLOps tools. With Canonical’s Data and AI
+  products, you can build and run carrier-grade network intelligence for your Open RAN deployments</p>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Resilient telemetry pipelines</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>Ingest, process, and analyze high-frequency network metrics for xApp, rApp, and RIC workflows. <a href="/data">Canonical’s data
+  solutions</a> automate and support open source tools like Kafka, MongoDB, OpenSearch, Postgres, and Spark.</p>
+  <div class="p-cta-block">
+    <a href="/data">Learn more about Canonical’s data solutions &rsaquo;</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Streamline the machine learning lifecycle</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>From experimentation to edge inference, deploy and run <a href="/mlops/kubeflow">AI/ML workflows</a> with ease, thanks to our software automation and
+  tooling. Discover how you can build the perfect environment for your Open RAN xApps and rApps at every stage of your
+  AI/ML journey.</p>
+  <div class="p-cta-block">
+    <a href="/mlops/kubeflow">Learn more about MLops at Canonical &rsaquo;</a>
+  </div>
+  {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+    mode="default",
+    title={
+      "text": "Optimized for all major hardware platforms"
+    },
+    blocks=[
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about our hardware partners &rsaquo;",
+            "attrs": {
+              "href": "https://ubuntu.com/certified",
+              "class": "u-sv2"
+            }
+          }
+        }
+      },
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            image(
+              url="https://assets.ubuntu.com/v1/835e0598-amd-logo%20.png",
+              alt="AMD",
+              width="226",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/d9d05f49-arm-logo.png",
+              alt="ARM",
+              width="183",
+              height="372",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/f9166965-dell-logo.png",
+              alt="Dell",
+              width="146",
+              height="313",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/23e314ba-hp-enterprise-logo-updated.png",
+              alt="HPE",
+              width="261",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/da23bad3-intel_logo.png",
+              alt="Intel",
+              width="152",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/67300791-lenovo-logo.png",
+              alt="Lenovo",
+              width="202",
+              height="313",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/0205811b-nvidia-logo.png",
+              alt="Nvidia",
+              width="310",
+              height="313",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/d09b26b8-risc-v-logo.png",
+              alt="RISC-V",
+              width="285",
+              height="313",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            )
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+  <p>We work with all major hardware vendors to optimize our infrastructure products, ensuring that they are ready to run
+  Open RAN CU, DU, and RU at the highest performance and reliability levels.</p>
+  {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_basic_section(
+    title={"text": "Security-maintained and compliant"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <p>
+              Telecom networks form part of critical national infrastructure. Open RAN deployments must be both safeguarded and
+              compliant with all telecom security standards.
+            </p>
+            <p>
+              With <a href="https://ubuntu.com/pro">Ubuntu Pro</a>, operators get a trusted, comprehensive security subscription service for open source software.
+            </p>
+          '
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "attrs": {
+            "class": "u-sv-2",
+          },
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": 'Patching: with <a href="https://ubuntu.com/security/livepatch">Livepatch</a>, OpenRAN fleets of servers get live CVE patches and streamlined updates and upgrades without
+              downtime.'
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Stability: benefit from up to 15 years of vulnerability fixes for the OS, infrastructure layers, and open source
+              packages."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Compliance: benefit from hardening automations for major cybersecurity standards, including NIST."
+            }
+          ]
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <p>
+              <a href="https://ubuntu.com/security/compliance-automation">Ubuntu Pro</a> enables compliance with security standards, and supports security hardening features to reduce the minimum
+              attack surface.
+            </p>
+          '
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "secondaries": [
+            {
+              "content_html": "Learn more about Ubuntu Pro",
+              "attrs": {
+                "href": "https://www.ubuntu.com/pro"
+              }
+            },
+          ],
+        }
+      }
+    ],
+  ) }}
+
+  <section class="p-section">
+    <div class="grid-row--50-50 p-section--shallow">
+      <hr class="p-rule">
+      <div class="grid-col">
+        <h2>Learn more</h2>
+      </div>
+      <div class="grid-col"></div>
+    </div>
+    <div class="p-section--shallow">
+      <div class="grid-row--25-75-on-large u-sv1">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+                <h3 class="p-text--small-caps">Webinars</h3>
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/engage/improving-telecom-security-2023-webinar">
+                    <h4 class="p-article-block__title article-title p-heading--3">Improving telecom security</h4>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/d9d05f49-arm-logo.png",
-                          alt="ARM",
-                          width="183",
-                          height="372",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/f9166965-dell-logo.png",
-                          alt="Dell",
-                          width="146",
-                          height="313",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/23e314ba-hp-enterprise-logo-updated.png",
-                          alt="HPE",
-                          width="261",
-                          height="312",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/834d57ab-intel-logo.png",
-                          alt="Intel",
-                          width="149",
-                          height="288",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/67300791-lenovo-logo.png",
-                          alt="Lenovo",
-                          width="202",
-                          height="313",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/0205811b-nvidia-logo.png",
-                          alt="Nvidia",
-                          width="310",
-                          height="313",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/d09b26b8-risc-v-logo.png",
-                          alt="RISC-V",
-                          width="285",
-                          height="313",
-                          hi_def=True,
-                          loading="lazy",
-                          attrs={"class": "p-logo-section__logo"},) | safe
-            }}
+        </div>
+      </div>
+      <div class="grid-row--25-75-on-large">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col u-sv2">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/engage/telco-edge-automation-cloud-native">
+                    <h4 class="p-article-block__title article-title p-heading--3">Telco edge cloud automation at scale
+                    </h4>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </section>
-
-    <section class="p-section">
-      <div class="row--50-50">
-        <hr class="p-rule" />
-        <div class="col">
-          <h2>Cloud-native execution environments for Open RAN</h2>
-        </div>
-        <div class="col">
-          <p>
-            <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> offers the perfect cloud-native execution environment virtual RAN functions for Open RAN and MEC workloads alike. Built from fully upstream components running in a confined execution environment, it offers a reliable and trusted software platform, supporting:
-          </p>
-          <hr class="p-rule--muted u-no-margin--bottom" />
-          <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">
-              Multiple enhanced platform features, such as SR-IOV, CPU pinning, DPDK, Hugepages, and GPU acceleration
-            </li>
-            <li class="p-list__item is-ticked">Various storage solutions, like Ceph, OpenEBS, and hostpath storage</li>
-            <li class="p-list__item is-ticked">Multiple popular CNIs, like Cilium, Calico, Flannel, and Multus</li>
-            <li class="p-list__item is-ticked">
-              Support for Cluster API for declarative cluster deployment and management operations
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="p-section">
-      <div class="u-fixed-width">
-        <hr class="p-rule" />
-        <div class="p-section--shallow">
-          <h2>Open source data and AI/ML platforms for Open RAN</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-start-large-7 col-6">
-          <p>
-            RAN Intelligence Controllers (RIC) bring AI/ML to Open RAN. By running RIC on Ubuntu, Open RAN can natively support network intelligence via its standard interfaces for near-real-time and non-real-time control operations. RIC systems need a trusted and reliable operating system, as well as powerful data and AI/ML platforms. With Ubuntu and Canonical’s Data and AI products, you can build and run carrier-grade network intelligence for your Open RAN deployments.
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-start-large-4 col-9">
-          <hr class="p-rule--muted" />
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">Canonical data platforms for Open RAN</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Canonical brings automation, reliability, and support to popular open source data management tools like Kafka, MongoDB, MySQL, OpenSearch, Valkey, Postgres and Spark. You can build data pipelines of varying complexity according to your needs, and meet the database, big data processing, analytics and search requirements of your rApps, xApps and AI/ML workflows.
-              </p>
-              <div class="p-cta-block">
-                <a href="/data">Learn more about our Data Solutions portfolio&nbsp;&rsaquo;</a>
+    <div>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <hr class="p-rule--muted">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+                <h3 class="p-text--small-caps">Reading</h3>
               </div>
             </div>
-          </div>
-          <hr class="p-rule--muted" />
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">Data science and ML platform for Open RAN</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Deploy and run AI/ML workflows with ease, thanks to our software automation and tooling. Discover how you can build the perfect environment for your Open RAN xApps and rApps at every stage of your AI/ML journey.
-              </p>
-              <div class="p-cta-block">
-                <a href="/mlops/kubeflow">Discover Charmed Kubeflow&nbsp;&rsaquo;</a>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/blog/what-is-open-ran">
+                    <h4 class="p-article-block__title article-title p-heading--3">What is Open RAN?</h4>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="p-section">
-      <div class="row">
-        <hr class="p-rule" />
-        <div class="col-3">
-          <h2>Learn more</h2>
-        </div>
-        <div class="col-9">
-          <div class="row">
-            <div class="col-3">
-              <h3 class="p-heading--5">Webinars</h3>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
             </div>
-            <div class="col-6">
-              <ul class="p-list--divided">
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/engage/improving-telecom-security-2023-webinar">Improving telecom security</a>
-                </li>
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/engage/telco-edge-automation-cloud-native">Telco edge cloud automation at scale</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <hr class="p-rule--muted" />
-          <div class="row">
-            <div class="col-3">
-              <h3 class="p-heading--5">Reading</h3>
-            </div>
-            <div class="col-6">
-              <ul class="p-list--divided">
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/blog/what-is-open-ran">What is Open RAN?</a>
-                </li>
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/blog/new-telco-cloud-opportunity">Building new revenue streams: 3 strategic cloud opportunities for telcos in 2026</a>
-                </li>
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/blog/telecom-security-how-to-safeguard-your-open-source-telco-infrastructure">Safeguarding your telco infrastructure with Ubuntu Pro</a>
-                </li>
-                <li class="p-list__item">
-                  <a href="https://ubuntu.com/blog/intel-flexran-and-real-time-ubuntu-for-5g-urllc">Fast and reliable telco edge clouds with Intel FlexRAN and Real-time Ubuntu for 5G URLLC scenarios</a>
-                </li>
-                <li class="p-list__item">
-                  <a href="/blog/real-time-ubuntu-for-amazon-eks-anywhere">Canonical announces the availability of Real-time Ubuntu for Amazon EKS Anywhere</a>
-                </li>
-              </ul>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/blog/new-telco-cloud-opportunity">
+                    <h4 class="p-article-block__title article-title p-heading--3">Building new revenue streams: 3
+                      strategic cloud opportunities for telcos in 2026</h4>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <hr class="p-rule is-fixed-width" />
-
-    <section class="p-strip is-deep" id="full-width-default">
-      <div class="u-fixed-width">
-        <h2>Canonical provides a full stack for your telecom infrastructure. 
-          <br><a href="/contact-us" class="js-invoke-modal" aria-controls="contact-sales-modal">Contact us to learn more&nbsp;&rsaquo;</a>
-        </h2>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link"
+                    href="https://ubuntu.com/blog/telecom-security-how-to-safeguard-your-open-source-telco-infrastructure">
+                    <h4 class="p-article-block__title article-title p-heading--3">Safeguarding your telco infrastructure
+                      with Ubuntu Pro</h4>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/engage/intel-flexran-ubuntu-real-time-kernel">
+                    <h4 class="p-article-block__title article-title p-heading--3">Intelligent auto-scaling in 5G RAN based
+                      on MicroK8s with Ubuntu real-time kernel on Intel® technology</h4>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://ubuntu.com/blog/intel-flexran-and-real-time-ubuntu-for-5g-urllc">
+                    <h4 class="p-article-block__title article-title p-heading--3">Fast and reliable telco edge clouds with
+                      Intel FlexRAN and Real-time Ubuntu for 5G URLLC scenarios</h4>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-row--25-75-on-large u-sv2">
+        <div class="grid-col">
+          <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+            <div class="grid-col p-resources-block__col">
+              <div class="grid-col">
+              </div>
+            </div>
+            <div class="grid-col p-resources-block__col">
+              <div class="p-article-block">
+                <div class="p-article-block__item">
+                  <a class="article-link" href="https://canonical.com/blog/real-time-ubuntu-for-amazon-eks-anywhere">
+                    <h4 class="p-article-block__title article-title p-heading--3">Canonical announces the availability of
+                      Real-time Ubuntu for Amazon EKS Anywhere</h4>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% call(slot) vf_cta_section(
+    title_text='Canonical provides a full stack for your telecom infrastructure.',
+    variant='default',
+    layout='100',
+    blocks=[
+      {
+        "type": "cta",
+        "item": {
+          "type": "html",
+          "content": '<a href="/contact-us" class="js-invoke-modal" aria-controls="contact-sales-modal">Contact us to learn more &rsaquo;</a>'
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
 
     <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
   
