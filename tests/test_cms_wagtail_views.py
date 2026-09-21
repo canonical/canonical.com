@@ -159,6 +159,27 @@ class CmsWagtailViewsTest(unittest.TestCase):
         self.assertEqual(self.client.get("/cms-wagtail/data").status_code, 502)
 
     @responses.activate
+    def test_a_failed_preview_fetch_does_not_log_the_token(self):
+        # A non-404 CMS error (e.g. a 500) makes `requests` raise
+        # HTTPError, whose message embeds the full upstream URL -
+        # including this preview's ?token=... query string. The 502
+        # handler must never put that message in the logs.
+        secret_token = "s3cr3t-preview-token"
+        responses.add(
+            responses.GET, f"{API}/api/v2/page_preview/1/", status=500,
+        )
+        with self.assertLogs(level="WARNING") as logs:
+            response = self.client.get(
+                "/cms-wagtail/_preview"
+                f"?content_type=website.marketingpage&token={secret_token}"
+            )
+        self.assertEqual(response.status_code, 502)
+        log_output = "\n".join(logs.output)
+        self.assertNotIn(secret_token, log_output)
+        self.assertIn("HTTPError", log_output)
+        self.assertIn("/_preview", log_output)
+
+    @responses.activate
     def test_a_case_study_gets_its_own_hero_and_contact_section(self):
         study = {
             "id": 9,
