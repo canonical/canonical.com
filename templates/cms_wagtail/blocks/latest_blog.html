@@ -1,0 +1,23 @@
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+{{ vf_blog(
+  title={"text": macro.heading},
+  padding=value.padding,
+  template_config={
+    "enabled": True,
+    "template_container_id": macro.container_id,
+    "layout": value.layout,
+    "template_id": macro.template_id,
+  })
+}}
+<script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+<script nonce="{{ csp_nonce }}">
+  canonicalLatestNews.fetchLatestNews({
+    url: "/blog/latest-news.json",
+    imageClasses: ["p-image-container__image"],
+    articlesContainerSelector: "#{{ macro.container_id }}",
+    articleTemplateSelector: "#{{ macro.template_id }}",
+    excerptLength: {{ value.excerpt_length | int }},
+    {% if value.tag_ids %}tagIds: {{ value.tag_ids | tojson }},{% endif %}
+    limit: {{ value.limit | int }}
+  });
+</script>
