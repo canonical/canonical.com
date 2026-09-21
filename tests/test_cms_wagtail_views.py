@@ -182,6 +182,34 @@ class CmsWagtailViewsTest(unittest.TestCase):
         self.assertNotIn('ESA" onerror=alert(1) <x>', html)
         self.assertIn("ESA&#34;", html)
 
+    @responses.activate
+    def test_preview_renders_the_draft_and_is_never_cached(self):
+        draft = {**PAGE, "id": 0, "title": "Draft title"}
+        responses.add(responses.GET, f"{API}/api/v2/page_preview/1/", json=draft)
+        response = self.client.get("/cms-wagtail/_preview?content_type=website.marketingpage&token=tok-1")
+        html = response.get_data(as_text=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Draft title", html)
+        self.assertIn("Preview", html)
+        self.assertIn("no-store", response.headers["Cache-Control"])
+        self.assertEqual(response.headers["X-Robots-Tag"], "noindex")
+        self.assertIn("token=tok-1", responses.calls[0].request.url)
+
+    def test_preview_without_a_token_is_a_400(self):
+        self.assertEqual(self.client.get("/cms-wagtail/_preview").status_code, 400)
+
+    @responses.activate
+    def test_an_expired_preview_is_a_404(self):
+        responses.add(responses.GET, f"{API}/api/v2/page_preview/1/", status=404)
+        response = self.client.get("/cms-wagtail/_preview?content_type=website.marketingpage&token=gone")
+        self.assertEqual(response.status_code, 404)
+
+    @responses.activate
+    def test_published_pages_show_no_preview_banner(self):
+        mock_page()
+        html = self.client.get("/cms-wagtail/data").get_data(as_text=True)
+        self.assertNotIn("cms-preview-banner", html)
+
 
 if __name__ == "__main__":
     unittest.main()

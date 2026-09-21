@@ -33,6 +33,21 @@ def build_cms_wagtail_blueprint(session):
         # handler is not handled again and would surface as a 500.
         return flask.Response("The CMS is unavailable.", status=502)
 
+    @blueprint.route("/_preview")
+    def preview():
+        content_type = flask.request.args.get("content_type")
+        token = flask.request.args.get("token")
+        if not (content_type and token):
+            flask.abort(400)
+        document = content().preview(content_type, token) or flask.abort(404)
+        template = TEMPLATES.get(document["type"], DEFAULT_TEMPLATE)
+        response = flask.make_response(
+            flask.render_template(template, page=document, preview=True)
+        )
+        response.cache_control.no_store = True
+        response.headers["X-Robots-Tag"] = "noindex"
+        return response
+
     @blueprint.route("/<path:path>")
     def page(path):
         document = content().page_by_path(path) or flask.abort(404)

@@ -6,6 +6,7 @@
 {% block body_class %}{{ page.meta.body_class }}{% endblock %}
 
 {% block content %}
+  {% include "cms_wagtail/_preview_banner.html" %}
   {% for section in page.sections %}
     {% with value = section.value, macro = section.macro %}
       {% include "cms_wagtail/blocks/" ~ section.type ~ ".html" %}
