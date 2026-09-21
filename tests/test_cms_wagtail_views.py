@@ -158,6 +158,30 @@ class CmsWagtailViewsTest(unittest.TestCase):
         )
         self.assertEqual(self.client.get("/cms-wagtail/data").status_code, 502)
 
+    @responses.activate
+    def test_a_case_study_gets_its_own_hero_and_contact_section(self):
+        study = {
+            "id": 9,
+            "meta": {"type": "website.CaseStudyPage", "seo_title": "", "search_description": ""},
+            "title": "ESA launches on Ubuntu",
+            "company_name": "ESA <agency>",
+            "subtitle": "Space, on Ubuntu",
+            "signpost_image_url": "https://assets.ubuntu.com/v1/abc-esa.png",
+            "signpost_image_alt": 'ESA" onerror=alert(1) <x>',
+            "meta_description": "", "meta_copydoc": "", "body_class": "is-paper",
+            "body": [{"type": "text_section", "id": "1", "value": {"heading": "Challenge", "body": "<p>Scale.</p>"}}],
+        }
+        mock_page(study, page_id=9)
+        html = self.client.get("/cms-wagtail/case-study/esa").get_data(as_text=True)
+        self.assertIn("p-breadcrumbs", html)
+        self.assertIn("ESA &lt;agency&gt;", html)
+        self.assertIn("Space, on Ubuntu", html)
+        self.assertIn("abc-esa.png", html)
+        self.assertIn("Scale.", html)
+        self.assertIn("Get in touch", html)
+        self.assertNotIn('ESA" onerror=alert(1) <x>', html)
+        self.assertIn("ESA&#34;", html)
+
 
 if __name__ == "__main__":
     unittest.main()

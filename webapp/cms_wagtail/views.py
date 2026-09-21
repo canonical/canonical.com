@@ -3,6 +3,9 @@ import requests
 
 from webapp.cms_wagtail.client import WagtailContent
 
+TEMPLATES = {"website.CaseStudyPage": "cms_wagtail/case_study.html"}
+DEFAULT_TEMPLATE = "cms_wagtail/page.html"
+
 
 def build_cms_wagtail_blueprint(session):
     blueprint = flask.Blueprint("cms_wagtail", __name__)
@@ -33,6 +36,7 @@ def build_cms_wagtail_blueprint(session):
     @blueprint.route("/<path:path>")
     def page(path):
         document = content().page_by_path(path) or flask.abort(404)
-        return render("cms_wagtail/page.html", page=document, preview=False)
+        template = TEMPLATES.get(document["type"], DEFAULT_TEMPLATE)
+        return render(template, page=document, preview=False)
 
     return blueprint
