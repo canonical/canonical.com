@@ -42,7 +42,14 @@ BODY_EXTRA = [
         "title": "Databases", "layout": "25/75", "top_rule_variant": "default",
         "links": [{"href": "/data/mysql", "text": "MySQL", "label": "MySQL page",
                    "image_url": "https://assets.ubuntu.com/v1/m.png", "image_alt": "",
+                   "image_width": 100, "image_height": 50},
+                  {"href": "/data/postgresql", "text": "PostgreSQL", "label": "PostgreSQL page",
+                   "image_url": "https://assets.ubuntu.com/v1/p.png", "image_alt": "",
                    "image_width": 100, "image_height": 50}],
+        # vf_linked-logo-block.jinja renders nothing unless links|length > 1
+        # (see shared/vf_linked-logo-block.jinja), so this block needs two
+        # links to render at all - a single-link fixture would let site
+        # chrome (the "MySQL" nav entry) masquerade as block output.
     }},
     {"type": "logo_section", "id": "11", "value": {
         "title": "Trusted by", "description": "<p>Because reasons.</p>",
@@ -141,7 +148,7 @@ class CmsWagtailViewsTest(unittest.TestCase):
     def test_the_remaining_seven_block_types_render_their_content(self):
         mock_page(page=PAGE_EXTRA, page_id=4)
         html = self.client.get("/cms-wagtail/extra").get_data(as_text=True)
-        self.assertIn("MySQL", html)  # linked_logo_section
+        self.assertIn('aria-label="MySQL page"', html)  # linked_logo_section
         self.assertIn("Because reasons.", html)  # logo_section
         self.assertIn("First &lt;1&gt;", html)  # tab_section
         self.assertIn("Kept simple", html)  # equal_heights
@@ -221,6 +228,14 @@ class CmsWagtailViewsTest(unittest.TestCase):
 
     @responses.activate
     def test_an_expired_preview_is_a_404(self):
+        # This mocks what the CMS genuinely returns for an unknown/expired
+        # token: sites_cms/sites_cms/api.py's PagePreviewAPIViewSet now
+        # catches PagePreview.DoesNotExist (and ContentType.DoesNotExist /
+        # ValueError) and raises Http404, so `/api/v2/page_preview/<id>/`
+        # answers 404 for real. Before that CMS fix it answered 500, so this
+        # mock was previously a coincidence, not a contract - confirmed
+        # against the live CMS test suite (website.tests.test_api's
+        # PagePreviewNotFoundAPITest).
         responses.add(responses.GET, f"{API}/api/v2/page_preview/1/", status=404)
         response = self.client.get("/cms-wagtail/_preview?content_type=website.marketingpage&token=gone")
         self.assertEqual(response.status_code, 404)
