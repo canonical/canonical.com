@@ -244,8 +244,8 @@ const OrganizationContactForm = () => {
               />
             </div>
             <p>
-              By clicking ‘Request contributor agreement’ below you are
-              confirming that you accept the terms detailed above.
+              By clicking 'I agree' below you are confirming that you accept the
+              terms detailed above on behalf of your organization.
             </p>
             <Button
               type="submit"
@@ -256,9 +256,7 @@ const OrganizationContactForm = () => {
                 !values.authorized_confirm
               }
             >
-              {submitSignForm.isPending
-                ? "Loading..."
-                : "Request contributor agreement"}
+              {submitSignForm.isPending ? "Loading..." : "I agree"}
             </Button>
           </Form>
         );
