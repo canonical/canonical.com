@@ -1,0 +1,19 @@
+<section class="p-section">
+  <div class="row p-section--shallow">
+    <hr class="p-rule-muted" />
+    <h2>{{ value.title }}</h2>
+  </div>
+  <div class="row--25-75">
+    <div class="col">
+      {% for group in value.groups %}
+        <div class="row--50-50 p-section--shallow">
+          <div class="col"><h3 class="p-text--small-caps">{{ group.heading }}</h3></div>
+          <div class="col">
+            {% for link in group.links %}<p><a href="{{ link.href }}">{{ link.text }}</a></p>{% endfor %}
+          </div>
+        </div>
+        {% if not loop.last %}<hr class="p-rule--muted" />{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
