@@ -146,6 +146,9 @@ class TestRoutes(VCRTestCase):
         self.assertEqual(
             self.client.get("/partners/executive-summit").status_code, 200
         )
+        self.assertEqual(
+            self.client.get("/partners/broadcom").status_code, 200
+        )
 
     def test_invalid_partners_page(self):
         """
