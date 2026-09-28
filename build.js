@@ -22,6 +22,7 @@ let entries = {
   "in-page-navigation": "./static/js/in-page-navigation.js",
   "prism": "./static/js/prism.js",
   "early-careers-animation": "./static/js/early-careers-animation.js",
+  "announcement-bar": "./static/js/announcement-bar.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
