@@ -1,0 +1,314 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_text-spotlight.jinja" import vf_text_spotlight %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block meta_copydoc %}
+    https://docs.google.com/document/d/1rXwFZEiVsoWO1dsaUDwDIA0ze5eYqGeHpfKNzm0QUoU/edit?tab=t.jijjhiya0no5
+{% endblock %}
+
+{% block title %}Canonical and Broadcom | Partners{% endblock %}
+
+{% block meta_description %}
+    Deploy an extensible private cloud with Ubuntu and VMware. Canonical and Broadcom provide integrated engineering, hardware choice, and long term security.
+{% endblock %}
+
+{% block body_class %}
+    is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+    {% call(slot) vf_hero(
+        title_text='Canonical and Broadcom',
+        layout='25/75',
+        blocks=[
+        {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+        "type": "text",
+        "content": "Canonical and Broadcom work hand-in-hand to deliver a production-ready environment where Ubuntu and VMware solutions integrate to provide hardware flexibility, long-term security, and peak performance for your enterprise cloud."
+        }
+        },
+        {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+        "primary": {
+        "content_html": "Get in touch",
+        "attrs": {"href": "/contact-us", "class": "js-invoke-modal", "aria-controls": "partners-broadcom-modal"}
+        },
+        "link": {
+        "content_html": "Discover Ubuntu on VCF&nbsp;&rsaquo;",
+        "attrs": {"href": "https://ubuntu.com/vmware"}
+        }
+        }
+        },
+        {
+        "type": "signpost_image",
+        "item": {
+        "is_highlighted": false,
+        "attrs": image(url="https://assets.ubuntu.com/v1/5eeb3a43-signpost_content_slotlogo.png",
+        alt="",
+        width="852",
+        height="215",
+        hi_def=True,
+        loading="auto",
+        output_mode="attrs")
+        }
+        }
+        ]
+        ) -%}
+    {% endcall -%}
+
+    {{ vf_basic_section(title={"text": "About the partnership"},
+        is_split_on_medium=True,
+        items=[
+        {
+        "type": "description",
+        "item": {
+        "type": "html",
+        "content": '
+        <p>
+            Canonical and Broadcom collaborate to deliver an extensible, enterprise-grade private cloud platform. Our goal is to ensure that you can use VMware private cloud solutions seamlessly with Ubuntu on the hardware of your choice, creating a unified infrastructure stack.
+        </p>
+        <p>
+            Ubuntu is optimized for use with VMware Cloud Foundation (VCF), VMware vSphere Kubernetes Service (VKS), and VMware Private AI Foundation. Through this integration, you gain direct access to the thousands of packages found in the Ubuntu archive. The collaboration also establishes a deep engineering alignment to guarantee that every layer of your software stack functions together flawlessly.
+        </p>
+        <a href="/blog/broadcom-and-canonical-expand-partnership-to-optimize-vmware-cloud-foundation-for-modern-container-and-ai-workloads">Read the partner announcement&nbsp;&rsaquo;</a>
+        '
+        }
+        }
+        ]) }}
+
+    {% call(slot) vf_tiered_list(
+        is_description_full_width_on_desktop=false,
+        is_list_full_width_on_tablet=false
+        ) -%}
+        {%- if slot == 'title' -%}
+            <h2>Active co-engineering</h2>
+        {%- endif -%}
+        {%- if slot == 'description' -%}
+            <p>
+                Canonical and Broadcom work proactively to ensure your private cloud is never static. By providing an integrated architecture, unified support, and continuous engineering, we deliver Ubuntu on VCF as a living platform for the modern enterprise.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_1' -%}
+            <h3 class="p-heading--5">Joint testing and integration</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                Canonical and Broadcom co-certify every layer of the stack for Ubuntu on VCF. This joint engineering includes the OS, optimized hardware drivers, and containerized workloads, ensuring that your infrastructure remains interoperable and reliable across your entire private cloud.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_2' -%}
+            <h3 class="p-heading--5">Native platform evolution</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_2' -%}
+            <p>
+                Stay current with the latest from both Canonical and Broadcom. Ubuntu LTS images are available directly through the VCF catalog, being tested, validated, and delivered seamlessly alongside your existing Broadcom infrastructure. This ensures every update and new release works as expected.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_3' -%}
+            <h3 class="p-heading--5">A commitment to hardware enablement</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_3' -%}
+            <p>
+                Every private cloud is built on a different hardware mix. Canonical and Broadcom's combined vendor partnerships ensure seamless support for the latest hardware. Ubuntu images in the VCF catalog come pre-integrated with the most popular AI acceleration hardware drivers, with driver updates via the Ubuntu archive.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_4' -%}
+            <h3 class="p-heading--5">A production-ready supply chain</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_4' -%}
+            <p>
+                Canonical and Broadcom’s partnership ensures known provenance across OS and container images, providing your developers with a trusted, production-ready supply chain.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'cta' -%}
+            <a href="https://ubuntu.com/vmware" class="p-button">Learn about Ubuntu on VCF</a>
+        {%- endif -%}
+    {% endcall -%}
+
+    {% call(slot) vf_equal_heights(
+        title_text="Unified enterprise support",
+        items=[
+        {
+        "title_text": "Single touchpoint from onboarding to support",
+        "image_html": image(url="https://assets.ubuntu.com/v1/8cd821e6-image_2.png",
+        alt="",
+        width="284",
+        height="426",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "
+        <p>Broadcom acts as your single point of contact for the entire stack, covering both the infrastructure and the OS.</p>
+        <p>Avoid the overhead of managing multiple vendor relationships, and handle requests through a single provider.</p>
+        "
+        },
+        {
+        "title_text": "Expanded Security Maintenance",
+        "image_html": image(url="https://assets.ubuntu.com/v1/cc5e4635-image_1.png",
+        alt="",
+        width="284",
+        height="426",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "<p>Get five years of standard security maintenance with Ubuntu images in the VCF catalog. Expand this protection to up to 15 years by activating Ubuntu Pro. Simply enable your subscription to let Canonical manage continuous patching at the OS level.</p>"
+        },
+        {
+        "title_text": "Integrated and coordinated expertise",
+        "image_html": image(url="https://assets.ubuntu.com/v1/4d13894c-image.png",
+        alt="",
+        width="284",
+        height="426",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "<p>Resolve complex OS issues faster through an integrated, coordinated support between Broadcom and Canonical engineers. This direct partnership provides expert troubleshooting and resolutions for your private AI environment without requiring you to manage separate tickets or bridge vendor gaps.</p>"
+        },
+        ]
+        ) -%}
+        {%- if slot == 'description' -%}
+            <p>
+                Broadcom and Canonical provide active, single-stack support. Broadcom serves as the primary contact, while Canonical provides integrated engineering expertise. This joint commitment ensures long-term security and stability for mission-critical workloads.
+            </p>
+        {%- endif -%}
+    {% endcall -%}
+
+    {{ vf_text_spotlight(title_text='Cost efficient. Time efficient. Built to scale.',
+        list_items=[
+        'Lower TCO than fragmented alternatives',
+        'Streamline operations with a single vendor contact',
+        'Drive value quickly on a unified stack'
+        ]) }}
+
+    {% call(slot) vf_equal_heights(
+        title_text="Accelerating AI from silicon to software",
+        highlight_images="true",
+        image_aspect_ratio_large="square",
+        items=[
+        {
+        "image_html": image(url="https://assets.ubuntu.com/v1/f17cf7a7-imagelogo.png",
+        alt="NVIDIA",
+        width="852",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "<p>NVIDIA ships Ubuntu across its platform portfolio, from DGX AI supercomputers to BlueField DPUs. Canonical delivers pre-packaged CUDA drivers directly in the Ubuntu archive, so your AI infrastructure is optimized from day one without manual configuration.</p>"
+        },
+        {
+        "image_html": image(url="https://assets.ubuntu.com/v1/82206537-imagelogo_2.png",
+        alt="AMD",
+        width="852",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "<p>Scale AI training and inference using AMD ROCm and SEV-SNP to optimize performance and security. Ubuntu provides the validated drivers and security maintenance needed to scale your AI infrastructure with confidence.</p>"
+        },
+        {
+        "image_html": image(url="https://assets.ubuntu.com/v1/07e04fa9-imagelogo_1.png",
+        alt="Intel",
+        width="852",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}
+        ),
+        "description_html": "<p>Streamline the way you use AI on Intel hardware. Integrate validated Intel drivers and libraries from the Ubuntu archive.</p>"
+        }
+        ]
+        ) -%}
+        {%- if slot == 'description' -%}
+            <p>
+                Enterprise AI success depends on the seamless integration of specialized silicon and the software stack. Canonical and Broadcom maintain deep relationships with leading hardware vendors to provide pre-validated, optimized features that ensure you get the most out of your AI infrastructure.
+            </p>
+        {%- endif -%}
+    {% endcall -%}
+
+    {% call(slot) vf_tiered_list(
+        is_description_full_width_on_desktop=false,
+        is_list_full_width_on_tablet=false
+        ) -%}
+        {%- if slot == 'title' -%}
+            <h2>A shared security commitment</h2>
+        {%- endif -%}
+        {%- if slot == 'description' -%}
+            <p>
+                From VCF's software-defined infrastructure to Ubuntu guest VMs, security is consistent, verifiable at every layer, and seamless between the OS and the platform, giving enterprises a trusted, unified security posture across the full stack.
+            </p>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_1' -%}
+            <h3 class="p-heading--5">One security posture</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_1' -%}
+            <p>
+                Canonical and Broadcom take a coordinated approach to security across the full stack. Ubuntu's hardened images, kernel patching, and long-term maintenance commitments are designed to complement VCF's infrastructure security, so protection is seamless from the OS up.
+            </p>
+            <div class="p-cta-block">
+                <a href="https://ubuntu.com/vmware">Discover how Ubuntu on VCF prioritizes security&nbsp;&rsaquo;</a>
+            </div>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_2' -%}
+            <h3 class="p-heading--5">Compliance without complexity</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_2' -%}
+            <p>
+                Ubuntu Pro on VCF gives teams up to 15 years of security patching across tens of thousands of open source packages, alongside built-in tools for CIS hardening and FIPS 140 compliance, covering the most common regulatory frameworks without additional configuration.
+            </p>
+            <div class="p-cta-block">
+                <a href="https://ubuntu.com/vmware">Learn about Ubuntu Pro on VCF&nbsp;&rsaquo;</a>
+            </div>
+        {%- endif -%}
+        {%- if slot == 'list_item_title_3' -%}
+            <h3 class="p-heading--5">Single support touchpoint</h3>
+        {%- endif -%}
+        {%- if slot == 'list_item_description_3' -%}
+            <p>
+                One relationship, full-stack accountability. Canonical and Broadcom coordinate behind the scenes so your team doesn't have to.
+            </p>
+            <div class="p-cta-block">
+                <a href="https://ubuntu.com/vmware">Learn more&nbsp;&rsaquo;</a>
+            </div>
+        {%- endif -%}
+    {% endcall -%}
+
+    {% call(slot) vf_cta_section(
+        title_text='Get in touch to discuss your VMware needs',
+        variant='block',
+        layout='100',
+        blocks=[
+        {
+        "type": "cta",
+        "item": {
+        "primary": {
+        "content_html": "Get in touch",
+        "attrs": {"href": "/contact-us", "class": "js-invoke-modal", "aria-controls": "partners-broadcom-modal"}
+        },
+        "link": {
+        "content_html": "Discover Ubuntu on VCF&nbsp;&rsaquo;",
+        "attrs": {"href": "https://ubuntu.com/vmware"}
+        }
+        }
+        }
+        ]
+        ) -%}
+    {% endcall -%}
+
+    {{ load_form("/partners/broadcom") | safe }}
+
+{% endblock content %}
