@@ -358,6 +358,7 @@ CSP = {
 
 _CSP_REPORT_ONLY_REMOVALS = {
     "script-src": ["'unsafe-eval'"],
+    "script-src-elem": ["munchkin.marketo.net"],
 }
 
 
