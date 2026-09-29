@@ -13,7 +13,7 @@ on:
 if: github.event.label.name == 'copilot'
 
 engine: copilot
-model: claude-sonnet-5
+model: gpt-5.5
 
 permissions:
   issues: read
