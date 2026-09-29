@@ -73,6 +73,7 @@ from webapp.careers import (
     group_by_department,
     get_all_departments,
 )
+from webapp.cms_wagtail import build_cms_wagtail_blueprint
 from webapp.greenhouse import Greenhouse, HarvestV3
 from webapp.handlers import init_handlers
 from webapp import llms
@@ -938,6 +939,18 @@ def blog_latest_news_json():
 
 
 app.register_blueprint(build_blueprint(blog_views), url_prefix="/blog")
+
+# CMS proof of concept: pages built in Wagtail, rendered here over its API.
+app.config.update(
+    CMS_WAGTAIL_API_URL=os.getenv(
+        "CMS_WAGTAIL_API_URL", "http://localhost:8000"
+    ),
+    CMS_WAGTAIL_SITE_HOST=os.getenv("CMS_WAGTAIL_SITE_HOST", ""),
+)
+app.register_blueprint(
+    build_cms_wagtail_blueprint(get_requests_session()),
+    url_prefix="/cms-wagtail",
+)
 
 # Knowledge hub
 app.add_url_rule("/knowledge", view_func=build_knowledge_index())

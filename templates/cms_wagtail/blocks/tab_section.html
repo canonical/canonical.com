@@ -1,0 +1,11 @@
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+{{ vf_tab_section(
+  title={"text": macro.title},
+  description={"type": "html", "content": macro.description},
+  tabs=macro.tabs,
+  attrs={"class": "js-tab-section"}
+) }}
+<script type="module" nonce="{{ csp_nonce }}">
+  import { initTabs } from "/static/js/modules/vanilla-framework/js/tabs.js";
+  initTabs(".js-tab-section [role='tablist']");
+</script>
