@@ -1,0 +1,43 @@
+# Params
+# label (required): Accessible name for the table (aria-label)
+# headers (required): List of column header strings; the first is the row-label column
+# rows (required): List of rows, each a list of cell strings; the first cell is the row label
+# note (optional): Small-print note rendered below the table
+#
+# Knowledge articles are rendered through Jinja first and then the markdown
+# parser, which treats a line indented by 4+ spaces as a code block and only
+# accepts a raw HTML block if it is followed by a blank line. Keep the opening
+# <div> and the note <p> indented by less than 4 spaces, and keep the blank
+# lines after </div> and </p>.
+
+{%- macro table_kh(label, headers, rows, note="") -%}
+<div class="u-overflow-x-auto">
+  <table class="u-table-layout-unset" aria-label="{{ label }}">
+    <thead>
+      <tr>
+        {% for header in headers %}
+          <th scope="col">{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          {% for cell in row %}
+            {% if loop.first %}
+              <th scope="row">{{ cell }}</th>
+            {% else %}
+              <td>{{ cell }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if note %}
+<p class="u-text--muted">{{ note }}</p>
+
+{% endif %}
+{%- endmacro -%}
