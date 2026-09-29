@@ -15,7 +15,7 @@
         history.pushState(
           "",
           document.title,
-          location.pathname + location.search + hash
+          location.pathname + location.search + hash,
         );
       } else {
         location.hash = hash;
@@ -148,12 +148,15 @@
     if (isModalTrigger || isCloseButton) {
       e.preventDefault();
 
-      const targetControls = target.getAttribute("aria-controls");
+      // Read aria-controls from the trigger itself: the click target may be
+      // a child element, such as a heading wrapped in a trigger link.
+      const controlElement = isModalTrigger || isCloseButton;
+      const targetControls = controlElement.getAttribute("aria-controls");
       const toggleValue = Boolean(isModalTrigger);
       toggleModal(
         document.getElementById(targetControls),
-        e.target,
-        toggleValue
+        controlElement,
+        toggleValue,
       );
 
       if (modalTrigger) {
@@ -166,7 +169,8 @@
   // Handle Pagination
   let contactIndex = 1;
   const contactModal = document.querySelector(".p-modal");
-  const modalPaginationButtons = contactModal?.querySelectorAll(".pagination a");
+  const modalPaginationButtons =
+    contactModal?.querySelectorAll(".pagination a");
   const paginationContent = contactModal?.querySelectorAll(".js-pagination");
 
   function setState(index) {
@@ -177,7 +181,7 @@
   function render() {
     if (paginationContent?.length) {
       const currentContent = contactModal.querySelector(
-        ".js-pagination--" + contactIndex
+        ".js-pagination--" + contactIndex,
       );
       paginationContent.forEach(function (content) {
         content.classList.add("u-hide");
@@ -229,7 +233,7 @@ function validateCheckbox(event, fieldsetId) {
   const checkboxes = Array.from(
     document
       .getElementById(fieldsetId)
-      .querySelectorAll("input[class='p-checkbox__input']")
+      .querySelectorAll("input[class='p-checkbox__input']"),
   );
   if (event.currentTarget.checked) {
     checkboxes[0].removeAttribute("required");
@@ -256,7 +260,7 @@ function getCustomFields(event) {
     }
     /** @type {NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} */
     var inputs = formField.querySelectorAll(
-      "input, textarea:not(.js-other-input), select"
+      "input, textarea:not(.js-other-input), select",
     );
     if (fieldTitle) {
       message += fieldTitle.innerText + "\r\n";
@@ -268,7 +272,9 @@ function getCustomFields(event) {
           /** @type {HTMLSelectElement} */
           const selectInput = input;
           message +=
-            selectInput.options[selectInput.selectedIndex]?.textContent + comma + " ";
+            selectInput.options[selectInput.selectedIndex]?.textContent +
+            comma +
+            " ";
           break;
         case "radio":
           /** @type {HTMLInputElement} */
@@ -301,7 +307,7 @@ function getCustomFields(event) {
 
               /** @type {HTMLElement | null} */
               var label = formField.querySelector(
-                "span#" + checkboxInput.getAttribute("aria-labelledby")
+                "span#" + checkboxInput.getAttribute("aria-labelledby"),
               );
 
               if (label) {
@@ -339,12 +345,12 @@ function getCustomFields(event) {
   }
 
   const checkboxFieldsets = document.querySelectorAll(
-    ".js-remove-checkbox-names"
+    ".js-remove-checkbox-names",
   );
   if (checkboxFieldsets.length > 0) {
     checkboxFieldsets.forEach((checkboxFieldset) => {
       const checkboxInputs = checkboxFieldset.querySelectorAll(
-        "input[type='checkbox']"
+        "input[type='checkbox']",
       );
       checkboxInputs.forEach((checkboxInput) => {
         checkboxInput.removeAttribute("name");
@@ -358,7 +364,9 @@ function getCustomFields(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("[data-js-form-custom-fields]").forEach(function (form) {
-    form.addEventListener("submit", getCustomFields);
-  });
+  document
+    .querySelectorAll("[data-js-form-custom-fields]")
+    .forEach(function (form) {
+      form.addEventListener("submit", getCustomFields);
+    });
 });

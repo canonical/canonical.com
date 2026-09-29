@@ -29,19 +29,40 @@ ai:
     - title: MLOps
       path: /mlops
 
-cassandra:
-  title: Cassandra
-  path: /data/cassandra
+data:
+  title: Data
+  path: /data
 
-  parent:
-    - title: All data solutions
-    - path: /data
+  children:
+    - title: Portfolio
+      path: /data
+    - title: Services
+      path: /data/services
+
+services:
+  title: Data
+  path: /data
 
   children:
     - title: Overview
+      path: /data/services
+    - title: Portfolio
+      path: /data
+    - title: Services
+      path: /data/services
+
+cassandra:
+  title: Data
+  path: /data
+  match: /data/cassandra
+
+  children:
+    - title: Services
+      path: /data/services
+    - title: Overview
       path: /data/cassandra
     - title: Docs
-      path: /data/cassandra/docs
+      path: https://canonical-charmed-cassandra.readthedocs-hosted.com/latest/
 
 careers:
   title: Careers
@@ -57,33 +78,23 @@ careers:
     - title: Early careers
       path: /careers/early-careers
 
-data:
+etcd:
   title: Data
   path: /data
+  match: /data/etcd
 
   children:
-    - title: Portfolio
-      path: /data
     - title: Services
       path: /data/services
-
-etcd:
-  title: etcd
-  path: /data/etcd
-
-  parent:
-    - title: All data solutions
-    - path: /data
-
-  children:
     - title: Overview
       path: /data/etcd
     - title: Docs
-      path: /data/etcd/docs
+      path: https://canonical-charmed-etcd.readthedocs-hosted.com/
 
 kafka:
   title: Data
   path: /data
+  match: /data/kafka
 
   children:
     - title: Services
@@ -142,8 +153,6 @@ mlops:
       path: /mlops/mlflow
     - title: Feast
       path: /mlops/feast
-    - title: MLOps workshop
-      path: /mlops/mlops-workshop
 
 mongodb:
   title: MongoDB
@@ -223,22 +232,13 @@ multipass:
       path: https://documentation.ubuntu.com/multipass
 
 opensearch:
-  title: OpenSearch
-  path: /data/opensearch
-
-  parent:
-    - title: All data solutions
-    - path: /data
+  title: Data
+  path: /data
+  match: /data/opensearch
 
   children:
-    - title: Overview
-      path: /data/opensearch
-    - title: What is OpenSearch
-      path: /data/opensearch/what-is-opensearch
-    - title: Managed
-      path: /data/opensearch/managed
-    - title: Support
-      path: /data/opensearch/support
+    - title: Services
+      path: /data/services
     - title: Docs
       path: /data/opensearch/docs
 
