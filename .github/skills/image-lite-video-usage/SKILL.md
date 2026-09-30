@@ -7,13 +7,13 @@ description: Checks that Jinja templates use the shared `image()` template globa
 
 ## When to run this check
 
-Only applies when the file being created, edited, or reviewed is a Jinja template (path under `templates/`, extension `.html` or `.jinja`). Skip this check for Python, JS/TS, or SCSS files.
+Only applies when the file being created, edited, or reviewed is a Jinja template (path under `templates/`, including `.html`, `.jinja`, and Markdown templates containing Jinja tags). Skip this check for Python, JS/TS, or SCSS files.
 
 ## Images: use the `image()` global
 
-`image` is registered as a Flask/Jinja context processor global (see `webapp/handlers.py`, backed by the `canonicalwebteam.image_template` package) — it's available in every template with no `{% from %}` import needed.
+`image` is registered as a Flask/Jinja context processor global (see `webapp/app.py`, backed by the `canonicalwebteam.image_template` package) — it's available in every template with no `{% from %}` import needed.
 
-Signature: `image(url, alt, width, height=None, hi_def=False, fill=False, e_sharpen=False, loading="lazy", attrs={})`
+Signature: `image(url, alt, width, height=None, hi_def=False, fill=False, e_sharpen=False, loading="lazy", attrs={}, output_mode="attrs")`
 
 - `url` (required): full `https://` asset URL (usually an `assets.ubuntu.com` Cloudinary-backed URL).
 - `alt` (required): alt text (`""` is acceptable for decorative images).
@@ -40,12 +40,12 @@ YouTube videos should be embedded with the Lite YouTube player, not a raw `<ifra
 Preferred, for new video embeds: import and call the shared macro:
 
 ```jinja
-{% from "macros/_macro-lite-video.jinja" import lite_video with context %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 ...
 {{ lite_video(video_id="VIDEO_ID", video_title="Accessible, descriptive title") }}
 ```
 
-If the macro isn't used, at minimum the page must use the `<lite-youtube videoid="..." videotitle="..." posterquality="maxresdefault">` custom element together with its script include, matching the pattern already used across the codebase (e.g. `templates/core/index.html`, `templates/openstack/index.html`):
+If the macro isn't used, at minimum the page must use the `<lite-youtube videoid="..." videotitle="..." posterquality="maxresdefault">` custom element together with its script include, matching the pattern already used across the codebase (e.g. `templates/maas/index.html`, `templates/anbox-cloud/index.html`)
 
 ```html
 <script nonce="{{ csp_nonce }}" type="module"
@@ -58,7 +58,7 @@ If the macro isn't used, at minimum the page must use the `<lite-youtube videoid
 
 - A raw `<iframe ...src="https://www.youtube.com/embed/...">` embed — recommend converting to `lite_video()` or a `<lite-youtube>` element.
 - A `<lite-youtube>` embed missing `videotitle` (accessibility) or missing `nonce="{{ csp_nonce }}"` on its script tag (breaks CSP).
-- For a *new* video embed, prefer the shared `lite_video` macro over hand-rolling the `<lite-youtube>` + script boilerplate, to avoid duplicating the script-include logic. Don't require rewriting pre-existing raw `<lite-youtube>` usages elsewhere on the page unless they're part of the change being reviewed.
+ - For a *new* video embed, prefer the shared `lite_video` macro over hand-rolling the `<lite-youtube>` markup. The page still needs the module script include; don't require rewriting pre-existing raw `<lite-youtube>` usages elsewhere on the page unless they're part of the change being reviewed.
 
 ## Reporting
 

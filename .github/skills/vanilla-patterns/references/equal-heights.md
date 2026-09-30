@@ -12,5 +12,5 @@
 - `title_text` required; `subtitle_heading_level` is 4 or 5.
 - Responsive image ratios: `square`, `2-3`, `3-2`, `16-9`, `cinematic`, `auto`.
 - `items` required. Each item: `title_text`, optional `title_link_attrs`, `description_html`, `image_html`, `cta_html`.
-- Slots: optional `description` and required `cta`.
+ - Slots: optional `description` and optional `cta`; each item's `cta_html` is also optional.
 - Grid: four items use four columns; three or six use three; two use two.

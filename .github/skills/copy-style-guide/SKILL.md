@@ -1,6 +1,6 @@
 ---
 name: copy-style-guide
-description: Canonical copy style guide covering brand voice/tone, US spelling, capitalization, product naming conventions (Ubuntu Pro, Ubuntu Core, etc.), inclusive language, punctuation, and words/phrases to avoid. Use whenever writing, editing, or reviewing any user-facing copy on ubuntu.com - page text, headings, CTAs, blog posts, alt text, form labels - to check tone and wording match Canonical's voice and naming conventions.
+description: Canonical copy style guide covering brand voice/tone, US spelling, capitalization, product naming conventions (Ubuntu Pro, Ubuntu Core, etc.), inclusive language, punctuation, and words/phrases to avoid. Use whenever writing, editing, or reviewing any user-facing copy on ubuntu.com or canonical.com - page text, headings, CTAs, blog posts, alt text, form labels - to check tone and wording match Canonical's voice and naming conventions.
 ---
 
 # **Canonical copy style guide**

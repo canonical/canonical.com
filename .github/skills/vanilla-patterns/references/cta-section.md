@@ -10,7 +10,7 @@
 - `title_text` is required for the `block` variant.
 - `variant`: `default` or `block`.
 - `layout`: `100` or `25-75`.
-- `blocks`: Structured `description` and `cta` blocks.
+- `blocks`: Structured `description` and `cta` blocks; the CTA block's `item` uses the shared CTA structure.
 - `attrs`: Section attributes.
 
 Do not use deprecated `description` or `cta` caller content. If the installed macro still calls `caller()`, retain the empty call wrapper.
