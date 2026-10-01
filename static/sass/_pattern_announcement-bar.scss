@@ -4,8 +4,6 @@
   z-index: 40;
 }
 
-$announcement-bar-close-width: $sp-xxx-large;
-
 .announcement-bar {
   align-items: center;
   background-color: #000;
@@ -20,6 +18,10 @@ $announcement-bar-close-width: $sp-xxx-large;
     background-image: vf-icon-info-url($color-ubuntu);
     flex-shrink: 0;
     margin-top: $sp-medium;
+
+    @media (max-width: ($breakpoint-large - 1)) {
+      margin-top: $sp-small;
+    }
   }
 
   &__grid {
@@ -27,6 +29,8 @@ $announcement-bar-close-width: $sp-xxx-large;
 
     @media (max-width: ($breakpoint-large - 1)) {
       display: block !important;
+      padding-top: $spv--small;
+      padding-bottom: $spv--large;
     }
   }
 
@@ -34,6 +38,10 @@ $announcement-bar-close-width: $sp-xxx-large;
     display: flex !important;
     flex-wrap: nowrap;
     gap: $sph--small;
+
+    @media (max-width: ($breakpoint-large - 1)) {
+      gap: $sp-medium;
+    }
 
     &-reverse {
       flex-direction: row-reverse;
@@ -50,22 +58,20 @@ $announcement-bar-close-width: $sp-xxx-large;
 
     @media (max-width: ($breakpoint-large - 1)) {
       margin-right: $sp-xxx-large;
+      padding-top: $sp-x-small;
+      padding-bottom: 0;
     }
 
     &-title {
-      padding-left: $sp-small;
+      @media (min-width: $breakpoint-large) {
+        padding-left: $sp-small;
+      }
     }
 
     &-main {
-      padding-left: $sp-x-large;
-
       @media (max-width: ($breakpoint-large - 1)) {
-        padding-top: 0;
-      }
-
-      @media (min-width: $breakpoint-large) {
-        padding-left: $sp-small;
-        margin-left: -$sp-medium;
+        padding-top: $sp-x-small;
+        padding-left: $sp-x-large;
       }
     }
   }
@@ -78,17 +84,28 @@ $announcement-bar-close-width: $sp-xxx-large;
     padding: 0;
     display: flex;
     justify-content: center;
-    width: $announcement-bar-close-width;
-    height: $announcement-bar-close-width;
+    width: $sp-xxx-large;
+    height: $sp-xxx-large;
 
-    @media (max-width: ($breakpoint-large - 1)) {
-      position: absolute;
-      top: $sp-small;
-      right: $sp-medium;
+    // Override vanilla's global button:hover background highlight
+    &:hover {
+      background-color: transparent;
     }
 
     @media (min-width: $breakpoint-large) {
       margin-right: -$sp-small !important;
+    }
+
+    @media (max-width: ($breakpoint-large - 1)) {
+      width: $sp-xx-large;
+      height: $sp-xx-large;
+      position: absolute;
+      top: $sp-x-small;
+      right: $spv--medium;
+    }
+
+    @media (max-width: ($breakpoint-small)) {
+      right: $sp-x-small;
     }
   }
 }
