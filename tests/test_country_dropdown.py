@@ -1,18 +1,21 @@
 import unittest
-
-from webapp.app import app
+from pathlib import Path
 
 
 class TestCountryDropdown(unittest.TestCase):
     def test_uses_current_country_names(self):
-        rendered = app.jinja_env.get_template(
-            "shared/forms/_country.html"
-        ).render()
+        template_path = (
+            Path(__file__).resolve().parents[1]
+            / "templates/shared/forms/_country.html"
+        )
+        template = template_path.read_text()
 
-        self.assertIn('<option value="MK">North Macedonia</option>', rendered)
-        self.assertIn('<option value="SZ">Eswatini</option>', rendered)
-        self.assertNotIn("Macedonia (the former Yugoslav Republic of)", rendered)
-        self.assertNotIn(">Swaziland</option>", rendered)
+        self.assertIn('<option value="MK">North Macedonia</option>', template)
+        self.assertIn('<option value="SZ">Eswatini</option>', template)
+        self.assertNotIn(
+            "Macedonia (the former Yugoslav Republic of)", template
+        )
+        self.assertNotIn(">Swaziland</option>", template)
 
 
 if __name__ == "__main__":
