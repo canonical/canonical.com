@@ -20,6 +20,23 @@ test("Ubuntu Pro description fits mobile, tablet, and desktop viewports", async 
     );
 
     if (width === 320) {
+      const longUrl = page
+        .locator(".p-legal-content a")
+        .filter({ hasText: "https://github.com/orgs/canonical/packages" });
+      await expect(longUrl).toBeVisible();
+      const wrapMetrics = await longUrl.evaluate((link) => {
+        const container = link.closest("li, p") as HTMLElement | null;
+        return {
+          lines: link.getClientRects().length,
+          clientWidth: container?.clientWidth ?? 0,
+          scrollWidth: container?.scrollWidth ?? 0,
+        };
+      });
+      expect(wrapMetrics.lines).toBeGreaterThan(1);
+      expect(wrapMetrics.scrollWidth).toBeLessThanOrEqual(
+        wrapMetrics.clientWidth
+      );
+
       const tableWidths = await page
         .locator(".p-sev-table-wrap")
         .evaluate((wrapper) => ({
@@ -48,9 +65,12 @@ test("PDF export dialog stays usable on a narrow screen", async ({ page }) => {
   const exportButton = dialog.getByRole("button", { name: "Export" });
   await exportButton.scrollIntoViewIfNeeded();
   await expect(exportButton).toBeVisible();
+  await expect(exportButton).toBeEnabled();
   const exportBounds = await exportButton.boundingBox();
   expect(exportBounds).not.toBeNull();
   expect(exportBounds!.x + exportBounds!.width).toBeLessThanOrEqual(320);
+  expect(exportBounds!.y + exportBounds!.height).toBeLessThanOrEqual(568);
+  await exportButton.click({ trial: true });
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
 });
