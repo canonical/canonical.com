@@ -4,6 +4,10 @@
   z-index: 40;
 }
 
+// Matches ubuntu.com's $viewport-threshold; not defined site-wide here, so
+// it's scoped to this component instead.
+$viewport-threshold: 1250px;
+
 .announcement-bar {
   align-items: center;
   background-color: #000;
@@ -19,7 +23,7 @@
     flex-shrink: 0;
     margin-top: $sp-medium;
 
-    @media (max-width: ($breakpoint-large - 1)) {
+    @media (width < $viewport-threshold) {
       margin-top: $sp-small;
     }
   }
@@ -27,7 +31,11 @@
   &__grid {
     min-height: $sp-xxx-large;
 
-    @media (max-width: ($breakpoint-large - 1)) {
+    @media (width >= $viewport-threshold) {
+      gap: $sp-medium !important;
+    }
+
+    @media (width < $viewport-threshold) {
       display: block !important;
       padding-top: $spv--small;
       padding-bottom: $spv--large;
@@ -39,7 +47,7 @@
     flex-wrap: nowrap;
     gap: $sph--small;
 
-    @media (max-width: ($breakpoint-large - 1)) {
+    @media (width < $viewport-threshold) {
       gap: $sp-medium;
     }
 
@@ -56,22 +64,26 @@
     padding-bottom: $spv--medium;
     text-align: start;
 
-    @media (max-width: ($breakpoint-large - 1)) {
+    @media (width < $viewport-threshold) {
       margin-right: $sp-xxx-large;
       padding-top: $sp-x-small;
       padding-bottom: 0;
     }
 
     &-title {
-      @media (min-width: $breakpoint-large) {
+      @media (width >= $viewport-threshold) {
         padding-left: $sp-small;
       }
     }
 
     &-main {
-      @media (max-width: ($breakpoint-large - 1)) {
+      @media (width < $viewport-threshold) {
         padding-top: $sp-x-small;
         padding-left: $sp-x-large;
+      }
+
+      @media (width >= $viewport-threshold) {
+        margin-left: $sp-x-small;
       }
     }
   }
@@ -92,11 +104,11 @@
       background-color: transparent;
     }
 
-    @media (min-width: $breakpoint-large) {
+    @media (width >= $viewport-threshold) {
       margin-right: -$sp-small !important;
     }
 
-    @media (max-width: ($breakpoint-large - 1)) {
+    @media (width < $viewport-threshold) {
       width: $sp-xx-large;
       height: $sp-xx-large;
       position: absolute;
@@ -104,7 +116,7 @@
       right: $spv--medium;
     }
 
-    @media (max-width: ($breakpoint-small)) {
+    @media (width <= $breakpoint-small) {
       right: $sp-x-small;
     }
   }

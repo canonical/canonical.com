@@ -9,6 +9,7 @@ import flask
 
 from webapp.announcement_bar import (
     DISMISS_COOKIE_NAME,
+    _ensure_trailing_period,
     get_announcement_bar_context,
     is_announcement_dismissed,
     should_show_announcement_bar,
@@ -107,6 +108,39 @@ class TestGetAnnouncementBarContext(unittest.TestCase):
         ):
             context = get_announcement_bar_context()
         self.assertFalse(context["show"])
+
+    def test_message_gets_trailing_period(self):
+        with self.app.test_request_context("/solutions/ai"):
+            context = get_announcement_bar_context()
+        self.assertEqual(context["message"], "Test message.")
+
+
+class TestEnsureTrailingPeriod(unittest.TestCase):
+    def test_adds_period_when_missing(self):
+        self.assertEqual(
+            _ensure_trailing_period("Hello world"), "Hello world."
+        )
+
+    def test_does_not_duplicate_period(self):
+        self.assertEqual(
+            _ensure_trailing_period("Hello world."), "Hello world."
+        )
+
+    def test_leaves_other_terminal_punctuation(self):
+        self.assertEqual(
+            _ensure_trailing_period("Hello world!"), "Hello world!"
+        )
+        self.assertEqual(
+            _ensure_trailing_period("Hello world?"), "Hello world?"
+        )
+
+    def test_strips_trailing_whitespace_first(self):
+        self.assertEqual(
+            _ensure_trailing_period("Hello world  "), "Hello world."
+        )
+
+    def test_empty_string_unchanged(self):
+        self.assertEqual(_ensure_trailing_period(""), "")
 
 
 if __name__ == "__main__":
