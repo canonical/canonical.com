@@ -9,6 +9,8 @@ import flask
 from canonicalwebteam.flask_base.env import get_flask_env
 from canonicalwebteam.discourse import RateLimitedError
 
+from webapp.announcement_bar import get_announcement_bar_context
+
 logger = logging.getLogger(__name__)
 
 # Regional google.<tld> domains used by GTM, from
@@ -542,6 +544,10 @@ def init_handlers(app):
     @app.context_processor
     def inject_csp_nonce():
         return {"csp_nonce": getattr(flask.g, "csp_nonce", "")}
+
+    @app.context_processor
+    def inject_announcement_bar():
+        return {"announcement_bar": get_announcement_bar_context()}
 
     @app.after_request
     def add_headers(response):
