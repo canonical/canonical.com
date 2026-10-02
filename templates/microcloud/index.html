@@ -30,20 +30,41 @@
 
   {% call(slot) vf_hero(
     title_text='MicroCloud: your open source cloud platform',
-    layout='50/50'
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "MicroCloud is an open source cloud platform that you can build in minutes,
+          and use to manage operations with ease. With MicroCloud, you can focus on
+          delivering value, not navigating complexity."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Get started with MicroCloud",
+            "attrs": {
+              "href": "/microcloud/docs/default/tutorial/single-member"
+            }
+          },
+          "secondaries": [
+            {
+              "content_html": "MicroCloud for edge computing",
+              "attrs": {
+                "href": "https://ubuntu.com/engage/guide-to-micro-clouds"
+              }
+            }
+          ],
+
+        }
+      },
+    ]
   ) -%}
-    {%- if slot == 'description' -%}
-      <p>
-        MicroCloud is an open source cloud platform that you can build in minutes,
-        and use to manage operations with ease. With MicroCloud, you can focus on
-        delivering value, not navigating complexity.
-      </p>
-    {%- endif -%}
-    {%- if slot == 'cta' -%}
-      <a href="https://canonical.com/microcloud/docs/default/tutorial/single-member/"
-         class="p-button--positive">Get started with MicroCloud</a>
-      <a href="https://ubuntu.com/engage/guide-to-micro-clouds" class="p-button">MicroCloud for edge computing</a>
-    {%- endif -%}
   {% endcall -%}
 
   <section class="p-section">
@@ -222,7 +243,7 @@
         width="109",
         height="66",
         hi_def=True,
-        loading="auto|lazy") | safe
+        loading="lazy") | safe
       }}
     {%- endif -%}
 
@@ -456,9 +477,7 @@
           <li class="p-list__item is-ticked">Safely experiment with new technologies.</li>
         </ul>
         <div class="p-cta-block">
-          <a href="/microcloud/docs/default/tutorial/single-member/">
-            Deploy your own MicroCloud following this tutorial&nbsp;&rsaquo;
-          </a>
+          <a href="/case-study/tntech-microcloud-cyber-range">Learn more in this case study&nbsp;&rsaquo;</a>
         </div>
       </div>
     {%- endif -%}
@@ -597,5 +616,8 @@
           nonce="{{ csp_nonce }}"></script>
 
   {{ load_form("/microcloud") | safe }}
+  <script type="module"
+          src="/static/js/modules/vanilla-framework/js/tabs.js"
+          nonce="{{ csp_nonce }}"></script>
 
 {% endblock content %}
