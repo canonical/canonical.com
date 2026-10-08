@@ -8,235 +8,232 @@
 {% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
 {% block meta_copydoc %}
-    https://docs.google.com/document/d/1RjLm3POJ0_pvptoH3YfYpu2o-TCJZEGhVEK2ufjfFd4/edit?tab=t.0
+  https://docs.google.com/document/d/1RjLm3POJ0_pvptoH3YfYpu2o-TCJZEGhVEK2ufjfFd4/edit?tab=t.0
 {% endblock meta_copydoc %}
 
 {% block title %}The enterprise data lakehouse | Data platform{% endblock %}
 
 {% block meta_description %}
-    Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
+  Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
 {% endblock %}
 
 {% block meta_keywords %}Data Lakehouse, enterprise data lakehouse, AI analytics data lake stack{% endblock %}
 
 {% block body_class %}
-    is-paper
+  is-paper
 {% endblock body_class %}
 
 {% block content %}
-    {#- HERO -#}
-    {% call(slot) vf_hero(
-        title_text='The enterprise data lakehouse',
-        subtitle_text='Unified data analytics at scale',
-        layout='50/50',
-        is_split_on_medium=true
-        ) -%}
-        {%- if slot == 'description' -%}
-            <p>
-                Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
-            </p>
-        {%- endif -%}
-        {%- if slot == 'cta' -%}
-            <a href="/contact-us"
-               class="p-button--positive js-invoke-modal"
-               aria-controls="data-lakehouse-modal">Contact our system architects</a>
-        {%- endif -%}
-        {%- if slot == 'image' -%}
-            <div class="p-image-container--3-2 is-highlighted is-cover">
-                {# TODO(placeholder): replace with final hero asset on assets.ubuntu.com.
+  {#- HERO -#}
+  {% call(slot) vf_hero(
+    title_text='The enterprise data lakehouse',
+    subtitle_text='Unified data analytics at scale',
+    layout='50/50',
+    is_split_on_medium=true
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="data-lakehouse-modal">Contact our system architects</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--3-2 is-highlighted is-cover">
+        {# TODO(placeholder): replace with final hero asset on assets.ubuntu.com.
                    Spec linked a Pexels page (https://www.pexels.com/photo/black-server-racks-5203849/);
                    this is a temporary 3:2 crop of that Pexels image. #}
-                <img src="https://images.pexels.com/photos/5203849/pexels-photo-5203849.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1920&h=1280"
-                     alt=""
-                     width="1920"
-                     height="1280"
-                     loading="auto"
-                     class="p-image-container__image" />
-            </div>
-        {% endif -%}
-    {% endcall -%}
+        <img src="https://images.pexels.com/photos/5203849/pexels-photo-5203849.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1920&h=1280"
+             alt=""
+             width="1920"
+             height="1280"
+             loading="auto"
+             class="p-image-container__image" />
+      </div>
+    {% endif -%}
+  {% endcall -%}
 
-    {#- BASIC SECTION: What is a data lakehouse? -#}
-    {{ vf_basic_section(
-        title={"text": "What is a data lakehouse?"},
-        items=[
+  {#- BASIC SECTION: What is a data lakehouse? -#}
+  {{ vf_basic_section(title={"text": "What is a data lakehouse?"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "A data lakehouse is an architecture which combines the cost optimized scale of a data lake with the powerful analytical capabilities of a data warehouse."
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "cinematic",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/6112649b-data-lakehouse-diagram.png",
+          alt="Data lakehouse flow mapping structured, semi-structured, and unstructured data sources to consumption outputs like business intelligence, reports, data science, and machine learning.",
+          width="1516",
+          height="632",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
+
+  {#- EQUAL HEIGHTS ROW: Canonical's AI analytics data lake stack -#}
+  {% call(slot) vf_equal_heights(
+    title_text="Canonical's AI analytics data lake stack",
+    items=[
+      {
+        "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Lakehouse foundations</li></ul>"
+      },
+      {
+        "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data ingestion and orchestration</li></ul>"
+      },
+      {
+        "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data governance and virtualization</li></ul>"
+      },
+      {
+        "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Business intelligence and AI model serving</li></ul>"
+      }
+    ]
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Canonical's data lake stack has everything you need to build, scale, and operate your enterprise data lakehouse. Built on open source Ubuntu, Canonical's data lake stack brings you convenience, familiarity and up to 15 years of support.
+      </p>
+    {%- endif -%}
+  {% endcall %}
+
+  {#- CALL TO ACTION WITH LINK -#}
+  {% call(slot) vf_cta_section(
+    title_text='Go inside the Canonical AI analytics data lake stack',
+    variant='default',
+    layout='100'
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/spark_online_data_hub">Discover the reference design&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {#- BASIC SECTION: Lakehouse foundations -#}
+  {{ vf_basic_section(title={"text": "Lakehouse foundations"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "At the foundation of any lakehouse are core capabilities for compute, storage and governance. Canonical builds each layer on proven open source technologies, with GPU acceleration available when you need it."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
             {
-                "type": "description",
-                "item": {
-                    "type": "text",
-                    "content": "A data lakehouse is an architecture which combines the cost optimized scale of a data lake with the powerful analytical capabilities of a data warehouse."
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Core processing:</strong> Powered by Apache Spark for high-scale parallel compute."
             },
             {
-                "type": "image",
-                "item": {
-                    "aspect_ratio": "cinematic",
-                    "is_cover": true,
-                    "attrs": image(url="https://assets.ubuntu.com/v1/6112649b-data-lakehouse-diagram.png",
-                        alt="Data lakehouse flow mapping structured, semi-structured, and unstructured data sources to consumption outputs like business intelligence, reports, data science, and machine learning.",
-                        width="1516",
-                        height="632",
-                        hi_def=True,
-                        loading="lazy",
-                        output_mode="attrs")
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Software defined storage:</strong> Durable, efficient and massively scalable Ceph object storage."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "<strong>The open lakehouse:</strong> Uses Apache Polaris to ensure a governed, open data ecosystem."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "<strong>Hardware accelerated:</strong> Native NVIDIA CuDF plugin for Apache Spark enables GPU accelerated data processing."
             }
-        ]) }}
-
-    {#- EQUAL HEIGHTS ROW: Canonical's AI analytics data lake stack -#}
-    {% call(slot) vf_equal_heights(
-        title_text="Canonical's AI analytics data lake stack",
-        items=[
-            {
-                "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Lakehouse foundations</li></ul>"
-            },
-            {
-                "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data ingestion and orchestration</li></ul>"
-            },
-            {
-                "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data governance and virtualization</li></ul>"
-            },
-            {
-                "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Business intelligence and AI model serving</li></ul>"
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about Charmed Apache Spark&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/data/spark"
             }
-        ]
-        ) -%}
-        {%- if slot == 'description' -%}
-            <p>
-                Canonical's data lake stack has everything you need to build, scale, and operate your enterprise data lakehouse. Built on open source Ubuntu, Canonical's data lake stack brings you convenience, familiarity and up to 15 years of support.
-            </p>
-        {%- endif -%}
-    {% endcall %}
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "attrs": image(url="https://assets.ubuntu.com/v1/4bcf72d5-Artboard%20135@4x.png",
+          alt="",
+          width="3636",
+          height="3089",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
 
-    {#- CALL TO ACTION WITH LINK -#}
-    {% call(slot) vf_cta_section(
-        title_text='Go inside the Canonical AI analytics data lake stack',
-        variant='default',
-        layout='100'
-        ) -%}
-        {%- if slot == 'cta' -%}
-            <a href="https://ubuntu.com/engage/spark_online_data_hub">Discover the reference design&nbsp;&rsaquo;</a>
-        {%- endif -%}
-    {% endcall -%}
-
-    {#- BASIC SECTION: Lakehouse foundations -#}
-    {{ vf_basic_section(
-        title={"text": "Lakehouse foundations"},
-        items=[
+  {#- BASIC SECTION: Data ingestion and orchestration -#}
+  {{ vf_basic_section(title={"text": "Data ingestion and orchestration"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "A data lake is only useful when there's data. Canonical offers a full suite of data ingestion and orchestration capabilities to help you rapidly build reliable, scalable data pipelines and move data into the lake."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
             {
-                "type": "description",
-                "item": {
-                    "type": "text",
-                    "content": "At the foundation of any lakehouse are core capabilities for compute, storage and governance. Canonical builds each layer on proven open source technologies, with GPU acceleration available when you need it."
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Changed data capture:</strong> Stream transactional database changes into the lakehouse using Apache Kafka and Kafka Connect."
             },
             {
-                "type": "list",
-                "item": {
-                    "list_items": [
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Core processing:</strong> Powered by Apache Spark for high-scale parallel compute."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Software defined storage:</strong> Durable, efficient and massively scalable Ceph object storage."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>The open lakehouse:</strong> Uses Apache Polaris to ensure a governed, open data ecosystem."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Hardware accelerated:</strong> Native NVIDIA CuDF plugin for Apache Spark enables GPU accelerated data processing."
-                        }
-                    ]
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>SaaS connectors:</strong> Integrate platforms like GitHub and Salesforce via Airbyte."
             },
             {
-                "type": "cta-block",
-                "item": {
-                    "link": {
-                        "content_html": "Learn more about Charmed Apache Spark&nbsp;&rsaquo;",
-                        "attrs": {
-                            "href": "https://canonical.com/data/spark"
-                        }
-                    }
-                }
-            },
-            {
-                "type": "image",
-                "item": {
-                    "attrs": image(url="https://assets.ubuntu.com/v1/4bcf72d5-Artboard%20135@4x.png",
-                        alt="",
-                        width="3636",
-                        height="3089",
-                        hi_def=True,
-                        loading="lazy",
-                        output_mode="attrs")
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Workflows and scheduling:</strong> Coordinate complex operational graphs with Apache Airflow."
             }
-        ]) }}
-
-    {#- BASIC SECTION: Data ingestion and orchestration -#}
-    {{ vf_basic_section(
-        title={"text": "Data ingestion and orchestration"},
-        items=[
-            {
-                "type": "description",
-                "item": {
-                    "type": "text",
-                    "content": "A data lake is only useful when there's data. Canonical offers a full suite of data ingestion and orchestration capabilities to help you rapidly build reliable, scalable data pipelines and move data into the lake."
-                }
-            },
-            {
-                "type": "list",
-                "item": {
-                    "list_items": [
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Changed data capture:</strong> Stream transactional database changes into the lakehouse using Apache Kafka and Kafka Connect."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>SaaS connectors:</strong> Integrate platforms like GitHub and Salesforce via Airbyte."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Workflows and scheduling:</strong> Coordinate complex operational graphs with Apache Airflow."
-                        }
-                    ]
-                }
-            },
-            {
-                "type": "cta-block",
-                "item": {
-                    "link": {
-                        "content_html": "Learn more about Charmed Kafka&nbsp;&rsaquo;",
-                        "attrs": {
-                            "href": "https://canonical.com/data/kafka"
-                        }
-                    }
-                }
-            },
-            {
-                "type": "image",
-                "item": {
-                    "aspect_ratio": "2-3",
-                    "is_cover": true,
-                    "attrs": image(url="https://assets.ubuntu.com/v1/0fdf291f-Hosted.png",
-                        alt="",
-                        width="889",
-                        height="1247",
-                        hi_def=True,
-                        loading="lazy",
-                        output_mode="attrs")
-                }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Learn more about Charmed Kafka&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/data/kafka"
             }
-        ]) }}
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "2-3",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/0fdf291f-Hosted.png",
+          alt="",
+          width="889",
+          height="1247",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
 
-    {#- BASIC SECTION: Federated governance & data virtualization -#}
-    {# "Learn more about data governance" cta-block removed: the spec left this
+  {#- BASIC SECTION: Federated governance & data virtualization -#}
+  {# "Learn more about data governance" cta-block removed: the spec left this
        link's target unresolved. Restore this item in `items` once known:
             {
                 "type": "cta-block",
@@ -250,173 +247,171 @@
                 }
             },
     #}
-    {{ vf_basic_section(
-        title={"text": "Federated governance &amp; data virtualization"},
-        items=[
+  {{ vf_basic_section(title={"text": "Federated governance &amp; data virtualization"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Canonical knows that establishing and enforcing policies and controls over who can work with what data is critical to the success of your data initiative. That's why we've integrated a suite of open source governance tools that work across your lakehouse, and beyond."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
             {
-                "type": "description",
-                "item": {
-                    "type": "text",
-                    "content": "Canonical knows that establishing and enforcing policies and controls over who can work with what data is critical to the success of your data initiative. That's why we've integrated a suite of open source governance tools that work across your lakehouse, and beyond."
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Data virtualization:</strong> Trino queries across transactional databases and the lakehouse using standard SQL for near realtime analytics"
             },
             {
-                "type": "list",
-                "item": {
-                    "list_items": [
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Data virtualization:</strong> Trino queries across transactional databases and the lakehouse using standard SQL for near realtime analytics"
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Granular security:</strong> Apache Ranger enforces row/column filtering and sensitive data redaction."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Traceability:</strong> DataHub tracks data lineage from origin to destination for compliance."
-                        }
-                    ]
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Granular security:</strong> Apache Ranger enforces row/column filtering and sensitive data redaction."
             },
             {
-                "type": "image",
-                "item": {
-                    "aspect_ratio": "2-3",
-                    "is_cover": true,
-                    "attrs": image(url="https://assets.ubuntu.com/v1/b4dd259f-Micro%20cloud.png",
-                        alt="",
-                        width="889",
-                        height="1247",
-                        hi_def=True,
-                        loading="lazy",
-                        output_mode="attrs")
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Traceability:</strong> DataHub tracks data lineage from origin to destination for compliance."
             }
-        ]) }}
+          ]
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "2-3",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/b4dd259f-Micro%20cloud.png",
+          alt="",
+          width="889",
+          height="1247",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
 
-    {#- BASIC SECTION: Business intelligence and genAI model serving -#}
-    {{ vf_basic_section(
-        title={"text": "Business intelligence and genAI model serving"},
-        items=[
+  {#- BASIC SECTION: Business intelligence and genAI model serving -#}
+  {{ vf_basic_section(title={"text": "Business intelligence and genAI model serving"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "For analytics, it's essential to have tools for reporting, spanning from visualization data science through to AI-assisted analysis. Canonical offers you the tools you need to understand what the data means."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
             {
-                "type": "description",
-                "item": {
-                    "type": "text",
-                    "content": "For analytics, it's essential to have tools for reporting, spanning from visualization data science through to AI-assisted analysis. Canonical offers you the tools you need to understand what the data means."
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Visual analytics:</strong> Build high-performance dashboards with Apache Superset."
             },
             {
-                "type": "list",
-                "item": {
-                    "list_items": [
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Visual analytics:</strong> Build high-performance dashboards with Apache Superset."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>Full MLOps suite:</strong> Operationalize data science workloads via Kubeflow and MLflow."
-                        },
-                        {
-                            "list_item_type": "bullet",
-                            "content": "<strong>High performance genAI:</strong> Serve open-weight models (like Qwen, Llama, and Kimi) behind your firewall using LLM-d and vLLM for conversational analytics, agentic coding and more."
-                        }
-                    ]
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>Full MLOps suite:</strong> Operationalize data science workloads via Kubeflow and MLflow."
             },
             {
-                "type": "cta-block",
-                "item": {
-                    "link": {
-                        "content_html": "Deploy a proof-of-concept&nbsp;&rsaquo;",
-                        "attrs": {
-                            "href": "https://canonical.com/mlops#get-in-touch"
-                        }
-                    }
-                }
-            },
-            {
-                "type": "image",
-                "item": {
-                    "aspect_ratio": "16-9",
-                    "is_cover": true,
-                    "attrs": image(url="https://assets.ubuntu.com/v1/fc440460-Canonical%20New%20Characters%20v2_New%20Characters%204.png",
-                        alt="",
-                        width="5423",
-                        height="3251",
-                        hi_def=True,
-                        loading="lazy",
-                        output_mode="attrs")
-                }
+              "list_item_type": "bullet",
+              "content": "<strong>High performance genAI:</strong> Serve open-weight models (like Qwen, Llama, and Kimi) behind your firewall using LLM-d and vLLM for conversational analytics, agentic coding and more."
             }
-        ]) }}
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "Deploy a proof-of-concept&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/mlops#get-in-touch"
+            }
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "16-9",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/fc440460-Canonical%20New%20Characters%20v2_New%20Characters%204.png",
+          alt="",
+          width="5423",
+          height="3251",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
 
-    {#- NEWSLETTER SIGNUP -#}
-    {% call(slot) vf_newsletter_signup(
-        form_id="4960",
-        return_url="https://canonical.com/data/lakehouse#newsletter-signup",
-        title_text="Sign up for our data & AI newsletter"
-        ) -%}
-        {%- if slot == 'description' -%}
-            <p>Get early access to beta programs and stay informed of new product releases.</p>
-        {%- endif -%}
-    {% endcall %}
+  {#- NEWSLETTER SIGNUP -#}
+  {% call(slot) vf_newsletter_signup(
+    form_id="4960",
+    return_url="https://canonical.com/data/lakehouse#newsletter-signup",
+    title_text="Sign up for our data & AI newsletter"
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>Get early access to beta programs and stay informed of new product releases.</p>
+    {%- endif -%}
+  {% endcall %}
 
-    {#- BLOG -#}
-    {{ vf_blog(
-        title={
-            "text": "From the Canonical blog",
-            "link_attrs": {"href": "/blog/tag/mlops"}
-        },
-        template_config={
-            "enabled": True,
-            "template_container_id": "articles",
-            "layout": "4-blocks",
-            "template_id": "template"
-        })
-    }}
+  {#- BLOG -#}
+  {{ vf_blog(title={
+      "text": "From the Canonical blog",
+      "link_attrs": {"href": "/blog/tag/mlops"}
+    },
+    template_config={
+      "enabled": True,
+      "template_container_id": "articles",
+      "layout": "4-blocks",
+      "template_id": "template"
+    })
+  }}
 
-    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
-    <script nonce="{{ csp_nonce }}">
-        canonicalLatestNews.fetchLatestNews({
-            url: "/blog/latest-news.json",
-            imageClasses: ["p-image-container__image"],
-            limit: "4",
-            tagId: "4018",
-            articlesContainerSelector: "#articles",
-            articleTemplateSelector: "#template",
-            excerptLength: 200,
-            gtmEventLabel: "canonical.com/mlops"
-        })
-    </script>
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"
+          nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
+    canonicalLatestNews.fetchLatestNews({
+      url: "/blog/latest-news.json",
+      imageClasses: ["p-image-container__image"],
+      limit: "4",
+      tagId: "4018",
+      articlesContainerSelector: "#articles",
+      articleTemplateSelector: "#template",
+      excerptLength: 200,
+      gtmEventLabel: "canonical.com/mlops"
+    })
+  </script>
 
-    <section class="p-section--deep">
-        <hr class="p-rule is-fixed-width" />
-        <div class="row">
-            <div class="col-6 col-start-large-7">
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Polaris, Polaris&reg;, and the Polaris logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Airflow, Airflow&reg;, and the Airflow logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Ranger, Ranger&reg;, and the Ranger logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Superset, Superset&reg;, and the Superset logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-            </div>
-        </div>
-    </section>
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row">
+      <div class="col-6 col-start-large-7">
+        <p class="u-text--muted">
+          Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Polaris, Polaris&reg;, and the Polaris logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Airflow, Airflow&reg;, and the Airflow logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Ranger, Ranger&reg;, and the Ranger logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Superset, Superset&reg;, and the Superset logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+      </div>
+    </div>
+  </section>
 
-    {{ load_form("/data/lakehouse") | safe }}
+  {{ load_form("/data/lakehouse") | safe }}
 
 {% endblock %}
