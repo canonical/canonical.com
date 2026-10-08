@@ -84,7 +84,7 @@
       },
       {
         "title_text": "Model serving & MLOps",
-        "description_html": "<p>Move from experimentation to production fast. Build, train, and track models reliably using Charmed Kubeflow for end-to-end lifecycle management.</p><p>Serve large language models (LLMs) using vLLM. Scale GPU accelerated model serving using LLM-d.</p>",
+        "description_html": "<p>Move from experimentation to production fast. Build, train, and track models reliably using Charmed Kubeflow for end-to-end lifecycle management. Serve large language models (LLMs) using vLLM. Scale GPU accelerated model serving using LLM-d.</p>",
         "cta_html": "<a href='/mlops'>Discover MLOps solutions&nbsp;&rsaquo;</a>"
       },
       {
@@ -148,6 +148,7 @@
 
   {% call(slot) vf_equal_heights(
     title_text="Built with Canonical AI",
+    highlight_images=true,
     image_aspect_ratio_large="2-3",
     items=[
       {
@@ -201,50 +202,70 @@
     {% endif %}
   {% endcall %}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <div class="p-section--shallow">
-          <h2>Security – never an afterthought</h2>
-        </div>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container--3-2 is-cover u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/66031569-image_6.png",
-                        alt="",
-                        width="1200",
-                        height="800",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-section--shallow">
-          <div class="p-section--shallow">
-            <h5 class="u-no-margin--bottom">Confidential AI protects your models and data</h5>
-            <p>
-              Your models and sensitive data need to be secured at every stage of the ML lifecycle. With confidential AI on Ubuntu, you can protect your data and model at run-time with a hardware-rooted execution environment. Strengthen your compliance posture and safely fine-tune your model with your enterprise data.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/confidential-computing/ai">Discover confidential AI&nbsp;&rsaquo;</a>
-            </div>
-          </div>
-          <div class="p-section--shallow">
-            <h5 class="u-no-margin--bottom">Fast-track compliance with trusted AI software</h5>
-            <p>
-              Rapidly access all the open source software you need for AI, and run it with peace of mind. We maintain and support all of the key open source software in the AI lifecycle so you don’t have to. Leave the CVE fixes to us, so you can fast-track compliance and focus on your AI models.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS">Get the full case study&nbsp;&rsaquo;</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_basic_section(
+    title={"text": "Security – never an afterthought"},
+    items=[
+      {
+        "type": "image",
+        "padding": "shallow",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/66031569-image_6.png",
+            alt="",
+            width="1200",
+            height="800",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs")
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<h5 class="u-no-margin--bottom u-no-padding--top">Confidential AI protects your models and data</h5>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Your models and sensitive data need to be secured at every stage of the ML lifecycle. With confidential AI on Ubuntu, you can protect your data and model at run-time with a hardware-rooted execution environment. Strengthen your compliance posture and safely fine-tune your model with your enterprise data."
+        }
+      },
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": "<p><a href='https://ubuntu.com/confidential-computing/ai'>Discover confidential AI&nbsp;&rsaquo;</a></p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<h5 class="u-no-margin--bottom u-no-padding--top">Fast-track compliance with trusted AI software</h5>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Rapidly access all the open source software you need for AI, and run it with peace of mind. We maintain and support all of the key open source software in the AI lifecycle so you don’t have to. Leave the CVE fixes to us, so you can fast-track compliance and focus on your AI models."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p><a href='https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS'>Get the full case study&nbsp;&rsaquo;</a></p>"
+        }
+      }
+    ]
+  ) }}
   {% call(slot) vf_quote_wrapper(
     title_text="What our customers say",
     quote_size="medium",
