@@ -4,7 +4,8 @@
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
-{% from "macros/_vf_newsletter_signup.jinja" import vf_newsletter_signup %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+{% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
 {% block meta_copydoc %}
     https://docs.google.com/document/d/1RjLm3POJ0_pvptoH3YfYpu2o-TCJZEGhVEK2ufjfFd4/edit?tab=t.0
@@ -22,7 +23,6 @@
     is-paper
 {% endblock body_class %}
 
-                {# TODO(placeholder): is split on medium #}
 {% block content %}
     {#- HERO -#}
     {% call(slot) vf_hero(
@@ -364,9 +364,32 @@
     {% endcall %}
 
     {#- BLOG -#}
-    {% with section_classes='p-section', title_link="/blog/tag/mlops", tag_id='4018', limit='4', hide_date=True, tag_name='mlops', link_image=True, show_image=True, show_excerpt=True, excerptLength=200, show_start_rule=True, is_title_link=True, heading_class="p-heading--2", heading_topic="From the Canonical blog" %}
-        {% include "/shared/_blog-card.html" %}
-    {% endwith %}
+    {{ vf_blog(
+        title={
+            "text": "From the Canonical blog",
+            "link_attrs": {"href": "/blog/tag/mlops"}
+        },
+        template_config={
+            "enabled": True,
+            "template_container_id": "articles",
+            "layout": "4-blocks",
+            "template_id": "template"
+        })
+    }}
+
+    <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
+    <script nonce="{{ csp_nonce }}">
+        canonicalLatestNews.fetchLatestNews({
+            url: "/blog/latest-news.json",
+            imageClasses: ["p-image-container__image"],
+            limit: "4",
+            tagId: "4018",
+            articlesContainerSelector: "#articles",
+            articleTemplateSelector: "#template",
+            excerptLength: 200,
+            gtmEventLabel: "canonical.com/mlops"
+        })
+    </script>
 
     <section class="p-section--deep">
         <hr class="p-rule is-fixed-width" />
