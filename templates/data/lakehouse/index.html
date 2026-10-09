@@ -43,15 +43,13 @@
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--3-2 is-highlighted is-cover">
-        {# TODO(placeholder): replace with final hero asset on assets.ubuntu.com.
-                   Spec linked a Pexels page (https://www.pexels.com/photo/black-server-racks-5203849/);
-                   this is a temporary 3:2 crop of that Pexels image. #}
-        <img src="https://images.pexels.com/photos/5203849/pexels-photo-5203849.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1920&h=1280"
-             alt=""
-             width="1920"
-             height="1280"
-             loading="auto"
-             class="p-image-container__image" />
+        {{ image(url="https://assets.ubuntu.com/v1/72cbd557-hero.jpg",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="auto",
+          attrs={"class": "p-image-container__image"}) | safe }}
       </div>
     {% endif -%}
   {% endcall -%}
@@ -85,17 +83,46 @@
   {#- EQUAL HEIGHTS ROW: Canonical's AI analytics data lake stack -#}
   {% call(slot) vf_equal_heights(
     title_text="Canonical's AI analytics data lake stack",
+    highlight_images=true,
     items=[
       {
+        "image_html": image(url="https://assets.ubuntu.com/v1/229c0c05-lakehouse_foundations_2.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
         "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Lakehouse foundations</li></ul>"
       },
       {
+        "image_html": image(url="https://assets.ubuntu.com/v1/023781d9-data_ingestion.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
         "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data ingestion and orchestration</li></ul>"
       },
       {
+        "image_html": image(url="https://assets.ubuntu.com/v1/f416dd31-data_governance.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
         "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Data governance and virtualization</li></ul>"
       },
       {
+        "image_html": image(url="https://assets.ubuntu.com/v1/a5d9f60f-business_intelligence_2.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
         "description_html": "<ul class='p-list u-no-margin--bottom'><li class='p-list__item is-ticked'>Business intelligence and AI model serving</li></ul>"
       }
     ]
@@ -165,10 +192,12 @@
       {
         "type": "image",
         "item": {
-          "attrs": image(url="https://assets.ubuntu.com/v1/4bcf72d5-Artboard%20135@4x.png",
+          "aspect_ratio": "3-2",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/0dc0b1d1-lakehouse_foundations.png",
           alt="",
-          width="3636",
-          height="3089",
+          width="1200",
+          height="800",
           hi_def=True,
           loading="lazy",
           output_mode="attrs")
@@ -219,12 +248,12 @@
       {
         "type": "image",
         "item": {
-          "aspect_ratio": "2-3",
+          "aspect_ratio": "3-2",
           "is_cover": true,
-          "attrs": image(url="https://assets.ubuntu.com/v1/0fdf291f-Hosted.png",
+          "attrs": image(url="https://assets.ubuntu.com/v1/4cc722a3-data_ingestion_orchestration.png",
           alt="",
-          width="889",
-          height="1247",
+          width="1200",
+          height="800",
           hi_def=True,
           loading="lazy",
           output_mode="attrs")
@@ -233,20 +262,6 @@
   ]) }}
 
   {#- BASIC SECTION: Federated governance & data virtualization -#}
-  {# "Learn more about data governance" cta-block removed: the spec left this
-       link's target unresolved. Restore this item in `items` once known:
-            {
-                "type": "cta-block",
-                "item": {
-                    "link": {
-                        "content_html": "Learn more about data governance&nbsp;&rsaquo;",
-                        "attrs": {
-                            "href": "/data"
-                        }
-                    }
-                }
-            },
-    #}
   {{ vf_basic_section(title={"text": "Federated governance &amp; data virtualization"},
     items=[
       {
@@ -278,12 +293,12 @@
       {
         "type": "image",
         "item": {
-          "aspect_ratio": "2-3",
+          "aspect_ratio": "3-2",
           "is_cover": true,
-          "attrs": image(url="https://assets.ubuntu.com/v1/b4dd259f-Micro%20cloud.png",
+          "attrs": image(url="https://assets.ubuntu.com/v1/5eecf500-federated_governance.png",
           alt="",
-          width="889",
-          height="1247",
+          width="1200",
+          height="800",
           hi_def=True,
           loading="lazy",
           output_mode="attrs")
@@ -334,12 +349,12 @@
       {
         "type": "image",
         "item": {
-          "aspect_ratio": "16-9",
+          "aspect_ratio": "3-2",
           "is_cover": true,
-          "attrs": image(url="https://assets.ubuntu.com/v1/fc440460-Canonical%20New%20Characters%20v2_New%20Characters%204.png",
+          "attrs": image(url="https://assets.ubuntu.com/v1/7711a057-business_intelligence.png",
           alt="",
-          width="5423",
-          height="3251",
+          width="1200",
+          height="800",
           hi_def=True,
           loading="lazy",
           output_mode="attrs")
