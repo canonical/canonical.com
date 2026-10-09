@@ -1,431 +1,438 @@
 {% extends 'base_index.html' %}
 
 {% from "_macros/vf_hero.jinja" import vf_hero %}
-{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+{% from "_macros/vf_blog.jinja" import vf_blog %}
+{% from "_macros/vf_newsletter-signup.jinja" import vf_newsletter_signup %}
 
 {% block meta_copydoc %}
-    https://docs.google.com/document/d/1iG9Fcg1w9FWyWO84Gj6RFFYdu5xzEDFBMxnjAAQFW34/edit
+  https://docs.google.com/document/d/1RjLm3POJ0_pvptoH3YfYpu2o-TCJZEGhVEK2ufjfFd4/edit?tab=t.0
 {% endblock meta_copydoc %}
 
-{% block title %}What is a data lakehouse? | Data platform{% endblock %}
+{% block title %}The enterprise data lakehouse | Data platform{% endblock %}
 
 {% block meta_description %}
-    Learn about data lakehouses – what are they, how you can benefit from them, and how to implement one with Apache Spark and Apache Kafka.
+  Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
 {% endblock %}
 
-{% block meta_keywords %}Data Lakehouse, What is a data lakehouse{% endblock %}
+{% block meta_keywords %}Data Lakehouse, enterprise data lakehouse, AI analytics data lake stack{% endblock %}
 
 {% block body_class %}
-    is-paper
+  is-paper
 {% endblock body_class %}
 
 {% block content %}
+  {#- HERO -#}
+  {% call(slot) vf_hero(
+    title_text='The enterprise data lakehouse',
+    subtitle_text='Unified data analytics at scale',
+    layout='50/50',
+    is_split_on_medium=true
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Break down data silos and unlock advanced analytics without losing control of your infrastructure. Canonical's AI analytics data lake stack offers a self-governed, enterprise-grade lakehouse built on open standards.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="data-lakehouse-modal">Contact our system architects</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--3-2 is-highlighted is-cover">
+        {{ image(url="https://assets.ubuntu.com/v1/72cbd557-hero.jpg",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="auto",
+          attrs={"class": "p-image-container__image"}) | safe }}
+      </div>
+    {% endif -%}
+  {% endcall -%}
 
-    {% call(slot) vf_hero(
-        title_text='What is a data lakehouse?',
-        layout='50/50-full-width-image'
-        ) -%}
-        {%- if slot == 'description' -%}
-            <p>
-                A data lakehouse is a modern data management architecture that integrates the scalability and flexibility of a data lake with the structured data management of a data warehouse. This unified platform offers both cost-effective storage and advanced analytics in a single system, overcoming the challenge of collecting and managing heterogeneous data across multiple platforms.
-            </p>
-            <p>
-                Data lakehouses have gained widespread adoption as organizations face growing data volumes and seek efficient, cost-effective solutions to store, manage, and derive value from their information.
-            </p>
-        {%- endif -%}
-        {%- if slot == 'cta' -%}
-            <a href="https://ubuntu.com/engage/spark_online_data_hub"
-               class="p-button--positive">Access the whitepaper</a>
-        {%- endif -%}
-        {%- if slot == 'image' -%}
-            <div class="p-image-container--cinematic is-cove">
-                {{ image(url="https://assets.ubuntu.com/v1/8c9080ed-hero-img.jpg",
-                                alt="",
-                                width="2464",
-                                height="1027",
-                                hi_def=True,
-                                loading="auto",
-                                attrs={"class": "p-image-container__image"}) | safe
-                }}
-            </div>
-        {% endif -%}
-    {% endcall -%}
-
-    <section class="p-section">
-        <hr class="p-rule is-fixed-width " />
-        <div class="row--50-50">
-            <div class="col">
-                <h2>Data lakehouses explained</h2>
-            </div>
-            <div class="col">
-                <p>
-                    Data lakehouses are an innovative approach to data management that integrate the best features of data lakes and data warehouses.
-                    As a unified platform they offer a modernized architecture where you can access and consolidate data across different sources, accelerating time to insight.
-                </p>
-                <p>A data lakehouse offers specific advantages compared to its predecessors such as:</p>
-                <hr class="p-rule--muted" />
-                <ul class="p-list--divided u-no-margin--bottom">
-                    <li class="p-list__item is-ticked">Improved governance</li>
-                    <li class="p-list__item is-ticked">Augmented scalability</li>
-                    <li class="p-list__item is-ticked">Flexibility in workloads</li>
-                    <li class="p-list__item is-ticked">Increased data quality and consistency</li>
-                    <li class="p-list__item is-ticked">Streaming support</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <!-- TODO: Replace this entire div with tiered list pattern once the image block addition PR is upstreamed to Vanilla-->
-        <div class="u-fixed-width">
-            <hr class="p-rule" />
-
-            <div class="row">
-                <div class="col-6">
-                    <div class="p-section--shallow">
-                        <h2>Data lakehouse architecture</h2>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <p>
-                        The architecture of a data lakehouse
-                        <br class="u-hide--medium u-hide--small" />
-                        is typically defined by four distinct layers:
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-start-large-7">
-                    <div class="p-section--shallow">
-                        <div class="p-image-container--cinematic is-cover u-hide--small">
-                            {{ image(url="https://assets.ubuntu.com/v1/6112649b-data-lakehouse-diagram.png",
-                                                        alt="",
-                                                        width="1516",
-                                                        height="632",
-                                                        hi_def=True,
-                                                        loading="lazy",
-                                                        attrs={"class": "p-image-container__image"}) | safe
-                            }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-9 col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-
-            <div class="p-section--shallow">
-                <div class="row">
-                    <div class="col-3 col-start-large-4">
-                        <h3 class="p-heading--5">Ingestion</h3>
-                    </div>
-
-                    <div class="col-6">
-                        <p>
-                            This initial layer consists of acquiring data from various sources, processing it, and converting it into a format suitable for storage and analysis within the lakehouse.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-9 col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-
-            <div class="p-section--shallow">
-                <div class="row">
-                    <div class="col-3 col-start-large-4">
-                        <h3 class="p-heading--5">Metadata</h3>
-                    </div>
-
-                    <div class="col-6">
-                        <p>
-                            The metadata layer is the heart of the data lakehouse, serving as a unified catalog to organize and describe data in its storage.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-9 col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-
-            <div class="p-section--shallow">
-                <div class="row">
-                    <div class="col-3 col-start-large-4">
-                        <h3 class="p-heading--5">Processing</h3>
-                    </div>
-
-                    <div class="col-6">
-                        <p>
-                            Data is cleaned and leveraged for advanced analytics. To perform these tasks, developers will be able to use different languages and libraries to interact with data in a flexible and efficient manner.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-9 col-start-large-4">
-                    <hr class="p-rule--muted" />
-                </div>
-            </div>
-
-            <div class="p-section--shallow">
-                <div class="row">
-                    <div class="col-3 col-start-large-4">
-                        <h3 class="p-heading--5">Consumption</h3>
-                    </div>
-
-                    <div class="col-6">
-                        <p>
-                            The final layer of the data lakehouse architecture supports applications and tools, providing access to metadata and stored data.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <hr class="p-rule is-fixed-width " />
-        <div class="p-section--shallow">
-            <div class="row--50-50">
-                <div class="col">
-                    <h2>
-                        Data lakehouse vs. data lake
-                        <br />
-                        vs. data warehouse
-                    </h2>
-                </div>
-                <div class="col">
-                    <p>
-                        Data lakes, data warehouses, and data lakehouses are distinct data management architectures, each designed to address specific challenges.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="u-fixed-width">
-            <table aria-label="Datalakes vs data warehouses vs data lakehouses comparisons"
-                   class="p-table--mobile-card">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Data Lake</th>
-                        <th>Data Warehouse</th>
-                        <th>Data Lakehouse</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-heading="Feature">
-                            <b>Data format</b>
-                        </td>
-                        <td data-heading="Data Lake" class="has-overflow">Stores unprocessed data in its original format.</td>
-                        <td data-heading="Data Warehouse" class="has-overflow">Stores preprocessed structured data.</td>
-                        <td data-heading="Data Lakehouse" class="has-overflow">
-                            Combines both capabilities, allowing heterogeneous data to be stored and processed directly within the environment.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-heading="Feature" class="has-overflow">
-                            <b>Cost effectiveness</b>
-                        </td>
-                        <td data-heading="Data Lake" class="has-overflow">
-                            Generally cost effective. Avoids the expense associated with structuring data during ingestion, and offers high scalability to handle growing volumes of data.
-                        </td>
-                        <td data-heading="Data Warehouse" class="has-overflow">
-                            Tends to be more expensive because of processing requirements, which results in more limited scalability than data lakes.
-                        </td>
-                        <td data-heading="Data Lakehouse" class="has-overflow">
-                            Balances cost and scalability, offering affordable storage for raw data with advanced analytics capabilities.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-heading="Feature">
-                            <b>Use cases</b>
-                        </td>
-                        <td data-heading="Data Lake" class="has-overflow">Ideal for exploratory analysis on heterogeneous data.</td>
-                        <td data-heading="Data Warehouse" class="has-overflow">Optimized for business intelligence.</td>
-                        <td data-heading="Data Lakehouse" class="has-overflow">
-                            Enables governance and advanced analytics on different types of data.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <hr class="p-rule is-fixed-width" />
-        <div class="row--50-50">
-            <div class="col">
-                <h2>Data lakehouse use cases</h2>
-            </div>
-            <div class="col">
-                <p>
-                    Data lakehouses are widely used wherever organizations need a unified platform that combines the scalability of data lakes with the structured querying and governance of data warehouses. Use cases are often found in online retail, financial fraud analysis, advertising and investment. Examples include:
-                </p>
-                <hr class="p-rule--muted" />
-                <ul class="p-list--divided u-no-margin--bottom">
-                    <li class="p-list__item has-bullet">Predictive maintenance</li>
-                    <li class="p-list__item has-bullet">Machine learning model optimization</li>
-                    <li class="p-list__item has-bullet">GenAI</li>
-                    <li class="p-list__item has-bullet">Market trends analysis</li>
-                    <li class="p-list__item has-bullet">Fraud detection</li>
-                    <li class="p-list__item has-bullet">Network intrusion detection and prevention</li>
-                    <li class="p-list__item has-bullet">Security operations automated response (SOAR)</li>
-                    <li class="p-list__item has-bullet">Advanced analytics on IoT data</li>
-                    <li class="p-list__item has-bullet">Illness prediction</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <hr class="p-rule--highlight is-fixed-width" />
-        <div class="p-section--shallow">
-            <div class="u-fixed-width">
-                <h2 class="p-muted-heading u-text--muted">Canonical solutions for data lakehouses</h2>
-            </div>
-        </div>
-        <hr class="p-rule--muted is-fixed-width u-hide--medium u-hide--small" />
-        <div class="p-equal-height-row p-equal-height-row-50-50">
-            <div class="p-equal-height-row__col">
-                <div class="p-equal-height-row__item">
-                    <h3 class="p-heading--2">
-                        Apache Spark<sup>&reg;</sup>
-                    </h3>
-                </div>
-                <p class="p-equal-height-row__item">
-                    Canonical offers a sophisticated solution for
-                    data lakehouses founded on Apache Spark, Apache Kyuubi and Apache Iceberg &mdash; free and open source frameworks for data processing from the Apache Software Foundation.
-                </p>
-                <p class="p-equal-height-row__item">
-                    Canonical's Charmed Spark solution includes containerized images for Apache Spark with up to 10 years of security maintenance and best-in-class support from Canonical, and advanced deployment and operations automation to help you get the most from deploying Apache Spark on Kubernetes.
-                </p>
-                <div class="p-equal-height-row__item">
-                    <div class="p-cta-block">
-                        <a href="/data/spark">Learn more about Charmed Spark&nbsp;&rsaquo;</a>
-                    </div>
-                </div>
-            </div>
-            <div class="p-equal-height-row__col">
-                <div class="p-equal-height-row__item">
-                    <h3 class="p-heading--2">
-                        Apache Kafka<sup>&reg;</sup>
-                    </h3>
-                </div>
-                <p class="p-equal-height-row__item">
-                    Canonical offers an advanced solution for deploying and operating Apache Kafka, a free and open source event data processing hub developed by the Apache Software Foundation.
-                </p>
-                <p class="p-equal-height-row__item">
-                    Canonical's Charmed Kafka solution includes support for deploying, configuring, securing, managing, maintaining and monitoring Kafka on cloud VMs or on Kubernetes and includes packages for Apache Kafka maintained by Canonical, with up to 10 years of security maintenance and SLA-backed support available.
-                </p>
-                <div class="p-equal-height-row__item">
-                    <div class="p-cta-block">
-                        <a href="/data/kafka">Learn more about Charmed Kafka&nbsp;&rsaquo;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <hr class="p-rule is-fixed-width" />
-        <div class="row--50-50">
-            <div class="col">
-                <h2>Questions? Get answers</h2>
-            </div>
-            <div class="col">
-                <div class="p-section--shallow">
-                    <div class="p-image-container--3-2 is-cover">
-                        {{ image(url="https://assets.ubuntu.com/v1/6e5dbcd1-questions-get-answers.jpg",
-                                                alt="",
-                                                width="1200",
-                                                height="801",
-                                                hi_def=True,
-                                                loading="lazy",
-                                                attrs={"class": "p-image-container__image"}) | safe
-                        }}
-                    </div>
-                </div>
-                <p>
-                    Do you have a data lakehouse project in mind and want to get advice on implementing Kafka or Spark? Contact us now to discuss your needs.
-                </p>
-                <div class="p-cta-block">
-                    <a class="p-button--positive js-invoke-modal"
-                       href="/contact-us"
-                       aria-controls="data-lakehouse-modal">Contact us</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section">
-        <div class="row--50-50">
-            <hr class="p-rule" />
-            <div class="col">
-                <h2>Resources</h2>
-            </div>
-            <div class="col">
-                <div class="row--25-75">
-                    <div class="col">
-                        <h3 class="p-heading--5">Whitepapers</h3>
-                    </div>
-                    <div class="col">
-                        <p>
-                            <a href="https://ubuntu.com/engage/spark_online_data_hub">Build an online data hub with Spark</a>
-                        </p>
-                        <hr class="p-rule--muted" />
-                        <p>
-                            <a href="https://ubuntu.com/engage/open-source-big-data-ai">Make better decisions with open source Big Data and AI solutions</a>
-                        </p>
-                        <hr class="p-rule--muted" />
-                        <p>
-                            <a href="https://ubuntu.com/engage/enterprise-data-management-big-data">Enterprise Data Management: Big Data</a>
-                        </p>
-                    </div>
-                </div>
-                <hr class="p-rule--muted" />
-                <div class="row--25-75">
-                    <div class="col">
-                        <h3 class="p-heading--5">Webinar</h3>
-                    </div>
-                    <div class="col">
-                        <p>
-                            <a href="https://ubuntu.com/engage/ai-big-data-solutions">AI and Big Data Solutions</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-section--deep">
-        <hr class="p-rule is-fixed-width" />
-        <div class="row">
-            <div class="col-6 col-start-large-7">
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-                <p class="u-text--muted">
-                    Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    {{ load_form("/data/lakehouse") | safe }}
-
-    <style nonce="{{ csp_nonce }}">
-      .p-table--mobile-card td.has-overflow {
-        text-wrap: auto;
+  {#- BASIC SECTION: What is a data lakehouse? -#}
+  {{ vf_basic_section(title={"text": "What is a data lakehouse?"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "A data lakehouse is an architecture which combines the cost optimized scale of a data lake with the powerful analytical capabilities of a data warehouse."
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "cinematic",
+          "is_cover": true,
+          "is_highlighted": false,
+          "attrs": image(url="https://assets.ubuntu.com/v1/6112649b-data-lakehouse-diagram.png",
+          alt="Data lakehouse flow mapping structured, semi-structured, and unstructured data sources to consumption outputs like business intelligence, reports, data science, and machine learning.",
+          width="1516",
+          height="632",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
       }
-    </style>
+  ]) }}
+
+  {#- EQUAL HEIGHTS ROW: Canonical's AI analytics data lake stack -#}
+  {% call(slot) vf_equal_heights(
+    title_text="Canonical's AI analytics data lake stack",
+    highlight_images=true,
+    items=[
+      {
+        "image_html": image(url="https://assets.ubuntu.com/v1/229c0c05-lakehouse_foundations_2.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
+        "description_html": "<p class='u-no-margin--bottom'><strong>Lakehouse foundations</strong></p>"
+      },
+      {
+        "image_html": image(url="https://assets.ubuntu.com/v1/023781d9-data_ingestion.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
+        "description_html": "<p class='u-no-margin--bottom'><strong>Data ingestion and orchestration</strong></p>"
+      },
+      {
+        "image_html": image(url="https://assets.ubuntu.com/v1/f416dd31-data_governance.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
+        "description_html": "<p class='u-no-margin--bottom'><strong>Data governance and virtualization</strong></p>"
+      },
+      {
+        "image_html": image(url="https://assets.ubuntu.com/v1/a5d9f60f-business_intelligence_2.png",
+        alt="",
+        width="568",
+        height="852",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}),
+        "description_html": "<p class='u-no-margin--bottom'><strong>Business intelligence and AI model serving</strong></p>"
+      }
+    ]
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Canonical's data lake stack has everything you need to build, scale, and operate your enterprise data lakehouse. Built on open source Ubuntu, Canonical's data lake stack brings you convenience, familiarity and up to 15 years of support.
+      </p>
+    {%- endif -%}
+  {% endcall %}
+
+  {#- CALL TO ACTION WITH LINK -#}
+  {% call(slot) vf_cta_section(
+    title_text='Go inside the Canonical AI analytics data lake stack',
+    variant='default',
+    layout='100'
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/spark_online_data_hub">Discover the reference design&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
+
+  {#- BASIC SECTION: Lakehouse foundations -#}
+  {{ vf_basic_section(title={"text": "Lakehouse foundations"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "At the foundation of any lakehouse are core capabilities for compute, storage and governance. Canonical builds each layer on proven open source technologies, with GPU acceleration available when you need it."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Core processing: Powered by Apache Spark for high-scale parallel compute."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Software defined storage: Durable, efficient and massively scalable Ceph object storage."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "The open lakehouse: Uses Apache Polaris to ensure a governed, open data ecosystem."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Hardware accelerated: Native NVIDIA CuDF plugin for Apache Spark enables GPU accelerated data processing."
+            }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "link": {
+            "content_html": "Learn more about Charmed Apache Spark&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/data/spark"
+            }
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/0dc0b1d1-lakehouse_foundations.png",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
+
+  {#- BASIC SECTION: Data ingestion and orchestration -#}
+  {{ vf_basic_section(title={"text": "Data ingestion and orchestration"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "A data lake is only useful when there's data. Canonical offers a full suite of data ingestion and orchestration capabilities to help you rapidly build reliable, scalable data pipelines and move data into the lake."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Changed data capture: Stream transactional database changes into the lakehouse using Apache Kafka and Kafka Connect."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "SaaS connectors: Integrate platforms like GitHub and Salesforce via Airbyte."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Workflows and scheduling: Coordinate complex operational graphs with Apache Airflow."
+            }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "link": {
+            "content_html": "Learn more about Charmed Kafka&nbsp;&rsaquo;",
+            "attrs": {
+              "href": "https://canonical.com/data/kafka"
+            }
+          }
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/4cc722a3-data_ingestion_orchestration.png",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
+
+  {#- BASIC SECTION: Federated governance & data virtualization -#}
+  {{ vf_basic_section(title={"text": "Federated governance &amp; data virtualization"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Canonical knows that establishing and enforcing policies and controls over who can work with what data is critical to the success of your data initiative. That's why we've integrated a suite of open source governance tools that work across your lakehouse, and beyond."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Data virtualization: Trino queries across transactional databases and the lakehouse using standard SQL for near realtime analytics"
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Granular security: Apache Ranger enforces row/column filtering and sensitive data redaction."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Traceability: DataHub tracks data lineage from origin to destination for compliance."
+            }
+          ]
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/5eecf500-federated_governance.png",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
+
+  {#- BASIC SECTION: Business intelligence and genAI model serving -#}
+  {{ vf_basic_section(title={"text": "Business intelligence and genAI model serving"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "For analytics, it's essential to have tools for reporting, spanning from visualization data science through to AI-assisted analysis. Canonical offers you the tools you need to understand what the data means."
+        }
+      },
+      {
+        "type": "list",
+        "item": {
+          "list_items": [
+            {
+              "list_item_type": "bullet",
+              "content": "Visual analytics: Build high-performance dashboards with Apache Superset."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "Full MLOps suite: Operationalize data science workloads via Kubeflow and MLflow."
+            },
+            {
+              "list_item_type": "bullet",
+              "content": "High performance genAI: Serve open-weight models (like Qwen, Llama, and Kimi) behind your firewall using LLM-d and vLLM for conversational analytics, agentic coding and more."
+            }
+          ]
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "secondaries": [
+            {
+              "content_html": "Get in touch",
+              "attrs": {
+                "href": "https://canonical.com/mlops#get-in-touch"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "image",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/7711a057-business_intelligence.png",
+          alt="",
+          width="1200",
+          height="800",
+          hi_def=True,
+          loading="lazy",
+          output_mode="attrs")
+        }
+      }
+  ]) }}
+
+  {#- NEWSLETTER SIGNUP -#}
+  {% call(slot) vf_newsletter_signup(
+    form_id="4960",
+    return_url="https://canonical.com/data/lakehouse#newsletter-signup",
+    title_text="Sign up for our data & AI newsletter"
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>Get early access to beta programs and stay informed of new product releases.</p>
+    {%- endif -%}
+  {% endcall %}
+
+  {#- BLOG -#}
+  {{ vf_blog(title={
+      "text": "Latest from our blog",
+      "link_attrs": {"href": "/blog/tag/mlops"}
+    },
+    template_config={
+      "enabled": True,
+      "template_container_id": "articles",
+      "layout": "4-blocks",
+      "template_id": "template"
+    })
+  }}
+
+  <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"
+          nonce="{{ csp_nonce }}"></script>
+  <script nonce="{{ csp_nonce }}">
+    canonicalLatestNews.fetchLatestNews({
+      url: "/blog/latest-news.json",
+      imageClasses: ["p-image-container__image"],
+      limit: "4",
+      tagId: "4018",
+      articlesContainerSelector: "#articles",
+      articleTemplateSelector: "#template",
+      excerptLength: 200,
+      gtmEventLabel: "canonical.com/data/lakehouse"
+    })
+  </script>
+
+  <section class="p-section--deep">
+    <hr class="p-rule is-fixed-width" />
+    <div class="row">
+      <div class="col-6 col-start-large-7">
+        <p class="u-text--muted">
+          Apache&reg;, Apache Kafka, Kafka&reg;, and the Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Polaris, Polaris&reg;, and the Polaris logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Spark, Spark&reg;, and the Spark logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Airflow, Airflow&reg;, and the Airflow logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Ranger, Ranger&reg;, and the Ranger logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+        <p class="u-text--muted">
+          Apache&reg;, Apache Superset, Superset&reg;, and the Superset logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {{ load_form("/data/lakehouse") | safe }}
 
 {% endblock %}
