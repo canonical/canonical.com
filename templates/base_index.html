@@ -162,7 +162,12 @@
           <a href="#main-content" class="u-off-screen">Skip to main content</a>
 
           {% include "partial/_notifications.html" %}
-          {% include "navigation/navigation.html" %}
+          <div class="l-sticky-header">
+            {% include "navigation/navigation.html" %}
+            {% block announcement_bar %}
+              {% include "partial/_announcement-bar.html" %}
+            {% endblock announcement_bar %}
+          </div>
 
           <div id="main-content">
 
@@ -176,6 +181,7 @@
 
           <script defer src="{{ versioned_static('js/dist/navigation.js') }}" nonce="{{ csp_nonce }}"></script>
           <script src="{{ versioned_static('js/dist/forms.js') }}" nonce="{{ csp_nonce }}"></script>
+          <script defer src="{{ versioned_static('js/dist/announcement-bar.js') }}" nonce="{{ csp_nonce }}"></script>
           <script nonce="{{ csp_nonce }}">
             (function() {
               // Form submission notification
