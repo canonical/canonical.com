@@ -379,6 +379,31 @@
     {%- endif -%}
   {% endcall %}
 
+  {#- The contact modal and this newsletter form both have fields with the
+      same ids ("email", "name", "website"). Ids must be unique on a page.
+      This duplicate makes the browser jump down to this form when the modal
+      closes, instead of staying on the button that opened the modal.
+      So we give this form's fields unique ids. The "name" attributes are
+      left untouched, so what the forms submit does not change. -#}
+  <script nonce="{{ csp_nonce }}">
+    (function () {
+      let newsletterForm = document.getElementById("4960");
+      if (!newsletterForm) {
+        return;
+      }
+      ["email", "name", "website"].forEach(function (id) {
+        let input = newsletterForm.querySelector('input[id="' + id + '"]');
+        let label = newsletterForm.querySelector('label[for="' + id + '"]');
+        if (input) {
+          input.id = "newsletter-" + id;
+        }
+        if (label) {
+          label.setAttribute("for", "newsletter-" + id);
+        }
+      });
+    })();
+  </script>
+
   {#- BLOG -#}
   {{ vf_blog(title={
       "text": "Latest from our blog",
