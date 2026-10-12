@@ -42,7 +42,7 @@
          aria-controls="data-lakehouse-modal">Contact our system architects</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
-      <div class="p-image-container--3-2 is-highlighted is-cover">
+      <div class="p-image-container--3-2 is-highlighted is-cover u-hide--medium">
         {{ image(url="https://assets.ubuntu.com/v1/72cbd557-hero.jpg",
           alt="",
           width="1200",
@@ -85,6 +85,8 @@
   {% call(slot) vf_equal_heights(
     title_text="Canonical's AI analytics data lake stack",
     highlight_images=true,
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_small="2-3",
     items=[
       {
         "image_html": image(url="https://assets.ubuntu.com/v1/229c0c05-lakehouse_foundations_2.png",
@@ -429,7 +431,8 @@
       "template_container_id": "articles",
       "layout": "4-blocks",
       "template_id": "template"
-    })
+    },
+    padding="deep")
   }}
 
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}"
@@ -447,7 +450,7 @@
     })
   </script>
 
-  <section class="p-section--deep">
+  <section class="p-section--shallow">
     <hr class="p-rule is-fixed-width" />
     <div class="row">
       <div class="col-6 col-start-large-7">
