@@ -671,13 +671,13 @@ class HarvestV3:
         return self._list_for_ids("users", "ids", user_ids)
 
     def get_job_interview_stages(self, job_id):
-        return self._list("job_interview_stages", job_ids=job_id)
+        return self._list("job_interview_stages", job_ids=job_id, active="true")
 
     def get_application_stages(self, application_id):
         return self._list("application_stages", application_ids=application_id)
 
     def get_job_interviews(self, job_id):
-        return self._list("job_interviews", job_ids=job_id)
+        return self._list("job_interviews", job_ids=job_id, active="true")
 
     def get_interviews(self, application_id):
         return self._list("interviews", application_ids=application_id)
