@@ -381,46 +381,6 @@
     {%- endif -%}
   {% endcall %}
 
-  {#- The contact modal and this newsletter form both have fields with the
-      same ids ("email", "name", "website"). Ids must be unique on a page.
-      When the modal opens, its focus trap (focusFirstDescendant in
-      static/js/modals.js) calls focus() on its own <label> elements; the
-      browser resolves each label's "for" to the FIRST matching id in the
-      document, which is this form's field, so focus - and the page scroll -
-      lands here instead of in the modal. Giving this form's fields unique
-      ids keeps the modal's labels pointing at the modal's own fields. The
-      "name" attributes are left untouched, so what the forms submit does
-      not change.
-
-      form_id must stay the bare Marketo number ("4960", NOT
-      "mktoForm_4960"): the macro writes it into the hidden "formid" field
-      that is POSTed to ubuntu.com/marketo/submit, which passes it verbatim
-      to Marketo's submitForm API. A prefixed value is rejected there with
-      "Marketo form ID does not exist" (verified against production), so it
-      would silently break every signup. The mktoForm_ prefix is only a
-      client-side element-id convention.
-
-      Tracked upstream: canonical/vanilla-framework#5856 and
-      canonical/canonical.com#3015. -#}
-  <script nonce="{{ csp_nonce }}">
-    (function () {
-      let newsletterForm = document.getElementById("4960");
-      if (!newsletterForm) {
-        return;
-      }
-      ["email", "name", "website"].forEach(function (id) {
-        let input = newsletterForm.querySelector('input[id="' + id + '"]');
-        let label = newsletterForm.querySelector('label[for="' + id + '"]');
-        if (input) {
-          input.id = "newsletter-" + id;
-        }
-        if (label) {
-          label.setAttribute("for", "newsletter-" + id);
-        }
-      });
-    })();
-  </script>
-
   {#- BLOG -#}
   {{ vf_blog(title={
       "text": "Latest from our blog",
