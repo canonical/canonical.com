@@ -2,7 +2,9 @@
 
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 {% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 
 {% block meta_copydoc %}
@@ -19,19 +21,19 @@
 
 {% block content %}
   {% call(slot) vf_hero(
-    title_text='Enterprise AI solutions <br /> built with trusted open source',
+    title_text='Pure open source AI. <br /> Fully self-governed.',
     layout='50/50',
     is_split_on_medium=true
     ) -%}
     {%- if slot == 'description' -%}
       <p>
-        Innovate at speed with compliant open source – from workstations to clouds and smart devices. Get all the enterprise AI solutions you need from a trusted partner at a predictable cost.
+        Build, deploy, and manage your AI lifecycle with Canonical. From AI infrastructure to production-ready model serving, LLMOps, and edge AI – all on Ubuntu, the open source platform that puts you in control of your data and compliance.
       </p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
       <a class="p-button--positive js-invoke-modal"
          href="/contact-us"
-         aria-controls="ai-modal">Contact Canonical</a>
+         aria-controls="ai-modal">Talk to an expert</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="u-embedded-media">
@@ -48,409 +50,46 @@
   {% endcall -%}
 
   {{ vf_basic_section (
-    title={"text": "Why Canonical<br />for enterprise AI solutions?"},
+    title={"text": "Your AI, your terms"},
     items=[
       {
-        "type": "list",
+        "type": "description",
         "item": {
-          "list_items": [
-            {
-              "list_item_type": "tick",
-              "content": "Run your entire AI/ML lifecycle on a single integrated stack"
-            },
-            {
-              "list_item_type": "tick",
-              "content": "Develop at all scales with the same software provider"
-            },
-            {
-              "list_item_type": "tick",
-              "content": "Control your TCO with predictable costs"
-            },
-            {
-              "list_item_type": "tick",
-              "content": "Get maintained and supported open source AI software"
-            }
-          ]
+          "type": "html",
+          "content": '<ul class="p-list--divided u-no-margin--bottom">
+            <li class="p-list__item is-ticked">Run your models on-premise, in your private cloud, or across public clouds</li>
+            <li class="p-list__item is-ticked">Total control over your digital infrastructure, software, and data</li>
+            <li class="p-list__item is-ticked">Maintain full governance, strict compliance, and the long-term freedom to scale your architecture on your terms</li>
+          </ul>'
         }
       }
     ]
   ) }}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Use cases</h2>
-      </div>
-      <div class="col">
-        <p>
-          Canonical offers you the building blocks so you can innovate at your own pace.
-          From getting started with data science on Ubuntu workstations to scaling your big data analytics with supported database and MLOps software. All on open source.
-        </p>
-      </div>
-    </div>
-    <div class="p-equal-height-row--wrap">
-      <a class="p-equal-height-row__col"
-         href="https://ubuntu.com/confidential-computing/ai"
-         aria-label="Confidential AI">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/e7137246-conf-ai.png",
-                        alt="",
-                        width="852",
-                        height="481",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">Confidential AI</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="https://ubuntu.com/ai/data-science"
-         aria-label="Data science">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/139397af-data-science.png",
-                        alt="",
-                        width="852",
-                        height="481",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">Data science</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="/solutions/ai/infrastructure"
-         aria-label="Ai infrastructure">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/6ccf256d-ai-infra.png",
-                        alt="",
-                        width="852",
-                        height="480",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">AI infrastructure</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="/data"
-         aria-label="Data management">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/cae6bdca-data-management.png",
-                        alt="",
-                        width="852",
-                        height="480",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">Data management</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="/mlops"
-         aria-label="MLOps">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/4bc50dc4-mlops.png",
-                        alt="",
-                        width="852",
-                        height="481",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">MLOps</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="/solutions/ai/big-data-ai"
-         aria-label="Big data analytics">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/d0106fbf-big-data.png",
-                        alt="",
-                        width="852",
-                        height="481",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">Big data analytics</h3>
-        </div>
-      </a>
-
-      <a class="p-equal-height-row__col"
-         href="/solutions/ai/edge"
-         aria-label="Edge AI">
-        <div class="p-equal-height-row__item">
-          <div class="p-image-container--16-9">
-            {{ image(url="https://assets.ubuntu.com/v1/dd383834-edge-ai.png",
-                        alt="",
-                        width="852",
-                        height="481",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-        <div class="p-equal-height-row__item">
-          <h3 class="p-heading--5">Edge AI</h3>
-        </div>
-      </a>
-    </div>
-  </section>
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Kick-start
-          <br />
-          your enterprise AI journey
-        </h2>
-      </div>
-      <div class="col">
-        <p>
-          The first step is always the hardest, especially with AI expertise in such short supply. Canonical’s professional services will help you bridge the skills gap and overcome the barriers to AI adoption.
-        </p>
-        <p>
-          Upskill your team and lay the groundwork for your projects with a 5-day MLOps workshop, work with us to build a PoC, or completely offload the AI operational burden with managed services.
-        </p>
-        <div class="p-cta-block">
-          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Datasheet%20for%20MLOps%20workshop.pdf?version=0">Download the AI workshop datasheet&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="u-fixed-width">
-    <div class="p-image-container--4-3 is-cover u-hide--small">
-      {{ image(url="https://assets.ubuntu.com/v1/db0c8db2-silicon.png",
-              alt="",
-              width="3696",
-              height="1541",
-              hi_def=True,
-              loading="lazy",
-              attrs={"class": "p-image-container__image"},) | safe
-      }}
-    </div>
-  </div>
-
-  {{ vf_basic_section(
-    title={"text": "Designed for any silicon"},
+  {% call(slot) vf_equal_heights(
+    title_text="Enterprise-grade AI stack",
     items=[
       {
-        "type": "description",
-        "item": {
-          "type": "text",
-          "content": "
-            Canonical partners directly with leading silicon vendors to optimize and certify our
-            open source software solutions with dedicated AI hardware to ensure Ubuntu runs optimally
-            across all major architectures. You can pick the best AI accelerators for your use cases,
-            and take full advantage of your hardware&apos;s capabilities.
-          "
-        }
+        "title_text": "AI infrastructure",
+        "description_html": "<p>A solid foundation for computing. Run AI workloads smoothly using Canonical Ubuntu, optimized specifically for all leading hardware. Scale efficiently with Canonical Kubernetes and robust private cloud automation - including bare metal management with Canonical MAAS.</p>",
+        "cta_html": "<a href='/solutions/ai/infrastructure'>Learn more about AI infrastructure&nbsp;&rsaquo;</a>"
       },
       {
-        "type": "description",
-        "item": {
-          "type": "html",
-          "content": "
-            <p>              
-              With <a href='https://documentation.ubuntu.com/inference-snaps/'>inference snaps</a>,
-              you can deploy well-known AI models &dash; like DeepSeek R1 and Qwen VL &dash; with a
-              single command, and the model will be automatically optimized for your specific hardware.
-            </p>
-          "
-        }
+        "title_text": "Model serving & MLOps",
+        "description_html": "<p>Move from experimentation to production fast. Build, train, and track models reliably using Charmed Kubeflow for end-to-end lifecycle management. Serve large language models (LLMs) using vLLM. Scale GPU accelerated model serving using LLM-d.</p>",
+        "cta_html": "<a href='/mlops'>Discover MLOps solutions&nbsp;&rsaquo;</a>"
       },
       {
-        "type": "description",
-        "item": {
-          "type": "html",
-          "content": '<hr class="p-rule--muted">'
-        }
-      },
-      {
-        "type": "logo-block",
-        "item": {
-          "logos": [
-            {"attrs": image(url="https://assets.ubuntu.com/v1/bce3b841-amd_logo.png",
-              alt="AMD",
-              width="204",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/1e07a4e1-ampere_logo.png",
-              alt="Ampere",
-              width="273",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/3fbd9a65-arm_logo.png",
-              alt="ARM",
-              width="152",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/201c84e3-intel_new_logo.png",
-              alt="Intel",
-              width="152",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/bdf87524-mediatek_logo.png",
-              alt="Mediatek",
-              width="432",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/bfc18c93-nvidia_logo.png",
-              alt="Nvidia",
-              width="308",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/2311cd1a-qualcomm_logo.png",
-              alt="Qualcomm",
-              width="384",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")},
-            {"attrs": image(url="https://assets.ubuntu.com/v1/a0d6bf19-risc_v_logo.png",
-              alt="RISC-V",
-              width="288",
-              height="312",
-              hi_def=True,
-              loading="lazy",
-              output_mode="attrs")}
-          ]
-        }
+        "title_text": "Edge AI",
+        "description_html": "<p>Bring intelligence directly to your hardware. Deploy compact, efficiently packaged AI models on remote devices, factory floors, or smart machines. Keep your edge operations safe with snap sandboxing, automatic, transactional over-the-air updates, and robust offline stability.</p>",
+        "cta_html": "<a href='/solutions/ai/edge'>Explore edge AI&nbsp;&rsaquo;</a>"
       }
-    ],
-  ) }}
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Run on any cloud</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <p>Run your workloads anywhere, including hybrid and multi-cloud environments.</p>
-          <p>
-            Choose the ideal infrastructure for your use cases – start quickly with no risk and low investment on public cloud, then move workloads to your own data center as you scale. Benefit from a consistent, optimized OS, tooling and GPU support throughout your entire AI journey.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="u-fixed-width">
-          <div class="p-logo-section">
-            <div class="p-logo-section__items">
-              <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/4b94717b-aws-logo.png",
-                                alt="AWS",
-                                width="151",
-                                height="313",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-              <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/3c4b936f-partner-google-cloud.png",
-                                alt="Google Cloud",
-                                width="287",
-                                height="288",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-              <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/08c2f850-ibm-cloud-logo.png",
-                                alt="IBM",
-                                width="437",
-                                height="313",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-              <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/210f44e4-microsoft-azure-new-logo.png",
-                                alt="Microsoft Azure",
-                                width="252",
-                                height="288",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-              <div class="p-logo-section__item">
-                {{ image(url="https://assets.ubuntu.com/v1/c165433e-oracle-cloud-logo.png",
-                                alt="Oracle",
-                                width="388",
-                                height="313",
-                                hi_def=True,
-                                loading="lazy",
-                                attrs={"class": "p-logo-section__logo"}) | safe
-                }}
-              </div>
-            </div>
-          </div>
-          <style nonce="{{ csp_nonce }}">
-            /* Avoid wrapping logos */
-            .p-logo-section__item {
-              margin-right: 2rem !important;
-            }
-          </style>
-        </div>
-        <div class="p-cta-block">
-          <a href="https://ubuntu.com/engage/run-ai-at-scale">Discover full-stack AI infrastructure&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    ]
+  ) %}
+    {% if slot == "description" %}
+      <p>Powerful tools for every stage of your AI journey, from raw silicon to the edge.</p>
+    {% endif %}
+  {% endcall %}
 
   {% call(slot) vf_cta_section(variant='default', layout='100') -%}
   {%- if slot == 'cta' -%}
@@ -458,201 +97,184 @@
   {%- endif -%}
   {% endcall -%}
 
-  <section class="p-section">
-    <div class="p-section--shallow">
-      <div class="u-fixed-width">
-        <hr class="p-rule" />
-        <div class="col">
-          <h2>Accelerate AI innovation with open source</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">
-                From development to production
-                <br />
-                on one platform
-              </h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Ubuntu is the OS of choice for data scientists. Develop machine learning models on Ubuntu workstations and deploy to Ubuntu servers. Continue with the same familiar Ubuntu experience throughout the AI lifecycle, across clouds and all the way to the edge.
-              </p>
-              <div class="p-cta-block">
-                <a href="https://ubuntu.com/ai">Learn more about Ubuntu for AI&nbsp;&rsaquo;</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">Enterprise data solutions</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Data is at the heart of every AI project, which is why our stack includes a suite of leading open source data solutions enhanced with enterprise features. Automate and scale while enjoying predictable pricing and 10 years of enterprise-grade security and support.
-              </p>
-              <div class="p-cta-block">
-                <a href="/data">Explore our data solutions&nbsp;&rsaquo;</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">Scale with MLOps</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                Simplify workflow processes and automate machine learning deployments at any scale with our modular MLOps solutions. Our supported Kubeflow distribution, integrated with a growing ecosystem of AI and data tooling, brings scalability, portability and reproducibility to your machine learning operations.
-              </p>
-              <div class="p-cta-block">
-                <a href="https://ubuntu.com/engage/mlops-guide">Access our guide to MLOps&nbsp;&rsaquo;</a>
+  {{ vf_basic_section(
+    title={"text": "Why enterprise leaders choose Canonical"},
+    items=[
+      {
+        "type": "image",
+        "padding": "shallow",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/6b7aae33-image_1.png",
+            alt="",
+            width="1200",
+            height="800",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs")
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<ul class="p-list--divided u-no-margin--bottom">
+            <li class="p-list__item is-ticked">True open source: Built on public, auditable code that guarantees flexibility and community innovation.</li>
+            <li class="p-list__item is-ticked">Enterprise security: Backed by regular security updates, automated patching, and strict compliance standards.</li>
+            <li class="p-list__item is-ticked">Global support: Benefit from round-the-clock expert support for your entire infrastructure stack.</li>
+          </ul>'
+        }
+      }
+    ]
+  ) }}
 
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <div class="row">
-            <div class="col-3 col-medium-3">
-              <h3 class="p-heading--5">Power smart things with your models</h3>
-            </div>
-            <div class="col-6 col-medium-3">
-              <p>
-                AI is set to transform our factories, our cars, and our homes. We enable the innovators behind that transformation. From compute to device management, we provide the tools to power your edge AI use cases while preserving security, and compliance.
-              </p>
-              <div class="p-cta-block">
-                <a href="/solutions/ai/edge">Find out more about edge AI&nbsp;&rsaquo;</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_equal_heights(
+    title_text="Built with Canonical AI",
+    highlight_images=true,
+    image_aspect_ratio_small="2-3",
+    image_aspect_ratio_medium="2-3",
+    image_aspect_ratio_large="2-3",
+    items=[
+      {
+        "title_text": "Retrieval-augmented generation (RAG)",
+        "description_html": "<p>Connect open source LLMs safely to private databases. Deliver answers without leaking sensitive corporate data to external APIs.</p>",
+        "image_html": image(url="https://assets.ubuntu.com/v1/045f8aba-image_2.png",
+          alt="",
+          width="568",
+          height="852",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"})
+      },
+      {
+        "title_text": "Agentic workflows",
+        "description_html": "<p>Create smart, multi-step systems where AI agents make decisions, plan tasks, and execute complex workflows without constant human supervision.</p>",
+        "image_html": image(url="https://assets.ubuntu.com/v1/74f7518b-image_3.png",
+          alt="",
+          width="568",
+          height="852",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"})
+      },
+      {
+        "title_text": "Coding agents",
+        "description_html": "<p>Speed up software development safely. Deploy autonomous code assistants within your private network to write, test, and debug code securely.</p>",
+        "image_html": image(url="https://assets.ubuntu.com/v1/1b4d843e-image_4.png",
+          alt="",
+          width="568",
+          height="852",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"})
+      },
+      {
+        "title_text": "Autonomous contact centers",
+        "description_html": "<p>Power the next generation of customer support. Build highly reliable, human-like voice and chat agents that handle customer issues instantly while keeping all records strictly private.</p>",
+        "image_html": image(url="https://assets.ubuntu.com/v1/2b475bb6-image_5.png",
+          alt="",
+          width="568",
+          height="852",
+          hi_def=True,
+          loading="lazy",
+          attrs={"class": "p-image-container__image"})
+      }
+    ]
+  ) %}
+    {% if slot == "description" %}
+      <p>Turn raw technology into intelligent applications. Here is what you can build with our open-source stack:</p>
+    {% endif %}
+  {% endcall %}
 
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <div class="p-section--shallow">
-          <h2>Security – never an afterthought</h2>
-        </div>
-        <div class="p-section--shallow">
-          <div class="p-section--shallow">
-            <h5>Confidential AI protects your models and data</h5>
-            <p>
-              Your models and sensitive data need to be secured at every stage of the ML lifecycle. With confidential AI on Ubuntu, you can protect your data and model at run-time with a hardware-rooted execution environment. Strengthen your compliance posture and safely fine-tune your model with your enterprise data.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/confidential-computing/ai">Discover confidential AI&nbsp;&rsaquo;</a>
-            </div>
-          </div>
-          <div class="p-section--shallow">
-            <hr class="p-rule--muted" />
-            <h5>Fast-track compliance with trusted AI software</h5>
-            <p>
-              Rapidly access all the open source software you need for AI, and run it with peace of mind. We maintain and support all of the key open source software in the AI lifecycle so you don’t have to. Leave the CVE fixes to us, so you can fast-track compliance and focus on your AI models.
-            </p>
-            <div class="p-cta-block">
-              <a href="https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS">Get the full case study&nbsp;&rsaquo;</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container--2-3 is-cover u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/fc787875-security.png",
-                        alt="",
-                        width="1800",
-                        height="2701",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="p-section">
-    <div class="p-section--shallow">
-      <div class="row">
-        <hr class="p-rule--highlight is-fixed-width" />
-        <div class="col-3 col-medium-2">
-          <p class="p-muted-heading">What customers say</p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <hr class="p-rule--muted" />
-      <div class="row">
-        <div class="col-6">
-          <div class="p-section--shallow">
-            <p class="p-heading--6">
-              <i>
-                “We needed a cloud solution that was stable, reliable and performant. Canonical allowed us to do this by helping to design and deploy our cloud - and they helped us do this quickly.”
-              </i>
-            </p>
-          </div>
-        </div>
-        <div class="col-3">
-          <hr class="p-rule--muted u-hide--large" />
-          <p>
-            <strong>Peter Blain</strong>
-            <br />
-            <span class="u-text--muted">Director of Product and AI, Firmus</span>
-          </p>
+  {{ vf_basic_section(
+    title={"text": "Security – never an afterthought"},
+    items=[
+      {
+        "type": "image",
+        "padding": "shallow",
+        "item": {
+          "aspect_ratio": "3-2",
+          "is_highlighted": true,
+          "is_cover": true,
+          "attrs": image(url="https://assets.ubuntu.com/v1/66031569-image_6.png",
+            alt="",
+            width="1200",
+            height="800",
+            hi_def=True,
+            loading="lazy",
+            output_mode="attrs")
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<h5 class="u-no-margin--bottom u-no-padding--top">Confidential AI protects your models and data</h5>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Your models and sensitive data need to be secured at every stage of the ML lifecycle. With confidential AI on Ubuntu, you can protect your data and model at run-time with a hardware-rooted execution environment. Strengthen your compliance posture and safely fine-tune your model with your enterprise data."
+        }
+      },
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": "<p><a href='https://ubuntu.com/confidential-computing/ai'>Discover confidential AI&nbsp;&rsaquo;</a></p>"
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<h5 class="u-no-margin--bottom u-no-padding--top">Fast-track compliance with trusted AI software</h5>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Rapidly access all the open source software you need for AI, and run it with peace of mind. We maintain and support all of the key open source software in the AI lifecycle so you don’t have to. Leave the CVE fixes to us, so you can fast-track compliance and focus on your AI models."
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": "<p><a href='https://ubuntu.com/engage/securing-open-source-AI-with-Everything-LTS'>Get the full case study&nbsp;&rsaquo;</a></p>"
+        }
+      }
+    ]
+  ) }}
+  {% call(slot) vf_quote_wrapper(
+    title_text="What our customers say",
+    quote_size="medium",
+    quote_text="We needed a cloud solution that was stable, reliable and performant. Canonical allowed us to do this by helping to design and deploy our cloud - and they helped us do this quickly.",
+    citation_source_name_text="Peter Blain",
+    citation_source_title_text="Director of Product and AI, Firmus",
+    is_shallow=True
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/ai-ml-casestudy-tasmania">Get the full case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
 
-        </div>
-        <div class="col-3">
-          <div class="p-cta-block">
-            <a href="https://ubuntu.com/engage/ai-ml-casestudy-tasmania">Get the full case study&nbsp;›</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <hr class="p-rule--muted" />
-      <div class="row">
-        <div class="col-6">
-          <div class="p-section--shallow">
-            <p class="p-heading--6">
-              <i>
-                “Partnering with Canonical lets us concentrate on our core business. Our data scientists can focus on data manipulation and model training rather than managing infrastructure.”
-              </i>
-            </p>
-          </div>
-        </div>
-        <div class="col-3">
-          <hr class="p-rule--muted u-hide--large" />
-          <p>
-            <strong>Machine Learning Engineer</strong>
-            <br />
-            <span class="u-text--muted">Consumer entertainment company</span>
-          </p>
-
-        </div>
-        <div class="col-3">
-          <div class="p-cta-block">
-            <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Get the full case study&nbsp;›</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% call(slot) vf_quote_wrapper(
+    quote_size="medium",
+    quote_text="Partnering with Canonical lets us concentrate on our core business. Our data scientists can focus on data manipulation and model training rather than managing infrastructure.",
+    citation_source_name_text="Machine Learning Engineer",
+    citation_source_title_text="Consumer entertainment company"
+  ) -%}
+    {%- if slot == 'cta' -%}
+      <a href="https://ubuntu.com/engage/machine-learning-media-entertainment">Get the full case study&nbsp;&rsaquo;</a>
+    {%- endif -%}
+  {% endcall -%}
 
   <section class="p-section">
     <div class="p-section--shallow">
@@ -667,10 +289,10 @@
          aria-label="Learn more about Kubeflow AI and MLOps">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/cd89477e-kubeflow-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/68b7621f-kuberflow_logo.png",
                         alt="",
-                        width="349",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -687,10 +309,10 @@
          aria-label="Learn more about MLflow">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/104192d9-mlflow-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/45371f77-mlflow_logo.png",
                         alt="",
-                        width="222",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -707,10 +329,10 @@
          aria-label="Learn more about Apache Spark">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/855deda8-apache-spark-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/8f2ef3bd-spark_logo.png",
                         alt="",
-                        width="240",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -727,10 +349,10 @@
          aria-label="Learn more about OpenSearch">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/a8185f91-opensearch-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/b49193f1-opensearch_logo.png",
                         alt="",
-                        width="330",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -743,14 +365,14 @@
       </a>
 
       <a class="p-equal-height-row__col"
-         href="/data/kafka"
-         aria-label="Learn more about Kafka">
+         href="/mlops"
+         aria-label="Learn more about vLLM">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/d30de1f1-kafka-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/7c7c7af9-llm_logo.png",
                         alt="",
-                        width="294",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -763,14 +385,14 @@
       </a>
 
       <a class="p-equal-height-row__col"
-         href="/data/mongodb"
-         aria-label="Learn more about MongoDB">
+         href="/mlops"
+         aria-label="Learn more about KServe">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/efdc8292-mongodb-logo-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/78a39ca8-kserve_logo.png",
                         alt="",
-                        width="413",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -787,10 +409,10 @@
          aria-label="Learn more about PostgreSQL">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/f5605b7e-postgre-sql-container-vert-fill.png",
+            {{ image(url="https://assets.ubuntu.com/v1/8a12bb4a-postgre_logo.png",
                         alt="",
-                        width="432",
-                        height="481",
+                        width="852",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -807,10 +429,10 @@
          aria-label="Learn more about Valkey">
         <div class="p-equal-height-row__item">
           <div class="p-image-container--16-9 is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/a702abe9-valkey.png",
+            {{ image(url="https://assets.ubuntu.com/v1/e70c5e68-valkey_logo.png",
                         alt="",
                         width="852",
-                        height="481",
+                        height="480",
                         hi_def=True,
                         loading="lazy",
                         attrs={"class": "p-image-container__image"}) | safe
@@ -831,8 +453,8 @@
         <h2>Learn more about enterprise AI solutions</h2>
       </div>
       <div class="col">
-        <ul class="p-list--divided u-no-margin--bottom">
-          <li class="p-list__item">
+        <ul class="p-list u-no-margin--bottom">
+          <li class="p-section--shallow">
             <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://ubuntu.com/blog/what-are-large-language-models-llms">What are large language models (LLMs)?</a>
             </h3>
@@ -840,19 +462,19 @@
               LLMs and generative AI are dominating much of the current AI/ML discourse, and their potential goes far beyond chatbots. Our blog breaks down LLM use cases, challenges and best practices.
             </p>
           </li>
-          <li class="p-list__item">
+          <li class="p-section--shallow">
             <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://ubuntu.com/engage/vector-databases-generative-ai">GenAI with vector databases and RAG</a>
             </h3>
             <p>Go deeper on GenAI in this webinar explaining how to enhance your model outputs with RAG.</p>
           </li>
-          <li class="p-list__item">
+          <li class="p-section--shallow">
             <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="/partners/silicon">Check out how we enable open source in the world's leading silicon</a>
             </h3>
             <p>Explore how Canonical partners with silicon vendors to optimize our solutions with certified hardware.</p>
           </li>
-          <li class="p-list__item">
+          <li>
             <h3 class="p-heading--5 u-no-margin--bottom">
               <a href="https://ubuntu.com/engage/microk8s-with-charmed-kubeflow-on-nvidia-egx">MicroK8s with Charmed Kubeflow on NVIDIA EGX platform</a>
             </h3>

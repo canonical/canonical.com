@@ -54,4 +54,16 @@ describe("modal click handling", () => {
     document.querySelector(".p-modal-close-button span").click();
     expect(modalDisplay()).toBe("none");
   });
+
+  it("returns focus to the trigger when the modal closes", () => {
+    const trigger = document.querySelector(".js-invoke-modal");
+    const closeButton = document.querySelector(".p-modal-close-button");
+    trigger.focus();
+    trigger.click();
+    closeButton.focus();
+
+    closeButton.click();
+
+    expect(document.activeElement).toBe(trigger);
+  });
 });
