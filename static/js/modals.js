@@ -115,13 +115,14 @@
       } else {
         document.body.style.overflow = "auto";
         modal.style.display = "none";
+        document.removeEventListener("focus", trapFocus, true);
+        document.removeEventListener("click", handleModalClick);
+        currentDialog = null;
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
         }
-        document.removeEventListener("focus", trapFocus, true);
-        document.removeEventListener("click", handleModalClick);
+        focusAfterClose = null;
         updateHash("");
-        currentDialog = null;
       }
     }
   }
