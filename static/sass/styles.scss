@@ -1256,6 +1256,34 @@ body:not(.js-enabled) {
   }
 }
 
+
+// Index specific css
+
+// Gartner signpost card
+.p-homepage-card--signpost {
+  padding: 1.875rem 0.75rem 0.75rem;
+}
+
+// Small + medium: logo stacks above the heading
+@media (max-width: $threshold-6-12-col - 1) {
+  .p-homepage-card__logo {
+    line-height: 0;
+    margin-bottom: 1.1rem;
+    padding-top: 0;
+  }
+}
+
+// Large: logo shares the heading's line, so their baselines match
+@media (min-width: $threshold-6-12-col) {
+  .p-homepage-card--signpost {
+    padding: 4rem 0;
+  }
+
+  .p-homepage-card__logo {
+    padding-left: 2.5rem;
+  }
+}
+
 // Utility classes that replace inline style attributes (WD-36639).
 // Imported last so this single-class utility layer wins same-specificity
 // ties, mirroring the precedence the original inline styles had.
