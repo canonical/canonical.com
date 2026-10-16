@@ -27,6 +27,7 @@ context:
     id: 4195
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
+{% from "macros/_macros-image.jinja" import image_kh %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 Many different companies offer tooling, support, and security maintenance for open source software. Categories range from application security testing and vulnerability management to software supply chain security, cloud infrastructure security, and open source catalogs.
