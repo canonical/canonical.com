@@ -1,0 +1,4 @@
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% call(slot) vf_logo_section(title={"text": macro.title}, blocks=macro.blocks) %}
+  {%- if slot == "description" %}{{ macro.description }}{% endif -%}
+{% endcall %}
