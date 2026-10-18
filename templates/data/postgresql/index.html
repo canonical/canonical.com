@@ -1,13 +1,20 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1GxineF4WLt0YlShaYkrzqWjIOkXjLJEfsnUdWVfWnz4/edit
+  https://docs.google.com/document/d/10GjJYxhWWYQDl3hVziGNpBexe0riWyxM2WBaNER9AXo/edit?usp=sharing
 {% endblock meta_copydoc %}
 
-{% block title %}PostgreSQL{% endblock %}
+{% block title %}Enterprise-grade PostgreSQL support{% endblock %}
 
 {% block meta_description %}
-  Enterprise PostgreSQL from Canonical: automated high availability, backups, and up to 15 years of security maintenance.
+  Get enterprise-grade PostgreSQL support from Canonical. Enjoy security maintenance and automated operations for your PostgreSQL databases across private and public clouds.
 {% endblock %}
 
 {% block body_class %}
@@ -15,531 +22,373 @@
 {% endblock body_class %}
 
 {% block content %}
-  <section class="p-section--hero">
-    <div class="row">
-      <div class="col-3 col-medium-2">
-        <div class="u-hide--small u-vertically-centre">
-          {{ image(url="https://assets.ubuntu.com/v1/bce30fe6-Postgresql_elephant.svg.png",
-                    alt="",
-                    width="150",
-                    height="150",
-                    hi_def=True,
-                    loading="auto") | safe
-          }}
-        </div>
+
+  {% call(slot) vf_hero(
+    title_text='Enterprise support for PostgreSQL',
+    chip_text='Supported with Ubuntu Pro',
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Unlock a reliable, open source foundation for your mission-critical database workloads. Canonical&rsquo;s PostgreSQL automation and artifacts provide you with up to 15 years of security maintenance, 24/7 SLA-backed support, and expert consulting services to meet your needs."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "p-button--positive js-invoke-modal",
+              "aria-controls": "data-relational-dbs-modal"
+            }
+          }
+        }
+      }
+    ]
+  ) -%}
+    {%- if slot == 'image' -%}
+      <div class="u-embedded-media">
+        <lite-youtube videoid="Pal9v_GGB6w"
+                      width="560"
+                      height="315"
+                      posterquality="maxresdefault"
+                      videotitle="Introducing Charmed PostgreSQL"
+                      class="u-embedded-media__element">
+          <a href="https://www.youtube.com/watch?v=Pal9v_GGB6w" title="Play Video">
+            <span class="lyt-visually-hidden">Introducing Charmed PostgreSQL</span>
+          </a>
+        </lite-youtube>
       </div>
-      <div class="col-9 col-medium-4">
-        <div class="p-section--shallow">
-          <h1>PostgreSQL for the enterprise</h1>
-          <p>
-            Secure and automate the deployment, maintenance and upgrades of your PostgreSQL databases across private and public clouds.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive js-invoke-modal"
-           href="/contact-us"
-           aria-controls="data-relational-dbs-modal">Get in touch<span class="u-off-screen">about postgresql for the enterprise</span></a>
-        <a class="p-button"
-           href="https://drive.google.com/file/d/1rpaXT8Q1gW6lLVxSZiDSxW17EzJAAytH/view?usp=sharing"><span class="u-off-screen">Download the Canonical's guide to postgresql</span>Get started</a>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "Run PostgreSQL across public and private clouds"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            {
+              "src": "https://assets.ubuntu.com/v1/86c50881-openstack_logo.png",
+              "alt": "OpenStack"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/918090f6-microcloud_logo.png",
+              "alt": "MicroCloud"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/cf4bde95-vmware_logo_data_postgresql_assets.png",
+              "alt": "VMware"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/2fd13810-aws_logo_data_postgresql_assets.png",
+              "alt": "AWS"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/eebb672a-google_cloud_logo_data_postgresql_assets.png",
+              "alt": "Google Cloud"
+            },
+            {
+              "src": "https://assets.ubuntu.com/v1/655ecd38-microsoft_azure_logo_data_postgresql_assets.png",
+              "alt": "Microsoft Azure"
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>When you use our PostgreSQL artifacts, you benefit from optimized configurations for every cloud. You can run PostgreSQL on public clouds, or in your private data center on top of MAAS and MicroCloud, OpenStack, or VMware.</p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "100+<br class=\"u-hide--small\"> clusters",
+        "headline": "Use our services",
+        "description": "Our stack is tried and tested in production in sectors ranging from banking to aerospace engineering.",
+        "link": {
+          "url": "/data/postgresql#get-in-touch",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "10+<br class=\"u-hide--small\"> automations",
+        "headline": "For your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical.com/data/postgresql/docs/latest/how-to/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~&nbsp;30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "https://canonical.com/data/postgresql/docs/latest/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>PostgreSQL deployment options</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Debian package</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Get our PostgreSQL debs for seamless integration with your Ubuntu installations. You can get an instance running with a single command.</p>
+      <p><a href="https://ubuntu.com/server/docs/how-to/databases/install-postgresql/">Try the deb&nbsp;&rsaquo;</a></p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Snap</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Our PostgreSQL snap offers added confinement and atomic updates, including for the bleeding edge versions of PostgreSQL.</p>
+      <p><a href="https://snapcraft.io/postgresql">Try the snap&nbsp;&rsaquo;</a></p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Container</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>Get our PostgreSQL container to benefit from a minimalist and self-contained solution for deploying PostgreSQL clusters in all of your environments.</p>
+      <p><a href="https://hub.docker.com/r/ubuntu/postgres">Try the container&nbsp;&rsaquo;</a></p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Software operator</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>Our software operator helps you automate the operations of your PostgreSQL clusters including deployment, scaling, encryption, and upgrades.</p>
+      <p><a href="https://charmhub.io/postgresql">Check our software operator&nbsp;&rsaquo;</a></p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Popular PostgreSQL use cases",
+    attrs={ "id": "4-columns-responsive" },
+    highlight_images=True,
+    subtitle_text="",
+    items=[
+      {
+        "title_text": "Data warehousing and business intelligence",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/eb4053f4-image_3.png" class="p-image-container__image" width="284" height="426" alt="" />',
+        "description_html": "<p>PostgreSQL is famous for its excellent support of the SQL standard. It also supports a large panel of index types and can integrate smoothly with other data stores (using <a href=\"https://www.postgresql.org/docs/14/ddl-foreign-data.html\">foreign wrappers</a>), making it an excellent choice for running analytical queries without the need to duplicate your data.</p>",
+      },
+      {
+        "title_text": "Regulated industries",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/16fdf814-image_2.png" class="p-image-container__image" width="284" height="426" alt="" />',
+        "description_html": "<p>PostgreSQL provides the transactional <a href=\"https://en.wikipedia.org/wiki/ACID\">ACID</a> guarantees, the advanced replication setups, and the fine-grained auditing capabilities that regulated industries such as banking require.</p>",
+      },
+      {
+        "title_text": "Managing geospatial data",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/eb8ade43-image_1.png" class="p-image-container__image" width="284" height="426" alt="" />',
+        "description_html": "<p>PostgreSQL features a large ecosystem of plugins such as <a href=\"https://postgis.net/\">PostGIS</a> and <a href=\"https://github.com/pgRouting/pgrouting\">pgrouting</a> to support your use cases managing spatial data or other specialized data types.</p>",
+      },
+      {
+        "title_text": "Text and hybrid search use cases",
+        "image_html": '<img src="https://assets.ubuntu.com/v1/94e33450-image.png" class="p-image-container__image" width="284" height="426" alt="" />',
+        "description_html": "<p>PostgreSQL supports a variety of data types and index structures, such as GIN, GIST, and HNSW. These enable you to perform advanced full text and vector search operations on your data without duplicating it or compromising on its consistency.</p>",
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {{ vf_basic_section(
+    title={"text": "PostgreSQL support services"},
+    padding="shallow",
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '<p>Whether you are exploring PostgreSQL or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.</p>'
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Our on-demand services help you unlock the potential of your data platform by addressing your specific challenges with tailored workshops, targeted knowledge transfer and timely delivery of expert consulting."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "link": {
+            "content_html": "More details on our services",
+            "attrs": {
+              "href": "https://canonical.com/data/services",
+              "class": "p-button"
+            }
+          }
+        }
+      }
+    ]
+  ) }}
 
   <section class="p-section">
-    <div class="row--25-75">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Why choose Canonical's enterprise-grade PostgreSQL</h2>
-      </div>
-      <div class="col">
+    <div class="row">
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">Subscription-based</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
         <ul class="p-list--divided">
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Up to 15 years of security maintenance</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Hybrid and multi-cloud ready</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Simple per node subscription</p>
-          </li>
+          <li class="p-list__item is-ticked">Security maintenance</li>
+          <li class="p-list__item is-ticked">24/7 phone and ticket support</li>
+          <li class="p-list__item is-ticked">SLA-backed firefighting support</li>
+          <li class="p-list__item is-ticked">Managed deployments</li>
+          <li class="p-list__item is-ticked">And much more</li>
+        </ul>
+      </div>
+      <div class="col-6">
+        <div class="p-section--shallow">
+          <p class="p-heading--4">On-demand</p>
+          <p class="u-text--muted u-no-margin--bottom">What's included</p>
+        </div>
+        <hr class="p-rule--muted u-no-margin--bottom" />
+        <ul class="p-list--divided">
+          <li class="p-list__item is-ticked">Workshops</li>
+          <li class="p-list__item is-ticked">Deployment packages</li>
+          <li class="p-list__item is-ticked">Consulting packages</li>
+          <li class="p-list__item is-ticked">Trainings</li>
+          <li class="p-list__item is-ticked">And much more</li>
         </ul>
       </div>
     </div>
   </section>
 
   <section class="p-section">
-    <div class="row--50-50">
+    <div class="grid-row--50-50 p-section--shallow">
       <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Run PostgreSQL on any public, private or hybrid cloud</h2>
+      <div class="grid-col">
+        <h2>Community and support</h2>
       </div>
-      <div class="col">
-        <p>
-          When you use Canonical's PostgreSQL, you benefit from optimised configurations for every cloud. You can run PostgreSQL on Azure, AWS and Google Cloud, whether on top of VMs or their managed Kubernetes offerings. You can also run PostgreSQL in your private data centre on top of MAAS and MicroCloud, Kubernetes, OpenStack or VMWare.
-        </p>
-      </div>
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/36a0cd3b-microsoft-azure-2021.png",
-                        alt="Microsoft Azure",
-                        width="78",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/9faa9b91-aws-logo.png",
-                        alt="AWS",
-                        width="125",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/959833e3-google-cloud-logo-light.png",
-                        alt="Google cloud",
-                        width="382",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/f7a0c5ff-kubernetes-logomark-logo.png",
-                        alt="Kubernetes",
-                        width="105",
-                        height="384",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/165fa040-openstack-logo.png",
-                        alt="OpenStack",
-                        width="426",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/a89f2843-microcloud.png",
-                        alt="Microcloud",
-                        width="394",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/daecf95b-vmware-logo.png",
-                        alt="VMware",
-                        width="385",
-                        height="384",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/bf2f1cc2-maas-logo false.png",
-                        alt="MAAS",
-                        width="250",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
+      <div class="grid-col"></div>
     </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Easy to deploy and manage</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/3815a62c-easy-to-deploy-manage.png",
-                        alt="",
-                        width="1800",
-                        height="1015",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>Thanks to Charmed PostgreSQL, your deployments will be:</p>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">
-              <b>Highly available</b> with built-in replication and automatic failover.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Reliable</b> with expert-crafted and self healing state-machine automation.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Upgraded automatically</b> during your maintenance windows and with minimum downtime.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Disaster recovery ready</b> with built-in cross region replication, backup and restore capabilities to ensure business continuity.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Hybrid and multi-cloud ready</b> with automation that supports deployment within and across private and public clouds.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Shipped with a holistic observability and alerting solution</b> based on Prometheus, Loki and Grafana.
-            </li>
-          </ul>
-          <hr class="p-rule--muted" />
-          <p>
-            <a href="https://canonical.com/data/postgresql/docs/latest/tutorial/">Get started with Charmed PostgreSQL&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule" />
-    <div class="row--50-50">
-      <div class="col">
-        <h2>PostgreSQL security</h2>
-        <div class="p-section--shallow">
-          <div class="p-image-container--16-9 is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/1c4c6ee0-encryption.png",
-                        alt="",
-                        width="300",
-                        height="300",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Charmed PostgreSQL comes with up to 15 years of security maintenance. It also ships with hardened configurations to help you comply with the most stringent requirements in terms of encryption, auditing, logging, authentication and authorisation.
-        </p>
-      </div>
-      <div class="col">
-        <h2>PostgreSQL support</h2>
-        <div class="p-section--shallow">
-          <div class="p-image-container--16-9 is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/f29c3ed2-postgresql-support.png",
-                        alt="",
-                        width="565",
-                        height="320",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Get comprehensive, 24/7 or weekday support for Charmed PostgreSQL, covering the entire solution for up to 15 years.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a class="p-button" href="https://ubuntu.com/pro/subscribe">Subscribe now<span class="u-off-screen">Subscribe for ubuntu pro service</span></a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Predictable pricing
-          <br class="u-hide--medium" />
-          enterprise-grade PostgreSQL
-        </h2>
-      </div>
-      <div class="col">
-        <p>
-          Support for Charmed PostgreSQL is priced per node, per year with no per-socket or per-core limitations, and no software licence fees.
-          Use our Charmed PostgreSQL for better control over your TCO. Budgeting and financial planning are straightforward and predictable.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <hr class="p-rule is-fixed-width" />
-    <div class="row p-section--shallow">
-      <div class="col-6 col-medium-3">
-        <h2>Charmed PostgreSQL services</h2>
-      </div>
-      <div class="col-6 col-medium-3">
-        <p>
-          You can self-manage our Charmed PostgreSQL solution or you can opt for a fully managed setup where our Canonical experts will deploy and operate your PostgreSQL fleet on top of your on-premise infrastructure or using your cloud tenants.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a href="/contact-us"
-             class="js-invoke-modal"
-             aria-controls="data-relational-dbs-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
-        </p>
-      </div>
-    </div>
-    <div class="row--50-50">
-      <div class="col">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-no-margin--bottom">
-          <div class="row">
-            <div class="col-4 col-medium-2 col-small-3">
-              <h3 class="u-align-text--left u-no-margin--bottom">Managed</h3>
-            </div>
-            <div class="col-2 col-medium-1 col-small-1">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $3099</h3>
-              <p class="u-align-text--right u-text--muted">Per node, per year</p>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Connect with the community</h3>
             </div>
           </div>
-          <p>
-            Get there faster. Let us deploy and operate your PostgreSQL cluster, in your cloud tenancy or in your data centre.
-          </p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow u-no-margin--bottom">
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Backed by an SLA</li>
-              <li class="p-list__item is-ticked">MSP and SOC2 certified service</li>
-              <li class="p-list__item is-ticked">Low cost of ownership</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-no-margin--bottom">
-          <div class="row">
-            <div class="col-4 col-medium-2 col-small-3">
-              <h3 class="u-align-text--left u-no-margin--bottom">Self-managed</h3>
-            </div>
-            <div class="col-2 col-medium-1 col-small-1">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $500</h3>
-              <p class="u-align-text--right u-text--muted">Per node, per year</p>
+          <div class="grid-col p-resources-block__col p-section--shallow">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">
+                  <h4 class="p-article-block__title article-title p-heading--3">Matrix chat</h4>
+                </a>
+              </div>
             </div>
           </div>
-          <p>
-            24/7, weekday or advanced fire-fighting support for PostgreSQL from Canonical for up to 15 years per release track.
-          </p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow u-no-margin--bottom">
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Expert troubleshooting on hand</li>
-              <li class="p-list__item is-ticked">Security and bug fixes</li>
-              <li class="p-list__item is-ticked">Full stack coverage</li>
-            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <hr class="p-rule--muted" />
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Contact us</h3>
+            </div>
+          </div>
+          <div class="grid-col p-resources-block__col">
+            <a class="p-button u-no-margin--bottom js-invoke-modal"
+               href="/contact-us"
+               aria-controls="data-relational-dbs-modal">Tell us more about your needs</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>PostgreSQL use cases</h2>
-      </div>
-      <div class="col">
-        <p>
-          PostgreSQL is the world's most acclaimed open source database. Its popularity is rooted in its sound architectural foundations that make it a good fit for several use cases:
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
         <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Web and mobile applications</h3>
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Read more</h3>
+            </div>
           </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              PostgreSQL is a solid choice for e-commerce and content sharing platforms thanks to its transactional capabilities and fast ingestion and retrieval.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Data warehousing and Business Intelligence applications</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              PostgreSQL is famous for its excellent support of the SQL standard. It also supports a large panel of index types and can nicely integrate with other data stores (using <a href="https://www.postgresql.org/docs/14/ddl-foreign-data.html">foreign wrappers</a>) making it an excellent choice for running analytical queries without the need to duplicate your data.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Applications managing geospatial data</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              The <a href="https://postgis.net/">PostGIS</a> extension of PostgreSQL is an excellent choice to support use cases managing spatial data.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">FinOps and banking</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              PostgreSQL provides the transactional <a href="https://en.wikipedia.org/wiki/ACID">ACID</a> guarantees and the mature replication capabilities that finance systems need. The <a href="https://www.pgaudit.org/">pgAudit</a> extension can also complement PostgreSQL with comprehensive auditing capabilities.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-3">
-            <h3 class="p-heading--5">Text search use cases</h3>
-          </div>
-          <div class="col-6 col-medium-3">
-            <p>
-              PostgreSQL offers a variety of index structures (such as GIN and GIST) to perform advanced full text search operations on your data without the need for duplicating it or compromising on its consistency.
-            </p>
+          <div class="grid-col p-resources-block__col p-section--shallow">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf">
+                  <h4 class="p-article-block__title article-title p-heading--3">Data backups</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://ubuntu.com/engage/choose-a-database">
+                  <h4 class="p-article-block__title article-title p-heading--3">How to choose a DBMS</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf">
+                  <h4 class="p-article-block__title article-title p-heading--3">Database cloud migration</h4>
+                </a>
+              </div>
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://ubuntu.com/engage/postgresql-security-best-practices">
+                  <h4 class="p-article-block__title article-title p-heading--3">PostgreSQL security best practices</h4>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <hr class="p-rule is-fixed-width" />
-
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <p class="p-heading--2">
-        <a href="/blog/author/mwnsiri">Hear from the product manager&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule" />
-    <div class="p-section--shallow">
-      <h2>Go further with Charmed PostgreSQL</h2>
-    </div>
-    <div class="p-equal-height-row">
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/02d2c3dd-2x-no-underlay-go-further-img-1.png",
-                        alt="",
-                        width="568",
-                        height="853",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
+    <div class="grid-row--25-75-on-large p-section--shallow">
+      <div class="grid-col">
+        <hr class="p-rule--muted" />
+        <div class="p-resources-block grid-row grid-row--50-50-on-medium">
+          <div class="grid-col p-resources-block__col">
+            <div class="grid-col">
+              <h3 class="p-text--small-caps">Contribute</h3>
+            </div>
           </div>
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-        </div>
-        <p class="p-equal-height-row__item">
-          Read our tutorials and installation guides to learn how to deploy and manage PostgreSQL within and across public and private clouds.
-        </p>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--muted u-hide--medium" />
-          <p>
-            Read the documentation for <a href="https://canonical.com/data/postgresql/docs/latest">K8s</a> and <a href="https://canonical.com/data/postgresql/docs/latest">VMs</a>
-            &nbsp;&rsaquo;
-          </p>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/9a6d160e-2x-no-underlay-go-further-img-2.png",
-                        alt="",
-                        width="568",
-                        height="853",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
+          <div class="grid-col p-resources-block__col">
+            <div class="p-article-block">
+              <div class="p-article-block__item">
+                <a class="article-link"
+                   href="https://github.com/canonical/postgresql-operator">
+                  <h4 class="p-article-block__title article-title p-heading--3">Software operator for PostgreSQL</h4>
+                </a>
+              </div>
+            </div>
           </div>
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-        </div>
-        <p class="p-equal-height-row__item">
-          Gain insights on how to succeed in migrating your most valuable assets, your data, to the cloud.
-        </p>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--muted u-hide--medium" />
-          <p>
-            <a href="https://ubuntu.com/engage/database-cloud-migration">A guide to database cloud migration
-            &nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/fa7f22ef-2x-no-underlay-go-further-img-3.png",
-                        alt="",
-                        width="568",
-                        height="853",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-        </div>
-        <p class="p-equal-height-row__item">
-          Build a comprehensive backup strategy to meet your requirements in terms of data protection and recovery times.
-        </p>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--muted u-hide--medium" />
-          <p>
-            <a href="https://ubuntu.com/engage/data-backups">A guide to data backups
-            &nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col">
-        <div class="p-equal-height-row__item u-hide--small u-hide--medium">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/ab5bd045-2x-no-underlay-go-further-img-4.png",
-                        alt="",
-                        width="568",
-                        height="853",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <hr class="p-rule--highlight u-hide--medium u-hide--small" />
-        </div>
-        <p class="p-equal-height-row__item">
-          Dive into the differences between the two most popular open-source databases and what those differences mean from a performance, operability and community engagement perspective.
-        </p>
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--muted u-hide--medium" />
-          <p>
-            <a href="https://www.linkedin.com/events/choosingbetweenthemostpopularop7094241865746542592/theater/">PostgreSQL vs MySQL webinar
-            &nbsp;&rsaquo;</a>
-          </p>
         </div>
       </div>
     </div>
@@ -550,12 +399,20 @@
       <hr class="p-rule" />
       <div class="col-start-large-7 col-6">
         <p class="u-text--muted">
-          “PostgreSQL” is a trademark or registered trademark of <a href="https://www.postgres.ca/">PGCA</a>. Other trademarks are property of their respective owners. Canonical's PostgreSQL offerings are not sponsored, endorsed, or affiliated with <a href="https://www.postgres.ca/">PGCA</a>.
+          &ldquo;PostgreSQL&rdquo; is a trademark or registered trademark of <a href="https://www.postgres.ca/">PGCA</a>. Other trademarks are property of their respective owners.
+        </p>
+        <p class="u-text--muted">
+          Canonical&rsquo;s PostgreSQL offerings are not sponsored, endorsed, or affiliated with <a href="https://www.postgres.ca/">PGCA</a>.
         </p>
       </div>
     </div>
   </section>
 
-  {{ load_form('/data/postgresql') | safe }}
+  {{ load_form("/data/postgresql") | safe }}
+
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

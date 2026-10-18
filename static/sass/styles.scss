@@ -17,6 +17,7 @@ $p-small-lh-diff: map-get($line-heights, default-text) -
   map-get($line-heights, small);
 
 @import "pattern_animations";
+@import "pattern_announcement-bar";
 @import "pattern_application";
 @import "pattern_blog-article";
 @import "pattern_blog-card";
@@ -1252,6 +1253,34 @@ body:not(.js-enabled) {
     .p-content-card__body {
       grid-template-rows: auto;
     }
+  }
+}
+
+
+// Index specific css
+
+// Gartner signpost card
+.p-homepage-card--signpost {
+  padding: 1.875rem 0.75rem 0.75rem;
+}
+
+// Small + medium: logo stacks above the heading
+@media (max-width: $threshold-6-12-col - 1) {
+  .p-homepage-card__logo {
+    line-height: 0;
+    margin-bottom: 1.1rem;
+    padding-top: 0;
+  }
+}
+
+// Large: logo shares the heading's line, so their baselines match
+@media (min-width: $threshold-6-12-col) {
+  .p-homepage-card--signpost {
+    padding: 4rem 0;
+  }
+
+  .p-homepage-card__logo {
+    padding-left: 2.5rem;
   }
 }
 

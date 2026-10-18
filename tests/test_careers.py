@@ -9,7 +9,6 @@ from webapp.careers import (
     group_by_department,
 )
 
-
 logging.getLogger("talisker.context").disabled = True
 
 

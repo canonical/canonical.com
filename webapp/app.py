@@ -50,6 +50,7 @@ from slugify import slugify
 
 # Local
 from canonicalwebteam.markdown_response import MarkdownResponse
+from webapp.announcement_bar import should_show_announcement_bar
 from webapp.views import (
     json_asset_query,
     build_case_study_index,
@@ -1501,6 +1502,10 @@ def default_cache_control(response):
         and not response.cache_control.no_cache
         and not response.cache_control.private
         and type(response.cache_control.max_age) is not int
+        # The announcement bar's markup varies by the visitor's dismissal
+        # cookie; a shared public cache would serve one visitor's state to
+        # everyone else for the cache lifetime.
+        and not should_show_announcement_bar(flask.request.path)
     ):
         response.cache_control.max_age = 3600
 
@@ -1763,6 +1768,13 @@ def navigation_nojs():
 
 
 app.add_url_rule("/navigation", view_func=navigation_nojs)
+
+
+def networking_contact_us():
+    return flask.render_template("shared/_networking-contact-us.html")
+
+
+app.add_url_rule("/networking-contact-us", view_func=networking_contact_us)
 
 
 @app.route("/solutions/infrastructure/private-cloud-pricing.json")

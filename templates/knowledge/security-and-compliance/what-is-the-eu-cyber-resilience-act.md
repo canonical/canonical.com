@@ -74,7 +74,7 @@ The only exceptions for CRA regulation are:
 
 ## When will the CRA come into force?
 
-The European Parliament formally approved the CRA in March 2024, and it was adopted by the European Council on October 10, 2024. The Cyber Resilience Act entered into force on December 10, 2024, with certain requirements still being phased in. Manufacturers will need to follow CRA reporting obligations as of June 11, 2026. The CRA will be fully enforced by December 11, 2027.
+The European Parliament formally approved the CRA in March 2024, and it was adopted by the European Council on October 10, 2024. The Cyber Resilience Act entered into force on December 10, 2024, with certain requirements still being phased in. Manufacturers will need to follow CRA reporting obligations as of September 11, 2026. The CRA will be fully enforced by December 11, 2027.
 
 ## What are the fines and penalties?
 
