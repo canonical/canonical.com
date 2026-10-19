@@ -15,7 +15,7 @@
         history.pushState(
           "",
           document.title,
-          location.pathname + location.search + hash,
+          location.pathname + location.search + hash
         );
       } else {
         location.hash = hash;
@@ -157,7 +157,7 @@
       toggleModal(
         document.getElementById(targetControls),
         controlElement,
-        toggleValue,
+        toggleValue
       );
 
       if (modalTrigger) {
@@ -182,7 +182,7 @@
   function render() {
     if (paginationContent?.length) {
       const currentContent = contactModal.querySelector(
-        ".js-pagination--" + contactIndex,
+        ".js-pagination--" + contactIndex
       );
       paginationContent.forEach(function (content) {
         content.classList.add("u-hide");
@@ -234,7 +234,7 @@ function validateCheckbox(event, fieldsetId) {
   const checkboxes = Array.from(
     document
       .getElementById(fieldsetId)
-      .querySelectorAll("input[class='p-checkbox__input']"),
+      .querySelectorAll("input[class='p-checkbox__input']")
   );
   if (event.currentTarget.checked) {
     checkboxes[0].removeAttribute("required");
@@ -261,7 +261,7 @@ function getCustomFields(event) {
     }
     /** @type {NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} */
     var inputs = formField.querySelectorAll(
-      "input, textarea:not(.js-other-input), select",
+      "input, textarea:not(.js-other-input), select"
     );
     if (fieldTitle) {
       message += fieldTitle.innerText + "\r\n";
@@ -308,7 +308,7 @@ function getCustomFields(event) {
 
               /** @type {HTMLElement | null} */
               var label = formField.querySelector(
-                "span#" + checkboxInput.getAttribute("aria-labelledby"),
+                "span#" + checkboxInput.getAttribute("aria-labelledby")
               );
 
               if (label) {
@@ -346,12 +346,12 @@ function getCustomFields(event) {
   }
 
   const checkboxFieldsets = document.querySelectorAll(
-    ".js-remove-checkbox-names",
+    ".js-remove-checkbox-names"
   );
   if (checkboxFieldsets.length > 0) {
     checkboxFieldsets.forEach((checkboxFieldset) => {
       const checkboxInputs = checkboxFieldset.querySelectorAll(
-        "input[type='checkbox']",
+        "input[type='checkbox']"
       );
       checkboxInputs.forEach((checkboxInput) => {
         checkboxInput.removeAttribute("name");
