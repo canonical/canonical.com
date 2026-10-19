@@ -136,7 +136,7 @@ function getCookie(name) {
  * Adds cookie values as hidden form fields
  */
 function addCookieFieldsToForm(form) {
-  const cookieFields = ["user_id", "consent_info", "utms"];
+  const cookieFields = ["user_id", "consent_info", "utms", "_cookies_accepted"];
 
   cookieFields.forEach((fieldName) => {
     const cookieValue = getCookie(fieldName);
@@ -161,11 +161,14 @@ function addCookieFieldsToForm(form) {
  * Removes the name attribute from inputs whose names start with an underscore
  * prefix (e.g. _radio_, _checkbox_). These fields are used internally to build
  * the comments_from_lead__c payload and must not be submitted directly.
+ * Preserves _cookies_accepted, which the submit endpoint uses for consent.
  */
 function stripPrefixedFieldNames(form) {
-  form.querySelectorAll("input[name^='_']").forEach((input) => {
-    input.removeAttribute("name");
-  });
+  form
+    .querySelectorAll("input[name^='_']:not([name='_cookies_accepted'])")
+    .forEach((input) => {
+      input.removeAttribute("name");
+    });
 }
 
 const forms = document.querySelectorAll("form");
