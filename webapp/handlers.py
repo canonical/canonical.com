@@ -351,6 +351,7 @@ CSP = {
         "https://pages.ubuntu.com",
         "https://ubuntu.com",
         "https://www.tfaforms.com",
+        "http://0.0.0.0:8001"
     ],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
