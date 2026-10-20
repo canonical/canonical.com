@@ -184,7 +184,7 @@ Ubuntu Pro provides:
 
 ### Software supply chain security
 
-Ubuntu packages are cryptographically signed, and the archive metadata that lists them is signed too, so package managers can verify the origin and integrity of what they install. Because packages come from a single managed archive rather than an unmanaged public repository, there is less exposure to tampered or look-alike packages.
+The Ubuntu archive’s metadata is cryptographically signed. APT verifies that signature, then follows a chain of hashes from the signed metadata to the package indexes and on to each downloaded package, authenticating its origin and integrity. Because packages come from a curated, managed archive rather than an unmanaged public repository, there is less exposure to tampered or look-alike packages.
 
 Canonical also publishes its own vulnerability data. As a CVE Numbering Authority (CNA), Canonical can assign CVE identifiers within its scope, and it records the fixed status of each vulnerability per Ubuntu release through [Ubuntu Security Notices](https://ubuntu.com/security/notices) and machine-readable OVAL and OSV feeds. Scanners and SBOM-based tools can use this data to see which package versions already contain a fix, rather than inferring it from upstream version numbers.
 
