@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { navigateToHomepage } from "../../helpers/navigation-helpers";
 import {
   clearDataLayer,
-  getDataLayerEventsByName,
+  waitForDataLayerEventsByName,
 } from "../../helpers/datalayer-helpers";
 
 const EVENT_NAME = "meganav click mobile";
@@ -23,7 +23,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
     await menuButton.click();
 
-    let events = await getDataLayerEventsByName(page, EVENT_NAME);
+    let events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     let event = events[events.length - 1];
@@ -35,7 +35,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
     await menuButton.click();
 
-    events = await getDataLayerEventsByName(page, EVENT_NAME);
+    events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     event = events[events.length - 1];
@@ -61,7 +61,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
     await sectionToggle.click();
 
-    const events = await getDataLayerEventsByName(page, EVENT_NAME);
+    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];
@@ -89,7 +89,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
     await backButton.click();
 
-    const events = await getDataLayerEventsByName(page, EVENT_NAME);
+    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];
@@ -120,7 +120,7 @@ test.describe("meganav tracking - mobile", () => {
     await clearDataLayer(page);
     await nestedToggle.click();
 
-    const events = await getDataLayerEventsByName(page, EVENT_NAME);
+    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];

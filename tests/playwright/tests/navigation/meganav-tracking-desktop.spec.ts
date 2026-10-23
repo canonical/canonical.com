@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { navigateToHomepage } from "../../helpers/navigation-helpers";
 import {
   clearDataLayer,
-  getDataLayerEventsByName,
+  waitForDataLayerEventsByName,
 } from "../../helpers/datalayer-helpers";
 
 const EVENT_NAME = "meganav click desktop";
@@ -21,7 +21,7 @@ test.describe("meganav tracking - desktop", () => {
     );
     await productsButton.click();
 
-    const events = await getDataLayerEventsByName(page, EVENT_NAME);
+    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];
@@ -49,7 +49,7 @@ test.describe("meganav tracking - desktop", () => {
     await clearDataLayer(page);
     await sidebarTab.click();
 
-    const events = await getDataLayerEventsByName(page, EVENT_NAME);
+    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];

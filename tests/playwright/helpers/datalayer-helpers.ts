@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 declare global {
   interface Window {
@@ -40,13 +40,22 @@ export const clearDataLayer = async (page: Page): Promise<void> => {
 };
 
 /**
- * Filter dataLayer events by the `event` field name.
+ * Wait for an event to be pushed before returning matching dataLayer events.
  */
-export const getDataLayerEventsByName = async (
+export const waitForDataLayerEventsByName = async (
   page: Page,
   eventName: string
 ): Promise<Record<string, unknown>[]> => {
-  return await page.evaluate((name) => {
-    return (window.dataLayer || []).filter((e) => e.event === name);
-  }, eventName);
+  await expect
+    .poll(async () =>
+      page.evaluate(
+        (name) => (window.dataLayer || []).filter((event) => event.event === name).length,
+        eventName
+      )
+    )
+    .toBeGreaterThan(0);
+  return page.evaluate(
+    (name) => (window.dataLayer || []).filter((event) => event.event === name),
+    eventName
+  );
 };

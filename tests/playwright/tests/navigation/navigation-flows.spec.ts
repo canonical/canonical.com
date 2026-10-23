@@ -7,13 +7,11 @@ import {
   isMobileViewport,
   toggleMobileMenuIfNeeded,
   clickNavigationItem,
-  isDropdownOpen,
   getDropdownLinks,
   testSearchFunctionality,
   hasSecondaryNavigation,
   getSecondaryNavigationItems,
   verifyPageLoad,
-  isElementVisible,
   clickSearchButton,
   MOBILE_THRESHOLD
 } from "../../helpers/navigation-helpers";
@@ -35,9 +33,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
         await test.step(`Verify ${navItem.title} navigation item`, async () => {
           const element = page.locator(navItem.selector!);
           await expect(element).toBeVisible();
-          
-          const linkText = await element.locator('a').first().textContent();
-          expect(linkText?.trim()).toBe(navItem.title);
+          await expect(element.locator('a').first()).toHaveText(navItem.title);
         });
       }
     });
@@ -85,8 +81,8 @@ test.describe("Navigation Flows - E2E Tests", () => {
             await clickNavigationItem(page, navItem.selector!);
             
             // Verify dropdown is open
-            const isOpen = await isDropdownOpen(page, navItem.selector!.replace('#', '').replace('-nav', ''));
-            expect(isOpen).toBe(true);
+            const dropdownId = navItem.selector!.replace('#', '').replace('-nav', '');
+            await expect(page.locator(`#${dropdownId}-content`)).toBeVisible();
           });
           
           // Test dropdown closing by clicking elsewhere
@@ -96,10 +92,6 @@ test.describe("Navigation Flows - E2E Tests", () => {
             
             const dropdownId = navItem.selector!.replace('#', '').replace('-nav', '');
             await expect(page.locator(`#${dropdownId}-content`)).not.toBeVisible();
-            
-            // Verify dropdown is closed
-            const isOpen = await isDropdownOpen(page, dropdownId);
-            expect(isOpen).toBe(false);
           });
         });
 
@@ -234,18 +226,17 @@ test.describe("Navigation Flows - E2E Tests", () => {
           // Click on second item if available
           const secondaryLinks = page.locator('#secondary-navigation .p-navigation__items a');
           const secondLink = secondaryLinks.nth(1);
-          
-          if (await secondLink.isVisible()) {
-            const href = await secondLink.getAttribute('href');
-            await secondLink.click();
-            
-            if (href && href !== '#') {
-              await verifyPageLoad(page);
-              
-              // Verify we navigated to the correct page
-              if (href.startsWith('/')) {
-                await expect(page).toHaveURL(new RegExp(href.replace('/', '\\/')));
-              }
+
+          await expect(secondLink).toBeVisible();
+          const href = await secondLink.getAttribute('href');
+          await secondLink.click();
+
+          if (href && href !== '#') {
+            await verifyPageLoad(page);
+
+            // Verify we navigated to the correct page
+            if (href.startsWith('/')) {
+              await expect(page).toHaveURL(new RegExp(href.replace('/', '\\/')));
             }
           }
         }
@@ -282,21 +273,22 @@ test.describe("Navigation Flows - E2E Tests", () => {
     test("should handle navigation from dropdown links", async ({ page }) => {
       // Open Products dropdown
       await clickNavigationItem(page, '#products-nav');
-      
+
       // Find and click a dropdown link
       const dropdownContent = page.locator('#products-content');
-      const firstLink = dropdownContent.locator('a[href^="/"]').first();
-      
-      if (await firstLink.isVisible()) {
-        const href = await firstLink.getAttribute('href');
-        await firstLink.click();
-        
-        if (href) {
-          await verifyPageLoad(page, href);
-          
-          // Verify navigation is still functional on new page
-          await expect(page.locator('#navigation')).toBeVisible();
-        }
+      const firstLink = dropdownContent
+        .locator('.js-dropdown-window a[href^="/"]:visible')
+        .first();
+
+      await expect(firstLink).toBeVisible();
+      const href = await firstLink.getAttribute('href');
+      await firstLink.click();
+
+      if (href) {
+        await verifyPageLoad(page, href);
+
+        // Verify navigation is still functional on new page
+        await expect(page.locator('#navigation')).toBeVisible();
       }
     });
   });
@@ -337,9 +329,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
       await page.goto('/non-existent-page-12345');
       
       // Should show 404 page but navigation should still be present
-      if (await isElementVisible(page, '#navigation')) {
-        await expect(page.locator('#navigation')).toBeVisible();
-      }
+      await expect(page.locator('#navigation')).toBeVisible();
     });
   });
 });
@@ -384,11 +374,8 @@ test.describe("Responsive Navigation Tests", () => {
       
       // Test search functionality on all screen sizes
       await test.step("Test search functionality", async () => {
-        const searchButton = page.locator('.js-search-button').first();
-        if (await searchButton.isVisible()) {
-          await searchButton.click();
-          await expect(page.locator('#navigation-search')).toBeVisible();
-        }
+        await clickSearchButton(page);
+        await expect(page.locator('#navigation-search')).toBeVisible();
       });
     });
   });
