@@ -1,16 +1,14 @@
 # Standard library
 import json
-import os
 import logging
-
+import os
 from base64 import b64encode
 from datetime import datetime, timedelta, timezone
-from dateutil.parser import isoparse
+from html import unescape
 from threading import Lock
 from urllib.parse import parse_qs, urlparse
 
-# Packages
-from html import unescape
+from dateutil.parser import isoparse
 import requests
 
 logger = logging.getLogger(__name__)
@@ -28,7 +26,7 @@ def _synthetic_response(status_code):
 
 
 if GREENHOUSE_DEBUG:
-    logger.warning(f"{GREENHOUSE_DEBUG=}")
+    logger.warning("GREENHOUSE_DEBUG=True")
 
 
 def _get_metadata(job, name):

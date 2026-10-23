@@ -20,12 +20,12 @@ def parse_openapi(definition: str):
     tagged_definition = defaultdict(list)
 
     for endpoint, methods in loaded_definition["paths"].items():
-        for method, definition in methods.items():
+        for method, method_definition in methods.items():
             # Parameters are grouped on the same level as methods
             # in the YAML, so we need to exclude this when checking
             # for tags, since methods have tags but parameters do not
             if method != "parameters":
-                tag = definition["tags"][0]
+                tag = method_definition["tags"][0]
                 if {endpoint: methods} not in tagged_definition[tag]:
                     tagged_definition[tag].append({endpoint: methods})
 
@@ -37,5 +37,5 @@ def read_yaml_from_url(url: str, session) -> str:
 
 
 def read_yaml_from_file(filename: str) -> str:
-    with open(filename) as fh:
+    with open(filename, encoding="utf-8") as fh:
         return fh.read()

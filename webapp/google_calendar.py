@@ -1,6 +1,7 @@
-import os
-import httplib2
 import logging
+import os
+
+import httplib2
 
 from google_auth_httplib2 import AuthorizedHttp
 from google.oauth2 import service_account
@@ -34,10 +35,10 @@ class CalendarAPI:
 
     def _authenticate(self):
         try:
-            SCOPES = ["https://www.googleapis.com/auth/calendar"]
+            scopes = ["https://www.googleapis.com/auth/calendar"]
             credentials = (
                 service_account.Credentials.from_service_account_info(
-                    SERVICE_ACCOUNT_INFO, scopes=SCOPES
+                    SERVICE_ACCOUNT_INFO, scopes=scopes
                 )
             )
             delegated_credentials = credentials.with_subject(WPE_EMAIL)
@@ -78,6 +79,5 @@ class CalendarAPI:
             # it does not exist on the interview calendar
             if error.resp.status == 404:
                 return False
-            else:
-                # re-raise the error if it's not a 404
-                raise error
+            # re-raise the error if it's not a 404
+            raise error

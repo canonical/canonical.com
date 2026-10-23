@@ -1,18 +1,18 @@
-# Standard library
-import flask
-import requests
 import math
 import datetime
-import yaml
 import json
 import logging
+import re
 from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
+
+import flask
+import requests
+import yaml
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
-import re
 
 logger = logging.getLogger(__name__)
 
@@ -25,12 +25,12 @@ def json_asset_query(file_name):
         response = requests.get(
             url=f"https://assets.ubuntu.com/v1/{file_name}",
         )
-        json = response.json()
+        asset_data = response.json()
     except requests.HTTPError:
         flask.current_app.extensions["sentry"].captureException()
         return flask.jsonify({"error": "Asset not found"}), 404
 
-    return flask.jsonify(json)
+    return flask.jsonify(asset_data)
 
 
 # Case studies
@@ -46,8 +46,8 @@ def build_case_study_index(engage_docs):
         if tag or language:
             (
                 metadata,
-                count,
-                active_count,
+                _,
+                _,
                 current_total,
             ) = engage_docs.get_index(
                 limit,
@@ -61,8 +61,8 @@ def build_case_study_index(engage_docs):
         else:
             (
                 metadata,
-                count,
-                active_count,
+                _,
+                _,
                 current_total,
             ) = engage_docs.get_index(
                 limit, offset, key="type", value="case study"
@@ -117,8 +117,8 @@ def build_events_index(engage_docs):
 
         (
             metadata,
-            count,
-            active_count,
+            _,
+            _,
             current_total,
         ) = engage_docs.get_index(
             limit, offset=None, tag_value=None, key="type", value="event"
@@ -251,8 +251,8 @@ def build_canonical_days_index(engage_docs):
         limit = 50
         (
             metadata,
-            count,
-            active_count,
+            _,
+            _,
             current_total,
         ) = engage_docs.get_index(
             limit,
@@ -379,7 +379,7 @@ def _load_lastmod_manifest():
         / "lastmod-manifest.json"
     )
     try:
-        with open(manifest_path) as manifest_file:
+        with open(manifest_path, encoding="utf-8") as manifest_file:
             return json.load(manifest_file)
     except (OSError, json.JSONDecodeError):
         return {}
@@ -442,8 +442,9 @@ def get_articles_from_category(category_dir, category_slug):
                                 )
                             except ValueError:
                                 logger.warning(
-                                    f"Invalid publish_date in {md_file}: "
-                                    f"{publish_date!r}"
+                                    "Invalid publish_date in %s: %r",
+                                    md_file,
+                                    publish_date,
                                 )
                                 publish_date = None
 
@@ -463,9 +464,9 @@ def get_articles_from_category(category_dir, category_slug):
                         }
                         articles.append(article)
                     except yaml.YAMLError:
-                        logger.error(f"YAML parsing error in {md_file}")
+                        logger.error("YAML parsing error in %s", md_file)
         except Exception as e:
-            logger.error(f"Error reading {md_file}: {e}")
+            logger.error("Error reading %s: %s", md_file, e)
 
     # Sort most → least recently published. Articles without a publish_date
     # fall to the end; ties break alphabetically by hero_title for stability.

@@ -1,17 +1,18 @@
 import copy
 import yaml
 
-from flask import render_template_string, Markup
+from flask import render_template_string
+from markupsafe import Markup
 
 # Read secondary-navigation.yaml
-with open("secondary-navigation.yaml") as navigation_file:
+with open("secondary-navigation.yaml", encoding="utf-8") as navigation_file:
     secondary_navigation_data = yaml.load(
         navigation_file.read(), Loader=yaml.FullLoader
     )
 
 
 # Read meganav.yaml
-with open("navigation.yaml") as meganav_file:
+with open("navigation.yaml", encoding="utf-8") as meganav_file:
     meganav_data = yaml.load(meganav_file.read(), Loader=yaml.FullLoader)
 
 
@@ -37,7 +38,7 @@ def get_current_page_bubble(path):
     exact_child_match = None
     fallback_match = None
 
-    for page_bubble_name, page_bubble in page_bubbles.items():
+    for page_bubble in page_bubbles.values():
         bubble_path = page_bubble.get("path", "")
 
         # 1) Exact match on the bubble path
@@ -133,7 +134,7 @@ def split_list(array, parts):
 
 
 # Read navigation.yaml
-with open("navigation.yaml") as navigation_file:
+with open("navigation.yaml", encoding="utf-8") as navigation_file:
     navigation = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
 
 

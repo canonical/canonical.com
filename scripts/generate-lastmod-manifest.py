@@ -65,7 +65,7 @@ def build_manifest():
 
 def _generate():
     manifest = build_manifest()
-    with open(MANIFEST_PATH, "w") as manifest_file:
+    with open(MANIFEST_PATH, "w", encoding="utf-8") as manifest_file:
         json.dump(manifest, manifest_file, indent=2, sort_keys=True)
         manifest_file.write("\n")
     print(f"generated {MANIFEST_PATH} ({len(manifest)} entries)")

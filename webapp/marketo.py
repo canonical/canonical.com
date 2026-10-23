@@ -1,5 +1,6 @@
-from requests import Session
 from urllib.parse import urlencode
+
+from requests import Session
 
 
 class MarketoAPI:
@@ -26,10 +27,12 @@ class MarketoAPI:
         self.token = request.json()["access_token"]
         self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
-    def request(self, method, url, url_args={}, json=None):
+    def request(self, method, url, url_args=None, json=None):
         if not self.token:
             self._authenticate()
 
+        if url_args is None:
+            url_args = {}
         params = urlencode(url_args)
         response = self.session.request(
             method=method,

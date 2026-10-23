@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import socket
 from datetime import datetime, timezone
@@ -7,10 +8,10 @@ from email.utils import parseaddr
 from functools import lru_cache
 from smtplib import SMTP
 from typing import Dict, List, Tuple
+
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 import pytz
-import logging
 
 
 import flask
@@ -146,7 +147,7 @@ def _sort_stages_by_milestone(
     - milestone: an order list of milestones as keys and
     sorted possible stages per milestone
     """
-    stages = [stage for stage in stages]
+    stages = list(stages)
     all_ordered_stages = [
         stage
         for stages_per_milestone in milestones.values()
@@ -228,8 +229,7 @@ def _calculate_job_title(application):
         and application["jobs"][0]["id"] == application["job_post"]["job_id"]
     ):
         return application["job_post"]["title"]
-    else:
-        return application["jobs"][0]["name"]
+    return application["jobs"][0]["name"]
 
 
 def _custom_field_values(custom_fields):
@@ -295,7 +295,7 @@ def _get_related_applications(harvest, candidate):
 
 @lru_cache(maxsize=1)
 def _get_hiring_lead_videos():
-    with open("webapp/hiring_leads.json") as json_file:
+    with open("webapp/hiring_leads.json", encoding="utf-8") as json_file:
         return json.load(json_file)
 
 
@@ -733,7 +733,8 @@ def try_reject_interviews(application, applicant_name):
 
                     if delete_response:
                         logging.error(
-                            "delete_interview_event " f"{delete_response=}"
+                            "delete_interview_event delete_response=%s",
+                            delete_response,
                         )
 
                 email_template = (

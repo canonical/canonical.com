@@ -78,12 +78,20 @@ def verify_recaptcha(
 
         token_action = assessment["tokenProperties"]["action"]
         if token_action != expected_action:
-            logger.debug(f"{token_action=} {expected_action=}")
+            logger.debug(
+                "token_action=%s expected_action=%s",
+                token_action,
+                expected_action,
+            )
             return not enabled
 
         token_score = assessment["riskAnalysis"]["score"]
         if token_score < score_threshold:
-            logger.debug(f"{score_threshold=} {token_score=}")
+            logger.debug(
+                "score_threshold=%s token_score=%s",
+                score_threshold,
+                token_score,
+            )
             return not enabled
 
         return True

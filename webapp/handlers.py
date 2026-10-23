@@ -1,9 +1,9 @@
 import logging
+from urllib.parse import urlparse
 import time
 
 import secrets
 import sentry_sdk
-from urllib.parse import urlparse
 
 import flask
 from canonicalwebteam.flask_base.env import get_flask_env
@@ -567,7 +567,9 @@ def init_handlers(app):
         resources.
         """
 
-        def get_csp_as_str(csp={}, nonce=None):
+        def get_csp_as_str(csp=None, nonce=None):
+            if csp is None:
+                csp = {}
             csp_str = ""
             for key, values in csp.items():
                 directive_values = list(values)

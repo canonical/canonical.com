@@ -67,7 +67,7 @@ def _load_extra_sections(llms_yaml_path):
     so a bad config never breaks the base llms.txt.
     """
     try:
-        with open(llms_yaml_path) as config_file:
+        with open(llms_yaml_path, encoding="utf-8") as config_file:
             config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
     except (OSError, yaml.YAMLError):
         logger.exception("Failed to read %s", llms_yaml_path)
@@ -144,7 +144,7 @@ def build_llms_txt(llms_txt_path, llms_yaml_path):
     webapp/app.py), so an unhandled error here would crash the whole app.
     """
     try:
-        with open(llms_txt_path) as llms_txt_file:
+        with open(llms_txt_path, encoding="utf-8") as llms_txt_file:
             base = llms_txt_file.read().rstrip("\n") + "\n"
     except OSError:
         logger.exception("Failed to read %s", llms_txt_path)
@@ -255,7 +255,7 @@ def _generate():
     from webapp.app import LLMS_TXT, app
 
     content = build_llms_full_txt(app, LLMS_TXT)
-    with open(LLMS_FULL_TXT_PATH, "w") as f:
+    with open(LLMS_FULL_TXT_PATH, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"generated {LLMS_FULL_TXT_PATH} ({len(content)} bytes)")
     return 0
@@ -271,7 +271,7 @@ def lint_llms_yaml(llms_yaml_path=DEFAULT_LLMS_YAML_PATH):
     if not os.path.exists(llms_yaml_path):
         return [f"{llms_yaml_path}: not found"], []
 
-    with open(llms_yaml_path) as config_file:
+    with open(llms_yaml_path, encoding="utf-8") as config_file:
         try:
             config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
         except yaml.YAMLError as error:
@@ -344,7 +344,7 @@ def lint_llms_txt(llms_txt_path=DEFAULT_LLMS_TXT_PATH):
     if not os.path.exists(llms_txt_path):
         return [f"{llms_txt_path}: not found"], []
 
-    with open(llms_txt_path) as llms_txt_file:
+    with open(llms_txt_path, encoding="utf-8") as llms_txt_file:
         content = llms_txt_file.read()
 
     errors = []
@@ -368,7 +368,7 @@ def lint_llms_txt(llms_txt_path=DEFAULT_LLMS_TXT_PATH):
     seen_urls = {}
 
     def close_section():
-        if section is not None and section_links == 0:
+        if section is not None and not section_links:
             errors.append(f"llms.txt: '## {section}' has no links")
 
     for line in content.splitlines():
