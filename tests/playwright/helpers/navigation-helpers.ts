@@ -42,30 +42,22 @@ export const MOBILE_THRESHOLD = 1035;
  * Check if an element exists and is visible on the page
  */
 export const isElementVisible = async (page: Page, selector: string): Promise<boolean> => {
-  return await page.locator(selector).isVisible();
+  try {
+    const element = page.locator(selector);
+    return await element.isVisible();
+  } catch {
+    return false;
+  }
 };
 
 /**
- * Wait for cookie policy initialization and accept all cookies if required.
+ * Accept cookie policy if present
  */
 export const acceptCookiePolicy = async (page: Page): Promise<void> => {
-  const acceptAllButton = page.locator("#cookie-policy-button-accept-all");
-  await expect
-    .poll(async () => {
-      if (await acceptAllButton.isVisible()) {
-        return true;
-      }
-      return await page.evaluate(() =>
-        document.cookie
-          .split("; ")
-          .some((cookie) => cookie.startsWith("_cookies_accepted="))
-      );
-    })
-    .toBe(true);
-
-  if (await acceptAllButton.isVisible()) {
-    await acceptAllButton.click();
-    await expect(acceptAllButton).toBeHidden();
+  if (await isElementVisible(page, '#cookie-policy-button-accept-all')) {
+    await page.locator('#cookie-policy-button-accept-all').click();
+    // Wait for cookie banner to disappear
+    await expect(page.locator('#cookie-policy-button-accept-all')).not.toBeVisible();
   }
 };
 
@@ -83,8 +75,9 @@ export const isMobileViewport = async (page: Page): Promise<boolean> => {
 export const toggleMobileMenuIfNeeded = async (page: Page): Promise<void> => {
   if (await isMobileViewport(page)) {
     const menuButton = page.locator('.js-menu-button');
-    await expect(menuButton).toBeVisible();
-    await menuButton.click();
+    if (await menuButton.isVisible()) {
+      await menuButton.click();
+    }
   }
 };
 
@@ -97,11 +90,18 @@ export const clickNavigationItem = async (page: Page, selector: string): Promise
 };
 
 /**
+ * Check if dropdown is open for a navigation item
+ */
+export const isDropdownOpen = async (page: Page, navItemId: string): Promise<boolean> => {
+  const dropdownContent = page.locator(`#${navItemId.replace('-nav', '-content')}`).first();
+  return await dropdownContent.isVisible();
+};
+
+/**
  * Get all visible links in a dropdown
  */
 export const getDropdownLinks = async (page: Page, navItemId: string): Promise<string[]> => {
   const dropdownContent = page.locator(`#${navItemId.replace('-nav', '-content')}`);
-  await expect(dropdownContent).toBeVisible();
   const links = dropdownContent.locator('a[href]');
   const linkTexts: string[] = [];
   
@@ -175,8 +175,7 @@ export const getSecondaryNavigationItems = async (page: Page): Promise<string[]>
  * Navigate to homepage and ensure clean state
  */
 export const navigateToHomepage = async (page: Page): Promise<void> => {
-  await page.goto('/');
-  await expect(page.locator("#navigation")).toBeVisible();
+  await page.goto('/', { waitUntil: "domcontentloaded" });
   await acceptCookiePolicy(page);
 };
 

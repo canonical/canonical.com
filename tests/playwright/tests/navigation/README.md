@@ -96,6 +96,7 @@ Navigation helpers:
 - `isMobileViewport()`: Returns true if current viewport is mobile-sized
 - `toggleMobileMenuIfNeeded()`: Toggles the mobile menu when in mobile viewport
 - `clickNavigationItem()`: Clicks a primary navigation item
+- `isDropdownOpen()`: Checks if a dropdown is currently expanded
 - `getDropdownLinks()`: Extracts dropdown link texts (first few links validated for href)
 - `clickSearchButton()`: Opens the search overlay via the toolbar button
 - `testSearchFunctionality()`: Performs a search and validates navigation

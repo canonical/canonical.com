@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { navigateToHomepage } from "../../helpers/navigation-helpers";
 import {
   clearDataLayer,
-  waitForDataLayerEventsByName,
+  getDataLayerEventsByName,
 } from "../../helpers/datalayer-helpers";
 
 const EVENT_NAME = "meganav click";
@@ -22,7 +22,7 @@ test.describe("meganav tracking - search", () => {
     await clearDataLayer(page);
     await searchToggle.click();
 
-    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
+    const events = await getDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events.find((e) => e.click_label === "search toggle");
@@ -48,7 +48,7 @@ test.describe("meganav tracking - search", () => {
     await clearDataLayer(page);
     await searchInput.focus();
 
-    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
+    const events = await getDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];
@@ -76,7 +76,7 @@ test.describe("meganav tracking - search", () => {
     await clearDataLayer(page);
     await resetButton.click();
 
-    const events = await waitForDataLayerEventsByName(page, EVENT_NAME);
+    const events = await getDataLayerEventsByName(page, EVENT_NAME);
     expect(events.length).toBeGreaterThanOrEqual(1);
 
     const event = events[events.length - 1];
