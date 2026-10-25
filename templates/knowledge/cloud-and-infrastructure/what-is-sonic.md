@@ -21,7 +21,7 @@ context:
         type: "button"
         variant: "positive"
       - text: "Learn more about Rockcraft"
-        url: "https://documentation.ubuntu.com/rockcraft/"
+        url: "https://ubuntu.com/containers/rockcraft/docs/"
         type: "button"
       - text: "Get in touch ›"
         url: "https://canonical.com/networking-contact-us"
