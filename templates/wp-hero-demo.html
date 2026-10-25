@@ -1,0 +1,13 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block title %}WordPress hero demo{% endblock %}
+
+{% block meta_description %}
+  Demo page rendering a hero authored in WordPress via the vf_hero macro.
+{% endblock %}
+
+{% block content %}
+  {% call(slot) vf_hero(**hero) %}{% endcall %}
+{% endblock %}
