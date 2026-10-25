@@ -731,6 +731,7 @@ def working_here_pages(greenhouse):
         [{"lat": 52.07521864310495, "lng": 4.30832253022489}, "The Hague"],
         [{"lat": 40.41680094106089, "lng": -3.703487758724201}, "Madrid"],
         [{"lat": 49.28246559657245, "lng": -123.11863290828228}, "Vancouver"],
+        [{"lat": 21.1619, "lng": -86.8515}, "Cancun"],
     ]
 
     return flask.render_template(
