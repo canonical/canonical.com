@@ -13,8 +13,8 @@ initModals("#export-pdf-modal", "[aria-controls=export-pdf-modal]", false);
 function getSectionCheckboxes() {
   return Array.prototype.slice.call(
     document.querySelectorAll(
-      '#export-pdf-modal input[name="section"]:not([disabled])',
-    ),
+      '#export-pdf-modal input[name="section"]:not([disabled])'
+    )
   );
 }
 
@@ -53,8 +53,8 @@ document.addEventListener("click", function (e) {
     var checked = Array.prototype.slice
       .call(
         document.querySelectorAll(
-          '#export-pdf-modal input[name="section"]:checked',
-        ),
+          '#export-pdf-modal input[name="section"]:checked'
+        )
       )
       .map(function (cb) {
         return cb.value;
@@ -64,7 +64,7 @@ document.addEventListener("click", function (e) {
       "/legal/ubuntu-pro-description/print?sections=" +
         checked.map(encodeURIComponent).join(","),
       "_blank",
-      "noopener,noreferrer",
+      "noopener,noreferrer"
     );
     return;
   }
