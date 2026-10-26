@@ -2,6 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu Pro service description"
+  description: "Ubuntu Pro terms of service: subscription agreement for security, compliance, and support services."
   copydoc: "https://docs.google.com/document/d/1p-xlkejIG5ZZhOfGrYnq6rmIpTpaX46yW4HArDtPX1s/edit"
 ---
 

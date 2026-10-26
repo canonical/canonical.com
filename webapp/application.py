@@ -4,6 +4,7 @@ import socket
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import parseaddr
+from functools import lru_cache
 from smtplib import SMTP
 from typing import Dict, List, Tuple
 from gql import Client, gql
@@ -15,7 +16,7 @@ import logging
 import flask
 from dateutil.parser import parse
 
-from webapp.greenhouse import Harvest
+from webapp.greenhouse import HarvestV3
 from webapp.job_regions import REGION_COUNTRIES
 from webapp.utils.cipher import Cipher, InvalidToken
 from webapp.google_calendar import CalendarAPI
@@ -23,6 +24,10 @@ from webapp.utils.constants import ONE_WEEK_IN_MINUTES, SECOND_LOOK_REQ_ID
 from webapp.requests_session import get_requests_session_with_retries
 
 logger = logging.getLogger(__name__)
+
+OTHER_WITHDRAWAL_REASON_VALUE = "33"
+LEGACY_OTHER_WITHDRAWAL_REASON_ID = "18"
+OTHER_WITHDRAWAL_REJECTION_REASON_ID = "35818"
 
 withdrawal_reasons = {
     "97001": "Accepted another offer – compensation",
@@ -37,7 +42,7 @@ withdrawal_reasons = {
     ),
     "35818": "The position isn't a good fit",
     "36714": "I cannot complete the assessment",
-    "33": "Other",
+    OTHER_WITHDRAWAL_REASON_VALUE: "Other",
 }
 
 milestone_stages = {
@@ -85,8 +90,6 @@ application_bp = flask.Blueprint(
     template_folder="/templates",
     static_folder="/dist",
 )
-
-base_url = "https://harvest.greenhouse.io/v1"
 
 directory_api_url = "https://api.directory.canonical.com/graphql/"
 directory_api_token = f'token {os.getenv("DIRECTORY_API_TOKEN", "")}'
@@ -229,105 +232,283 @@ def _calculate_job_title(application):
         return application["jobs"][0]["name"]
 
 
-def _get_application(harvest, application_id):
+def _custom_field_values(custom_fields):
+    return {
+        key: field.get("value") if isinstance(field, dict) else field
+        for key, field in (custom_fields or {}).items()
+    }
+
+
+def _job_summary(job):
+    return {"id": job["id"], "name": job["name"]}
+
+
+def _dashboard_status(status):
+    return "active" if status == "in_process" else status
+
+
+def _is_candidate_withdrawal(application):
+    rejection_reason = application.get("rejection_reason") or {}
+    rejection_type = rejection_reason.get("type") or {}
+    return rejection_type.get("key") == "THEY_REJECTED_US"
+
+
+def _resolve_withdrawal_reason(raw_reason_id, custom_message=None):
+    """Normalise and validate a withdrawal reason id and its message."""
+    reason_id = str(raw_reason_id) if raw_reason_id is not None else None
+    if reason_id in {
+        LEGACY_OTHER_WITHDRAWAL_REASON_ID,
+        OTHER_WITHDRAWAL_REASON_VALUE,
+    }:
+        return (
+            OTHER_WITHDRAWAL_REJECTION_REASON_ID,
+            custom_message
+            or withdrawal_reasons[OTHER_WITHDRAWAL_REASON_VALUE],
+        )
+    if reason_id not in withdrawal_reasons:
+        flask.abort(400, "Invalid withdrawal reason")
+    return reason_id, custom_message or withdrawal_reasons[reason_id]
+
+
+def _get_related_applications(harvest, candidate):
+    applications = harvest.get_applications(candidate["id"])
+    job_ids = {app.get("job_id") for app in applications if app.get("job_id")}
+    jobs = {job["id"]: job for job in harvest.get_jobs(job_ids)}
+
+    related_applications = []
+    for raw_application in applications:
+        job = jobs.get(raw_application.get("job_id"))
+        related_applications.append(
+            {
+                **raw_application,
+                "status": _dashboard_status(raw_application["status"]),
+                "custom_fields": _custom_field_values(
+                    raw_application.get("custom_fields")
+                ),
+                "jobs": [_job_summary(job)] if job else [],
+            }
+        )
+
+    candidate["applications"] = related_applications
+    return jobs
+
+
+@lru_cache(maxsize=1)
+def _get_hiring_lead_videos():
+    with open("webapp/hiring_leads.json") as json_file:
+        return json.load(json_file)
+
+
+def _get_hiring_lead(harvest, job_id):
+    recruiters = harvest.get_job_owners(job_id, owner_type="recruiter")
+    responsible_recruiter = next(
+        (recruiter for recruiter in recruiters if recruiter["responsible"]),
+        None,
+    )
+    if not responsible_recruiter:
+        logger.warning("no responsible recruiter for job_id=%s", job_id)
+        return None
+
+    user = harvest.get_user(responsible_recruiter["user_id"])
+    if not user:
+        logger.warning(
+            "responsible recruiter user is missing for job_id=%s", job_id
+        )
+        return None
+
+    hiring_lead = {
+        **user,
+        "emails": [user["primary_email"]] if user.get("primary_email") else [],
+        "bio": None,
+        "avatar": None,
+        "video_src": None,
+    }
+
+    employee_id = user.get("employee_id")
+    if employee_id:
+        try:
+            employee_data = _get_employee_directory_data(employee_id)
+            if employee_data["bio"]:
+                hiring_lead["bio"] = employee_data["bio"].split("\\n")
+        except Exception:
+            logger.exception("failed to load hiring lead bio")
+
+    hiring_lead_videos = _get_hiring_lead_videos()
+    if job_id == 2680006:  # Enterprise Sales Representative
+        hiring_lead["video_src"] = "https://www.youtube.com/embed/UvDSXgPbpt8"
+    elif job_id == 2804114:  # Chief Revenue Officer
+        hiring_lead["video_src"] = "https://www.youtube.com/embed/hO1rXwoRjx0"
+    elif employee_id in hiring_lead_videos:
+        hiring_lead["video_src"] = hiring_lead_videos[employee_id]["video_src"]
+
+    return hiring_lead
+
+
+def _get_calendar_interviews(
+    harvest,
+    application_id,
+    job_id,
+    job_stages,
+    include_email=False,
+):
+    application_interviews = harvest.get_interviews(application_id)
+    if not application_interviews:
+        return []
+
+    stages_by_id = {stage["id"]: stage for stage in job_stages}
+    definitions_by_id = {
+        interview["id"]: interview
+        for interview in harvest.get_job_interviews(job_id)
+    }
+
+    interviews = []
+    for interview in application_interviews:
+        definition = definitions_by_id.get(interview["job_interview_id"])
+        if not definition:
+            logger.warning(
+                "missing job interview definition for interview_id=%s",
+                interview["id"],
+            )
+            continue
+        if definition.get("scheduling_type") != "needs_scheduling":
+            continue
+        if not interview.get("starts_at") or not interview.get("ends_at"):
+            continue
+        interviews.append((interview, definition))
+
+    interview_ids = [interview["id"] for interview, _ in interviews]
+    panel_rows = harvest.get_interviewers(interview_ids)
+    user_ids = {row.get("user_id") for row in panel_rows if row.get("user_id")}
+    users_by_id = {user["id"]: user for user in harvest.get_users(user_ids)}
+    panels_by_interview = {}
+    for row in panel_rows:
+        user = users_by_id.get(row.get("user_id"))
+        interviewer = {
+            "name": user["name"] if user else "Interviewer",
+        }
+        if include_email:
+            interviewer["email"] = row.get("email") or (
+                user.get("primary_email") if user else None
+            )
+        panels_by_interview.setdefault(row["interview_id"], []).append(
+            interviewer
+        )
+
+    dashboard_interviews = []
+    for interview, definition in interviews:
+        start = parse(interview["starts_at"])
+        end = parse(interview["ends_at"])
+        stage = stages_by_id.get(definition["job_interview_stage_id"])
+        dashboard_interviews.append(
+            {
+                **interview,
+                "start": {
+                    "date_time": interview["starts_at"],
+                    "datetime": start,
+                },
+                "end": {"date_time": interview["ends_at"], "datetime": end},
+                "duration": int((end - start).total_seconds() / 60),
+                "interview": {
+                    "id": definition["id"],
+                    "name": definition["name"],
+                },
+                "stage_name": stage["name"] if stage else None,
+                "interviewers": panels_by_interview.get(interview["id"], []),
+            }
+        )
+
+    return sorted(
+        dashboard_interviews,
+        key=lambda interview: interview["start"]["datetime"],
+    )
+
+
+def _get_application(harvest, application_id, include_interviewer_email=False):
     application = harvest.get_application(int(application_id))
+    if not application or application["status"] == "converted":
+        flask.abort(404)
+
+    application["status"] = _dashboard_status(application["status"])
+    application["custom_fields"] = _custom_field_values(
+        application.get("custom_fields")
+    )
+    application["custom_fields"].setdefault(
+        "written_interview_submitted_at", None
+    )
+
     job_post_id = application["job_post_id"]
     application["job_post"] = (
         harvest.get_job_post(job_post_id) if job_post_id else None
     )
 
-    # Add candidate object
-    application["candidate"] = harvest.get_candidate(
-        application["candidate_id"]
+    candidate = harvest.get_candidate(application["candidate_id"])
+    if not candidate:
+        flask.abort(404)
+    jobs = _get_related_applications(harvest, candidate)
+    application["candidate"] = candidate
+
+    job_id = application["job_id"]
+    job = jobs.get(job_id)
+    if not job:
+        flask.abort(404)
+    application["jobs"] = [_job_summary(job)]
+    application["hiring_lead"] = _get_hiring_lead(harvest, job_id)
+
+    stages = sorted(
+        harvest.get_job_interview_stages(job_id),
+        key=lambda stage: stage["sort_order"],
     )
-
-    # Retrieve hiring lead from first job
-    job_id = application["jobs"][0]["id"]
-    job = harvest.get_job(job_id)
-
-    for recruiter in job["hiring_team"]["recruiters"]:
-        if recruiter["responsible"]:
-            application["hiring_lead"] = harvest.get_user(recruiter["id"])
-            application["hiring_lead"]["bio"] = None
-            application["hiring_lead"]["avatar"] = None
-
-            try:
-                employee_data = _get_employee_directory_data(
-                    recruiter["employee_id"]
-                )
-                if employee_data["bio"]:
-                    application["hiring_lead"]["bio"] = employee_data[
-                        "bio"
-                    ].split("\\n")
-
-            except Exception:
-                logger.exception("failed to load hl bio")
-
-            if job_id == 2680006:  # Enterprise Sales Representative
-                application["hiring_lead"][
-                    "video_src"
-                ] = "https://www.youtube.com/embed/UvDSXgPbpt8"
-            elif job_id == 2804114:  # Chief Revenue Officer
-                application["hiring_lead"][
-                    "video_src"
-                ] = "https://www.youtube.com/embed/hO1rXwoRjx0"
-            elif (
-                # Currently only user with video
-                # as we don't have a source to pull this video from
-                # we still use the hiring_leads.json
-                recruiter["employee_id"] == "4268"
-                or recruiter["employee_id"] == "4289"
-            ):
-                with open("webapp/hiring_leads.json") as json_file:
-                    hiring_lead_list = json.load(json_file)
-                    application["hiring_lead"]["video_src"] = hiring_lead_list[
-                        recruiter["employee_id"]
-                    ]["video_src"]
-            else:
-                application["hiring_lead"]["video_src"] = None
-            break
-
-    stages = harvest.get_stages(job_id)
-
-    # By default GH sends stages in the right order
-    # we need to get the completed milestones based on the finished stages
+    application_stages = harvest.get_application_stages(application["id"])
+    current_stage_id = next(
+        (
+            stage["job_interview_stage_id"]
+            for stage in application_stages
+            if stage["current"]
+        ),
+        None,
+    )
+    current_stage = next(
+        (stage for stage in stages if stage["id"] == current_stage_id), None
+    )
+    if not current_stage and application.get("stage_name"):
+        current_stage = next(
+            (
+                stage
+                for stage in stages
+                if stage["name"] == application["stage_name"]
+            ),
+            None,
+        )
+    application["current_stage"] = current_stage
     application["stage_progress"] = _milestones_progress(
         stages,
-        application["current_stage"],
+        current_stage,
     )
 
-    # Retrieve scheduled interviews, calculate duration of each
-    interviews_stage = {}
-    for stage in stages:
-        for interview in stage["interviews"]:
-            interviews_stage[interview["id"]] = stage["name"]
-    application["scheduled_interviews"] = harvest.get_interviews_scheduled(
-        application["id"]
+    application["scheduled_interviews"] = _get_calendar_interviews(
+        harvest,
+        application["id"],
+        job_id,
+        job_stages=stages,
+        include_email=include_interviewer_email,
     )
-
-    for interview in application["scheduled_interviews"]:
-        interview["start"]["datetime"] = parse(interview["start"]["date_time"])
-        interview["end"]["datetime"] = parse(interview["end"]["date_time"])
-        difference = (
-            interview["end"]["datetime"] - interview["start"]["datetime"]
-        )
-        interview["duration"] = int(difference.total_seconds() / 60)
-        interview["stage_name"] = interviews_stage[
-            interview["interview"]["id"]
-        ]
-
-        # Remove private interviewer information
-        interviewers = interview.get("interviewers")
-        if interviewers is None:
-            interviewers = []
-
-        interview["interviewers"] = [{"name": i["name"]} for i in interviewers]
-
+    application["attachments"] = harvest.get_attachments(application["id"])
     application["to_be_rejected"] = False
     application["role_name"] = _calculate_job_title(application)
+    application["rejection_reason"] = None
 
-    if application["rejected_at"]:
-        if not application["rejection_reason"]["type"]["id"] == 2:
+    if application.get("rejected_at"):
+        rejection_details = harvest.get_rejection_details(application["id"])
+        if rejection_details:
+            rejection_reason_id = rejection_details.get("rejection_reason_id")
+            if rejection_reason_id:
+                application["rejection_reason"] = harvest.get_rejection_reason(
+                    rejection_reason_id
+                )
+            if rejection_details.get("rejected_at"):
+                application["rejected_at"] = rejection_details["rejected_at"]
+
+        if not _is_candidate_withdrawal(application):
             now = datetime.now(timezone.utc)
             rejection_time = parse(application["rejected_at"])
             time_after_rejection = int(
@@ -342,11 +523,17 @@ def _get_application(harvest, application_id):
     return application
 
 
-def _get_application_from_token(harvest, token):
+def _get_application_from_token(
+    harvest, token, include_interviewer_email=False
+):
     cipher = _get_cipher()
     token_application_id = cipher.decrypt(token)
 
-    return _get_application(harvest, token_application_id)
+    return _get_application(
+        harvest,
+        token_application_id,
+        include_interviewer_email=include_interviewer_email,
+    )
 
 
 def _get_gia_feedback(attachments):
@@ -381,10 +568,17 @@ def _confirmation_token(
     return cipher.encrypt(token)
 
 
+def _candidate_email(application):
+    """Return the candidate's primary email address."""
+    primary_address = application["candidate"]["email_addresses"][0]["value"]
+    return parseaddr(primary_address)[1]
+
+
 def _send_mail(
     to_email,
     subject,
     message,
+    from_email=None,
 ):
     # Get SMTP server configuration
     smtp_server = os.environ["SMTP_SERVER"]
@@ -398,7 +592,7 @@ def _send_mail(
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = smtp_sender_address
+    msg["From"] = from_email or smtp_sender_address
     msg["To"] = ", ".join(to_email)
     msg.set_content(message, subtype="html")
 
@@ -451,7 +645,7 @@ def application_access_denied():
 @application_bp.route("/<string:token>")
 def handle_application_index(token):
     with get_requests_session_with_retries() as session:
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return application_index(harvest, token)
 
 
@@ -463,9 +657,8 @@ def application_index(harvest, token):
     except InvalidToken:
         flask.abort(401, "Invalid token")
 
-    if application["status"] != "active" and application["rejection_reason"]:
-        if application["rejection_reason"]["type"]["id"] == 2:
-            withdrawn = True
+    if application["status"] != "active":
+        withdrawn = _is_candidate_withdrawal(application)
 
     gia_feedback = _get_gia_feedback(application["attachments"])
     if gia_feedback:
@@ -474,6 +667,7 @@ def application_index(harvest, token):
     return flask.render_template(
         "careers/application/index.html",
         withdrawal_reasons=withdrawal_reasons,
+        other_withdrawal_reason_value=OTHER_WITHDRAWAL_REASON_VALUE,
         token=token,
         application=application,
         candidate=application["candidate"],
@@ -485,7 +679,7 @@ def application_index(harvest, token):
 @application_bp.route("/get-report/<string:token>", methods=["POST"])
 def handle_application_report(token):
     with get_requests_session_with_retries() as session:
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return application_report(harvest, token)
 
 
@@ -512,43 +706,23 @@ def application_report(harvest, token):
         return flask.jsonify({"status": "success", "message": gia_feedback})
 
 
-def try_reject_interviews(harvest, application, applicant_name):
+def try_reject_interviews(application, applicant_name):
     try:
-        # get candidate interviews from Harvest API and filter
-        candidate_interviews = harvest.get_interviews_scheduled(
-            application["id"]
-        )
         candidate_interviews = [
             interview
-            for interview in candidate_interviews
-            if interview["status"] in ["scheduled", "awaiting_feedback"]
+            for interview in application["scheduled_interviews"]
+            if interview["status"] == "awaiting_feedback"
+            or (
+                interview["status"] == "scheduled"
+                and interview.get("external_event_id")
+            )
         ]
         all_sent_emails = []
 
         calendar = CalendarAPI()
         for interview in candidate_interviews:
-            # get interviewer information
-            interviewer = interview["interviewers"][0]
-            interviewer_timezone = calendar.get_timezone(interviewer["email"])
-
-            # convert interview time to interviewer's timezone
-            interview_datetime_str = interview["start"]["date_time"]
-            interview_datetime_obj = datetime.fromisoformat(
-                interview_datetime_str.replace("Z", "+00:00")
-            )
-            interview_datetime_obj = interview_datetime_obj.astimezone(
-                pytz.timezone(interviewer_timezone)
-            )
-            interview_date = interview_datetime_obj.strftime(
-                "%B %d, %Y at %I:%M%p"
-            )
-
-            # if interview is still upcoming, we want to try to delete
-            # the interview event
             can_be_deleted = False
             if interview["status"] == "scheduled":
-                # can only delete interviews which are on the interview
-                # calendar so we check this first
                 can_be_deleted = calendar.is_on_interview_calendar(
                     interview["external_event_id"]
                 )
@@ -557,14 +731,11 @@ def try_reject_interviews(harvest, application, applicant_name):
                         event_id=interview["external_event_id"]
                     )
 
-                    # empty response is returned on successful deletion
-                    # so log error if not empty
                     if delete_response:
                         logging.error(
                             "delete_interview_event " f"{delete_response=}"
                         )
 
-                # email template and title for canceled interview
                 email_template = (
                     "careers/application/_withdrawal"
                     + "-interview-canceled-email.html"
@@ -574,7 +745,6 @@ def try_reject_interviews(harvest, application, applicant_name):
                     + f"Candidate Withdrawal for {applicant_name}"
                 )
             else:
-                # otherwise, tell that feedback is not needed
                 email_template = (
                     "careers/application/_withdrawal"
                     + "-feedback-not-needed-email.html"
@@ -584,7 +754,29 @@ def try_reject_interviews(harvest, application, applicant_name):
                     + f"Candidate Withdrawal for {applicant_name}"
                 )
 
-            # build email to send to interviewer
+            interviewer = next(
+                (
+                    panel_member
+                    for panel_member in interview["interviewers"]
+                    if panel_member.get("email")
+                ),
+                None,
+            )
+            if not interviewer:
+                logger.warning(
+                    "no contactable interviewer for interview_id=%s",
+                    interview["id"],
+                )
+                continue
+
+            interviewer_timezone = calendar.get_timezone(interviewer["email"])
+            interview_datetime_obj = interview["start"]["datetime"].astimezone(
+                pytz.timezone(interviewer_timezone)
+            )
+            interview_date = interview_datetime_obj.strftime(
+                "%B %d, %Y at %I:%M%p"
+            )
+
             email_for_interviewer = flask.render_template(
                 email_template,
                 interviewer_name=interviewer["name"],
@@ -601,11 +793,8 @@ def try_reject_interviews(harvest, application, applicant_name):
                 }
             )
 
-            # send email
             debug_skip_sending = flask.current_app.debug
             if not debug_skip_sending:
-                # also sending cancelation/feedback email to TS inbox
-                # for tracking from their end.
                 _send_mail(
                     [interviewer["email"], "talent-mailbox@canonical.com"],
                     email_title,
@@ -621,7 +810,7 @@ def try_reject_interviews(harvest, application, applicant_name):
 @application_bp.route("/withdraw/<string:token>")
 def handle_application_withdrawal(token):
     with get_requests_session_with_retries() as session:
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return application_withdrawal(harvest, token)
 
 
@@ -632,14 +821,34 @@ def application_withdrawal(harvest, token):
     except InvalidToken:
         flask.abort(401, "Invalid token")
 
-    application = _get_application(harvest, payload["application_id"])
-    withdrawal_reason_id = payload.get("withdrawal_reason_id")
-    withdrawal_message = payload.get("withdrawal_message")
+    application = _get_application(
+        harvest,
+        payload["application_id"],
+        include_interviewer_email=True,
+    )
+    withdrawal_reason_id, withdrawal_message = _resolve_withdrawal_reason(
+        payload.get("withdrawal_reason_id"),
+        payload.get("withdrawal_message"),
+    )
+
+    if application["status"] == "rejected":
+        return flask.render_template("careers/application/withdrawal.html")
 
     candidate_id = application["candidate"]["id"]
 
-    hiring_lead_name = application["hiring_lead"]["name"]
-    hiring_lead_email = application["hiring_lead"]["emails"]
+    hiring_lead = application.get("hiring_lead")
+    hiring_lead_name = (
+        hiring_lead["name"] if hiring_lead else "the Canonical Talent team"
+    )
+    hiring_lead_email = (
+        hiring_lead["emails"]
+        if hiring_lead and hiring_lead["emails"]
+        else ["talent-mailbox@canonical.com"]
+    )
+    candidate_email = _candidate_email(application)
+    candidate_email_from = (
+        hiring_lead.get("primary_email") if hiring_lead else None
+    ) or os.environ.get("SMTP_SENDER_ADDRESS")
 
     applicant_name = (
         f"{application['candidate']['first_name']} "
@@ -651,36 +860,64 @@ def application_withdrawal(harvest, token):
         f"application_id={payload['application_id']}"
     )
 
-    all_sent_emails = try_reject_interviews(
-        harvest, application, applicant_name
-    )
-
-    # call the Harvest API to reject the application
     response = harvest.reject_application(
         application["id"],
-        application["hiring_lead"]["id"],
         withdrawal_reason_id,
         withdrawal_message,
     )
     response.raise_for_status()
+
+    candidate_email_message = flask.render_template(
+        "careers/application/_candidate-withdrawal-email.html",
+        candidate_name=applicant_name,
+        hiring_lead_name=hiring_lead_name,
+    )
+    candidate_email_subject = (
+        f"Withdrawal of application for {application['role_name']}, Canonical"
+    )
+    debug_skip_sending = flask.current_app.debug
+    candidate_email_failed = False
+    if not debug_skip_sending:
+        try:
+            _send_mail(
+                [candidate_email],
+                candidate_email_subject,
+                candidate_email_message,
+                from_email=candidate_email_from,
+            )
+        except Exception:
+            candidate_email_failed = True
+            logger.exception(
+                "failed to send withdrawal confirmation to candidate for "
+                "application_id=%s",
+                application["id"],
+            )
+
+    all_sent_emails = try_reject_interviews(application, applicant_name)
 
     email_message = flask.render_template(
         "careers/application/_withdrawal_notification-email.html",
         applicant_name=applicant_name,
         hiring_lead_name=hiring_lead_name,
         position=application["role_name"],
-        hiring_lead=application["hiring_lead"],
         application_url=application_url,
-        current_stage=application["current_stage"],
+        current_stage=application["current_stage"] or {"name": "unknown"},
+        candidate_email_failed=candidate_email_failed,
     )
 
-    debug_skip_sending = flask.current_app.debug
     if not debug_skip_sending:
-        _send_mail(
-            hiring_lead_email,
-            "Candidate Withdrawal for " + application["role_name"],
-            email_message,
-        )
+        try:
+            _send_mail(
+                hiring_lead_email,
+                "Candidate Withdrawal for " + application["role_name"],
+                email_message,
+            )
+        except Exception:
+            logger.exception(
+                "failed to send withdrawal notification to hiring lead for "
+                "application_id=%s",
+                application["id"],
+            )
 
     return flask.render_template(
         "careers/application/withdrawal.html",
@@ -688,13 +925,16 @@ def application_withdrawal(harvest, token):
         email_message=email_message,
         hiring_lead_email=hiring_lead_email,
         all_sent_emails=all_sent_emails,
+        candidate_email=candidate_email,
+        candidate_email_from=candidate_email_from,
+        candidate_email_message=candidate_email_message,
     )
 
 
 @application_bp.route("/<string:token>", methods=["POST"])
 def handle_request_withdrawal(token):
     with get_requests_session_with_retries() as session:
-        harvest = Harvest.from_session(session)
+        harvest = HarvestV3.from_session(session)
         return request_withdrawal(harvest, token)
 
 
@@ -706,18 +946,18 @@ def request_withdrawal(harvest, token):
 
     # Sanitize and parse user input
     email = parseaddr(flask.request.form["email"])[1]
-    candidate_email = parseaddr(
-        application["candidate"]["email_addresses"][0]["value"]
-    )[1]
+    candidate_email = _candidate_email(application)
 
-    withdrawal_reason_id = flask.request.form["withdrawal-reason"]
-    withdrawal_message = withdrawal_reasons[withdrawal_reason_id]
-
-    if (
-        withdrawal_reason_id == "33"
-        and "withdrawal-reason-other" in flask.request.form
-    ):
-        withdrawal_message = flask.request.form["withdrawal-reason-other"]
+    raw_withdrawal_reason = flask.request.form["withdrawal-reason"]
+    custom_message = (
+        flask.request.form.get("withdrawal-reason-other")
+        if raw_withdrawal_reason == OTHER_WITHDRAWAL_REASON_VALUE
+        else None
+    )
+    withdrawal_reason_id, withdrawal_message = _resolve_withdrawal_reason(
+        raw_withdrawal_reason,
+        custom_message,
+    )
 
     # Reject if user typed the wrong email
     if candidate_email != email:
@@ -726,7 +966,8 @@ def request_withdrawal(harvest, token):
             wrong_email=True,
             token=token,
             withdrawal_reasons=withdrawal_reasons,
-            application=_get_application_from_token(harvest, token),
+            other_withdrawal_reason_value=OTHER_WITHDRAWAL_REASON_VALUE,
+            application=application,
         )
 
     email_message = flask.render_template(
@@ -768,7 +1009,8 @@ def request_withdrawal(harvest, token):
         token=token,
         withdrawal_requested=True,
         withdrawal_reasons=withdrawal_reasons,
-        application=_get_application_from_token(harvest, token),
+        other_withdrawal_reason_value=OTHER_WITHDRAWAL_REASON_VALUE,
+        application=application,
     )
 
 

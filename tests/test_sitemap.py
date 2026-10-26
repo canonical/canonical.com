@@ -1,10 +1,11 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import logging
 import re
 import os
 import xml.etree.ElementTree as ET
-from webapp.app import app, build_sitemap_tree, knowledge_sitemap
+from webapp.app import app, build_sitemap_tree
+from webapp.sitemaps import knowledge_sitemap, careers_sitemap
 
 logging.getLogger("talisker.context").disabled = True
 
@@ -198,7 +199,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
         app.testing = True
         self.client = app.test_client()
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_returns_xml(self, mock_get_sections):
         """Test that knowledge_sitemap returns valid XML response"""
         # Mock the sections data
@@ -207,12 +208,14 @@ class TestKnowledgeSitemap(unittest.TestCase):
                 "slug": "ubuntu-and-linux",
                 "title": "Ubuntu and Linux",
                 "description": "Learn about Ubuntu and Linux",
+                "last_modified": "2026-01-15",
                 "articles": [
                     {
                         "hero_title": "Getting Started",
                         "description": "A beginner's guide",
                         "url": "/knowledge/ubuntu-and-linux/getting-started",
                         "tag": "beginner",
+                        "last_modified": "2026-01-15",
                     }
                 ],
             }
@@ -229,7 +232,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
             response.headers["Cache-Control"], "public, max-age=43200"
         )
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_contains_urls(self, mock_get_sections):
         """Test that knowledge_sitemap contains expected URLs"""
         mock_get_sections.return_value = [
@@ -237,12 +240,14 @@ class TestKnowledgeSitemap(unittest.TestCase):
                 "slug": "ubuntu-and-linux",
                 "title": "Ubuntu and Linux",
                 "description": "Learn about Ubuntu and Linux",
+                "last_modified": "2026-01-15",
                 "articles": [
                     {
                         "hero_title": "Getting Started",
                         "description": "A beginner's guide",
                         "url": "/knowledge/ubuntu-and-linux/getting-started",
                         "tag": "beginner",
+                        "last_modified": "2026-01-20",
                     }
                 ],
             }
@@ -268,7 +273,14 @@ class TestKnowledgeSitemap(unittest.TestCase):
             xml_content,
         )
 
-    @patch("webapp.app.get_knowledge_sections")
+        # Verify every URL has a lastmod tag with a real date
+        self.assertEqual(
+            xml_content.count("<loc>"), xml_content.count("<lastmod>")
+        )
+        self.assertIn("<lastmod>2026-01-15</lastmod>", xml_content)
+        self.assertIn("<lastmod>2026-01-20</lastmod>", xml_content)
+
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_empty_sections(self, mock_get_sections):
         """Test that knowledge_sitemap handles empty sections gracefully"""
         mock_get_sections.return_value = []
@@ -283,7 +295,7 @@ class TestKnowledgeSitemap(unittest.TestCase):
         self.assertIn("<?xml version", xml_content)
         self.assertIn("<urlset", xml_content)
 
-    @patch("webapp.app.get_knowledge_sections")
+    @patch("webapp.sitemaps.get_knowledge_sections")
     def test_knowledge_sitemap_multiple_sections(self, mock_get_sections):
         """Test that knowledge_sitemap handles multiple sections"""
         mock_get_sections.return_value = [
@@ -291,12 +303,14 @@ class TestKnowledgeSitemap(unittest.TestCase):
                 "slug": "cloud",
                 "title": "Cloud",
                 "description": "Cloud computing",
+                "last_modified": "2026-02-01",
                 "articles": [
                     {
                         "hero_title": "Cloud Basics",
                         "description": "Cloud basics",
                         "url": "/knowledge/cloud/basics",
                         "tag": "cloud",
+                        "last_modified": "2026-02-01",
                     }
                 ],
             },
@@ -304,12 +318,14 @@ class TestKnowledgeSitemap(unittest.TestCase):
                 "slug": "security",
                 "title": "Security",
                 "description": "Security topics",
+                "last_modified": "2026-03-01",
                 "articles": [
                     {
                         "hero_title": "Security Best Practices",
                         "description": "Security practices",
                         "url": "/knowledge/security/best-practices",
                         "tag": "security",
+                        "last_modified": "2026-03-01",
                     }
                 ],
             },
@@ -330,6 +346,66 @@ class TestKnowledgeSitemap(unittest.TestCase):
             "https://canonical.com/knowledge/security/best-practices",
             xml_content,
         )
+
+
+class TestStaticSitemapsLastmod(unittest.TestCase):
+    def setUp(self):
+        app.testing = True
+        self.client = app.test_client()
+
+    def assert_every_url_has_lastmod(self, xml_content):
+        self.assertEqual(
+            xml_content.count("<loc>"), xml_content.count("<lastmod>")
+        )
+        # A lastmod tag should never be left empty/unresolved
+        self.assertNotIn("<lastmod></lastmod>", xml_content)
+
+    def test_home_sitemap_has_lastmod(self):
+        response = self.client.get("/sitemap-links.xml")
+
+        self.assertEqual(response.status_code, 200)
+        xml_content = response.get_data(as_text=True)
+        self.assertIn("https://canonical.com/knowledge", xml_content)
+        self.assert_every_url_has_lastmod(xml_content)
+
+    def test_careers_sitemap_departments_have_lastmod(self):
+        # Static pages under /careers (index, career-explorer, etc.) are
+        # no longer listed here -- they're picked up by the generic
+        # /sitemap_tree.xml scan instead. This sitemap only covers what
+        # directory_parser can't discover: departments and vacancies.
+        greenhouse = MagicMock()
+        greenhouse.get_vacancies.return_value = []
+
+        with app.app_context():
+            response = careers_sitemap(greenhouse)
+
+        self.assertEqual(response.status_code, 200)
+        xml_content = response.get_data(as_text=True)
+        self.assertIn("https://canonical.com/careers/engineering", xml_content)
+        self.assert_every_url_has_lastmod(xml_content)
+
+    def test_sitemap_tree_includes_careers_with_lastmod(self):
+        # /partners is excluded from this scan -- it has its own
+        # dedicated sitemap (test_partners_sitemap_has_lastmod below).
+        response = self.client.get("/sitemap_tree.xml")
+
+        self.assertEqual(response.status_code, 200)
+        xml_content = response.get_data(as_text=True)
+        self.assertIn("https://canonical.com/careers", xml_content)
+        self.assertNotIn("https://canonical.com/partners", xml_content)
+        self.assert_every_url_has_lastmod(xml_content)
+
+    def test_partners_sitemap_has_lastmod(self):
+        # Generated by directory_parser (see webapp/sitemaps.py:
+        # partners_sitemap), not a hand-maintained page list.
+        response = self.client.get("/partners/sitemap.xml")
+
+        self.assertEqual(response.status_code, 200)
+        xml_content = response.get_data(as_text=True)
+        self.assertIn(
+            "https://canonical.com/partners/find-a-partner", xml_content
+        )
+        self.assert_every_url_has_lastmod(xml_content)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@
 {% from "_macros/vf_quote-wrapper.jinja" import vf_quote_wrapper %}
 {% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
 {% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
 {% block title %}Virtualization solutions | Infrastructure{% endblock %}
 
@@ -66,6 +67,21 @@ Canonical's open source virtualization solutions scale from a single laptop to m
     {%- endif -%}
 {% endcall -%}
 
+{% call(slot) vf_cta_section(
+    variant='default',
+    layout='100',
+    blocks=[
+      {
+        "type": "cta",
+        "item": {
+          "type": "html",
+          "content": "Canonical named a Challenger in the 2026 Gartner® Magic Quadrant™ for Server Virtualization Platforms<br/><a href='/blog/canonical-a-challenger-in-2026-gartner-magic-quadrant-for-server-virtualization-platforms'>Learn more  &rsaquo;</a>"
+        }
+      }
+    ]
+  ) -%}
+{% endcall -%}
+
   <section class="p-section">
     <div class="row--50-50">
       <hr class="p-rule" />
@@ -77,7 +93,7 @@ Canonical's open source virtualization solutions scale from a single laptop to m
           <p>
             7 in 10 organizations indicate open source is extremely important to run mission-critical workloads, <a href="https://ubuntu.com/engage/2025-state-of-software-supply-chain" target="_blank" rel="noopener noreferrer">according to research conducted by the IDC and Canonical</a>.
           </p>
-          <p> 
+          <p>
             Open source virtualization provides a level of autonomy and transparency that proprietary hypervisors can't match. By moving away from proprietary virtualization, you gain the freedom to evolve your software-defined data center on your own terms, without the threat of sudden licensing changes or mandatory hardware refreshes.
           </p>
         </div>
@@ -156,7 +172,7 @@ Canonical's open source virtualization solutions scale from a single laptop to m
 
     {%- if slot == 'list_item_description_2' -%}
       <p>
-        Canonical's virtualization solutions <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Cloud+Pricing+Report+2022.pdf" rel="noopener noreferrer" target="_blank">can result in a significant reduction in TCO</a>. They are available on a wide variety of hardware, meaning no expensive proprietary hardware or forced upgrades. 
+        Canonical's virtualization solutions <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Cloud+Pricing+Report+2022.pdf" rel="noopener noreferrer" target="_blank">can result in a significant reduction in TCO</a>. They are available on a wide variety of hardware, meaning no expensive proprietary hardware or forced upgrades.
       </p>
       <p>
         Likewise, with <a href="https://ubuntu.com/pro" rel="noopener noreferrer" target="_blank">Ubuntu Pro</a>, Canonical's enterprise grade subscription service for security maintenance and support, you can ensure your virtualization stacks meet enterprise security standards with minimal operational overhead.
@@ -294,7 +310,7 @@ Canonical's open source virtualization solutions scale from a single laptop to m
                     }
                   },
                   "description": {
-                    "text": "UIDAI and HPE collaborated with Canonical to modernize citizen services, migrating legacy monoliths to a microservices architecture. With Ubuntu Pro for robust long-term support, they successfully scaled critical infrastructure to serve over one billion people. Learn more in the case study."
+                    "text": "UIDAI and HPE collaborated with Canonical to modernize citizen services, migrating legacy monoliths to a microservices architecture. With Ubuntu Pro for robust long-term support, they successfully scaled critical infrastructure to serve over one billion people."
                   },
                   "image": {
                     "type": "logo",
@@ -312,7 +328,7 @@ Canonical's open source virtualization solutions scale from a single laptop to m
                     }
                   },
                   "description": {
-                    "text": "BT Group partnered with Canonical, helping to build its award-winning 5G mobile network across the UK. With network functions virtualized on Canonical OpenStack, BT Group can build new services in weeks and deploy in days. Learn more in the case study.",
+                    "text": "BT Group partnered with Canonical, helping to build its award-winning 5G mobile network across the UK. With network functions virtualized on Canonical OpenStack, BT Group can build new services in weeks and deploy in days.",
                   },
                   "image": {
                     "type": "logo",
@@ -348,7 +364,7 @@ Canonical's open source virtualization solutions scale from a single laptop to m
                     }
                   },
                   "description": {
-                    "text": "Sicredi, a leading Brazilian financial institution, chose OpenStack as the foundation for its new infrastructure-as-code strategy. They found it was 2-3x more cost-efficient than public clouds, and provided the agility that traditional virtualization platforms lack. Learn why in the case study.",
+                    "text": "Sicredi, a leading Brazilian financial institution, chose OpenStack as the foundation for its new infrastructure-as-code strategy. They found it was 2-3x more cost-efficient than public clouds, and provided the agility that traditional virtualization platforms lack.",
                   },
                   "image": {
                     "type": "logo",

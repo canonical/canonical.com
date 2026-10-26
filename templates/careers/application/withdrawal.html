@@ -1,4 +1,5 @@
 {% extends 'base_index.html' %}
+{% from 'careers/application/_debug-email-notification.html' import debug_email_notification %}
 
 {% block content %}
 
@@ -9,29 +10,14 @@
         end up skipping sending the email in production in a silent way that nobody notices.
       -->
 
-      <div class="u-fixed-width">
-        <div class="p-notification--caution">
-          <div class="p-notification__content">
-            <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
-            <p>The following email would have been sent to {{ hiring_lead_email }}:</p>
-            <p><blockquote>{{ email_message | safe }}</blockquote></p>
-          </div>
-        </div>
-      </div>
+      {{ debug_email_notification(candidate_email, candidate_email_message, candidate_email_from) }}
+      {{ debug_email_notification(hiring_lead_email, email_message) }}
 
       <!--
         Similarly for interview canceled/feedback not needed emails
       -->
       {% for email in all_sent_emails %}
-        <div class="u-fixed-width">
-          <div class="p-notification--caution">
-            <div class="p-notification__content">
-              <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
-              <p>The following email would have been sent to {{ email["interviewer"] }}:</p>
-              <p><blockquote>{{ email["message"] | safe }}</blockquote></p>
-            </div>
-          </div>
-        </div>
+        {{ debug_email_notification(email["interviewer"], email["message"]) }}
       {% endfor %}
     {% endif %}
 </section>
