@@ -2,7 +2,7 @@
 wrapper_template: "legal/_base_legal_markdown.html"
 context:
   title: "Ubuntu Pro - personal, Terms of Service"
-  description: "The terms of Ubuntu Pro - personal subscription which provides users of Ubuntu with Ubuntu Pro with no support on up to five physical Ubuntu systems for the eligible LTS release. And up to 50 machines for official Ubuntu Community members."
+  description: "Ubuntu Pro personal terms: free subscription for up to 5 machines for individual, non-commercial use."
   copydoc: https://docs.google.com/document/d/1b2TSeqGfBsmZMepXGEGkEWyTDo0M5aHmyqaQIzEZfPs/edit
 ---
 

@@ -94,12 +94,26 @@ yarn format-prettier  # prettier
 djlint templates/path/to/file.html --lint --profile=jinja   # djlint for html/jinja - uses `.djlintrc`
 ```
 
+djLint is pinned in `requirements.txt`. Keep it at **1.41.0 or later**: older versions
+cannot read a template tag spanning several lines, so they flatten the contents of a
+multiline `{{ macro(...) }}` call to one indent level and then report the file as
+correctly formatted. The damage is silent.
+
+This repo runs under dotrun, so `.venv` is built inside the container and editor
+plugins cannot execute it. **Your global djLint is what formats templates in your
+editor**, regardless of the pin, which only governs CI and the container:
+
+```bash
+djlint --version          # what your editor runs
+python -m pip install -U djlint
+```
+
 ## External Service Dependencies
 
 | Service       | Purpose                          | Key Env Vars |
 | ------------- | -------------------------------- | ------------ |
 | Discourse API | Blog, takeovers, docs, tutorials | `DISCOURSE_API_KEY`, `DISCOURSE_API_USERNAME`, `MAAS_DISCOURSE_API_KEY`, `MAAS_DISCOURSE_API_USERNAME` |
-| Careers       | Careers related                  | `HARVEST_API_KEY`, `APPLICATION_CRYPTO_SECRET_KEY` |
+| Careers       | Careers related                  | `HARVEST_V3_CLIENT_ID`, `HARVEST_V3_CLIENT_SECRET`, `APPLICATION_CRYPTO_SECRET_KEY` |
 | Greenhouse    | Candidate applications           | `GREENHOUSE_API_KEY` |
 | Google Calendar | Google Calendar service-account auth             | `SERVICE_ACCOUNT_EMAIL`, `SERVICE_ACCOUNT_PRIVATE_KEY` |
 | Marketo       | Marketing / lead gen             | `MARKETO_API_URL`, `MARKETO_API_CLIENT`, `MARKETO_API_SECRET` |

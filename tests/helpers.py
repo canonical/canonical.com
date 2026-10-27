@@ -37,6 +37,7 @@ ALLOWED_HIDDEN_FIELDS = frozenset(
         "user_id",
         "consent_info",
         "utms",
+        "_cookies_accepted",
     }
 )
 

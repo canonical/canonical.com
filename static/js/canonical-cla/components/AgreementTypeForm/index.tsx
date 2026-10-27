@@ -42,17 +42,15 @@ const AGREEMENT_TYPES: Record<
         <div className="p-notification--information is-borderless u-no-margin--bottom">
           <div className="p-notification__content">
             <p className="p-notification__message">
-              <strong>Time to get access:</strong> 4-8 weeks
+              <strong>Time to get access:</strong> 1-2 weeks
             </p>
           </div>
         </div>
         <p className="u-text--muted">
           The corporate contributor agreement is designed to accommodate
           companies that do not permit their employees to sign individual
-          contributor agreements. This procedure requires manual review and
-          manual signatures by both parties via DocuSign. If your employer
-          allows you to sign an individual CLA agreement, we recommend you to
-          use it instead.
+          contributor agreements. If your employer allows you to sign an
+          individual CLA agreement, we recommend you to use it instead.
         </p>
       </div>
     ),

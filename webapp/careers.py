@@ -59,97 +59,47 @@ DEPARTMENT_LIST = {
 }
 
 
-def _group_by_department(harvest, vacancies):
+def group_by_department(vacancies):
     """
     Return a dictionary of departments by slug,
     where each department will have a new
     "vacancies" property of all the vacancies in
     that department
     """
-
-    all_departments = harvest.get_departments()
-    vacancies_by_department = {}
-
-    departments_by_slug = {}
-
-    for department in all_departments:
-        departments_by_slug[department.slug] = department
+    departments_by_slug = {
+        department["slug"]: {**department, "vacancies": []}
+        for department in DEPARTMENT_LIST.values()
+    }
 
     for vacancy in vacancies:
         for department in vacancy.departments:
             slug = department.slug
+            if slug in departments_by_slug:
+                departments_by_slug[slug]["vacancies"].append(vacancy)
 
-            if slug not in vacancies_by_department:
-                vacancies_by_department[slug] = departments_by_slug[slug]
-                vacancies_by_department[slug].vacancies = [vacancy]
-            else:
-                vacancies_by_department[slug].vacancies.append(vacancy)
-
-    # Add departments with no vacancies
-    for dept in departments_by_slug:
-        slug = departments_by_slug[dept].slug
-        if slug not in vacancies_by_department:
-            vacancies_by_department[slug] = departments_by_slug[slug]
-            vacancies_by_department[slug].vacancies = {}
-
-    return vacancies_by_department
+    return departments_by_slug
 
 
-def _get_sorted_departments(greenhouse, harvest):
-    departments = _group_by_department(harvest, greenhouse.get_vacancies())
-
-    sort_order = [
-        "engineering",
-        "support-engineering",
-        "marketing",
-        "web-and-design",
-        "project-management",
-        "commercial-operations",
-        "product",
-        "sales",
-        "finance",
-        "people",
-        "administration",
-        "legal",
-        "alliances-and-channels",
-    ]
-
-    sorted = {slug: departments[slug] for slug in sort_order}
-    remaining_slugs = set(departments.keys()).difference(sort_order)
-    remaining = {slug: departments[slug] for slug in remaining_slugs}
-    sorted_departments = {**sorted, **remaining}
-
-    return sorted_departments
-
-
-def _get_all_departments(greenhouse, harvest) -> tuple:
+def get_all_departments(greenhouse) -> tuple:
     """
     Refactor for careers search section
     """
-    all_departments = (
-        _group_by_department(harvest, greenhouse.get_vacancies()),
-    )
+    all_departments = group_by_department(greenhouse.get_vacancies())
 
     departments_overview = []
+    for department in all_departments.values():
+        count = len(department["vacancies"])
+        name = department["name"]
+        slug = department["slug"]
+        icon = department["icon"]
 
-    for vacancy in all_departments:
-        for dept in DEPARTMENT_LIST.values():
-            if vacancy[dept["slug"]]:
-                if vacancy[dept["slug"]].vacancies:
-                    count = len(vacancy[dept["slug"]].vacancies)
-                else:
-                    count = 0
-                name = vacancy[dept["slug"]].name
-                slug = vacancy[dept["slug"]].slug
-                icon = dept["icon"]
-
-                departments_overview.append(
-                    {
-                        "name": name,
-                        "count": count,
-                        "slug": slug,
-                        "icon": icon,
-                    }
-                )
+        departments_overview.append(
+            {
+                "name": name,
+                "count": count,
+                "slug": slug,
+                "icon": icon,
+            }
+        )
 
     return all_departments, departments_overview
