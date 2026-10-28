@@ -4,14 +4,15 @@ import requests
 import math
 import datetime
 import yaml
+import json
 import logging
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse, unquote
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from cachetools import TTLCache, cached
 import re
-
 
 logger = logging.getLogger(__name__)
 
@@ -254,7 +255,11 @@ def build_canonical_days_index(engage_docs):
             active_count,
             current_total,
         ) = engage_docs.get_index(
-            limit, offset=None, tag_value="roadshow", key="type", value="event"
+            limit,
+            offset=None,
+            tag_value="roadshow",
+            key="type",
+            value="roadshow",
         )
         total_pages = math.ceil(current_total / limit)
 
@@ -313,6 +318,11 @@ def append_utms_cookie_to_ubuntu_links(response):
     Append utms cookie parameter to all ubuntu.com links in HTML responses
     """
     if response.mimetype == "text/html" and response.is_sequence:
+        # The body of HTML responses varies by the "utms" cookie, so
+        # shared caches (e.g. content-cache) must not serve a variant
+        # built for one cookie value to other users
+        response.vary.add("Cookie")
+
         cookie_value = flask.request.cookies.get("utms")
 
         if cookie_value:
@@ -358,6 +368,39 @@ def append_utms_cookie_to_ubuntu_links(response):
     return response
 
 
+@lru_cache(maxsize=1)
+def _load_lastmod_manifest():
+    """Load templates/lastmod-manifest.json (built by
+    scripts/generate-lastmod-manifest.py), since production ships no .git
+    to read history from directly."""
+    manifest_path = (
+        Path(flask.current_app.root_path).parent
+        / "templates"
+        / "lastmod-manifest.json"
+    )
+    try:
+        with open(manifest_path) as manifest_file:
+            return json.load(manifest_file)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def get_file_last_modified(file_path):
+    """Date (YYYY-MM-DD) file_path (under templates/) was last changed,
+    from the lastmod manifest, falling back to filesystem mtime for a
+    file the manifest doesn't know about yet."""
+    templates_dir = Path(flask.current_app.root_path).parent / "templates"
+    rel_path = file_path.relative_to(templates_dir).as_posix()
+
+    manifest = _load_lastmod_manifest()
+    if rel_path in manifest:
+        return manifest[rel_path]
+
+    return datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime(
+        "%Y-%m-%d"
+    )
+
+
 def get_articles_from_category(category_dir, category_slug):
     """
     Get articles from markdown files in a category directory.
@@ -367,12 +410,13 @@ def get_articles_from_category(category_dir, category_slug):
         category_slug: The slug of the category
 
     Returns:
-        A list of article dictionaries
+        A list of article dictionaries, sorted from most to least
+        recently published (by the `publish_date` frontmatter field).
+        Articles missing `publish_date` sort to the end.
     """
     articles = []
-    md_files = sorted(category_dir.glob("*.md"))
 
-    for md_file in md_files:
+    for md_file in category_dir.glob("*.md"):
         try:
             with open(md_file, "r", encoding="utf-8") as f:
                 content = f.read()
@@ -383,29 +427,55 @@ def get_articles_from_category(category_dir, category_slug):
                 if len(parts) >= 2:
                     try:
                         frontmatter = yaml.safe_load(parts[1])
+                        context = frontmatter.get("context", {}) or {}
                         article_slug = md_file.stem
+
+                        publish_date = context.get("publish_date")
+                        # yaml may parse ISO dates into date/datetime objects;
+                        # accept strings too and normalise.
+                        if isinstance(publish_date, datetime.datetime):
+                            publish_date = publish_date.date()
+                        elif isinstance(publish_date, str):
+                            try:
+                                publish_date = datetime.date.fromisoformat(
+                                    publish_date
+                                )
+                            except ValueError:
+                                logger.warning(
+                                    f"Invalid publish_date in {md_file}: "
+                                    f"{publish_date!r}"
+                                )
+                                publish_date = None
 
                         # Build article metadata
                         article = {
-                            "hero_title": frontmatter.get("context", {}).get(
+                            "hero_title": context.get(
                                 "hero_title", md_file.stem
                             ),
-                            "description": frontmatter.get("context", {}).get(
-                                "description", ""
-                            ),
+                            "description": context.get("description", ""),
                             "url": (
                                 f"/knowledge/{category_slug}/"
                                 f"{article_slug}"
                             ),
-                            "tag": frontmatter.get("context", {}).get(
-                                "tag", ""
-                            ),
+                            "tag": context.get("tag", ""),
+                            "publish_date": publish_date,
+                            "last_modified": get_file_last_modified(md_file),
                         }
                         articles.append(article)
                     except yaml.YAMLError:
                         logger.error(f"YAML parsing error in {md_file}")
         except Exception as e:
             logger.error(f"Error reading {md_file}: {e}")
+
+    # Sort most → least recently published. Articles without a publish_date
+    # fall to the end; ties break alphabetically by hero_title for stability.
+    articles.sort(
+        key=lambda a: (
+            a["publish_date"] is None,
+            -(a["publish_date"].toordinal() if a["publish_date"] else 0),
+            a["hero_title"].lower(),
+        )
+    )
 
     return articles
 
@@ -463,12 +533,22 @@ def get_knowledge_sections():
                             category_dir, category_dir.name
                         )
 
+                    # A section page changes when its own template changes,
+                    # or when any of the articles it lists change.
+                    last_modified = get_file_last_modified(index_file)
+                    if articles:
+                        last_modified = max(
+                            last_modified,
+                            *(a["last_modified"] for a in articles),
+                        )
+
                     sections.append(
                         {
                             "slug": category_dir.name,
                             "title": title,
                             "description": description,
                             "articles": articles,
+                            "last_modified": last_modified,
                         }
                     )
 
@@ -479,6 +559,17 @@ def get_knowledge_sections():
                     )
 
     return sections
+
+
+def get_parent_last_modified(index_file, child_dates=()):
+    """Last-modified date for a parent/index page: the most recent of its
+    own template and child_dates (e.g. last-modified dates of the pages
+    it links to)."""
+    last_modified = get_file_last_modified(index_file)
+    if child_dates:
+        last_modified = max(last_modified, *child_dates)
+
+    return last_modified
 
 
 def build_knowledge_index():
@@ -524,3 +615,14 @@ def build_knowledge_category_index(category_slug):
         )
 
     return knowledge_category_index
+
+
+def google_ads_verification():
+    """
+    Serve the Google Ads account-access verification token from the domain
+    root. Google fetches /Google-Ads.txt directly and does not reliably
+    follow redirects, so this is served in place via a dedicated route.
+    """
+    return flask.send_from_directory(
+        flask.current_app.static_folder, "files/Google-Ads.txt"
+    )

@@ -1,6 +1,6 @@
 {% extends 'base_index.html' %}
 
-{% block title %}Find a Canonical partner | Partners{% endblock %}
+{% block title %}Find a partner | Partners{% endblock %}
 
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1R3s-aiSrFvbNrHjdfblYo_XX1f_EQ989DkmPS41seZc/edit
@@ -213,10 +213,10 @@
     </div>
   </section>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     const partnersLength = {{ partners_length | tojson }};
   </script>
-  <script src="{{ versioned_static('js/side-navigation.js') }}"></script>
-  <script defer src="{{ versioned_static('js/find-a-partner.js') }}"></script>
+  <script src="{{ versioned_static('js/side-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script defer src="{{ versioned_static('js/find-a-partner.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock %}

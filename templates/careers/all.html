@@ -7,7 +7,7 @@
 {% block meta_description %}Canonical publishes Ubuntu, provides commercial services and solutions for Ubuntu, and works with hardware manufacturers, software vendors and public.{% endblock %}
 
 {% block hero %}
-  <section class="p-strip--light" style="background: url(https://assets.ubuntu.com/v1/18717572-05_suru2_light_glow_8K_edited.png) 70% bottom; background-size: cover;">
+  <section class="p-strip--light u-suru-light-background">
     <div class="u-fixed-width u-sv3">
         <h1 class="u-no-margin--bottom p-heading--2">Open roles</h1>
     </div>
@@ -23,6 +23,6 @@
 
 {% block careers_content %}
   {% include 'partial/_careers-available-roles.html' %}
-	<script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}"></script>
-	<script defer src="{{ versioned_static('js/file-validation.js') }}"></script>
+	<script defer src="{{ versioned_static('js/careers-filter-and-sort.js') }}" nonce="{{ csp_nonce }}"></script>
+	<script defer src="{{ versioned_static('js/file-validation.js') }}" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

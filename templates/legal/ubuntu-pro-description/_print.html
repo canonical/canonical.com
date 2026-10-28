@@ -1,0 +1,87 @@
+<!--
+  Print / PDF export view for Ubuntu Pro Description
+  ===================================================
+  This template is a STANDALONE HTML document (no Jinja extends). It does NOT
+  inherit base_index.html because that would pull in the full site navigation,
+  footer, notification bars, and scripts — all of which must be absent from
+  the printed PDF.
+
+  It is opened in a new browser tab by the "Export" button in the modal on
+  /legal/ubuntu-pro-description. On load it auto-triggers window.print() and
+  closes the tab once the user dismisses the print dialog (afterprint event).
+
+  Only the sections whose ids appear in the ?sections=... query string are
+  rendered. This makes the export tamper-proof: because this page is a fresh
+  server render, any DOM manipulation the user did on the main page has no
+  effect on what is printed.
+
+  Selected sections are passed to this template as `selected_sections` (a
+  Python list) from the Flask route in app.py.
+-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Ubuntu Pro Description — print and PDF export view." />
+    <meta name="keywords" content="Ubuntu Pro, legal, description" />
+    <title>Ubuntu Pro Description | Ubuntu and Canonical Legal</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{{ versioned_static('css/styles.css') }}" />
+    {# Triggers window.print() on load and closes the tab via afterprint. #}
+    <script src="{{ versioned_static('js/ubuntu-pro-description-print.js') }}"
+            nonce="{{ csp_nonce }}"></script>
+  </head>
+  <body class="l-ubuntu-pro-print">
+    <div class="p-legal-content">
+      <div>
+        <p class="p-muted-heading">{{ effective_date }}</p>
+        <h1>Ubuntu Pro Description</h1>
+      </div>
+
+      {# Introduction and Security & compliance are always included;
+         their checkboxes are `disabled` in the modal so the user cannot
+         deselect them. #}
+      <div id="introduction-print">{{ sections.get('introduction', '') | safe }}</div>
+
+      <div id="security-compliance-print">{{ sections.get('security-compliance', '') | safe }}</div>
+
+      {# Support Services Process is always bundled with Support because it
+         is a direct continuation of the Support section in the document
+         and has no separate checkbox in the export modal. #}
+      {% if 'support' in selected_sections %}
+        <div id="support-print">
+          {{ sections.get('support', '') | safe }}
+          {{ sections.get('support-services-process', '') | safe }}
+        </div>
+      {% endif %}
+
+      {# The "Add-Ons" section in content.md is just the h2 heading "Add-Ons".
+         We only render it when at least one add-on section is selected so that
+         the heading does not appear as an orphan with no content beneath it. #}
+      {% set has_addons = (
+              'managed-services' in selected_sections or
+              'firefighting-support' in selected_sections or
+              'ops-consultancy' in selected_sections or
+              'professional-support-services' in selected_sections or
+              'embedded-services' in selected_sections
+            ) %}
+      {% if has_addons %}
+        {{ sections.get('add-ons', '') | safe }}
+      {% endif %}
+
+      {% for sid in ['managed-services', 'firefighting-support', 'ops-consultancy', 'professional-support-services', 'embedded-services'] %}
+        {% if sid in selected_sections %}
+          <div id="{{ sid }}-print">{{ sections.get(sid, '') | safe }}</div>
+        {% endif %}
+      {% endfor %}
+
+      {# Definitions are always included; their checkbox is `disabled` in
+         the modal so the user cannot deselect them. #}
+      <div id="definitions-print">{{ sections.get('definitions', '') | safe }}</div>
+    </div>
+    {# /p-legal-content #}
+  </body>
+</html>

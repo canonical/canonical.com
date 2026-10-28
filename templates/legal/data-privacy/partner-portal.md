@@ -9,7 +9,7 @@ context:
 
 # Privacy notice - Partner Portal
 
-This privacy notice tells you about the information we collect from you when you access the Canonical Partner Portal. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data. For more information, please see our [privacy policy](/legal/dataprivacy).
+This privacy notice tells you about the information we collect from you when you access the Canonical Partner Portal. In collecting this information, we are acting as a data controller and, by law, we are required to provide you with information about us, about why and how we use your data, and about the rights you have over your data. For more information, please see our [privacy policy](/legal/data-privacy).
 
 ## Who are we ?
 
@@ -121,7 +121,7 @@ This Privacy notice will be reviewed from time to time. If we decide to change t
 
 We hope that we can resolve any query or concern you raise about our use of your information. You can contact us any time. Any questions, comments and requests regarding this Privacy notice or any other related matter are welcomed and should be addressed to [dataprotection@canonical.com](mailto:dataprotection@canonical.com) or to the address below:
 
-<div style="margin:2rem;">
+<div class="u-margin-2rem">
 Legal, Canonical<br />
 4th floor, 201 Borough High St.<br />
 London SE1 1JA<br />
@@ -132,7 +132,7 @@ Alternatively, you can use the relevant [contact us](/legal/data-privacy/enquiry
 
 If you have a complaint about our use of your information, you can contact the Information Commissioner's Office via their website at [ico.org.uk](https://ico.org.uk/make-a-complaint/) or write to them at:
 
-<div style="margin:2rem;">
+<div class="u-margin-2rem">
 Information Commissioner's Office<br />
 Wycliffe House<br />
 Water Lane<br />

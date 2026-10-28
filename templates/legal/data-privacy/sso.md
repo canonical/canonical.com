@@ -65,7 +65,7 @@ Let us know the information to which your request relates. Please note that if y
 
 If you have a complaint about our use of your information, you can contact the Information Commissioner's Office via their website at [ico.org.uk/make-a-complaint/](https://ico.org.uk/make-a-complaint/) or write to them at:
 
-<div style="margin:2rem;">
+<div class="u-margin-2rem">
 Information Commissioner's Office<br />
 Wycliffe House<br />
 Water Lane<br />Wilmslow<br />

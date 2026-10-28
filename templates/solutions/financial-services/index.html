@@ -12,14 +12,16 @@
 {% block title %}Open source for financial services{% endblock %}
 
 {% block meta_description %}
-  9 of the top 10 US and EU financial institutions use Ubuntu. Canonical provides open source software for financial services, helping banking, insurance, trading, and other FinTech and financial services companies realize business value and drive innovation at scale.
+  Open source for financial services: Ubuntu powers 9 of the top 10 US and EU financial institutions.
 {% endblock %}
 
 {% block body_class %}is-paper{% endblock %}
 
 {% block extra_metatags %}
   <script type="module"
-          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1/lite-youtube.min.js"></script>
+          src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
+          integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
+          crossorigin="anonymous" nonce="{{ csp_nonce }}"></script>
 {% endblock extra_metatags %}
 
 {% block content %}
@@ -489,6 +491,6 @@
 
   {{ load_form("/solutions/financial-services") | safe }}
 
-  <script src="{{ versioned_static('js/tabbed-content.js') }}"></script>
+  <script src="{{ versioned_static('js/tabbed-content.js') }}" nonce="{{ csp_nonce }}"></script>
 
 {% endblock content %}

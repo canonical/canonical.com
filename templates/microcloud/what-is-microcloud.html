@@ -6,7 +6,7 @@
 {% from "_macros/vf_resources.jinja" import vf_resources %}
 {% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
 
-{% block title %}What is MicroCloud?{% endblock %}
+{% block title %}Overview | MicroCloud{% endblock %}
 
 {% block meta_description %}
   Find out more about Canonical’s lightweight, open source cloud platform, MicroCloud. Learn about what MicroCloud is, its components, and how it works.
@@ -78,7 +78,7 @@
       "title_text": "Trusted software defined networking with MicroOVN",
       "image_html":  '<img src="https://assets.ubuntu.com/v1/d74339cb-microovn.png" class="p-image-container__image" width="568" height="568" alt="" />',
 "description_html": "<p>MicroOVN provides virtual network abstractions, such as virtual L2 and L3 overlays, security groups, DHCP, and other networking services. It separates logical network topology from physical infrastructure, making the cloud easier to operate.</p>",
-      "cta_html": "<a href='https://documentation.ubuntu.com/microcloud/v2/microcloud/explanation/networking/'>Learn more about MicroCloud’s networking approach&nbsp;&rsaquo;</a>"
+      "cta_html": "<a href='/microcloud/docs/default/explanation/networking/'>Learn more about MicroCloud’s networking approach&nbsp;&rsaquo;</a>"
     }
   ]
 ) %}
@@ -225,7 +225,7 @@
     ) -%}
   {% endcall -%}
 
-  <script defer src="{{ versioned_static('js/modals.js') }}"></script>
+  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
 
   {{ load_form("/microcloud") | safe }}
 {% endblock content %}

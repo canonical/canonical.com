@@ -3,8 +3,8 @@
         action="https://ubuntu.com/marketo/submit"
         method="post"
         id="mktoForm_{{ form_id }}"
-        {% if formData.noPreselectCountry %}data-no-preselect-country{% endif %}
-        onsubmit="getCustomFields(event)">
+        data-js-form-custom-fields
+        {% if formData.noPreselectCountry %}data-no-preselect-country{% endif %}>
     {% for fieldset in fieldsets %}
 
       {% if fieldset.id %}
@@ -121,7 +121,6 @@
                                 aria-labelledby="{{ field_id }}"
                                 name="_radio_{{ fieldset_inputName }}"
                                 value="{{ field_value }}"
-                                id="{{ field_id }}"
                                 {% if field.isSelected %}checked{% endif %} />
                         <span class="p-radio__label" >{{ field.label }}</span>
                       </label>

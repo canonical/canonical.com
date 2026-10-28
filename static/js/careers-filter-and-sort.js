@@ -32,7 +32,7 @@
   // Read data-location property and parse locations into well-defined categories
   function parseLocations(location, filters) {
     const regions = {
-      emea: [
+      emea: new Set([
         "emea",
         "slovakia",
         "bratislava",
@@ -42,8 +42,8 @@
         "berlin",
         "london",
         "worldwide",
-      ],
-      americas: [
+      ]),
+      americas: new Set([
         "americas",
         "southwest",
         "san francisco",
@@ -56,22 +56,37 @@
         "america",
         "worldwide",
         "boston",
-      ],
-      apac: ["apac", "taiwan", "taipei", "beijing", "china", "worldwide"],
+      ]),
+      apac: new Set([
+        "apac",
+        "taiwan",
+        "taipei",
+        "beijing",
+        "china",
+        "worldwide",
+      ]),
     };
 
     // format job location string
-    local = location.toLowerCase().split("-").pop().split(",");
+    var locations = location.split(";");
 
-    //check if job location matches a location in filtered region(s)
-    for (let i = 0; i < filters.length; i++) {
-      let regionKey = regions[filters[i].toLowerCase()];
-      for (let j = 0; j < local.length; j++) {
-        if (Object.values(regionKey).includes(local[j].trim())) {
-          return 1;
+    for (const loc of locations) {
+      var local = loc.toLowerCase().split("-").pop().split(",");
+
+      //check if job location matches a location in filtered region(s)
+      for (let i = 0; i < filters.length; i++) {
+        let regionKey = regions[filters[i].toLowerCase()];
+        if (!regionKey) {
+          continue;
+        }
+        for (let j = 0; j < local.length; j++) {
+          if (regionKey.has(local[j].trim())) {
+            return true;
+          }
         }
       }
     }
+    return false;
   }
 
   // Update search box text with data from query params

@@ -32,13 +32,15 @@ PERCY_BROWSER_EXECUTABLE=/Applications/Chromium.app/Contents/MacOS/Chromium
 PERCY_POSTINSTALL_BROWSER=false
 ```
 
+In CI, Percy snapshots only run when a PR (or push to `main`) touches files that can affect rendered output (SCSS, JS, templates, nav YAMLs, snapshot config, `package.json`/`yarn.lock`). See [.github/PERCY.md](.github/PERCY.md) for the full behaviour, watched-paths list, and how to force a run via the `run-percy` label.
+
 ## Environment variables
 
 Environment variables are read from the available shell. For the charm, these are prepended with the prefix `FLASK_`, which we strip before re-inserting them into the environment.
 
 ## Greenhouse API
 
-To work locally on the `/careers` section of the site, you will need to add a `HARVEST_API_KEY` environment variable to `.env` file. You can find this via the [Greenhouse admin panel](https://canonical.greenhouse.io/configure/dev_center/credentials).
+To work locally on the `/careers` section of the site, add `HARVEST_V3_CLIENT_ID` and `HARVEST_V3_CLIENT_SECRET` environment variables to your `.env.local` file.
 
 # Deploy
 

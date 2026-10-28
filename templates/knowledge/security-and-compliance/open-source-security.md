@@ -2,6 +2,7 @@
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
   category: "Security and compliance"
+  publish_date: 2026-04-15
   tag: "Security"
   title: "What is open source security?"
   breadcrumb: "What is open source security?"
@@ -32,7 +33,7 @@ Like closed source and proprietary software, open source software does have vuln
 
 There are many ways you can mitigate the vulnerabilities and risks of open source software, including techniques like dependency management, vulnerability management, automated patching, code signing, integrity verification, and more.
 
-[Read our article on the security of open source versus proprietary software ›](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
+[Read our article on the security of open source versus proprietary software &rsaquo;](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
 
 
 ## Best practices for open source security
@@ -52,9 +53,9 @@ Whether code is open or proprietary, the most crucial security measure is patchi
 
 Regularly patching your open source software enables you and your customers to remain safe from newly discovered threats.
 
-[Understand Canonical’s solutions for open source security ›](https://canonical.com/solutions/open-source-security)
+[Understand Canonical’s solutions for open source security &rsaquo;](https://canonical.com/solutions/open-source-security)
 
-[Dive into security in depth ›](https://canonical.com/blog/ubuntu-security-defense-in-depth)
+[Dive into security in depth &rsaquo;](https://canonical.com/blog/ubuntu-security-defense-in-depth)
 
 
 ## What is dependency management?
@@ -65,7 +66,7 @@ Managing and securing your software and all of its dependencies is a vital part 
 ### What are dependencies?
 In software engineering, dependencies refer to external components, libraries, modules, or services that a software application or system relies on to function correctly. These external elements are not part of the core codebase but are integrated into the software’s build or runtime environment.
 
-[Read a blog about software dependencies ›](https://canonical.com/blog/what-are-dependencies)
+[Read a blog about software dependencies &rsaquo;](https://canonical.com/blog/what-are-dependencies)
 
 ### What are direct dependencies and what are transitive dependencies?
 
@@ -152,8 +153,6 @@ Integrity verification and code signing are essential for securing the open sour
 
 Effective security relies upon tracking the components and dependencies contained within your software. SBOMs (software bill of materials) help you achieve this.
 
-### What is a software bill of materials?
-
 In software development, a software bill of materials, or SBOM, is a detailed and accessible list of all the components that make up your software and where they come from. An SBOM may also indicate what was used to produce those components.
 
 ### What does an SBOM help with?
@@ -175,44 +174,7 @@ SBOMs are often required to meet compliance requirements for cybersecurity regul
 
 Combining SBOMs with vulnerability data feeds provides you with visibility into vulnerabilities present in your systems.
 
-### What should a basic SBOM include?
-
-SBOMs can come in different levels of depth and detail, depending on the region or compliance requirements. 
-
-A base SBOM outlines the core tools, frameworks, libraries, modules, and other components that make up the software. This approach should tell the user the basic and top-level information about the components that go into your software, and the environment that was used to build a software package. 
-
-This would include:
-
-{{ text_list_kh(
-  type="bullet",
-  items=[
-  "The name of the component",
-  "The version or version string of the component being used in your product",
-  "The authors or creators of the component"
-]) }}
-
-### What should an advanced SBOM include?
-
-For more mature organizations and software, an SBOM will go beyond a base SBOM to include detailed information about each individual module. This could include:
-
-{{ text_list_kh(
-  items=[
-  "The suppliers of the component",
-  "The relationships, dependencies, and connections between components",
-  "Lifecycle dates",
-  "The licence information of the component"
-]) }}
-
-### How should you distribute or publish your SBOM?
-
-Your SBOM should be as publicly accessible as possible. You can make your SBOM available to the public and regulators in a human- and machine-readable format.
-
-### When should you update your SBOM?
-
-Because of patches, updates, migrations, and alterations, software changes all the time. Every time you build a new software distribution artifact, you should generate a new SBOM.
-
-
-[Get a detailed overview of SBOMs ›](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
+[Get a detailed overview of SBOMs &rsaquo;](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
 
 ## Vulnerability assessment vs management
 

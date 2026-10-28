@@ -1,15 +1,15 @@
 {% extends 'base_index.html' %}
 
-{% block title %}Canonical Academy -- Self-study resources{% endblock %}
+{% block title %}Self-study resources | Academy{% endblock %}
 
 {% block meta_description %}
-  The Canonical Academy Study Guide prepares you to take Canonical Academy exams that count toward achieving professional certifications like the SysAdmin Qualification.
+  Self-study resources for Canonical Academy certifications. Practice environments, documentation, and exam prep guides.
 {% endblock %}
 
 {% block meta_keywords %}certifications, linux, ubuntu{% endblock %}
 
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1T1K7jyUa32-OURET6AjN2CD_c80TaUmj9EncYT70PNw/edit?usp=sharing
+  https://docs.google.com/document/d/1jr_YRaWvR2QISFiPkhyCm6jkmnk2IlZ9EVMouWGYRFg/edit?tab=t.0
 {% endblock meta_copydoc %}
 
 {% block body_class %}
@@ -32,7 +32,7 @@
   </section>
   <section>
     <div class="row">
-      <div class="p-tabs" style="padding-bottom:4rem;">
+      <div class="p-tabs u-padding-bottom-4rem">
         <div class="p-tabs__list u-no-margin--bottom"
              role="tablist"
              aria-label="CUE Syllabus">
@@ -67,9 +67,17 @@
                     aria-selected="false"
                     tabindex="-1">Using Ubuntu Server resources</button>
           </div>
+          <div class="p-tabs__item">
+            <button class="p-tabs__link"
+                    role="tab"
+                    aria-controls="cue04DevOps-tab"
+                    id="cue04DevOps"
+                    aria-selected="false"
+                    tabindex="-1">Using DevOps Principles resources</button>
+          </div>
         </div>
       </div>
-      <div class="col-6" style="padding-bottom:4rem;">
+      <div class="col-6 u-padding-bottom-4rem">
         <div tabindex="0"
              role="tabpanel"
              id="examTips-tab"
@@ -132,21 +140,23 @@
              hidden="hidden">
           <h2>Using Linux Terminal Resources</h2>
           <p class="spaced-bottom--smaller">
-            The following resources may assist you with preparing for the Using Linux Terminal exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.</p>
-          <h3 id="linux-documentation" class="p-heading--5 u-no-margin">Navigating Files and Filesystems 34%</h3>
+            The following resources may assist you with preparing for the Using Linux Terminal exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.
+          </p>
+          <h3 id="linux-navigation-files" class="p-heading--5 u-no-margin">Navigating Files and Filesystems 34%</h3>
           <ul class="pad-top">
             <li>Navigate and manipulate directories and files using terminal commands</li>
-            <li>
-              Search, compare and modify files in the terminal using regular expressions, pipe operators and redirection
-            </li>
+            <li>Search, compare and modify files in the terminal using regular expressions, pipe operators and redirection</li>
           </ul>
           <span>Related documentation</span>
           <ul class="pad-top">
             <li>
-              <a href="https://ubuntu.com/tutorials/command-line-for-beginners#7-the-command-line-and-the-superuser">Linux command line for beginners: Ubuntu Tutorials</a>
+              <a href="https://ubuntu.com/server/docs/tutorial/welcome-to-the-terminal">Welcome to the terminal</a>
             </li>
             <li>
               <a href="https://help.ubuntu.com/community/UsingTheTerminal?_gl=1*gdzcq9*_gcl_au*MTMyMjU4OTM2LjE3MjcyMTE0MTk.">Using the terminal, Ubuntu Community Help Wiki</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/tutorial/cli-in-depth/">The command line in depth</a>
             </li>
             <li>
               <a href="https://help.ubuntu.com/community/grep">Grep, Ubuntu Community Help Wiki</a>
@@ -199,8 +209,8 @@
               <a href="https://manpages.ubuntu.com/manpages/focal/man8/logrotate.8.html">logrotate</a>, <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/modprobe.8.html">modprobe</a>, <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/rmmod.8.html">rmmod</a>
             </li>
           </ul>
-            <h3 id="linux-tutorials" class="p-heading--5 u-no-margin">Securing Filesystem Access 33%</h3>
-            <ul class="pad-top">
+          <h3 id="linux-tutorials" class="p-heading--5 u-no-margin">Securing Filesystem Access 33%</h3>
+          <ul class="pad-top">
             <li>Create and manage SSH keys</li>
             <li>Configure system-wide and user-specific security settings</li>
             <li>Configure password complexity and expiry rules</li>
@@ -339,9 +349,6 @@
               <a href="https://documentation.ubuntu.com/server/how-to/software/package-management/">Install and manage packages - Ubuntu Server documentation</a>
             </li>
             <li>
-              <a href="https://documentation.ubuntu.com/server/tutorial/managing-software/">Managing your software - Ubuntu Server documentation</a>
-            </li>
-            <li>
               <a href="https://snapcraft.io/docs">Snap documentation</a>
             </li>
           </ul>
@@ -354,7 +361,7 @@
           <span>Related documentation</span>
           <ul class="pad-top">
             <li>
-              <a href="https://documentation.ubuntu.com/server/how-to/active-directory/">Active Directory integration - Ubuntu Server documentation</a>
+              <a href="https://ubuntu.com/server/docs/how-to/sssd/with-active-directory/">How to set up SSSD with Active Directory</a>
             </li>
           </ul>
         </div>
@@ -393,6 +400,9 @@
             </li>
             <li>
               <a href="https://documentation.ubuntu.com/server/how-to/databases/install-mysql/">Install and configure a MySQL server - Ubuntu Server documentation</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/databases/install-postgresql/">Install and configure a PostgreSQL - Ubuntu Server documentation</a>
             </li>
             <li>
               <span>Related man pages:</span> <a href="https://manpages.ubuntu.com/cgi-bin/search.py?q=systemd">systemd</a>
@@ -485,10 +495,122 @@
             </li>
           </ul>
         </div>
+        <div tabindex="0"
+             role="tabpanel"
+             id="cue04DevOps-tab"
+             aria-labelledby="cue04DevOps"
+             hidden="hidden">
+          <h2>Using DevOps Principles Resources</h2>
+          <p class="spaced-bottom--smaller">
+            The following resources may assist you with preparing for the Using DevOps Principles exam, but are not intended to be an exhaustive resource. Use the exam content to guide your personal exploration of these topics.
+          </p>
+          <h3 id="devops-automation" class="p-heading--5 u-no-margin">Using tools for automation and system updating 32%</h3>
+          <ul class="pad-top">
+            <li>Write and maintain system automation scripts in Bash or Python using git version control.</li>
+            <li>Use workflow automation tools such as cloud-init and Ansible.</li>
+            <li>Apply system updates and patches using Landscape, Ubuntu Pro tools, Livepatch and ESM.</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://documentation.ubuntu.com/server/explanation/software/config-managers/#ansible">Configuration Managers - Ansible</a>
+            </li>
+            <li>
+              <a href="https://docs.cloud-init.io/en/latest/explanation/introduction.html#introduction">Introduction to cloud-init</a>
+            </li>
+            <li>
+              <a href="https://docs.cloud-init.io/en/latest/howto/debugging.html">How to debug cloud-init</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/pro/services-overview/">What is included in Ubuntu Pro?</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/pro-client/en/latest/tutorials/security-with-pro/">Exploring your system’s security with Pro</a>
+            </li>
+          </ul>
+          <h3 id="devops-deployment" class="p-heading--5 u-no-margin">Understanding deployment technologies 34%</h3>
+          <ul class="pad-top">
+            <li>Manage simple containerized web and database applications using Docker or LXD.</li>
+            <li>Provision basic virtualized environments using virsh, virt-manager or LXD.</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/virtualisation/lxd/#lxd">LXD containers and virtual machines</a>
+            </li>
+            <li>
+              <a href="/lxd/docs/latest/cloud-init/">LXD - How to use cloud-init</a>
+            </li>
+            <li>
+              <a href="/lxd/docs/latest/profiles/">LXD - How to use profiles</a>
+            </li>
+            <li>
+              <a href="https://documentation.ubuntu.com/server/how-to/virtualisation/libvirt/">Libvirt</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/virtualisation/virtual-machine-manager/#virtual-machine-manager">Virtual Machine Manager</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/containers/docker-for-system-admins/">Docker for system admins</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/explanation/virtualisation/docker-storage-networking-and-logging/">Docker storage, networking, and logging</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/web-services/configure-apache2-settings">How to configure Apache2 settings</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/web-services/configure-nginx/">How to configure nginx</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/how-to/databases/">Databases</a>
+            </li>
+          </ul>
+          <h3 id="devops-monitoring" class="p-heading--5 u-no-margin">Monitoring &amp; Troubleshooting Systems 34%</h3>
+          <ul class="pad-top">
+            <li>Analyze and assess the impact of system configuration on compute resources, and network performance.</li>
+            <li>Troubleshoot systems at rest with basic system tools like tcpdump, dig, ss and iproute2.</li>
+            <li>Respond to real time system degradation due to resource contention.</li>
+            <li>Monitor and automatically detect connectivity and load issues with tools such as top, uptime, mpstat, and Prometheus.</li>
+          </ul>
+          <span>Related documentation</span>
+          <ul class="pad-top">
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/stonking/man8/tcpdump.8.html">tcpdump</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/stonking/man1/tshark.1.html">tshark</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/stonking/man1/wireshark.1.html">wireshark</a>
+            </li>
+            <li>
+              <a href="https://ubuntu.com/server/docs/explanation/performance/">Performance</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/stonking/man1/ping.1.html">ping</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/noble/man1/top.1.html">top</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/noble/man1/uptime.1.html">uptime</a>
+            </li>
+            <li>
+              <a href="https://manpages.ubuntu.com/manpages/stonking/man1/mpstat.1.html">mpstat</a>
+            </li>
+            <li>
+              <a href="https://prometheus.io/docs/prometheus/latest/getting_started/">Prometheus - Getting started</a>
+            </li>
+            <li>
+              <a href="https://prometheus.io/docs/guides/node-exporter/">Prometheus - Monitoring Linux host metrics with the Node Exporter</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     const setupTabs = () => {
       var keys = {
         left: 'ArrowLeft',
