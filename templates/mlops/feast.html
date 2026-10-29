@@ -1,5 +1,7 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
 {% block title %}Feast feature store | MLOps{% endblock %}
 
 {% block meta_description %}
@@ -16,47 +18,56 @@
 
 {% block content %}
 
-  <section class="p-strip is-shallow">
-    <div class="row--25-75">
-      <div class="col u-no-padding--bottom p-section">
-        <div>
-          {{ image (
-          url="https://assets.ubuntu.com/v1/5dc85b16-feast-logo.png",
-          alt="",
-          width="852",
-          height="175",
-          hi_def=True,
-          loading="auto"
-          ) | safe
-          }}
-        </div>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col p-section--shallow">
-            <h1 class="u-no-margin--bottom">
-              Best in class feature store,
-              <br class="u-hide--small u-hide--medium" />
-              integrated into your MLOps stack
-            </h1>
-            <h2>Open source. Fully supported. Built for scale.</h2>
-          </div>
-          <div class="p-section--shallow">
-            <p>
-              Charmed Feast is Canonical's securely designed, production-ready feature store for machine learning. Deploy it in minutes alongside Charmed Kubeflow, and manage features across environments with confidence.
-            </p>
-          </div>
-        </div>
-
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive"
-           href="https://documentation.ubuntu.com/charmed-feast/">Install Charmed Feast</a>
-        <a class="p-button js-invoke-modal"
-           href="/mlops/contact-us"
-           aria-controls="mlops-modal">Contact us</a>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Best in class feature store, <br class="u-hide--small u-hide--medium" /> integrated into your MLOps stack',
+    subtitle_text='Open source. Fully supported. Built for scale.',
+    chip_text='Supported with Ubuntu Pro',
+    layout='25/75',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": '<p>Charmed Feast is Canonical\'s securely designed, production-ready feature store for machine learning. Deploy it in minutes alongside Charmed Kubeflow, and manage features across environments with confidence.</p><hr class="p-rule--muted" />'
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Install Charmed Feast",
+            "attrs": {
+              "href": "https://documentation.ubuntu.com/charmed-feast/"
+            }
+          },
+          "secondaries": [
+            {
+              "content_html": "Contact us",
+              "attrs": {
+                "href": "/mlops/contact-us",
+                "class": "js-invoke-modal",
+                "aria-controls": "mlops-modal"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image (
+      url="https://assets.ubuntu.com/v1/5dc85b16-feast-logo.png",
+      alt="",
+      width="852",
+      height="175",
+      hi_def=True,
+      loading="auto"
+      ) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
 
   <section class="p-section">
     <div class="u-fixed-width">

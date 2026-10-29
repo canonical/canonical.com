@@ -1,0 +1,125 @@
+@mixin canonical-p-legal {
+  // Hierarchical numbering for nested ordered lists in legal document content.
+  // Two-part strategy:
+  //   1. A `section-num` counter increments on every h3 heading and is
+  //      displayed via h3::before, so clause numbers are dynamic — when only
+  //      a subset of sections is rendered (PDF export), headings renumber
+  //      automatically to match the subsection prefixes (8.1, 8.2, …).
+  //   2. `counters(legal-item, ".")` traverses the full <ol> nesting chain.
+  // Result:
+  //   - Under "Scope of Support" (the 8th h3 rendered): items show 8.1., 8.1.1., etc.
+  //   - Introduction has no h3, so "h3 ~ ol li" doesn't match it; its flat
+  //     lists fall through to the default rule and show 1., 2., 3., 4.
+  // The secondary navigation bar on this page is also sticky, so the
+  // in-page navigation must start below both the meganav (4rem) and the
+  // secondary nav (~3.5rem). max-height is reduced by the same amount so
+  // the list does not overflow the viewport bottom.
+  .l-ubuntu-pro-description .p-in-page-navigation {
+    max-height: calc(100vh - $spv--large * 4);
+  }
+
+  // Back-to-content button: floated right before the definition paragraph so
+  // the definition text flows beside it without adding extra vertical space.
+  .p-legal-content .js-def-back-btn {
+    float: right;
+    clear: right;
+    margin-left: $sph--large;
+  }
+
+  .p-legal-content {
+    counter-reset: section-num;
+  }
+
+  .p-legal-content h3 {
+    counter-increment: section-num;
+  }
+
+  .p-legal-content ol {
+    counter-reset: legal-item;
+    list-style: none;
+    padding-left: $sph--large;
+  }
+
+  .p-legal-content ol > li {
+    counter-increment: legal-item;
+  }
+
+  // Default: flat numbering for lists NOT preceded by an h3 (e.g. Introduction).
+  .p-legal-content ol > li::before {
+    content: counters(legal-item, ".") ". ";
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Section-prefixed numbering: lists that are siblings of (come after) an h3.
+  // Higher specificity (3 element selectors) than the default (2), so it wins.
+  // Descendant `li` rather than child `> li` ensures nested items also
+  // receive the section prefix (e.g. 8.1.3.1. not just 8.1.).
+  .p-legal-content h3 ~ ol li::before {
+    content: counter(section-num) "." counters(legal-item, ".") ". ";
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Severity-levels table in the Support Services Process section has 8
+  // columns. The grid-col-4 content container is too narrow for it to render
+  // without clipping. This wrapper enables horizontal scrolling and overrides
+  // the global table-layout:fixed so column widths follow content, not the
+  // container width.
+  .p-sev-table-wrap {
+    overflow-x: auto;
+
+    .p-table {
+      table-layout: auto;
+    }
+  }
+
+  // Named-page approach: scopes the @page rules to the PDF print view only
+  // so they do not affect printing of any other page on canonical.com.
+  // _print.html adds class="l-ubuntu-pro-print" to <body>.
+  body.l-ubuntu-pro-print {
+    // In the print/PDF export view only a subset of sections may be rendered,
+    // so h3 clause numbers are re-applied dynamically via the section-num
+    // counter rather than relying on the hardcoded numbers in the markdown.
+    .p-legal-content h3::before {
+      content: counter(section-num) ". ";
+    }
+
+    // Prevent headings from being stranded at the bottom of a page with their
+    // content flowing onto the next page.
+    .p-legal-content h2,
+    .p-legal-content h3 {
+      break-after: avoid;
+      page-break-after: avoid; // legacy fallback
+    }
+
+    // Content margins replace the @page margins which are set to 0 below.
+    margin: 0 14mm;
+    // Assign this body to the named page so @page rules below apply.
+    page: ubuntu-pro-print;
+
+    // The severity-levels table has 8 columns which overflow A4 portrait width.
+    // overflow-x: auto (from .p-sev-table-wrap) has no effect in print, so we
+    // override cell overflow so content wraps rather than being clipped.
+    .p-sev-table-wrap {
+      overflow-x: visible;
+
+      .p-table {
+        td,
+        th {
+          overflow: visible;
+          white-space: normal;
+        }
+      }
+    }
+  }
+
+  // Margins for the PDF print view:
+  //   top    14mm → space for the browser's header (date and page title)
+  //   sides  0    → suppresses the browser's URL footer on bottom/sides
+  // NOTE: you cannot show/hide individual browser header fields via CSS;
+  // to remove all headers and footers use the print dialog's own settings
+  // or a headless renderer such as Puppeteer or WeasyPrint.
+  @page ubuntu-pro-print {
+    margin: 14mm 0 0;
+    size: a4;
+  }
+}

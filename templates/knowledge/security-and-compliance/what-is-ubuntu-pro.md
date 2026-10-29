@@ -32,7 +32,7 @@ Ubuntu Pro is Canonical’s comprehensive subscription for open source security,
 
 Ubuntu Pro is a security and compliance subscription that provides timely patches and security maintenance for the operating systems, applications, and other layers of IT operations. It helps enterprises and their engineers to secure their software and systems, and creates an easier path to meeting security standards compliance through hardening tools, automations, and a range of other features.
 
-[Learn more about Ubuntu Pro ›](http://www.ubuntu.com/pro)
+[Learn more about Ubuntu Pro &rsaquo;](http://www.ubuntu.com/pro)
 
 
 ### How does Ubuntu Pro differ from standard Ubuntu?
@@ -80,7 +80,7 @@ Here are some commands you could use on your machine:
   "<code>sudo pro enable esm-apps</code> or <code>sudo pro enable livepatch</code>: to enable specific services"
 ]) }}
 
-[View a complete list of helpful terminal commands ›](https://documentation.ubuntu.com/pro-client/en/latest/references/commands/)
+[View a complete list of helpful terminal commands &rsaquo;](https://documentation.ubuntu.com/pro-client/en/latest/references/commands/)
 
 
 ### System hardening
@@ -99,7 +99,7 @@ The tool provides two primary functions:
 
 Managing a large fleet of Ubuntu Pro machines is primarily handled through Landscape, Canonical's centralized systems management tool. Landscape allows administrators to manage up to 40,000 machines from a single dashboard. It automates the distribution of security patches, monitors system health, and ensures compliance across physical, virtual, and cloud-based Ubuntu environments. Landscape is available with an Ubuntu Pro subscription.
 
-[Learn more about fleet management with Landscape ›](https://ubuntu.com/landscape)
+[Learn more about fleet management with Landscape &rsaquo;](https://ubuntu.com/landscape)
 
 
 ### Support for public cloud instances (AWS, Azure, or Google Cloud)
@@ -128,22 +128,22 @@ The Ubuntu Pro + Support tier complements the security maintenance offering, pro
 
 The responsiveness of the support team is governed by the severity of the issue, ensuring that critical production failures receive immediate attention while non-urgent requests are handled within reasonable business timeframes.
 
-[Read more about Ubuntu Pro + Support and SLAs here ›](https://ubuntu.com/support)
+[Read more about Ubuntu Pro + Support and SLAs here &rsaquo;](https://ubuntu.com/support)
 
 ## How can I get Ubuntu Pro?
 
 Users looking to get Ubuntu Pro can acquire a subscription through Canonical’s online Ubuntu Pro store, or by contacting Canonical’s support services staff. Ubuntu Pro subscriptions are free for personal users on up to 5 machines, and enterprises can try it for free for 30 days.
 
-[Visit the Ubuntu Pro Store ›](https://ubuntu.com/pro/subscribe)
+[Visit the Ubuntu Pro Store &rsaquo;](https://ubuntu.com/pro/subscribe)
 
-[Contact Canonical for support ›](https://ubuntu.com/contact-us/form?product=pro)
+[Contact Canonical for support &rsaquo;](https://ubuntu.com/contact-us/form?product=pro)
 
 
 ### What does Ubuntu Pro cost?
 
 An Ubuntu Pro subscription typically starts between $25 and $500 per year, depending on the tier and the type of machine you are covering. Free tiers also exist for personal users on a limited number of machines. Support and Legacy can be added on top of your subscription for a fee.
 
-[Explore Ubuntu Pro’s pricing breakdown ›](https://ubuntu.com/pricing/pro)
+[Explore Ubuntu Pro’s pricing breakdown &rsaquo;](https://ubuntu.com/pricing/pro)
 
 ### What do the different tiers or plans in Ubuntu Pro include?
 
@@ -174,7 +174,7 @@ Because Ubuntu Pro is a service subscription rather than a new operating system,
 
 For organizations that need to evaluate Ubuntu Pro at scale, Canonical offers a 30-day free trial. This allows users to test enterprise-exclusive features like the Landscape management dashboard and automated compliance tools (CIS/FIPS) in specific environments.
 
-[Start a 30-day free trial ›](https://ubuntu.com/pro/subscribe)
+[Start a 30-day free trial &rsaquo;](https://ubuntu.com/pro/subscribe)
 
 
 ### Does Canonical sell Ubuntu Pro via partners, vendors, or resellers?
@@ -183,4 +183,4 @@ Yes, Canonical works with a global network of partners to ensure organizations c
 
 There are several ways to buy Ubuntu Pro beyond a direct contract with Canonical.
 
-[Find a Canonical partner here ›](https://canonical.com/partners/find-a-partner)
+[Find a Canonical partner here &rsaquo;](https://canonical.com/partners/find-a-partner)

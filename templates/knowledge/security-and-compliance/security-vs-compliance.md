@@ -83,7 +83,7 @@ Examples of security features include:
 ]) }}
 
 
-[Read our compliance automation documentation ›](https://documentation.ubuntu.com/security/compliance/)
+[Read our compliance automation documentation &rsaquo;](https://documentation.ubuntu.com/security/compliance/)
 
 ## What is security assurance?
 
@@ -91,7 +91,7 @@ Security assurance refers to the degree of confidence that the security controls
 
 It is a process that focuses on providing evidence and validation, effectively shifting the perspective from implementing security (the job of the engineers) to demonstrating security (the job of the auditors and compliance teams).
 
-[Read about Ubuntu security assurances ›](https://ubuntu.com/security/assurances)
+[Read about Ubuntu security assurances &rsaquo;](https://ubuntu.com/security/assurances)
 
 ### What are the key components of security assurance?
 
@@ -125,7 +125,7 @@ Compliance refers to the rule or standard you must follow. For example, PCI DSS 
 
 Assurance refers to the confidence that the security feature has been configured correctly and that it operates as intended under different environments. For example, in PCI DSS, assurance would demonstrate that a firewall has been configured correctly, that it blocks the right traffic, and that it has been tested to withstand current attacks.
 
-[Read about Canonical's approach to open source security ›](https://canonical.com/solutions/open-source-security)
+[Read about Canonical's approach to open source security &rsaquo;](https://canonical.com/solutions/open-source-security)
 
 ## What are security standards?
 
@@ -144,7 +144,7 @@ There are a great number of international and regional security standards, as th
   "ISO 27001"
 ])}}
 
-[Learn more about Ubuntu and security standards ›](https://ubuntu.com/security/security-standards)
+[Learn more about Ubuntu and security standards &rsaquo;](https://ubuntu.com/security/security-standards)
 
 ## How does Canonical help to achieve security and compliance?
 

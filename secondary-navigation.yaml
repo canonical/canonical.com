@@ -26,24 +26,8 @@ ai:
       path: /solutions/ai/infrastructure
     - title: Edge AI
       path: /solutions/ai/edge
-    - title: GenAI infrastructure
-      path: /solutions/ai/genai
     - title: MLOps
       path: /mlops
-
-cassandra:
-  title: Cassandra
-  path: /data/cassandra
-
-  parent:
-    - title: All data solutions
-    - path: /data
-
-  children:
-    - title: Overview
-      path: /data/cassandra
-    - title: Docs
-      path: https://canonical-charmed-cassandra.readthedocs-hosted.com/latest/
 
 data:
   title: Data
@@ -52,40 +36,71 @@ data:
   children:
     - title: Portfolio
       path: /data
+    - title: Services
+      path: /data/services
 
-etcd:
-  title: etcd
-  path: /data/etcd
-
-  parent:
-    - title: All data solutions
-    - path: /data
+services:
+  title: Data
+  path: /data
 
   children:
+    - title: Overview
+      path: /data/services
+    - title: Portfolio
+      path: /data
+    - title: Services
+      path: /data/services
+
+cassandra:
+  title: Data
+  path: /data
+  match: /data/cassandra
+
+  children:
+    - title: Services
+      path: /data/services
+    - title: Overview
+      path: /data/cassandra
+    - title: Docs
+      path: https://canonical-charmed-cassandra.readthedocs-hosted.com/latest/
+
+careers:
+  title: Careers
+  path: /careers
+
+  children:
+    - title: Jobs
+      path: /careers/all
+    - title: Hiring process
+      path: /careers/hiring-process
+    - title: Culture
+      path: /careers/company-culture
+    - title: Early careers
+      path: /careers/early-careers
+
+etcd:
+  title: Data
+  path: /data
+  match: /data/etcd
+
+  children:
+    - title: Services
+      path: /data/services
     - title: Overview
       path: /data/etcd
     - title: Docs
       path: https://canonical-charmed-etcd.readthedocs-hosted.com/
 
 kafka:
-  title: Kafka
-  path: /data/kafka
-
-  parent:
-    - title: All data solutions
-    - path: /data
+  title: Data
+  path: /data
+  match: /data/kafka
 
   children:
-    - title: Overview
-      path: /data/kafka
-    - title: What is Kafka
-      path: /data/kafka/what-is-kafka
-    - title: Managed
-      path: /data/kafka/managed
-    - title: Support
-      path: /data/kafka/support
+    - title: Services
+      path: /data/services
     - title: Docs
-      path: https://documentation.ubuntu.com/charmed-kafka/3
+      path: /data/kafka/docs
 
 ceph:
   title: Ceph
@@ -138,8 +153,6 @@ mlops:
       path: /mlops/mlflow
     - title: Feast
       path: /mlops/feast
-    - title: MLOps workshop
-      path: /mlops/mlops-workshop
 
 mongodb:
   title: MongoDB
@@ -159,7 +172,7 @@ mongodb:
     - title: Support
       path: /data/mongodb/support
     - title: Docs
-      path: https://canonical-charmed-mongodb.readthedocs-hosted.com/6
+      path: /data/mongodb/docs
 
 microcloud:
   title: MicroCloud
@@ -172,12 +185,12 @@ microcloud:
     - title: Resources
       path: /microcloud/resources
     - title: Docs
-      path: https://documentation.ubuntu.com/microcloud/
+      path: /microcloud/docs/
 
 microk8s:
-  title: MicroK8s      
+  title: MicroK8s
   path: /microk8s
-  
+
   children:
     - title: Features
       path: /microk8s/features
@@ -219,24 +232,15 @@ multipass:
       path: https://documentation.ubuntu.com/multipass
 
 opensearch:
-  title: OpenSearch
-  path: /data/opensearch
-
-  parent:
-    - title: All data solutions
-    - path: /data
+  title: Data
+  path: /data
+  match: /data/opensearch
 
   children:
-    - title: Overview
-      path: /data/opensearch
-    - title: What is OpenSearch
-      path: /data/opensearch/what-is-opensearch
-    - title: Managed
-      path: /data/opensearch/managed
-    - title: Support
-      path: /data/opensearch/support
+    - title: Services
+      path: /data/services
     - title: Docs
-      path: https://canonical-charmed-opensearch.readthedocs-hosted.com/2
+      path: /data/opensearch/docs
 
 openstack:
   title: OpenStack
@@ -259,24 +263,17 @@ openstack:
       path: https://canonical-openstack.readthedocs-hosted.com/en/latest/
 
 postgresql:
-  title: PostgreSQL
-  path: /data/postgresql
-
-  parent:
-    - title: All data solutions
-    - path: /data
+  title: Data
+  path: /data
+  match: /data/postgresql
 
   children:
     - title: Overview
       path: /data/postgresql
-    - title: What is PostgreSQL
-      path: /data/postgresql/what-is-postgresql
-    - title: Managed
-      path: /data/postgresql/managed
-    - title: Support
-      path: /data/postgresql/support
+    - title: Services
+      path: /data/services
     - title: Docs
-      path: https://canonical-charmed-postgresql.readthedocs-hosted.com/14
+      path: /data/postgresql/docs/latest/
 
 valkey:
   title: Valkey
@@ -291,6 +288,8 @@ valkey:
       path: /data/valkey
     - title: What is Valkey
       path: /data/valkey/what-is-valkey
+    - title: Docs
+      path: /data/valkey/docs
 
 mysql:
   title: MySQL
@@ -308,7 +307,7 @@ mysql:
     - title: Support
       path: /data/mysql/support
     - title: Docs
-      path: https://canonical-charmed-mysql.readthedocs-hosted.com
+      path: /data/mysql/docs
 
 spark:
   title: Spark
@@ -328,7 +327,7 @@ spark:
     - title: Support
       path: /data/spark/support
     - title: Docs
-      path: https://canonical-charmed-spark.readthedocs-hosted.com/main
+      path: /data/spark/docs
 
 telco:
   title: Telco
@@ -438,10 +437,6 @@ maas:
       path: /maas/features
     - title: Tutorials
       path: /maas/tutorials
-    - title: Blog
-      path: /maas/blog
-    - title: Forum
-      path: https://discourse.maas.io/
 
 mir:
   title: Mir Display Server

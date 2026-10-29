@@ -6,6 +6,7 @@
 {% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
 
 {% block title %}Support | Ceph{% endblock %}
+
 {% block body_class %}is-paper{% endblock %}
 
 {% block meta_description %}
@@ -22,26 +23,26 @@
     subtitle_text='Design, deployment, <br /> and operational support',
     layout='50/50',
     is_split_on_medium=true
-  ) -%}
+    ) -%}
     {%- if slot == 'description' -%}
       <p>Canonical helps you adopt Ceph software defined storage, with a variety of options to suit your organization’s needs and available expertise. From fully managed services to 24/7/365 on-demand troubleshooting, get Ceph support with <a href="https://ubuntu.com/support">guaranteed SLAs</a> from a team of trusted experts.</p>
-      <p>Learn how the European Space Agency leverages Ceph, managed by Canonical, to support space missions. </p>
+      <p>Learn how the European Space Agency leverages Ceph, managed by Canonical, to support space missions.</p>
     {%- endif -%}
     {%- if slot == 'cta' -%}
-      <a href="#get-in-touch" class="p-button--positive" aria-label="contact-modal">Get in touch</a>
+      <a href="#get-in-touch"
+         class="p-button--positive"
+         aria-label="contact-modal">Get in touch</a>
       <a href="/case-study/esa" class="p-button" aria-label="case study">Access the case study</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
       <div class="p-image-container--3-2 is-highlighted is-cover u-hide--small">
-        {{ image(
-          url="https://assets.ubuntu.com/v1/b129e512-hero_img.jpg",
-          alt="",
-          width="1800",
-          height="1128",
-          hi_def=True,
-          loading="lazy",
-          attrs={"class": "p-image-container__image"}
-        ) | safe }}
+        {{ image(url="https://assets.ubuntu.com/v1/b129e512-hero_img.jpg",
+                alt="",
+                width="1800",
+                height="1128",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe }}
       </div>
     {%- endif -%}
   {% endcall -%}
@@ -49,7 +50,7 @@
   {%- call(slot) vf_tiered_list(
     is_description_full_width_on_desktop=false,
     is_list_full_width_on_tablet=true
-  ) -%}
+    ) -%}
     {%- if slot == 'title' -%}
       <h2>Services for Canonical Ceph</h2>
     {%- endif -%}
@@ -106,25 +107,23 @@
     {%- endif -%}
   {%- endcall -%}
 
-  {{ vf_data_spotlight(
-    title={
-      "text": "Enterprise-grade Ceph support",
+  {{ vf_data_spotlight(title={
+    "text": "Enterprise-grade Ceph support",
     },
     blocks=[
-      {
-        "stat": "1 hour",
-        "description": "Response time SLA for severity 1 issues.",
-      },
-      {
-        "stat": "24/7/365",
-        "description": "Access to phone and ticket support.",
-      },
-      {
-        "stat": "Up to 15 years",
-        "description": "Security fixes and support with Ubuntu Pro.",
-      },
-    ],
-  ) }}
+    {
+    "stat": "1 hour",
+    "description": "Response time SLA for severity 1 issues.",
+    },
+    {
+    "stat": "24/7/365",
+    "description": "Access to phone and ticket support.",
+    },
+    {
+    "stat": "Up to 15 years",
+    "description": "Security fixes and support with Ubuntu Pro.",
+    },
+    ],) }}
 
   <section class="p-section">
     {% call(slot) vf_equal_heights(
@@ -132,28 +131,44 @@
       attrs={"id": "4-columns-responsive"},
       highlight_images=True,
       items=[
-        {
-          "title_text": "Fixed price consulting",
-          "image_html": '<img src="https://assets.ubuntu.com/v1/818348a8-price.png" class="p-image-container__image" width="284" height="426" alt="" />',
-          "description_html": "<p>Get clarity from the beginning with our <a href='https://assets.ubuntu.com/v1/ef493e88-canonical_ceph_consulting_datasheet_11_09_2025.pdf'>fixed price packages</a>. Straightforward Ceph consulting: no surprises, no run-away costs.</p>",
-        },
-        {
-          "title_text": "Support subscription",
-          "image_html": '<img src="https://assets.ubuntu.com/v1/f9d7aa7b-subscription.png" class="p-image-container__image" width="284" height="426" alt="" />',
-          "description_html": "<p>Transparent support pricing on a per-node basis to keep your project costs predictable. Up to 384TB RAW storage for Ceph included.</p>",
-        },
-        {
-          "title_text": "Firefighting support",
-          "image_html": '<img src="https://assets.ubuntu.com/v1/716f7279-firefighting.png" class="p-image-container__image" width="284" height="426" alt="" />',
-          "description_html": "<p>Reduce the risk of business impact from critical maintenance activities by getting engineers on call to help you resolve any critical issues.</p>",
-        },
-        {
-          "title_text": "Managed Ceph",
-          "image_html": '<img src="https://assets.ubuntu.com/v1/c836fe3e-managed.png" class="p-image-container__image" width="284" height="426" alt="" />',
-          "description_html": "<p>Reduce operational complexity and treat storage as a service. Let Canonical's experts operate and maintain your Ceph cluster, filling knowledge gaps and freeing your engineering team to focus on your core business.</p>",
-        }
+      {
+      "title_text": "Fixed price consulting",
+      "image_html": '<img src="https://assets.ubuntu.com/v1/818348a8-price.png"
+     class="p-image-container__image"
+     width="284"
+     height="426"
+     alt="" />',
+      "description_html": "<p>Get clarity from the beginning with our <a href='https://assets.ubuntu.com/v1/ef493e88-canonical_ceph_consulting_datasheet_11_09_2025.pdf'>fixed price packages</a>. Straightforward Ceph consulting: no surprises, no run-away costs.</p>",
+      },
+      {
+      "title_text": "Support subscription",
+      "image_html": '<img src="https://assets.ubuntu.com/v1/f9d7aa7b-subscription.png"
+     class="p-image-container__image"
+     width="284"
+     height="426"
+     alt="" />',
+      "description_html": "<p>Transparent support pricing on a per-node basis to keep your project costs predictable. Up to 576TB RAW storage for Ceph included.</p>",
+      },
+      {
+      "title_text": "Firefighting support",
+      "image_html": '<img src="https://assets.ubuntu.com/v1/716f7279-firefighting.png"
+     class="p-image-container__image"
+     width="284"
+     height="426"
+     alt="" />',
+      "description_html": "<p>Reduce the risk of business impact from critical maintenance activities by getting engineers on call to help you resolve any critical issues.</p>",
+      },
+      {
+      "title_text": "Managed Ceph",
+      "image_html": '<img src="https://assets.ubuntu.com/v1/c836fe3e-managed.png"
+     class="p-image-container__image"
+     width="284"
+     height="426"
+     alt="" />',
+      "description_html": "<p>Reduce operational complexity and treat storage as a service. Let Canonical's experts operate and maintain your Ceph cluster, filling knowledge gaps and freeing your engineering team to focus on your core business.</p>",
+      }
       ]
-    ) %}
+      ) %}
       {% if slot == "description" %}
         <div>
           <p>Transparent pricing meets enterprise-grade Ceph support. Optimize your storage environment and get peace of mind over your deployments, without the premium overhead.</p>
@@ -165,6 +180,9 @@
   </section>
 
   {{ load_form("/ceph") | safe }}
-  <script defer src="{{ versioned_static('js/modals.js') }}" nonce="{{ csp_nonce }}"></script>
-  <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
+  <script defer
+          src="{{ versioned_static('js/modals.js') }}"
+          nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/in-page-navigation.js') }}"
+          nonce="{{ csp_nonce }}"></script>
 {% endblock content %}

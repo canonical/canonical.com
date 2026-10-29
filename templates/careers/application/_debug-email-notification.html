@@ -1,0 +1,11 @@
+{% macro debug_email_notification(recipient, message, sender=None) %}
+  <div class="u-fixed-width">
+    <div class="p-notification--caution">
+      <div class="p-notification__content">
+        <h5 class="p-notification__title">[DEBUG] This email wasn't sent because you're in debug mode</h5>
+        <p>The following email would have been sent to {{ recipient }}{% if sender %} from {{ sender }}{% endif %}:</p>
+        <p><blockquote>{{ message | safe }}</blockquote></p>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

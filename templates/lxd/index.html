@@ -5,9 +5,21 @@
 {% block title %}LXD{% endblock %}
 
 {% block meta_description %}
-  Low-touch virtual infrastructure with LXD at any scale. Built on top of Linux containers,
-  LXD offers a unified user experience in managing system containers, virtual machines and clusters. Easily configurable,
-  flexible and trusted way to run your workloads.
+  LXD: Canonical's open source container and virtual machine manager for lightweight, clustered virtualization.
+{% endblock %}
+
+{% block extra_metatags %}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "Product"],
+      "name": {{ products_yaml.lxd.name | tojson }},
+      "description": {{ products_yaml.lxd.description | tojson }},
+      "operatingSystem": {{ products_yaml.lxd.operatingSystem | tojson }},
+      "applicationCategory": {{ products_yaml.lxd.applicationCategory | tojson }},
+      "url": {{ products_yaml.lxd.url | tojson }}
+    }
+  </script>
 {% endblock %}
 
 {% block body_class %}

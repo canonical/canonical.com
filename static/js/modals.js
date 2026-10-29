@@ -115,13 +115,14 @@
       } else {
         document.body.style.overflow = "auto";
         modal.style.display = "none";
+        document.removeEventListener("focus", trapFocus, true);
+        document.removeEventListener("click", handleModalClick);
+        currentDialog = null;
         if (focusAfterClose && focusAfterClose.focus) {
           focusAfterClose.focus();
         }
-        document.removeEventListener("focus", trapFocus, true);
-        document.removeEventListener("click", handleModalClick);
+        focusAfterClose = null;
         updateHash("");
-        currentDialog = null;
       }
     }
   }
@@ -148,11 +149,14 @@
     if (isModalTrigger || isCloseButton) {
       e.preventDefault();
 
-      const targetControls = target.getAttribute("aria-controls");
+      // Read aria-controls from the trigger itself: the click target may be
+      // a child element, such as a heading wrapped in a trigger link.
+      const controlElement = isModalTrigger || isCloseButton;
+      const targetControls = controlElement.getAttribute("aria-controls");
       const toggleValue = Boolean(isModalTrigger);
       toggleModal(
         document.getElementById(targetControls),
-        e.target,
+        controlElement,
         toggleValue
       );
 
@@ -166,8 +170,9 @@
   // Handle Pagination
   let contactIndex = 1;
   const contactModal = document.querySelector(".p-modal");
-  const modalPaginationButtons = contactModal.querySelectorAll(".pagination a");
-  const paginationContent = contactModal.querySelectorAll(".js-pagination");
+  const modalPaginationButtons =
+    contactModal?.querySelectorAll(".pagination a");
+  const paginationContent = contactModal?.querySelectorAll(".js-pagination");
 
   function setState(index) {
     contactIndex = index;
@@ -175,7 +180,7 @@
   }
 
   function render() {
-    if (paginationContent.length) {
+    if (paginationContent?.length) {
       const currentContent = contactModal.querySelector(
         ".js-pagination--" + contactIndex
       );
@@ -186,7 +191,7 @@
     }
   }
 
-  modalPaginationButtons.forEach(function (modalPaginationButton) {
+  modalPaginationButtons?.forEach(function (modalPaginationButton) {
     modalPaginationButton.addEventListener("click", function (e) {
       e.preventDefault();
       /** @type {HTMLElement} */
@@ -268,7 +273,9 @@ function getCustomFields(event) {
           /** @type {HTMLSelectElement} */
           const selectInput = input;
           message +=
-            selectInput.options[selectInput.selectedIndex]?.textContent + comma + " ";
+            selectInput.options[selectInput.selectedIndex]?.textContent +
+            comma +
+            " ";
           break;
         case "radio":
           /** @type {HTMLInputElement} */
@@ -358,7 +365,9 @@ function getCustomFields(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("[data-js-form-custom-fields]").forEach(function (form) {
-    form.addEventListener("submit", getCustomFields);
-  });
+  document
+    .querySelectorAll("[data-js-form-custom-fields]")
+    .forEach(function (form) {
+      form.addEventListener("submit", getCustomFields);
+    });
 });

@@ -33,7 +33,7 @@ Like closed source and proprietary software, open source software does have vuln
 
 There are many ways you can mitigate the vulnerabilities and risks of open source software, including techniques like dependency management, vulnerability management, automated patching, code signing, integrity verification, and more.
 
-[Read our article on the security of open source versus proprietary software ›](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
+[Read our article on the security of open source versus proprietary software &rsaquo;](https://canonical.com/blog/does-open-source-software-have-the-same-safety-as-proprietary-software)
 
 
 ## Best practices for open source security
@@ -53,9 +53,9 @@ Whether code is open or proprietary, the most crucial security measure is patchi
 
 Regularly patching your open source software enables you and your customers to remain safe from newly discovered threats.
 
-[Understand Canonical’s solutions for open source security ›](https://canonical.com/solutions/open-source-security)
+[Understand Canonical’s solutions for open source security &rsaquo;](https://canonical.com/solutions/open-source-security)
 
-[Dive into security in depth ›](https://canonical.com/blog/ubuntu-security-defense-in-depth)
+[Dive into security in depth &rsaquo;](https://canonical.com/blog/ubuntu-security-defense-in-depth)
 
 
 ## What is dependency management?
@@ -66,7 +66,7 @@ Managing and securing your software and all of its dependencies is a vital part 
 ### What are dependencies?
 In software engineering, dependencies refer to external components, libraries, modules, or services that a software application or system relies on to function correctly. These external elements are not part of the core codebase but are integrated into the software’s build or runtime environment.
 
-[Read a blog about software dependencies ›](https://canonical.com/blog/what-are-dependencies)
+[Read a blog about software dependencies &rsaquo;](https://canonical.com/blog/what-are-dependencies)
 
 ### What are direct dependencies and what are transitive dependencies?
 
@@ -174,7 +174,7 @@ SBOMs are often required to meet compliance requirements for cybersecurity regul
 
 Combining SBOMs with vulnerability data feeds provides you with visibility into vulnerabilities present in your systems.
 
-[Get a detailed overview of SBOMs ›](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
+[Get a detailed overview of SBOMs &rsaquo;](https://canonical.com/blog/what-is-sbom-software-bill-of-materials-explained)
 
 ## Vulnerability assessment vs management
 
