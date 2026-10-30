@@ -1,5 +1,7 @@
 name: PR checks
 on: pull_request
+permissions:
+  contents: read
 env:
   SECRET_KEY: insecure_test_key
   HARVEST_V3_CLIENT_ID: local_development_fake_client_id
@@ -162,7 +164,7 @@ jobs:
           coverage xml -o coverage.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: python
@@ -192,7 +194,7 @@ jobs:
           persist-credentials: false
 
       - name: woke
-        uses: canonical-web-and-design/inclusive-naming@main
+        uses: canonical-web-and-design/inclusive-naming@965ea21624a58f27460725561603914b422d693e # main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check

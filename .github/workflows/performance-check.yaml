@@ -5,6 +5,9 @@ on:
     - cron: "20 7 * * 1"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   THRESHOLD: 70
 
@@ -54,7 +57,7 @@ jobs:
       - name: Running performance checks on ${{ matrix.name }}
         id: perf-check
         continue-on-error: true
-        uses: jakepartusch/psi-action@v1.3
+        uses: jakepartusch/psi-action@87122f61c0b80b92f44aadf16099294b5accc589 # v1.3
         with:
           key: ${{ secrets.PSI_API_KEY }}
           url: ${{ matrix.url }}
@@ -63,9 +66,12 @@ jobs:
 
       - name: Save result
         id: save-result
+        env:
+          MATRIX_NAME: ${{ matrix.name }}
+          PERF_OUTCOME: ${{ steps.perf-check.outcome }}
         run: |
-          sanitized_name=$(echo "${{ matrix.name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
-          obj=$(jq -cn --arg name "$sanitized_name" --arg value "${{ steps.perf-check.outcome }}" '{name: $name, value: $value}')
+          sanitized_name=$(echo "$MATRIX_NAME" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          obj=$(jq -cn --arg name "$sanitized_name" --arg value "$PERF_OUTCOME" '{name: $name, value: $value}')
           echo "$obj" > "result-${sanitized_name}.json"
           echo "sanitized_name=$sanitized_name" >> $GITHUB_OUTPUT
 
