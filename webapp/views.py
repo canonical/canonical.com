@@ -24,6 +24,7 @@ def json_asset_query(file_name):
     try:
         response = requests.get(
             url=f"https://assets.ubuntu.com/v1/{file_name}",
+            timeout=15,
         )
         json = response.json()
     except requests.HTTPError:
@@ -157,7 +158,11 @@ def build_events_index(engage_docs):
                                     ).km
                                     event["distance"] = round(distance, 2)
                             except Exception:
-                                pass
+                                logger.debug(
+                                    "Could not compute distance for %r",
+                                    location,
+                                    exc_info=True,
+                                )
 
                     # Filter and sort events by distance
                     metadata = [

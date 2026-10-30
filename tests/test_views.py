@@ -35,7 +35,7 @@ class TestViews(unittest.TestCase):
             result = json_asset_query("test.json")
             self.assertEqual(result.get_json(), {"key": "value"})
             mock_get.assert_called_once_with(
-                url="https://assets.ubuntu.com/v1/test.json"
+                url="https://assets.ubuntu.com/v1/test.json", timeout=15
             )
 
     @patch("webapp.views.requests.get")
