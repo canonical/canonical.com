@@ -152,11 +152,11 @@ Regulations like the EU’s Cyber Resilience Act (CRA) and Digital Operational R
 Canonical plays a foundational role in enterprise open source security, by providing security maintenance, support, and compliance tooling for Ubuntu and a wide open source portfolio under Ubuntu Pro.
 
 {{ image_kh(url="https://assets.ubuntu.com/v1/e257171f-Overall%20portfolio_new_1200pxW.png",
-  alt="Diagram of Canonical’s portfolio from applications to infrastructure, with Ubuntu Pro covering the main layers.",
+  alt="Diagram of Canonical’s portfolio from applications to infrastructure, with Ubuntu Pro covering all layers of the stack.",
   width="5001",
   height="2240",
   loading="lazy",
-  caption="Canonical’s open source portfolio, with Ubuntu Pro covering the main layers (pictured in light orange)."
+  caption="Canonical’s open source portfolio, with Ubuntu Pro covering all layers of the stack."
   ) | safe
 }}
 
