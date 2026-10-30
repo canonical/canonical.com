@@ -60,7 +60,7 @@ jobs:
 
       - name: Setup Charmcraft
         if: steps.charm-cache.outputs.cache-hit != 'true'
-        run: sudo snap install charmcraft --classic --revision ${{ env.CHARMCRAFT_REVISION }}
+        run: sudo snap install charmcraft --classic --revision "$CHARMCRAFT_REVISION"
 
       - name: Pack charm
         if: steps.charm-cache.outputs.cache-hit != 'true'
@@ -206,13 +206,14 @@ jobs:
           name: canonical-com-charm
 
       - name: Configure Vault and Juju
+        env:
+          TF_VAR_login_approle_role_id: ${{ secrets.STG_VAULT_APPROLE_ROLE_ID }}
+          TF_VAR_login_approle_secret_id: ${{ secrets.STG_VAULT_APPROLE_SECRET_ID }}
         run: |
           export VAULT_ADDR=https://vault.admin.canonical.com:8200
-          export TF_VAR_login_approle_role_id=${{ secrets.STG_VAULT_APPROLE_ROLE_ID }}
-          export TF_VAR_login_approle_secret_id=${{ secrets.STG_VAULT_APPROLE_SECRET_ID }}
           export VAULT_SECRET_PATH_ROLE=secret/prodstack6/roles/stg-staging-canonical-com
           export VAULT_SECRET_PATH_COMMON=secret/prodstack6/juju/common
-          VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id=${TF_VAR_login_approle_role_id} secret_id=${TF_VAR_login_approle_secret_id}) 
+          VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id="${TF_VAR_login_approle_role_id}" secret_id="${TF_VAR_login_approle_secret_id}")
           export VAULT_TOKEN
           mkdir -p ~/.local/share/juju
           vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-36-migration-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
@@ -263,13 +264,14 @@ jobs:
           name: canonical-com-charm
   
       - name: Configure Vault and Juju
+        env:
+          TF_VAR_login_approle_role_id: ${{ secrets.PROD_VAULT_APPROLE_ROLE_ID }}
+          TF_VAR_login_approle_secret_id: ${{ secrets.PROD_VAULT_APPROLE_SECRET_ID }}
         run: |
           export VAULT_ADDR=https://vault.admin.canonical.com:8200
-          export TF_VAR_login_approle_role_id=${{ secrets.PROD_VAULT_APPROLE_ROLE_ID }}
-          export TF_VAR_login_approle_secret_id=${{ secrets.PROD_VAULT_APPROLE_SECRET_ID }}
           export VAULT_SECRET_PATH_ROLE=secret/prodstack6/roles/prod-canonical-com
           export VAULT_SECRET_PATH_COMMON=secret/prodstack6/juju/common
-          VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id=${TF_VAR_login_approle_role_id} secret_id=${TF_VAR_login_approle_secret_id}) 
+          VAULT_TOKEN=$(vault write -f -field=token auth/approle/login role_id="${TF_VAR_login_approle_role_id}" secret_id="${TF_VAR_login_approle_secret_id}")
           export VAULT_TOKEN
           mkdir -p ~/.local/share/juju
           vault read -field=controller_config "${VAULT_SECRET_PATH_COMMON}/controllers/juju-controller-36-production-ps6" | base64 -d > ~/.local/share/juju/controllers.yaml
