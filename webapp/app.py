@@ -107,7 +107,7 @@ logger = logging.getLogger(__name__)
 # Sitemaps that are already generated and don't need to be updated.
 # Can be seen on /sitemap.xml
 with open("dynamic-sitemaps.yaml") as sitemaps_file:
-    DYNAMIC_SITEMAPS = yaml.load(sitemaps_file.read(), Loader=yaml.FullLoader)
+    DYNAMIC_SITEMAPS = yaml.safe_load(sitemaps_file.read())
 
 # LLM-friendly site index (https://llmstxt.org/): templates/llms.txt (hand
 # written) plus curated extra links from llms.yaml. Built once at startup,
@@ -196,7 +196,9 @@ def sentry_before_send(event, hint):
 
             # Sample blog/WordPress API retry errors
             if "/wp-json/wp/v2" in error_msg:
-                if random.random() > 0.05:  # Drop 95% of blog API retry errors
+                # Drop 95% of blog API retry errors. This is log sampling,
+                # not security, so the standard PRNG is fine.
+                if random.random() > 0.05:  # nosec B311
                     return None
     return event
 
@@ -248,10 +250,10 @@ app.add_url_rule("/openstack/resources", view_func=render_openstack_blogs)
 
 
 with open("navigation.yaml") as nav_file:
-    navigation = yaml.load(nav_file.read(), Loader=yaml.FullLoader)
+    navigation = yaml.safe_load(nav_file.read())
 
 with open("products.yaml") as products_file:
-    products = yaml.load(products_file.read(), Loader=yaml.FullLoader)
+    products = yaml.safe_load(products_file.read())
 
 app.add_url_rule(
     "/search",
@@ -309,14 +311,15 @@ def get_latest_versions():
                     "releases",
                     "latest",
                 ]
-            )
+            ),
+            timeout=15,
         )
         dashboard_json_response = dashboard_response.json()
         result["dashboard"] = dashboard_json_response["tag_name"]
 
         # Get juju versions
         juju_response = requests.get(
-            "https://api.github.com/repos/juju/juju/releases"
+            "https://api.github.com/repos/juju/juju/releases", timeout=15
         )
         juju_json_response = juju_response.json()
         juju_versions = []
@@ -1791,7 +1794,9 @@ def get_pricing_data():
             file_content = f.read()
 
         # Get hash
-        content_hash = hashlib.md5(file_content).hexdigest()[:8]
+        content_hash = hashlib.md5(
+            file_content, usedforsecurity=False
+        ).hexdigest()[:8]
         requested_version = flask.request.args.get("v")
         is_versioned_request = requested_version == content_hash
 
