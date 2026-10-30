@@ -23,6 +23,9 @@ concurrency:
   group: canonical-com-deploy
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 env:
   CHARMCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS: true
   ROCKCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS: true
@@ -53,7 +56,7 @@ jobs:
 
       - name: Setup LXD
         if: steps.charm-cache.outputs.cache-hit != 'true'
-        uses: canonical/setup-lxd@main
+        uses: canonical/setup-lxd@e38f436c468900dfe2b6ca98fb8eb352bbbb917a # main
 
       - name: Setup Charmcraft
         if: steps.charm-cache.outputs.cache-hit != 'true'
@@ -143,7 +146,7 @@ jobs:
           rm -rf .venv-llms
 
       - name: Setup LXD
-        uses: canonical/setup-lxd@main
+        uses: canonical/setup-lxd@e38f436c468900dfe2b6ca98fb8eb352bbbb917a # main
 
       - name: Setup Rockcraft
         run: sudo snap install rockcraft --classic --revision 4542
@@ -176,7 +179,10 @@ jobs:
         run: echo "image_url=ghcr.io/canonical/canonical.com:$(date +%s)-${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
 
       - name: Push to GHCR
-        run: skopeo --insecure-policy copy oci-archive:$(ls *.rock) docker://${{ steps.set_image_url.outputs.image_url }} --dest-creds "canonical:${{ secrets.GITHUB_TOKEN }}"
+        env:
+          IMAGE_URL: ${{ steps.set_image_url.outputs.image_url }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: skopeo --insecure-policy copy oci-archive:$(ls *.rock) "docker://${IMAGE_URL}" --dest-creds "canonical:${GHCR_TOKEN}"
 
   deploy-staging:
     runs-on:
@@ -215,11 +221,13 @@ jobs:
           printf "controllers:\n  juju-controller-36-migration-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
 
       - name: Deploy Application to staging
+        env:
+          IMAGE_URL: ${{ needs.publish-image.outputs.image_url }}
         run: |
           export JUJU_MODEL=admin/stg-staging-canonical-com
-          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'
 
   deploy-production:
@@ -270,9 +278,11 @@ jobs:
           printf "controllers:\n  juju-controller-36-production-ps6:\n    user: %s\n    password: %s\n" "$USERNAME" "$PASSWORD" > ~/.local/share/juju/accounts.yaml
   
       - name: Deploy Application to production
+        env:
+          IMAGE_URL: ${{ needs.publish-image.outputs.image_url }}
         run: |
           export JUJU_MODEL=admin/prod-canonical-com
-          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
-          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image=${{ needs.publish-image.outputs.image_url }}
+          juju refresh canonical-com --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
+          juju refresh canonical-com-blog --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
+          juju refresh canonical-com-careers --path ./canonical-com_ubuntu-22.04-amd64.charm --resource flask-app-image="$IMAGE_URL"
           juju wait-for application canonical-com --query='name=="canonical-com" && (status=="active" || status=="idle")'

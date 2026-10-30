@@ -8,7 +8,8 @@ on:
         description: "Detach TICS QServer before the run"
         required: false
         default: "true"
-permissions: read-all
+permissions:
+  contents: read
 # We cannot run TiCS on forked pull requests due to the usage of secrets
 # This workflow can only run as a CRON job or 
 # on branched PRs within the main repository.
@@ -65,6 +66,10 @@ jobs:
   TICS:
     runs-on: [self-hosted, linux, amd64, tiobe, noble]
     needs: build-coverage
+    permissions:
+      contents: read
+      # tics-github-action lists the run's jobs via the Actions API
+      actions: read
     strategy:
       matrix:
         node-version: [22.x]
@@ -116,7 +121,7 @@ jobs:
           TICSMaintenance -project canonical.com -detach
 
       - name: Run TICS analysis with github-action
-        uses: tiobe/tics-github-action@v3
+        uses: tiobe/tics-github-action@016a4d79f3027fe7b4a2901619a58c745ab7cadf # v3.10.0
         with:
           mode: qserver
           project: canonical.com
