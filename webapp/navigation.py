@@ -5,14 +5,12 @@ from flask import render_template_string, Markup
 
 # Read secondary-navigation.yaml
 with open("secondary-navigation.yaml") as navigation_file:
-    secondary_navigation_data = yaml.load(
-        navigation_file.read(), Loader=yaml.FullLoader
-    )
+    secondary_navigation_data = yaml.safe_load(navigation_file.read())
 
 
 # Read meganav.yaml
 with open("navigation.yaml") as meganav_file:
-    meganav_data = yaml.load(meganav_file.read(), Loader=yaml.FullLoader)
+    meganav_data = yaml.safe_load(meganav_file.read())
 
 
 def get_current_page_bubble(path):
@@ -108,7 +106,9 @@ def build_navigation(id, title):
         title=title,
         section=meganav_section,
     )
-    return Markup(html_string)
+    # Safe: the HTML comes from an autoescaped render of our own template
+    # and navigation.yaml, not from user input.
+    return Markup(html_string)  # nosec B704
 
 
 def split_list(array, parts):
@@ -134,7 +134,7 @@ def split_list(array, parts):
 
 # Read navigation.yaml
 with open("navigation.yaml") as navigation_file:
-    navigation = yaml.load(navigation_file.read(), Loader=yaml.FullLoader)
+    navigation = yaml.safe_load(navigation_file.read())
 
 
 def get_navigation(section):
