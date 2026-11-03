@@ -1,0 +1,38 @@
+{% extends "base_index.html" %}
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.meta.meta_description }}{% endblock %}
+{% block meta_copydoc %}{{ page.meta.meta_copydoc }}{% endblock %}
+{% block body_class %}{{ page.meta.body_class }}{% endblock %}
+
+{% block content %}
+  {% include "cms_wagtail/_preview_banner.html" %}
+  <div class="u-fixed-width">
+    <nav class="p-breadcrumbs u-no-margin--bottom" aria-label="Breadcrumbs">
+      <ol class="p-breadcrumbs__items">
+        <li class="p-breadcrumbs__item p-text--small-caps"><a href="/case-study">Case Study</a></li>
+        <li class="p-breadcrumbs__item p-text--small-caps">{{ page.fields.company_name }}</li>
+      </ol>
+    </nav>
+    <h1 class="p-text--small-caps u-hide">Case Studies</h1>
+  </div>
+  <hr class="is-fixed-width p-rule u-no-margin--bottom" />
+  {%- call(slot) vf_hero(title_text=page.heading | e, subtitle_text=page.fields.subtitle | e, layout="25/75") -%}
+    {% if slot == "signpost_image" and page.fields.signpost_image_url %}
+      {{ image(url=page.fields.signpost_image_url | e, alt=page.fields.signpost_image_alt | e, width="107", height="48", hi_def=True, loading="lazy") | safe }}
+    {% endif %}
+  {%- endcall -%}
+  {% for section in page.sections %}
+    {% with value = section.value, macro = section.macro %}
+      {% include "cms_wagtail/blocks/" ~ section.type ~ ".html" %}
+    {% endwith %}
+  {% endfor %}
+  <section class="p-section">
+    <div class="row--50-50">
+      <hr class="p-rule" />
+      <div class="col"><h2>Contact us</h2></div>
+      <div class="col"><p><a class="p-button--positive" href="/contact-us">Get in touch</a></p></div>
+    </div>
+  </section>
+{% endblock %}
