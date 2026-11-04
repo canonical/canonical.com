@@ -23,6 +23,7 @@ context:
 ---
 {% from "macros/_macros-text-list.jinja" import text_list_kh %}
 {% from "macros/_macros-image.jinja" import image_kh %}
+{% from 'macros/_macros-lite-video.jinja' import lite_video %}
 
 An AI factory is a dedicated infrastructure environment optimized for the large-scale production, fine-tuning, and deployment of AI models. AI factories make AI workloads repeatable, scalable, and cost-effective. Learn more about how AI factories work, their key benefits, and use cases in this article.
 
@@ -55,6 +56,10 @@ Network traffic in a traditional data center typically moves in a “north-south
 AI factories have higher power densities and cooling requirements than traditional data centers due to the compute-intensive nature of the AI accelerators. To address this challenge, AI factories are often designed with specially optimized cooling systems to improve operational costs.
 
 [Learn how to build an AI factory with our guide to AI infrastructure ›](https://ubuntu.com/engage/open-source-ai-infrastructure)
+
+### What is an AI factory? Learn more in this video.
+
+{{ lite_video(video_id="2JmEzbW_Odw", video_title="A video providing an explanation of AI factories, how they work and their use cases.") }}
 
 ## What can you do with an AI factory?
 
