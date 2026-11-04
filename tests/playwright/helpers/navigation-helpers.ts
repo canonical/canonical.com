@@ -175,7 +175,7 @@ export const getSecondaryNavigationItems = async (page: Page): Promise<string[]>
  * Navigate to homepage and ensure clean state
  */
 export const navigateToHomepage = async (page: Page): Promise<void> => {
-  await page.goto('/');
+  await page.goto('/', { waitUntil: "domcontentloaded" });
   await acceptCookiePolicy(page);
 };
 
