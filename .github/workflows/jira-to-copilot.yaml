@@ -1,0 +1,316 @@
+name: Jira automate_pr comments to Copilot
+
+# Commenting "automate_pr" on a WD Jira ticket (optionally after an
+# @mention, and optionally naming the repo, e.g.
+# "automate_pr canonical/canonical.com") opens a GitHub issue assigned to the
+# Copilot coding agent. The bridge replies on the ticket when the issue is
+# opened and again when Copilot opens its pull request.
+#
+# Without a repo in the comment, the ticket description needs a line such
+# as "Repository: canonical/canonical.com". Only repos in REPOS are used.
+#
+# The issue copies the ticket's summary and description and the comment, and
+# Copilot treats that text as instructions. canonical/canonical.com is public,
+# so read the ticket first and only request this if it's all safe to publish.
+# Only Jira accounts in the JIRA_COPILOT_ALLOWED_ACCOUNT_IDS repository variable
+# can make requests, and restricted tickets and comments are refused.
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: jira-to-copilot
+  cancel-in-progress: false
+
+jobs:
+  bridge:
+    if: github.repository == 'canonical/canonical.com'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Hand requested Jira tickets to Copilot
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          JIRA_URL: https://warthogs.atlassian.net
+          JIRA_PROJECT: WD
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          ALLOWED_ACCOUNT_IDS: ${{ vars.JIRA_COPILOT_ALLOWED_ACCOUNT_IDS }}
+          TRIGGER: automate_pr
+          # Not "copilot", which would also start copilot-assignment
+          ISSUE_LABEL: jira-copilot
+          PENDING_LABEL: copilot-pending
+          REPOS: canonical/canonical.com
+        with:
+          # Assigning Copilot needs a user token, so use the PAT
+          # copilot-assignment already relies on. It needs read and write on
+          # actions, contents, issues and pull requests in every repo in REPOS.
+          github-token: ${{ secrets.GH_AW_AGENT_TOKEN }}
+          script: |
+            const {
+              JIRA_URL,
+              JIRA_PROJECT,
+              JIRA_EMAIL,
+              JIRA_API_TOKEN,
+              ALLOWED_ACCOUNT_IDS,
+              TRIGGER,
+              ISSUE_LABEL,
+              PENDING_LABEL,
+              REPOS,
+            } = process.env;
+            const repos = REPOS.split(/\s+/).filter(Boolean);
+            const allowed = new Set(
+              ALLOWED_ACCOUNT_IDS.split(/[\s,]+/).filter(Boolean)
+            );
+            const auth = Buffer.from(`${JIRA_EMAIL}:${JIRA_API_TOKEN}`).toString(
+              "base64"
+            );
+            // Starts every reply, so replies are never mistaken for requests
+            const MARKER = "🤖 Copilot bridge:";
+            const triggerPattern = new RegExp(`\\b${TRIGGER}\\b`, "i");
+            const repoPattern = /\bcanonical\/[\w.-]*\w/i;
+            const repositoryLinePattern = /\brepository:\W*(canonical\/[\w.-]*\w)/i;
+            const isCopilot = (login = "") => /copilot/i.test(login);
+
+            async function jira(path, options = {}) {
+              const response = await fetch(`${JIRA_URL}${path}`, {
+                ...options,
+                headers: {
+                  Authorization: `Basic ${auth}`,
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+              if (!response.ok) {
+                throw new Error(
+                  `Jira ${path}: ${response.status} ${await response.text()}`
+                );
+              }
+              return response.status === 204 ? null : response.json();
+            }
+
+            async function search(jql) {
+              const { issues } = await jira(
+                `/rest/api/3/search/jql?${new URLSearchParams({
+                  jql,
+                  fields: "summary",
+                  maxResults: "50",
+                })}`
+              );
+              return issues;
+            }
+
+            async function reply(key, text) {
+              await jira(`/rest/api/2/issue/${key}/comment`, {
+                method: "POST",
+                body: JSON.stringify({ body: `${MARKER} ${text}` }),
+              });
+            }
+
+            async function setPending(key, pending) {
+              const change = pending ? { add: PENDING_LABEL } : { remove: PENDING_LABEL };
+              await jira(`/rest/api/3/issue/${key}`, {
+                method: "PUT",
+                body: JSON.stringify({ update: { labels: [change] } }),
+              });
+            }
+
+            // Issues the bridge opened recently, newest first
+            const since = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+            const opened = [];
+            for (const target of repos) {
+              const [owner, repo] = target.split("/");
+              const issues = await github.paginate(github.rest.issues.listForRepo, {
+                owner,
+                repo,
+                labels: ISSUE_LABEL,
+                state: "all",
+                since: since.toISOString(),
+                per_page: 100,
+              });
+              opened.push(
+                ...issues
+                  .filter((issue) => !issue.pull_request)
+                  .map((issue) => ({ ...issue, owner, repo }))
+              );
+            }
+            opened.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            const issueFor = (key, after = 0) =>
+              opened.find(
+                (issue) =>
+                  issue.title.startsWith(`${key}:`) &&
+                  new Date(issue.created_at) > new Date(after)
+              );
+
+            // 1. Reply with the pull request once Copilot has opened it. This
+            // runs first so that an issue opened below is only checked on a
+            // later run, once it's in the list above.
+            const waiting = await search(`labels = ${PENDING_LABEL}`);
+            for (const { key } of waiting) {
+              try {
+                const issue = issueFor(key);
+                if (!issue) {
+                  continue;
+                }
+                const { repository } = await github.graphql(
+                  `query($owner: String!, $repo: String!, $number: Int!) {
+                    repository(owner: $owner, name: $repo) {
+                      issue(number: $number) {
+                        state
+                        timelineItems(itemTypes: [CROSS_REFERENCED_EVENT], first: 50) {
+                          nodes {
+                            ... on CrossReferencedEvent {
+                              source {
+                                ... on PullRequest {
+                                  url
+                                  author { login }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }`,
+                  { owner: issue.owner, repo: issue.repo, number: issue.number }
+                );
+                const pr = repository.issue.timelineItems.nodes.find((item) =>
+                  isCopilot(item?.source?.author?.login)
+                )?.source;
+                if (pr) {
+                  await reply(key, `Copilot opened a pull request: ${pr.url}`);
+                } else if (repository.issue.state === "CLOSED") {
+                  await reply(key, `${issue.html_url} was closed without a pull request.`);
+                } else if (!issue.assignees.some(({ login }) => isCopilot(login))) {
+                  await reply(
+                    key,
+                    `Copilot wasn't assigned to ${issue.html_url}, so it won't open ` +
+                      `a pull request. Comment "${TRIGGER}" to try again.`
+                  );
+                } else {
+                  continue;
+                }
+                await setPending(key, false);
+                core.info(`${key} -> ${pr ? pr.url : "no pull request"}`);
+              } catch (error) {
+                // One bad ticket shouldn't block the others
+                core.setFailed(`${key}: ${error.message}`);
+              }
+            }
+
+            // 2. Open a GitHub issue for each unanswered "automate_pr" comment
+            const requested = await search(
+              `project = ${JIRA_PROJECT} AND comment ~ "\\"${TRIGGER}\\"" AND updated >= -3d`
+            );
+            for (const { key } of requested) {
+              try {
+                const { comments } = await jira(
+                  `/rest/api/2/issue/${key}/comment?orderBy=-created&maxResults=100`
+                );
+                const isReply = (comment) => comment.body.startsWith(MARKER);
+                const request = comments.find(
+                  (comment) => !isReply(comment) && triggerPattern.test(comment.body)
+                );
+                const lastReply = comments.find(isReply);
+                if (
+                  !request ||
+                  (lastReply && new Date(lastReply.created) > new Date(request.created))
+                ) {
+                  continue;
+                }
+
+                if (!allowed.has(request.author?.accountId)) {
+                  await reply(
+                    key,
+                    "Only approved people can hand tickets to Copilot. " +
+                      `Ask one of them to comment "${TRIGGER}" here.`
+                  );
+                  continue;
+                }
+
+                const { fields } = await jira(
+                  `/rest/api/2/issue/${key}?fields=summary,description,security`
+                );
+                if (fields.security || request.visibility) {
+                  await reply(
+                    key,
+                    "This ticket or comment has restricted visibility, so it can't " +
+                      "be copied into a public GitHub issue."
+                  );
+                  continue;
+                }
+
+                const description = fields.description || "";
+                const named =
+                  request.body.match(repoPattern)?.[0] ??
+                  description.match(repositoryLinePattern)?.[1];
+                if (!named) {
+                  await reply(
+                    key,
+                    `Which repository should Copilot work in? Comment "${TRIGGER} ${repos[0]}", ` +
+                      `or add "Repository: ${repos[0]}" to the description and comment ` +
+                      `"${TRIGGER}" again.`
+                  );
+                  continue;
+                }
+                const target = repos.find(
+                  (repo) => repo.toLowerCase() === named.toLowerCase()
+                );
+                if (!target) {
+                  await reply(
+                    key,
+                    `${named} isn't set up for Copilot yet. Available: ${repos.join(", ")}.`
+                  );
+                  continue;
+                }
+
+                // Reuse the issue if an earlier run opened it but failed to reply
+                let issue = issueFor(key, request.created);
+                if (!issue) {
+                  const [owner, repo] = target.split("/");
+                  const {
+                    data: { default_branch },
+                  } = await github.rest.repos.get({ owner, repo });
+                  ({ data: issue } = await github.rest.issues.create({
+                    owner,
+                    repo,
+                    title: `${key}: ${fields.summary}`,
+                    labels: [ISSUE_LABEL],
+                    assignees: ["copilot-swe-agent[bot]"],
+                    agent_assignment: {
+                      target_repo: target,
+                      base_branch: default_branch,
+                      custom_instructions: "",
+                      custom_agent: "",
+                      model: "",
+                    },
+                    body: [
+                      `Jira: ${JIRA_URL}/browse/${key}`,
+                      "",
+                      description.slice(0, 50000),
+                      "",
+                      "## Request",
+                      "",
+                      request.body.slice(0, 5000),
+                      "",
+                      "---",
+                      `Reference ${key} in the pull request title and description.`,
+                    ].join("\n"),
+                  }));
+                }
+                await setPending(key, true);
+                await reply(
+                  key,
+                  `Opened ${issue.html_url} for GitHub Copilot. ` +
+                    "I'll post the pull request here once Copilot opens it."
+                );
+                core.info(`${key} -> ${issue.html_url}`);
+              } catch (error) {
+                core.setFailed(`${key}: ${error.message}`);
+              }
+            }
