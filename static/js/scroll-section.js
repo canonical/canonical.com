@@ -69,9 +69,9 @@ function showSection(
   activeTab.classList.add("active");
 
   const iconContainer = activeTab.querySelector(".scroll-section__tab-icon");
-  const lottiePath = activeTab.dataset.lottie;
 
-  if (lottiePath && iconContainer) {
+  // Only swap once the Lottie animation has loaded, otherwise keep the static icon
+  if (activeTab.dataset.lottieReady === "true" && iconContainer) {
     iconContainer.querySelector("img").style.opacity = 0; // hide image
     iconContainer.querySelector(".p-lottie--container").style.opacity = 1; // show Lottie
   }
@@ -111,6 +111,7 @@ function setScrollSection(wrapper) {
 
       // Keep the static icon visible until the Lottie animation is ready
       animation.addEventListener("DOMLoaded", () => {
+        tab.dataset.lottieReady = "true";
         if (tab.classList.contains("active")) {
           iconContainer.querySelector("img").style.opacity = 0;
           lottieContainer.style.opacity = 1;
