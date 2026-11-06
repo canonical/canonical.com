@@ -27,6 +27,9 @@ def json_asset_query(file_name):
             timeout=15,
         )
         json = response.json()
+    except requests.exceptions.Timeout:
+        flask.current_app.extensions["sentry"].captureException()
+        return flask.jsonify({"error": "Asset request timed out"}), 504
     except requests.HTTPError:
         flask.current_app.extensions["sentry"].captureException()
         return flask.jsonify({"error": "Asset not found"}), 404

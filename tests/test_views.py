@@ -5,6 +5,7 @@ import requests
 import datetime
 import tempfile
 from pathlib import Path
+from webapp.app import app
 from webapp.views import (
     json_asset_query,
     build_events_index,
@@ -565,6 +566,39 @@ class TestViews(unittest.TestCase):
             updated_html = response.set_data.call_args[0][0]
             self.assertIn("utm_content:test1,test2", updated_html)
             self.assertIn("utm_medium:test2", updated_html)
+
+
+class TestJsonAssetRouteTimeouts(unittest.TestCase):
+    """
+    Exercise /asset/<file_name> on the real app, so that a timeout which
+    escapes the view reaches the app-wide blog handlers and fails the test
+    """
+
+    def setUp(self):
+        app.testing = True
+        self.client = app.test_client()
+
+    def _assert_handled_locally(self, timeout_error):
+        mock_sentry = MagicMock()
+
+        with patch(
+            "webapp.views.requests.get",
+            side_effect=timeout_error("timed out"),
+        ), patch.dict(app.extensions, {"sentry": mock_sentry}):
+            response = self.client.get("/asset/test.json")
+
+        self.assertEqual(response.status_code, 504)
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.get_json(), {"error": "Asset request timed out"}
+        )
+        mock_sentry.captureException.assert_called_once()
+
+    def test_read_timeout_returns_json_504(self):
+        self._assert_handled_locally(requests.exceptions.ReadTimeout)
+
+    def test_connect_timeout_returns_json_504(self):
+        self._assert_handled_locally(requests.exceptions.ConnectTimeout)
 
 
 class TestKnowledgeSections(unittest.TestCase):
