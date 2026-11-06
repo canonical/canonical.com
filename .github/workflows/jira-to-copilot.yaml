@@ -9,12 +9,15 @@ name: Jira automate_pr comments to Copilot
 # Without a repo in the comment, the ticket description needs a line such
 # as "Repository: canonical/canonical.com". Only repos in REPOS are used.
 #
-# Anyone who can comment on a WD ticket can make a request. Copilot treats the
-# issue text as instructions, and canonical/canonical.com is public, so only
-# write what's safe to publish. For a ticket with a security level, which is
-# nearly all of them, the issue holds only the ticket key and the comment, so
-# the comment has to say what to change. Any other ticket also has its summary
-# and description copied. Comments with restricted visibility are refused.
+# Anyone who can comment on a WD ticket can make a request. The issue copies the
+# ticket's summary and description and the comment, including from "Vendor Access
+# Controlled" tickets, which is nearly all of them. Copilot treats that text as
+# instructions, and canonical/canonical.com is public, so read the ticket first
+# and only request this if it's all safe to publish.
+#
+# For a ticket with any other security level, the issue holds only the ticket key
+# and the comment, so the comment has to say what to change. Comments with
+# restricted visibility are refused.
 
 on:
   schedule:
@@ -41,6 +44,8 @@ jobs:
           JIRA_PROJECT: WD
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          # Tickets at this security level are copied in full to the public issue
+          COPYABLE_SECURITY_LEVEL: Vendor Access Controlled
           TRIGGER: automate_pr
           # Not "copilot", which would also start copilot-assignment
           ISSUE_LABEL: jira-copilot
@@ -57,6 +62,7 @@ jobs:
               JIRA_PROJECT,
               JIRA_EMAIL,
               JIRA_API_TOKEN,
+              COPYABLE_SECURITY_LEVEL,
               TRIGGER,
               ISSUE_LABEL,
               PENDING_LABEL,
@@ -242,7 +248,9 @@ jobs:
                   continue;
                 }
 
-                const restricted = Boolean(fields.security);
+                const restricted =
+                  Boolean(fields.security) &&
+                  fields.security.name !== COPYABLE_SECURITY_LEVEL;
                 const description = fields.description || "";
                 const comment = plainText(request.body);
                 const brief = comment
