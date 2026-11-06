@@ -20,6 +20,8 @@ name: Jira automate_pr comments to Copilot
 # restricted visibility are refused.
 
 on:
+  push:
+    branches: [jira-to-copilot-test]
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
@@ -316,7 +318,7 @@ jobs:
                     assignees: ["copilot-swe-agent[bot]"],
                     agent_assignment: {
                       target_repo: target,
-                      base_branch: default_branch,
+                      base_branch: "jira-to-copilot-test",
                       custom_instructions: "",
                       custom_agent: "",
                       model: "",
