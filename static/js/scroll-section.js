@@ -30,7 +30,7 @@ function showSection(
   setCurrentIndex,
   tabs,
   indicator,
-  sections
+  sections,
 ) {
   if (index === currentIndex) {
     return;
@@ -99,14 +99,22 @@ function setScrollSection(wrapper) {
     const lottiePath = tab.dataset.lottie;
     if (lottiePath && iconContainer) {
       const lottieContainer = iconContainer.querySelector(
-        ".p-lottie--container"
+        ".p-lottie--container",
       );
-      lottie.loadAnimation({
+      const animation = lottie.loadAnimation({
         container: lottieContainer,
         renderer: "svg",
         loop: true,
         autoplay: true,
         path: lottiePath,
+      });
+
+      // Keep the static icon visible until the Lottie animation is ready
+      animation.addEventListener("DOMLoaded", () => {
+        if (tab.classList.contains("active")) {
+          iconContainer.querySelector("img").style.opacity = 0;
+          lottieContainer.style.opacity = 1;
+        }
       });
     }
 
@@ -118,13 +126,13 @@ function setScrollSection(wrapper) {
         setCurrentIndex,
         tabs,
         indicator,
-        sections
+        sections,
       );
     });
   });
 
   const activeContent_wrapper = wrapper.querySelector(
-    ".scroll-section__contentArea"
+    ".scroll-section__contentArea",
   );
   // Update wrapper min-height based on active content
   let loadtimer;
@@ -160,7 +168,7 @@ function setScrollSection(wrapper) {
     {
       threshold: 0.9,
       rootMargin: "0px 0px 0px 0px",
-    }
+    },
   );
   const observe_element = wrapper.closest(".scroll-section-observe-anchor");
   observer.observe(observe_element);
@@ -191,7 +199,7 @@ function setScrollSection(wrapper) {
           setCurrentIndex,
           tabs,
           indicator,
-          sections
+          sections,
         );
 
         // Debouncing scroll so that it doesn't trigger too fast and go across all sections in one go
@@ -202,7 +210,7 @@ function setScrollSection(wrapper) {
         }, 300);
       }
     },
-    { passive: false }
+    { passive: false },
   );
 
   // Initialize first section
