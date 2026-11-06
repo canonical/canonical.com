@@ -23,6 +23,7 @@ let entries = {
   "prism": "./static/js/prism.js",
   "early-careers-animation": "./static/js/early-careers-animation.js",
   "announcement-bar": "./static/js/announcement-bar.js",
+  "remote-work-map": "./static/js/remote-work-map.js",
 };
 
 const isDev = process && process.env && process.env.NODE_ENV === "development";
