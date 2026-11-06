@@ -9,11 +9,11 @@ name: Jira automate_pr comments to Copilot
 # Without a repo in the comment, the ticket description needs a line such
 # as "Repository: canonical/canonical.com". Only repos in REPOS are used.
 #
-# The issue copies the ticket's summary and description and the comment, and
-# Copilot treats that text as instructions. canonical/canonical.com is public,
-# so read the ticket first and only request this if it's all safe to publish.
-# Only Jira accounts in the JIRA_COPILOT_ALLOWED_ACCOUNT_IDS repository variable
-# can make requests, and restricted tickets and comments are refused.
+# Anyone who can comment on a WD ticket can make a request. The issue copies the
+# ticket's summary and description and the comment, and Copilot treats that text
+# as instructions. canonical/canonical.com is public, so read the ticket first
+# and only request this if it's all safe to publish. Restricted tickets and
+# comments are refused.
 
 on:
   schedule:
@@ -40,7 +40,6 @@ jobs:
           JIRA_PROJECT: WD
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          ALLOWED_ACCOUNT_IDS: ${{ vars.JIRA_COPILOT_ALLOWED_ACCOUNT_IDS }}
           TRIGGER: automate_pr
           # Not "copilot", which would also start copilot-assignment
           ISSUE_LABEL: jira-copilot
@@ -57,16 +56,12 @@ jobs:
               JIRA_PROJECT,
               JIRA_EMAIL,
               JIRA_API_TOKEN,
-              ALLOWED_ACCOUNT_IDS,
               TRIGGER,
               ISSUE_LABEL,
               PENDING_LABEL,
               REPOS,
             } = process.env;
             const repos = REPOS.split(/\s+/).filter(Boolean);
-            const allowed = new Set(
-              ALLOWED_ACCOUNT_IDS.split(/[\s,]+/).filter(Boolean)
-            );
             const auth = Buffer.from(`${JIRA_EMAIL}:${JIRA_API_TOKEN}`).toString(
               "base64"
             );
@@ -221,15 +216,6 @@ jobs:
                   !request ||
                   (lastReply && new Date(lastReply.created) > new Date(request.created))
                 ) {
-                  continue;
-                }
-
-                if (!allowed.has(request.author?.accountId)) {
-                  await reply(
-                    key,
-                    "Only approved people can hand tickets to Copilot. " +
-                      `Ask one of them to comment "${TRIGGER}" here.`
-                  );
                   continue;
                 }
 
