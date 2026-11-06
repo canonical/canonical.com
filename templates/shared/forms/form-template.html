@@ -1,25 +1,27 @@
 {% set form_id = formId or formData.formId %}
 
 {% if isModal %}
+  {% set modal_title_id = modalId ~ "-title" %}
+  {% set modal_description_id = modalId ~ "-description" %}
   <div class="p-modal u-display-none" id="{{ modalId }}">
     <div class="p-modal__dialog js-modal-content is-wide-modal"
          role="dialog"
-         aria-labelledby="modal-title"
-         {% if formData.introText %}aria-describedby="modal-description"{% endif %}>
+         aria-labelledby="{{ modal_title_id }}"
+         {% if formData.introText %}aria-describedby="{{ modal_description_id }}"{% endif %}>
         <header class="p-modal__header u-display-block u-overflow-auto u-padding-left-1-5rem u-padding-top-1rem"
                >
           <button class="p-modal__close p-modal-close-button js-close-modal u-margin-left-negative-1rem"
                   aria-controls="{{ modalId }}"
                   aria-label="Close active modal"
                  >Close</button>
-          <h3 id="modal-title">{{ formData.title }}</h3>
+          <h3 id="{{ modal_title_id }}">{{ formData.title }}</h3>
         </header>
       {% if formData.introText %}
         <div class="p-section u-sv-3">
           <hr class="p-rule is-fixed-width" />
           <div class="row">
             <div class="col">
-              <span id="modal-description">
+              <span id="{{ modal_description_id }}">
                 {% if formData.introText is string %}
                   {{ formData.introText }}
                 {% elif formData.introText is iterable and not formData.introText is string %}
