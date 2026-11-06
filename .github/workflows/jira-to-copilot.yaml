@@ -1,19 +1,20 @@
 name: Jira automate_pr comments to Copilot
 
 # Commenting "automate_pr" on a WD Jira ticket (optionally after an
-# @mention, and optionally naming the repo, e.g.
-# "automate_pr canonical/canonical.com") opens a GitHub issue assigned to the
-# Copilot coding agent. The bridge replies on the ticket when the issue is
-# opened and again when Copilot opens its pull request.
+# @mention), e.g. "automate_pr canonical/canonical.com Add a sentence to the
+# README", opens a GitHub issue assigned to the Copilot coding agent. The bridge
+# replies on the ticket when the issue is opened and again when Copilot opens
+# its pull request.
 #
 # Without a repo in the comment, the ticket description needs a line such
 # as "Repository: canonical/canonical.com". Only repos in REPOS are used.
 #
-# Anyone who can comment on a WD ticket can make a request. The issue copies the
-# ticket's summary and description and the comment, and Copilot treats that text
-# as instructions. canonical/canonical.com is public, so read the ticket first
-# and only request this if it's all safe to publish. Restricted tickets and
-# comments are refused.
+# Anyone who can comment on a WD ticket can make a request. Copilot treats the
+# issue text as instructions, and canonical/canonical.com is public, so only
+# write what's safe to publish. For a ticket with a security level, which is
+# nearly all of them, the issue holds only the ticket key and the comment, so
+# the comment has to say what to change. Any other ticket also has its summary
+# and description copied. Comments with restricted visibility are refused.
 
 on:
   schedule:
@@ -71,6 +72,16 @@ jobs:
             const repoPattern = /\bcanonical\/[\w.-]*\w/i;
             const repositoryLinePattern = /\brepository:\W*(canonical\/[\w.-]*\w)/i;
             const isCopilot = (login = "") => /copilot/i.test(login);
+            // Jira returns wiki markup. Drop mentions, which hold account IDs,
+            // and unwrap links, since it can auto-link "canonical.com" in a repo
+            const plainText = (text) =>
+              text
+                .replace(/\[~account[iI]d:[^\]]+\]/g, "")
+                .replace(/\[([^|\]]+)\|([^|\]]+)(?:\|[^\]]*)?\]/g, (_, label, url) =>
+                  [url, url.replace(/^\w+:\/\//, "")].includes(label)
+                    ? label
+                    : `${label} (${url})`
+                );
 
             async function jira(path, options = {}) {
               const response = await fetch(`${JIRA_URL}${path}`, {
@@ -222,19 +233,36 @@ jobs:
                 const { fields } = await jira(
                   `/rest/api/2/issue/${key}?fields=summary,description,security`
                 );
-                if (fields.security || request.visibility) {
+                if (request.visibility) {
                   await reply(
                     key,
-                    "This ticket or comment has restricted visibility, so it can't " +
-                      "be copied into a public GitHub issue."
+                    "This comment has restricted visibility, so it can't be copied " +
+                      "into a public GitHub issue."
                   );
                   continue;
                 }
 
+                const restricted = Boolean(fields.security);
                 const description = fields.description || "";
+                const comment = plainText(request.body);
+                const brief = comment
+                  .replace(triggerPattern, "")
+                  .replace(repoPattern, "")
+                  .replace(/^[\s:,.-]+/, "")
+                  .trim();
+                if (restricted && !brief) {
+                  await reply(
+                    key,
+                    "This ticket is restricted, so only your comment can go into the " +
+                      "public GitHub issue. Say what Copilot should do in a new comment: " +
+                      `"${TRIGGER} ${repos[0]} <what to change>".`
+                  );
+                  continue;
+                }
+
                 const named =
-                  request.body.match(repoPattern)?.[0] ??
-                  description.match(repositoryLinePattern)?.[1];
+                  comment.match(repoPattern)?.[0] ??
+                  plainText(description).match(repositoryLinePattern)?.[1];
                 if (!named) {
                   await reply(
                     key,
@@ -262,10 +290,20 @@ jobs:
                   const {
                     data: { default_branch },
                   } = await github.rest.repos.get({ owner, repo });
+                  const publicText = restricted
+                    ? brief.slice(0, 5000)
+                    : [
+                        description.slice(0, 50000),
+                        brief && `## Request\n\n${brief.slice(0, 5000)}`,
+                      ]
+                        .filter(Boolean)
+                        .join("\n\n");
                   ({ data: issue } = await github.rest.issues.create({
                     owner,
                     repo,
-                    title: `${key}: ${fields.summary}`,
+                    title: `${key}: ${
+                      restricted ? brief.split("\n")[0].slice(0, 100) : fields.summary
+                    }`,
                     labels: [ISSUE_LABEL],
                     assignees: ["copilot-swe-agent[bot]"],
                     agent_assignment: {
@@ -278,11 +316,7 @@ jobs:
                     body: [
                       `Jira: ${JIRA_URL}/browse/${key}`,
                       "",
-                      description.slice(0, 50000),
-                      "",
-                      "## Request",
-                      "",
-                      request.body.slice(0, 5000),
+                      publicText,
                       "",
                       "---",
                       `Reference ${key} in the pull request title and description.`,
