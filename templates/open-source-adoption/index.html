@@ -172,6 +172,47 @@
   ) %}
   {% endcall %}
 
+  {% macro logo(height, width, alt, src, display_width) -%}
+    {% set logo_style = "height: clamp(4.5rem, 7.2vw, 6.5rem); width: " ~ display_width ~ "px; margin-right: -1rem; object-fit: contain;" %}
+    <div class="p-logo-section__item">
+      {{ image(url=src,
+        alt=alt,
+        width=width,
+        height=height,
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-logo-section__logo", "style": logo_style}
+      ) | safe }}
+    </div>
+  {%- endmacro %}
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="p-text--small-caps grid-col">Foundations and initiatives we support</h2>
+      <p class="grid-col">
+        Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. We also support initiatives like thanks.dev, helping to give back to the maintainers that ensure open source projects are updated, patched, and improved.
+      </p>
+    </div>
+    <div class="p-logo-section">
+      <div class="p-logo-section__items">
+        {{ logo(104, 360, "Cloud Native Computing Foundation", "https://assets.ubuntu.com/v1/a9614405-cncf-stacked-color-bg%202.png", 166) }}
+        {{ logo(104, 297, "Eclipse Foundation", "https://assets.ubuntu.com/v1/218e87aa-Eclipse-Foundation-Logo%201.png", 97) }}
+        {{ logo(104, 291, "Open Source Security Foundation", "https://assets.ubuntu.com/v1/62fa2132-new-openssf-logo.png", 104) }}
+        {{ logo(104, 414, "OpenInfra Foundation", "https://assets.ubuntu.com/v1/cc89c5a9-openinfra-foundation-logo%201.png", 136) }}
+        {{ logo(104, 327, "The Linux Foundation", "https://assets.ubuntu.com/v1/c821b54b-new-linux-foundation-logo.png", 100) }}
+        {{ logo(104, 284, "RISC-V Foundation", "https://assets.ubuntu.com/v1/d2ba47a9-risc-v-logo.png", 114) }}
+        {{ logo(104, 157, "FinOS Foundation", "https://assets.ubuntu.com/v1/79f4d8e2-finos_logo.png", 80) }}
+        {{ logo(104, 274, "Ceph Foundation", "https://assets.ubuntu.com/v1/a0902597-ceph-logo.png", 101) }}
+        {{ logo(104, 157, "KDE community", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png", 52) }}
+        {{ logo(104, 277, "GNOME Foundation", "https://assets.ubuntu.com/v1/a4b602d2-gnome-logo.png", 118) }}
+        {{ logo(104, 157, "The Rust Foundation", "https://assets.ubuntu.com/v1/a0b7e529-the_rust_foundation_logo.webp", 87) }}
+        {{ logo(104, 157, "Trifecta Tech Foundation", "https://assets.ubuntu.com/v1/a087ac45-trifecta_tech_foundation_logo.png", 92) }}
+        {{ logo(104, 157, "Thanks.dev", "https://assets.ubuntu.com/v1/e76ab0d3-thanks_dev_logo.png", 138) }}
+      </div>
+    </div>
+  </section>
+
   <section class="p-section u-fixed-width">
     {% macro tab(tab_name) -%}
       <div class="p-tabs__content" id="{{ tab_name }}-tab" role="tabpanel" aria-labelledby="{{ tab_name }}">
@@ -300,6 +341,27 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">Customer Advocacy: advancing open source across organizations</h2>
+      <div class="grid-col">
+        <p>
+          Canonical’s Customer Advocacy program supports our customers in championing open source adoption in their organizations and beyond.
+        </p>
+        <p>
+          The program offers the opportunity for customers to share their experiences with our software and help shape our solutions.
+        </p>
+        <p>
+          The program is flexible, with each customer deciding the extent and frequency of their involvement. We offer a variety of benefits for getting involved, like early access to new features and betas, a direct voice in product feedback, opportunities to speak at or participate in major industry events, and discounts on selected events and initiatives.
+        </p>
+        <p>
+          To join the Customer Advocacy program, current Canonical customers can reach out to the customer success team by emailing <a href="mailto:customersuccess@canonical.com">customersuccess@canonical.com</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -524,47 +586,6 @@
         <a href="https://ubuntu.com/engage/new-mexico-state-university-physical-science-laboratory-drives-agile-and-compliant-federal-research-with-ubuntu">Find out more in the case study &rsaquo;</a>
       {%- endif -%}
     {% endcall -%}
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule--highlight" />
-
-    <div class="grid-row--50-50">
-      <h2 class="p-text--small-caps grid-col">Foundations we support and collaborate with</h2>
-
-      <p class="grid-col">
-        Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. Foundations that we support and collaborate with include:
-      </p>
-    </div>
-
-    {% macro logo(height, width, alt, src) %}
-        <div class="p-logo-section__item">
-          {{ image(url=src,
-            alt=alt,
-            width=width,
-            height=height,
-            hi_def=True,
-            loading="auto|lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-    {% endmacro %}
-
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        {{ logo(312, 360, "Cloud-native computing foundation logo", "https://assets.ubuntu.com/v1/a9614405-cncf-stacked-color-bg%202.png") }}
-        {{ logo(312, 297, "Eclipse foundation logo", "https://assets.ubuntu.com/v1/218e87aa-Eclipse-Foundation-Logo%201.png") }}
-        {{ logo(312, 291, "Open source security foundation logo", "https://assets.ubuntu.com/v1/62fa2132-new-openssf-logo.png") }}
-        {{ logo(312, 414, "Open infra foundation logo", "https://assets.ubuntu.com/v1/cc89c5a9-openinfra-foundation-logo%201.png") }}
-        {{ logo(312, 327, "The Linux foundation logo", "https://assets.ubuntu.com/v1/c821b54b-new-linux-foundation-logo.png") }}
-        {{ logo(312, 284, "RISC-V foundation logo", "https://assets.ubuntu.com/v1/d2ba47a9-risc-v-logo.png") }}
-        {{ logo(312, 157, "FinOS foundation logo", "https://assets.ubuntu.com/v1/a8b85da5-new-finos-logo.png") }}
-        {{ logo(312, 274, "Ceph foundation logo", "https://assets.ubuntu.com/v1/a0902597-ceph-logo.png") }}
-        {{ logo(312, 277, "Gnome foundation logo", "https://assets.ubuntu.com/v1/a4b602d2-gnome-logo.png") }}
-        {{ logo(312, 157, "KDE community logo", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png") }}
-      </div>
-    </div>
   </section>
 
   <section class="p-section--deep">
