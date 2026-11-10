@@ -172,8 +172,7 @@
   ) %}
   {% endcall %}
 
-  {% macro logo(height, width, alt, src, display_width) -%}
-    {% set logo_style = "height: clamp(4.5rem, 7.2vw, 6.5rem); width: " ~ display_width ~ "px; object-fit: contain;" %}
+  {% macro logo(height, width, alt, src) -%}
     <div class="p-logo-section__item">
       {{ image(url=src,
         alt=alt,
@@ -181,7 +180,7 @@
         height=height,
         hi_def=True,
         loading="lazy",
-        attrs={"class": "p-logo-section__logo", "style": logo_style}
+        attrs={"class": "p-logo-section__logo"}
       ) | safe }}
     </div>
   {%- endmacro %}
@@ -196,19 +195,19 @@
     </div>
     <div class="p-logo-section">
       <div class="p-logo-section__items">
-        {{ logo(104, 360, "Cloud Native Computing Foundation", "https://assets.ubuntu.com/v1/3c9a8150-cloud_native_logo.png", 166) }}
-        {{ logo(104, 297, "Eclipse Foundation", "https://assets.ubuntu.com/v1/81310455-eclipse_foundation_logo.png", 97) }}
-        {{ logo(104, 291, "Open Source Security Foundation", "https://assets.ubuntu.com/v1/3f2bfc3f-open_ssf_logo.png", 104) }}
-        {{ logo(104, 414, "OpenInfra Foundation", "https://assets.ubuntu.com/v1/af53cdc2-openinfra_foundation.png", 136) }}
-        {{ logo(104, 327, "The Linux Foundation", "https://assets.ubuntu.com/v1/ba951d93-thelinuxfoundation_logo.png", 100) }}
-        {{ logo(104, 284, "RISC-V Foundation", "https://assets.ubuntu.com/v1/cfa79107-risc_v_logo.png", 114) }}
-        {{ logo(104, 157, "FinOS Foundation", "https://assets.ubuntu.com/v1/79f4d8e2-finos_logo.png", 80) }}
-        {{ logo(104, 274, "Ceph Foundation", "https://assets.ubuntu.com/v1/28c1403b-ceph_logo.png", 101) }}
-        {{ logo(104, 157, "KDE community", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png", 52) }}
-        {{ logo(104, 277, "GNOME Foundation", "https://assets.ubuntu.com/v1/f88cfa62-gnome_logo.png", 118) }}
-        {{ logo(104, 157, "The Rust Foundation", "https://assets.ubuntu.com/v1/7401b77f-rust_foundation_logo.png", 87) }}
-        {{ logo(104, 157, "Trifecta Tech Foundation", "https://assets.ubuntu.com/v1/9c44ff69-trifecta_tech_logo.png", 92) }}
-        {{ logo(104, 157, "Thanks.dev", "https://assets.ubuntu.com/v1/e76ab0d3-thanks_dev_logo.png", 138) }}
+        {{ logo(104, 360, "Cloud Native Computing Foundation", "https://assets.ubuntu.com/v1/3c9a8150-cloud_native_logo.png") }}
+        {{ logo(104, 297, "Eclipse Foundation", "https://assets.ubuntu.com/v1/81310455-eclipse_foundation_logo.png") }}
+        {{ logo(104, 291, "Open Source Security Foundation", "https://assets.ubuntu.com/v1/3f2bfc3f-open_ssf_logo.png") }}
+        {{ logo(104, 414, "OpenInfra Foundation", "https://assets.ubuntu.com/v1/af53cdc2-openinfra_foundation.png") }}
+        {{ logo(104, 327, "The Linux Foundation", "https://assets.ubuntu.com/v1/ba951d93-thelinuxfoundation_logo.png") }}
+        {{ logo(104, 284, "RISC-V Foundation", "https://assets.ubuntu.com/v1/cfa79107-risc_v_logo.png") }}
+        {{ logo(104, 157, "FinOS Foundation", "https://assets.ubuntu.com/v1/79f4d8e2-finos_logo.png") }}
+        {{ logo(104, 274, "Ceph Foundation", "https://assets.ubuntu.com/v1/28c1403b-ceph_logo.png") }}
+        {{ logo(104, 157, "KDE community", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png") }}
+        {{ logo(104, 277, "GNOME Foundation", "https://assets.ubuntu.com/v1/f88cfa62-gnome_logo.png") }}
+        {{ logo(104, 157, "The Rust Foundation", "https://assets.ubuntu.com/v1/7401b77f-rust_foundation_logo.png") }}
+        {{ logo(104, 157, "Trifecta Tech Foundation", "https://assets.ubuntu.com/v1/9c44ff69-trifecta_tech_logo.png") }}
+        {{ logo(104, 157, "Thanks.dev", "https://assets.ubuntu.com/v1/e76ab0d3-thanks_dev_logo.png") }}
       </div>
     </div>
   </section>
