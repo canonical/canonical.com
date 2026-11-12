@@ -112,10 +112,16 @@
         </div>
       </div>
     </div>
-    <!-- map goes here -->
     <div class="grid-row">
       <figure>
-        <div id="locations-map" class="p-remote-work__map">
+        <div id="locations-map"
+             class="p-map js-map"
+             data-map-center-lat="31.505"
+             data-map-center-lng="-0.09"
+             data-map-zoom="2"
+             data-map-points="sprint-locations"
+             role="region"
+             aria-label="Map of past sprint locations">
           <noscript>
             <div class="p-strip is-shallow u-no-padding--top">
               <div class="grid-row">
@@ -397,7 +403,7 @@
   <script id="sprint-locations" type="application/json" nonce="{{ csp_nonce }}">
     {{ sprint_locations | tojson }}
   </script>
-  <script src="{{ versioned_static('js/dist/remote-work-map.js') }}"
+  <script src="{{ versioned_static('js/dist/locations-map.js') }}"
           nonce="{{ csp_nonce }}"></script>
 
   <script src="{{ versioned_static('js/modules/flickity/flickity.pkgd.min.js') }}"
