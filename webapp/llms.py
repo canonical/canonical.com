@@ -68,7 +68,7 @@ def _load_extra_sections(llms_yaml_path):
     """
     try:
         with open(llms_yaml_path) as config_file:
-            config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
+            config = yaml.safe_load(config_file.read())
     except (OSError, yaml.YAMLError):
         logger.exception("Failed to read %s", llms_yaml_path)
         return []
@@ -273,7 +273,7 @@ def lint_llms_yaml(llms_yaml_path=DEFAULT_LLMS_YAML_PATH):
 
     with open(llms_yaml_path) as config_file:
         try:
-            config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
+            config = yaml.safe_load(config_file.read())
         except yaml.YAMLError as error:
             return [f"llms.yaml: invalid YAML ({error})"], []
 
