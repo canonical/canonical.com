@@ -65,7 +65,7 @@
 
   <section class="p-section u-fixed-width">
     <h2 class="p-text--small-caps u-no-padding--top">
-      <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Final%20report%20-%20WorldofOS_EUSpotlight_2025_081525.pdf?version=0">
+      <a href="https://assets.ubuntu.com/v1/6a01a8a8-final_report_worldofos_euspotlight_2025_081525.pdf">
         Why enterprises choose open source
       </a>
     </h2>
@@ -131,7 +131,7 @@
           attrs={"class": "p-image-container__image"}
         ),
         "description_html": '<p>
-          Canonical offers open source software for every part of your stack &ndash; from helping you <a href="https://canonical.com/maas/">easily provision your data center</a>, <a href="https://ubuntu.com/kubernetes">to orchestrating workloads more efficiently</a>, and beyond. We don’t fork our product with enterprise and community versions, and we don’t lock you in with proprietary features. You pay only for the support and expanded security features you need. Whatever the future brings, your stack can keep evolving.
+          Canonical offers open source software for every part of your stack &ndash; from helping you <a href="https://canonical.com/maas/">easily provision your data center</a>, to <a href="https://ubuntu.com/kubernetes">orchestrating workloads more efficiently</a>, and beyond. We don’t fork our product with enterprise and community versions, and we don’t lock you in with proprietary features. You pay only for the support and expanded security features you need. Whatever the future brings, your stack can keep evolving.
         </p>'
       },
       {
@@ -171,6 +171,46 @@
     ]
   ) %}
   {% endcall %}
+
+  {% macro logo(height, width, alt, src) -%}
+    <div class="p-logo-section__item">
+      {{ image(url=src,
+        alt=alt,
+        width=width,
+        height=height,
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-logo-section__logo"}
+      ) | safe }}
+    </div>
+  {%- endmacro %}
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="p-text--small-caps grid-col">Foundations and initiatives we support</h2>
+      <p class="grid-col">
+        Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. We also support initiatives like thanks.dev, helping to give back to the maintainers that ensure open source projects are updated, patched, and improved.
+      </p>
+    </div>
+    <div class="p-logo-section">
+      <div class="p-logo-section__items">
+        {{ logo(104, 360, "Cloud Native Computing Foundation", "https://assets.ubuntu.com/v1/3c9a8150-cloud_native_logo.png") }}
+        {{ logo(104, 297, "Eclipse Foundation", "https://assets.ubuntu.com/v1/81310455-eclipse_foundation_logo.png") }}
+        {{ logo(104, 291, "Open Source Security Foundation", "https://assets.ubuntu.com/v1/3f2bfc3f-open_ssf_logo.png") }}
+        {{ logo(104, 414, "OpenInfra Foundation", "https://assets.ubuntu.com/v1/af53cdc2-openinfra_foundation.png") }}
+        {{ logo(104, 327, "The Linux Foundation", "https://assets.ubuntu.com/v1/ba951d93-thelinuxfoundation_logo.png") }}
+        {{ logo(104, 284, "RISC-V Foundation", "https://assets.ubuntu.com/v1/cfa79107-risc_v_logo.png") }}
+        {{ logo(104, 157, "FinOS Foundation", "https://assets.ubuntu.com/v1/79f4d8e2-finos_logo.png") }}
+        {{ logo(104, 274, "Ceph Foundation", "https://assets.ubuntu.com/v1/28c1403b-ceph_logo.png") }}
+        {{ logo(104, 157, "KDE community", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png") }}
+        {{ logo(104, 277, "GNOME Foundation", "https://assets.ubuntu.com/v1/f88cfa62-gnome_logo.png") }}
+        {{ logo(104, 157, "The Rust Foundation", "https://assets.ubuntu.com/v1/7401b77f-rust_foundation_logo.png") }}
+        {{ logo(104, 157, "Trifecta Tech Foundation", "https://assets.ubuntu.com/v1/9c44ff69-trifecta_tech_logo.png") }}
+        {{ logo(104, 157, "Thanks.dev", "https://assets.ubuntu.com/v1/e76ab0d3-thanks_dev_logo.png") }}
+      </div>
+    </div>
+  </section>
 
   <section class="p-section u-fixed-width">
     {% macro tab(tab_name) -%}
@@ -300,6 +340,27 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-section u-fixed-width">
+    <hr class="p-rule" />
+    <div class="grid-row--50-50">
+      <h2 class="grid-col">Customer Advocacy: advancing open source across organizations</h2>
+      <div class="grid-col">
+        <p>
+          Canonical’s Customer Advocacy program supports our customers in championing open source adoption in their organizations and beyond.
+        </p>
+        <p>
+          The program offers the opportunity for customers to share their experiences with our software and help shape our solutions.
+        </p>
+        <p>
+          The program is flexible, with each customer deciding the extent and frequency of their involvement. We offer a variety of benefits for getting involved, like early access to new features and betas, a direct voice in product feedback, opportunities to speak at or participate in major industry events, and discounts on selected events and initiatives.
+        </p>
+        <p>
+          To join the Customer Advocacy program, current Canonical customers can reach out to the customer success team by emailing <a href="mailto:customersuccess@canonical.com">customersuccess@canonical.com</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -465,8 +526,7 @@
       quote_text="My favorite part of the engagement has been how easy it has been to deal with Canonical. I wasn’t forced into an enterprise sales cycle; I just reached out to Geoff Andrews, a Sales Director at Canonical, we hashed it all out, and the private offer was done in a month. It couldn’t have been easier.",
       quote_size="small",
       citation_source_name_text="Daniel Schell",
-      citation_source_title_text="Chief Technology Officer and Co-founder",
-      citation_source_organisation_text="Airlock Digital",
+      citation_source_title_text="Chief Technology Officer and Co-founder, Airlock Digital",
       is_shallow=true
     ) -%}
       {%- if slot == 'signpost_image' -%}
@@ -486,8 +546,7 @@
       quote_text="Canonical works with us as partner and they own problems alongside us. I feel like we work as a team rather than a simple business transaction.",
       quote_size="small",
       citation_source_name_text="Curtis Haslam",
-      citation_source_title_text="Senior Manager at Network Cloud",
-      citation_source_organisation_text="BT Group",
+      citation_source_title_text="Senior Manager at Network Cloud, BT Group",
       is_shallow=true
     ) -%}
       {%- if slot == 'signpost_image' -%}
@@ -507,8 +566,7 @@
       quote_text="Info on Ubuntu is right there at our fingertips. Anything we need to know is always just a Google search away, so whatever issues we run into are easy to solve.",
       quote_size="small",
       citation_source_name_text="Ed Zenisek",
-      citation_source_title_text="IT Manager",
-      citation_source_organisation_text="NMSU Physical Science Lab",
+      citation_source_title_text="IT Manager, NMSU Physical Science Lab",
       is_shallow=true
     ) -%}
       {%- if slot == 'signpost_image' -%}
@@ -524,47 +582,6 @@
         <a href="https://ubuntu.com/engage/new-mexico-state-university-physical-science-laboratory-drives-agile-and-compliant-federal-research-with-ubuntu">Find out more in the case study &rsaquo;</a>
       {%- endif -%}
     {% endcall -%}
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule--highlight" />
-
-    <div class="grid-row--50-50">
-      <h2 class="p-text--small-caps grid-col">Foundations we support and collaborate with</h2>
-
-      <p class="grid-col">
-        Open source foundations guide the upstream development that many projects depend upon. Through collaboration, the software that we all rely on continues to improve, fostering new innovation. Foundations that we support and collaborate with include:
-      </p>
-    </div>
-
-    {% macro logo(height, width, alt, src) %}
-        <div class="p-logo-section__item">
-          {{ image(url=src,
-            alt=alt,
-            width=width,
-            height=height,
-            hi_def=True,
-            loading="auto|lazy",
-            attrs={"class": "p-logo-section__logo"}
-            ) | safe
-          }}
-        </div>
-    {% endmacro %}
-
-    <div class="p-logo-section">
-      <div class="p-logo-section__items">
-        {{ logo(312, 360, "Cloud-native computing foundation logo", "https://assets.ubuntu.com/v1/a9614405-cncf-stacked-color-bg%202.png") }}
-        {{ logo(312, 297, "Eclipse foundation logo", "https://assets.ubuntu.com/v1/218e87aa-Eclipse-Foundation-Logo%201.png") }}
-        {{ logo(312, 291, "Open source security foundation logo", "https://assets.ubuntu.com/v1/62fa2132-new-openssf-logo.png") }}
-        {{ logo(312, 414, "Open infra foundation logo", "https://assets.ubuntu.com/v1/cc89c5a9-openinfra-foundation-logo%201.png") }}
-        {{ logo(312, 327, "The Linux foundation logo", "https://assets.ubuntu.com/v1/c821b54b-new-linux-foundation-logo.png") }}
-        {{ logo(312, 284, "RISC-V foundation logo", "https://assets.ubuntu.com/v1/d2ba47a9-risc-v-logo.png") }}
-        {{ logo(312, 157, "FinOS foundation logo", "https://assets.ubuntu.com/v1/a8b85da5-new-finos-logo.png") }}
-        {{ logo(312, 274, "Ceph foundation logo", "https://assets.ubuntu.com/v1/a0902597-ceph-logo.png") }}
-        {{ logo(312, 277, "Gnome foundation logo", "https://assets.ubuntu.com/v1/a4b602d2-gnome-logo.png") }}
-        {{ logo(312, 157, "KDE community logo", "https://assets.ubuntu.com/v1/bf8650eb-kde-logo.png") }}
-      </div>
-    </div>
   </section>
 
   <section class="p-section--deep">
@@ -592,7 +609,7 @@
         <hr class="p-rule--muted" />
 
         <p>
-          <a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Final%20report%20-%20WorldofOS_EUSpotlight_2025_081525.pdf?version=0">
+          <a href="https://assets.ubuntu.com/v1/6a01a8a8-final_report_worldofos_euspotlight_2025_081525.pdf">
             Discover insights on open source adoption in Europe
           </a>
         </p>
