@@ -1,0 +1,21 @@
+name: UX demo review
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+jobs:
+  ux-review:
+    uses: canonical/automated-ux-qa-checklist-and-quality-standards/.github/workflows/ux-demo-review.yml@3e48f4ad2c9ab4103aac230690d2038f65c44f85
+    if: "github.event.label.name == 'Review: UX needed'"
+    with:
+      pr_number: "${{ github.event.pull_request.number }}"
+      ref: 3e48f4ad2c9ab4103aac230690d2038f65c44f85
+    secrets:
+      COPILOT_CLI_TOKEN: ${{ secrets.COPILOT_CLI_TOKEN }}
+    permissions:
+      contents: read
+      pull-requests: write
