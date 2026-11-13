@@ -1,0 +1,461 @@
+{% extends 'base_index.html' %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
+{% from "_macros/vf_resources.jinja" import vf_resources %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}Open source networking | Infrastructure{% endblock %}
+
+{% block meta_description %}
+  Build and operate open source networking across bare metal, private cloud, Kubernetes, and edge infrastructure with Ubuntu, automation, and long-term support.
+{% endblock meta_description %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/1j2S1FtrDacxpB03X4pnYbOBL00mOdAjWcbVHcOAO3T8/edit?tab=t.jijjhiya0no5#heading=h.mo74fbjcid34
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+
+  {% call(slot) vf_hero(
+    title_text='Open source networking across your infrastructure',
+    subtitle_text='One foundation, from hardware to applications',
+    layout='50/50'
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Streamline and simplify networking at scale by building and operating your infrastructure on Ubuntu. Canonical delivers enterprise-grade open source networking across the full stack.
+      </p>
+    {%- endif -%}
+    {%- if slot == 'cta' -%}
+      <a href="/solutions/infrastructure/networking/contact-us"
+         class="p-button--positive js-invoke-modal"
+         aria-controls="networking-modal">Contact us</a>
+      <a href="/solutions/infrastructure">Explore the stack&nbsp;&rsaquo;</a>
+    {%- endif -%}
+    {%- if slot == 'image' -%}
+      <div class="p-image-container--3-2 is-highlighted">
+        {{ image(url="https://assets.ubuntu.com/v1/1e0028a7-hero_image.png",
+                alt="",
+                width="1200",
+                height="800",
+                hi_def=True,
+                loading="auto",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {%- endif -%}
+  {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+  title={
+    "text": "The quick brown fox jumps over the lazy dog"
+  },
+  blocks=[
+    {
+      "type": "logo-block",
+      "item": {
+        "logos": [
+          image(url="https://assets.ubuntu.com/v1/e97f1fb6-amd_logo.png",
+            alt="",
+            width="222",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/59299b66-arm_logo.png",
+            alt="",
+            width="152",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/d09072e4-intel_new_logo.png",
+            alt="",
+            width="152",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/3627eef2-nvidia_logo.png",
+            alt="",
+            width="308",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          )
+        ]
+      }
+    }
+  ]
+) -%}
+{% endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Networking: supported from hardware to applications</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Network products</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        Build network operating systems (NOSs) and software appliances on <a href="https://ubuntu.com/server">Ubuntu Server</a>, or create immutable network devices with <a href="https://ubuntu.com/core">Ubuntu Core</a>. Canonical provides kernel maintenance, security updates, hardware enablement, and a predictable lifecycle for embedded Ubuntu-based products.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/blog/sonic-the-open-source-network-operating-system-for-modern-data-centers">Build your network product with Ubuntu&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Hardware and acceleration</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Canonical works with system and silicon partners to enable supported Ethernet Network Interface Controllers (NICs), InfiniBand Host Channel Adaptors (HCAs), SmartNICs, and Data Processing Units (DPUs) on Ubuntu. Features such as Single Root I/O Virtualization (SR-IOV), <a href="https://ubuntu.com/blog/what-is-rdma">Remote Direct Memory Access (RDMA)</a>, and offload depend on the validated hardware, firmware, driver, and release combination.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/certified">Explore certified hardware&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Bare metal and cloud</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        <a href="/maas">MAAS</a> provisions servers and their host networking. Our open source cloud platforms, <a href="/openstack">Canonical OpenStack</a> and <a href="/microcloud">MicroCloud</a>, add virtual networking for private cloud, integrating with physical fabrics and the network management platforms operators choose.
+      </p>
+      <div class="p-cta-block">
+        <a href="/solutions/infrastructure">Explore Canonical infrastructure&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Kubernetes</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Canonical Kubernetes connects pods and services, applies network policy, and exposes workloads across bare metal and virtual environments. Infrastructure teams retain control of the underlay and external connectivity.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/kubernetes">Explore Canonical Kubernetes&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">Applications</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Charms express how applications need to connect, including ports, relations, exposure and service endpoints. Juju uses this model to automate application deployment, integration, upgrades and day-two operations across supported infrastructure.
+      </p>
+      <div class="p-cta-block">
+        <a href="/juju">Explore Juju and charms&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text='Open networking capabilities on Ubuntu',
+    items=[
+    {
+    "title_text": "Virtual networking",
+    "image_html": image(url="https://assets.ubuntu.com/v1/411a7a52-equal_heigh_block_1.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe,
+    "description_html": "<p>Open vSwitch (OVS) and Open Virtual Network (OVN) provide programmable switching, logical networks, routing, and policy for virtualized infrastructure, including Canonical OpenStack and MicroCloud.</p>",
+    "cta_html": '<hr class="p-rule--muted" /><a href="https://ubuntu.com/blog/data-centre-networking-what-is-ovn">Learn about OVN&nbsp;&rsaquo;</a>'
+    },
+    {
+    "title_text": "Open routing",
+    "image_html": image(url="https://assets.ubuntu.com/v1/2c32e770-equal_heigh_block_2.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe,
+    "description_html": "<p>FRRouting (FRR) and BIRD provide open routing protocols and policy for Linux hosts, cloud infrastructure, and connections to wider routed networks.</p>",
+    "cta_html": '<hr class="p-rule--muted" /><a href="https://ubuntu.com/server/docs/explanation/networking">Explore networking on Ubuntu Server&nbsp;&rsaquo;</a>'
+    },
+    {
+    "title_text": "Accelerated data paths",
+    "image_html": image(url="https://assets.ubuntu.com/v1/73b0c317-equal_heigh_block_3.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe,
+    "description_html": "<p>Use DPDK, XDP, and AF_XDP for fast software data paths, or accelerate virtual switching, routing, and security through SR-IOV and hardware offload on supported NICs, SmartNICs, and DPUs.</p>",
+    "cta_html": '<hr class="p-rule--muted" /><a href="https://ubuntu.com/server/docs/how-to/networking/dpdk-with-open-vswitch/">Accelerate Open vSwitch with DPDK&nbsp;&rsaquo;</a>'
+    },
+    {
+    "title_text": "Host networking and policy",
+    "image_html": image(url="https://assets.ubuntu.com/v1/a1e3f90c-equal_heigh_block_4.png",
+    alt="",
+    width="568",
+    height="852",
+    hi_def=True,
+    loading="lazy",
+    attrs={"class": "p-image-container__image"}
+    ) | safe,
+    "description_html": "<p>Configure resilient host connectivity and apply policy close to workloads. Ubuntu supports interface and link management, segmentation, firewalling and encryption, alongside RDMA for low-latency, high-throughput data movement.</p>",
+    "cta_html": '<hr class="p-rule--muted" /><a href="https://ubuntu.com/security">Explore Ubuntu security&nbsp;&rsaquo;</a>'
+    }
+    ]
+    ) -%}
+    {%- if slot == 'description' -%}
+      <p>
+        Build with established open source networking projects on Ubuntu's maintained Linux foundation. Canonical brings a predictable release lifecycle, security maintenance, and enterprise support options to help teams operate network infrastructure with confidence.
+      </p>
+    {%- endif -%}
+  {% endcall %}
+
+  {{ vf_basic_section(title={"text": "Support security for the long term"},
+    items=[
+    {
+    "type": "description",
+    "item": {
+    "type": "html",
+    "content": "<p>Ubuntu Long Term Support (LTS) releases provide a predictable base for infrastructure lifecycles. Ubuntu Pro expands security maintenance across the Ubuntu archive for 10 years, and adds services such as Kernel Livepatch and hardening or compliance tooling for supported configurations. With the Legacy add-on, this is extended an additional 5 years, giving you a 15 year security maintenance and support commitment.</p> <p>Canonical support gives infrastructure and product teams direct access to enterprise expertise across Ubuntu and Canonical software. Canonical can also help OEMs, silicon vendors, and network software providers enable, support, and maintain Ubuntu-based products throughout their commercial lifecycle.</p>"
+    }
+    },
+    {
+    "type": "image",
+    "padding": "shallow",
+    "item": {
+    "aspect_ratio": "16-9",
+    "is_highlighted": True,
+    "attrs": image(url="https://assets.ubuntu.com/v1/fb558166-support_security_for_the_long_term.png",
+    alt="",
+    width="1200",
+    height="800",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs") 
+  }
+  },
+  {
+  "type": "cta-block",
+  "item": {
+  "secondaries": [{
+  "content_html": "Explore Ubuntu Pro",
+  "attrs": {
+  "href": "https://ubuntu.com/pro"
+  }
+  }]
+  }
+  }
+  ]) }}
+
+  {% call(slot) vf_resources(
+    title={
+    "text": "Latest networking insights"
+    },
+    blocks=[
+    {
+    "type": "resources",
+    "render_images": True,
+    "categories": [
+    {
+    "title": "Blog articles",
+    "items": [
+    {
+    "title": {
+    "text": "Network disaggregation in telecommunications transport networks",
+    "link_attrs": {
+    "href": "/blog/network-disaggregation"
+    }
+    },
+    "description": {
+    "text": "Learn how network disaggregation separates hardware from network software, giving operators greater choice and control. This article explores the model, its benefits, and the practical considerations for building open, flexible networks."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/009ad492-article_1.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    },
+    {
+    "title": {
+    "text": "AI Infrastructure for telcos",
+    "link_attrs": {
+    "href": "/blog/ai-infrastructure-for-telcos"
+    }
+    },
+    "description": {
+    "text": "Discover how telecom operators can build scalable AI infrastructure with open source software, accelerated computing and high-performance networking. This whitepaper explores the architectural and operational choices behind supported, reliable AI platforms."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/bba53fa8-article_2.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    },
+    {
+    "title": {
+    "text": "What is RDMA over Converged Ethernet?",
+    "link_attrs": {
+    "href": "/blog/what-is-rdma-over-converged-ethernet-roce"
+    }
+    },
+    "description": {
+    "text": "Learn how RDMA over Converged Ethernet (RoCE) enables direct, low-latency data transfer across Ethernet networks. This article explains how it works and what it brings to demanding AI, High-Performance Computing (HPC), and storage workloads."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/c6d679d3-article_4.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    },
+    {
+    "title": {
+    "text": "What is InfiniBand?",
+    "link_attrs": {
+    "href": "https://ubuntu.com/blog/what-is-infiniband"
+    }
+    },
+    "description": {
+    "text": "Explore how InfiniBand delivers high-throughput, low-latency connectivity for demanding computing environments. This article introduces its architecture, key capabilities, and role in AI and HPC clusters."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/0de5e57f-article_3.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    }
+    ]
+    },
+    {
+    "title": "Knowledge hub",
+    "items": [
+    {
+    "title": {
+    "text": "What is cloud networking?",
+    "link_attrs": {
+    "href": "/knowledge/cloud-and-infrastructure/what-is-cloud-networking"
+    }
+    },
+    "description": {
+    "text": "Learn how cloud networking connects applications, users, and data across public, private, and hybrid clouds. This introductory guide explains the core concepts, technologies, benefits, and how they fit together."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/d2167a6f-article_5.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    },
+    {
+    "title": {
+    "text": "What is SONiC?",
+    "link_attrs": {
+    "href": "/knowledge/cloud-and-infrastructure/what-is-sonic"
+    }
+    },
+    "description": {
+    "text": "Discover how SONiC separates network software from hardware to give operators greater choice, consistency, and control. This introductory guide explains its architecture, ecosystem, and role in modern data centre networks."
+    },
+    "image": {
+    "type": "default",
+    "attrs": image(url="https://assets.ubuntu.com/v1/deb3b5d5-article_6.png",
+    alt="",
+    width="630",
+    height="355",
+    hi_def=True,
+    loading="lazy",
+    output_mode="attrs"
+    )
+    }
+    }
+    ]
+    }
+    ]
+    }
+    ]
+    ) -%}
+  {% endcall %}
+
+  {% call(slot) vf_cta_section(
+    title_text="Build your infrastructure on an open networking foundation",
+    variant='block',
+    layout='100',
+    blocks=[
+    {
+    "type": "description",
+    "item": {
+    "type": "text",
+    "content": "Discuss your networking requirements with Canonical. We work with enterprises, cloud providers, telcos, OEMs, network software vendors, and silicon partners on Ubuntu-based infrastructure, hardware enablement, automation, security maintenance, and support."
+    }
+    },
+    {
+    "type": "cta",
+    "item": {
+    "type": "html",
+    "content": '<a href="/solutions/infrastructure/networking/contact-us"
+   class="p-button--positive js-invoke-modal"
+   aria-controls="networking-modal">Contact us</a>'
+    }
+    }
+    ]
+    ) -%}
+  {% endcall %}
+
+  {{ load_form("/solutions/infrastructure/networking") | safe }}
+
+{% endblock content %}
