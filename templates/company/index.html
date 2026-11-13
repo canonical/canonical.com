@@ -283,6 +283,19 @@
     </div>
   </section>
 
+  {% set office_locations = [
+    [{"lat": 51.5043601, "lng": -0.0798387}, "London"],
+    [{"lat": 40.2772369, "lng": -74.0376318}, "US"],
+    [{"lat": 31.190677, "lng": 121.4389818}, "Shanghai"],
+    [{"lat": 39.909514, "lng": 116.458169}, "Beijing"],
+    [{"lat": 25.0574729, "lng": 121.5419826}, "Taipei"],
+    [{"lat": 54.15272, "lng": -4.487221}, "Isle of Man"],
+    [{"lat": 35.673363, "lng": 139.740328}, "Tokyo"]
+  ] %}
+  {% set office_map_responsive_views = [
+    {"maxWidth": 280, "lat": 46.875651470802104, "lng": 7.99805750339787},
+    {"maxWidth": 1035, "lat": 49.44547224793554, "lng": 15.89044708488471}
+  ] %}
   <section class="p-section">
     <div class="row--50-50">
       <hr class="p-rule" />
@@ -298,10 +311,24 @@
         </div>
       </div>
     </div>
-    <!-- map goes here -->
     <div class="row">
-      <figure title="Canonical offices in Google Maps">
-        <div id="locations-map"></div>
+      <figure title="Canonical office locations">
+        <div id="locations-map"
+             class="p-map js-map"
+             data-map-center-lat="40.5074"
+             data-map-center-lng="30.1278"
+             data-map-zoom="3"
+             data-map-points="office-locations"
+             data-map-responsive-views='{{ office_map_responsive_views | tojson }}'
+             role="region"
+             aria-label="Map of Canonical office locations">
+          <noscript>
+            <h3>Canonical offices</h3>
+            <ul>
+              {% for location in office_locations %}<li>{{ location[1] }}</li>{% endfor %}
+            </ul>
+          </noscript>
+        </div>
       </figure>
     </div>
   </section>
@@ -352,42 +379,11 @@
     </div>
   </section>
 
-  <script nonce="{{ csp_nonce }}">
-    const locations = [
-      [{
-        "lat": 51.5043601,
-        "lng": -0.0798387
-      }, "London"],
-      [{
-        "lat": 40.2772369,
-        "lng": -74.0376318
-      }, "USA"],
-      [{
-        "lat": 31.190677,
-        "lng": 121.4389818
-      }, "Shanghai"],
-      [{
-        "lat": 39.909514,
-        "lng": 116.458169
-      }, "Beijing"],
-      [{
-        "lat": 25.0574729,
-        "lng": 121.5419826
-      }, "Taipei"],
-      [{
-        "lat": 54.15272,
-        "lng": -4.487221
-      }, "Isle of Man"],
-      [{
-        "lat": 35.673363,
-        "lng": 139.740328
-      }, "Tokyo"],
-    ]
-    const isSprintMap = false;
+  <script id="office-locations" type="application/json" nonce="{{ csp_nonce }}">
+    {{ office_locations | tojson }}
   </script>
-  <script defer src="{{ versioned_static('js/locations-map.js') }}" nonce="{{ csp_nonce }}"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUVShD6fwLGQ8_iF-sCclFkVQFCsazxc&callback=initMap&v=weekly"
-          defer nonce="{{ csp_nonce }}"></script>
+  <script src="{{ versioned_static('js/dist/locations-map.js') }}"
+          nonce="{{ csp_nonce }}"></script>
   <script type="module"
           src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.9.0/lite-youtube.min.js"
           integrity="sha384-krUlgvxdz2iSLnbpvxj8zLWWUCa3QxzwLbW3EXmbzXCoAQ+ANH1cWJYRMc/TErh+"
