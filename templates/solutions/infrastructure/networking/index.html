@@ -41,7 +41,7 @@
       <a href="/solutions/infrastructure">Explore the stack&nbsp;&rsaquo;</a>
     {%- endif -%}
     {%- if slot == 'image' -%}
-      <div class="p-image-container--16-9 is-highlighted">
+      <div class="p-image-container--3-2 is-highlighted">
         {{ image(url="https://assets.ubuntu.com/v1/1e0028a7-hero_image.png",
                 alt="",
                 width="1200",
@@ -53,6 +53,54 @@
       </div>
     {%- endif -%}
   {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+  title={
+    "text": "The quick brown fox jumps over the lazy dog"
+  },
+  blocks=[
+    {
+      "type": "logo-block",
+      "item": {
+        "logos": [
+          image(url="https://assets.ubuntu.com/v1/e97f1fb6-amd_logo.png",
+            alt="",
+            width="222",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/59299b66-arm_logo.png",
+            alt="",
+            width="152",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/d09072e4-intel_new_logo.png",
+            alt="",
+            width="152",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          ),
+          image(url="https://assets.ubuntu.com/v1/3627eef2-nvidia_logo.png",
+            alt="",
+            width="308",
+            height="312",
+            hi_def=True,
+            loading="auto",
+            output_mode="attrs"
+          )
+        ]
+      }
+    }
+  ]
+) -%}
+{% endcall -%}
 
   {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
@@ -194,8 +242,8 @@
     {
     "type": "description",
     "item": {
-    "type": "text",
-    "content": "Ubuntu Long Term Support (LTS) releases provide a predictable base for infrastructure lifecycles. Ubuntu Pro expands security maintenance across the Ubuntu archive for 10 years, and adds services such as Kernel Livepatch and hardening or compliance tooling for supported configurations. With the Legacy add-on, this is extended an additional 5 years, giving you a 15 year security maintenance and support commitment. Canonical support gives infrastructure and product teams direct access to enterprise expertise across Ubuntu and Canonical software. Canonical can also help OEMs, silicon vendors, and network software providers enable, support, and maintain Ubuntu-based products throughout their commercial lifecycle."
+    "type": "html",
+    "content": "<p>Ubuntu Long Term Support (LTS) releases provide a predictable base for infrastructure lifecycles. Ubuntu Pro expands security maintenance across the Ubuntu archive for 10 years, and adds services such as Kernel Livepatch and hardening or compliance tooling for supported configurations. With the Legacy add-on, this is extended an additional 5 years, giving you a 15 year security maintenance and support commitment.</p> <p>Canonical support gives infrastructure and product teams direct access to enterprise expertise across Ubuntu and Canonical software. Canonical can also help OEMs, silicon vendors, and network software providers enable, support, and maintain Ubuntu-based products throughout their commercial lifecycle.</p>"
     }
     },
     {
