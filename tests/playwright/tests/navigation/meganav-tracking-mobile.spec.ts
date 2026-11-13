@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../helpers/fixtures";
 import { navigateToHomepage } from "../../helpers/navigation-helpers";
 import {
   clearDataLayer,

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../helpers/fixtures";
 import {
   PRIMARY_NAV_ITEMS,
   VIEWPORTS,
@@ -209,7 +209,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
     
     test("should display secondary navigation on appropriate pages", async ({ page }) => {
       // Navigate to a page with secondary navigation
-      await page.goto('/data');
+      await page.goto('/data', { waitUntil: 'domcontentloaded' });
       
       if (await hasSecondaryNavigation(page)) {
         // Check secondary navigation items
@@ -225,7 +225,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
 
     test("should navigate between secondary navigation items", async ({ page }) => {
       // Navigate to a page with secondary navigation
-      await page.goto('/data');
+      await page.goto('/data', { waitUntil: 'domcontentloaded' });
       
       if (await hasSecondaryNavigation(page)) {
         const secondaryItems = await getSecondaryNavigationItems(page);
@@ -264,7 +264,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
       
       for (const path of testPaths) {
         await test.step(`Navigate to ${path}`, async () => {
-          await page.goto(path);
+          await page.goto(path, { waitUntil: 'domcontentloaded' });
           
           // Verify primary nav is still present
           await expect(page.locator('#navigation')).toBeVisible();
@@ -334,7 +334,7 @@ test.describe("Navigation Flows - E2E Tests", () => {
   test.describe("Error Handling", () => {
     test("should handle navigation to non-existent pages", async ({ page }) => {
       // Navigate to a non-existent page
-      await page.goto('/non-existent-page-12345');
+      await page.goto('/non-existent-page-12345', { waitUntil: 'domcontentloaded' });
       
       // Should show 404 page but navigation should still be present
       if (await isElementVisible(page, '#navigation')) {
