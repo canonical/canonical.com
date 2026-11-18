@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
+import { test, expect } from "../../helpers/fixtures";
 import {
   fillExistingFields,
   acceptCookiePolicy,
@@ -10,7 +11,7 @@ import {
 } from "../../helpers/form-fields.ts";
 
 const openModal = async (page: Page) => {
-  await page.goto("/tests/_form-generator");
+  await page.goto("/tests/_form-generator", { waitUntil: "domcontentloaded" });
   await acceptCookiePolicy(page);
   const contactUsLink = page.locator('a[aria-controls="contact-modal"]');
   await expect(contactUsLink).toBeVisible();

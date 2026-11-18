@@ -9,7 +9,9 @@ on:
 jobs:
   run-playwright:
     if: github.repository == 'canonical/canonical.com'
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04, which Playwright 1.55 does not
+    # support, so `playwright install` fails before any test can run.
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../helpers/fixtures";
 import { fillExistingFields, acceptCookiePolicy } from "../../helpers/commands.ts";
 import { formTextFields, formCheckboxFields, formRadioFields } from "../../helpers/form-fields.ts";
 
@@ -10,7 +10,7 @@ test.describe("Form ID validation", () => {
    */
 
   async function discoverContactUsPages(page) {
-    await page.goto('/sitemap_parser');
+    await page.goto('/sitemap_parser', { waitUntil: 'domcontentloaded' });
     const sitemapContent = await page.textContent('body');
     const sitemap = JSON.parse(sitemapContent);
 
@@ -32,7 +32,7 @@ test.describe("Form ID validation", () => {
     const contactUsPages = await discoverContactUsPages(page);
     for (const url of contactUsPages) {
       await test.step(`Validating form on ${url}`, async () => {
-        await page.goto(url);
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         await acceptCookiePolicy(page);
 
         // Check that formid and mktoForm input fields are present
@@ -50,7 +50,7 @@ test.describe("Form ID validation", () => {
 test.describe("Form submission validation", () => {
   test("should fill and redirect to marketo submission endpoint", async ({ page }) => {
     await test.step(`Testing form on /tests/_static-client-form`, async () => {
-      await page.goto("/tests/_static-client-form");
+      await page.goto("/tests/_static-client-form", { waitUntil: "domcontentloaded" });
       await acceptCookiePolicy(page);
       await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
 
@@ -65,7 +65,7 @@ test.describe("Form submission validation", () => {
       const responsePromise = page.waitForResponse(response => 
         response.url().includes('/marketo/submit') && response.status() === 400
       );
-      await page.goto("/tests/_static-client-form");
+      await page.goto("/tests/_static-client-form", { waitUntil: "domcontentloaded" });
       await acceptCookiePolicy(page);
       await fillExistingFields(page, formTextFields, formCheckboxFields, formRadioFields);
   
@@ -82,7 +82,7 @@ test.describe("Form submission validation", () => {
   });
 
   test("should focus on required field if missing required fields", async ({ page }) => {
-    await page.goto("/tests/_static-client-form");
+    await page.goto("/tests/_static-client-form", { waitUntil: "domcontentloaded" });
     await acceptCookiePolicy(page);    
     await page.getByRole("button", { name: /Submit/ }).click();
 
@@ -95,7 +95,7 @@ test.describe("Form submission validation", () => {
 test.describe("Radio field handling", () => {
   test("radio fields should have appropriate js hooks classnames", async ({ page }) => {
     await test.step(`Testing form on /tests/_static-client-form`, async () => {
-      await page.goto("/tests/_static-client-form");
+      await page.goto("/tests/_static-client-form", { waitUntil: "domcontentloaded" });
       await acceptCookiePolicy(page);
   
       // Check that radio has js hooks classnames
