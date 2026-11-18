@@ -7,7 +7,7 @@ CLI usage:
 
 import json
 import os
-import subprocess
+import subprocess  # nosec B404
 import sys
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +27,8 @@ def build_manifest():
     under templates/, the commit date of the most recent commit that
     touched it.
     """
-    result = subprocess.run(
+    # Fixed argv with no user input, run on the build runner's own git.
+    result = subprocess.run(  # nosec B603 B607
         [
             "git",
             "log",
