@@ -141,6 +141,7 @@ function initMap(mapElement) {
       if (currentView?.maxWidth !== lastView?.maxWidth) {
         lastView = currentView;
         const { center: newCenter, zoom: newZoom } = getCurrentView(mapElement);
+        map.invalidateSize();
         map.setView(newCenter, newZoom);
       }
     });

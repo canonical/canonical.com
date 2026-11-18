@@ -2,7 +2,7 @@
 
 jest.mock("leaflet", () => ({
   map: jest.fn(() => {
-    const map = { setView: jest.fn() };
+    const map = { invalidateSize: jest.fn(), setView: jest.fn() };
     map.setView.mockReturnValue(map);
     return map;
   }),
@@ -281,6 +281,7 @@ describe("shared location maps", () => {
     window.innerWidth = 1000;
     resizeListeners.forEach((handler) => handler());
     expect(map.setView).toHaveBeenCalledTimes(1);
+    expect(map.invalidateSize).not.toHaveBeenCalled();
 
     // Cross into the 800px breakpoint
     window.innerWidth = 700;
@@ -290,11 +291,16 @@ describe("shared location maps", () => {
       [mediumResizeView.lat, mediumResizeView.lng],
       mediumResizeView.zoom
     );
+    expect(map.invalidateSize).toHaveBeenCalledTimes(1);
+    expect(map.invalidateSize.mock.invocationCallOrder[0]).toBeLessThan(
+      map.setView.mock.invocationCallOrder[1]
+    );
 
     // Stay in the same bracket
     window.innerWidth = 600;
     resizeListeners.forEach((handler) => handler());
     expect(map.setView).toHaveBeenCalledTimes(2);
+    expect(map.invalidateSize).toHaveBeenCalledTimes(1);
 
     // Cross into the 400px breakpoint
     window.innerWidth = 350;
@@ -304,6 +310,7 @@ describe("shared location maps", () => {
       [smallResizeView.lat, smallResizeView.lng],
       smallResizeView.zoom
     );
+    expect(map.invalidateSize).toHaveBeenCalledTimes(2);
 
     // Cross back out to 800px breakpoint
     window.innerWidth = 500;
@@ -313,6 +320,7 @@ describe("shared location maps", () => {
       [mediumResizeView.lat, mediumResizeView.lng],
       mediumResizeView.zoom
     );
+    expect(map.invalidateSize).toHaveBeenCalledTimes(3);
 
     window.innerWidth = 1200;
     resizeListeners.forEach((handler) => handler());
@@ -321,6 +329,7 @@ describe("shared location maps", () => {
       [firstView.lat, firstView.lng],
       firstView.zoom
     );
+    expect(map.invalidateSize).toHaveBeenCalledTimes(4);
   });
 
   it("does not register a resize listener without responsive views", () => {

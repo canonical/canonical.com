@@ -10,7 +10,7 @@ const pages = [
     marker: "London",
     locations: [
       "London",
-      "USA",
+      "US",
       "Shanghai",
       "Beijing",
       "Taipei",
