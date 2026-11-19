@@ -53,11 +53,11 @@ There are myriad international, regional, and industry standards that have been 
   items=[
   "ISO/IEC 2700X - a family of standards that offers a universal structure for creating, executing, and refining an Information Security Management System (ISMS) to assess and manage IT security risks. These standards are widely recognized and adopted around the world.",
   "NIST SP 800-171 - a US standard that outlines the necessary controls to safeguard Controlled Unclassified Information (CUI) within non-federal environments, which establishes rigorous criteria for any entity managing sensitive federal data. Adherence to these guidelines is typically mandatory for securing federal contract opportunities.",
-  "<a href="https://ubuntu.com/security/pci-dss">PCI-DSS</a> - a comprehensive framework for securing sensitive cardholder information within organizations processing payment data, with the intention of strengthening data protections and mitigating the risks of financial fraud.",
-  "<a href="https://ubuntu.com/security/nis2">NIS2</a> - a European Union cybersecurity framework of security requirements for a wide range of critical industries, designed to strengthen the resilience of the EU's digital infrastructure.",
-  "<a href="https://ubuntu.com/security/fips">FIPS 140</a> - a NIST standard for implementing and using cryptography securely.",
-  "<a href="https://ubuntu.com/security/disa-stig">DISA-STIG</a> - a US framework for configuring and hardening software systems.",
-  "<a href="https://ubuntu.com/security/fedramp">FedRAMP</a> - based on the NIST SP 800-53 standard, achieving FedRAMP Authority To Operate is required in order to offer cloud services to the US Federal Government marketplace."
+  "<a href=\"https://ubuntu.com/security/pci-dss\">PCI-DSS</a> - a comprehensive framework for securing sensitive cardholder information within organizations processing payment data, with the intention of strengthening data protections and mitigating the risks of financial fraud.",
+  "<a href=\"https://ubuntu.com/security/nis2\">NIS2</a> - a European Union cybersecurity framework of security requirements for a wide range of critical industries, designed to strengthen the resilience of the EU's digital infrastructure.",
+  "<a href=\"https://ubuntu.com/security/fips\">FIPS 140</a> - a NIST standard for implementing and using cryptography securely.",
+  "<a href=\"https://ubuntu.com/security/disa-stig\">DISA-STIG</a> - a US framework for configuring and hardening software systems.",
+  "<a href=\"https://ubuntu.com/security/fedramp\">FedRAMP</a> - based on the NIST SP 800-53 standard, achieving FedRAMP Authority To Operate is required in order to offer cloud services to the US Federal Government marketplace."
 ]) }}
 
 [Get a full breakdown of the most important security standards ›](https://ubuntu.com/security/security-standards)
