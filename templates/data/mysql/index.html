@@ -1,14 +1,24 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
 {% block meta_copydoc %}
-  https://docs.google.com/document/d/1KQmCfb4ITlYHOAEoHUwxHExf73qkMSWsLHnFPwFWFag/edit
+  https://docs.google.com/document/d/14zYnx8NIq6cL84WKyFoIfMjDaDg5yC7KT4GxnyZyWbk/edit
 {% endblock meta_copydoc %}
 
-{% block title %}MySQL{% endblock %}
+{% block title %}Enterprise-grade MySQL support{% endblock %}
 
 {% block meta_description %}
-  Enterprise MySQL from Canonical: automated clustering, failover, and up to 15 years of security maintenance.
+  Get enterprise-grade MySQL support from Canonical. Enjoy security maintenance and automated operations for your MySQL databases across private and public clouds.
 {% endblock %}
+
+{% block meta_keywords %}mysql support{% endblock %}
 
 {% block body_class %}
   is-paper
@@ -16,536 +26,476 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row">
-      <div class="col-3 col-medium-2">
-        <div class="u-hide--small">
-          <a href="https://www.mysql.com/">
-            {{ image(url="https://assets.ubuntu.com/v1/37c2f953-mysql-logo.png",
-                        alt="MySQL",
-                        width="178",
-                        height="186",
-                        hi_def=True,
-                        loading="auto") | safe
-            }}
-          </a>
-        </div>
-      </div>
-      <div class="col-9 col-medium-4">
-        <div class="p-section--shallow">
-          <h1 class="u-no-padding--top">MySQL for the enterprise</h1>
-          <p>
-            Secure and automate the deployment, maintenance and upgrades of your MySQL databases across private and public clouds.
-          </p>
-        </div>
-        <hr class="p-rule--muted" />
-        <a class="p-button--positive js-invoke-modal"
-           href="/contact-us"
-           aria-controls="data-mysql-modal">Get in touch<span class="u-off-screen">about MySQL for the enterprise</span></a>
-        <a class="p-button"
-           href="https://drive.google.com/file/d/1vQamR5wOA9E-FTIJG2c9xCWLpB_1QcA3/view?usp=sharing"><span class="u-off-screen">Download the Canonical's guide to MySQL</span>Get started</a>
-      </div>
-    </div>
-  </section>
+  {% call(slot) vf_hero(
+    title_text='Enterprise support for MySQL',
+    layout='25/75',
+    chip_text='Available with Ubuntu Pro',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Unlock a reliable, open source foundation for your mission-critical database workloads. Canonical’s MySQL automation and artifacts provide you with up to 15 years of security maintenance, 24/7 SLA-backed support, and expert consulting services to meet your needs."
+        }
+      },
+      {
+        "type": "cta-block",
+        "padding": "shallow",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "data-mysql-modal"
+            }
+          },
+        }
+      },
+      {
+        "type": "signpost_image",
+        "item": {
+          "is_highlighted": false,
+          "attrs": image(url="https://assets.ubuntu.com/v1/6b42f475-signpost_logo_mysql.png",
+              alt="",
+              width="852",
+              height="321",
+              hi_def=True,
+              loading="auto",
+              output_mode="attrs"
+              )
+        }
+      },
+    ]
+  ) -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_logo_section(
+    mode="default",
+    title={
+      "text": "Run MySQL across public and private clouds"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            image(url="https://assets.ubuntu.com/v1/2e1ee972-openstack_logo_mysql.png",
+                alt="OpenStack logo",
+                width="384",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+                image(url="https://assets.ubuntu.com/v1/c7bb4223-microcloud_logo_mysql.png",
+                alt="MicroCloud logo",
+                width="393",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+              image(url="https://assets.ubuntu.com/v1/d531cc8f-vmware_logo_mysql.png",
+                alt="VMware logo",
+                width="322",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+              image(url="https://assets.ubuntu.com/v1/e5671aa2-aws_logo_mysql.png",
+                alt="AWS logo",
+                width="151",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+              image(url="https://assets.ubuntu.com/v1/db97614c-google_cloud_logo_mysql.png",
+                alt="Google Cloud logo",
+                width="369",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+              image(url="https://assets.ubuntu.com/v1/6bfaef1a-microsoft_azure_logo_mysql.png",
+                alt="Microsoft Azure logo",
+                width="271",
+                height="312",
+                hi_def=True,
+                loading="auto",
+                output_mode="attrs",
+              ),
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- if slot == 'description' -%}
+  <p>When you use our MySQL artifacts, you benefit from optimized configurations for every cloud. You can run MySQL on public clouds, or in your private data center on top of MAAS and MicroCloud, OpenStack, or VMware.</p>
+  {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers",
+    },
+    blocks=[
+      {
+        "stat": "100+ deployments",
+        "headline": "Use our MySQL",
+        "description": "MySQL is part of OpenStack, Kubeflow, and our HPC solutions. It is tried and tested in production across all major IT sectors.",
+        "link": {
+          "url": "/contact-us",
+          "text": "Contact us ›",
+        }
+      },
+      {
+        "stat": "10+ automations",
+        "headline": "For your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "/data/mysql/docs/latest/how-to/",
+          "text": "Check our automation ›"
+        }
+      },
+      {
+        "stat": "~ 30 <br class=\"u-hide--small\" />minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "/data/mysql/docs/latest/tutorial/",
+          "text": "Try it yourself ›"
+        }
+      }
+    ],
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
+  {%- if slot == 'title' -%}
+  <h2>MySQL deployment options</h2>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_1' -%}
+  <h3 class="p-heading--5">Debian package</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_1' -%}
+  <p>Get our MySQL debs for seamless integration with your Ubuntu installations. You can get an instance running with a single command.</p>
+  <div class="p-cta-block u-no-margin--bottom u-no-padding--bottom">
+    <a href="https://ubuntu.com/server/docs/how-to/databases/install-mysql/" class="p-button">Try the deb</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_2' -%}
+  <h3 class="p-heading--5">Snap</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_2' -%}
+  <p>Our MySQL snap offers added confinement and atomic updates, including for the bleeding edge versions of MySQL.</p>
+  <div class="p-cta-block u-no-margin--bottom u-no-padding--bottom">
+    <a href="https://snapcraft.io/mysql" class="p-button">Try the snap</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_3' -%}
+  <h3 class="p-heading--5">Container</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_3' -%}
+  <p>Get our MySQL container to benefit from a minimalist and self-contained solution for deploying MySQL clusters in all of your environments.</p>
+  <div class="p-cta-block u-no-margin--bottom u-no-padding--bottom">
+    <a href="https://hub.docker.com/r/ubuntu/mysql" class="p-button">Try the container</a>
+  </div>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_title_4' -%}
+  <h3 class="p-heading--5">Software operator</h3>
+  {%- endif -%}
+
+  {%- if slot == 'list_item_description_4' -%}
+  <p>Our software operator helps you automate the operations of your MySQL clusters including deployment, scaling, encryption, and upgrades.</p>
+  <div class="p-cta-block u-no-margin--bottom u-no-padding--bottom">
+    <a href="https://charmhub.io/mysql" class="p-button">Check our software operator</a>
+  </div>
+  {%- endif -%}
+
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Popular MySQL use cases",
+    attrs={ "id": "popular-mysql-usecases-section" },
+    items=[
+      {
+        "title_text": "Content management systems and web applications",
+        "image_html":  
+            image(url="https://assets.ubuntu.com/v1/a4dab127-content_management_web_applications_mysql.png",
+              alt="",
+              width="568",
+              height="852",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"},
+              ) | safe,
+        "description_html": "<p>MySQL is the &ldquo;M&rdquo; in the popular <a href=\"https://en.wikipedia.org/wiki/LAMP_(software_bundle)\">LAMP</a> architecture that powers many content management and forum-like applications.</p>",
+      },
+      {
+        "title_text": "E-commerce",
+        "image_html":  
+            image(url="https://assets.ubuntu.com/v1/b1335185-e_commerce_mysql.png",
+              alt="",
+              width="568",
+              height="852",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"},
+              ) | safe,
+        "description_html": "<p>MySQL provides the transactional <a href=\"https://en.wikipedia.org/wiki/ACID\">ACID</a> guarantees and the row-level locking primitives that are required when managing shopping carts and financial transactions.</p>",
+      },
+      {
+        "title_text": "Global aggregators and community platforms",
+        "image_html": 
+            image(url="https://assets.ubuntu.com/v1/c7db3fba-global_aggregators_community_platforms_mysql.png",
+              alt="",
+              width="568",
+              height="852",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"},
+              ) | safe,
+        "description_html": "<p>MySQL’s mature replication capabilities (such as ClusterSets), thread-based connection model, and the InnoDB storage engine's adaptive hash index allow it to seamlessly scale out. This architecture easily handles thousands of concurrent read requests, making MySQL a popular choice for read-heavy workloads like booking engines or travel aggregators.</p>",
+      },
+      {
+        "title_text": "Multi-tenant/cloud SaaS platforms",
+        "image_html":  
+            image(url="https://assets.ubuntu.com/v1/3a3b68d5-multi_tenant_cloud_saas_platforms_mysql.png",
+              alt="",
+              width="568",
+              height="852",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"},
+              ) | safe,
+        "description_html": "<p>Many Software-as-a-Service (SaaS) providers use MySQL as their backend database to store user data, session information, and application state. Its relatively lightweight footprint, easy administration, and availability across all major cloud providers make it a strong candidate for hosting applications spanning multiple clouds and regions.</p>",
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {% call(slot) vf_pricing_block(
+      title_text='MySQL support services',
+      attrs={"id": "2-blocks"},
+      tiers=[
+      {
+      'tier_name_text': 'Subscription-based',
+      'tier_price_text': '',
+      'tier_price_explanation': '',
+      'tier_label_text': 'What\'s included',
+      'tier_offerings': [
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Security maintenance'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': '24/7 phone and ticket support'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'SLA-backed firefighting support'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Managed deployments'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'And much more'
+      },
+      ],
+      },
+      {
+      'tier_name_text': 'On-demand',
+      'tier_price_text': '',
+      'tier_price_explanation': '',
+      'tier_label_text': 'What\'s included',
+      'tier_offerings': [
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Workshops'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Deployment packages'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Consulting packages'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'Trainings'
+      },
+      {
+      'list_item_style': 'ticked',
+      'list_item_content_html': 'And much more'
+      },
+      ],
+      }
+      ]
+      ) -%}
+  {%- if slot == 'section_description' -%}
+  <p>
+    Whether you are exploring MySQL or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro?_gl=1*1wv9r27*_gcl_aw*R0NMLjE3ODA1NzIyNDQuQ2p3S0NBand4SVRSQmhCWUVpd0E2bVptN1lSMW9pY25SUE5lZkR6TXlDNXBGZTdaSkdsa0NfUG1tbzVJUElrd1V2WFE0TjFob3IySVN4b0M3aWNRQXZEX0J3RQ..*_gcl_au*MTUzODg1OTkwNS4xNzc1NTU4OTMw">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming and error-prone tasks.
+  </p>
+  <p>
+    Our on-demand services help you unlock the potential of your data platform by addressing your specific challenges with tailored workshops, targeted knowledge transfer, and timely delivery of expert consulting.
+  </p>
+  <div class="p-cta-block u-no-margin--bottom u-no-padding--bottom">
+    <a href="/data/services" class="p-button--positive">Explore our services</a>
+  </div>
+  {%- endif -%}
+  {% endcall %}
+
+  {{ vf_divided_section(
+    title={
+      "text": "Community and support",
+    },
+    padding="deep",
+    blocks=[
+    {
+      "type": "divided-block",
+      "bullet_type": "none",
+      "items": [
+            {
+              "contents": [
+                {
+                  "type": "description",
+                  "item": {
+                    "type": "html",
+                    "content": "<h3 class=\"p-heading--5 u-no-margin--bottom p-text--small-caps\">Connect with the community</h3>"
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "link": {
+                      "content_html": "Matrix chat",
+                      "attrs": {
+                        "href": "https://matrix.to/#/#charmhub-data-platform:ubuntu.com"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              
+              "contents": [
+                {
+                  "type": "description",
+                  "item": {
+                    "type": "html",
+                    "content": "<h3 class=\"p-heading--5 p-text--small-caps\">Contact us</h3>"
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "secondaries": [
+                      {
+                        "content_html": "Tell us about your needs",
+                        "attrs": {
+                          "href": "/contact-us",
+                          "class": "js-invoke-modal",
+                          "aria-controls": "data-mysql-modal"
+                        }
+                      }
+                    ],
+                  }
+                }
+              ]
+            },
+            {
+              "contents": [{
+                  "type": "description",
+                  "item": {
+                    "type": "html",
+                    "content": "<h3 class=\"p-heading--5 u-no-margin--bottom p-text--small-caps\">Read more</h3>"
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "link": {
+                      "content_html": "Data backups",
+                      "attrs": {
+                        "href": "https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "link": {
+                      "content_html": "How to choose a DBMS",
+                      "attrs": {
+                        "href": "https://ubuntu.com/engage/choose-a-database"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "link": {
+                      "content_html": "Database cloud migration",
+                      "attrs": {
+                        "href": "https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "contents": [{
+                  "type": "description",
+                  "item": {
+                    "type": "html",
+                    "content": "<h3 class=\"p-heading--5 u-no-margin--bottom p-text--small-caps\">Contribute</h3>"
+                  }
+                },
+                {
+                  "type": "cta-block",
+                  "item": {
+                    "link": {
+                      "content_html": "Software operator for MySQL",
+                      "attrs": {
+                        "href": "https://github.com/canonical/mysql-operators"
+                      }
+                    }
+                  }
+                },
+              ]
+            },
+          ]
+        },
+      ],
+    ) 
+  }}
 
   <section class="p-section">
-    <div class="row--25-75">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Why choose Canonical's enterprise-grade MySQL</h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Up to 15 years of security maintenance</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Hybrid and multi-cloud ready</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Simple per node subscription</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Run MySQL on any public, private or hybrid cloud</h2>
-      </div>
-      <div class="col">
-        <p>
-          When you use Canonical's MySQL, you benefit from optimized configurations for every cloud. You can run MySQL on Azure, AWS, Google Cloud on top of VMs or their managed Kubernetes offerings. You can also run MySQL in your private data center on top of MAAS and LXD, Kubernetes, OpenStack or VMWare.
-        </p>
-      </div>
-      <div class="p-logo-section">
-        <div class="p-logo-section__items">
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/36a0cd3b-microsoft-azure-2021.png",
-                        alt="Microsoft Azure",
-                        width="78",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/9faa9b91-aws-logo.png",
-                        alt="AWS",
-                        width="125",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/959833e3-google-cloud-logo-light.png",
-                        alt="Google cloud",
-                        width="382",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/f7a0c5ff-kubernetes-logomark-logo.png",
-                        alt="Kubernetes",
-                        width="105",
-                        height="384",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/165fa040-openstack-logo.png",
-                        alt="OpenStack",
-                        width="426",
-                        height="256",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/a89f2843-microcloud.png",
-                        alt="Microcloud",
-                        width="394",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/daecf95b-vmware-logo.png",
-                        alt="VMware",
-                        width="385",
-                        height="384",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-          <div class="p-logo-section__item">
-            {{ image(url="https://assets.ubuntu.com/v1/bf2f1cc2-maas-logo false.png",
-                        alt="MAAS",
-                        width="250",
-                        height="312",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-logo-section__logo"}) | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Easy to deploy and manage</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/3815a62c-easy-to-deploy-manage.png",
-                        alt="",
-                        width="1800",
-                        height="1015",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>Thanks to Charmed MySQL, your deployments will be:</p>
-        <hr class="p-rule--muted" />
-        <div class="p-section--shallow">
-          <ul class="p-list--divided">
-            <li class="p-list__item is-ticked">
-              <b>Highly available</b> with built-in replication and automatic failover.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Reliable</b> with expert-crafted and self healing state-machine automation.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Upgraded automatically</b> during your maintenance windows and with minimum downtime.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Disaster recovery ready</b> with built-in cross region replication, backup and restore capabilities to ensure business continuity.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Hybrid and multi-cloud ready</b> with automation that supports deployment within and across private and public clouds.
-            </li>
-            <li class="p-list__item is-ticked">
-              <b>Shipped with a holistic observability and alerting solution</b> based on Prometheus, Loki and Grafana.
-            </li>
-          </ul>
-          <hr class="p-rule--muted" />
-          <p>
-            <a href="https://canonical.com/data/mysql/docs/latest">Get started with Charmed MySQL&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule" />
-    <div class="row--50-50">
-      <div class="col">
-        <h2>MySQL security</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container--16-9 is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/1c4c6ee0-encryption.png",
-                        alt="",
-                        width="300",
-                        height="300",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Charmed MySQL comes with up to 15 years of security maintenance. It also ships with hardened configurations to help you comply with the most stringent requirements in terms of encryption, auditing, logging, authentication and authorisation.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>MySQL support</h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container--16-9 is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/f29c3ed2-postgresql-support.png",
-                        alt="",
-                        width="565",
-                        height="320",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>Get comprehensive, 24/7 or weekday support for Charmed MySQL, covering the entire solution for up to 15 years.</p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a class="p-button" href="https://ubuntu.com/pro/subscribe">Subscribe now<span class="u-off-screen">Subscribe for ubuntu pro service</span></a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Predictable pricing
-          <br />
-          for enterprise-grade MySQL
-        </h2>
-      </div>
-      <div class="col">
-        <div class="p-section--shallow">
-          <div class="p-image-container--16-9 is-highlighted u-hide--small">
-            {{ image(url="https://assets.ubuntu.com/v1/9dfac23e-predictable-pricing.png",
-                        alt="",
-                        width="1200",
-                        height="676",
-                        hi_def=True,
-                        attrs={"class": "p-image-container__image"},
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <p>
-          Charmed MySQL support is priced per node, per year with no per-socket or per-core limitations, and no software licence fees. Use our Charmed MySQL for better control over your TCO. Budgeting and financial planning are straightforward and predictable.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Charmed MySQL services</h2>
-      </div>
-      <div class="col">
-        <p>
-          You can self-manage our Charmed MySQL solution or you can opt for a fully managed setup where Canonical experts deploy and operate your MySQL fleet on top of your on-premise infrastructure or using your cloud tenants.
-        </p>
-        <hr class="p-rule--muted" />
-        <p>
-          <a class="js-invoke-modal"
-             href="/contact-us"
-             aria-controls="data-mysql-modal">Get in touch to learn more &rsaquo;&nbsp;</a>
-        </p>
-      </div>
-    </div>
-    <div class="row--50-50">
-      <div class="col">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-no-margin--bottom">
-          <div class="row">
-            <div class="col-4 col-medium-2 col-small-3">
-              <h3 class="u-align-text--left u-no-margin--bottom">Managed</h3>
-            </div>
-            <div class="col-2 col-medium-1 col-small-1">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $3099</h3>
-              <p class="u-align-text--right u-text--muted">Per node, per year</p>
-            </div>
-          </div>
-          <p>Get there faster. Let us deploy and operate your MySQL cluster, in your cloud tenancy or in your data center.</p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow u-no-margin--bottom">
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Backed by an SLA</li>
-              <li class="p-list__item is-ticked">MSP and SOC2 certified service</li>
-              <li class="p-list__item is-ticked">Low cost of ownership</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <hr class="p-rule--highlight u-no-margin--bottom" />
-        <div class="p-card--overlay u-no-padding--top u-no-margin--bottom">
-          <div class="row">
-            <div class="col-4 col-medium-2 col-small-3">
-              <h3 class="u-align-text--left u-no-margin--bottom">Self-managed</h3>
-            </div>
-            <div class="col-2 col-medium-1 col-small-1">
-              <h3 class="u-align-text--right u-no-margin--bottom">From $500</h3>
-              <p class="u-align-text--right u-text--muted">Per node, per year</p>
-            </div>
-          </div>
-          <p>24/7, weekday or advanced fire-fighting support for MySQL from Canonical for up to 15 years per release track.</p>
-          <hr class="p-rule--muted" />
-          <div class="p-section--shallow u-no-margin--bottom">
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Expert troubleshooting on hand</li>
-              <li class="p-list__item is-ticked">Security and bug fixes</li>
-              <li class="p-list__item is-ticked">Full stack coverage</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>MySQL use cases</h2>
-      </div>
-      <div class="col">
-        <p>
-          MySQL is one of the world's most popular databases. The simple deployment model of MySQL (a single process per instance) and its ease of use make it a good database management system to bootstrap several use cases:
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Web and mobile applications</h3>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p>
-              MySQL is the M in the popular <a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)">LAMP</a> architecture that powers a lot of e-commerce, content management and forum-like applications.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/2582fc11-Web and mobile applications@3x.png",
-                        alt="",
-                        width="901",
-                        height="600",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Applications managing geospatial data</h3>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p>
-              MySQL has extensive support for spatial data types and spatial indexes making it a good choice for powering related systems.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/acaae572-Applications managing geospatial data@3x.png",
-                        alt="",
-                        width="901",
-                        height="600",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">FinOps and banking</h3>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p>
-              MySQL provides the transactional <a href="https://en.wikipedia.org/wiki/ACID">ACID</a> guarantees and the mature replication capabilities that finance systems need.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/f8b601e5-FinOps and banking@3x.png",
-                        alt="",
-                        width="901",
-                        height="600",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Text search use cases</h3>
-          </div>
-          <div class="col-3 col-medium-2">
-            <p>
-              MySQL also provides basic <a href="https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html">full text search</a> capabilities allowing you to accommodate such use cases without the need for duplicating your data or compromising on its consistency.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            {{ image(url="https://assets.ubuntu.com/v1/868a5f26-Text search use cases@3x.png",
-                        alt="",
-                        width="901",
-                        height="600",
-                        hi_def=True,
-                        loading="lazy") | safe
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="p-rule is-fixed-width" />
-
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <p class="p-heading--2">
-        <a href="/blog/author/mwnsiri">Hear from the product manager&nbsp;&rsaquo;</a>
-      </p>
-    </div>
-  </section>
-
-  <section class="p-section u-fixed-width">
-    <hr class="p-rule" />
-    <div class="p-section--shallow">
-      <h2>Go further with Charmed MySQL</h2>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9">
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">
-              Documentation for <a href="https://canonical.com/data/mysql/docs/latest">K8s</a> and <a href="https://canonical.com/data/mysql/docs/latest">VMs</a>
-            </h3>
-          </div>
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <p>
-              Read our tutorials and installation guides to learn how to deploy and manage MySQL within and across public and private clouds.
-            </p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/engage/database-cloud-migration">A guide to database cloud migration</a>
-            </h3>
-          </div>
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <p>Gain insights on how to succeed in migrating your most valuable assets – your data – to the cloud.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">
-              <a href="https://ubuntu.com/engage/data-backups">A guide to data backups</a>
-            </h3>
-          </div>
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <p>Build a comprehensive backup strategy to meet your requirements in terms of data protection and recovery times.</p>
-          </div>
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">
-              <a href="https://www.linkedin.com/events/choosingbetweenthemostpopularop7094241865746542592/theater/">PostgreSQL vs MySQL webinar
-              </a>
-            </h3>
-          </div>
-          <div class="col-6 col-medium-4 p-section--shallow">
-            <p>
-              Dive into the differences between the two most popular open-source databases and what those differences mean from a performance, operability and community engagement perspective.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section--deep">
     <div class="row">
       <hr class="p-rule" />
       <div class="u-text--muted col-start-large-7 col-6">
         <p>
-          "MySQL" is a trademark or registered trademark of Oracle. Other trademarks are property of their respective owners.
+          "MySQL" is a trademark or registered trademark of Oracle. Other trademarks are property of their respective owners. Canonical's MySQL offerings are not sponsored, endorsed, or affiliated with Oracle.
         </p>
-        <p>Canonical's MySQL offerings are not sponsored, endorsed, or affiliated with Oracle.</p>
       </div>
     </div>
   </section>
