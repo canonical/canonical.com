@@ -1,7 +1,7 @@
 ---
 wrapper_template: "knowledge/_base_knowledge_markdown.html"
 context:
-  category: "System hardening"
+  category: "Security and compliance"
   publish_date: 2026-11-19
   tag: "Hardening"
   title: "What is system hardening?"
@@ -64,6 +64,6 @@ Within the US, the DoD (Department of Defense) publishes a set of similar benchm
 
 ## How does Canonical help with system hardening?
 
-Hardening benchmarks such as CIS or the DISA-STIG comprise hundreds of individual customizations and configuration steps. Implementing these manually would be especially tedious and error prone, particularly for organization with large device estates.
+Hardening benchmarks such as CIS or the DISA-STIG comprise hundreds of individual customizations and configuration steps. Implementing these manually would be especially tedious and error-prone, particularly for organizations with large device estates.
 
 To simplify this process, Canonical provides USG – the [Ubuntu Security Guide](https://ubuntu.com/security/certifications/docs/usg) – a tool that automates the hardening process. USG bundles profiles for both CIS and DISA-STIG, and includes the ability to customize the hardening profiles based on individual deployment requirements. USG can both harden a system as well as run audits to ensure the configuration remains compliant, with human- and machine-readable reports.
