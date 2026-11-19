@@ -164,6 +164,26 @@ form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
+
+def get_form_modal_id(form_path):
+    """
+    Return the modal ID of the form registered at form_path, so a template
+    that renders the form with load_form can point js-invoke-modal triggers
+    at it. Returns None if the form isn't registered or has no modal ID.
+    """
+    form_info = form_loader.form_metadata.get(form_path)
+    if form_info is None:
+        return None
+
+    lookup_path = form_info.get("parent_path", form_path)
+    with open(form_info["file_path"], encoding="utf-8") as form_json:
+        form = json.load(form_json)["form"].get(lookup_path, {})
+
+    return form.get("modalId")
+
+
+app.jinja_env.globals["get_form_modal_id"] = get_form_modal_id
+
 # Sentry setup
 sentry_dsn = get_flask_env("SENTRY_DSN")
 environment = get_flask_env("FLASK_ENV", "production")

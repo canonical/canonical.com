@@ -7,6 +7,7 @@ context:
   breadcrumb: "What is an AI factory?"
   description: "Understand AI factories and how they work, including their key benefits and use cases, and what sets an AI factory apart from a traditional data center."
   hero_title: "What is an AI factory?"
+  form: "/solutions/ai/infrastructure"
   cta:
     description: "Build your AI factory with our end-to-end, open source AI stack."
     buttons:
@@ -15,7 +16,7 @@ context:
         type: "button"
         variant: "positive"
       - text: "Get in touch"
-        url: "https://canonical.com/solutions/ai/infrastructure#get-in-touch"
+        url: "#get-in-touch"
         type: "button"
   blog:
     title: "Latest from our blog"

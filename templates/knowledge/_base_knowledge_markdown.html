@@ -37,6 +37,11 @@
 
   {% block content %}
 
+  {# An article can set `form` to the key of a form in any form-data.json to
+     render that form here as a modal. CTA buttons and in-article links
+     pointing at "#get-in-touch" then open it in place. #}
+  {% set form_modal_id = get_form_modal_id(form) if form else None %}
+
   {% set breadcrumbs = [
     {"name": category, "href": "/knowledge/" + category_slug},
     {"name": breadcrumb }
@@ -55,7 +60,7 @@
     <div class="grid-col-2 grid-col-medium-4 grid-col-small-4">
       {{ vf_in_page_navigation(scope="full-page",
               primary_heading="h2",
-              excludes=[".p-navigation--list-heading", "text:Newsletter signup", "text:Find out more", "text:" + blog.get('title', 'Latest from our blog')]) }}
+              excludes=[".p-navigation--list-heading", ".p-modal", "text:Newsletter signup", "text:Find out more", "text:" + blog.get('title', 'Latest from our blog')]) }}
     </div>
 
     <div class="p-section grid-col-4 p-markdown">
@@ -111,7 +116,11 @@
         {%- else -%}
           {%- set btn_class = '' -%}
         {%- endif -%}
-        <a href="{{ button.get('url', '#') }}"{% if btn_class %} class="{{ btn_class }}"{% endif %}>{{ button.get('text', 'Button') }}</a>
+        {%- set opens_form = form_modal_id and button.get('url') == '#get-in-touch' -%}
+        {%- if opens_form -%}
+          {%- set btn_class = (btn_class ~ ' js-invoke-modal') | trim -%}
+        {%- endif -%}
+        <a href="{{ button.get('url', '#') }}"{% if btn_class %} class="{{ btn_class }}"{% endif %}{% if opens_form %} aria-controls="{{ form_modal_id }}"{% endif %}>{{ button.get('text', 'Button') }}</a>
       {% endfor %}
       {%- endif -%}
     {% endcall -%}
@@ -126,7 +135,13 @@
       {%- endif -%}
 
       {%- if slot == 'cta' -%}
-        <a href="/contact-us" class="p-button--positive">Contact us</a>
+        {% if form_modal_id %}
+          <a href="#get-in-touch"
+             class="p-button--positive js-invoke-modal"
+             aria-controls="{{ form_modal_id }}">Contact us</a>
+        {% else %}
+          <a href="/contact-us" class="p-button--positive">Contact us</a>
+        {% endif %}
         <a href="/knowledge" class="p-button">Explore other knowledge articles</a>
       {%- endif -%}  
     {% endcall -%}
@@ -144,7 +159,11 @@
     })
   }}
   </div>
-  
+
+  {% if form %}
+    {{ load_form(form, isModal=True, returnUrl=request.path ~ "#contact-form-success") | safe }}
+  {% endif %}
+
   <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>
   <script src="{{ versioned_static('js/modules/latest-news/latest-news.js') }}" nonce="{{ csp_nonce }}"></script>
   <script nonce="{{ csp_nonce }}">

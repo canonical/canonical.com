@@ -9,6 +9,7 @@ context:
   description: "Understand which companies offer open source security, from software supply chains to vulnerability management, and what to look for in a provider."
   copydoc: "https://docs.google.com/document/d/1OZ__LW9OLK6FlHbJWajoyEhpKltCrBnEpjJ-NLC9WPc"
   hero_title: "Which companies offer open source security?"
+  form: "/open-source-security"
   cta:
     description: "Explore how Canonical is at the vanguard of open source security. Dive deeper into our offerings, compare features, and get in touch to embrace the power of open source security for your entire stack for years to come."
     buttons:
@@ -17,7 +18,7 @@ context:
         type: "button"
         variant: "positive"
       - text: "Get in touch"
-        url: "https://canonical.com/solutions/open-source-security#get-in-touch"
+        url: "#get-in-touch"
         type: "button"
       - text: "Download our open source security datasheet ›"
         url: "https://assets.ubuntu.com/v1/79eecf32-secure_your_enterprise_software_supply_chain.pdf?_gl=1*vvuhzx*_gcl_au*MjAyNTc4NzE0Mi4xNzc4MTQ3MDEx"

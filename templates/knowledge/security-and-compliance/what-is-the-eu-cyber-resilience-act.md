@@ -7,12 +7,13 @@ context:
   breadcrumb: "What is the EU Cyber Resilience Act?"
   description: "What the EU Cyber Resilience Act (CRA) means for manufacturers and developers. Learn about mandatory cybersecurity standards, requirements, deadlines, and penalties."
   hero_title: "What is the European Union Cyber Resilience Act (EU CRA)?"
+  form: "/solutions/open-source-security/cyber-resilience-act"
   cta:
     title: "Find out more"
     description: "Take the next steps in preparing for the CRA. Contact us for detailed guidance and get detailed platform comparisons for the best OS for CRA compliance."
     buttons:
       - text: "Get in touch for CRA help"
-        url: "https://canonical.com/solutions/open-source-security/cyber-resilience-act#get-in-touch"
+        url: "#get-in-touch"
         type: "button"
         variant: "positive"
       - text: "Prepare your devices"
