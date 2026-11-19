@@ -8,12 +8,21 @@ emoji: 🤖
 on:
   issues:
     types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to assign Copilot to'
+        required: true
+        type: string
   roles: [admin, maintainer, write]
 
-if: github.event.label.name == 'copilot'
+if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'copilot'
+
+concurrency:
+  job-discriminator: ${{ github.run_id }}
 
 engine: copilot
-model: gpt-5.5
+model: gpt-5
 
 permissions:
   issues: read
@@ -29,7 +38,7 @@ tools:
 safe-outputs:
   assign-to-agent:
     name: copilot
-    target: triggering
+    target: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_number || github.event.issue.number }}
 ---
 
-Assign the GitHub Copilot coding agent to this issue. The agent will read the issue, implement a solution, and open a pull request for review.
+Assign the GitHub Copilot coding agent to issue #${{ github.event.issue.number || inputs.issue_number }} (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number || inputs.issue_number }}). The agent will read the issue, implement a solution, and open a pull request for review.
