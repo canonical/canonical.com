@@ -59,6 +59,16 @@
     font-variant-numeric: tabular-nums;
   }
 
+  // Long URLs and deeply nested list items must wrap on narrow screens.
+  .l-ubuntu-pro-description .p-legal-content {
+    overflow-wrap: anywhere;
+
+    // Keep wide legal tables at their natural width inside their scroll areas.
+    table {
+      overflow-wrap: normal;
+    }
+  }
+
   // Severity-levels table in the Support Services Process section has 8
   // columns. The grid-col-4 content container is too narrow for it to render
   // without clipping. This wrapper enables horizontal scrolling and overrides
