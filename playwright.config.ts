@@ -47,5 +47,10 @@ export default defineConfig({
       testMatch: "navigation/*.spec.ts",
       use: { ...devices['Desktop Chrome']},
     },
+    {
+      name: 'maps',
+      testMatch: "maps/*.spec.ts",
+      use: { ...devices['Desktop Chrome']},
+    },
   ],
 });
