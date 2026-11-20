@@ -1,0 +1,619 @@
+{% extends "base_index.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_tab-section.jinja" import vf_tab_section %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_cta-section.jinja" import vf_cta_section %}
+
+{% block title %}What is MAAS?{% endblock %}
+
+{% block meta_description %}
+  Discover how MAAS manages bare metal as a shared, programmable resource pool for data centers.
+{% endblock %}
+
+{% block meta_copydoc %}
+  https://docs.google.com/document/d/13YZktDh5NGFICpPJqxLhQPd-1k1H7aSaPQUcoKH2eng/edit
+{% endblock meta_copydoc %}
+
+{% block body_class %}
+  is-paper
+{% endblock body_class %}
+
+{% block content %}
+  {% call(slot) vf_hero(
+    title_text='What is MAAS?',
+    subtitle_text='Bare metal, managed like cloud infrastructure',
+    layout='50/50',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "text",
+          "content": "Canonical MAAS is an open source bare metal automation platform that turns physical servers into programmable infrastructure. It provides a central control plane to discover, manage, and automate machines throughout their lifecycle."
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Contact Us",
+            "attrs": {
+              "href": "/maas/contact-us",
+              "class": "js-invoke-modal",
+              "aria-controls": "maas-contact-form"
+            }
+          },
+          "secondaries": [
+            {
+              "content_html": "Try MAAS",
+              "attrs": {
+                "href": "/maas/docs/maas-in-thirty-minutes"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>What does MAAS do?</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <div class="p-section--shallow">
+        <p>
+          MAAS creates one control plane for heterogeneous infrastructure. Modern data centers rarely contain identical machines. Servers differ across vendors, generations, architectures, and configurations. MAAS provides a common management layer across this heterogeneous infrastructure. It discovers machines and maintains an accurate inventory of their hardware, configuration, state, and availability, giving operators a consistent view of the physical resources they manage.
+        </p>
+      </div>
+      <div class="p-image-container--square is-highlighted">
+        {{ image(url="https://assets.ubuntu.com/v1/21c28dfe-maas_diagram.png",
+                alt="MAAS (Metal-as-a-service) machine lifecycle management",
+                width="1200",
+                height="1200",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Discover physical machines</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        MAAS can automatically detect and register new machines, bringing hardware from different vendors and architectures under the same control plane.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Inventory hardware capabilities</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        MAAS records CPU, architecture, memory, disks, network interfaces, GPUs, DPUs, and other attached hardware.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Track configuration and state</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        MAAS keeps track of network configuration, power management, lifecycle state, and the machine availability.
+      </p>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Create a common infrastructure model</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        Different machines are represented and managed consistently, providing a single source of truth for the whole bare metal state.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {{ vf_tab_section(
+    title={
+      "text": "Why MAAS?"
+    },
+    layout="50-50",
+    tabs=[
+      {
+        "tab_html": "Shared resources",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">From individual servers to shared resource pools</h3>
+                  <p>Once MAAS knows the capabilities of each machine and manages them through a common lifecycle, physical servers can be treated as a pool of available resources, rather than as individually managed systems. Machines can be selected according to their hardware characteristics, allocated when needed, and returned to the pool when they are released. This makes it possible to reuse the same hardware for different platforms and workloads over time.</p>
+                '
+              }
+            },
+            {
+              "type": "cta-block",
+              "item": {
+                "link": {
+                  "content_html": "Explore MAAS machine groups&nbsp;&rsaquo;",
+                  "attrs": {
+                    "href": "/maas/docs/stable/explanation/machine-groups/"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "tab_html": "Programmable metal",
+        "type": "divided-section",
+        "item": {
+          "blocks": [
+            {
+              "type": "description-block",
+              "items": [
+                {
+                  "type": "description",
+                  "padding": "shallow",
+                  "item": {
+                    "type": "html",
+                    "content": '
+                      <h3 class="p-heading--5">Make physical infrastructure programmable</h3>
+                      <p>MAAS exposes the machine lifecycle through Application Programming Interfaces (APIs) and automation tools, allowing physical infrastructure to become part of the same programmatic workflows used across the rest of the cloud infrastructure.</p>
+                    '
+                  }
+                }
+              ]
+            },
+            {
+              "type": "divided-block",
+              "bullet_type": "none",
+              "items": [
+                {
+                  "title_text": "Control bare metal through APIs",
+                  "contents": [
+                    {
+                      "type": "description",
+                      "item": {
+                        "type": "text",
+                        "content": "MAAS exposes its machine and resource model through a Representational State Transfer (REST) API and Command Line Interface (CLI)."
+                      }
+                    },
+                    {
+                      "type": "cta-block",
+                      "item": {
+                        "link": {
+                          "content_html": "View the MAAS API Reference&nbsp;&rsaquo;",
+                          "attrs": {
+                            "href": "/maas/docs/latest/reference/api-reference/"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "title_text": "Manage infrastructure as code",
+                  "contents": [
+                    {
+                      "type": "description",
+                      "item": {
+                        "type": "text",
+                        "content": "Terraform and other Infrastructure-as-Code (IaC) workflows can use MAAS to make bare metal part of repeatable and version-controlled infrastructure definitions."
+                      }
+                    },
+                    {
+                      "type": "cta-block",
+                      "item": {
+                        "link": {
+                          "content_html": "How to use the MAAS Terraform provider&nbsp;&rsaquo;",
+                          "attrs": {
+                            "href": "/maas/docs/latest/reference/configuration-guides/terraform/"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "title_text": "Integrate with infrastructure automation",
+                  "contents": [
+                    {
+                      "type": "logo-block",
+                      "item": {
+                        "is_fixed_width": false,
+                        "logos": [
+                          {
+                            "attrs":
+                              image(url="https://assets.ubuntu.com/v1/7f93d13f-juju_logo_maas_assets.png",
+                                alt="Canonical Juju",
+                                width="228",
+                                height="312",
+                                hi_def=True,
+                                loading="lazy",
+                                output_mode="attrs"
+                              )
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "description",
+                      "item": {
+                        "type": "html",
+                        "content": '<p>MAAS integrates with orchestration and automation tools such as <a href="/juju">Juju</a> and Ansible, while its API allows organizations to connect their own systems.</p>'
+                      }
+                    },
+                    {
+                      "type": "cta-block",
+                      "item": {
+                        "link": {
+                          "content_html": "What is Juju?&nbsp;&rsaquo;",
+                          "attrs": {
+                            "href": "/juju"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "tab_html": "Enterprise scale",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Designed for enterprise deployments at scale</h3>
+                  <p>MAAS is designed to support large and complex data centers, with an architecture that can scale as infrastructure grows. Its components can be distributed across the infrastructure, allowing organizations to adapt the deployment to their topology and operational requirements.</p>
+                '
+              }
+            },
+            {
+              "type": "image",
+              "padding": "shallow",
+              "item": {
+                "aspect_ratio": "3-2",
+                "attrs":
+                  image(url="https://assets.ubuntu.com/v1/5a75394a-designed_for_enterprise.png",
+                    alt="MAAS (Metal-as-a-Service) high availability architecture",
+                    width="1200",
+                    height="800",
+                    hi_def=True,
+                    loading="lazy",
+                    output_mode="attrs"
+                  )
+              }
+            },
+            {
+              "type": "description",
+              "item": {
+                "type": "text",
+                "content": "For production environments, MAAS can also be deployed in a highly available configuration to reduce single points of failure and improve service continuity."
+              }
+            }
+          ]
+        }
+      },
+      {
+        "tab_html": "Lower OpEx",
+        "type": "basic-section",
+        "item": {
+          "items": [
+            {
+              "type": "description",
+              "item": {
+                "type": "html",
+                "content": '
+                  <h3 class="p-heading--5">Reduce data center costs with bare metal automation</h3>
+                  <p>Data centers require significant capital investment, but hardware cost is only part of the economic equation. ROI also depends on how efficiently physical infrastructure is operated throughout its lifecycle. Slow provisioning, manual work, failures, stranded capacity and unnecessary energy use all reduce its value. Bare metal automation brings cloud-like flexibility to physical servers, allowing them to be discovered, tested, provisioned, released, rebuilt and reused through repeatable workflows. Canonical MAAS provides this automation layer across different hardware, operating systems and workloads. It helps organizations reduce operational costs, improve infrastructure utilization and extract more productive value from every server during its lifetime.</p>
+                '
+              }
+            },
+            {
+              "type": "description",
+              "padding": "shallow",
+              "item": {
+                "type": "html",
+                "content": '
+                  <p>Bare metal automation can make an economic impact from two perspectives:</p>
+                  <p><strong>Reduce OpEx</strong>: lower the engineering effort needed to provision and manage servers, simplify heterogeneous hardware environments, and reduce repetitive manual work.</p>
+                  <p><strong>Get more value from existing hardware</strong>: improve availability, reclaim stranded capacity, extend hardware life, defer new purchases, and reduce the cost of idle infrastructure.</p>
+                '
+              }
+            },
+            {
+              "type": "cta-block",
+              "item": {
+                "primary": {
+                  "content_html": "Read the Whitepaper",
+                  "attrs": {
+                    "href": "https://ubuntu.com/engage/reduce-data-center-costs-with-bare-metal-automation"
+                  }
+                },
+                "secondaries": [
+                  {
+                    "content_html": "Watch the webinar",
+                    "attrs": {
+                      "href": "https://www.brighttalk.com/webcast/6793/658244"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  ) }}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "MAAS is trusted by"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            image(url="https://assets.ubuntu.com/v1/59c859f5-verizon_logo.png",
+              alt="Verizon",
+              width="312",
+              height="315",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/1627ecc3-ea_logo.png",
+              alt="Electronic Arts",
+              width="129",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/ac81d6b7-at_t_logo.png",
+              alt="AT&T",
+              width="290",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/7d4ec9a7-sandia_logo.png",
+              alt="Sandia National Laboratories",
+              width="273",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/0dee0e26-ubisoft_logo.png",
+              alt="Ubisoft",
+              width="147",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/01f97f55-tele2_logo.png",
+              alt="Tele2",
+              width="152",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/efbaadac-nec_logo.png",
+              alt="NEC",
+              width="194",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/f6d02d3d-t_mobile_logo.png",
+              alt="T-Mobile",
+              width="303",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/67e9e750-ntt_logo.png",
+              alt="NTT",
+              width="254",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/f251c5fd-bt_logo.png",
+              alt="BT",
+              width="131",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/bd134e46-liberty_global_logo.png",
+              alt="Liberty Global",
+              width="131",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/4bab4f7b-barclays_logo.png",
+              alt="Barclays",
+              width="366",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/8a93e9f4-telefonica_logo.png",
+              alt="Telefónica",
+              width="393",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            ),
+            image(url="https://assets.ubuntu.com/v1/e682b329-telecom_italia_logo.png",
+              alt="Telecom Italia",
+              width="184",
+              height="312",
+              hi_def=True,
+              loading="lazy",
+              output_mode="attrs"
+            )
+          ]
+        }
+      }
+    ]
+  ) -%}
+  {%- endcall %}
+
+  {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=false) -%}
+    {%- if slot == 'title' -%}
+      <h2>Where MAAS fits in the infrastructure stack</h2>
+    {%- endif -%}
+
+    {%- if slot == 'description' -%}
+      <div class="p-section--shallow">
+        <p>
+          MAAS sits at the foundation of the Canonical infrastructure stack, providing the bare metal layer on which higher-level platforms can be deployed. For example:
+        </p>
+      </div>
+      <div class="p-image-container--cinematic is-highlighted">
+        {{ image(url="https://assets.ubuntu.com/v1/83e82465-where_maas_fits.png",
+                alt="MAAS (Metal-as-a-Service) is the foundational layer of the Canonical Infrastructure stack",
+                width="1200",
+                height="500",
+                hi_def=True,
+                loading="lazy",
+                attrs={"class": "p-image-container__image"}) | safe
+        }}
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Bare metal cloud</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>
+        MAAS can turn a fleet of physical servers into an on-demand bare metal cloud, where machines are allocated and repurposed as needed, instead of being tied permanently to a specific role. This offers a cloud-like way to consume physical infrastructure, while keeping direct access to the hardware.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/introduction-to-bare-metal-cloud">Learn how to build and run an effective bare metal cloud&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Bare metal Kubernetes</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>
+        Kubernetes can run on MAAS-managed servers, giving workloads direct access to the underlying hardware. This can improve performance and predictability for workloads that benefit from direct hardware access, including High Performance Computing (HPC) and other performance-sensitive environments.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/bare-metal-kubernetes">Learn more about bare metal Kubernetes in our whitepaper&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Private cloud</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>
+        MAAS can provide the physical infrastructure for MicroCloud or OpenStack, taking care of bare metal provisioning while the cloud platform manages virtual machines, networking, storage, and higher-level cloud services.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/bare-metal-challenges-in-private-cloud">How MAAS supports private cloud operations&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">AI Factories</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>
+        MAAS provides the bare metal foundation for AI infrastructure, where direct access to GPUs, high-speed networking and other specialized hardware is critical. By automating provisioning, hardware validation and recovery, MAAS helps keep expensive compute resources available and ready for AI workloads.
+      </p>
+      <div class="p-cta-block">
+        <a href="https://ubuntu.com/engage/how-to-architect-bare-metal-for-peak-performance-in-ai-factories">Learn more about architecting bare metal for AI Factories&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_5' -%}
+      <h3 class="p-heading--5">Sovereign cloud</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_5' -%}
+      <p>
+        Sovereign cloud strategies are increasingly important for organizations that need greater control over where their data and infrastructure run and how they are operated. MAAS helps organizations operate the physical layer on their own terms instead of relying on proprietary tools or manual processes.
+      </p>
+      <div class="p-cta-block">
+        <a href="/blog/simplify-bare-metal-operations-for-sovereign-clouds">Learn more about bare metal operations on sovereign clouds&nbsp;&rsaquo;</a>
+      </div>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_cta_section(
+    title_text="Try MAAS",
+    variant="block",
+    layout="100",
+    blocks=[
+      {
+        "type": "description",
+        "item": {
+          "type": "text",
+          "content": "Build a MAAS and LXD environment in 30 minutes with Multipass."
+        }
+      },
+      {
+        "type": "cta",
+        "item": {
+          "primary": {
+            "content_html": "Check the tutorial",
+            "attrs": {
+              "href": "/maas/docs/stable/tutorial/"
+            }
+          }
+        }
+      }
+    ]
+  ) -%}
+  {%- endcall %}
+
+  {{ load_form("/maas", returnUrl="/maas/what-is-maas#contact-form-success") | safe }}
+
+  <script type="module" src="/static/js/modules/vanilla-framework/js/tabs.js" nonce="{{ csp_nonce }}"></script>
+{% endblock content %}
