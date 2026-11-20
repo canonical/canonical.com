@@ -14,27 +14,27 @@ on:
       issue_number:
         description: 'Issue number to assign Copilot to'
         required: true
-        type: string
+        type: number
   roles: [admin, maintainer, write]
+  permissions:
+    contents: read
 
 if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'copilot'
 
 concurrency:
   job-discriminator: ${{ github.run_id }}
 
-engine: copilot
-model: gpt-5
+engine:
+  id: copilot
+  model: gpt-5
 
 permissions:
-  issues: read
   contents: read
-  pull-requests: read
   copilot-requests: write
 
+# The agent only calls the assign-to-agent safe output, so it needs no GitHub read tools.
 tools:
-  github:
-    mode: gh-proxy
-    toolsets: [default]
+  github: false
 
 safe-outputs:
   assign-to-agent:
