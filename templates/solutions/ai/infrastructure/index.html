@@ -191,16 +191,19 @@
   {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=false) -%}
     {%- if slot == 'title' -%}
       <h2>Full-stack AI infrastructure</h2>
-      {#- The diagram sits in the title slot because the tiered list media options crop it and cannot offset it to the list column -#}
-      <div class="grid-row">
+      {#- The diagram sits in the title slot because the tiered list media options cannot offset it to the list column or hide it on small screens only -#}
+      <div class="grid-row u-hide--small">
         <div class="grid-col-6 grid-col-start-large-3">
-          {{ image(url="https://assets.ubuntu.com/v1/05ae0a06-full_stack_ai_infrastructure_diagram_2x.png",
-            alt="Diagram of the Canonical AI infrastructure stack, with certified hardware as the foundational layer. Above it are three layers which are supported by Ubuntu Pro: infrastructure, application lifecycle management, and applications.",
-            width="916",
-            height="540",
-            hi_def=True,
-            loading="lazy") | safe
-          }}
+          <div class="p-image-container--16-9 is-highlighted">
+            {{ image(url="https://assets.ubuntu.com/v1/a1338455-full_stack_ai_infra_diagram.png",
+              alt="Diagram of the Canonical AI infrastructure stack, with certified hardware as the foundational layer. Above it are three layers which are supported by Ubuntu Pro: infrastructure, application lifecycle management, and applications.",
+              width="916",
+              height="515",
+              hi_def=True,
+              loading="lazy",
+              attrs={"class": "p-image-container__image"}) | safe
+            }}
+          </div>
         </div>
       </div>
     {%- endif -%}
