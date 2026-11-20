@@ -188,7 +188,7 @@ Container Build Service. Canonical’s offerings that help with container securi
 
 ### What are rocks?
 
-[Rocks](https://documentation.ubuntu.com/rockcraft/stable/explanation/rocks/) are Canonical’s 
+[Rocks](https://ubuntu.com/containers/rockcraft/docs/latest/explanation/rocks/) are Canonical’s 
 OCI-compliant, minimal container images. They are hardened by design, and built from trusted, 
 heavily audited Ubuntu sources. Running as non-root by default, rocks enforce the principle of 
 least privilege, and their minimal size means a small attack surface, whilst retaining the 
@@ -203,7 +203,7 @@ Key aspects that set rocks apart include:
     "<strong>Package metadata:</strong> Rocks extend the OCI image information by including additional metadata inside each rock, allowing container applications to easily inspect the properties of the image they are running on, at execution time."
 ]) }}
 
-[Learn more about rocks ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/rocks/)
+[Learn more about rocks ›](https://ubuntu.com/containers/rockcraft/docs/latest/explanation/rocks/)
 
 ### Package slicing with Chisel
 
@@ -214,7 +214,7 @@ stripping attackers of the tools they need to enact living-off-the-land attacks.
 traditional distroless approaches, Chisel preserves slice metadata, so that security scanners can 
 accurately report CVEs rather than false negatives.
 
-[Read more about Chisel ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/chisel/)
+[Read more about Chisel ›](https://ubuntu.com/containers/rockcraft/docs/latest/explanation/chisel/)
 
 {{ image_kh(url="https://assets.ubuntu.com/v1/a44c165a-kh_cloud_infra.png",
   alt="Image depicting a side-by-side comparison of 3 rocks: \n1. Python rock with an Ubuntu base: This contains additional utilities, leading to a wider attack surface. It is 42MB, and 114MB in Docker local registry. \n2. Python rock with a bare base: This contains no additional utilities, but includes the entire Python package and dependencies. It is 28MB, and 74MB in Docker local registry. \n3. Chiseled Python rock: This has no additional utilities, and only includes the necessary bits of Python and dependencies. It is 13MB, is STIG/CIS compliant off-the-shelf, and provides a 61%+ CVE reduction compared to equivalent standard or distroless images.",
@@ -238,7 +238,7 @@ rocks, providing a predictable and powerful abstraction layer between the user a
 application. Pebble uses declarative YAML files to orchestrate services natively, eliminating the 
 security risk posed when using imperative shell scripts to start multiple processes in a container.
 
-[Read more about Pebble ›](https://documentation.ubuntu.com/rockcraft/stable/explanation/pebble/)
+[Read more about Pebble ›](https://ubuntu.com/containers/rockcraft/docs/latest/explanation/pebble/)
 
 ### Building rocks
 
@@ -247,7 +247,7 @@ multi-stage Dockerfiles that may hide unverified upstream code or insecure confi
 Rockcraft standardizes the build process, producing minimal images through a repeatable, 
 auditable build pipeline.
 
-[Craft your own rock ›](https://documentation.ubuntu.com/rockcraft/stable/)
+[Craft your own rock ›](https://ubuntu.com/containers/rockcraft/docs/latest/)
 
 ### Container Build Service
 
