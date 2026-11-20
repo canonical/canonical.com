@@ -37,10 +37,10 @@
 
   {% block content %}
 
-  {# An article can set `form` to the key of a form in any form-data.json to
-     render that form here as a modal. CTA buttons and in-article links
-     pointing at "#get-in-touch" then open it in place. #}
-  {% set form_modal_id = get_form_modal_id(form) if form else None %}
+  {# A CTA button linking to a contact form modal on another canonical.com
+     page ("<page>#get-in-touch") opens that form here instead #}
+  {% set cta_buttons = cta.get('buttons', []) if cta else [] %}
+  {% set modal_form = get_modal_form(cta_buttons | map(attribute='url', default='')) %}
 
   {% set breadcrumbs = [
     {"name": category, "href": "/knowledge/" + category_slug},
@@ -74,9 +74,9 @@
       <form action="https://ubuntu.com/marketo/submit"
             method="post"
             id="mktoForm_4960">
-        <label class="is-required" for="email">Work email:</label>
+        <label class="is-required" for="newsletter-email">Work email:</label>
         <input required=""
-                id="email"
+                id="newsletter-email"
                 name="email"
                 maxlength="255"
                 type="email"
@@ -85,10 +85,10 @@
           <input required=""
                   class="p-checkbox__input"
                   value="yes"
-                  aria-labelledby="canonicalUpdatesOptIn"
+                  aria-labelledby="newsletter-canonicalUpdatesOptIn"
                   name="canonicalUpdatesOptIn"
                   type="checkbox" />
-          <span class="p-checkbox__label" id="canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
+          <span class="p-checkbox__label" id="newsletter-canonicalUpdatesOptIn">I agree to receive information about Canonical's products and services.</span>
         </label>
         <p>
           In submitting this form, I confirm that I have read and agree to
@@ -116,11 +116,11 @@
         {%- else -%}
           {%- set btn_class = '' -%}
         {%- endif -%}
-        {%- set opens_form = form_modal_id and button.get('url') == '#get-in-touch' -%}
+        {%- set opens_form = modal_form and get_modal_form([button.get('url')]) == modal_form -%}
         {%- if opens_form -%}
           {%- set btn_class = (btn_class ~ ' js-invoke-modal') | trim -%}
         {%- endif -%}
-        <a href="{{ button.get('url', '#') }}"{% if btn_class %} class="{{ btn_class }}"{% endif %}{% if opens_form %} aria-controls="{{ form_modal_id }}"{% endif %}>{{ button.get('text', 'Button') }}</a>
+        <a href="{{ button.get('url', '#') }}"{% if btn_class %} class="{{ btn_class }}"{% endif %}{% if opens_form %} aria-controls="{{ modal_form.modal_id }}"{% endif %}>{{ button.get('text', 'Button') }}</a>
       {% endfor %}
       {%- endif -%}
     {% endcall -%}
@@ -135,13 +135,7 @@
       {%- endif -%}
 
       {%- if slot == 'cta' -%}
-        {% if form_modal_id %}
-          <a href="#get-in-touch"
-             class="p-button--positive js-invoke-modal"
-             aria-controls="{{ form_modal_id }}">Contact us</a>
-        {% else %}
-          <a href="/contact-us" class="p-button--positive">Contact us</a>
-        {% endif %}
+        <a href="/contact-us" class="p-button--positive">Contact us</a>
         <a href="/knowledge" class="p-button">Explore other knowledge articles</a>
       {%- endif -%}  
     {% endcall -%}
@@ -160,8 +154,11 @@
   }}
   </div>
 
-  {% if form %}
-    {{ load_form(form, isModal=True, returnUrl=request.path ~ "#contact-form-success") | safe }}
+  {% if modal_form %}
+    {# data-md-strip keeps the modal out of the page's Markdown version #}
+    <div data-md-strip>
+      {{ load_form(modal_form.path, isModal=True, returnUrl=request.path ~ "#contact-form-success") | safe }}
+    </div>
   {% endif %}
 
   <script src="{{ versioned_static('js/in-page-navigation.js') }}" nonce="{{ csp_nonce }}"></script>

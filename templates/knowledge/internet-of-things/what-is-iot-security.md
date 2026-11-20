@@ -8,12 +8,11 @@ context:
   description: "IoT security protects connected devices, data, and networks from vulnerabilities through secure design, trusted updates, strong access control, and fleet management."
   copydoc: "https://docs.google.com/document/d/1dPnp32Tcg770GcQzGmUWP4BU8q-tNfilNiWMDJfBtus/edit?tab=t.gx9xrjd45b1q"
   hero_title: "What is IoT security?"
-  form: "/solutions/iot-and-devices"
   cta:
     description: "Learn about Canonical's IoT security solutions, like Ubuntu Core, which offer strong, updatable defenses for devices throughout their entire lifecycle. Discover specific security features, certification steps, and best practices for creating secure IoT products."
     buttons:
       - text: "Contact us"
-        url: "#get-in-touch"
+        url: "/solutions/iot-and-devices#get-in-touch"
         type: "button"
         variant: "positive"
       - text: "Learn more about IoT security"

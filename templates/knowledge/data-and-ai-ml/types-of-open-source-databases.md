@@ -8,7 +8,6 @@ context:
   breadcrumb: "Types of open source databases"
   description: "Explore the main open source database categories, their core features, and how to successfully manage them at scale."
   hero_title: "What are the different types of open source databases?"
-  form: "/data"
   cta:
     description: "Build your data stack with Canonical’s open source solutions."
     buttons:
@@ -17,7 +16,7 @@ context:
         type: "button"
         variant: "positive"
       - text: "Get in touch"
-        url: "#get-in-touch"
+        url: "https://canonical.com/data#get-in-touch"
         type: "button"
   blog:
     title: "Latest from our blog"
