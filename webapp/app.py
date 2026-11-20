@@ -164,6 +164,67 @@ form_template_path = "shared/forms/form-template.html"
 form_loader = FormGenerator(app, form_template_path)
 form_loader.load_forms()
 
+
+CANONICAL_HOSTS = ("", "canonical.com", "www.canonical.com")
+
+
+def get_modal_form(urls):
+    """
+    Find the first link in urls that opens a contact form modal on another
+    canonical.com page ("<page>#get-in-touch"), so the linking page can
+    render that modal itself. Returns {"path": <load_form path>,
+    "modal_id": <modal element ID>}, or None if no link opens a modal form.
+    """
+    for url in urls:
+        modal_form = _get_link_modal_form(url)
+        if modal_form:
+            return modal_form
+
+    return None
+
+
+def _get_link_modal_form(url):
+    parsed_url = urlparse(url or "")
+    page_path = "/" + parsed_url.path.strip("/")
+    if (
+        parsed_url.netloc not in CANONICAL_HOSTS
+        or parsed_url.fragment != "get-in-touch"
+        or page_path == "/"
+    ):
+        return None
+
+    form_path = _get_page_form_path(page_path)
+    if form_path is None:
+        return None
+
+    form_file = form_loader.form_metadata[form_path]["file_path"]
+    with open(form_file, encoding="utf-8") as form_json:
+        form = json.load(form_json)["form"][form_path]
+
+    modal_id = form.get("modalId")
+    return {"path": form_path, "modal_id": modal_id} if modal_id else None
+
+
+def _get_page_form_path(page_path):
+    form_info = form_loader.form_metadata.get(page_path)
+    if form_info:
+        # Child pages use their parent's form
+        return form_info.get("parent_path", page_path)
+
+    # Some forms aren't keyed by their page's URL, e.g. the form on
+    # /solutions/open-source-security is "/open-source-security", so fall
+    # back to the only form defined next to the page's template
+    page_dir = form_loader.templates_folder / page_path.lstrip("/")
+    form_paths = [
+        path
+        for path, info in form_loader.form_metadata.items()
+        if not info.get("is_child") and info["file_path"].parent == page_dir
+    ]
+    return form_paths[0] if len(form_paths) == 1 else None
+
+
+app.jinja_env.globals["get_modal_form"] = get_modal_form
+
 # Sentry setup
 sentry_dsn = get_flask_env("SENTRY_DSN")
 environment = get_flask_env("FLASK_ENV", "production")
