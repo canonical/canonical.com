@@ -70,7 +70,7 @@ Compliance frameworks and security standards are all part of the same family of 
 
 Many of these security standards are wide-ranging cybersecurity frameworks that touch almost every aspect of an organization. In most cases, it’s not simply a case of deploying a certain product or piece of technology in order to become compliant. However, where standards do set specific technology requirements, there are three areas where Ubuntu Pro can help you meet these standards: vulnerability patching, system hardening, and asset management.
 
-Every security standard will require security vulnerabilities, or [CVEs](https://canonical.com/knowledge/security-and-compliance/what-is-a-cve), to be patched in a timely manner. Ubuntu Pro extends support for Ubuntu LTS releases to up to 15 years, with Canonical directly patching and maintaining the open source packages in Ubuntu. 
+Every security standard will require security vulnerabilities, or [CVEs](/knowledge/security-and-compliance/what-is-a-cve), to be patched in a timely manner. Ubuntu Pro extends support for Ubuntu LTS releases to up to 15 years, with Canonical directly patching and maintaining the open source packages in Ubuntu. 
 
 Another key requirement that’s common across almost all standards is around deploying and maintaining software in a known-good secure configuration. Ubuntu is a versatile platform that can be used in a wide range of environments, but when it comes to strict security standards, many organizations turn to industry benchmarks for secure configurations, such as CIS or DISA-STIG. Ubuntu Pro includes the USG (Ubuntu Security Guide) tool which can harden Ubuntu systems in accordance with these profiles, and audit them on an ongoing basis.
 
