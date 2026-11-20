@@ -1,0 +1,13 @@
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/shared/vf_cta-block.jinja" import vf_cta_block %}
+{#- vf_tiered_list only takes slots, so the headings are written here.
+    macro["items"], not macro.items: on a dict, .items is dict.items(). -#}
+{% call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) %}
+  {%- if slot == "title" %}<h2>{{ value.title }}</h2>{% endif -%}
+  {%- if slot == "description" %}{{ macro.description }}{% endif -%}
+  {%- if slot == "cta" %}{{ vf_cta_block(**macro.cta) }}{% endif -%}
+  {%- for item in macro["items"] -%}
+    {%- if slot == "list_item_title_" ~ loop.index %}<h3 class="p-heading--5">{{ item.title }}</h3>{% endif -%}
+    {%- if slot == "list_item_description_" ~ loop.index %}{{ item.description }}{% endif -%}
+  {%- endfor -%}
+{% endcall %}

@@ -1,0 +1,10 @@
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/shared/vf_cta-block.jinja" import vf_cta_block %}
+{% call(slot) vf_equal_heights(
+  title_text=macro.title,
+  items=macro["items"],
+  highlight_images=true,
+  image_aspect_ratio_large="square"
+) %}
+  {%- if slot == "description" %}{{ macro.description }}{{ vf_cta_block(**macro.cta) }}{% endif -%}
+{% endcall %}

@@ -1,0 +1,15 @@
+{% extends "base_index.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.meta.meta_description }}{% endblock %}
+{% block meta_copydoc %}{{ page.meta.meta_copydoc }}{% endblock %}
+{% block body_class %}{{ page.meta.body_class }}{% endblock %}
+
+{% block content %}
+  {% include "cms_wagtail/_preview_banner.html" %}
+  {% for section in page.sections %}
+    {% with value = section.value, macro = section.macro %}
+      {% include "cms_wagtail/blocks/" ~ section.type ~ ".html" %}
+    {% endwith %}
+  {% endfor %}
+{% endblock %}
