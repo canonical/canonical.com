@@ -1,13 +1,23 @@
 {% extends 'base_index.html' %}
 
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+{% from "_macros/vf_logo-section.jinja" import vf_logo_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
+{% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
+{% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
+{% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
+{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+
 {% block meta_copydoc %}
   https://docs.google.com/document/d/1zu_5LIjlcTwyJzJfX3jveX2HfMO8XxkXg5A7E5ZjE6g/
 {% endblock meta_copydoc %}
 
-{% block title %}Valkey{% endblock %}
+{% block title %}Enterprise-grade support for your Valkey clusters{% endblock %}
+
+{% block canonical_url %}{{ request.host_url }}data/valkey{% endblock %}
 
 {% block meta_description %}
-  Get support for Valkey, from Canonical. 24/7 or weekday support and up to 15 years security patching per release track.
+  Get enterprise-grade Valkey support from Canonical. Enjoy security maintenance, support, automated deployment, and upgrades for your Valkey databases across private and public clouds.
 {% endblock %}
 
 {% block body_class %}
@@ -16,439 +26,373 @@
 
 {% block content %}
 
-  <section class="p-section--hero">
-    <div class="row--25-75">
-      <div class="col">
-        {{ image(url="https://assets.ubuntu.com/v1/e81042d5-hero-logo.png",
-                alt="",
-                width="568",
-                height="130",
-                hi_def=True,
-                loading="auto") | safe
-        }}
-      </div>
-      <div class="col p-section--shallow">
-        <div class="p-section--shallow">
-          <h1>Valkey&trade; support and security maintenance</h1>
-        </div>
-        <div class="p-section--shallow">
-          <p>
-            We are experts in Valkey. From providing everyday support to offering hands-on assistance for complex projects, our experienced database performance specialists are prepared to assist you with any challenge.
-          </p>
-          <p>
-            Deal with issues faster and guarantee the ongoing performance of your Valkey deployments with 24/7/365 support across clouds, on premises, and hybrid environments.
-          </p>
-        </div>
-        <div class="p-cta-block">
-          <a class="p-button--positive js-invoke-modal"
-             aria-controls="data-valkey-modal"
-             href="/contact-us">Get support</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>What is Valkey&trade;?</h2>
-      </div>
-      <div class="col">
-        <p>
-          Valkey is an open source (Berkeley Source Distribution-BSD license) high-performance,  in-memory data store that supports a variety of workloads such as caching and message queues.  It can act as a primary database. Valkey can run as either a standalone daemon or in a cluster, with options for replication and high availability.
-        </p>
-        <p>Valkey 7.2 is the drop-in replacement for the last open source Redis version 7.2 and for earlier Redis versions.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--25-75">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2 class="p-text--small-caps">Why choose Canonical for Valkey&trade; support</h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Up to 15 years support and security maintenance</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Low total cost of ownership</p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p class="p-heading--2">Experts in the full open source stack</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Valkey&trade; support</h2>
-      </div>
-      <div class="col">
-        <p>
-          Canonical offers 24/7/365 support for your Valkey application. Keep your production environment bug-free and secure with our experts' help.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9 col-medium-6">
-        <div class="p-image-container--cinematic is-highlighted">
-          {{ image(url="https://assets.ubuntu.com/v1/47a4c000-hero-img.png",
-                    alt="",
-                    width="1832",
-                    height="812",
-                    hi_def=True,
-                    loading="lazy",
-                    attrs={"class": "p-image-container__image"}) | safe
-          }}
-        </div>
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Technical support</h3>
-            <p>
-              Your data, our expertise. Included in the <a href="https://www.ubuntu.com/pro">Ubuntu Pro</a> pricing is phone and ticket support for Valkey. Canonical uses the follow-the-sun support model to ensure 24/7 coverage so that your issues are resolved quickly.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Long-term stability</h3>
-            <p>
-              Not every organization is willing or able to upgrade their critical data infrastructure on a regular basis. With Canonical, your service stays security-maintained for up to 15 years with no need for major upgrades.
-            </p>
-          </div>
-          <div class="col-3 col-medium-2">
-            <h3 class="p-heading--5">Fast response time</h3>
-            <p>
-              We guarantee 1 hour response time for the most critical issues. Our expertise underpins your Service Level Agreement (SLA).
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <hr class="p-rule--muted" />
-      <div class="col-start-large-7 col-6">
-        <a class="p-button--positive js-invoke-modal"
-           aria-controls="data-valkey-modal"
-           href="/contact-us">Get support</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Predictable pricing for supported
-          <br />
-          and security maintained Valkey&trade;
-        </h2>
-      </div>
-      <div class="col">
-        <h2 class="p-heading--5">From $500 per node, per year</h2>
-        <p>
-          Support for Valkey is priced per node, per year. There are no per-socket or per-core limitations, and no software licence fees.
-        </p>
-        <p>Run Valkey with more control over your Total Cost of Ownership (TCO).</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Multiple packaging formats</h2>
-      </div>
-      <div class="col">
-        <p>We provide maintained and supported Valkey packages in deb, snap, and container formats:</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-3">
-            <h3 class="p-heading--5">Debs</h3>
-          </div>
-          <div class="col-6">
-            <p>We offer deb packages for a seamless integration with your Ubuntu installations. Our Valkey debs help you:</p>
-            <ul class="p-list--divided">
-              <li class="p-list__item is-ticked">
-                Deploy a working Valkey instance in a single command
-                <pre class="u-no-margin--bottom">sudo apt install valkey</pre>
-              </li>
-              <li class="p-list__item is-ticked">Use readily available libraries to run Valkey</li>
-            </ul>
-            <hr class="p-rule--muted" />
-            <p class="u-no-margin--bottom">
-              <a href="https://ubuntu.com/blog/valkey-ubuntu">Read more&nbsp;&rsaquo;</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row p-section--shallow">
-          <div class="col-3">
-            <h3 class="p-heading--5">Snaps</h3>
-          </div>
-          <div class="col-6">
-            <p>
-              Get snaps for added confinement and atomic updates on all major <a href="https://snapcraft.io/docs/distro-support">Linux distributions</a>.
-            </p>
-            <hr class="p-rule--muted u-no-margin--bottom" />
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Valkey-only snap for the smallest possible footprint and attack surface</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-start-large-4 col-9">
-        <hr class="p-rule--muted" />
-        <div class="row">
-          <div class="col-3">
-            <h3 class="p-heading--5">Containers</h3>
-          </div>
-          <div class="col-6">
-            <p>
-              We deliver OCI-compliant images for your containerized environment.
-              <br />
-              We provide several supported options:
-            </p>
-            <ul class="p-list--divided u-no-margin--bottom">
-              <li class="p-list__item is-ticked">Valkey-only regular container</li>
-              <li class="p-list__item is-ticked u-no-padding--bottom">
-                Valkey-only chiselled container for the smallest possible footprint and attack surface
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Data and AI platform
-          <br />
-          architecture consulting
-        </h2>
-      </div>
-      <div class="col">
-        <p>
-          Work with a Canonical platform architect to design the open source data solution that works best for you, including Valkey. Design services cover requirements analysis, environment planning, initial dimensioning and solution design. Fully documented and aligned with your needs.
-        </p>
-        <div class="p-cta-block">
-          <p>
-            <a href="https://assets.ubuntu.com/v1/4220f815-Data%20Solutions%20Advisory%20version%20_updated%20-%20v3-2.pdf">Download the datasheet&nbsp;&rsaquo;</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="p-rule is-fixed-width" />
-
-  <section class="p-strip is-deep">
-    <div class="u-fixed-width">
-      <h2>
-        <a aria-controls="data-valkey-modal"
-           class="js-invoke-modal"
-           href="/contact-us">Contact us to get support for Valkey&trade;&nbsp;&rsaquo;</a>
-      </h2>
-    </div>
-  </section>
-
-  <section class="p-section">
-    <div class="row--50-50 p-section--shallow">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>
-          Come for Valkey&trade; support,
-          <br />
-          get the full stack
-        </h2>
-      </div>
-      <div class="col">
-        <p>
-          With <a href="https://www.ubuntu.com/pro">Ubuntu Pro + Support</a> for Valkey, you get an all-access pass to everything Canonical has to offer, including best-in-class open source solutions for enterprise data management and AI. Ubuntu Pro subscriptions are competitively priced per server, not per application.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-3 col-medium-2 col-small-2 p-section--shallow">
-        <a href="/mlops/kubeflow" aria-label="Kubeflow">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/15d9633b-kubeflow.png",
-                        alt="",
-                        width="568",
+  {% call(slot) vf_hero(
+    title_text='Enterprise support for Valkey',
+    chip_text='Supported with Ubuntu Pro',
+    layout='25/75',
+    blocks=[
+      {
+        "type": "description",
+        "padding": "shallow",
+        "item": {
+          "type": "html",
+          "content": '<p>Unlock a reliable, open source foundation for your mission-critical database workloads. Canonical&rsquo;s Valkey automation and artifacts provide you with up to 15 years of security maintenance, 24/7 SLA-backed support, and expert consulting services to meet your needs.</p>'
+        }
+      },
+      {
+        "type": "cta-block",
+        "item": {
+          "primary": {
+            "content_html": "Contact us",
+            "attrs": {
+              "href": "/data/valkey#get-in-touch",
+              "class": "js-invoke-modal",
+              "aria-controls": "data-valkey-modal"
+            }
+          }
+        }
+      },
+      {
+        "type": "signpost_image",
+        "item": {
+          "is_highlighted": false,
+          "attrs": image(url="https://assets.ubuntu.com/v1/b5fb037b-signpost_logo_valkey.png",
+                        alt="Valkey",
+                        width="852",
                         height="321",
                         hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
+                        loading="auto",
+                        output_mode="attrs")
+        }
+      }
+    ]
+  ) -%}
+  {% endcall -%}
+
+  {% call(slot) vf_logo_section(
+    title={
+      "text": "Run Valkey across public and private clouds"
+    },
+    blocks=[
+      {
+        "type": "logo-block",
+        "item": {
+          "logos": [
+            image(url="https://assets.ubuntu.com/v1/2e1ee972-openstack_logo_valkey.png",
+                  alt="OpenStack",
+                  width="384",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs"),
+            image(url="https://assets.ubuntu.com/v1/c7bb4223-microcloud_logo_valkey.png",
+                  alt="MicroCloud",
+                  width="393",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs"),
+            image(url="https://assets.ubuntu.com/v1/d531cc8f-vmware_logo_valkey.png",
+                  alt="VMware",
+                  width="322",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs"),
+            image(url="https://assets.ubuntu.com/v1/e5671aa2-aws_logo_valkey.png",
+                  alt="AWS",
+                  width="151",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs"),
+            image(url="https://assets.ubuntu.com/v1/db97614c-google_cloud_logo_valkey.png",
+                  alt="Google Cloud",
+                  width="369",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs"),
+            image(url="https://assets.ubuntu.com/v1/6bfaef1a-microsoft_azure_logo_valkey.png",
+                  alt="Microsoft Azure",
+                  width="271",
+                  height="312",
+                  hi_def=True,
+                  loading="lazy",
+                  output_mode="attrs")
+          ]
+        }
+      }
+    ]
+  ) -%}
+    {%- if slot == 'description' -%}
+      <p>When you use our Valkey artifacts, you benefit from optimized configurations for every cloud. You can run Valkey on public clouds, or in your private data center on top of MAAS and MicroCloud, OpenStack or VMware.</p>
+    {%- endif -%}
+  {% endcall -%}
+
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "100+<br class=\"u-hide--small\"> clusters",
+        "headline": "Rely on our services",
+        "description": "Our Valkey stack is tried and tested in hundreds of deployments across all IT sectors.",
+        "link": {
+          "url": "/data/valkey#get-in-touch",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "10+<br class=\"u-hide--small\"> automations",
+        "headline": "To scale your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical.com/data/valkey/docs/9/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly whether in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "https://canonical.com/data/valkey/docs/9/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
+
+  {%- call(slot) vf_tiered_list(is_list_full_width_on_tablet=true) -%}
+    {%- if slot == 'title' -%}
+      <h2>Valkey deployment options</h2>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_1' -%}
+      <h3 class="p-heading--5">Debian package</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_1' -%}
+      <p>Get our Valkey <a href="https://packages.ubuntu.com/search?keywords=valkey&amp;searchon=names&amp;suite=all&amp;section=all">debs</a> for seamless integration with your Ubuntu installations. Deploy a working Valkey instance in a single command.</p>
+      <a href="https://ubuntu.com/blog/valkey-ubuntu" class="p-button">Try the deb</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_2' -%}
+      <h3 class="p-heading--5">Snap</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_2' -%}
+      <p>Get snaps for added confinement and atomic updates on all major Linux distributions, with a small footprint and minimal attack surface.</p>
+      <a href="https://snapcraft.io/valkey" class="p-button">Try the snap</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_3' -%}
+      <h3 class="p-heading--5">Container</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_3' -%}
+      <p>We deliver OCI-compliant images for your containerized environment, including regular and chiselled container options.</p>
+      <a href="https://hub.docker.com/r/ubuntu/valkey" class="p-button">Try the container</a>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_title_4' -%}
+      <h3 class="p-heading--5">Software operator</h3>
+    {%- endif -%}
+
+    {%- if slot == 'list_item_description_4' -%}
+      <p>Our software operator helps you automate the operations of your Valkey clusters including deployment, scaling, encryption, monitoring, and upgrades.</p>
+      <a href="https://charmhub.io/valkey" class="p-button">Check our software operator</a>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {% call(slot) vf_equal_heights(
+    title_text="Popular Valkey use cases",
+    attrs={ "id": "4-columns-responsive" },
+    highlight_images=True,
+    subtitle_text="",
+    items=[
+      {
+        "title_text": "Performance acceleration",
+        "image_html": image(url="https://assets.ubuntu.com/v1/13a884b2-performance_acceleration_2.png",
+                            alt="",
+                            width="568",
+                            height="852",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe,
+        "description_html": "<p>Valkey delivers high-throughput, low-latency in-memory data caching to drastically improve web application performance, reduce database load, and speed up read operations across critical workloads.</p>"
+      },
+      {
+        "title_text": "Message queuing and streaming",
+        "image_html": image(url="https://assets.ubuntu.com/v1/667adb3d-message_queuing_streaming_2.png",
+                            alt="",
+                            width="566",
+                            height="852",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe,
+        "description_html": "<p>Valkey supports lightweight messaging through its native publish/subscribe channel and streams data structures. It&rsquo;s widely used for task queues, event-based microservices, and real-time notifications. Hence, it is a compelling alternative to dedicated and heavier messaging systems.</p>"
+      },
+      {
+        "title_text": "Real-time analytics and leaderboards",
+        "image_html": image(url="https://assets.ubuntu.com/v1/d640769a-real_time_analytics_2.png",
+                            alt="",
+                            width="568",
+                            height="852",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe,
+        "description_html": "<p>Valkey&rsquo;s sorted sets, counters, and HyperLogLog data structures make it a natural fit for real-time use cases such as leaderboards, rate limiting, and view counting.</p>"
+      },
+      {
+        "title_text": "Session management",
+        "image_html": image(url="https://assets.ubuntu.com/v1/f8253910-session_management_2.png",
+                            alt="",
+                            width="570",
+                            height="855",
+                            hi_def=True,
+                            loading="lazy",
+                            attrs={"class": "p-image-container__image"}) | safe,
+        "description_html": "<p>Web and mobile applications commonly use Valkey to store user session state, authentication tokens, and shopping cart data. Because sessions are read-heavy and short-lived data, they are an ideal fit for an in-memory store with automatic key expiration such as Valkey.</p>"
+      }
+    ]
+  ) %}
+  {% endcall %}
+
+  {% call(slot) vf_pricing_block(
+    title_text="Valkey support services",
+    tiers=[
+      {
+        "tier_name_text": "Subscription-based",
+        "tier_price_text": "",
+        "tier_price_explanation": "",
+        "tier_offerings": [
+          { "list_item_style": "ticked", "list_item_content_html": "Security maintenance" },
+          { "list_item_style": "ticked", "list_item_content_html": "24/7 phone and ticket support" },
+          { "list_item_style": "ticked", "list_item_content_html": "SLA-backed firefighting support" },
+          { "list_item_style": "ticked", "list_item_content_html": "Managed deployments" },
+          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
+        ]
+      },
+      {
+        "tier_name_text": "On-demand",
+        "tier_price_text": "",
+        "tier_price_explanation": "",
+        "tier_offerings": [
+          { "list_item_style": "ticked", "list_item_content_html": "Workshops" },
+          { "list_item_style": "ticked", "list_item_content_html": "Deployment packages" },
+          { "list_item_style": "ticked", "list_item_content_html": "Consulting packages" },
+          { "list_item_style": "ticked", "list_item_content_html": "Trainings" },
+          { "list_item_style": "ticked", "list_item_content_html": "And much more" }
+        ]
+      }
+    ]
+  ) -%}
+    {%- if slot == 'section_description' -%}
+      <p>Whether you are exploring Valkey or need deep expertise to scale your deployments and meet your SLAs, our subscription-based services &ndash; including <a href="https://ubuntu.com/pro">Ubuntu Pro</a> &ndash; are designed to support your team and free them from time-consuming tasks.</p>
+      <p>Our on-demand services help you unlock the potential of your data platform by addressing your specific challenges with tailored workshops, targeted knowledge transfer, and timely delivery of expert consulting.</p>
+      <div class="p-cta-block">
+        <a href="https://canonical.com/data/services" class="p-button--positive">More details on our services</a>
       </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/mlops/mlflow" aria-label="MLflow">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/620afcab-mlflow.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/spark" aria-label="Apache Spark">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/f1debb59-apache%20spark.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/opensearch" aria-label="OpenSearch">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/7a00466d-opensearch.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/mongodb" aria-label="MongoDB">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/23ae1c13-mongodb.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/kafka" aria-label="Kafka">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/205f5ec8-kafka.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/postgresql" aria-label="PostgreSQL">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/82e94ddc-postgresql.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-      <div class="col-3 col-medium-2 col-small-2">
-        <a href="/data/mysql" aria-label="MySQL">
-          <div class="p-image-container is-highlighted">
-            {{ image(url="https://assets.ubuntu.com/v1/b5ec835d-mysql.png",
-                        alt="",
-                        width="568",
-                        height="321",
-                        hi_def=True,
-                        loading="lazy",
-                        attrs={"class": "p-image-container__image"}) | safe
-            }}
-          </div>
-          <p>Learn more&nbsp;&rsaquo;</p>
-        </a>
-      </div>
-    </div>
-  </section>
+    {%- endif -%}
+  {% endcall %}
+
+  {{ vf_divided_section(
+    title={"text": "Community and support"},
+    blocks=[
+      {
+        "type": "divided-block",
+        "bullet_type": "none",
+        "items": [
+          {
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p class="p-text--small-caps u-no-margin--bottom">Connect with the community</p>
+                    <p class="u-no-margin--bottom"><a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a></p>
+                  '
+                }
+              }
+            ]
+          },
+          {
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p class="p-text--small-caps">Contact us</p>
+                    <a class="p-button u-no-margin--bottom js-invoke-modal"
+                       aria-controls="data-valkey-modal"
+                       href="/contact-us">Tell us more about your needs</a>
+                  '
+                }
+              }
+            ]
+          },
+          {
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p class="p-text--small-caps u-no-margin--bottom">Read more</p>
+                    <p class="u-no-margin--bottom">
+                      <a href="https://ubuntu.com/engage/data-backups">Data backups</a>
+                      <br />
+                      <a href="https://ubuntu.com/engage/choose-a-database">How to choose a DBMS</a>
+                      <br />
+                      <a href="https://ubuntu.com/engage/database-cloud-migration">Database cloud migration</a>
+                    </p>
+                  '
+                }
+              }
+            ]
+          },
+          {
+            "contents": [
+              {
+                "type": "description",
+                "item": {
+                  "type": "html",
+                  "content": '
+                    <p class="p-text--small-caps u-no-margin--bottom">Contribute</p>
+                    <p class="u-no-margin--bottom"><a href="https://github.com/canonical/valkey-operator">Software operator for Valkey</a></p>
+                  '
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ) }}
 
   <section class="p-section">
-    <div class="row--50-50">
-      <hr class="p-rule" />
-      <div class="col">
-        <h2>Learn more about Valkey&trade;</h2>
-      </div>
-      <div class="col">
-        <ul class="p-list--divided">
-          <li class="p-list__item u-no-padding">
-            <p>
-              <a href="https://www.linuxfoundation.org/press/valkey-welcomes-new-partners-amid-growing-momentum">Valkey Welcomes New Partners Amid Growing Momentum</a>
-            </p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p>
-              <a href="https://www.youtube.com/watch?v=zSCGOfMFf9w&list=PLAV1X7hxH2Hv-JlT0HJLkpFCpk2ox3llh&index=2">Watch the Valkey Developer Day 2024 talk: Ubuntu-based Valkey for Linux and Kubernetes Environments</a>
-            </p>
-          </li>
-          <li class="p-list__item u-no-padding">
-            <p>
-              <a href="https://github.com/valkey-io">Valkey Github page</a>
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="p-section--deep">
     <div class="row">
       <hr class="p-rule" />
       <div class="col-start-large-7 col-6">
         <p class="u-text--muted">
-          “Valkey” and the Valkey logo are trademarks of LF Projects, LLC. Other trademarks are property of their respective owners
+          &ldquo;Valkey&rdquo; and the Valkey logo are trademarks of LF Projects, LLC. Other trademarks are property of their respective owners. Canonical&rsquo;s Valkey offerings are not sponsored, endorsed, or affiliated with LF Projects, LLC.
         </p>
       </div>
     </div>
   </section>
+
+  <style nonce="{{ csp_nonce }}">
+    @media screen and (max-width: 1035px) {
+      .p-section--hero .p-image-container__image {
+        max-width: 18.75rem;
+      }
+    }
+  </style>
 
   {{ load_form("/data/valkey") | safe }}
 
