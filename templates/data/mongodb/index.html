@@ -6,6 +6,7 @@
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
 {% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+{% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
 
 {% block meta_copydoc %}
@@ -101,54 +102,40 @@
     {%- endif -%}
   {% endcall -%}
 
-  <section class="p-section p-data-spotlight--3-blocks">
-    <div class="p-equal-height-row--wrap">
-      <div class="p-equal-height-row__col u-no-margin--bottom p-data-spotlight__title-col">
-        <div class="p-equal-height-row__item p-data-spotlight__title">
-          <h2 class="p-muted-heading">Our offering by the numbers</h2>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col u-no-margin--bottom p-data-spotlight__block">
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight" />
-          <p class="p-heading--1 u-no-margin u-no-padding">1000+<br class="u-hide--small" /> users</p>
-        </div>
-        <p class="p-equal-height-row__item p-heading--3 u-no-margin u-no-padding">Rely on our services</p>
-        <div class="p-equal-height-row__item">
-          <p>Our MongoDB stack serves thousands of users across all IT sectors, ranging from telco to governmental infrastructure.</p>
-        </div>
-        <div class="p-equal-height-row__item">
-          <a href="/contact-us" class="js-invoke-modal" aria-controls="data-mongodb-modal">Contact us&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col u-no-margin--bottom p-data-spotlight__block">
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight" />
-          <p class="p-heading--1 u-no-margin u-no-padding">10+<br class="u-hide--small" /> automations</p>
-        </div>
-        <p class="p-equal-height-row__item p-heading--3 u-no-margin u-no-padding">For your operations</p>
-        <div class="p-equal-height-row__item">
-          <p>Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.</p>
-        </div>
-        <div class="p-equal-height-row__item">
-          <a href="https://canonical.com/data/mongodb/docs/latest/how-to/">Check our automation&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-      <div class="p-equal-height-row__col u-no-margin--bottom p-data-spotlight__block">
-        <div class="p-equal-height-row__item">
-          <hr class="p-rule--highlight" />
-          <p class="p-heading--1 u-no-margin u-no-padding">~&nbsp;30<br class="u-hide--small" /> minutes</p>
-        </div>
-        <p class="p-equal-height-row__item p-heading--3 u-no-margin u-no-padding">To get started</p>
-        <div class="p-equal-height-row__item">
-          <p>Get up and running quickly in your local lab environment or your live production infrastructure setup.</p>
-        </div>
-        <div class="p-equal-height-row__item">
-          <a href="https://canonical.com/data/mongodb/docs/latest/tutorial/">Try it yourself&nbsp;&rsaquo;</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{ vf_data_spotlight(
+    title={
+      "text": "Our offering by the numbers"
+    },
+    blocks=[
+      {
+        "stat": "1,000+<br class=\"u-hide--small\"> users",
+        "headline": "Rely on our services",
+        "description": "More than 1,000 users across IT sectors, from telecommunications to government, rely on our MongoDB stack.",
+        "link": {
+          "url": "/data/mongodb#get-in-touch",
+          "text": "Contact us&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "10+<br class=\"u-hide--small\"> automations",
+        "headline": "For your operations",
+        "description": "Includes deployment, scaling, backups, restores, auto-tuning, encryption, monitoring, and upgrades.",
+        "link": {
+          "url": "https://canonical.com/data/mongodb/docs/latest/how-to/",
+          "text": "Check our automation&nbsp;&rsaquo;"
+        }
+      },
+      {
+        "stat": "~&nbsp;30<br class=\"u-hide--small\"> minutes",
+        "headline": "To get started",
+        "description": "Get up and running quickly in your local lab environment or your live production infrastructure setup.",
+        "link": {
+          "url": "https://canonical.com/data/mongodb/docs/latest/tutorial/",
+          "text": "Try it yourself&nbsp;&rsaquo;"
+        }
+      }
+    ]
+  ) }}
 
   {%- call(slot) vf_tiered_list(is_description_full_width_on_desktop=false, is_list_full_width_on_tablet=true) -%}
     {%- if slot == 'title' -%}
