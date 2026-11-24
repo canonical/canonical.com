@@ -3,7 +3,7 @@ import time
 
 import secrets
 import sentry_sdk
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
 
 import flask
 from canonicalwebteam.flask_base.env import get_flask_env
@@ -504,6 +504,37 @@ def _forward_csp_violation(violation, host, directive, disposition):
         )
 
 
+# Query parameters that change a page's content, by path prefix. Every other
+# query string is dropped from the canonical URL, so arbitrary parameters
+# (e.g. "/?q=spam", "?utm_source=") can't create self-canonical duplicates.
+CANONICAL_QUERY_PARAMS = {
+    "/blog": ("page", "category", "group", "month", "year"),
+    "/case-study": ("page", "tag", "language"),
+    "/careers/results": ("core-skills",),
+}
+
+
+def get_canonical_url():
+    """
+    The request URL without its query string, keeping only the parameters
+    allowlisted for the current path.
+    """
+    path = flask.request.path
+    allowed = ()
+    for prefix, params in CANONICAL_QUERY_PARAMS.items():
+        if path == prefix or path.startswith(prefix + "/"):
+            allowed = params
+            break
+
+    kept = sorted(
+        (key, value)
+        for key, value in flask.request.args.items(multi=True)
+        if key in allowed and value
+    )
+    url = flask.request.base_url
+    return f"{url}?{urlencode(kept)}" if kept else url
+
+
 def init_handlers(app):
 
     @app.route(CSP_REPORT_PATH, methods=["POST"])
@@ -544,6 +575,10 @@ def init_handlers(app):
     @app.context_processor
     def inject_csp_nonce():
         return {"csp_nonce": getattr(flask.g, "csp_nonce", "")}
+
+    # A global (rather than a context processor) so it is only evaluated
+    # when a template calls it, which can be outside a request.
+    app.add_template_global(get_canonical_url, "default_canonical_url")
 
     @app.context_processor
     def inject_announcement_bar():
@@ -598,6 +633,10 @@ def init_handlers(app):
         )
         response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+        # /search echoes the query back, so it must never be indexed. This is
+        # a header (not robots.txt) so crawlers are allowed to see it.
+        if flask.request.path == "/search":
+            response.headers["X-Robots-Tag"] = "noindex"
         if get_flask_env("FLASK_ENV", "production") != "production":
             response.headers["X-Robots-Tag"] = "none"
         return response
