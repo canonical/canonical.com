@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 from vcr_unittest import VCRTestCase
 from webapp.app import app, get_latest_versions
+from webapp.handlers import get_canonical_url
 
 logging.getLogger("talisker.context").disabled = True
 
@@ -177,6 +178,50 @@ class TestRoutes(VCRTestCase):
         os.environ["FLASK_ENV"] = "production"
         response = self.client.get("/robots.txt")
         self.assertTrue(response.headers.get("X-Robots-Tag") != "none")
+
+    def test_canonical_drops_query_string(self):
+        """Arbitrary query strings must not create self-canonical URLs"""
+        for url in (
+            "/?q=ocatoto",
+            "/?ocatoto",
+            "/?s=ocatoto",
+            "/?utm_source=x",
+        ):
+            html = self.client.get(url).get_data(as_text=True)
+            self.assertIn(
+                '<link rel="canonical" href="http://localhost/" />', html, url
+            )
+
+    def test_canonical_keeps_allowlisted_params(self):
+        """Parameters that change listing content stay in the canonical"""
+        cases = {
+            "/blog?page=2&utm_source=x": "http://localhost/blog?page=2",
+            "/blog/archives?year=2026&month=3&q=x": (
+                "http://localhost/blog/archives?month=3&year=2026"
+            ),
+            "/case-study?tag=OpenStack&_ga=1": (
+                "http://localhost/case-study?tag=OpenStack"
+            ),
+            "/?page=2&tag=x": "http://localhost/",
+        }
+        for url, expected in cases.items():
+            with app.test_request_context(url):
+                self.assertEqual(get_canonical_url(), expected, url)
+
+    def test_homepage_website_jsonld(self):
+        """The homepage links a WebSite to the Organization by @id"""
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertIn('"@type": "WebSite"', html)
+        self.assertIn('"@id": "https://canonical.com/#organization"', html)
+
+    @patch.dict(os.environ, {"SEARCH_API_KEY": "test-key"})
+    def test_search_is_noindex(self):
+        """/search is served with noindex and not blocked in robots.txt"""
+        os.environ["FLASK_ENV"] = "production"
+        response = self.client.get("/search")
+        self.assertEqual(response.headers.get("X-Robots-Tag"), "noindex")
+        robots = self.client.get("/robots.txt").get_data(as_text=True)
+        self.assertNotIn("Disallow: /search\n", robots)
 
     @patch("webapp.app.flask.render_template", return_value="latest-news")
     @patch("webapp.app.latest_news_blog_views.get_index", return_value={})
