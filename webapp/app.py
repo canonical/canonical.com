@@ -76,6 +76,7 @@ from webapp.careers import (
 )
 from webapp.greenhouse import Greenhouse, HarvestV3
 from webapp.handlers import init_handlers
+from webapp.trailing_slash import init_trailing_slash_redirects
 from webapp import llms
 from webapp.navigation import (
     build_navigation,
@@ -213,6 +214,7 @@ if sentry_dsn:
     )
 
 init_handlers(app)
+init_trailing_slash_redirects(app)
 
 
 @app.route("/")

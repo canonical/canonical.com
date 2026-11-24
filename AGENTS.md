@@ -11,6 +11,7 @@
 
 - `README.md` - short project overview; confirms `dotrun` is the preferred local workflow.
 - `webapp/app.py` - main Flask app, route registration, sitemap/search/navigation wiring, third-party integrations.
+- `webapp/trailing_slash.py` - replaces `canonicalwebteam.flask_base`'s 302 trailing-slash redirect with a 301 (skipped for redirects in `redirects.yaml` that intentionally add a slash).
 - `webapp/application.py` - careers application flow, email sending, Greenhouse/Directory/Calendar integration.
 - `webapp/views.py` - shared view helpers, JSON asset helpers, knowledge/event index builders.
 - `webapp/navigation.py` - code that reads and shapes navigation data.
