@@ -19,7 +19,7 @@ context:
       - text: "Discover Ubuntu Pro"
         url: "https://www.ubuntu.com/pro/why-pro"
         type: "button"
-      - text: "Get a comprehensive guide to vulnerability management &rsaquo;"
+      - text: "Get a comprehensive guide to vulnerability management ›"
         url: "https://ubuntu.com/engage/vulnerability-management"
         type: "link"
   blog:
