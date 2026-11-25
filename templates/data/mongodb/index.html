@@ -5,7 +5,7 @@
 {% from "_macros/vf_tiered-list.jinja" import vf_tiered_list %}
 {% from "_macros/vf_equal-heights.jinja" import vf_equal_heights %}
 {% from "_macros/vf_pricing-block.jinja" import vf_pricing_block %}
-{% from "_macros/vf_divided-section.jinja" import vf_divided_section %}
+{% from "_macros/vf_basic-section.jinja" import vf_basic_section %}
 {% from "_macros/vf_data-spotlight.jinja" import vf_data_spotlight %}
 {% from "macros/_macros-lite-video.jinja" import lite_video %}
 
@@ -108,7 +108,7 @@
     },
     blocks=[
       {
-        "stat": "1,000+<br class=\"u-hide--small\"> users",
+        "stat": "1000+<br class=\"u-hide--small\"> users",
         "headline": "Rely on our services",
         "description": "More than 1,000 users across IT sectors, from telecommunications to government, rely on our MongoDB stack.",
         "link": {
@@ -229,7 +229,8 @@
     title_text="MongoDB support services",
     tiers=[
       {
-        "tier_price_text": "Subscription-based",
+        "tier_name_text": "Subscription-based",
+        "tier_price_text": "",
         "tier_price_explanation": "",
         "tier_label_text": "What's included",
         "tier_offerings": [
@@ -241,7 +242,8 @@
         ]
       },
       {
-        "tier_price_text": "On-demand",
+        "tier_name_text": "On-demand",
+        "tier_price_text": "",
         "tier_price_explanation": "",
         "tier_label_text": "What's included",
         "tier_offerings": [
@@ -263,74 +265,62 @@
     {%- endif -%}
   {% endcall %}
 
-  <div id="mongodb-community">
-    {{ vf_divided_section(title={"text": "Community and support"},
-      padding="deep",
-      blocks=[
-        {
-          "type": "divided-block",
-          "bullet_type": "none",
-          "items": [
-            {
-              "title_text": "Connect with the community",
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '<p><a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a></p>'
-                  }
-                }
-              ]
-            },
-            {
-              "title_text": "Contact us",
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '<p><a href="/contact-us" class="p-button js-invoke-modal" aria-controls="data-mongodb-modal">Tell us about your needs</a></p>'
-                  }
-                }
-              ]
-            },
-            {
-              "title_text": "Read more",
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '
-                    <ul class="p-list">
-                      <li class="p-list__item"><a href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf">Data backups</a></li>
-                      <li class="p-list__item"><a href="https://ubuntu.com/engage/choose-a-database">How to choose a DBMS</a></li>
-                      <li class="p-list__item"><a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf">Database cloud migration</a></li>
-                    </ul>
-                    '
-                  }
-                }
-              ]
-            },
-            {
-              "title_text": "Contribute",
-              "contents": [
-                {
-                  "type": "description",
-                  "item": {
-                    "type": "html",
-                    "content": '<p><a href="https://github.com/canonical/mongodb-operator">Software operator for MongoDB</a></p>'
-                  }
-                }
-              ]
-            }
-          ]
+  {{ vf_basic_section(
+    title={"text": "Community and support"},
+    padding="deep",
+    attrs={"id": "mongodb-community"},
+    items=[
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <h3 class="p-heading--5 u-no-padding">Connect with the community</h3>
+            <p><a href="https://matrix.to/#/#charmhub-data-platform:ubuntu.com">Matrix chat</a></p>
+          '
         }
-      ]) }}
-  </div>
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-heading--5 u-no-padding">Contact us</h3>
+            <p><a href="/contact-us" class="p-button js-invoke-modal" aria-controls="data-mongodb-modal">Tell us about your needs</a></p>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-heading--5 u-no-padding">Read more</h3>
+            <ul class="p-list">
+              <li class="p-list__item"><a href="https://pages.ubuntu.com/rs/066-EOV-335/images/A_guide_to_data_backups_Canonical.pdf">Data backups</a></li>
+              <li class="p-list__item"><a href="https://ubuntu.com/engage/choose-a-database">How to choose a DBMS</a></li>
+              <li class="p-list__item"><a href="https://pages.ubuntu.com/rs/066-EOV-335/images/Guide_database_cloud_migration_WP_2023.pdf">Database cloud migration</a></li>
+            </ul>
+          '
+        }
+      },
+      {
+        "type": "description",
+        "item": {
+          "type": "html",
+          "content": '
+            <hr class="p-rule--muted" />
+            <h3 class="p-heading--5 u-no-padding">Contribute</h3>
+            <p><a href="https://github.com/canonical/mongodb-operator">Software operator for MongoDB</a></p>
+          '
+        }
+      }
+    ]
+  ) }}
 
-  <section class="p-section--deep">
+  <section class="p-section">
     <div class="row">
       <hr class="p-rule" />
       <div class="col-start-large-7 col-6">
