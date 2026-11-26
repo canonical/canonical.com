@@ -1605,6 +1605,37 @@ app.add_url_rule(
 
 mir_docs.init_app(app)
 
+# Charmed Ceph (migrated from ubuntu.com/ceph/docs)
+charmed_ceph_url_prefix = "/ceph/docs/charmed-ceph"
+charmed_ceph_docs = Docs(
+    parser=DocParser(
+        # Public topic: fetch anonymously, as ubuntu.com does
+        api=DiscourseAPI(
+            base_url="https://discourse.ubuntu.com/",
+            session=get_requests_session(),
+            cache=ubuntu_discourse_cache,
+        ),
+        index_topic_id=17250,
+        url_prefix=charmed_ceph_url_prefix,
+    ),
+    blueprint_name="charmed-ceph-docs",
+    document_template="ceph/docs/charmed-ceph/document.html",
+    url_prefix=charmed_ceph_url_prefix,
+)
+
+app.add_url_rule(
+    "/ceph/docs/charmed-ceph/search",
+    "charmed-ceph-docs-search",
+    build_search_view(
+        app=app,
+        session=search_session,
+        site="canonical.com/ceph/docs/charmed-ceph",
+        template_path="ceph/docs/charmed-ceph/search-results.html",
+    ),
+)
+
+charmed_ceph_docs.init_app(app)
+
 # Microk8s
 microk8s_url_prefix = "/microk8s/docs"
 microk8s_discourse_api = Docs(

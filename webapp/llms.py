@@ -43,6 +43,7 @@ URL_RE = re.compile(r"^https?://")
 # the build environment has no Discourse API keys/allowlisting, and we
 # don't want to scrape and redistribute that content anyway.
 DISCOURSE_PATH_PREFIXES = (
+    "/ceph/docs/charmed-ceph",
     "/dqlite/docs",
     "/maas/docs",
     "/maas/tutorials",
