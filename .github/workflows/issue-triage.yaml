@@ -1,0 +1,473 @@
+name: github issue triage
+
+# Uses Copilot (via a GitHub App) to spot spam, off-topic and low-information
+# issues, then comments, labels and closes them. Valid issues get the
+# "Ready for maintenance" label so they sync to the Jira backlog.
+#
+# Required configuration:
+#   secrets.ISSUE_TRIAGE_APP_ID              GitHub App ID
+#   secrets.ISSUE_TRIAGE_APP_PRIVATE_KEY  GitHub App private key
+# The app needs "Issues: read & write" plus Copilot requests permission.
+# The needs-info, spam and invalid labels are created on first use;
+# "Ready for maintenance" must already exist.
+#
+# Failed runs are reported to the web-alerts Mattermost channel through
+# secrets.BOT_URL (skipped if it isn't set).
+#
+# The Copilot CLI version is pinned in .github/issue-triage/package.json and
+# installed with npm ci, so package-lock.json integrity hashes are enforced.
+#
+# Optional configuration:
+#   vars.ISSUE_TRIAGE_DRY_RUN         "true" to only log verdicts (no writes)
+#   vars.ISSUE_TRIAGE_MODEL           Copilot model (default: the CLI's default)
+#   vars.ISSUE_TRIAGE_MIN_CONFIDENCE  Minimum confidence to act (default: 0.8)
+#
+# Add the "triage:skip" label to an issue to opt it out.
+#
+# New issues from maintainers and bots are skipped automatically. Manual runs
+# (workflow_dispatch, or workflow_call from another workflow) triage any open
+# issue you point them at.
+#
+# The classification prompt lives in .github/skills/issue-triage/SKILL.md.
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "The issue number to triage"
+        required: true
+        type: number
+      dry_run:
+        description: "Only log the verdict, don't comment, label or close"
+        required: false
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      issue_number:
+        description: "The issue number to triage"
+        required: true
+        type: number
+      dry_run:
+        description: "Only log the verdict, don't comment, label or close"
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      ISSUE_TRIAGE_APP_ID:
+        required: true
+      ISSUE_TRIAGE_APP_PRIVATE_KEY:
+        required: true
+      BOT_URL:
+        required: false
+
+permissions: {}
+
+concurrency:
+  group: issue-triage-${{ github.event.issue.number || inputs.issue_number || github.ref }}
+  cancel-in-progress: false
+
+env:
+  ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+
+jobs:
+  classify:
+    name: Classify issue
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Cheap pre-filter for the issues event; manual runs are re-checked in the
+    # "Fetch issue" step. Under workflow_call, event_name is the caller's event.
+    if: >-
+      github.repository == 'canonical/canonical.com' && (
+        github.event_name != 'issues' || (
+          github.event.issue.user.type != 'Bot' &&
+          !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association) &&
+          !contains(github.event.issue.labels.*.name, 'triage:skip')
+        )
+      )
+    permissions:
+      contents: read
+      issues: read
+    outputs:
+      verdict: ${{ steps.parse.outputs.verdict }}
+      confidence: ${{ steps.parse.outputs.confidence }}
+      missing: ${{ steps.parse.outputs.missing }}
+      content_hash: ${{ steps.issue.outputs.content_hash }}
+    steps:
+      - name: Checkout triage skill
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/skills/issue-triage/SKILL.md
+            .github/issue-triage/package.json
+            .github/issue-triage/package-lock.json
+
+      - name: Fetch issue and build prompt
+        id: issue
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const crypto = require('crypto');
+            const fs = require('fs');
+            const path = require('path');
+
+            const issue_number = Number(process.env.ISSUE_NUMBER);
+            const { data: issue } = await github.rest.issues.get({
+              ...context.repo,
+              issue_number,
+            });
+
+            // Maintainers are only skipped automatically; a manual run is an
+            // explicit request to triage the issue.
+            const automatic = context.eventName === 'issues';
+            const trusted = ['OWNER', 'MEMBER', 'COLLABORATOR'];
+            const skipReason =
+              issue.pull_request ? 'is a pull request' :
+              issue.state !== 'open' ? 'is not open' :
+              issue.user.type === 'Bot' ? 'was opened by a bot' :
+              automatic && trusted.includes(issue.author_association) ? 'was opened by a maintainer' :
+              issue.labels.some((l) => (l.name ?? l) === 'triage:skip') ? 'has the triage:skip label' :
+              null;
+
+            if (skipReason) {
+              core.notice(`Skipping #${issue_number}: issue ${skipReason}.`);
+              core.setOutput('skip', 'true');
+              return;
+            }
+
+            // Keep the prompt well under the OS argument size limit.
+            const MAX_BODY = 20000;
+            const body = (issue.body ?? '').slice(0, MAX_BODY);
+            const payload = JSON.stringify(
+              { title: issue.title, body, truncated: (issue.body ?? '').length > MAX_BODY },
+              null,
+              2,
+            );
+
+            // The skill file holds the instructions; drop its frontmatter.
+            const skill = fs
+              .readFileSync('.github/skills/issue-triage/SKILL.md', 'utf8')
+              .replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '')
+              .trim();
+
+            const prompt = `${skill}\n\n<issue>\n${payload}\n</issue>\n`;
+
+            fs.writeFileSync(path.join(process.env.RUNNER_TEMP, 'triage-prompt.md'), prompt);
+            // Lets the act job detect edits made while Copilot was running.
+            core.setOutput(
+              'content_hash',
+              crypto
+                .createHash('sha256')
+                .update(JSON.stringify([issue.title, issue.body ?? '']))
+                .digest('hex'),
+            );
+            core.setOutput('skip', 'false');
+
+      - name: Create GitHub App token
+        if: steps.issue.outputs.skip == 'false'
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.ISSUE_TRIAGE_APP_ID }}
+          private-key: ${{ secrets.ISSUE_TRIAGE_APP_PRIVATE_KEY }}
+          permission-organization-copilot-requests: read
+
+      - name: Setup Node.js
+        if: steps.issue.outputs.skip == 'false'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Copilot CLI
+        if: steps.issue.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          # npm ci installs exactly what package-lock.json pins and verifies
+          # each tarball's integrity hash. The linux-x64 platform binary is a
+          # direct dependency (ubuntu-latest is x64), so npm can't silently
+          # skip it as an optional dependency.
+          npm ci --prefix .github/issue-triage --ignore-scripts --no-fund --no-audit
+          bin_dir="$GITHUB_WORKSPACE/.github/issue-triage/node_modules/.bin"
+          echo "$bin_dir" >> "$GITHUB_PATH"
+          "$bin_dir/copilot" --version
+
+      - name: Classify issue with Copilot
+        if: steps.issue.outputs.skip == 'false'
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          COPILOT_MODEL: ${{ vars.ISSUE_TRIAGE_MODEL }}
+        run: |
+          set -euo pipefail
+          # Run in an empty directory with no repo checkout, no custom
+          # instructions, no MCP servers and no shell/write tools, so the
+          # model can only read the prompt and answer.
+          sandbox="$(mktemp -d)"
+          cd "$sandbox"
+          prompt="$(cat "$RUNNER_TEMP/triage-prompt.md")"
+          # Only pin a model when configured; otherwise use the CLI default,
+          # which is always available to the account.
+          model_args=()
+          if [ -n "$COPILOT_MODEL" ]; then
+            model_args=(--model "$COPILOT_MODEL")
+          fi
+          timeout 300 copilot \
+            --prompt "$prompt" \
+            "${model_args[@]}" \
+            --silent \
+            --no-custom-instructions \
+            --disable-builtin-mcps \
+            --deny-tool 'shell' \
+            --deny-tool 'write' \
+            > "$RUNNER_TEMP/triage-output.txt"
+
+      - name: Parse verdict
+        if: steps.issue.outputs.skip == 'false'
+        id: parse
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const raw = fs.readFileSync(
+              path.join(process.env.RUNNER_TEMP, 'triage-output.txt'),
+              'utf8',
+            ).trim();
+
+            // Accept either a bare JSON object or the last {...} block in the output.
+            let result;
+            const candidates = [raw, ...(raw.match(/\{[^{}]*\}/g) ?? []).reverse()];
+            for (const candidate of candidates) {
+              try {
+                result = JSON.parse(candidate);
+                break;
+              } catch {}
+            }
+
+            const VERDICTS = ['valid', 'needs_info', 'spam', 'invalid'];
+            const MISSING = ['summary', 'steps_to_reproduce', 'expected_behavior', 'page_url'];
+
+            // Fail open: anything unexpected is treated as "valid".
+            if (!result || !VERDICTS.includes(result.verdict)) {
+              core.warning('Could not parse a verdict from the Copilot output; leaving the issue untouched.');
+              core.setOutput('verdict', 'valid');
+              core.setOutput('confidence', '0');
+              core.setOutput('missing', '');
+              return;
+            }
+
+            // Non-finite values (NaN, "Infinity") count as no confidence.
+            const rawConfidence = Number(result.confidence);
+            const confidence = Number.isFinite(rawConfidence)
+              ? Math.min(Math.max(rawConfidence, 0), 1)
+              : 0;
+            const missing = Array.isArray(result.missing)
+              ? [...new Set(result.missing.filter((m) => MISSING.includes(m)))]
+              : [];
+            const reason = String(result.reason ?? '').slice(0, 300);
+
+            core.setOutput('verdict', result.verdict);
+            core.setOutput('confidence', String(confidence));
+            core.setOutput('missing', missing.join(','));
+
+            await core.summary
+              .addHeading(`Issue #${process.env.ISSUE_NUMBER} triage`, 3)
+              .addTable([
+                [
+                  { data: 'Verdict', header: true },
+                  { data: 'Confidence', header: true },
+                  { data: 'Missing', header: true },
+                ],
+                [result.verdict, confidence.toFixed(2), missing.join(', ') || '-'],
+              ])
+              .addRaw('Reason:')
+              .addCodeBlock(reason)
+              .write();
+
+  act:
+    name: Apply verdict
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: needs.classify.outputs.verdict != ''
+    permissions: {}
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.ISSUE_TRIAGE_APP_ID }}
+          private-key: ${{ secrets.ISSUE_TRIAGE_APP_PRIVATE_KEY }}
+          permission-issues: write
+
+      - name: Label, comment and close
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          VERDICT: ${{ needs.classify.outputs.verdict }}
+          CONFIDENCE: ${{ needs.classify.outputs.confidence }}
+          MISSING: ${{ needs.classify.outputs.missing }}
+          CONTENT_HASH: ${{ needs.classify.outputs.content_hash }}
+          APP_LOGIN: ${{ steps.app-token.outputs.app-slug }}[bot]
+          MIN_CONFIDENCE: ${{ vars.ISSUE_TRIAGE_MIN_CONFIDENCE || '0.8' }}
+          DRY_RUN: ${{ (github.event_name != 'issues' && inputs.dry_run) || vars.ISSUE_TRIAGE_DRY_RUN == 'true' }}
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const crypto = require('crypto');
+            const issue_number = Number(process.env.ISSUE_NUMBER);
+            const verdict = process.env.VERDICT;
+            const confidence = Number(process.env.CONFIDENCE);
+            const minConfidence = Number(process.env.MIN_CONFIDENCE);
+            const dryRun = process.env.DRY_RUN === 'true';
+            const missing = process.env.MISSING.split(',').filter(Boolean);
+
+            if (!(confidence >= minConfidence)) {
+              core.notice(`Verdict "${verdict}" for #${issue_number} is below the confidence threshold (${confidence} < ${minConfidence}); no action taken.`);
+              return;
+            }
+
+            // Re-check state in case a maintainer acted while Copilot was running.
+            const { data: issue } = await github.rest.issues.get({ ...context.repo, issue_number });
+            if (issue.state !== 'open' || issue.labels.some((l) => (l.name ?? l) === 'triage:skip')) {
+              core.notice(`#${issue_number} is closed or has the triage:skip label; no action taken.`);
+              return;
+            }
+
+            // Don't act on a stale verdict if the reporter edited the issue.
+            const contentHash = crypto
+              .createHash('sha256')
+              .update(JSON.stringify([issue.title, issue.body ?? '']))
+              .digest('hex');
+            if (contentHash !== process.env.CONTENT_HASH) {
+              core.notice(`#${issue_number} was edited after it was classified; no action taken.`);
+              return;
+            }
+
+            // Valid issues go to the Jira backlog, which syncs this label.
+            if (verdict === 'valid') {
+              const label = 'Ready for maintenance';
+              if (dryRun) {
+                core.notice(`[dry run] Would label #${issue_number} "${label}".`);
+                return;
+              }
+              await github.rest.issues.addLabels({ ...context.repo, issue_number, labels: [label] });
+              core.notice(`Labelled #${issue_number} "${label}".`);
+              return;
+            }
+
+            const MISSING_TEXT = {
+              summary: 'A description of the problem',
+              steps_to_reproduce: 'Steps to reproduce the behavior',
+              expected_behavior: 'What you expected to happen',
+              page_url: 'The URL or name of the affected page',
+            };
+            const marker = '<!-- issue-triage -->';
+            const footer = 'If you think this was a mistake, reply to this issue and a maintainer will take another look.';
+
+            const ACTIONS = {
+              needs_info: {
+                label: 'needs-info',
+                color: 'd876e3',
+                description: 'Not enough information to act on',
+                body: [
+                  'Thanks for opening this issue. We have closed it because it does not include enough detail for us to investigate.',
+                  ...(missing.length
+                    ? ['', 'Please add the following:', '', ...missing.map((m) => `- ${MISSING_TEXT[m]}`)]
+                    : []),
+                  '',
+                  'You can open a new issue that follows the issue template, or reply here with the details.',
+                ].join('\n'),
+              },
+              spam: {
+                label: 'spam',
+                color: 'b60205',
+                description: 'Spam or unrelated content',
+                body: 'This issue has been closed because it does not appear to describe a problem with the canonical.com website.',
+              },
+              invalid: {
+                label: 'invalid',
+                color: 'e4e669',
+                description: 'Not a canonical.com website issue',
+                body: [
+                  'Thanks for opening this issue. This repository only tracks problems with the canonical.com website, so we have closed it.',
+                  '',
+                  '- To report a bug in Ubuntu, use [Launchpad](https://bugs.launchpad.net/ubuntu).',
+                  `- To report a security vulnerability, use a [private security advisory](https://github.com/${context.repo.owner}/${context.repo.repo}/security/advisories/new).`,
+                ].join('\n'),
+              },
+            };
+
+            const action = ACTIONS[verdict];
+            if (!action) {
+              core.setFailed(`Unexpected verdict: ${verdict}`);
+              return;
+            }
+
+            const body = `${marker}\n${action.body}\n\n${footer}`;
+
+            if (dryRun) {
+              core.notice(`[dry run] Would label #${issue_number} "${action.label}", comment and close it.`);
+              await core.summary
+                .addHeading(`[dry run] #${issue_number}: ${verdict}`, 3)
+                .addCodeBlock(body, 'markdown')
+                .write();
+              return;
+            }
+
+            // addLabels doesn't create missing labels, so provision them here.
+            try {
+              await github.rest.issues.getLabel({ ...context.repo, name: action.label });
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              try {
+                await github.rest.issues.createLabel({
+                  ...context.repo,
+                  name: action.label,
+                  color: action.color,
+                  description: action.description,
+                });
+              } catch (createError) {
+                // 422: another run created it in the meantime.
+                if (createError.status !== 422) throw createError;
+              }
+            }
+
+            // Only comment once, so reruns and retries after a partial failure
+            // don't repeat the message. Only trust markers posted by this app.
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo,
+              issue_number,
+              per_page: 100,
+            });
+            const alreadyCommented = comments.some(
+              (c) => c.user?.login === process.env.APP_LOGIN && c.body?.includes(marker),
+            );
+            if (!alreadyCommented) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number, body });
+            }
+            await github.rest.issues.addLabels({ ...context.repo, issue_number, labels: [action.label] });
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number,
+              state: 'closed',
+              state_reason: 'not_planned',
+            });
+            core.notice(`Closed #${issue_number} as ${verdict}.`);
+
+  notify:
+    name: Report failure
+    needs: [classify, act]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: failure()
+    permissions: {}
+    env:
+      BOT_URL: ${{ secrets.BOT_URL }}
+    steps:
+      - name: Send message to web-alerts
+        if: env.BOT_URL != ''
+        run: curl --fail --silent --show-error -X POST -F "workflow=${GITHUB_WORKFLOW}" -F "repo_name=${GITHUB_REPOSITORY}" -F "action_id=${GITHUB_RUN_ID}" "${BOT_URL}?room=web-alerts"

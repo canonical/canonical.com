@@ -1,0 +1,43 @@
+name: github issue triage (PR test)
+
+# DISPOSABLE: delete this file before merging.
+#
+# Runs the real issue-triage workflow against test issues on this repository.
+# dry_run is false (the workflow_call default is true), so issues that aren't
+# "valid" really get commented on, labelled and closed, and #3135 gets
+# "Ready for maintenance" (which syncs it to Jira). Reopen / unlabel them to
+# test again.
+#
+# Expected verdicts:
+#   #3135 valid, #3136 needs_info, #3137 spam, #3138 invalid,
+#   #3139 spam (prompt injection)
+
+on:
+    pull_request:
+        paths:
+            - .github/workflows/issue-triage.yaml
+            - .github/workflows/issue-triage-test.yaml
+            - .github/issue-triage/**
+            - .github/skills/issue-triage/**
+
+permissions: {}
+
+jobs:
+    triage:
+        name: "Triage #${{ matrix.issue }}"
+        # Secrets aren't available to fork PRs.
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        strategy:
+            fail-fast: false
+            matrix:
+                issue: [3135, 3136, 3137, 3138, 3139]
+        permissions:
+            contents: read
+            issues: read
+        uses: ./.github/workflows/issue-triage.yaml
+        with:
+            issue_number: ${{ matrix.issue }}
+            dry_run: false
+        secrets:
+            ISSUE_TRIAGE_APP_ID: ${{ secrets.ISSUE_TRIAGE_APP_ID }}
+            ISSUE_TRIAGE_APP_PRIVATE_KEY: ${{ secrets.ISSUE_TRIAGE_APP_PRIVATE_KEY }}
