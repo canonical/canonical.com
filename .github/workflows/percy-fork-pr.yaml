@@ -29,13 +29,13 @@ concurrency:
 jobs:
   decide:
     name: Decide whether to run Percy
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # Only run for forks; internal PRs use percy-pr.yaml
     if: github.event.pull_request.head.repo.full_name != github.repository
     outputs:
       should_run: ${{ steps.gate.outputs.should_run }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/actions/percy-gate
           sparse-checkout-cone-mode: false
@@ -48,7 +48,7 @@ jobs:
 
   snapshot:
     name: Take Percy snapshots
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: decide
     if: needs.decide.result == 'success' && needs.decide.outputs.should_run == 'true'
 
@@ -57,13 +57,13 @@ jobs:
 
     steps:
       - name: Checkout Trusted Action
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: trusted-logic
           persist-credentials: false
 
       - name: Checkout PR code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.sha }}
