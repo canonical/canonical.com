@@ -1,0 +1,211 @@
+{% extends "case-study/base_case-study.html" %}
+
+{% from "_macros/vf_hero.jinja" import vf_hero %}
+
+{% from "macros/_macros-quote-wrapper.jinja" import quote_wrapper %}
+{% from "macros/_macros-text-list.jinja" import text_list %}
+{% from "macros/_macros-highlights.jinja" import highlights %}
+{% from "macros/_macros-text.jinja" import text %}
+{% from "macros/_macros-image.jinja" import image_wrapper %}
+{% from "macros/_macros-cta.jinja" import cta %}
+
+{% block title %}Millicom adopts open source to modernize their cloud{% endblock %}
+
+{% block meta_description %}
+  Learn how a leading telco enterprise, Millicom (Tigo), modernized their cloud infrastructure and application stack with Canonical OpenStack and Kubernetes.
+{% endblock %}
+
+{% block meta_company_name %}Millicom{% endblock %}
+{% block meta_copydoc %}https://docs.google.com/document/d/12DtGcarwszHzs-jRQji3_WNlohIbSIUKJFwdL7Uou1A/edit?tab=t.0{% endblock %}
+
+{% block inner_content %}
+  {%- call(slot) vf_hero(
+    title_text="Millicom, a telco leader in Latin America, adopts open source to modernize their cloud",
+    layout="25/75",
+    is_split_on_medium=True) -%}
+    {%- if slot == 'signpost_image' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/0b2b9c40-millicom_logo.png",
+        alt="Millicom",
+        width="852",
+        height="198",
+        hi_def=True,
+        loading="auto") | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text_list(title="About Millicom (Tigo)") -%}
+    {%- if slot == 'list_item_content_1' -%}
+      Leading provider of telecommunications services, operating under the brand name Tigo across 12 Latin American countries
+    {%- endif -%}
+    {%- if slot == 'list_item_content_2' -%}
+      Currently expanding regional footprint, delivering services to 69 million customers
+    {%- endif -%}
+    {%- if slot == 'list_item_content_3' -%}
+      Network is available to 22 million homes
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) highlights(num_items=4) -%}
+    {%- if slot == 'highlights_item_content_1' -%}
+      Transitioned from proprietary hypervisor software and public cloud hosting to an open source, on-premises cloud
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_2' -%}
+      Lowered total cost of ownership (TCO) through per-server pricing and extended release stability thanks to Ubuntu Pro
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_3' -%}
+      Reduced support tickets by 25% year on year, building skills in-house to manage and operate infrastructure
+    {%- endif -%}
+    {%- if slot == 'highlights_item_content_4' -%}
+      Now able to build a cloud in just 2 weeks
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) image_wrapper() -%}
+    {%- if slot == 'image_content' -%}
+      {{ image(url="https://assets.ubuntu.com/v1/5d3c609a-servers.png",
+        alt="",
+        width="2464",
+        height="1027",
+        hi_def=True,
+        loading="lazy",
+        attrs={"class": "p-image-container__image"}) | safe
+      }}
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="From closed source legacy to open source innovation") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Millicom's expansion into new countries and markets coincided with proprietary vendor lock-in concerns, rising licensing and public cloud costs, and an operationally complex stack.
+      </p>
+      <p>
+        Their goal was to build a carrier-grade open source cloud that could be customized to support a video streaming platform, a CRM, and re-platformed applications. Alongside this, they aimed to standardize their processes and application layers while building the skills in-house to build and manage further clouds. Their long-term ambition was to reduce their dependency on external vendors.
+      </p>
+      <p>
+        Millicom chose Canonical OpenStack and Canonical Kubernetes to build, simplify, and automate their cloud. With Canonical helping to upskill the internal team on open source technologies, Milicom is now able to build a cloud in less than 2 weeks.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Challenge") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Founded in 1990, Millicom provides telco services including mobile, high-speed broadband, pay TV, and B2B cloud and security solutions to 69 million customers across 12 countries in Latin America. Recently, they have expanded operations to Chile, Ecuador, and Uruguay. With an expanding footprint, Millicom faced mounting public cloud costs, proprietary vendor lock-in, and escalating licensing fees for its proprietary hypervisor software. Millicom's previous proprietary vendor had changed the structure of its licensing fees to a per-core pricing model, which had significantly inflated operational spend. At the same time, Millicom's recent acquisitions had resulted in different systems and layers of software running under different processes. This complexity introduced operational inefficiencies and risk.
+      </p>
+      <p>
+        As a result, Rita Fuziol of Millicom explains that they began looking for a solution that would offer “better control” of their infrastructure. This was particularly true for the cloud supporting critical services at the core of the business. Many of the applications running in the cloud were on obsolete platforms that had reached end of life. As the applications were no longer receiving support, the risk of unpatched vulnerabilities made managing and reducing those obsolescences a key priority.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="In the telco environment, you need to have a lot of resiliency. Because every time that one of the applications fails or has an incident, it's revenue that we don't generate, a customer that cannot connect, or a service that we cannot deliver or charge. We were against the clock to make sure that we managed the obsolescence in the new environment.",
+    citation_source_name_text="Rita Fuziol",
+    citation_source_title_text="Director of Cloud and Infrastructure",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Finally, expanding into new territories offered new opportunities and new challenges. Milicom had a video standardization project underway that was originally intended to serve 400,000 subscribers. But with the acquisition of the Columbian telecommunications operator Coltel, the scope of the project expanded to as many as 4 million subscribers. It was critical that the technologies that Millicom chose for the project could be standardized across the stack, and supported in the long term, to gain a return on their investment.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We work in 12 countries, but we couldn't do 12 projects. We had to industrialize, meaning having a recipe we could copy-paste across the 12 countries. Our cloud has to run everything. We have hundreds of applications we need to move - so we have to rebuild them, to make them cloud agnostic.",
+    citation_source_name_text="Christophe Eyquem",
+    citation_source_title_text="Chief Information Officer",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Solution") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        When choosing the products to build their cloud, Milicom had three criteria. The first was cost effectiveness: reducing the total cost of ownership (TCO) of their infrastructure while ensuring it would be predictable in the long term. The second was long term support, so Millicom could ensure continuity without being forced to move by a vendor to a newer release. Finally, Millicom were keen to adopt open source software that could be maintained and managed in-house. This would help to protect against fees spiralling out of control.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="We are focused on becoming an organization that uses open source as much as we can, and developing those skills in-house. We saw Canonical as a partner that could allow us to adopt open source, as they could transfer the skills - a win-win situation.",
+    citation_source_name_text="Rita Fuziol",
+    citation_source_title_text="Director of Cloud and Infrastructure",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Millicom decided on Canonical's enterprise-grade cloud platform, <a href="/openstack">Canonical OpenStack</a>. Canonical OpenStack is highly customizable, enabling Millicom to tailor it to their key projects. Built on mature, upstream open source code, Canonical OpenStack offered Millicom the stability for a carrier-grade cloud. At the same time, the company's in-house team could learn from Canonical's engineers during deployment and <a href="https://ubuntu.com/training">learn the skills</a> they would need to take over management of the platform in the longer term.
+      </p>
+      <p>
+        Millicom also chose <a href="https://ubuntu.com/kubernetes">Canonical Kubernetes</a> to simplify their infrastructure. Like Canonical OpenStack, Canonical Kubernetes comes with a simple and fixed pricing structure, without hidden licensing fees. Canonical Kubernetes helped Millicom to automate the provisioning and deployment of applications at scale across their different regions, supporting their aim to standardize their technology stacks. As both Canonical OpenStack and Canonical Kubernetes are supported for up to 15 years with Canonical's Long Term Support (LTS) commitment, Millicom could rest assured that updating their infrastructure could be managed on a timeline that works for the business.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Having a stable software release where you aren't forced to move to a newer release every year and a half or every two years gives you continuity, which is useful because projects are long. You have better control to adopt the new technologies at a pace that will go with the business and the new software feature requirements.",
+    citation_source_name_text="Rita Fuziol",
+    citation_source_title_text="Director of Cloud and Infrastructure",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) text(title="Results") -%}
+    {%- if slot == 'content' -%}
+      <p>
+        By choosing Canonical's software, Millicom has gained greater control over their infrastructure, reduced their costs, and has begun standardizing the technologies and processes across each region.
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="The partnership works because we see value and it delivers results, not because we are tied to a specific solution.",
+    citation_source_name_text="Christophe Eyquem",
+    citation_source_title_text="Chief Information Officer",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+
+  {%- call(slot) text() -%}
+    {%- if slot == 'content' -%}
+      <p>
+        Canonical piloted the first two deployments, working with Millicom's engineering teams to create an internal knowledge base, and connecting Millicom with other customers to help build internal experience of the platform. Millicom is no longer entirely dependent on external vendors to support their infrastructure. Instead, supported by Canonical's engineers, they have begun building the skills and taking on more responsibility for growing, maintaining, and managing their infrastructure. That has helped to cultivate a do-it-yourself attitude within the company, where engineers have authored internal documentation, rather than relying on vendor manuals. The next 9 clouds were built by Millicom, across seven countries, with increasing speed and a 25% year on year reduction in support tickets.
+      </p>
+      <p>
+        “When the vendor does a full design and deployment, internal teams don't know much about the platform's structure. So when you have a problem on day two of operations, you rely on the vendor to resolve it. But by being involved from the beginning, from the operations point of view, our engineers understand what's going on. Last year we had 169 tickets, this year we've almost duplicated the complexity and have far fewer tickets. Our engineers use Canonical for deeper questions, but they try to solve it by themselves.” - Rita Fuziol, Director of Cloud and Infrastructure, Millicom
+      </p>
+      <p>
+        With Canonical OpenStack and Canonical Kubernetes, Millicom have been able to take advantage of new technologies and innovations. With chatbot technologies, centralizing customer information, and automations, the clouds they have built have helped to improve customer experience across their network. Critically, Millicom has also been able to reduce the cost of their infrastructure by choosing Canonical's open source software. Compared to the cost of Millicom's previous proprietary software or running infrastructure in the cloud, Canonical's per-node pricing makes their infrastructure not only cheaper, but incentivizes greater efficiency.
+      </p>
+      <p>
+        “We pay per node. That means the more efficient we are, the less we pay – and that is the right incentive.” – Christophe Eyquem, Chief Information Officer, Millicom
+      </p>
+    {%- endif -%}
+  {%- endcall -%}
+
+  {%- call(slot) quote_wrapper(
+    quote_text="Our companies think about open source the same way, and that matters more than what you expect. We use Canonical OpenStack and Canonical Kubernetes. With these tools, we built a world-class infrastructure as a service solution.",
+    citation_source_name_text="Christophe Eyquem",
+    citation_source_title_text="Chief Information Officer",
+    citation_source_organisation_text="Millicom",
+    is_shallow=True
+  ) -%}
+  {%- endcall -%}
+{% endblock %}
+
+{% block cta_content %}
+  {{ cta(title="Contact us", link="/contact-us", has_modal=true) }}
+{% endblock %}
